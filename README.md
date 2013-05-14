@@ -2,13 +2,13 @@
 
 A brand new project underway by Code for America's 2013 San Mateo County fellowship team. The goal is to build a read/write API for accessing data about available community social services.
 
-This repo is in the early stages of development, but we've reached a stable point where we are ready to accept contributions. 
+This repo is in the early stages of development, stay tuned for when we are ready to accept contributions.
 
 There is a front-end portion of this project under development at [Human Services Finder](https://github.com/codeforamerica/human_services_finder)
 
 ## Development Details
 
-(WILL LIKE BE...)
+(COMING SOON...)
 
 * Ruby version 2.0.0
 * Rails version 3.2.13
@@ -17,6 +17,9 @@ There is a front-end portion of this project under development at [Human Service
 * Testing Frameworks: RSpec, Factory Girl and Capybara
 
 ## Contributing
+
+(WE ARE NOT YET READY FOR CONTRIBUTIONS... BUT THIS WILL BE THE PROCESS...)
+
 In the spirit of open source software, **everyone** is encouraged to help improve this project.
 
 Here are some ways *you* can contribute:
