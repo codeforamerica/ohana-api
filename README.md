@@ -33,12 +33,12 @@ Here are some ways *you* can contribute:
 * by writing code (**no patch is too small**: fix typos, add comments, clean up
   inconsistent whitespace)
 * by refactoring code
-* by closing [issues](https://github.com/codeforamerica/human_services_finder/issues)
+* by closing [issues](https://github.com/codeforamerica/ohana-api/issues)
 * by reviewing patches
 * [financially](https://secure.codeforamerica.org/page/contribute)
 
 ## Submitting an Issue
-We use the [GitHub issue tracker](https://github.com/codeforamerica/human_services_finder/issues) to track bugs and features. Before submitting a bug report or feature request, check to make sure it hasn't already been submitted. When submitting a bug report, please include a [Gist](https://gist.github.com/) that includes a stack trace and any details that may be necessary to reproduce the bug, including your gem version, Ruby version, and operating system. Ideally, a bug report should include a pull request with failing specs.
+We use the [GitHub issue tracker](https://github.com/codeforamerica/ohana-api/issues) to track bugs and features. Before submitting a bug report or feature request, check to make sure it hasn't already been submitted. When submitting a bug report, please include a [Gist](https://gist.github.com/) that includes a stack trace and any details that may be necessary to reproduce the bug, including your gem version, Ruby version, and operating system. Ideally, a bug report should include a pull request with failing specs.
 
 ## Submitting a Pull Request
 1. [Fork the repository.][fork]
@@ -55,4 +55,4 @@ We use the [GitHub issue tracker](https://github.com/codeforamerica/human_servic
 [pr]: http://help.github.com/send-pull-requests/
 
 ## Copyright
-Copyright (c) 2013 Code for America. See [LICENSE](https://github.com/codeforamerica/human_services_finder/blob/master/LICENSE.md) for details.
+Copyright (c) 2013 Code for America. See [LICENSE](https://github.com/codeforamerica/ohana-api/blob/master/LICENSE.md) for details.
