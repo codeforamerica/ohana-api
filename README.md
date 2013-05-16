@@ -6,7 +6,7 @@ This repo is in the early stages of development, stay tuned for when we are read
 
 There is a front-end portion of this project under development at [Human Services Finder](https://github.com/codeforamerica/human_services_finder)
 
-## Development Details
+## Installation Details
 
 (COMING SOON...)
 
