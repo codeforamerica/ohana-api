@@ -1,0 +1,801 @@
+{
+  "25th Avenue Farmers' Market": {
+    "name": "25th Avenue Farmers' Market",
+    "urls": [
+      "http://www.pcfma.com/market_home.php?market_id=40"
+    ],
+    "street_address": "194 W 25th Avenue",
+    "city": "San Mateo",
+    "state": "California",
+    "zipcode": "94403",
+    "schedule": "May - October Tuesday 4:00 PM to 7:30 PM",
+    "longitude": "-122.3098753",
+    "latitude": "37.5433429",
+    "market_match": 1,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Seafood",
+      "Vegetables",
+      "Honey",
+      "Meat",
+      "Nursery",
+      "Nuts",
+      "Plants",
+      "Prepared Food"
+    ],
+    "coordinates": [
+      -122.3098753,
+      37.5433429
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Belmont Farmers' Market": {
+    "name": "Belmont Farmers' Market",
+    "urls": [
+      "http://www.pcfma.com/market_home.php?market_id=2"
+    ],
+    "street_address": "1201 El Camino Real",
+    "city": "Belmont",
+    "state": "California",
+    "zipcode": "94002",
+    "schedule": "January - December Sunday 9:00 AM to 1:00 PM",
+    "longitude": "-122.2743834",
+    "latitude": "37.5192166",
+    "market_match": 1,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Cheese",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Meat",
+      "Nursery",
+      "Nuts",
+      "Poultry",
+      "Prepared Food"
+    ],
+    "coordinates": [
+      -122.2743834,
+      37.5192166
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Burlingame Fresh Market Farmers Market": {
+    "name": "Burlingame Fresh Market Farmers Market",
+    "urls": [
+      "http://www.burlingamechamber.org"
+    ],
+    "street_address": "Howard Ave. & Park",
+    "city": "Burlingame",
+    "state": "California",
+    "zipcode": "94010",
+    "schedule": "April - December Sunday 9:00 AM to 1:30 PM, May - mid-September Thursday 4:00 PM to 8:00 PM",
+    "longitude": "-122.346",
+    "latitude": "37.5773",
+    "market_match": 0,
+    "payments_accepted": [],
+    "products_sold": [],
+    "coordinates": [
+      -122.346,
+      37.5773
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Coastside Farmers' Market in Half Moon Bay": {
+    "name": "Coastside Farmers' Market in Half Moon Bay",
+    "urls": [
+      "http://www.coastsidefarmersmarket.org"
+    ],
+    "street_address": "225 Cabrillo Hwy S",
+    "city": "Half Moon Bay",
+    "state": "California",
+    "zipcode": "94019",
+    "schedule": "May - December Saturday 9:00 AM to 1:00 PM",
+    "longitude": "-122.4331",
+    "latitude": "37.46438",
+    "market_match": 0,
+    "payments_accepted": [
+      "Credit",
+      "WICcash",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Cheese",
+      "Crafts",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Jams",
+      "Meat",
+      "Nursery",
+      "Nuts",
+      "Plants",
+      "Poultry",
+      "Prepared Food",
+      "Soap"
+    ],
+    "coordinates": [
+      -122.4331,
+      37.46438
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Coastside Farmers' Market of Pacifca": {
+    "name": "Coastside Farmers' Market of Pacifca",
+    "urls": [
+      "http://www.coastsidefarmersmarket.org/"
+    ],
+    "street_address": "400 Old County Road",
+    "city": "Pacifica",
+    "state": "California",
+    "zipcode": "94044",
+    "schedule": "May - December Wednesday 2:30 PM to 6:30 PM, (CLOSES @ 6:00 in November & December)",
+    "longitude": "-122.4945196",
+    "latitude": "37.6099634",
+    "market_match": 0,
+    "payments_accepted": [
+      "Credit",
+      "WICcash",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Cheese",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Jams",
+      "Meat",
+      "Nursery",
+      "Nuts",
+      "Poultry",
+      "Prepared Food",
+      "Soap"
+    ],
+    "coordinates": [
+      -122.4945196,
+      37.6099634
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "College of San Mateo Certified Farmers' Market": {
+    "name": "College of San Mateo Certified Farmers' Market",
+    "urls": [
+      "http://pcfma.com/market_home.php?market_id=15"
+    ],
+    "street_address": "1700 W. Hillsdale Blvd.",
+    "city": "San Mateo",
+    "state": "California",
+    "zipcode": "94402",
+    "schedule": "January - December Saturday 9:00 am to 1:00 pm",
+    "longitude": "-122.335",
+    "latitude": "37.5339",
+    "market_match": 1,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Cheese",
+      "Flowers",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Jams",
+      "Meat",
+      "Nuts",
+      "Plants",
+      "Prepared Food",
+      "Soap"
+    ],
+    "coordinates": [
+      -122.335,
+      37.5339
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Daly City Farmers' Market at Serramonte Center": {
+    "name": "Daly City Farmers' Market at Serramonte Center",
+    "urls": [
+      "http://cafarmersmkts.com/markets/category/daly-city"
+    ],
+    "street_address": "133 Serramonte Center",
+    "city": "Daly City",
+    "state": "California",
+    "zipcode": "94015",
+    "schedule": "January - December Thursday 9:00 AM to 1:00 PM, Saturday 9:00 AM to 1:00 PM",
+    "longitude": "-122.472196",
+    "latitude": "37.671261",
+    "market_match": 0,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Nursery",
+      "Nuts",
+      "Prepared Food",
+      "Soap"
+    ],
+    "coordinates": [
+      -122.472196,
+      37.671261
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "East Palo Alto Community Farmers Market": {
+    "name": "East Palo Alto Community Farmers Market",
+    "urls": [
+      "http://www.collectiveroots.org"
+    ],
+    "street_address": "1798-A Bay Road",
+    "city": "East Palo Alto",
+    "state": "California",
+    "zipcode": "94303",
+    "schedule": "January - December Wednesday 12:00 PM to 3:00 PM",
+    "longitude": "-122.1338564",
+    "latitude": "37.471116",
+    "market_match": 0,
+    "payments_accepted": [
+      "Credit",
+      "WIC",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Flowers",
+      "Vegetables"
+    ],
+    "coordinates": [
+      -122.1338564,
+      37.471116
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Hot Harvest Nights San Carlos Farmers' Market": {
+    "name": "Hot Harvest Nights San Carlos Farmers' Market",
+    "urls": [
+      "https://www.sancarloschamber.org/textpages/farmers_market.aspx"
+    ],
+    "street_address": "700 Block, Laurel Street",
+    "city": "San Carlos",
+    "state": "California",
+    "zipcode": null,
+    "schedule": "May 2 - September 12 Thursday 4:00 PM to 8:00 PM",
+    "longitude": "-122.26",
+    "latitude": "37.5049",
+    "market_match": 0,
+    "payments_accepted": [],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Seafood",
+      "Vegetables",
+      "Prepared Food"
+    ],
+    "coordinates": [
+      -122.26,
+      37.5049
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Kaiser Permanente Redwood City Farmers' Market": {
+    "name": "Kaiser Permanente Redwood City Farmers' Market",
+    "urls": [
+      "http://www.pcfma.com/market_home.php?market_id=39"
+    ],
+    "street_address": "1150 Veterans Blvd.",
+    "city": "Redwood City",
+    "state": "California",
+    "zipcode": "94063",
+    "schedule": "May 1 - September 25 Wednesday 10:00 AM to 2:00 PM",
+    "longitude": "-122.2244889",
+    "latitude": "37.4895693",
+    "market_match": 0,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Vegetables"
+    ],
+    "coordinates": [
+      -122.2244889,
+      37.4895693
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Kaiser Permanente South San Francisco Farmers' Market": {
+    "name": "Kaiser Permanente South San Francisco Farmers' Market",
+    "urls": [
+      "http://www.pcfma.com/market_home.php?market_id=26"
+    ],
+    "street_address": "1200 El Camino Real",
+    "city": "South San Francisco",
+    "state": "California",
+    "zipcode": "94080",
+    "schedule": "May 7 - October 15 Tuesday 10:00 AM to 2:00 PM",
+    "longitude": "-122.4392261",
+    "latitude": "37.6592227",
+    "market_match": 1,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Vegetables",
+      "Prepared Food"
+    ],
+    "coordinates": [
+      -122.4392261,
+      37.6592227
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Los Altos Farmers Market": {
+    "name": "Los Altos Farmers Market",
+    "urls": [
+      "http://cafarmersmkts.com/markets/category/los-altos-farmers-market"
+    ],
+    "street_address": "State Street and Second Street",
+    "city": "Los Altos",
+    "state": "California",
+    "zipcode": "94022",
+    "schedule": "May - September Thursday 4:00 PM to 8:00 PM",
+    "longitude": "-122.1173752",
+    "latitude": "37.3791712",
+    "market_match": 0,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Eggs",
+      "Herbs",
+      "Vegetables",
+      "Jams",
+      "Meat",
+      "Nuts",
+      "Prepared Food",
+      "Soap"
+    ],
+    "coordinates": [
+      -122.1173752,
+      37.3791712
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Menlo Park Farmers' Market": {
+    "name": "Menlo Park Farmers' Market",
+    "urls": [
+      "http://localharvest.org"
+    ],
+    "street_address": "Chestnut & Menlo Avenues",
+    "city": "Menlo Park",
+    "state": "California",
+    "zipcode": "94025",
+    "schedule": "January - December Sunday 9:00 AM to 1:00 PM, (Open on all holidays that fall on Sundays, except Christmas)",
+    "longitude": "-122.1841",
+    "latitude": "37.45066",
+    "market_match": 0,
+    "payments_accepted": [
+      "Credit"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Jams",
+      "Meat",
+      "Nursery",
+      "Nuts",
+      "Plants",
+      "Poultry",
+      "Soap"
+    ],
+    "coordinates": [
+      -122.1841,
+      37.45066
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Millbrae Farmers Market": {
+    "name": "Millbrae Farmers Market",
+    "urls": [
+      "http://www.millbrae.com"
+    ],
+    "street_address": "200 Broadway",
+    "city": "Millbrae",
+    "state": "California",
+    "zipcode": "94030",
+    "schedule": "January - December Saturday 8:00 am to 1:00 pm",
+    "longitude": "-122.391",
+    "latitude": "37.6002",
+    "market_match": 0,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Nuts",
+      "Plants"
+    ],
+    "coordinates": [
+      -122.391,
+      37.6002
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Pescadero Grown": {
+    "name": "Pescadero Grown",
+    "urls": [
+      "http://Www.pescaderogrown.org"
+    ],
+    "street_address": "8875 La Honda Road",
+    "city": "La Honda",
+    "state": "California",
+    "zipcode": "94020",
+    "schedule": "May - November Tuesday 3:00 PM to 7:00 PM",
+    "longitude": "-122.2743546",
+    "latitude": "37.3177646",
+    "market_match": 0,
+    "payments_accepted": [
+      "Credit",
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Cheese",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Jams",
+      "Meat",
+      "Nursery",
+      "Plants",
+      "Poultry"
+    ],
+    "coordinates": [
+      -122.2743546,
+      37.3177646
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "PJCC Farmers' Market at Foster City": {
+    "name": "PJCC Farmers' Market at Foster City",
+    "urls": [
+      "http://www.urbantable.org"
+    ],
+    "street_address": "800 Foster City Blvd.",
+    "city": "Foster City",
+    "state": "California",
+    "zipcode": "94404",
+    "schedule": "May - October Wednesday 9:00 AM to 12:30 PM",
+    "longitude": "-122.266792",
+    "latitude": "37.558672",
+    "market_match": 0,
+    "payments_accepted": [
+      "WIC",
+      "WICcash",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Vegetables",
+      "Plants"
+    ],
+    "coordinates": [
+      -122.266792,
+      37.558672
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Redwood City Kiwanis Farmers Market": {
+    "name": "Redwood City Kiwanis Farmers Market",
+    "urls": [
+      "http://www.rwcfm.org"
+    ],
+    "street_address": "850 Winslow Street",
+    "city": "Redwood City",
+    "state": "California",
+    "zipcode": "94063",
+    "schedule": "April - November Saturday 8:00 AM to 12:00 PM",
+    "longitude": "-122.2303",
+    "latitude": "37.48544",
+    "market_match": 0,
+    "payments_accepted": [
+      "WICcash"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Crafts",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Vegetables",
+      "Honey",
+      "Nuts"
+    ],
+    "coordinates": [
+      -122.2303,
+      37.48544
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "San Mateo Farmers' Market": {
+    "name": "San Mateo Farmers' Market",
+    "urls": [
+      "http://www.pcfma.com/sanmateo"
+    ],
+    "street_address": "1700 West Hillsdale Boulevard",
+    "city": "San Mateo",
+    "state": "California",
+    "zipcode": "94401",
+    "schedule": "January - December Saturday 9:00 AM to 1:00 PM",
+    "longitude": "-122.337699",
+    "latitude": "37.533143",
+    "market_match": 1,
+    "payments_accepted": [
+      "Credit",
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Cheese",
+      "Crafts",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Jams",
+      "Meat",
+      "Nursery",
+      "Nuts",
+      "Plants",
+      "Poultry",
+      "Prepared Food",
+      "Soap",
+      "Wine"
+    ],
+    "coordinates": [
+      -122.337699,
+      37.533143
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Saratoga Farmers' Market": {
+    "name": "Saratoga Farmers' Market",
+    "urls": [
+      "http://cafarmersmkts.com/markets/category/saratoga"
+    ],
+    "street_address": "West Valley College, 14000 Fruitvale Avenue",
+    "city": "Saratoga",
+    "state": "California",
+    "zipcode": "95070",
+    "schedule": "January - December Saturday 9:00 AM to 1:00 PM",
+    "longitude": "-122.013066",
+    "latitude": "37.26613",
+    "market_match": 0,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Cheese",
+      "Flowers",
+      "Eggs",
+      "Seafood",
+      "Herbs",
+      "Vegetables",
+      "Honey",
+      "Jams",
+      "Nursery",
+      "Nuts",
+      "Plants",
+      "Poultry",
+      "Prepared Food",
+      "Soap"
+    ],
+    "coordinates": [
+      -122.013066,
+      37.26613
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "South San Francisco Farmers Market": {
+    "name": "South San Francisco Farmers Market",
+    "urls": [
+      "http://pcfma.com/market_home.php?market_id=37"
+    ],
+    "street_address": "748 Tennis Dr",
+    "city": "South San Francisco",
+    "state": "California",
+    "zipcode": "94080",
+    "schedule": "May - October Saturday 10:00 AM to 2:00 PM",
+    "longitude": "-122.427062",
+    "latitude": "37.654732",
+    "market_match": 1,
+    "payments_accepted": [
+      "WIC",
+      "SFMNP",
+      "SNAP"
+    ],
+    "products_sold": [
+      "Baked Goods",
+      "Flowers",
+      "Herbs",
+      "Vegetables",
+      "Jams",
+      "Nuts",
+      "Prepared Food"
+    ],
+    "coordinates": [
+      -122.427062,
+      37.654732
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  },
+  "Urban Table Certified Farmer's Market": {
+    "name": "Urban Table Certified Farmer's Market",
+    "urls": [
+      "https://www.facebook.com/UrbanMarketSanMateo"
+    ],
+    "street_address": "385 1st Avenue",
+    "city": "San Mateo",
+    "state": "California",
+    "zipcode": null,
+    "schedule": "April 1 - October 28 Monday 5:00 PM to 8:30 PM",
+    "longitude": "-122.324",
+    "latitude": "37.5663",
+    "market_match": 0,
+    "payments_accepted": [],
+    "products_sold": [
+      "Prepared Food"
+    ],
+    "coordinates": [
+      -122.324,
+      37.5663
+    ],
+    "keywords": [
+      "farmers' market",
+      "food",
+      "produce"
+    ]
+  }
+}

@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/alexreisner/geocoder.git
+  revision: 95ad41dbc62fb850f81627dc34e117e03effc1fa
+  specs:
+    geocoder (1.1.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -28,6 +34,8 @@ GEM
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
+    area (0.10.0)
+      fastercsv (~> 1.5)
     arel (3.0.2)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
@@ -63,6 +71,7 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    fastercsv (1.5.5)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -129,6 +138,7 @@ GEM
     rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
+    redis (3.0.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.13.0)
@@ -177,11 +187,14 @@ GEM
       rack
       raindrops (~> 0.7)
     uniform_notifier (1.2.0)
+    validates_formatting_of (0.8.0)
+      activemodel (~> 3.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  area
   better_errors (>= 0.7.2)
   binding_of_caller (>= 0.7.1)
   bullet
@@ -189,6 +202,7 @@ DEPENDENCIES
   coveralls
   database_cleaner (>= 1.0.0.RC1)
   factory_girl_rails (>= 4.2.0)
+  geocoder!
   haml-rails (>= 0.4)
   html2haml (>= 1.0.1)
   jquery-rails
@@ -196,7 +210,9 @@ DEPENDENCIES
   mongoid-rspec (>= 1.7.0)
   quiet_assets (>= 1.0.2)
   rails (= 3.2.13)
+  redis
   rspec-rails (>= 2.12.2)
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)
   unicorn (>= 4.3.1)
+  validates_formatting_of

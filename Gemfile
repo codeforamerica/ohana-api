@@ -45,3 +45,10 @@ group :development do
 	gem "binding_of_caller", ">= 0.7.1", :platforms => [:mri_19, :rbx]
 end
 
+# Geocoding
+gem "geocoder", :git => 'git://github.com/alexreisner/geocoder.git'
+gem "redis"
+
+# Format validation for URLs, phone numbers, zipcodes
+gem "area"
+gem "validates_formatting_of"
