@@ -74,7 +74,7 @@ Start the app locally using Unicorn:
 
     unicorn
 
-You should now be able to see a JSON response at [http://localhost:8080/organizations.json](http://localhost:8080/organizations.json)
+You should now be able to see a JSON response at [http://localhost:8080/api/organizations.json](http://localhost:8080/api/organizations.json)
 
 ## Development Details
 
