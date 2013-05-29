@@ -6,15 +6,84 @@ This repo is in the early stages of development, stay tuned for when we are read
 
 There is a front-end portion of this project under development at [Human Services Finder](https://github.com/codeforamerica/human_services_finder)
 
-## Installation Details
+## Installation
+Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
-(COMING SOON...)
+###Prerequisites
+
+#### Git, Ruby 2.0.0+, Rails 3.2.13+ (+ Homebrew on OS X)
+**OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
+
+**Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
+
+
+#### MongoDB
+**OS X**
+
+On OS X, the easiest way to install MongoDB (or almost any development tool) is with Homebrew:
+
+    brew update
+    brew install mongodb
+
+Follow the Homebrew instructions for configuring MongoDB
+
+Launch mongodb in a separate Terminal tab or window:
+
+    mongod
+
+**Other**
+
+See the Downloads page on mongodb.org for steps to install on other systems: [http://www.mongodb.org/downloads](http://www.mongodb.org/downloads)
+
+
+#### Redis
+**OS X**
+
+On OS X, the easiest way to install Redis is with Homebrew:
+
+    brew install redis
+
+Follow the Homebrew instructions if you want Redis to start automatically every time you restart your computer. Otherwise launch Redis in a separate Terminal tab or window:
+
+    redis-server
+
+**Other**
+
+See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
+
+### Clone the app on your local machine:
+
+    git clone git://github.com/codeforamerica/ohana-api.git
+    cd ohana-api
+
+### Install the dependencies:
+
+    bundle
+
+### Load the data
+You can load two datasets — farmers' markets and libraries in San Mateo County — in your local db with this command:
+
+    rake load_data
+
+Create the geospatial indices for the [geocoder](https://github.com/alexreisner/geocoder) gem:
+
+    rake db:mongoid:create_indexes
+
+### Run the app
+Start the app locally using Unicorn:
+
+    unicorn
+
+You should now be able to see a JSON response at [http://localhost:8080/organizations.json](http://localhost:8080/organizations.json)
+
+## Development Details
 
 * Ruby version 2.0.0
 * Rails version 3.2.13
 * MongoDB with the Mongoid ORM
 * Template Engines: ERB and HAML
-* Testing Frameworks: RSpec, Factory Girl and Capybara
+* Testing Frameworks: RSpec, Factory Girl
+* Redis
 
 ## Contributing
 
