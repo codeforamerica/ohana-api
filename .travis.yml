@@ -1,0 +1,17 @@
+language: ruby
+
+rvm:
+  - 2.0.0
+
+services: 
+  - mongodb
+
+before_script:
+  - rake db:mongoid:create_indexes
+
+notifications:
+  campfire:
+    rooms:
+      - secure: "eEuzoYFXLPeIMt+zHGzZp6XCvbfxRDe8FA3kVwrNRB0zoOktPRZXD9O8ng2z\nx2Yg8C7i1unstuW0bjPvwphpdxJOTFSxliw6P4Xk1Y9HnTYQqqUbDat/zL9c\nAyjYezuRQgYFSBP2BgNZ2RL9RiLSyLQBWhcHGB0yBS6rsheKWbk="
+    on_success: never
+    on_failure: always
