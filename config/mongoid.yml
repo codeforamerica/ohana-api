@@ -1,3 +1,11 @@
+production: 
+  sessions: 
+    default: 
+      uri: <%= ENV['MONGOLAB_URI'] %>
+      options:
+        safe: true
+        skip_version_check: true
+
 development:
   # Configure available database sessions. (required)
   sessions:
