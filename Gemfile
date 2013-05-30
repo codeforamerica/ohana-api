@@ -52,3 +52,6 @@ gem "redis"
 # Format validation for URLs, phone numbers, zipcodes
 gem "area"
 gem "validates_formatting_of"
+
+# CORS support
+gem 'rack-cors', :require => 'rack/cors'
