@@ -1,18 +1,24 @@
 require 'json'
 
 task :load_data => :environment do
-  puts "===================================================="
+  puts "================================================================================"
   puts "Creating Organizations with Library and Farmers' Markets Data and saving to DB"
-  puts "===================================================="
+  puts "================================================================================"
 
   files = ['data/libraries_data.json', 'data/smc_farmers_markets.json']
   files.each do |file|
     puts "Processing #{file}"
-    data = JSON.parse(File.read(file)).values
-    data.each do |json|
-      Organization.create! do |db|
-        json.keys.each do |field|
-          db[field] = json[field.to_s]
+    dataset = JSON.parse(File.read(file)).values
+    dataset.each do |data_item|
+      org = Organization.new(data_item)
+      unless org.save
+        invalid_records = {}
+        invalid_filename_prefix = file.split('.json')[0].split('/')[1]
+        name = org["name"]
+        invalid_records[name] = {}
+        invalid_records[name]["errors"] = org.errors  
+        File.open("data/#{invalid_filename_prefix}_invalid_records.json","w") do |f|
+          f.write(invalid_records.to_json)
         end
       end
     end

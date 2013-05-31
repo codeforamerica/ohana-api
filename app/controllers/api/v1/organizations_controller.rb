@@ -13,8 +13,16 @@ module Api
       end
 
       def search
-        result = Organization.find_by_keyword_and_location(params[:keyword], params[:location], current_radius)
-        expose result.all.paginate(:page => params[:page], :per_page => 30)
+        if query_valid?(params[:location])
+          begin
+            result = Organization.find_by_keyword_and_location(params[:keyword], params[:location], current_radius)
+            expose result.all.paginate(:page => params[:page], :per_page => 30)
+          rescue Moped::Errors::OperationFailure
+            error! :bad_request, :metadata => {:specific_reason => "Invalid ZIP code or address"}
+          end
+        else
+          error! :bad_request, :metadata => {:specific_reason => "Invalid ZIP code or address"}
+        end
       end
     end
   end

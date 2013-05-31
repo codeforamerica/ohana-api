@@ -38,13 +38,14 @@ class Organization
   extend ValidatesFormattingOf::ModelAdditions
   validates_formatting_of :zipcode, using: :us_zip, allow_blank: true, message: "Please enter a valid ZIP code"
   validates_formatting_of :phone, using: :us_phone, allow_blank: true, message: "Please enter a valid US phone number"
+  validates :emails, array: { format: { with: /.+@.+\..+/i, message: "Please enter a valid email" } }
+  validates :urls,   array: { format: 
+                            { with: /(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/i, 
+                              message: "Please enter a valid URL" } }
   
-  validate :validate_emails
-  validate :validate_urls
-
   include Geocoder::Model::Mongoid
   geocoded_by :address               # can also be an IP address
-  after_validation :geocode          # auto-fetch coordinates
+  #after_validation :geocode          # auto-fetch coordinates
 
   scope :find_by_keyword,  lambda { |keyword| any_of({name: /\b#{keyword}\b/i}, {keywords: /\b#{keyword}\b/i}) } 
   scope :find_by_location, lambda {|location, radius| near(location, radius) }
@@ -53,26 +54,6 @@ class Organization
   #combines address fields together into one string
   def address
     "#{self.street_address}, #{self.city}, #{self.state} #{self.zipcode}"
-  end
-
-  def validate_emails
-    if emails.present?
-      emails.each do |email|
-        unless email.match(/\A([^@\s]+)@((?:(?!-)[-a-z0-9]+(?<!-)\.)+[a-z]{2,})\z/i)
-          errors.add(:emails, "#{email} is not a valid email address.")
-        end
-      end
-    end
-  end
-
-  def validate_urls
-    if urls.present?
-      urls.each do |url|
-        unless url.match(/\Ahttps?:\/\/([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z/i)
-          errors.add(:urls, "#{url} is not a valid URL.")
-        end
-      end
-    end
   end
 
   def market_match?
@@ -91,22 +72,4 @@ class Organization
     end  
   end
 
-  def self.query_valid?(address)
-    if address =~ /(^\d{5}-+)/
-      return false
-    elsif address =~ /^\d+$/
-      if address.length != 5
-        return false
-      else
-        result = address.to_region
-        if result.nil? 
-          return false
-        else
-          return true
-        end
-      end
-    else
-      return true
-    end
-  end
 end

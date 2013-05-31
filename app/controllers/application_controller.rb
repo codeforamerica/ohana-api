@@ -1,6 +1,6 @@
 class ApplicationController < RocketPants::Base
   map_error! Mongoid::Errors::DocumentNotFound, RocketPants::NotFound
-
+  
   private
 
   def current_radius
@@ -14,6 +14,25 @@ class ApplicationController < RocketPants::Base
       end
     else
       2
+    end
+  end
+
+  def query_valid?(address)
+    if address =~ /(^\d{5}-+)/
+      return false
+    elsif address =~ /^\d+$/
+      if address.length != 5
+        return false
+      else
+        result = address.to_region
+        if result.nil? 
+          return false
+        else
+          return true
+        end
+      end
+    else
+      return true
     end
   end
 end

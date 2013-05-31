@@ -43,6 +43,11 @@ describe Organization do
 	  	it { should_not be_valid }
 		end
 
+		context "with a 5 + 4 zipcode" do
+	  	subject { build(:organization, zipcode: "90210-1234") }
+	  	it { should be_valid }
+		end
+
 		context "with a non-US phone" do
 	  	subject { build(:organization, phone: "90210-90210") }
 	  	it { should_not be_valid }
@@ -55,7 +60,7 @@ describe Organization do
 
 		context "with URL containing 3 slashes" do
 	  	subject { build(:organization, urls: ["http:///codeforamerica.org"]) }
-	  	it { should_not be_valid }
+	  	it { should be_valid }
 		end
 
 		context "with URL missing a period" do
@@ -65,6 +70,16 @@ describe Organization do
 
 		context "URL with wwww" do
 	  	subject { build(:organization, urls: ["http://wwww.codeforamerica.org"]) }
+	  	it { should be_valid }
+		end
+
+		context "URL without protocol" do
+	  	subject { build(:organization, urls: ["www.codeforamerica.org"]) }
+	  	it { should be_valid }
+		end
+
+		context "URL with trailing whitespace" do
+	  	subject { build(:organization, urls: ["www.codeforamerica.org "]) }
 	  	it { should be_valid }
 		end
 
@@ -81,6 +96,11 @@ describe Organization do
 		context "email without @" do
 	  	subject { build(:organization, emails: ["moncef.blahcom"]) }
 	  	it { should_not be_valid }
+		end
+
+		context "email with trailing whitespace" do
+	  	subject { build(:organization, emails: ["moncef@blah.com "]) }
+	  	it { should be_valid }
 		end
 	end
 end

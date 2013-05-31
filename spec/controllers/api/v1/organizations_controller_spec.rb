@@ -129,8 +129,46 @@ describe Api::V1::OrganizationsController do
 		    response.parsed_body["specific_reason"].should == "radius must be a number"
 		  end
 		end
+
+		context 'with radius too small but within range' do
+		  it 'should have the farmers market name' do
+		  	organization = create(:farmers_market)
+		    get :search, :keyword => "market", :location => "la honda, ca", :radius => 0.05
+		    response.parsed_body["response"].first["name"].should == 'Pescadero Grown'
+		  end
+		end
+
+		context 'with radius too big but within range' do
+		  it 'should have the farmers market name' do
+		  	organization = create(:farmers_market)
+		    get :search, :keyword => "market", :location => "San Gregorio, CA", :radius => 50
+		    response.parsed_body["response"].first["name"].should == 'Pescadero Grown'
+		  end
+		end
+
+		context 'with radius not within range' do
+		  it 'should have the farmers market name' do
+		  	organization = create(:farmers_market)
+		    get :search, :keyword => "market", :location => "Pescadero, ca", :radius => 5
+		    response.parsed_body["response"].should == []
+		  end
+		end
+
+		context 'with invalid zip' do
+		  it 'should include an invalid zip code or address specific_reason' do
+		  	organization = create(:farmers_market)
+		    get :search, :keyword => "market", :radius => 2, :location => 00000
+		    response.parsed_body["specific_reason"].should == "Invalid ZIP code or address"
+		  end
+		end
+
+		context 'with invalid location' do
+		  it 'should include an invalid zip code or address specific_reason' do
+		  	organization = create(:farmers_market)
+		    get :search, :keyword => "market", :radius => 2, :location => "94403a"
+		    response.parsed_body["specific_reason"].should == "Invalid ZIP code or address"
+		  end
+		end
+
 	end
-
-
-
 end
