@@ -1,4 +1,5 @@
 class Organization
+  include RocketPants::Cacheable
   include Mongoid::Document
   field :name, type: String
   field :description, type: String

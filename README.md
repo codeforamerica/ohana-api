@@ -74,7 +74,16 @@ Start the app locally using Unicorn:
 
     unicorn
 
-You should now be able to see a JSON response at [http://localhost:8080/api/organizations.json](http://localhost:8080/api/organizations.json)
+You should now be able to see a JSON response at [http://localhost:8080/api/organizations](http://localhost:8080/api/organizations)
+
+Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the `?page` parameter. For example, to view the second page:
+
+    http://localhost:8080/api/organizations?page=2
+
+We recommend these tools to interact with APIs:
+[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) Chrome extension
+
+[HTTPie](https://github.com/jkbr/httpie) command line utility
 
 ## Development Details
 

@@ -55,3 +55,7 @@ gem "validates_formatting_of"
 
 # CORS support
 gem 'rack-cors', :require => 'rack/cors'
+
+# API Design
+gem 'rocket_pants', '~> 1.0'
+gem "will_paginate_mongoid"

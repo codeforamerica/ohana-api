@@ -1,14 +1,15 @@
 module Api
   module V1
-    class OrganizationsController < ApplicationController      
-      respond_to :json
+    class OrganizationsController < RocketPants::Base
+
+      caches :index, :show, :caches_for => 5.minutes
 
       def index
-        respond_with Organization.all
+        expose Organization.paginate(:page => params[:page], :per_page => 30)
       end
 
       def show
-        respond_with Organization.find(params[:id])
+        expose Organization.find(params[:id])
       end
     end
   end

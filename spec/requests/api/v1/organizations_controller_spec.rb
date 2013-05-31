@@ -4,7 +4,8 @@ describe Api::V1::OrganizationsController do
 
 	context "CORS requests with ORIGIN specified" do
 		before :each do
-			get 'api/organizations', {}, {'Accept' => 'application/vnd.ohanapi+json; version=1', 'HTTP_ORIGIN' => 'http://ohana.heroku.com'}
+			organization = create(:organization)
+			get 'api/organizations', {}, {'Accept' => 'application/vnd.ohanapi+json; version=1', 'HTTP_ORIGIN' => 'http://ohanapi.org'}
 		end
 
 	  it "should get version 1" do
@@ -17,7 +18,7 @@ describe Api::V1::OrganizationsController do
 
 		it "should include CORS headers when ORIGIN is specified" do
 	    headers.keys.should include("Access-Control-Allow-Origin")
-	    headers['Access-Control-Allow-Origin'].should == 'http://ohana.heroku.com'
+	    headers['Access-Control-Allow-Origin'].should == 'http://ohanapi.org'
 	  end
 
 	  it "should allow general HTTP methods thru CORS (GET/POST/PUT/DELETE)" do

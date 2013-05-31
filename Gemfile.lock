@@ -34,6 +34,10 @@ GEM
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
+    api_smith (1.2.0)
+      hashie (~> 1.0)
+      httparty
+      net-http-persistent
     area (0.10.0)
       fastercsv (~> 1.5)
     arel (3.0.2)
@@ -79,6 +83,7 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
+    hashie (1.2.0)
     hike (1.2.2)
     hpricot (0.8.6)
     html2haml (1.0.1)
@@ -86,6 +91,9 @@ GEM
       haml (>= 4.0.0.rc.1)
       hpricot (~> 0.8.6)
       ruby_parser (~> 3.1.1)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     i18n (0.6.1)
     journey (1.0.4)
     jquery-rails (2.2.1)
@@ -97,6 +105,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.23)
+    moneta (0.7.16)
     mongoid (3.1.4)
       activemodel (~> 3.2)
       moped (~> 1.4)
@@ -108,6 +117,8 @@ GEM
       rspec (>= 2.9)
     moped (1.5.0)
     multi_json (1.7.4)
+    multi_xml (0.5.3)
+    net-http-persistent (2.8)
     origin (1.1.0)
     polyglot (0.3.3)
     quiet_assets (1.0.2)
@@ -143,6 +154,13 @@ GEM
     redis (3.0.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rocket_pants (1.7.0)
+      actionpack (>= 3.0, < 5.0)
+      api_smith
+      hashie (~> 1.0)
+      moneta
+      railties (>= 3.0, < 5.0)
+      will_paginate (~> 3.0)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -191,6 +209,10 @@ GEM
     uniform_notifier (1.2.0)
     validates_formatting_of (0.8.0)
       activemodel (~> 3.0)
+    will_paginate (3.0.4)
+    will_paginate_mongoid (1.1.0)
+      mongoid (>= 2.4)
+      will_paginate (~> 3.0)
 
 PLATFORMS
   ruby
@@ -214,8 +236,10 @@ DEPENDENCIES
   rack-cors
   rails (= 3.2.13)
   redis
+  rocket_pants (~> 1.0)
   rspec-rails (>= 2.12.2)
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)
   unicorn (>= 4.3.1)
   validates_formatting_of
+  will_paginate_mongoid
