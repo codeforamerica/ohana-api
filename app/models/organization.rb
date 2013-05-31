@@ -81,17 +81,13 @@ class Organization
   
   def self.find_by_keyword_and_location(keyword, location, radius)
     if keyword.blank? && location.blank?
-      result = self.all
-      return result, "Browse all #{result.size} entries"
+      raise RocketPants::BadRequest
     elsif keyword.blank? && location.present?
-      result = self.near(location, radius)
-      return result, "#{TextHelper.pluralize(result.size, 'result')} within #{TextHelper.pluralize(radius, 'mile')} of '#{location}'"
+      self.near(location, radius)
     elsif keyword.present? && location.present?
-      result = self.find_by_keyword(keyword).find_by_location(location, radius)
-      return result, "#{TextHelper.pluralize(result.size, 'result')} matching '#{keyword}' within #{TextHelper.pluralize(radius, 'mile')} of '#{location}'"
+      self.find_by_keyword(keyword).find_by_location(location, radius)
     else
-      result = self.find_by_keyword(keyword)
-      return result, "#{TextHelper.pluralize(result.size, 'result')} matching '#{keyword}'"
+      self.find_by_keyword(keyword)
     end  
   end
 

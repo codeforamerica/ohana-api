@@ -1,8 +1,8 @@
 module Api
   module V1
-    class OrganizationsController < RocketPants::Base
+    class OrganizationsController < ApplicationController
 
-      caches :index, :show, :caches_for => 5.minutes
+      caches :index, :show, :search, :caches_for => 5.minutes
 
       def index
         expose Organization.paginate(:page => params[:page], :per_page => 30)
@@ -10,6 +10,11 @@ module Api
 
       def show
         expose Organization.find(params[:id])
+      end
+
+      def search
+        result = Organization.find_by_keyword_and_location(params[:keyword], params[:location], current_radius)
+        expose result.all.paginate(:page => params[:page], :per_page => 30)
       end
     end
   end

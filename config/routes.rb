@@ -4,7 +4,7 @@ OhanaApi::Application.routes.draw do
 	namespace :api, defaults: {format: 'json'} do
     scope module: :v1, constraints: ApiConstraints.new(1) do
       resources :organizations
-    end
+  		get 'search', :to => 'organizations#search'
+		end
   end
-	resources :organizations
 end

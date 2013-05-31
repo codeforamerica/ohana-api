@@ -1,5 +1,7 @@
 #Ohana API
 
+[![Build Status](https://travis-ci.org/codeforamerica/ohana-api.png?branch=master)](https://travis-ci.org/codeforamerica/ohana-api) [![Coverage Status](https://coveralls.io/repos/codeforamerica/ohana-api/badge.png?branch=master)](https://coveralls.io/r/codeforamerica/ohana-api)
+
 A brand new project underway by Code for America's 2013 San Mateo County fellowship team. The goal is to build a read/write API for accessing data about available community social services.
 
 This repo is in the early stages of development, stay tuned for when we are ready to accept contributions.
@@ -74,9 +76,17 @@ Start the app locally using Unicorn:
 
     unicorn
 
+### Basic API documentation (work in progress)
 You should now be able to see a JSON response at [http://localhost:8080/api/organizations](http://localhost:8080/api/organizations)
 
-Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the `?page` parameter. For example, to view the second page: http://localhost:8080/api/organizations?page=2
+Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the `?page` parameter. For example, to view the second page: [http://localhost:8080/api/organizations?page=2](http://localhost:8080/api/organizations?page=2)
+
+You can also search by keyword, location, and radius:
+[http://localhost:8080/api/search?keyword=market&location=94403&radius=2](http://localhost:8080/api/search?keyword=market&location=94403&radius=2)
+
+Radius must be a number, and must be between 0.1 and 10 miles.
+A search must contain at least a keyword or location.
+Search results are also paginated, with 30 results per page.
 
 We recommend these tools to interact with APIs:
 
