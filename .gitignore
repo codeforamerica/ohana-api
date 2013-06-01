@@ -26,3 +26,6 @@ dump.rdb
 /coverage.data
 /coverage/
 .rspec
+
+# Invalid CIP data
+/data/cip_mvp_invalid_records.json
