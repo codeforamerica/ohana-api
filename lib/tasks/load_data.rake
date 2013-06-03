@@ -59,3 +59,20 @@ files = ['data/cip_mvp.json']
   end
   puts "Done loading CIP data into DB."
 end
+
+task :latlon2coord => :environment do
+  orgs = Organization.all
+  orgs.each do |org|
+    org.update_attribute(:coordinates, [org.longitude, org.latitude])
+  end
+end
+
+task :coord2latlon => :environment do
+  orgs = Organization.all
+  orgs.each do |org|
+    if org.coordinates.present?
+      org.update_attribute(:latitude, org.coordinates[1])
+      org.update_attribute(:longitude, org.coordinates[0])
+    end
+  end
+end
