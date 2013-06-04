@@ -63,7 +63,7 @@ See the Download page on Redis.io for steps to install on other systems: [http:/
     bundle
 
 ### Load the data
-You can load two datasets — farmers' markets and libraries in San Mateo County — in your local db with this command:
+You can load a dataset of community-based organizations in San Mateo County in your local db with this command:
 
     rake load_data
 

@@ -49,7 +49,6 @@ class Organization
 
   scope :find_by_keyword,  lambda { |keyword| any_of({name: /\b#{keyword}\b/i}, {keywords: /\b#{keyword}\b/i}) } 
   scope :find_by_location, lambda {|location, radius| near(location, radius) }
-  default_scope order_by(:name => :asc)
 
   #combines address fields together into one string
   def address
@@ -59,17 +58,4 @@ class Organization
   def market_match?
     self.market_match
   end
-  
-  def self.find_by_keyword_and_location(keyword, location, radius)
-    if keyword.blank? && location.blank?
-      raise RocketPants::BadRequest
-    elsif keyword.blank? && location.present?
-      self.near(location, radius)
-    elsif keyword.present? && location.present?
-      self.find_by_keyword(keyword).find_by_location(location, radius)
-    else
-      self.find_by_keyword(keyword)
-    end  
-  end
-
 end
