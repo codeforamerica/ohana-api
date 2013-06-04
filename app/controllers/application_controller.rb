@@ -2,7 +2,6 @@ class ApplicationController < RocketPants::Base
   map_error! Mongoid::Errors::DocumentNotFound, RocketPants::NotFound
   
   private
-
   def current_radius
     if params[:radius].present?
       begin
@@ -17,22 +16,17 @@ class ApplicationController < RocketPants::Base
     end
   end
 
-  def query_valid?(address)
-    if address =~ /(^\d{5}-+)/
-      return false
-    elsif address =~ /^\d+$/
-      if address.length != 5
-        return false
-      else
-        result = address.to_region
-        if result.nil? 
-          return false
-        else
-          return true
-        end
-      end
-    else
-      return true
-    end
+  def org_search(params)
+    organizations = scope_builder
+    error! :bad_request, :metadata => {:specific_reason => "Search requires the presence of at least one of the following parameters: keyword or location"} if params[:keyword].blank? && params[:location].blank?
+    organizations.find_by_keyword(params[:keyword]) if params[:keyword]
+    organizations.find_by_location(params[:location], current_radius) if params[:location]
+    organizations.order_by(:name => :asc) if params[:sort] == "name"
+    organizations.order_by(:name => params[:order].to_sym) if params[:order]
+    organizations
+  end
+
+  def scope_builder
+    DynamicDelegator.new(Organization.scoped)
   end
 end

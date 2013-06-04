@@ -13,7 +13,7 @@ FactoryGirl.define do
   end
 
   factory :nearby_org, class: Organization do
-    name "Burlingame Main"
+    name "Redwood City Main"
     street_address "480 Primrose Road"
     zipcode "94010"
     city "Burlingame"
