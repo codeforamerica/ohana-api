@@ -32,6 +32,9 @@ class Organization
   field :transportation_availability, type: String
   field :accessibility, type: String
   field :services_provided, type: String
+  field :service_area, type: String
+  field :funding_sources, type: String
+  field :contact_person, type: String
 
   validates_presence_of :name
   
