@@ -110,7 +110,7 @@ describe Api::V1::OrganizationsController do
 
 		  before :each do
 		    organization = create(:farmers_market)
-		    get :search, :keyword => "market", :radius => "ads"
+		    get :search, :keyword => "parks", :location => "94403", :radius => "ads"
 		  end
 
 		  it 'should return a bad request error' do
@@ -169,6 +169,44 @@ describe Api::V1::OrganizationsController do
 		    response.parsed_body["specific_reason"].should == "Invalid ZIP code or address"
 		  end
 		end
+	end
 
+	describe 'sorting search results' do
+	  context 'sort when neither keyword nor location is not present' do
+	  	it 'should return a helpful error message about the sort parameter requirements' do
+		  	get :search, :sort => "name"
+		  	response.parsed_body["specific_reason"].should == "Search requires the presence of at least one of the following parameters: keyword or location"
+		  end
+		end
+
+		context 'sort when only location is present' do
+	  	it 'should sort by distance by default' do
+		  	organization = create(:organization)
+	    	nearby = create(:nearby_org)
+		  	get :search, :location => "94010"
+		  	response.parsed_body["count"].should == 2
+		  	response.parsed_body["response"].first["name"].should == 'Redwood City Main'
+		  end
+		end
+
+		context 'sort when location and sort are present' do
+	  	it 'should sort by distance and sort by name asc by default' do
+		  	organization = create(:organization)
+	    	nearby = create(:nearby_org)
+		  	get :search, :location => "94010", :sort => "name"
+		  	response.parsed_body["count"].should == 2
+		  	response.parsed_body["response"][0]["name"].should == 'Burlingame, Easton Branch'
+		  end
+		end
+
+		context 'sort when location and sort are present, and order is specified' do
+	  	it 'should sort by distance and sort by name and order desc' do
+		  	organization = create(:organization)
+	    	nearby = create(:nearby_org)
+		  	get :search, :location => "94010", :sort => "name", :order => "desc"
+		  	response.parsed_body["count"].should == 2
+		  	response.parsed_body["response"][0]["name"].should == 'Redwood City Main'
+		  end
+		end
 	end
 end
