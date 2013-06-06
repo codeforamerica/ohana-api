@@ -1,35 +1,103 @@
-HOST: http://www.google.com/
+HOST: http://ohanapi.herokuapp.com
 
---- Sample API v2 ---
+--- Ohana REST API v1 ---
 ---
-Welcome to the our sample API documentation. All comments can be written in (support [Markdown](http://daringfireball.net/projects/markdown/syntax) syntax)
+REST API for San Mateo County human services, parks, farmers' markets, and other community-based agencies.
 ---
 
---
-Shopping Cart Resources
-The following is a section of resources related to the shopping cart
---
-List products added into your shopping-cart. (comment block again in Markdown)
-GET /shopping-cart
+-- Organizations Resources --
+Returns a paginated list of all organizations, 30 per page, sorted alphabetically in ascending order.
+
+GET api/organizations
+> Origin: "*"
+> Accept: application/vnd.ohanapi+json; version=1
 < 200
-< Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
-
-
-Save new products in your shopping cart
-POST /shopping-cart
-> Content-Type: application/json
-{ "product":"1AB23ORM", "quantity": 2 }
-< 201
-< Content-Type: application/json
-{ "status": "created", "url": "/shopping-cart/2" }
-
-
--- Payment Resources --
-This resource allows you to submit payment information to process your *shopping cart* items
-POST /payment
-{ "cc": "12345678900", "cvc": "123", "expiry": "0112" }
-< 200
-{ "receipt": "/payment/receipt/1" }
+< Access-Control-Allow-Origin: *
+< Content-Type: application/json; charset=utf-8
+{
+response: [
+{
+_id: "51a9fd0328217f89770001b2",
+accessibility_options: [
+"Varies according to location"
+],
+agency: "San Mateo County Parks Department.",
+business_hours: null,
+city: "Woodside",
+contact_people: null,
+coordinates: [
+-122.291251,
+37.432594
+],
+description: "A hillside area of redwood forest with picnic sites, 26 miles of hiking and horse trails, playground, archery range and shelter buildings. Docents conduct nature walks by appointment. (call 650-591-1085.) Pets are not allowed in the park. The Chickadee Nature Trail and the Werder picnic and play area are accessible to those with disabilities. Sequoia Day Camp, built for summertime use by the Girl Scouts, is available for families and groups by reservation if not in use by Girl Scouts Day Camps. It offers 30 camp areas, an amphitheater, lawns and a restroom. It can accommodate approximately 200 people and is totally accessible to disabled persons. Group camping in three areas holding up to 50 people per area is available by reservation only. No family camping.",
+eligibility_requirements: "None",
+emails: null,
+faxes: [
+"650 851-9558"
+],
+fees: "$5 per car. Open group areas rent for a minimum of $225-$300 (varies by site), buildings for $300 a day. $150 per night for group camping. Cash accepted",
+funding_sources: null,
+how_to_apply: "Phone 650-363-4021 for group permits or go on-line at www.eparks.net",
+keywords: [
+"RECREATION/LEISURE SERVICES",
+"Camping",
+"Parks/Playground",
+"City/County Parks"
+],
+languages_spoken: null,
+latitude: null,
+longitude: null,
+market_match: null,
+name: "Huddart Park.",
+payments_accepted: null,
+phones: [
+[
+{
+number: "650 851-1210",
+department: "Information",
+phone_hours: "(Monday-Friday, 9-12, 1-5)"
+}
+],
+[
+{
+number: "650 851-0326",
+department: "Huddart Park",
+phone_hours: "(Saturday, Sunday)"
+}
+],
+[
+{
+number: "650 363-4021",
+department: "Reservations"
+}
+]
+],
+products_sold: null,
+schedule: null,
+service_areas: null,
+service_hours: "Opens at 8 am; closing times posted and vary by season",
+service_wait: "Varies according to season",
+services_provided: "Picnic sites, hiking and horse trails, playground, archery range.",
+state: "CA",
+street_address: "1100 Kings Mountain Road",
+target_group: "Families, corporations, hikers, equestrians, joggers, nature lovers",
+transportation_availability: "No public transportation",
+ttys: [
+"650 325-6973"
+],
+urls: [
+"http://www.eparks.net"
+],
+zipcode: "94062"
+}
+],
+count: 30,
+pagination: {
+previous: null,
+next: 2,
+current: 1,
+per_page: 30,
+count: 1734,
+pages: 58
+}
+}

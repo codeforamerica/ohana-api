@@ -1,41 +1,42 @@
 class Organization
   include RocketPants::Cacheable
   include Mongoid::Document
-  field :name, type: String
-  field :description, type: String
-  field :street_address, type: String
-  field :zipcode, type: String
+  field :accessibility_options, type: Array
+  field :agency, type: String
+  field :business_hours, type: Hash
   field :city, type: String
-  field :state, type: String
-  field :urls, type: Array
-  field :emails, type: Array
-  field :phone, type: String
-  field :faxes, type: Array
-  field :ttys, type: Array
-  field :service_hours, type: String
-  field :phones, type: Array
+  field :contact_people, type: Array
   field :coordinates, type: Array
+  field :description, type: String
+  field :eligibility_requirements, type: String
+  field :emails, type: Array
+  field :faxes, type: Array
+  field :fees, type: String
+  field :funding_sources, type: Array
+  field :how_to_apply, type: String
+  field :keywords, type: Array 
+  field :languages_spoken, type: Array
   field :latitude, type: Float
   field :longitude, type: Float
-  field :business_hours, type: Hash
   field :market_match, type: Boolean
-  field :schedule, type: String
+  field :name, type: String
   field :payments_accepted, type: Array
+  field :phone, type: String
+  field :phones, type: Array
   field :products_sold, type: Array
-  field :languages_spoken, type: Array
-  field :keywords, type: Array 
-  field :target_group, type: String
-  field :eligibility_requirements, type: String
-  field :fees, type: String
-  field :how_to_apply, type: String
+  field :schedule, type: String
+  field :service_areas, type: Array
+  field :service_hours, type: String
   field :service_wait, type: String
-  field :transportation_availability, type: String
-  field :accessibility, type: String
   field :services_provided, type: String
-  field :service_area, type: String
-  field :funding_sources, type: String
-  field :contact_person, type: String
-
+  field :state, type: String
+  field :street_address, type: String
+  field :target_group, type: String
+  field :transportation_availability, type: String
+  field :ttys, type: Array 
+  field :urls, type: Array
+  field :zipcode, type: String
+  
   validates_presence_of :name
   
   extend ValidatesFormattingOf::ModelAdditions
