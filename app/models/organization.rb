@@ -49,7 +49,7 @@ class Organization
   geocoded_by :address               # can also be an IP address
   #after_validation :geocode          # auto-fetch coordinates
 
-  scope :find_by_keyword,  lambda { |keyword| any_of({name: /\b#{keyword}\b/i}, {keywords: /\b#{keyword}\b/i}) } 
+  scope :find_by_keyword,  lambda { |keyword| any_of({name: /\b#{keyword}\b/i}, {keywords: /\b#{keyword}\b/i}, {agency: /\b#{keyword}\b/i}) } 
   scope :find_by_location, lambda {|location, radius| near(location, radius) }
 
   #combines address fields together into one string
