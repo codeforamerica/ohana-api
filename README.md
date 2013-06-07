@@ -76,23 +76,19 @@ Start the app locally using Unicorn:
 
     unicorn
 
-### Basic API documentation (work in progress)
-You should now be able to see a JSON response at [http://localhost:8080/api/organizations](http://localhost:8080/api/organizations)
-
-Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the `?page` parameter. For example, to view the second page: [http://localhost:8080/api/organizations?page=2](http://localhost:8080/api/organizations?page=2)
-
-You can also search by keyword, location, and radius:
-[http://localhost:8080/api/search?keyword=market&location=94403&radius=2](http://localhost:8080/api/search?keyword=market&location=94403&radius=2)
-
-Radius must be a number, and must be between 0.1 and 10 miles.
-A search must contain at least a keyword or location.
-Search results are also paginated, with 30 results per page.
+### Verify the app is returning JSON
+    
+    [http://localhost:8080/api/organizations](http://localhost:8080/api/organizations)
 
 We recommend these tools to interact with APIs:
 
 [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) Chrome extension
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility
+
+## API documentation (work in progress)
+[http://docs.ohanapi.apiary.io/](http://docs.ohanapi.apiary.io/)
+
 
 ## Development Details
 
@@ -104,8 +100,6 @@ We recommend these tools to interact with APIs:
 * Redis
 
 ## Contributing
-
-(WE ARE NOT YET READY FOR CONTRIBUTIONS... BUT THIS WILL BE THE PROCESS...)
 
 In the spirit of open source software, **everyone** is encouraged to help improve this project.
 
