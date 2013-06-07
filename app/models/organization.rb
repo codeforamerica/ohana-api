@@ -3,9 +3,8 @@ class Organization
   include Mongoid::Document
   field :accessibility_options, type: Array
   field :agency, type: String
-  field :business_hours, type: Hash
+  field :ask_for, type: Array
   field :city, type: String
-  field :contact_people, type: Array
   field :coordinates, type: Array
   field :description, type: String
   field :eligibility_requirements, type: String
@@ -17,14 +16,13 @@ class Organization
   field :keywords, type: Array 
   field :languages_spoken, type: Array
   field :latitude, type: Float
+  field :leaders, type: Array
   field :longitude, type: Float
   field :market_match, type: Boolean
   field :name, type: String
   field :payments_accepted, type: Array
-  field :phone, type: String
   field :phones, type: Array
   field :products_sold, type: Array
-  field :schedule, type: String
   field :service_areas, type: Array
   field :service_hours, type: String
   field :service_wait, type: String
