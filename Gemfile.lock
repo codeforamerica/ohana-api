@@ -119,6 +119,7 @@ GEM
     multi_json (1.7.4)
     multi_xml (0.5.3)
     net-http-persistent (2.8)
+    newrelic_rpm (3.6.3.111)
     origin (1.1.0)
     polyglot (0.3.3)
     quiet_assets (1.0.2)
@@ -132,6 +133,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    rack-timeout (0.0.4)
     rails (3.2.13)
       actionmailer (= 3.2.13)
       actionpack (= 3.2.13)
@@ -232,8 +234,10 @@ DEPENDENCIES
   jquery-rails
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)
+  newrelic_rpm
   quiet_assets (>= 1.0.2)
   rack-cors
+  rack-timeout
   rails (= 3.2.13)
   redis
   rocket_pants (~> 1.0)
