@@ -7,7 +7,7 @@ FactoryGirl.define do
     zipcode "94010"
     city "Burlingame"
     state "CA"
-    phones [[{number: "650 851-1210", department: "Information", phone_hours: "(Monday-Friday, 9-12, 1-5)"}]]
+    phones [[{"number" => "650 851-1210", department: "Information", phone_hours: "(Monday-Friday, 9-12, 1-5)"}]]
     coordinates [-122.371448, 37.583849]
     keywords ["library"]
   end
@@ -41,7 +41,7 @@ FactoryGirl.define do
     zipcode "94010"
     city "Burlingame"
     state "CA"
-    phones [[{number: "650 851-1210", department: "Information", phone_hours: "(Monday-Friday, 9-12, 1-5)"}]]
+    phones [[{"number" => "650 851-1210", department: "Information", phone_hours: "(Monday-Friday, 9-12, 1-5)"}]]
     coordinates [-122.371448, 37.583849]
     latitude -122.274369
     longitude 37.317983
