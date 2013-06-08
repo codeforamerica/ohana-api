@@ -49,12 +49,12 @@ describe Organization do
 		end
 
 		context "with a non-US phone" do
-	  	subject { build(:organization, phone: "90210-90210") }
+	  	subject { build(:organization, phones: [[{number: "33 6 65 08 51 12"}]]) }
 	  	it { should_not be_valid }
 		end
 
 		context "with US phone containing dots" do
-	  	subject { build(:organization, phone: "123.456.7890") }
+	  	subject { build(:organization, phones: [[{number: "123.456.7890"}]]) }
 	  	it { should be_valid }
 		end
 

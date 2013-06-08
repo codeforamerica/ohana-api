@@ -39,11 +39,11 @@ class Organization
   
   extend ValidatesFormattingOf::ModelAdditions
   validates_formatting_of :zipcode, using: :us_zip, allow_blank: true, message: "Please enter a valid ZIP code"
-  validates_formatting_of :phone, using: :us_phone, allow_blank: true, message: "Please enter a valid US phone number"
+  validates :phones, hash:  { format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/, message: "Please enter a valid US phone number"} }
   validates :emails, array: { format: { with: /.+@.+\..+/i, message: "Please enter a valid email" } }
   validates :urls,   array: { format: 
                             { with: /(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/i, 
-                              message: "Please enter a valid URL" } }
+                              message: "Please enter a valid URL"} }
   
   include Geocoder::Model::Mongoid
   geocoded_by :address               # can also be an IP address

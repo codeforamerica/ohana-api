@@ -7,7 +7,7 @@ FactoryGirl.define do
     zipcode "94010"
     city "Burlingame"
     state "CA"
-    phone "650-314-5678"
+    phones [[{number: "650 851-1210", department: "Information", phone_hours: "(Monday-Friday, 9-12, 1-5)"}]]
     coordinates [-122.371448, 37.583849]
     keywords ["library"]
   end
@@ -30,7 +30,6 @@ FactoryGirl.define do
     state "CA"
     coordinates [-122.274369, 37.317983]
     keywords ["market"]
-    schedule "May - November Tuesday 3:00 PM to 7:00 PM"
     urls ["http://Www.pescaderogrown.org"]
     payments_accepted ["Credit", "WIC", "SFMNP", "SNAP"]
     products_sold ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs", "Vegetables", "Jams", "Meat", "Nursery", "Plants", "Poultry"]
@@ -42,7 +41,7 @@ FactoryGirl.define do
     zipcode "94010"
     city "Burlingame"
     state "CA"
-    phone "650-314-5678"
+    phones [[{number: "650 851-1210", department: "Information", phone_hours: "(Monday-Friday, 9-12, 1-5)"}]]
     coordinates [-122.371448, 37.583849]
     latitude -122.274369
     longitude 37.317983
