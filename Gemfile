@@ -63,3 +63,6 @@ gem "will_paginate_mongoid"
 # Production Monitoring
 gem 'newrelic_rpm'
 gem "rack-timeout"
+
+# Rate Limiting
+gem 'rack-throttle'
