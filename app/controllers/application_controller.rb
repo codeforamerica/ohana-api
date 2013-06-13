@@ -1,6 +1,6 @@
 class ApplicationController < RocketPants::Base
   map_error! Mongoid::Errors::DocumentNotFound, RocketPants::NotFound
-  
+
   private
   def current_radius
     if params[:radius].present?
@@ -9,7 +9,7 @@ class ApplicationController < RocketPants::Base
         # radius must be between 0.1 miles and 10 miles
         [[0.1, radius].max, 10].min
       rescue ArgumentError
-        error! :bad_request, :metadata => {:specific_reason => "radius must be a number"}
+        error! :bad_request, :metadata => { :specific_reason => "radius must be a number" }
       end
     else
       2
@@ -18,7 +18,11 @@ class ApplicationController < RocketPants::Base
 
   def org_search(params)
     organizations = scope_builder
-    error! :bad_request, :metadata => {:specific_reason => "Search requires the presence of at least one of the following parameters: keyword or location"} if params[:keyword].blank? && params[:location].blank?
+    error! :bad_request,
+           :metadata => {
+           :specific_reason => "Search requires at least one of keyword or location"
+           } if params[:keyword].blank? && params[:location].blank?
+
     organizations.find_by_keyword(params[:keyword]) if params[:keyword]
     organizations.find_by_location(params[:location], current_radius) if params[:location]
     organizations.order_by(:name => :asc) if params[:sort] == "name"

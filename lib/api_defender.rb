@@ -2,7 +2,7 @@ require 'rack/throttle'
 # This custom class extends the Hourly Throttling strategy provided
 # by the 'rack-throttle' gem: https://github.com/datagraph/rack-throttle
 # Inspired by redis-throttle (https://github.com/andreareginato/redis-throttle)
-# and this blog post: 
+# and this blog post:
 # http://martinciu.com/2011/08/how-to-add-api-throttle-to-your-rails-app.html
 class ApiDefender < Rack::Throttle::Hourly
 
@@ -16,8 +16,8 @@ class ApiDefender < Rack::Throttle::Hourly
     @app, @options = app, options
   end
 
-  # Check if the request needs throttling. 
-  # If so, it increases the rate limit counter and compares it with the maximum 
+  # Check if the request needs throttling.
+  # If so, it increases the rate limit counter and compares it with the maximum
   # allowed API calls. Returns true if a request can be handled.
   def allowed?(request)
     need_defense?(request) ? cache_counter(request, "incr") <= max_per_window : true
@@ -41,8 +41,9 @@ class ApiDefender < Rack::Throttle::Hourly
     end
   end
 
-  # rack-throttle supports various key/value stores for storing rate-limiting counters.
-  # This app uses Redis, so we'll use its 'key increase' and 'key expiration' features.
+  # rack-throttle supports various key/value stores for storing rate-limiting
+  # counters.This app uses Redis, so we'll use its 'key increase' and
+  # 'key expiration' features.
   def cache_counter(request, action)
     key = cache_key(request)
     action == "incr" ? count = cache.incr(key) : count = cache.decr(key)

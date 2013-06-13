@@ -37,7 +37,7 @@ task :cip => :environment do
         unless org.save
           name = org["name"]
           invalid_records[name] = {}
-          invalid_records[name]["errors"] = org.errors  
+          invalid_records[name]["errors"] = org.errors
           File.open("data/#{invalid_filename_prefix}_invalid_records.json","w") do |f|
             f.write(invalid_records.to_json)
           end

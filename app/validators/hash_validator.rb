@@ -8,7 +8,7 @@ class HashValidator < ActiveModel::EachValidator
             validator_options = { attributes: attribute }
             validator_options.merge!(args) if args.is_a?(Hash)
 
-            next if value.blank? && validator_options[:allow_blank] 
+            next if value.blank? && validator_options[:allow_blank]
 
             validator_class_name = "#{key.to_s.camelize}Validator"
             validator_class = begin

@@ -16,8 +16,9 @@ gem "haml-rails", ">= 0.4"
 # Server for deployment
 gem "unicorn", ">= 4.3.1"
 
-# Test coverage
+# Test coverage and code quality
 gem 'coveralls', require: false
+gem 'metric_fu'
 
 # MongoDB ORM
 gem "mongoid", ">= 3.1.2"

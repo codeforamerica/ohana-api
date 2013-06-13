@@ -20,7 +20,7 @@ FactoryGirl.define do
     state "CA"
     coordinates [-122.348862, 37.579221]
     keywords ["library"]
-  end  
+  end
 
   factory :farmers_market, class: Organization do
     name "Pescadero Grown"

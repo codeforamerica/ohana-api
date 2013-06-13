@@ -6,16 +6,16 @@ class ApiConstraints
   def initialize(version)
     @version = version
   end
- 
+
   def matches?(request)
     versioned_accept_header?(request) || @version == 1
   end
- 
+
   private
- 
+
   def versioned_accept_header?(request)
     accept = request.headers['Accept']
- 
+
     if accept
       mime_type, version = accept.gsub(/\s/, "").split(";")
       mime_type.match(/vnd\.ohanapi\+json/) && version == "version=#{@version}"
