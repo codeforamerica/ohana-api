@@ -17,19 +17,25 @@ class ApiDefender < Rack::Throttle::Hourly
   end
 
   # Check if the request needs throttling. 
-  # If so, it increases the usage counter and compares it with maximum 
+  # If so, it increases the rate limit counter and compares it with the maximum 
   # allowed API calls. Returns true if a request can be handled.
   def allowed?(request)
-    need_defense?(request) ? cache_incr(request) <= max_per_window : true
+    need_defense?(request) ? cache_counter(request, "incr") <= max_per_window : true
   end
 
+  # If a conditional request was sent with the "If-None-Match" header,
+  # and if the response was a 304/Not Modified, then we don't count it
+  # against the rate limit, so we decrement the counter because it
+  # was incremented before reaching this method (see the allowed? method).
+  # For every request, we return the X-RateLimit-Limit and X-RateLimit-Remaining
+  # HTTP headers so clients can check their status.
   def call(env)
     request = Rack::Request.new(env)
     if allowed?(request)
-      status, headers, body = app.call(env)
-      headers['X-RateLimit-Limit']     = max_per_window.to_s
-      headers['X-RateLimit-Remaining'] = ([0, max_per_window - (cache_get(cache_key(request)).to_i rescue 1)].max).to_s
-      [status, headers, body]
+      status, headers, response = app.call(env)
+      cache_counter(request, "decr") if (request.env["HTTP_IF_NONE_MATCH"].present? && status == 304)
+      headers = rate_limit_headers(request, headers)
+      [status, headers, response]
     else
       rate_limit_exceeded(request)
     end
@@ -37,20 +43,26 @@ class ApiDefender < Rack::Throttle::Hourly
 
   # rack-throttle supports various key/value stores for storing rate-limiting counters.
   # This app uses Redis, so we'll use its 'key increase' and 'key expiration' features.
-  def cache_incr(request)
+  def cache_counter(request, action)
     key = cache_key(request)
-    count = cache.incr(key)
+    action == "incr" ? count = cache.incr(key) : count = cache.decr(key)
     cache.expire(key, 1.hour) if count == 1
     count
   end
 
-  def rate_limit_exceeded(request)
-    headers = respond_to?(:retry_after) ? {'Retry-After' => retry_after.to_f.ceil.to_s} : {}
-    http_error(request, options[:code] || 403, options[:message] || 'Rate Limit Exceeded', headers)
+  def rate_limit_headers(request, headers)
+    headers["X-RateLimit-Limit"]     = max_per_window.to_s
+    headers["X-RateLimit-Remaining"] = ([0, max_per_window - (cache_get(cache_key(request)).to_i rescue 1)].max).to_s
+    headers
   end
 
-  def http_error(request, code, message = nil, headers = {})
-    [code, { 'Content-Type' => 'application/json' }.merge(headers), [body(request).to_json]]
+  def rate_limit_exceeded(request)
+    headers = respond_to?(:retry_after) ? {"Retry-After" => retry_after.to_f.ceil.to_s} : {}
+    http_error(request, options[:code] || 403, headers)
+  end
+
+  def http_error(request, code, headers = {})
+    [code, { "Content-Type" => "application/json" }.merge(headers), [body(request).to_json]]
   end
 
   def body(request)
@@ -58,7 +70,7 @@ class ApiDefender < Rack::Throttle::Hourly
       status: 403,
       method: request.env['REQUEST_METHOD'],
       request: "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}#{request.env['PATH_INFO']}",
-      description: 'Rate limit exceeded',
+      description: "Rate limit exceeded",
       hourly_rate_limit: max_per_window
     }
   end
@@ -66,6 +78,6 @@ class ApiDefender < Rack::Throttle::Hourly
   protected
   # only API calls should be throttled
   def need_defense?(request)
-    request.fullpath.include? "api/"
+    request.fullpath.include?("api/")
   end
 end

@@ -49,6 +49,6 @@ RSpec.configure do |config|
   end
   config.after(:each) do
     DatabaseCleaner.clean
-    REDIS.flushdb
+    REDIS.keys.each { |key| REDIS.del key if key.include?("ohanapi_defender") }
   end
 end
