@@ -27,9 +27,7 @@ On OS X, the easiest way to install MongoDB (or almost any development tool) is 
     brew update
     brew install mongodb
 
-Follow the Homebrew instructions for configuring MongoDB
-
-Launch mongodb in a separate Terminal tab or window:
+Follow the Homebrew instructions for configuring MongoDB and starting it automatically every time you restart your computer. Otherwise, you can launch MongoDB manually in a separate Terminal tab or window with this command:
 
     mongod
 
@@ -45,7 +43,7 @@ On OS X, the easiest way to install Redis is with Homebrew:
 
     brew install redis
 
-Follow the Homebrew instructions if you want Redis to start automatically every time you restart your computer. Otherwise launch Redis in a separate Terminal tab or window:
+Follow the Homebrew instructions if you want Redis to start automatically every time you restart your computer. Otherwise launch Redis manually in a separate Terminal tab or window:
 
     redis-server
 
@@ -77,7 +75,7 @@ Start the app locally using Unicorn:
     unicorn
 
 ### Verify the app is returning JSON
-    
+
     [http://localhost:8080/api/organizations](http://localhost:8080/api/organizations)
 
 We recommend these tools to interact with APIs:
@@ -128,8 +126,9 @@ We use the [GitHub issue tracker](https://github.com/codeforamerica/ohana-api/is
 4. Run `rspec`. If your specs pass, return to step 3. In the spirit of Test-Driven Development, you want to write a failing test first, then implement the feature or bug fix to make the test pass.
 5. Implement your feature or bug fix.
 6. Run `rspec`. If your specs fail, return to step 5.
-7. Add, commit, and push your changes.
-8. [Submit a pull request.][pr]
+7. Run `metric_fu -r`. This will go through all the files in the app and analyze the code quality and check for things like trailing whitespaces and hard tabs. When it's done, it will open a page in your browser with the results. Click on `Cane` and `Rails Best Practices` to check for files containing trailing whitespaces and hard tabs. If you use Sublime Text 2, you can use the [TrailingSpaces](https://github.com/SublimeText/TrailingSpaces) plugin to highlight the trailing whitespaces and delete them. If the report complains about "hard tabs" in a file, change your indentation to `spaces` by clicking on `Tabs: 2` at the bottom of your Sublime Text 2 window, then selecting `Convert Indentation to Spaces`. As for the code itself, we try to follow [GitHub's Ruby styleguide](https://github.com/styleguide/ruby).
+8. Add, commit, and push your changes.
+9. [Submit a pull request.][pr]
 
 [fork]: http://help.github.com/fork-a-repo/
 [branch]: http://learn.github.com/p/branching.html
