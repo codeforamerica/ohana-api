@@ -43,6 +43,7 @@ GEM
     arel (3.0.2)
     arrayfields (4.7.4)
     awesome_print (1.1.0)
+    bcrypt-ruby (3.0.1)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -89,6 +90,11 @@ GEM
       debugger-ruby_core_source (~> 1.2.1)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.2)
+    devise (2.2.4)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (~> 3.1)
+      warden (~> 1.2.1)
     diff-lcs (1.2.4)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -100,6 +106,9 @@ GEM
       railties (>= 3.0.0)
     fastercsv (1.5.5)
     fattr (2.2.1)
+    figaro (0.6.4)
+      bundler (~> 1.0)
+      rails (>= 3, < 5)
     flay (2.0.1)
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.0)
@@ -182,6 +191,7 @@ GEM
     net-http-persistent (2.8)
     newrelic_rpm (3.6.3.111)
     origin (1.1.0)
+    orm_adapter (0.4.0)
     parallel (0.6.2)
     polyglot (0.3.3)
     progressbar (0.20.0)
@@ -292,6 +302,8 @@ GEM
     uniform_notifier (1.2.0)
     validates_formatting_of (0.8.0)
       activemodel (~> 3.0)
+    warden (1.2.1)
+      rack (>= 1.0)
     will_paginate (3.0.4)
     will_paginate_mongoid (1.1.0)
       mongoid (>= 2.4)
@@ -309,7 +321,9 @@ DEPENDENCIES
   coveralls
   database_cleaner (>= 1.0.0.RC1)
   debugger
+  devise
   factory_girl_rails (>= 4.2.0)
+  figaro
   geocoder!
   haml-rails (>= 0.4)
   html2haml (>= 1.0.1)

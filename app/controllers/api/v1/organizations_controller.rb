@@ -1,6 +1,6 @@
 module Api
   module V1
-    class OrganizationsController < ApplicationController
+    class OrganizationsController < ApiController
 
       caches :index, :show, :search, :caches_for => 5.minutes
 

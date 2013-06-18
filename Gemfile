@@ -71,3 +71,9 @@ gem "rack-timeout"
 
 # Rate Limiting
 gem 'rack-throttle'
+
+# Authentication
+gem 'devise'
+
+# App config and ENV variables for heroku
+gem "figaro"

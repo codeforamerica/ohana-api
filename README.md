@@ -65,7 +65,7 @@ You can load a dataset of community-based organizations in San Mateo County in y
 
     rake load_data
 
-Create the geospatial indices for the [geocoder](https://github.com/alexreisner/geocoder) gem:
+Create the geospatial indexes for the [geocoder](https://github.com/alexreisner/geocoder) gem:
 
     rake db:mongoid:create_indexes
 
@@ -84,8 +84,21 @@ We recommend these tools to interact with APIs:
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility
 
-## API documentation (work in progress)
+### API documentation (work in progress)
 [http://docs.ohanapi.apiary.io/](http://docs.ohanapi.apiary.io/)
+
+
+### User authentication and emails
+The app allows developers to sign up for an account, but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
+
+    GMAIL_USERNAME: your_email@gmail.com
+    GMAIL_PASSWORD: your_password
+
+`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can load 2 example users in the database with this command:
+
+    rake db:seed
+
+You can then [sign in](http://localhost:8080/users/sign_in) with either of those users, whose username and password are stored in `db/seeds.rb`.
 
 
 ## Development Details
