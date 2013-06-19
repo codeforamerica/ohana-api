@@ -1,0 +1,23 @@
+%h1 Listing api_applications
+
+%table
+  %tr
+    %th Name
+    %th Main URL
+    %th Callback URL
+    %th
+    %th
+    %th
+
+  - @api_applications.each do |api_application|
+    %tr
+      %td= api_application.name
+      %td= api_application.main_url
+      %td= api_application.callback_url
+      %td= link_to 'Show', api_application
+      %td= link_to 'Edit', edit_api_application_path(api_application)
+      %td= link_to 'Destroy', api_application, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Api application', new_api_application_path

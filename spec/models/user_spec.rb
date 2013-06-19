@@ -1,5 +1,6 @@
 require 'spec_helper'
-
+# Uses the nifty mongoid-rspec matchers
+# https://github.com/evansagge/mongoid-rspec
 describe User do
 
   before(:each) do
@@ -15,37 +16,27 @@ describe User do
     User.create!(@attr)
   end
 
-  it "requires a name" do
-    no_name_user = User.new(@attr.merge(:name => ""))
-    no_name_user.should_not be_valid
-  end
+  it { should embed_many :api_applications }
 
-  it "requires an email address" do
-    no_email_user = User.new(@attr.merge(:email => ""))
-    no_email_user.should_not be_valid
-  end
+  it { should allow_mass_assignment_of(:name) }
+  it { should allow_mass_assignment_of(:email) }
+  it { should allow_mass_assignment_of(:password) }
+  it { should allow_mass_assignment_of(:password_confirmation) }
+  it { should allow_mass_assignment_of(:remember_me) }
 
-  it "accepts valid email addresses" do
-    addresses = %w(user@foo.com THE_USER@foo.bar.org first.last@foo.jp)
-    addresses.each do |address|
-      valid_email_user = User.new(@attr.merge(:email => address))
-      valid_email_user.should be_valid
-    end
-  end
+  it { should have_field(:name).of_type(String).with_default_value_of("") }
+  it { should have_field(:encrypted_password).of_type(String).with_default_value_of("") }
 
-  it "rejects invalid email addresses" do
-    addresses = %w(user@foo,com user_at_foo.org example.user@foo.)
-    addresses.each do |address|
-      invalid_email_user = User.new(@attr.merge(:email => address))
-      invalid_email_user.should_not be_valid
-    end
-  end
+  it { should validate_presence_of(:name) }
+  it { should validate_presence_of(:email) }
+  it { should validate_presence_of(:password) }
 
-  it "rejects duplicate email addresses" do
-    User.create!(@attr)
-    user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
-  end
+  it { should validate_length_of(:password).greater_than(8) }
+
+  it { should validate_format_of(:email).to_allow("user@foo.com").not_to_allow("user@foo,com") }
+  it { should validate_format_of(:email).to_allow("THE_USER@foo.bar.org").not_to_allow("user_at_foo.org") }
+  it { should validate_format_of(:email).to_allow("first.last@foo.jp").not_to_allow("example.user@foo.") }
+  it { should validate_uniqueness_of(:email) }
 
   it "rejects email addresses identical up to case" do
     upcased_email = @attr[:email].upcase
@@ -54,39 +45,12 @@ describe User do
     user_with_duplicate_email.should_not be_valid
   end
 
-  describe "passwords" do
-
-    before(:each) do
-      @user = User.new(@attr)
-    end
-
-    it "has a password attribute" do
-      @user.should respond_to(:password)
-    end
-
-    it "has a password confirmation attribute" do
-      @user.should respond_to(:password_confirmation)
-    end
-  end
-
   describe "password validations" do
-
-    it "requires a password" do
-      User.new(@attr.merge(:password => "", :password_confirmation => "")).
-        should_not be_valid
-    end
 
     it "requires a matching password confirmation" do
       User.new(@attr.merge(:password_confirmation => "invalid")).
         should_not be_valid
     end
-
-    it "rejects passwords less than 8 characters" do
-      short = "a" * 5
-      hash = @attr.merge(:password => short, :password_confirmation => short)
-      User.new(hash).should_not be_valid
-    end
-
   end
 
   describe "password encryption" do
@@ -95,14 +59,8 @@ describe User do
       @user = User.create!(@attr)
     end
 
-    it "should have an encrypted password attribute" do
-      @user.should respond_to(:encrypted_password)
-    end
-
     it "should set the encrypted password attribute" do
       @user.encrypted_password.should_not be_blank
     end
-
   end
-
 end

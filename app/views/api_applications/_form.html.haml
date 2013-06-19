@@ -1,0 +1,19 @@
+= form_for @api_application do |f|
+  - if @api_application.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@api_application.errors.count, "error")} prohibited this api_application from being saved:"
+      %ul
+        - @api_application.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :main_url, "Main URL"
+    = f.text_field :main_url
+  .field
+    = f.label :callback_url, "Callback URL"
+    = f.text_field :callback_url
+  .actions
+    = f.submit 'Save'

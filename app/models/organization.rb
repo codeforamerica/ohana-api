@@ -41,7 +41,7 @@ class Organization
   extend ValidatesFormattingOf::ModelAdditions
   validates_formatting_of :zipcode, using: :us_zip,
                             allow_blank: true,
-                            message: "Please enter a valid ZIP code"
+                            message: "%{value} is not a valid ZIP code"
 
   validates :phones, hash:  {
                       format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,

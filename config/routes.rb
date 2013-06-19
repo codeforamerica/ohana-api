@@ -3,6 +3,7 @@ require 'api_constraints'
 OhanaApi::Application.routes.draw do
 
 	devise_for :users
+  resources :api_applications
   root :to => "home#index"
 
 	namespace :api, defaults: {format: 'json'} do

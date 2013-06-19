@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @api_application.name
+%p
+  %b Main URL:
+  = @api_application.main_url
+%p
+  %b Callback URL:
+  = @api_application.callback_url
+
+= link_to 'Edit', edit_api_application_path(@api_application)
+\|
+= link_to 'Back', api_applications_path
