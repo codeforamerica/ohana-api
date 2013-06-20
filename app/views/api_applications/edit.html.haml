@@ -1,7 +1,6 @@
-%h1 Editing api_application
+%p#notice= notice
 
+%h1
+	= @api_application.name
 = render 'form'
 
-= link_to 'Show', @api_application
-\|
-= link_to 'Back', api_applications_path

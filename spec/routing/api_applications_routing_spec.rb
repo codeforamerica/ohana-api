@@ -12,7 +12,7 @@ describe ApiApplicationsController do
     end
 
     it "routes to #show" do
-      get("/api_applications/1").should route_to("api_applications#show", :id => "1")
+      get("/api_applications/1").should route_to("api_applications#edit", :id => "1")
     end
 
     it "routes to #edit" do

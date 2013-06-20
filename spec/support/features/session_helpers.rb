@@ -11,13 +11,13 @@ module Features
 
     def create_api_app(name, main_url, callback_url)
       click_link "Your apps"
-      click_link "New Api application"
+      click_link "Register new application"
       within("#new_api_application") do
         fill_in 'Name',         :with => name
         fill_in 'Main URL',     :with => main_url
         fill_in 'Callback URL', :with => callback_url
       end
-      click_button "Save"
+      click_button "Register application"
     end
   end
 end

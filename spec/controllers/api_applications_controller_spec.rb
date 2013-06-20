@@ -24,13 +24,13 @@ describe ApiApplicationsController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested api_application as @api_application" do
-      api_application = @user.api_applications.create! valid_attributes
-      get :show, :id => api_application.to_param
-      assigns(:api_application).should eq(api_application)
-    end
-  end
+  # describe "GET show" do
+  #   it "assigns the requested api_application as @api_application" do
+  #     api_application = @user.api_applications.create! valid_attributes
+  #     get :show, :id => api_application.to_param
+  #     assigns(:api_application).should eq(api_application)
+  #   end
+  # end
 
   describe "GET new" do
     it "assigns a new api_application as @api_application" do
