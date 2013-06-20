@@ -3,7 +3,6 @@ require 'spec_helper'
 describe ApiApplicationsController do
   before (:each) do
     @user = FactoryGirl.create(:user)
-    #@api_application = FactoryGirl.create(:api_application)
     sign_in @user
   end
   # This should return the minimal set of attributes required to create a valid
@@ -12,6 +11,10 @@ describe ApiApplicationsController do
   let(:valid_attributes) { { name: "test app",
                              main_url: "http://localhost:8080",
                              callback_url: "http://localhost:8080" } }
+
+  let(:invalid_attributes) { { name: "",
+                             main_url: "localhost:8080",
+                             callback_url: "localhost:8080" } }
 
   describe "GET index" do
     it "assigns all api_applications as @api_applications" do
@@ -39,52 +42,39 @@ describe ApiApplicationsController do
   describe "GET edit" do
     it "assigns the requested api_application as @api_application" do
       api_application = @user.api_applications.create! valid_attributes
-      get :edit, {:id => api_application.to_param}
+      get :edit, { :id => api_application.to_param }
       assigns(:api_application).should eq(api_application)
     end
   end
 
   describe "POST create" do
     describe "with valid params" do
-      #before { ApiApplication.stub(:new).and_return(api_application) }
       it "creates a new ApiApplication" do
-        #ApiApplication.should_receive(:new).with(valid_attributes).and_return(api_application)
-        # #@second_api_application = @user.api_applications.create!(
-        #                             name: "second app",
-        #                             main_url: "http://ohana",
-        #                             callback_url: "http://localhost")
-        count = @user.api_applications.count
-        post :create, { :api_application => valid_attributes }
-        count.should == 1
-        # expect {
-        #   post :create, {:api_application => valid_attributes}
-        # }.to change(@user.api_applications, :count).by(1)
+        expect {
+          post :create, { :api_application => valid_attributes }
+        }.to change { @user.reload.api_applications.count }.by(1)
       end
 
       it "assigns a newly created api_application as @api_application" do
-        post :create, {:api_application => valid_attributes}
+        post :create, { :api_application => valid_attributes }
         assigns(:api_application).should be_a(ApiApplication)
         assigns(:api_application).should be_persisted
       end
 
       it "redirects to the created api_application" do
-        post :create, {:api_application => valid_attributes}
-        response.should redirect_to(@user.api_applications.last)
+        post :create, { :api_application => valid_attributes }
+        response.should redirect_to(@user.reload.api_applications.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved api_application as @api_application" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        @user.api_applications.any_instance.stub(:save).and_return(false)
-        post :create, {:api_application => { :main_url => "invalid value" }}
+        post :create, { :api_application => invalid_attributes }
         assigns(:api_application).should be_a_new(ApiApplication)
       end
 
       it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        @user.api_applications.any_instance.stub(:save).and_return(false)
-        post :create, {:api_application => { "name" => "invalid value" }}
+        post :create, { :api_application => invalid_attributes }
         response.should render_template("new")
       end
     end
@@ -98,19 +88,19 @@ describe ApiApplicationsController do
         # specifies that the ApiApplication created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        @user.api_applications.any_instance.should_receive(:update_attributes).with({ "name" => "" })
-        put :update, {:id => api_application.to_param, :api_application => { "name" => "" }}
+        @user.api_applications.any_instance.should_receive(:update_attributes).with({ "name" => "test" })
+        put :update, { :id => api_application.to_param, :api_application => { "name" => "test" } }
       end
 
       it "assigns the requested api_application as @api_application" do
         api_application = @user.api_applications.create! valid_attributes
-        put :update, {:id => api_application.to_param, :api_application => valid_attributes}
+        put :update, { :id => api_application.to_param, :api_application => valid_attributes }
         assigns(:api_application).should eq(api_application)
       end
 
       it "redirects to the api_application" do
         api_application = @user.api_applications.create! valid_attributes
-        put :update, {:id => api_application.to_param, :api_application => valid_attributes}
+        put :update, { :id => api_application.to_param, :api_application => valid_attributes }
         response.should redirect_to(api_application)
       end
     end
@@ -118,17 +108,13 @@ describe ApiApplicationsController do
     describe "with invalid params" do
       it "assigns the api_application as @api_application" do
         api_application = @user.api_applications.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        @user.api_applications.any_instance.stub(:save).and_return(false)
-        put :update, {:id => api_application.to_param, :api_application => { "name" => "invalid value" }}
+        put :update, { :id => api_application.to_param, :api_application => invalid_attributes }
         assigns(:api_application).should eq(api_application)
       end
 
       it "re-renders the 'edit' template" do
         api_application = @user.api_applications.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        @user.api_applications.any_instance.stub(:save).and_return(false)
-        put :update, {:id => api_application.to_param, :api_application => { "name" => "invalid value" }}
+        put :update, { :id => api_application.to_param, :api_application => invalid_attributes }
         response.should render_template("edit")
       end
     end
@@ -138,15 +124,14 @@ describe ApiApplicationsController do
     it "destroys the requested api_application" do
       api_application = @user.api_applications.create! valid_attributes
       expect {
-        delete :destroy, {:id => api_application.to_param}
-      }.to change(ApiApplication, :count).by(-1)
+        delete :destroy, { :id => api_application.to_param }
+      }.to change { @user.reload.api_applications.count }.by(-1)
     end
 
     it "redirects to the api_applications list" do
       api_application = @user.api_applications.create! valid_attributes
-      delete :destroy, {:id => api_application.to_param}
+      delete :destroy, { :id => api_application.to_param }
       response.should redirect_to(api_applications_url)
     end
   end
-
 end
