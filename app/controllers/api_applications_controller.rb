@@ -6,11 +6,6 @@ class ApiApplicationsController < ApplicationController
     @api_applications = current_user.api_applications
   end
 
-  # GET /api_applications/1
-  def show
-    @api_application = current_user.api_applications.find(params[:id])
-  end
-
   # GET /api_applications/new
   def new
     @api_application = current_user.api_applications.new
@@ -27,7 +22,7 @@ class ApiApplicationsController < ApplicationController
 
     respond_to do |format|
       if @api_application.save
-        format.html { redirect_to @api_application, notice: 'Api application was successfully created.' }
+        format.html { redirect_to @api_application, notice: 'Application was successfully created.' }
       else
         format.html { render action: "new" }
       end
@@ -40,7 +35,7 @@ class ApiApplicationsController < ApplicationController
 
     respond_to do |format|
       if @api_application.update_attributes(params[:api_application])
-        format.html { redirect_to @api_application, notice: 'Api application was successfully updated.' }
+        format.html { redirect_to @api_application, notice: 'Application was successfully updated.' }
       else
         format.html { render action: "edit" }
       end

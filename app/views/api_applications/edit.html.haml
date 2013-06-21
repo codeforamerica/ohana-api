@@ -1,6 +1,6 @@
-%p#notice= notice
-
 %h1
 	= @api_application.name
+%div
+	%p Access Token: #{@api_application.access_token}
 = render 'form'
 

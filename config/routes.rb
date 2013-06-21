@@ -3,7 +3,7 @@ require 'api_constraints'
 OhanaApi::Application.routes.draw do
 
 	devise_for :users
-  resources :api_applications, only: [:index, :new, :edit, :create, :update, :destroy]
+  resources :api_applications, except: :show
   get "api_applications/:id" => "api_applications#edit"
   root :to => "home#index"
 

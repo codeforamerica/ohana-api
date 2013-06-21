@@ -65,6 +65,12 @@ describe ApiApplicationsController do
         post :create, { :api_application => valid_attributes }
         response.should redirect_to(@user.reload.api_applications.last)
       end
+
+      it "generates an access token" do
+        post :create, { :api_application => valid_attributes }
+        api_application = @user.reload.api_applications.last
+        api_application.access_token.should_not be_blank
+      end
     end
 
     describe "with invalid params" do
