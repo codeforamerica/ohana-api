@@ -22,22 +22,35 @@ class ApiDefender < Rack::Throttle::Hourly
     need_defense?(request) ? cache_counter(request, "incr") <= max_per_window(request) : true
   end
 
+  def valid_user_agent?(request)
+    user_agent = request.env["HTTP_USER_AGENT"]
+    user_agent.present?
+  end
+
   # If a conditional request was sent with the "If-None-Match" header,
   # and if the response was a 304/Not Modified, then we don't count it
   # against the rate limit, so we decrement the counter because it
   # was incremented before reaching this method (see the allowed? method).
+
   # For every request, we return the X-RateLimit-Limit and X-RateLimit-Remaining
   # HTTP headers so clients can check their status.
+
+  # If the request does not include a User-Agent, we return a 403 with a
+  # "Missing or invalid User Agent string" message.
   def call(env)
     request = Rack::Request.new(env)
     etag    = request.env["HTTP_IF_NONE_MATCH"]
     if allowed?(request)
       status, headers, response = app.call(env)
+
       cache_counter(request, "decr") if (etag.present? && status == 304)
+
+      http_error(request, "user agent") if !valid_user_agent?(request)
+
       headers = rate_limit_headers(request, headers)
       [status, headers, response]
     else
-      rate_limit_exceeded(request)
+      http_error(request, "rate limit")
     end
   end
 
@@ -62,25 +75,26 @@ class ApiDefender < Rack::Throttle::Hourly
     headers
   end
 
-  def rate_limit_exceeded(request)
-    headers = respond_to?(:retry_after) ? {"Retry-After" => retry_after.to_f.ceil.to_s} : {}
-    http_error(request, options[:code] || 403, headers)
-  end
-
-  def http_error(request, code, headers = {})
-    [code, {
+  def http_error(request, type)
+    [403, {
              "Content-Type" => "application/json"
-           }.merge(headers), [body(request).to_json]]
+           }, [error_body(request, type).to_json]]
   end
 
-  def body(request)
-    {
-      status: 403,
-      method: request.env['REQUEST_METHOD'],
-      request: "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}#{request.env['PATH_INFO']}",
-      description: "Rate limit exceeded",
-      hourly_rate_limit: max_per_window(request)
-    }
+  def error_body(request, type)
+    body =
+      {
+        status: 403,
+        method: request.env['REQUEST_METHOD'],
+        request: "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}#{request.env['PATH_INFO']}",
+      }
+    if type == "rate limit"
+      body[:description] = "Rate limit exceeded"
+      body[:hourly_rate_limit] = max_per_window(request)
+    elsif type == "user agent"
+      body[:description] = "Missing or invalid User Agent string."
+    end
+    body
   end
 
   protected
