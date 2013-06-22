@@ -1,6 +1,7 @@
 # based on https://gist.github.com/jpemberthy/2713548
 # and http://railscasts.com/episodes/350-rest-api-versioning
-# curl -H "Accept: application/vnd.ohanapi+json; version=1"
+# Usage by client making an API request:
+# curl "http://url/to/api" -H "Accept: application/vnd.ohanapi+json; version=1"
 
 class ApiConstraints
   def initialize(version)

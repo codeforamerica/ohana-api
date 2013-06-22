@@ -1,3 +1,10 @@
+# This custom validator allows you to validate Mongoid Hash fields
+# Based on app/validators/array_validator.rb
+# See app/models/organization.rb for usage. Here's an example:
+# validates :phones, hash: {
+#                      format: { with: /some regex/,
+#                                 message: "Please enter a valid phone" } }
+
 class HashValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, values)
     if values.present?

@@ -1,3 +1,10 @@
+# This custom validator allows you to validate Mongoid Array fields
+# http://zogovic.com/post/32932492190/how-to-validate-array-fields-in-mongoid
+# See app/models/organization.rb for usage. Here's an example:
+# validates :emails, array: {
+#                      format: { with: /some regex/,
+#                                 message: "Please enter a valid email" } }
+
 class ArrayValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, values)
     if values.present?

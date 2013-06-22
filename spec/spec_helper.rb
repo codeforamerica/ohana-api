@@ -14,6 +14,9 @@ RSpec.configure do |config|
   config.include RocketPants::TestHelper, :type => :controller
   config.include RocketPants::RSpecMatchers, :type => :controller
   config.include FactoryGirl::Syntax::Methods
+  config.include Features::SessionHelpers, type: :feature
+  config.include Warden::Test::Helpers
+  Warden.test_mode!
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -50,5 +53,6 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
     REDIS.keys.each { |key| REDIS.del key if key.include?("ohanapi_defender") }
+    Warden.test_reset!
   end
 end

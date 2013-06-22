@@ -32,6 +32,7 @@ group :test do
   # Testing with Rspec and Mongoid
   gem "database_cleaner", ">= 1.0.0.RC1"
   gem "mongoid-rspec", ">= 1.7.0"
+  gem "capybara"
 end
 
 group :development do
