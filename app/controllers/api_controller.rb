@@ -26,7 +26,7 @@ class ApiController < RocketPants::Base
            } if params[:keyword].blank? && params[:location].blank?
 
     organizations.find_by_keyword(params[:keyword]) if params[:keyword]
-    organizations.find_by_location(params[:location], current_radius) if params[:location]
+    organizations.find_by_location(params[:location], current_radius) unless params[:location].blank?
     organizations.order_by(:name => :asc) if params[:sort] == "name"
     organizations.order_by(:name => params[:order].to_sym) if params[:order]
     organizations
