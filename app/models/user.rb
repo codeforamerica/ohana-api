@@ -10,8 +10,10 @@ class User
   # Devise checks for presence of email and password by default
   validates_presence_of :name
 
-  validates_uniqueness_of :name, :email, :case_sensitive => false
+  validates_uniqueness_of :email, :case_sensitive => false
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+
+  embeds_many :api_applications
 
   ## Database authenticatable
   field :email,              :type => String, :default => ""

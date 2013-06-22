@@ -14,7 +14,8 @@ describe Api::V1::OrganizationsController do
     it "includes the name in the response" do
       organization = create(:organization)
       get :index
-      response.parsed_body["response"].first["name"].should == "Burlingame, Easton Branch"
+      name = response.parsed_body["response"].first["name"]
+      name.should == "Burlingame, Easton Branch"
     end
   end
 
@@ -89,7 +90,8 @@ describe Api::V1::OrganizationsController do
       end
 
       it 'returns the farmers market name' do
-        response.parsed_body["response"].first["name"].should == 'Pescadero Grown'
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Pescadero Grown'
       end
 
       it 'includes products_sold' do
@@ -110,7 +112,7 @@ describe Api::V1::OrganizationsController do
 
       before :each do
         organization = create(:farmers_market)
-        get :search, :keyword => "parks", :location => "94403", :radius => "ads"
+        get :search, keyword: "parks", location: "94403", radius: "ads"
       end
 
       it 'returns a bad request error' do
@@ -126,57 +128,62 @@ describe Api::V1::OrganizationsController do
       end
 
       it 'includes a specific_reason' do
-        response.parsed_body["specific_reason"].should == "radius must be a number"
+        specific_reason = response.parsed_body["specific_reason"]
+        specific_reason.should == "radius must be a number"
       end
     end
 
     context 'with radius too small but within range' do
       it 'returns the farmers market name' do
         organization = create(:farmers_market)
-        get :search, :keyword => "market", :location => "la honda, ca", :radius => 0.05
-        response.parsed_body["response"].first["name"].should == 'Pescadero Grown'
+        get :search, keyword: "market", location: "la honda, ca", radius: 0.05
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Pescadero Grown'
       end
     end
 
     context 'with radius too big but within range' do
       it 'returns the farmers market name' do
         organization = create(:farmers_market)
-        get :search, :keyword => "market", :location => "San Gregorio, CA", :radius => 50
-        response.parsed_body["response"].first["name"].should == 'Pescadero Grown'
+        get :search, keyword: "market", location: "San Gregorio, CA", radius: 50
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Pescadero Grown'
       end
     end
 
     context 'with radius not within range' do
       it 'returns an empty response array' do
         organization = create(:farmers_market)
-        get :search, :keyword => "market", :location => "Pescadero, ca", :radius => 5
+        get :search, keyword: "market", location: "Pescadero, ca", radius: 5
         response.parsed_body["response"].should == []
       end
     end
 
     context 'with invalid zip' do
-      it "returns an error with an 'Invalid ZIP code or address' specific_reason" do
+      it "specifies that an 'Invalid ZIP code or address' was passed" do
         organization = create(:farmers_market)
         get :search, :keyword => "market", :radius => 2, :location => 00000
-        response.parsed_body["specific_reason"].should == "Invalid ZIP code or address"
+        specific_reason = response.parsed_body["specific_reason"]
+        specific_reason.should == "Invalid ZIP code or address"
       end
     end
 
     context 'with invalid location' do
-      it "returns an error with an 'Invalid ZIP code or address' specific_reason" do
+      it "specifies that an 'Invalid ZIP code or address' was passed" do
         organization = create(:farmers_market)
-        get :search, :keyword => "market", :radius => 2, :location => "94403a"
-        response.parsed_body["specific_reason"].should == "Invalid ZIP code or address"
+        get :search, keyword: "market", radius: 2, location: "94403a"
+        specific_reason = response.parsed_body["specific_reason"]
+        specific_reason.should == "Invalid ZIP code or address"
       end
     end
   end
 
   describe 'sorting search results' do
     context 'sort when neither keyword nor location is not present' do
-      it 'returns a helpful error message about the sort parameter requirements' do
+      it 'returns a helpful message about search query requirements' do
         get :search, :sort => "name"
         response.parsed_body["specific_reason"].should ==
-        "Search requires at least one of keyword or location"
+        "keyword and location can't both be blank"
       end
     end
 
@@ -186,7 +193,8 @@ describe Api::V1::OrganizationsController do
         nearby = create(:nearby_org)
         get :search, :location => "94010"
         response.parsed_body["count"].should == 2
-        response.parsed_body["response"].first["name"].should == 'Redwood City Main'
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Redwood City Main'
       end
     end
 
@@ -196,17 +204,19 @@ describe Api::V1::OrganizationsController do
         nearby = create(:nearby_org)
         get :search, :location => "94010", :sort => "name"
         response.parsed_body["count"].should == 2
-        response.parsed_body["response"][0]["name"].should == 'Burlingame, Easton Branch'
+        name = response.parsed_body["response"][0]["name"]
+        name.should == 'Burlingame, Easton Branch'
       end
     end
 
-    context 'sort when location and sort are present, and order is specified' do
+    context 'sort when location and sort are present, & order is specified' do
       it 'sorts by distance and sorts by name and order desc' do
         organization = create(:organization)
         nearby = create(:nearby_org)
         get :search, :location => "94010", :sort => "name", :order => "desc"
         response.parsed_body["count"].should == 2
-        response.parsed_body["response"][0]["name"].should == 'Redwood City Main'
+        name = response.parsed_body["response"][0]["name"]
+        name.should == 'Redwood City Main'
       end
     end
   end
