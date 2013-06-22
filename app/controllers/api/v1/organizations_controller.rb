@@ -17,7 +17,10 @@ module Api
         begin
           expose result.all.paginate(:page => params[:page], :per_page => 30)
         rescue Moped::Errors::OperationFailure
-          error! :bad_request, :metadata => {:specific_reason => "Invalid ZIP code or address"}
+          error! :bad_request,
+                 :metadata => {
+                   :specific_reason => "Invalid ZIP code or address"
+                 }
         end
       end
     end

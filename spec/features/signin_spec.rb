@@ -15,6 +15,7 @@ feature "Signing in" do
   scenario "with an unconfirmed user" do
     unconfirmed_user = FactoryGirl.create(:unconfirmed_user)
     sign_in(unconfirmed_user.email, unconfirmed_user.password)
-    expect(page).to have_content 'You have to confirm your account before continuing.'
+    expect(page)
+      .to have_content 'You have to confirm your account before continuing.'
   end
 end

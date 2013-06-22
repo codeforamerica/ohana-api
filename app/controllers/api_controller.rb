@@ -22,7 +22,7 @@ class ApiController < RocketPants::Base
     organizations = scope_builder
     error! :bad_request,
            :metadata => {
-           :specific_reason => "Search requires at least one of keyword or location"
+           :specific_reason => "keyword and location can't both be blank"
            } if params[:keyword].blank? && params[:location].blank?
 
     organizations.find_by_keyword(params[:keyword]) if params[:keyword]

@@ -10,7 +10,6 @@ module Features
     end
 
     def create_api_app(name, main_url, callback_url)
-      click_link "Your apps"
       click_link "Register new application"
       within("#new_api_application") do
         fill_in 'Name',         :with => name
@@ -29,11 +28,8 @@ module Features
       click_button "Update application"
     end
 
-    def sign_in_and_create_app(name, main_url, callback_url)
-      valid_user = FactoryGirl.create(:user)
-      sign_in(valid_user.email, valid_user.password)
-      create_api_app(name, main_url, callback_url)
-      click_link "Your apps"
+    def visit_app(name, main_url)
+      visit('/api_applications')
       click_link "#{name} (#{main_url})"
     end
   end

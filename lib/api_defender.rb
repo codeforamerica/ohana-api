@@ -10,8 +10,7 @@ class ApiDefender < Rack::Throttle::Hourly
     options = {
       # The REDIS constant is defined in config/initializers/geocoder.rb
       cache: REDIS,
-      key_prefix: "ohanapi_defender",
-      max: 60
+      key_prefix: "ohanapi_defender"
     }
     @app, @options = app, options
   end
@@ -20,7 +19,7 @@ class ApiDefender < Rack::Throttle::Hourly
   # If so, it increases the rate limit counter and compares it with the maximum
   # allowed API calls. Returns true if a request can be handled.
   def allowed?(request)
-    need_defense?(request) ? cache_counter(request, "incr") <= max_per_window : true
+    need_defense?(request) ? cache_counter(request, "incr") <= max_per_window(request) : true
   end
 
   # If a conditional request was sent with the "If-None-Match" header,
@@ -31,14 +30,20 @@ class ApiDefender < Rack::Throttle::Hourly
   # HTTP headers so clients can check their status.
   def call(env)
     request = Rack::Request.new(env)
+    etag    = request.env["HTTP_IF_NONE_MATCH"]
     if allowed?(request)
       status, headers, response = app.call(env)
-      cache_counter(request, "decr") if (request.env["HTTP_IF_NONE_MATCH"].present? && status == 304)
+      cache_counter(request, "decr") if (etag.present? && status == 304)
       headers = rate_limit_headers(request, headers)
       [status, headers, response]
     else
       rate_limit_exceeded(request)
     end
+  end
+
+  def max_per_window(request)
+    token = request.env["HTTP_X_API_TOKEN"].to_s
+    User.where('api_applications.api_token' => token).exists? ? 5000 : 60
   end
 
   # rack-throttle supports various key/value stores for storing rate-limiting
@@ -52,8 +57,8 @@ class ApiDefender < Rack::Throttle::Hourly
   end
 
   def rate_limit_headers(request, headers)
-    headers["X-RateLimit-Limit"]     = max_per_window.to_s
-    headers["X-RateLimit-Remaining"] = ([0, max_per_window - (cache_get(cache_key(request)).to_i rescue 1)].max).to_s
+    headers["X-RateLimit-Limit"]     = max_per_window(request).to_s
+    headers["X-RateLimit-Remaining"] = ([0, max_per_window(request) - (cache_get(cache_key(request)).to_i rescue 1)].max).to_s
     headers
   end
 
@@ -63,7 +68,9 @@ class ApiDefender < Rack::Throttle::Hourly
   end
 
   def http_error(request, code, headers = {})
-    [code, { "Content-Type" => "application/json" }.merge(headers), [body(request).to_json]]
+    [code, {
+             "Content-Type" => "application/json"
+           }.merge(headers), [body(request).to_json]]
   end
 
   def body(request)
@@ -72,7 +79,7 @@ class ApiDefender < Rack::Throttle::Hourly
       method: request.env['REQUEST_METHOD'],
       request: "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}#{request.env['PATH_INFO']}",
       description: "Rate limit exceeded",
-      hourly_rate_limit: max_per_window
+      hourly_rate_limit: max_per_window(request)
     }
   end
 

@@ -9,12 +9,12 @@ describe ApiApplication do
   it { should validate_presence_of(:callback_url) }
 
   it { should validate_uniqueness_of(:name) }
-  it { should validate_uniqueness_of(:access_token) }
+  it { should validate_uniqueness_of(:api_token) }
 
-  it { should_not allow_mass_assignment_of(:access_token) }
+  it { should_not allow_mass_assignment_of(:api_token) }
 
   it { should validate_format_of(:main_url).to_allow("http://localhost")
-  																				 .not_to_allow("ohanapi.org") }
-	it { should validate_format_of(:callback_url).to_allow("https://localhost")
-  																				     .not_to_allow("http://") }
+                                           .not_to_allow("ohanapi.org") }
+  it { should validate_format_of(:callback_url).to_allow("https://localhost")
+                                               .not_to_allow("http://") }
 end

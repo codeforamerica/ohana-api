@@ -69,12 +69,12 @@ describe ApiApplicationsController do
       it "generates an access token" do
         post :create, { :api_application => valid_attributes }
         api_application = @user.reload.api_applications.last
-        api_application.access_token.should_not be_blank
+        api_application.api_token.should_not be_blank
       end
     end
 
     describe "with invalid params" do
-      it "assigns a newly created but unsaved api_application as @api_application" do
+      it "assigns a new but unsaved api_application as @api_application" do
         post :create, { :api_application => invalid_attributes }
         assigns(:api_application).should be_a_new(ApiApplication)
       end
@@ -94,19 +94,26 @@ describe ApiApplicationsController do
         # specifies that the ApiApplication created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        @user.api_applications.any_instance.should_receive(:update_attributes).with({ "name" => "test" })
-        put :update, { :id => api_application.to_param, :api_application => { "name" => "test" } }
+        @user.api_applications.any_instance.should_receive(:update_attributes)
+          .with({ "name" => "test" })
+        put :update,
+          { :id => api_application.to_param,
+            :api_application => { "name" => "test" } }
       end
 
       it "assigns the requested api_application as @api_application" do
         api_application = @user.api_applications.create! valid_attributes
-        put :update, { :id => api_application.to_param, :api_application => valid_attributes }
+        put :update,
+          { :id => api_application.to_param,
+            :api_application => valid_attributes }
         assigns(:api_application).should eq(api_application)
       end
 
       it "redirects to the api_application" do
         api_application = @user.api_applications.create! valid_attributes
-        put :update, { :id => api_application.to_param, :api_application => valid_attributes }
+        put :update,
+          { :id => api_application.to_param,
+            :api_application => valid_attributes }
         response.should redirect_to(api_application)
       end
     end
@@ -114,13 +121,17 @@ describe ApiApplicationsController do
     describe "with invalid params" do
       it "assigns the api_application as @api_application" do
         api_application = @user.api_applications.create! valid_attributes
-        put :update, { :id => api_application.to_param, :api_application => invalid_attributes }
+        put :update,
+          { :id => api_application.to_param,
+            :api_application => invalid_attributes }
         assigns(:api_application).should eq(api_application)
       end
 
       it "re-renders the 'edit' template" do
         api_application = @user.api_applications.create! valid_attributes
-        put :update, { :id => api_application.to_param, :api_application => invalid_attributes }
+        put :update,
+          { :id => api_application.to_param,
+            :api_application => invalid_attributes }
         response.should render_template("edit")
       end
     end

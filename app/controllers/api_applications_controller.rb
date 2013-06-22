@@ -22,9 +22,10 @@ class ApiApplicationsController < ApplicationController
 
     respond_to do |format|
       if @api_application.save
-        format.html { redirect_to @api_application, notice: 'Application was successfully created.' }
+        format.html { redirect_to @api_application,
+                      notice: 'Application was successfully created.' }
       else
-        format.html { render action: "new" }
+        format.html { render :new }
       end
     end
   end
@@ -35,9 +36,10 @@ class ApiApplicationsController < ApplicationController
 
     respond_to do |format|
       if @api_application.update_attributes(params[:api_application])
-        format.html { redirect_to @api_application, notice: 'Application was successfully updated.' }
+        format.html { redirect_to @api_application,
+                      notice: 'Application was successfully updated.' }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit }
       end
     end
   end
