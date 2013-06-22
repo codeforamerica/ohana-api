@@ -43,7 +43,7 @@ class ApiDefender < Rack::Throttle::Hourly
 
   def max_per_window(request)
     token = request.env["HTTP_X_API_TOKEN"].to_s
-    User.where('api_applications.api_token' => token).exists? ? 5000 : 60
+    (token.present? && User.where('api_applications.api_token' => token).exists?) ? 5000 : 60
   end
 
   # rack-throttle supports various key/value stores for storing rate-limiting
