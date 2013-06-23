@@ -40,12 +40,13 @@ class ApiDefender < Rack::Throttle::Hourly
   def call(env)
     request = Rack::Request.new(env)
     etag    = request.env["HTTP_IF_NONE_MATCH"]
-    if allowed?(request)
+
+    if (need_defense?(request) && !valid_user_agent?(request))
+      http_error(request, "user agent")
+    elsif allowed?(request)
       status, headers, response = app.call(env)
 
       cache_counter(request, "decr") if (etag.present? && status == 304)
-
-      http_error(request, "user agent") if !valid_user_agent?(request)
 
       headers = rate_limit_headers(request, headers)
       [status, headers, response]

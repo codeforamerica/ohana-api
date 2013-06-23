@@ -9,7 +9,7 @@ describe Api::V1::OrganizationsController do
         organization = create(:organization)
         get 'api/organizations', {},
           { 'Accept' => 'application/vnd.ohanapi+json; version=1',
-            'HTTP_ORIGIN' => 'http://ohanapi.org' }
+            'HTTP_ORIGIN' => 'http://ohanapi.org', 'HTTP_USER_AGENT' => "Rspec" }
       end
 
       it "gets version 1" do
@@ -35,7 +35,7 @@ describe Api::V1::OrganizationsController do
 
     context "when ORIGIN is not specified" do
       it "does not include CORS headers when ORIGIN is not specified" do
-        get 'api/organizations', {}, {}
+        get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" }
         headers.keys.should_not include("Access-Control-Allow-Origin")
         headers['Access-Control-Allow-Origin'].should be_nil
       end
@@ -44,7 +44,7 @@ describe Api::V1::OrganizationsController do
 
   describe "No API token in request" do
     context "when the rate limit has not been reached" do
-      before { get 'api/organizations' }
+      before { get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" } }
 
       it 'returns the requests limit headers' do
         headers['X-RateLimit-Limit'].should == "60"
@@ -60,19 +60,34 @@ describe Api::V1::OrganizationsController do
       before :each do
         key = "ohanapi_defender:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
         REDIS.set(key, "60")
-        get 'api/organizations'
+        get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" }
       end
 
       it_behaves_like "rate limit reached"
+    end
+
+    context "when User-Agent is blank" do
+      before (:each) do
+        get 'api/organizations'
+      end
+
+      it 'returns a 403 status' do
+        response.status.should == 403
+      end
+
+      it 'returns a missing user agent message' do
+        parsed_body = JSON.parse(response.body)
+        parsed_body["description"].should == 'Missing or invalid User Agent string.'
+      end
     end
 
     describe "when the 'If-None-Match' header is passed in the request" do
       context 'when the ETag has not changed' do
 
         before :each do
-          get 'api/organizations'
+          get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" }
           etag = headers['ETag']
-          get 'api/organizations', {}, { 'HTTP_IF_NONE_MATCH' => etag }
+          get 'api/organizations', {}, { 'HTTP_IF_NONE_MATCH' => etag, 'HTTP_USER_AGENT' => "Rspec" }
         end
 
         it 'returns a 304 status' do
@@ -91,8 +106,8 @@ describe Api::V1::OrganizationsController do
       context 'when the ETag has changed' do
 
         before :each do
-          get 'api/organizations'
-          get 'api/organizations', {}, { 'HTTP_IF_NONE_MATCH' => "1234567890" }
+          get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" }
+          get 'api/organizations', {}, { 'HTTP_IF_NONE_MATCH' => "1234567890", 'HTTP_USER_AGENT' => "Rspec" }
         end
 
         it 'returns a 200 status' do
@@ -121,7 +136,7 @@ describe Api::V1::OrganizationsController do
       @token = api_application.api_token
     end
     context "when the rate limit has not been reached" do
-      before { get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token } }
+      before { get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token, 'HTTP_USER_AGENT' => "Rspec" } }
 
       it 'returns the requests limit headers' do
         headers['X-RateLimit-Limit'].should == "5000"
@@ -137,20 +152,35 @@ describe Api::V1::OrganizationsController do
       before :each do
         key = "ohanapi_defender:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
         REDIS.set(key, "5000")
-        get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token }
+        get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token, 'HTTP_USER_AGENT' => "Rspec" }
       end
 
       it_behaves_like "rate limit reached"
+    end
+
+    context "when User-Agent is blank" do
+      before (:each) do
+        get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token }
+      end
+
+      it 'returns a 403 status' do
+        response.status.should == 403
+      end
+
+      it 'returns a missing user agent message' do
+        parsed_body = JSON.parse(response.body)
+        parsed_body["description"].should == 'Missing or invalid User Agent string.'
+      end
     end
 
     describe "when the 'If-None-Match' header is passed in the request" do
       context 'when the ETag has not changed' do
 
         before :each do
-          get 'api/organizations'
+          get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" }
           etag = headers['ETag']
           get 'api/organizations', {},
-            { 'HTTP_IF_NONE_MATCH' => etag, 'HTTP_X_API_TOKEN' => @token }
+            { 'HTTP_IF_NONE_MATCH' => etag, 'HTTP_X_API_TOKEN' => @token, 'HTTP_USER_AGENT' => "Rspec" }
         end
 
         it 'returns a 304 status' do
@@ -170,9 +200,9 @@ describe Api::V1::OrganizationsController do
 
         before :each do
           organization = create(:organization)
-          get 'api/organizations'
+          get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" }
           get 'api/organizations', {},
-            { 'HTTP_IF_NONE_MATCH' => "1234567890", 'HTTP_X_API_TOKEN' => @token }
+            { 'HTTP_IF_NONE_MATCH' => "1234567890", 'HTTP_X_API_TOKEN' => @token, 'HTTP_USER_AGENT' => "Rspec" }
         end
 
         it 'returns a 200 status' do
