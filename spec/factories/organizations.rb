@@ -57,4 +57,24 @@ FactoryGirl.define do
     market_match 0
   end
 
+  factory :food_stamps_keyword, class: Organization do
+    name "Samaritan House"
+    keywords ["food stamps"]
+  end
+
+  factory :food_stamps_name, class: Organization do
+    name "Food Stamps"
+    keywords ["child care"]
+  end
+
+  factory :food_stamps_agency, class: Organization do
+    name "Samaritan House"
+    agency "Food Stamps"
+    keywords ["CalFresh"]
+  end
+
+  factory :food_stamps_description, class: Organization do
+    name "Samaritan House"
+    description ["We provide assistance with food stamps/SNAP"]
+  end
 end

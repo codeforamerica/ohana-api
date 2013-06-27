@@ -176,6 +176,66 @@ describe Api::V1::OrganizationsController do
         specific_reason.should == "Invalid ZIP code or address"
       end
     end
+
+    context 'with singular version of keyword' do
+      it "finds the plural occurrence as well in name field" do
+        organization = create(:food_stamps_name)
+        get :search, keyword: "food stamp"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Food Stamps'
+      end
+
+      it "finds the plural occurrence as well in description field" do
+        organization = create(:food_stamps_description)
+        get :search, keyword: "food stamp"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+
+      it "finds the plural occurrence as well in agency field" do
+        organization = create(:food_stamps_agency)
+        get :search, keyword: "food stamp"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+
+      it "finds the plural occurrence as well in keyword field" do
+        organization = create(:food_stamps_keyword)
+        get :search, keyword: "food stamp"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+    end
+
+    context 'with plural version of keyword' do
+      it "finds the plural occurrence as well in name field" do
+        organization = create(:food_stamps_name)
+        get :search, keyword: "food stamps"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Food Stamps'
+      end
+
+      it "finds the plural occurrence as well in description field" do
+        organization = create(:food_stamps_description)
+        get :search, keyword: "food stamps"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+
+      it "finds the plural occurrence as well in agency field" do
+        organization = create(:food_stamps_agency)
+        get :search, keyword: "food stamps"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+
+      it "finds the plural occurrence as well in keyword field" do
+        organization = create(:food_stamps_keyword)
+        get :search, keyword: "food stamps"
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+    end
   end
 
   describe 'sorting search results' do

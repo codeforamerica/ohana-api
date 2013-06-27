@@ -61,8 +61,11 @@ class Organization
   #after_validation :geocode          # auto-fetch coordinates
 
   scope :find_by_keyword,
-    lambda { |keyword| any_of({name: /\b#{keyword}\b/i},
-      { keywords: /\b#{keyword}\b/i}, {agency: /\b#{keyword}\b/i}) }
+    lambda { |keyword| any_of(
+      { name: /#{keyword}s?\b/i },
+      { keywords: /#{keyword}s?\b/i },
+      { agency: /#{keyword}s?\b/i },
+      { description: /#{keyword}s?\b/i }) }
 
   scope :find_by_location, lambda {|location, radius| near(location, radius) }
 
