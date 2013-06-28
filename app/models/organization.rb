@@ -62,10 +62,10 @@ class Organization
 
   scope :find_by_keyword,
     lambda { |keyword| any_of(
-      { name: /#{keyword}s?\b/i },
-      { keywords: /#{keyword}s?\b/i },
-      { agency: /#{keyword}s?\b/i },
-      { description: /#{keyword}s?\b/i }) }
+      { name: /#{keyword.strip}s?\b/i },
+      { keywords: /#{keyword.strip}s?\b/i },
+      { agency: /#{keyword.strip}s?\b/i },
+      { description: /#{keyword.strip}s?\b/i }) }
 
   scope :find_by_location, lambda {|location, radius| near(location, radius) }
 
