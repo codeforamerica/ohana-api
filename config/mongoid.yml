@@ -1,6 +1,6 @@
-production: 
-  sessions: 
-    default: 
+production:
+  sessions:
+    default:
       uri: <%= ENV['MONGOLAB_URI'] %>
       options:
         safe: true

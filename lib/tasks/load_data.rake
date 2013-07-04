@@ -11,8 +11,9 @@ task :load_data => :environment do
   invalid_filename_prefix = file.split('.json')[0].split('/')[1]
 
   puts "Processing #{file}"
-  dataset = JSON.parse(File.read(file))
-  dataset.each do |data_item|
+  File.open(file).each do |line|
+    data_item = JSON.parse(line)
+    data_item.reject! { |k,_| k == "created_at" || k == "updated_at" }
     org = Organization.new(data_item)
     unless org.save
       name = org["name"]
