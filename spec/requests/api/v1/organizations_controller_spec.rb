@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'debugger'
 
 describe Api::V1::OrganizationsController do
 
