@@ -16,11 +16,11 @@ FactoryGirl.define do
 
   factory :nearby_org, class: Organization do
     name "Redwood City Main"
-    street_address "480 Primrose Road"
+    street_address "1000 Broadway"
     zipcode "94010"
     city "Burlingame"
     state "CA"
-    coordinates [-122.348862, 37.579221]
+    coordinates [-122.362882, 37.588935]
     keywords ["library"]
   end
 
@@ -47,8 +47,6 @@ FactoryGirl.define do
                department: "Information",
                phone_hours: "(Monday-Friday, 9-12, 1-5)" }]]
     coordinates [-122.371448, 37.583849]
-    latitude -122.274369
-    longitude 37.317983
     keywords ["library"]
     market_match 1
   end

@@ -16,9 +16,7 @@ class Organization
   field :how_to_apply, type: String
   field :keywords, type: Array
   field :languages_spoken, type: Array
-  field :latitude, type: Float
   field :leaders, type: Array
-  field :longitude, type: Float
   field :market_match, type: Boolean
   field :name, type: String
   field :payments_accepted, type: Array

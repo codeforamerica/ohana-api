@@ -52,7 +52,7 @@ group :development do
 end
 
 # Geocoding
-gem "geocoder", :git => 'git://github.com/alexreisner/geocoder.git'
+gem "geocoder", :git => 'git://github.com/alexreisner/geocoder.git', :ref => "3b0921c"
 gem "redis"
 
 # Format validation for URLs, phone numbers, zipcodes
@@ -64,7 +64,8 @@ gem 'rack-cors', :require => 'rack/cors'
 
 # API Design
 gem 'rocket_pants', '~> 1.0'
-gem "will_paginate_mongoid"
+gem "kaminari"
+gem 'api-pagination'
 
 # Production Monitoring
 gem 'newrelic_rpm'

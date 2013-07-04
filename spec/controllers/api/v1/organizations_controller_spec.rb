@@ -162,7 +162,7 @@ describe Api::V1::OrganizationsController do
     context 'with invalid zip' do
       it "specifies that an 'Invalid ZIP code or address' was passed" do
         organization = create(:farmers_market)
-        get :search, :keyword => "market", :radius => 2, :location => 00000
+        get :search, :keyword => "market", :radius => 2, :location => "00000"
         specific_reason = response.parsed_body["specific_reason"]
         specific_reason.should == "Invalid ZIP code or address"
       end
@@ -171,7 +171,7 @@ describe Api::V1::OrganizationsController do
     context 'with invalid location' do
       it "specifies that an 'Invalid ZIP code or address' was passed" do
         organization = create(:farmers_market)
-        get :search, keyword: "market", radius: 2, location: "94403a"
+        get :search, keyword: "market", radius: 2, location: "94403ab"
         specific_reason = response.parsed_body["specific_reason"]
         specific_reason.should == "Invalid ZIP code or address"
       end
@@ -251,7 +251,7 @@ describe Api::V1::OrganizationsController do
       it 'sorts by distance by default' do
         organization = create(:organization)
         nearby = create(:nearby_org)
-        get :search, :location => "94010"
+        get :search, :location => "1236 Broadway, Burlingame, CA 94010"
         response.parsed_body["count"].should == 2
         name = response.parsed_body["response"].first["name"]
         name.should == 'Redwood City Main'

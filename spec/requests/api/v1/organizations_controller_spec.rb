@@ -42,6 +42,50 @@ describe Api::V1::OrganizationsController do
     end
   end
 
+  describe "Link Headers" do
+    before (:each) do
+      31.times { organization = create(:organization) }
+    end
+
+    context "when on page 1 of 2" do
+      it "returns a Link header" do
+        get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" }
+        headers["Link"].should ==
+        '<http://www.example.com/api/organizations?page=2>; '+
+        'rel="last", '+
+        '<http://www.example.com/api/organizations?page=2>; '+
+        'rel="next"'
+      end
+    end
+
+    context "when on page 2 of 2" do
+      it "returns a Link header" do
+        get 'api/organizations?page=2', {}, { 'HTTP_USER_AGENT' => "Rspec" }
+        headers["Link"].should ==
+        '<http://www.example.com/api/organizations?page=1>; '+
+        'rel="first", '+
+        '<http://www.example.com/api/organizations?page=1>; '+
+        'rel="prev"'
+      end
+    end
+
+    context "when on page 2 of 3" do
+      it "returns a Link header" do
+        31.times { organization = create(:organization) }
+        get 'api/organizations?page=2', {}, { 'HTTP_USER_AGENT' => "Rspec" }
+        headers["Link"].should ==
+        '<http://www.example.com/api/organizations?page=1>; '+
+        'rel="first", '+
+        '<http://www.example.com/api/organizations?page=1>; '+
+        'rel="prev", '+
+        '<http://www.example.com/api/organizations?page=3>; '+
+        'rel="last", '+
+        '<http://www.example.com/api/organizations?page=3>; '+
+        'rel="next"'
+      end
+    end
+  end
+
   describe "No API token in request" do
     context "when the rate limit has not been reached" do
       before { get 'api/organizations', {}, { 'HTTP_USER_AGENT' => "Rspec" } }

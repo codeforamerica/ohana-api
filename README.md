@@ -100,6 +100,22 @@ The app allows developers to sign up for an account, but all email addresses nee
 
 You can then [sign in](http://localhost:8080/users/sign_in) with either of those users, whose username and password are stored in `db/seeds.rb`.
 
+### Test the app
+To test locally, you will need to run this once to set up the test DB:
+
+    rake db:mongoid:create_indexes RAILS_ENV=test
+
+Then you can run tests with this simple command:
+
+    rspec
+
+For faster tests:
+
+    gem install zeus
+    zeus start #in a separate Terminal window or tab
+    zeus rspec spec
+
+To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
 ## Development Details
 

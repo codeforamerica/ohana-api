@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/alexreisner/geocoder.git
-  revision: 95ad41dbc62fb850f81627dc34e117e03effc1fa
+  revision: 3b0921c999097f9b740316adf0785582748cad96
+  ref: 3b0921c
   specs:
     geocoder (1.1.8)
 
@@ -34,6 +35,7 @@ GEM
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
+    api-pagination (1.1.0)
     api_smith (1.2.0)
       hashie (~> 1.0)
       httparty
@@ -148,6 +150,9 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.0)
     json_pure (1.8.0)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.8.0)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -314,9 +319,6 @@ GEM
     warden (1.2.1)
       rack (>= 1.0)
     will_paginate (3.0.4)
-    will_paginate_mongoid (1.1.0)
-      mongoid (>= 2.4)
-      will_paginate (~> 3.0)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -324,6 +326,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  api-pagination
   area
   better_errors (>= 0.7.2)
   binding_of_caller (>= 0.7.1)
@@ -340,6 +343,7 @@ DEPENDENCIES
   haml-rails (>= 0.4)
   html2haml (>= 1.0.1)
   jquery-rails
+  kaminari
   metric_fu
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)
@@ -356,4 +360,3 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn (>= 4.3.1)
   validates_formatting_of
-  will_paginate_mongoid

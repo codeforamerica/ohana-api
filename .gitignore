@@ -29,4 +29,7 @@ dump.rdb
 
 # CIP data
 /data/cip_mvp.json
+/data/cip_6-28.json
 /data/cip_mvp_invalid_records.json
+/data/cip_6-28_invalid_records.json
+/data/test.json
