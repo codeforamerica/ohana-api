@@ -35,7 +35,7 @@ GEM
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
-    api-pagination (1.1.0)
+    api-pagination (1.1.1)
     api_smith (1.2.0)
       hashie (~> 1.0)
       httparty
