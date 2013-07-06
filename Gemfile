@@ -51,7 +51,7 @@ group :development do
 end
 
 # Geocoding
-gem "geocoder", :git => 'git://github.com/alexreisner/geocoder.git', :ref => "3b0921c"
+gem "geocoder", :git => "git://github.com/monfresh/geocoder.git", :branch => "482-bounds-config-option"
 gem "redis"
 
 # Format validation for URLs, phone numbers, zipcodes

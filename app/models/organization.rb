@@ -65,16 +65,10 @@ class Organization
       { agency: /#{keyword.strip}s?\b/i },
       { description: /#{keyword.strip}s?\b/i }) }
 
-  #scope :find_near, lambda {|location, radius| near(location, radius) }
+  scope :find_near, lambda {|location, radius| near(location, radius) }
 
   #combines address fields together into one string
   def address
     "#{self.street_address}, #{self.city}, #{self.state} #{self.zipcode}"
-  end
-
-  def self.find_near(location, radius)
-    cities = %w(brisbane hillsborough)
-    location = "#{location}, CA" if cities.any? { |city| location.include? city }
-    near(location, radius)
   end
 end

@@ -1,7 +1,7 @@
 GIT
-  remote: git://github.com/alexreisner/geocoder.git
-  revision: 3b0921c999097f9b740316adf0785582748cad96
-  ref: 3b0921c
+  remote: git://github.com/monfresh/geocoder.git
+  revision: c357693d588f947d60483ba5800427c543db7b9c
+  branch: 482-bounds-config-option
   specs:
     geocoder (1.1.8)
 
