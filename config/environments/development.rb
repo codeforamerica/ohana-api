@@ -42,4 +42,12 @@ OhanaApi::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Bullet gem config
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger = true
+  end
 end
