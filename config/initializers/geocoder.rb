@@ -11,7 +11,6 @@ end
 Geocoder.configure(
   :lookup => :google,
   :cache => REDIS,
-  :bounds => [[37.1074,-122.521], [37.7084,-122.085]],
   :always_raise => [Geocoder::OverQueryLimitError,
     Geocoder::RequestDenied,
     Geocoder::InvalidRequest,

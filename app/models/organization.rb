@@ -65,10 +65,20 @@ class Organization
       { agency: /#{keyword.strip}s?\b/i },
       { description: /#{keyword.strip}s?\b/i }) }
 
-  scope :find_near, lambda {|location, radius| near(location, radius) }
-
   #combines address fields together into one string
   def address
     "#{self.street_address}, #{self.city}, #{self.state} #{self.zipcode}"
+  end
+
+  #NE and SW geo coordinates that define the boundaries of San Mateo County
+  SMC_BOUNDS = [[37.1074,-122.521], [37.7084,-122.085]].freeze
+
+  # Google provides a "bounds" option to restrict the address search to
+  # a particular area. Since this app focues on organizations in San Mateo
+  # County, we use SMC_BOUNDS to restrict the search.
+  def self.find_near(location, radius)
+    result = Geocoder.search(location, :bounds => SMC_BOUNDS)
+    coords = result.first.coordinates if result.present?
+    near(coords, radius)
   end
 end
