@@ -1,10 +1,16 @@
 class AdminUser
   include Mongoid::Document
+  # CanCan roles
+  ROLES = %w(admin editor)
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  ## CanCan role
+  field :role
 
   ## Database authenticatable
   field :email,              :type => String, :default => ""

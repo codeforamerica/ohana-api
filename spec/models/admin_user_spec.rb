@@ -1,4 +1,6 @@
 require 'spec_helper'
+require "cancan/matchers"
+
 # Uses the nifty mongoid-rspec matchers
 # https://github.com/evansagge/mongoid-rspec
 describe AdminUser do
@@ -62,6 +64,31 @@ describe AdminUser do
 
     it "should set the encrypted password attribute" do
       @user.encrypted_password.should_not be_blank
+    end
+  end
+
+  describe "abilities" do
+    subject { ability }
+    let(:ability){ Ability.new(user) }
+    let(:user){ nil }
+
+    context "when is an admin" do
+      let(:user){ FactoryGirl.create(:admin_user) }
+
+      it{ should be_able_to(:manage, User.new) }
+      it{ should be_able_to(:manage, AdminUser.new) }
+      it{ should be_able_to(:manage, Organization.new) }
+    end
+
+    context "when is an editor" do
+      let(:user){ FactoryGirl.create(:admin_editor) }
+
+      it{ should_not be_able_to(:manage, User.new) }
+      it{ should_not be_able_to(:manage, AdminUser.new) }
+      it{ should be_able_to(:manage,
+        Organization.new(:emails => ["editor@example.com"])) }
+      it{ should_not be_able_to(:manage,
+        Organization.new(:emails => ["admin@example.com"])) }
     end
   end
 end

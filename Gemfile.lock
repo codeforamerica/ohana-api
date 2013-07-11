@@ -82,6 +82,7 @@ GEM
     builder (3.0.4)
     bullet (4.6.0)
       uniform_notifier
+    cancan (1.6.10)
     cane (2.5.2)
       parallel
     capybara (2.1.0)
@@ -369,6 +370,7 @@ DEPENDENCIES
   better_errors (>= 0.7.2)
   binding_of_caller (>= 0.7.1)
   bullet
+  cancan
   capybara
   coffee-rails (~> 3.2.1)
   coveralls
