@@ -11,6 +11,7 @@ end
 
 # Front end
 gem 'jquery-rails'
+gem "jquery-ui-rails"
 gem "haml-rails", ">= 0.4"
 
 # Server for deployment
@@ -75,6 +76,8 @@ gem 'rack-throttle'
 
 # Authentication
 gem 'devise'
+gem 'activeadmin-mongoid', :git => "git://github.com/monfresh/activeadmin-mongoid.git", :branch => "filter-fix"
+#gem 'activeadmin-mongoid', :git => "git://github.com/elia/activeadmin-mongoid.git"
 
 # App config and ENV variables for heroku
 gem "figaro"

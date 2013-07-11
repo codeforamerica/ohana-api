@@ -45,7 +45,10 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
+    # adding "[:mongoid]" is required when using ActiveAdmin.
+    # Otherwise, all tests will fail with the error
+    # ActiveRecord::ConnectionNotEstablished
+    DatabaseCleaner[:mongoid].strategy = :truncation
   end
   config.before(:each) do
     DatabaseCleaner.start

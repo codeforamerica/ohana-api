@@ -18,5 +18,5 @@ user2 = User.create! :name => 'Second User',
                      :email => 'user2@example.com',
                      :password => 'mong01dtest',
                      :password_confirmation => 'mong01dtest'
-user.confirm!
+user2.confirm!
 puts 'New user created: ' << user2.name
