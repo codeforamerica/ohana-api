@@ -15,8 +15,12 @@ ActiveAdmin.register Organization do
   end
 
   filter :name
+  filter :agency
+  filter :street_address
+  filter :city
   filter :keywords, :as => :string
 
+  #form :partial => "form"
   form do |f|
     f.inputs "Organization Details" do
       f.input :accessibility_options
