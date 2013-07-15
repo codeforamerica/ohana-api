@@ -37,9 +37,6 @@ group :test do
 end
 
 group :development do
-  # Lets you convert HTML to HAML, including ERB
-  gem "html2haml", ">= 1.0.1"
-
   # Debugging
   gem "bullet"
   gem "quiet_assets", ">= 1.0.2"

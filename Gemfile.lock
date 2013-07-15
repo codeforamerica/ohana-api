@@ -158,12 +158,6 @@ GEM
     hashie (1.2.0)
     hike (1.2.3)
     hirb (0.7.1)
-    hpricot (0.8.6)
-    html2haml (1.0.1)
-      erubis (~> 2.7.0)
-      haml (>= 4.0.0.rc.1)
-      hpricot (~> 0.8.6)
-      ruby_parser (~> 3.1.1)
     httparty (0.11.0)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
@@ -382,7 +376,6 @@ DEPENDENCIES
   figaro
   geocoder!
   haml-rails (>= 0.4)
-  html2haml (>= 1.0.1)
   jquery-rails
   jquery-ui-rails
   kaminari
