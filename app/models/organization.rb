@@ -2,6 +2,12 @@ class Organization
   include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
+
+  normalize_attributes :agency, :city, :description, :eligibility_requirements,
+    :fees, :how_to_apply, :name, :service_hours, :service_wait,
+    :services_provided, :street_address, :target_group,
+    :transportation_availability, :zipcode
+
   field :accessibility_options, type: Array
   field :agency, type: String
   field :ask_for, type: Array

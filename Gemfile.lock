@@ -68,6 +68,7 @@ GEM
       fastercsv (~> 1.5)
     arel (3.0.2)
     arrayfields (4.7.4)
+    attribute_normalizer (1.1.0)
     awesome_print (1.1.0)
     bcrypt-ruby (3.1.1)
     better_errors (0.9.0)
@@ -367,6 +368,7 @@ DEPENDENCIES
   activeadmin-mongoid!
   api-pagination
   area
+  attribute_normalizer
   better_errors (>= 0.7.2)
   binding_of_caller (>= 0.7.1)
   bullet

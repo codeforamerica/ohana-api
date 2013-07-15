@@ -23,34 +23,19 @@ ActiveAdmin.register Organization do
   #form :partial => "form"
   form do |f|
     f.inputs "Organization Details" do
-      f.input :accessibility_options
       f.input :agency
-      f.input :ask_for
       f.input :city
       f.input :description
       f.input :eligibility_requirements
-      f.input :emails
-      f.input :faxes
       f.input :fees
-      f.input :funding_sources
       f.input :how_to_apply
-      f.input :keywords
-      f.input :languages_spoken
-      f.input :leaders
-      f.input :market_match
       f.input :name
-      f.input :payments_accepted
-      f.input :phones
-      f.input :products_sold
-      f.input :service_areas
       f.input :service_hours
       f.input :service_wait
       f.input :services_provided
       f.input :street_address
       f.input :target_group
       f.input :transportation_availability
-      f.input :ttys
-      f.input :urls
       f.input :zipcode
     end
     f.actions
