@@ -280,4 +280,37 @@ describe Api::V1::OrganizationsController do
       end
     end
   end
+
+  describe "GET 'nearby'" do
+    before :each do
+      @organization = create(:organization)
+      nearby = create(:nearby_org)
+    end
+
+    context 'with no radius' do
+      it "displays nearby locations within 2 miles" do
+        get :nearby, :id => @organization
+        response.parsed_body["count"].should == 1
+        name = response.parsed_body["response"][0]["name"]
+        name.should == 'Redwood City Main'
+      end
+    end
+
+    context 'with valid radius' do
+      it "displays nearby locations within 5 miles" do
+        get :nearby, :id => @organization, :radius => 5
+        response.parsed_body["count"].should == 1
+        name = response.parsed_body["response"][0]["name"]
+        name.should == 'Redwood City Main'
+      end
+    end
+
+    context 'with invalid radius' do
+      it "returns 'invalid radius' message" do
+        get :nearby, :id => @organization, :radius => "<script>"
+        specific_reason = response.parsed_body["specific_reason"]
+        specific_reason.should == "radius must be a number"
+      end
+    end
+  end
 end

@@ -15,6 +15,7 @@ OhanaApi::Application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(1) do
       resources :organizations
   		get 'search', :to => 'organizations#search'
+      get 'organizations/:id/nearby', :to => 'organizations#nearby'
 		end
   end
 end
