@@ -18,6 +18,11 @@ module Api
         expose Organization.find(params[:id])
       end
 
+      def nearby
+        org = Organization.find(params[:id])
+        expose org.nearbys(current_radius)
+      end
+
       def search
         @results = org_search(params).all.page(params[:page]).per(30)
         begin
