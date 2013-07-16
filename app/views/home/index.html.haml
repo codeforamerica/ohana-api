@@ -1,6 +1,6 @@
 %h3 Ohana Developers
 %p
 - if user_signed_in?
-    Welcome back #{@user.name}! Create a new application or #{link_to 'view', edit_user_registration_path} your existing ones.
+    Welcome back #{@user.name}! #{link_to "Create a new application", new_api_application_path} or #{link_to 'view', api_applications_path} your existing ones.
 - else
     Sign up for a developer account, or sign in.
