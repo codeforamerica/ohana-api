@@ -33,9 +33,9 @@ task :load_data => :environment do
     pairs.each do |pair|
       if pair[1]["langs"].present?
         pair[1]["langs"].each do |lang|
-        pair[0].languages.create(:name => lang)
-        # pair[0].languages << lang
-        # pair[0].save
+        #pair[0].languages.create(:name => lang)
+        pair[0].languages << lang
+        pair[0].save
         end
       end
     end

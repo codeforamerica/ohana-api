@@ -64,7 +64,8 @@ ActiveAdmin.register Location do
   show :title => :name do
     panel "Location Details" do
       attributes_table_for location do
-        row("Organization") { link_to location.organization.name, admin_organization_path(location.organization) }
+        row("Organization") { link_to location.organization.name,
+          admin_organization_path(location.organization) }
         row("Description") { location.description }
         row("Name") { location.name }
         row("Street Address") { location.street }
@@ -78,15 +79,10 @@ ActiveAdmin.register Location do
         row("Keywords") { location.keywords }
         row("URLs") { location.urls }
         row("Languages") do
-          location.languages.order_by(:name => :asc).each {
-            |l| li l.name.capitalize }
+          location.languages.sort.each {
+            |l| li l.text } if location.languages.present?
         end
       end
     end
-    #panel "Languages" do
-      # table_for location.languages do |t|
-      #   t.column("") { |language| language.name.capitalize }
-      # end
-    #end
   end
 end

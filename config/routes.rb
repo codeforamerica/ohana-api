@@ -17,9 +17,7 @@ OhanaApi::Application.routes.draw do
         resources :locations, shallow: true
       end
 
-      resources :locations do
-        resources :languages, shallow: true
-      end
+      resources :locations
   		get 'search', :to => 'locations#search'
       get 'locations/:id/nearby', :to => 'locations#nearby'
 		end

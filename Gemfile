@@ -78,7 +78,7 @@ gem 'activeadmin-mongoid', :git => "git://github.com/monfresh/activeadmin-mongoi
 #gem 'activeadmin-mongoid', :git => "git://github.com/elia/activeadmin-mongoid.git"
 gem "cancan"
 gem "attribute_normalizer"
-#gem "enumerize"
+gem "enumerize"
 
 # App config and ENV variables for heroku
 gem "figaro"

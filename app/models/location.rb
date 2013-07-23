@@ -2,10 +2,9 @@ class Location
   include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
-  #extend Enumerize
+  extend Enumerize
 
   belongs_to :organization
-  has_and_belongs_to_many :languages
 
   normalize_attributes :name, :description, :fax, :email, :hours, :street,
     :po_box, :city, :state, :zipcode
@@ -30,10 +29,10 @@ class Location
   field :payments_accepted, type: Array
   field :products_sold, type: Array
 
-  # field :languages
-  # enumerize :languages, in: [:french, :english, :vietnamese,
-  #   :polish, :german, :russian, :mandarin, :tagalog, :arabic,
-  #   :urdu, :chinese_cantonese], multiple: true
+  field :languages
+  enumerize :languages, in: [:french, :english, :vietnamese,
+    :polish, :german, :russian, :mandarin, :tagalog, :arabic,
+    :urdu, :cantonese], multiple: true
 
   validates_presence_of :name, :city, :zipcode
 
