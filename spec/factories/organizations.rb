@@ -2,77 +2,21 @@
 
 FactoryGirl.define do
   factory :organization do
-    name "Burlingame, Easton Branch"
-    street_address "1800 Easton Drive"
-    zipcode "94010"
-    city "Burlingame"
-    state "CA"
-    phones [[{ number: "650 851-1210",
-               department: "Information",
-               phone_hours: "(Monday-Friday, 9-12, 1-5)" }]]
-    coordinates [-122.371448, 37.583849]
-    keywords ["library"]
-  end
-
-  factory :nearby_org, class: Organization do
-    name "Redwood City Main"
-    street_address "1000 Broadway"
-    zipcode "94010"
-    city "Burlingame"
-    state "CA"
-    coordinates [-122.362882, 37.588935]
-    keywords ["library"]
-  end
-
-  factory :farmers_market, class: Organization do
-    name "Pescadero Grown"
-    street_address "8875 La Honda Road"
-    zipcode "94020"
-    city "La Honda"
-    state "CA"
-    coordinates [-122.274369, 37.317983]
-    keywords ["market"]
-    urls ["http://Www.pescaderogrown.org"]
-    payments_accepted ["Credit", "WIC", "SFMNP", "SNAP"]
-    products_sold ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"]
-  end
-
-  factory :full_org, class: Organization do
-    name "Burlingame, Easton Branch"
-    street_address "1800 Easton Drive"
-    zipcode "94010"
-    city "Burlingame"
-    state "CA"
-    phones [[{ number: "650 851-1210",
-               department: "Information",
-               phone_hours: "(Monday-Friday, 9-12, 1-5)" }]]
-    coordinates [-122.371448, 37.583849]
-    keywords ["library"]
-    market_match 1
-  end
-
-  factory :org_without_market_match, class: Organization do
-    market_match 0
-  end
-
-  factory :food_stamps_keyword, class: Organization do
-    name "Samaritan House"
-    keywords ["food stamps"]
-  end
-
-  factory :food_stamps_name, class: Organization do
-    name "Food Stamps"
-    keywords ["child care"]
+    name "Parent Agency"
+    description "SNAP market"
   end
 
   factory :food_stamps_agency, class: Organization do
-    name "Samaritan House"
-    agency "Food Stamps"
-    keywords ["CalFresh"]
+    name "Food Stamps"
   end
 
-  factory :food_stamps_description, class: Organization do
-    name "Samaritan House"
-    description ["We provide assistance with food stamps/SNAP"]
+  factory :food_stamps_parent, class: Organization do
+    name "Namaste"
+    description "We provide assistance with food stamps/SNAP"
+  end
+
+  factory :generic_agency, class: Organization do
+    name "Generic Agency"
+    description "Hello"
   end
 end

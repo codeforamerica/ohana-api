@@ -1,44 +1,54 @@
 ActiveAdmin.register Organization do
   index do
+    selectable_column
     column :name
-    column :agency
-    column :street_address
-    column :city
-    column :keywords
     column :updated_at
-    column "" do |organization|
-      links = ''.html_safe
-      links += link_to I18n.t('active_admin.view'), admin_organization_path(organization), :class => "member_link view_link"
-      links += link_to I18n.t('active_admin.edit'), edit_admin_organization_path(organization), :class => "member_link edit_link"
-      links
+    column "Link to Locations" do |organization|
+      link_to "Locations", admin_organization_locations_path(organization)
     end
+    # column "" do |organization|
+    #   links = ''.html_safe
+    #   links += link_to I18n.t('active_admin.view'), admin_organization_path(organization), :class => "member_link view_link"
+    #   links += link_to I18n.t('active_admin.edit'), edit_admin_organization_path(organization), :class => "member_link edit_link"
+    #   links
+    # end
+    default_actions
   end
 
   filter :name
-  filter :agency
-  filter :street_address
-  filter :city
-  filter :keywords, :as => :string
 
-  #form :partial => "form"
-  form do |f|
-    f.inputs "Organization Details" do
-      f.input :agency
-      f.input :city
-      f.input :description
-      f.input :eligibility_requirements
-      f.input :fees
-      f.input :how_to_apply
-      f.input :name
-      f.input :service_hours
-      f.input :service_wait
-      f.input :services_provided
-      f.input :street_address
-      f.input :target_group
-      f.input :transportation_availability
-      f.input :zipcode
+  show :title => :name do |organization|
+    attributes_table do
+      row :name
+      row :description
+      row :funding_sources
+      row :_keywords
     end
-    f.actions
+
+    panel "Locations" do
+      table_for organization.locations do |t|
+        t.column("Name") do |location|
+          link_to location.name,
+            admin_organization_location_path(organization, location)
+        end
+      end
+    end
   end
+
+  form :partial => "form"
+  # form do |f|
+  #   f.inputs "Organization Details" do
+  #     f.input :name
+  #     f.input :description
+  #   end
+
+  #   # f.inputs "URLS" do
+  #   #   organization.urls.each do |url|
+  #   #     #text_field_tag "organization[urls][]", url
+  #   #     f.input :urls, :name => "organization[urls][]", :input_html => { :value => url }
+  #   #   end
+  #   # end
+  #   f.actions
+  # end
 
 end

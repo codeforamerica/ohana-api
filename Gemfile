@@ -42,6 +42,7 @@ group :development do
   gem "quiet_assets", ">= 1.0.2"
   gem "better_errors", ">= 0.7.2"
   gem "binding_of_caller", ">= 0.7.1", :platforms => [:mri_19, :rbx]
+  #gem "debugger"
 
   # Code quality and style
   gem "metric_fu"
@@ -77,6 +78,10 @@ gem 'activeadmin-mongoid', :git => "git://github.com/monfresh/activeadmin-mongoi
 #gem 'activeadmin-mongoid', :git => "git://github.com/elia/activeadmin-mongoid.git"
 gem "cancan"
 gem "attribute_normalizer"
+#gem "enumerize"
 
 # App config and ENV variables for heroku
 gem "figaro"
+
+# Search
+gem 'mongoid_search'

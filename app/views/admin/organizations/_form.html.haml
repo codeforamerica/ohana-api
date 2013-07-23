@@ -1,0 +1,10 @@
+= semantic_form_for [:admin, @organization] do |f|
+  = f.inputs "General" do
+    = f.input :name
+    = f.input :description
+  = f.inputs "URLs" do
+    - @organization.urls.each do |url|
+      = f.input :urls, :name => "organization[urls][]", :input_html => { :value => url }
+      %br/
+      %br/
+  = f.actions :submit

@@ -12,11 +12,11 @@ class User
 
   validates_uniqueness_of :email, :case_sensitive => false
   attr_accessible :name, :email, :password,
-                  :password_confirmation, :remember_me, :api_applications_attributes
+                  :password_confirmation, :remember_me
 
   embeds_many :api_applications
   #has_many :api_applications
-  accepts_nested_attributes_for :api_applications
+  #accepts_nested_attributes_for :api_applications
 
   ## Database authenticatable
   field :email,              :type => String, :default => ""

@@ -25,21 +25,20 @@ class ApiController < RocketPants::Base
   end
 
   def org_search(params)
-    organizations = scope_builder
+    locations = scope_builder
     error! :bad_request,
            :metadata => {
            :specific_reason => "keyword and location can't both be blank"
            } if params[:keyword].blank? && params[:location].blank?
-
-    organizations.find_by_keyword(params[:keyword]) if params[:keyword]
-    organizations.find_near(params[:location], current_radius) unless params[:location].blank?
-    organizations.order_by(:name => :asc) if params[:sort] == "name"
-    organizations.order_by(:name => :asc) if params[:order] == "asc"
-    organizations.order_by(:name => :desc) if params[:order] == "desc"
-    organizations
+    locations.find_by_keyword(params[:keyword]) if params[:keyword]
+    locations.find_near(params[:location], current_radius) unless params[:location].blank?
+    locations.order_by(:name => :asc) if params[:sort] == "name"
+    locations.order_by(:name => :asc) if params[:order] == "asc"
+    locations.order_by(:name => :desc) if params[:order] == "desc"
+    locations
   end
 
   def scope_builder
-    DynamicDelegator.new(Organization.scoped)
+    DynamicDelegator.new(Location.scoped)
   end
 end

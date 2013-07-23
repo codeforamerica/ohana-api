@@ -13,9 +13,15 @@ OhanaApi::Application.routes.draw do
 
 	namespace :api, defaults: {format: 'json'} do
     scope module: :v1, constraints: ApiConstraints.new(1) do
-      resources :organizations
-  		get 'search', :to => 'organizations#search'
-      get 'organizations/:id/nearby', :to => 'organizations#nearby'
+      resources :organizations do
+        resources :locations, shallow: true
+      end
+
+      resources :locations do
+        resources :languages, shallow: true
+      end
+  		get 'search', :to => 'locations#search'
+      get 'locations/:id/nearby', :to => 'locations#nearby'
 		end
   end
 end

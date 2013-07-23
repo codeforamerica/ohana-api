@@ -7,7 +7,7 @@ module Api
       after_filter only: [:index] { paginate(:orgs) }
       after_filter only: [:search] { paginate(:results) }
 
-      caches :index, :show, :search, :caches_for => 5.minutes
+      caches :index, :show, :caches_for => 5.minutes
 
       def index
         @orgs = Organization.page(params[:page]).per(30)
@@ -16,23 +16,6 @@ module Api
 
       def show
         expose Organization.find(params[:id])
-      end
-
-      def nearby
-        org = Organization.find(params[:id])
-        expose org.nearbys(current_radius)
-      end
-
-      def search
-        @results = org_search(params).all.page(params[:page]).per(30)
-        begin
-          expose @results
-        rescue Moped::Errors::QueryFailure
-          error! :bad_request,
-                 :metadata => {
-                   :specific_reason => "Invalid ZIP code or address"
-                 }
-        end
       end
     end
   end

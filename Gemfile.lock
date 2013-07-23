@@ -134,6 +134,7 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    fast-stemmer (1.0.2)
     fastercsv (1.5.5)
     fattr (2.2.1)
     figaro (0.7.0)
@@ -227,6 +228,9 @@ GEM
       mongoid (>= 3.0.1)
       rake
       rspec (>= 2.9)
+    mongoid_search (0.3.2)
+      fast-stemmer (~> 1.0.0)
+      mongoid (>= 3.0.0)
     moped (1.5.0)
     multi_json (1.7.7)
     multi_xml (0.5.4)
@@ -382,6 +386,7 @@ DEPENDENCIES
   metric_fu
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)
+  mongoid_search
   newrelic_rpm
   quiet_assets (>= 1.0.2)
   rack-cors
