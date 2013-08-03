@@ -1,4 +1,4 @@
-class AdminUser
+class Admin
   include Mongoid::Document
   # CanCan roles
   ROLES = %w(admin editor)

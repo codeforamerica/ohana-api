@@ -3,7 +3,7 @@ require "cancan/matchers"
 
 # Uses the nifty mongoid-rspec matchers
 # https://github.com/evansagge/mongoid-rspec
-describe AdminUser do
+describe Admin do
 
   before(:each) do
     @attr = {
@@ -14,7 +14,7 @@ describe AdminUser do
   end
 
   it "creates a new instance given a valid attribute" do
-    AdminUser.create!(@attr)
+    Admin.create!(@attr)
   end
 
   it { should allow_mass_assignment_of(:email) }
@@ -43,15 +43,15 @@ describe AdminUser do
 
   it "rejects email addresses identical up to case" do
     upcased_email = @attr[:email].upcase
-    AdminUser.create!(@attr.merge(:email => upcased_email))
-    user_with_duplicate_email = AdminUser.new(@attr)
+    Admin.create!(@attr.merge(:email => upcased_email))
+    user_with_duplicate_email = Admin.new(@attr)
     user_with_duplicate_email.should_not be_valid
   end
 
   describe "password validations" do
 
     it "requires a matching password confirmation" do
-      AdminUser.new(@attr.merge(:password_confirmation => "invalid")).
+      Admin.new(@attr.merge(:password_confirmation => "invalid")).
         should_not be_valid
     end
   end
@@ -59,7 +59,7 @@ describe AdminUser do
   describe "password encryption" do
 
     before(:each) do
-      @user = AdminUser.create!(@attr)
+      @user = Admin.create!(@attr)
     end
 
     it "should set the encrypted password attribute" do
@@ -73,22 +73,31 @@ describe AdminUser do
     let(:user){ nil }
 
     context "when is an admin" do
-      let(:user){ FactoryGirl.create(:admin_user) }
+      let(:user){ FactoryGirl.create(:admin) }
 
       it{ should be_able_to(:manage, User.new) }
-      it{ should be_able_to(:manage, AdminUser.new) }
+      it{ should be_able_to(:manage, Admin.new) }
       it{ should be_able_to(:manage, Organization.new) }
+      it{ should be_able_to(:manage, Program.new) }
+      it{ should be_able_to(:manage, Location.new) }
     end
 
     context "when is an editor" do
       let(:user){ FactoryGirl.create(:admin_editor) }
 
       it{ should_not be_able_to(:manage, User.new) }
-      it{ should_not be_able_to(:manage, AdminUser.new) }
-      it{ should be_able_to(:manage,
-        Organization.new(:emails => ["editor@example.com"])) }
-      it{ should_not be_able_to(:manage,
-        Organization.new(:emails => ["admin@example.com"])) }
+      it{ should_not be_able_to(:manage, Admin.new) }
+      it{ should be_able_to(:create, Location.new) }
+      it{ should be_able_to(:create, Organization.new) }
+      it{ should be_able_to(:create, Program.new) }
+
+      it{ should be_able_to(:update, Location.new) }
+      it{ should be_able_to(:update, Organization.new) }
+      it{ should be_able_to(:update, Program.new) }
+
+      it{ should_not be_able_to(:destroy, Location.new) }
+      it{ should_not be_able_to(:destroy, Organization.new) }
+      it{ should_not be_able_to(:destroy, Program.new) }
     end
   end
 end

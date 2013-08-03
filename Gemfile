@@ -11,7 +11,7 @@ end
 
 # Front end
 gem 'jquery-rails'
-gem "jquery-ui-rails"
+gem 'bootstrap-sass'
 gem "haml-rails", ">= 0.4"
 
 # Server for deployment
@@ -46,7 +46,6 @@ group :development do
 
   # Code quality and style
   gem "metric_fu"
-
 end
 
 # Geocoding
@@ -64,6 +63,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'rocket_pants', '~> 1.0'
 gem "kaminari"
 gem 'api-pagination'
+gem 'roar-rails'
 
 # Production Monitoring
 gem 'newrelic_rpm'
@@ -74,8 +74,7 @@ gem 'rack-throttle'
 
 # Authentication & Administration
 gem 'devise'
-gem 'activeadmin-mongoid', :git => "git://github.com/monfresh/activeadmin-mongoid.git", :branch => "filter-fix"
-#gem 'activeadmin-mongoid', :git => "git://github.com/elia/activeadmin-mongoid.git"
+gem 'rails_admin'
 gem "cancan"
 gem "attribute_normalizer"
 gem "enumerize"

@@ -6,11 +6,17 @@ describe Api::V1::LocationsController do
   let(:content_body) { response.decoded_body.response }
 
   describe "GET 'index'" do
-    it "includes the name in the response" do
+    it "includes the street in the response" do
       location = create(:location)
       get :index
-      name = response.parsed_body["response"].first["name"]
-      name.should == "Burlingame, Easton Branch"
+      street = response.parsed_body["response"].first["address"]["street"]
+      street.should == "1800 Easton Drive"
+    end
+
+    it "is paginated" do
+      location = create(:location)
+      get :index
+      response.should be_paginated_resource
     end
   end
 
@@ -30,8 +36,8 @@ describe Api::V1::LocationsController do
         response.content_type.should == 'application/json'
       end
 
-      it 'returns the farmers market name' do
-        content_body.name.should == 'Pescadero Grown'
+      it 'returns the farmers market street' do
+        content_body.address["street"].should == "1800 Easton Drive"
       end
 
       it 'returns products_sold' do
@@ -84,11 +90,6 @@ describe Api::V1::LocationsController do
         response.content_type.should == 'application/json'
       end
 
-      it 'returns the farmers market name' do
-        name = response.parsed_body["response"].first["name"]
-        name.should == 'Pescadero Grown'
-      end
-
       it 'includes products_sold' do
         products_sold = response.parsed_body["response"].first["products_sold"]
         products_sold.should be_present
@@ -132,7 +133,7 @@ describe Api::V1::LocationsController do
       it 'returns the farmers market name' do
         location = create(:farmers_market_loc)
         get :search, location: "la honda, ca", radius: 0.05
-        name = response.parsed_body["response"].first["name"]
+        name = response.parsed_body["response"].first["program_name"]
         name.should == 'Pescadero Grown'
       end
     end
@@ -141,7 +142,7 @@ describe Api::V1::LocationsController do
       it 'returns the farmers market name' do
         location = create(:farmers_market_loc)
         get :search, location: "San Gregorio, CA", radius: 50
-        name = response.parsed_body["response"].first["name"]
+        name = response.parsed_body["response"].first["program_name"]
         name.should == 'Pescadero Grown'
       end
     end
@@ -173,72 +174,79 @@ describe Api::V1::LocationsController do
     end
 
     context 'with singular version of keyword' do
-      it "finds the plural occurrence as well in location name field" do
-        location = create(:food_stamps_name)
-        get :search, keyword: "food stamp"
-        name = response.parsed_body["response"].first["name"]
-        name.should == "Food Stamps in name"
-      end
-
-      it "returns locations whose parent's description matches keyword" do
-        loc = create(:food_stamps_child)
+      it "finds the plural occurrence as well in program name field" do
         loc = create(:nearby_loc)
         get :search, keyword: "food stamp"
-        response.parsed_body["count"].should == 1
-        name = response.parsed_body["response"].first["name"]
-        name.should == "Boo"
+        program_name = response.parsed_body["response"][0]["program_name"]
+        program_name.should == "Food Stamps"
       end
 
-      it "returns locations whose parent's name matches keyword" do
-        loc = create(:food_stamps_in_parent_name)
-        get :search, keyword: "food stamp"
-        name = response.parsed_body["response"].first["name"]
-        name.should == 'Samaritan House Child'
+      it "returns locations whose program's description matches keyword" do
+        loc = create(:location)
+        loc = create(:nearby_loc)
+        get :search, keyword: "market"
+        response.parsed_body["count"].should == 1
+        name = response.parsed_body["response"].first["program_name"]
+        name.should == "Food Stamps"
+      end
+
+      it "returns locations whose program's name matches keyword" do
+        loc = create(:location)
+        get :search, keyword: "easton"
+        name = response.parsed_body["response"].first["program_name"]
+        name.should == 'Burlingame, Easton Branch'
+      end
+
+      it "returns locations whose program's org's name matches keyword" do
+        loc = create(:location)
+        get :search, keyword: "parent"
+        name = response.parsed_body["response"].first["program_name"]
+        name.should == 'Burlingame, Easton Branch'
       end
 
       it "finds the plural occurrence as well in location's keywords field" do
-        location = create(:food_stamps_in_keywords)
+        location = create(:location)
         get :search, keyword: "food stamp"
-        name = response.parsed_body["response"].first["name"]
-        name.should == "Query In Keywords"
+        name = response.parsed_body["response"].first["program_name"]
+        name.should == "Burlingame, Easton Branch"
       end
     end
 
     context 'with plural version of keyword' do
       it "finds the plural occurrence as well in location name field" do
-        location = create(:food_stamps_name)
+        loc = create(:nearby_loc)
         get :search, keyword: "food stamps"
-        name = response.parsed_body["response"].first["name"]
-        name.should == "Food Stamps in name"
+        program_name = response.parsed_body["response"][0]["program_name"]
+        program_name.should == "Food Stamps"
       end
 
-      it "returns locations whose parent's description matches keyword" do
-        loc = create(:food_stamps_child)
-        get :search, keyword: "food stamps"
-        name = response.parsed_body["response"].first["name"]
-        name.should == "Boo"
+      it "returns locations whose programs's description matches keyword" do
+        loc = create(:location)
+        get :search, keyword: "classes"
+        name = response.parsed_body["response"].first["program_name"]
+        name.should == "Burlingame, Easton Branch"
       end
 
-      it "returns locations whose parent's name matches keyword" do
-        loc = create(:food_stamps_in_parent_name)
+      it "returns locations whose programs's name matches keyword" do
+        loc = create(:nearby_loc)
         get :search, keyword: "food stamps"
-        name = response.parsed_body["response"].first["name"]
-        name.should == 'Samaritan House Child'
+        name = response.parsed_body["response"].first["program_name"]
+        name.should == 'Food Stamps'
       end
 
       it "finds the plural occurrence as well in location's keywords field" do
-        location = create(:food_stamps_in_keywords)
+        location = create(:location)
         get :search, keyword: "food stamps"
-        name = response.parsed_body["response"].first["name"]
-        name.should == "Query In Keywords"
+        name = response.parsed_body["response"].first["program_name"]
+        name.should == "Burlingame, Easton Branch"
       end
     end
 
-    context "when keyword only matches one organization and 1 location" do
+    context "when keyword only matches one location" do
       it "only returns 1 result" do
         loc1 = create(:location)
-        loc2 = create(:food_stamps_child)
-        get :search, keyword: "namaste"
+        loc2 = create(:nearby_loc)
+        get :search, keyword: "library"
         response.parsed_body["count"].should == 1
       end
     end
@@ -246,7 +254,7 @@ describe Api::V1::LocationsController do
     context "when keyword doesn't match anything" do
       it "returns no results" do
         loc1 = create(:location)
-        loc2 = create(:food_stamps_child)
+        loc2 = create(:nearby_loc)
         get :search, keyword: "blahab"
         response.parsed_body["count"].should == 0
       end
@@ -268,30 +276,30 @@ describe Api::V1::LocationsController do
         nearby = create(:nearby_loc)
         get :search, :location => "1236 Broadway, Burlingame, CA 94010"
         response.parsed_body["count"].should == 2
-        name = response.parsed_body["response"].first["name"]
-        name.should == 'Redwood City Main'
+        program_name = response.parsed_body["response"][0]["program_name"]
+        program_name.should == "Food Stamps"
       end
     end
 
     context 'sort when location and sort are present' do
-      it 'sorts by distance and sorts by name asc by default' do
+      it 'sorts by program name asc by default' do
         location = create(:location)
         nearby = create(:nearby_loc)
         get :search, :location => "94010", :sort => "name"
         response.parsed_body["count"].should == 2
-        name = response.parsed_body["response"][0]["name"]
-        name.should == 'Burlingame, Easton Branch'
+        program_name = response.parsed_body["response"][0]["program_name"]
+        program_name.should == "Burlingame, Easton Branch"
       end
     end
 
     context 'sort when location and sort are present, & order is specified' do
-      it 'sorts by distance and sorts by name and order desc' do
+      it 'sorts by name and order desc' do
         location = create(:location)
         nearby = create(:nearby_loc)
         get :search, :location => "94010", :sort => "name", :order => "desc"
         response.parsed_body["count"].should == 2
-        name = response.parsed_body["response"][0]["name"]
-        name.should == 'Redwood City Main'
+        program_name = response.parsed_body["response"][0]["program_name"]
+        program_name.should == "Food Stamps"
       end
     end
   end
@@ -306,8 +314,8 @@ describe Api::V1::LocationsController do
       it "displays nearby locations within 2 miles" do
         get :nearby, :id => @location
         response.parsed_body["count"].should == 1
-        name = response.parsed_body["response"][0]["name"]
-        name.should == 'Redwood City Main'
+        street = response.parsed_body["response"][0]["address"]["street"]
+        street.should == '1800 Easton Drive'
       end
     end
 
@@ -315,8 +323,8 @@ describe Api::V1::LocationsController do
       it "displays nearby locations within 5 miles" do
         get :nearby, :id => @location, :radius => 5
         response.parsed_body["count"].should == 1
-        name = response.parsed_body["response"][0]["name"]
-        name.should == 'Redwood City Main'
+        street = response.parsed_body["response"][0]["address"]["street"]
+        street.should == '1800 Easton Drive'
       end
     end
 

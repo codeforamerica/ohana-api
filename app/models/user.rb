@@ -16,7 +16,7 @@ class User
 
   embeds_many :api_applications
   #has_many :api_applications
-  #accepts_nested_attributes_for :api_applications
+  accepts_nested_attributes_for :api_applications
 
   ## Database authenticatable
   field :email,              :type => String, :default => ""

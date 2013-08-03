@@ -13,34 +13,54 @@ task :load_data => :environment do
   puts "Processing #{file}"
   File.open(file).each do |line|
     data_item = JSON.parse(line)
-    data_item.reject! { |k,_| k == "created_at" || k == "updated_at" }
+    #data_item.reject! { |k,_| k == "created_at" || k == "updated_at" }
     org = Organization.create!(data_item)
 
-    locs  = data_item["locs"]
-    locs.each do |location|
-      org.locations.create!(location)
-      # the org needs to be saved again so that the _keywords
-      # field gets updated for the mongoid_search gem to do its job
+    progs = data_item["progs"]
+    progs.each do |program|
+      org.programs.create!(program)
       org.save
     end
+    db_progs = org.programs # the newly created programs
 
-    db_locs = org.locations #the newly created locations
-
-    # Use .zip to pair each location hash from the json file to the
-    # newly-created location.
-    # This results in: [ [db_loc1, json_loc1], [db_loc2, json_loc2] ]
-    pairs = db_locs.zip(locs)
+    # Use .zip to pair each program hash from the json file to the
+    # newly-created program.
+    # This results in: [ [db_prog1, json_prog1], [db_prog2, json_prog2] ]
+    pairs = db_progs.zip(progs)
     pairs.each do |pair|
-      if pair[1]["langs"].present?
-        pair[1]["langs"].each do |lang|
-        #pair[0].languages.create(:name => lang)
-        pair[0].languages << lang
-        pair[0].save
+
+      locations = pair[1]["locs"]
+      if locations.present?
+        locations.each do |location|
+          pair[0].locations.create!(location)
+          # the program needs to be saved again so that the _keywords
+          # field gets updated for the mongoid_search gem to do its job
+          pair[0].save
         end
       end
+
+      # db_locs = pair[0].locations
+      # locs = locations
+      # pairs = db_locs.zip(locs)
+      # pairs.each do |pair|
+      #   address = pair[1]["address"]
+      #   mail    = pair[1]["mail_address"]
+      #   pair[0].create_address(address) if address.present?
+      #   pair[0].create_mail_address(mail) if mail.present?
+      # end
     end
+
+      # contacts = pair[1]["leaders"]
+      # if contacts.present?
+      #   contacts.each do |contact|
+      #     pair[0].contacts.create!(contact)
+      #   end
+      # end
+
     Organization.all.unset('locs')
-    Location.all.unset('langs')
+    Organization.all.unset('progs')
+    Program.all.unset('locs')
+    #Program.all.unset('leaders')
   end
   puts "Done loading #{file} into DB"
   puts "Done loading San Mateo County data into DB."

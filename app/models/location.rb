@@ -4,42 +4,50 @@ class Location
   include Mongoid::Timestamps
   extend Enumerize
 
-  belongs_to :organization
+  # embedded_in :program
+  belongs_to :program
+  validate :address_presence
+  validates_presence_of :program
 
-  normalize_attributes :name, :description, :fax, :email, :hours, :street,
-    :po_box, :city, :state, :zipcode
+  # has_one :address
+  # has_one :mail_address
 
-  field :name
-  field :description
-  field :phones, type: Array
-  field :faxes, type: Array
-  field :emails, type: Array
+  embeds_one :address
+  embeds_one :mail_address
+  accepts_nested_attributes_for :mail_address, :reject_if => :all_blank
+  accepts_nested_attributes_for :address, :reject_if => :all_blank
+
+  #has_many :contacts, dependent: :destroy
+
+  normalize_attributes :hours, :wait, :transportation
+
+  field :program_name
   field :hours
-  field :urls, type: Array
+  field :wait
+  field :transportation
 
-  # Address fields
-  field :street
-  field :po_box
-  field :city
-  field :state
-  field :zipcode
+  field :ask_for, type: Array
   field :coordinates, type: Array
-
+  field :emails, type: Array
+  field :faxes, type: Array
   field :keywords, type: Array
+  field :phones, type: Array
+  field :service_areas, type: Array
+
+  # farmers' markets and stores
   field :payments_accepted, type: Array
   field :products_sold, type: Array
 
-  field :languages
-  enumerize :languages, in: [:french, :english, :vietnamese,
-    :polish, :german, :russian, :mandarin, :tagalog, :arabic,
-    :urdu, :cantonese], multiple: true
+  field :languages, type: Array
+  # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
+  #   :mandarin, :polish, :portuguese, :russian, :spanish, :tagalog, :urdu,
+  #   :vietnamese,
+  #    ], multiple: true
 
-  validates_presence_of :name, :city, :zipcode
-
-  extend ValidatesFormattingOf::ModelAdditions
-  validates_formatting_of :zipcode, using: :us_zip,
-                            allow_blank: true,
-                            message: "%{value} is not a valid ZIP code"
+  field :accessibility
+  enumerize :accessibility, in: [:cd, :deaf_interpreter, :disabled_parking,
+    :elevator, :ramp, :restroom, :tape_braille, :tty, :wheelchair,
+    :wheelchair_van], multiple: true
 
   validates :emails, array: {
     format: { with: /.+@.+\..+/i,
@@ -50,22 +58,24 @@ class Location
               allow_blank: true,
               message: "Please enter a valid US phone number" } }
 
-  validates :urls, array: {
-    format: { with: /(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/i,
-              message: "Please enter a valid URL" } }
-
   def self.find_by_keyword(keyword)
-    orgs = Organization.full_text_search(keyword)
-    Location.where(:organization_id.in => orgs.map(&:id))
+    progs = Program.full_text_search(keyword)
+    Location.where(:program_id.in => progs.map(&:id))
   end
 
   #combines address fields together into one string
-  def address
-    "#{self.street}, #{self.city}, #{self.state} #{self.zipcode}"
+  def full_address
+    if self.address.present?
+      "#{self.address.street}, #{self.address.city}, #{self.address.state} "+
+      "#{self.address.zip}"
+    elsif self.mail_address.present? && self.address.blank?
+      "#{self.mail_address.street}, #{self.mail_address.city}, "+
+      "#{self.mail_address.state} #{self.mail_address.zip}"
+    end
   end
 
   include Geocoder::Model::Mongoid
-  geocoded_by :address               # can also be an IP address
+  geocoded_by :full_address           # can also be an IP address
   #after_validation :geocode          # auto-fetch coordinates
 
   #NE and SW geo coordinates that define the boundaries of San Mateo County
@@ -78,5 +88,11 @@ class Location
     result = Geocoder.search(location, :bounds => SMC_BOUNDS)
     coords = result.first.coordinates if result.present?
     near(coords, radius)
+  end
+
+  def address_presence
+    unless address or mail_address
+      errors[:base] << "A location must have at least one address type."
+    end
   end
 end

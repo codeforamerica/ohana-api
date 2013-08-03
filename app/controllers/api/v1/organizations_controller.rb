@@ -5,7 +5,6 @@ module Api
       #These filters provide pagination info via HTTP Link headers
       #thanks to the 'api-pagination' gem
       after_filter only: [:index] { paginate(:orgs) }
-      after_filter only: [:search] { paginate(:results) }
 
       caches :index, :show, :caches_for => 5.minutes
 

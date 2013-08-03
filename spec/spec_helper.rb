@@ -16,6 +16,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
   config.include Warden::Test::Helpers
+  config.include AttributeNormalizer::RSpecMatcher, :type => :model
   Warden.test_mode!
   # ## Mock Framework
   #

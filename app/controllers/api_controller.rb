@@ -32,9 +32,9 @@ class ApiController < RocketPants::Base
            } if params[:keyword].blank? && params[:location].blank?
     locations.find_by_keyword(params[:keyword]) if params[:keyword]
     locations.find_near(params[:location], current_radius) unless params[:location].blank?
-    locations.order_by(:name => :asc) if params[:sort] == "name"
-    locations.order_by(:name => :asc) if params[:order] == "asc"
-    locations.order_by(:name => :desc) if params[:order] == "desc"
+    locations.order_by(:program_name => :asc) if params[:sort] == "name"
+    locations.order_by(:program_name => :asc) if params[:order] == "asc"
+    locations.order_by(:program_name => :desc) if params[:order] == "desc"
     locations
   end
 

@@ -35,3 +35,4 @@ dump.rdb
 /data/test.json
 /data/test_invalid_records.json
 /data/locations.json
+/data/embedded.json
