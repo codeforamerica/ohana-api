@@ -9,6 +9,8 @@ class Location
   validate :address_presence
   validates_presence_of :program
 
+  belongs_to :category
+
   # has_one :address
   # has_one :mail_address
 

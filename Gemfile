@@ -84,3 +84,6 @@ gem "figaro"
 
 # Search
 gem 'mongoid_search'
+
+# Nested categories for OpenEligibility
+gem 'mongoid_nested_set'

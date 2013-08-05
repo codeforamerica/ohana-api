@@ -1,7 +1,28 @@
 RailsAdmin.config do |config|
   config.authorize_with :cancan
 
+  # config.actions do
+  #   # root actions
+  #   dashboard do
+  #     statistics false
+  #   end
+  #   # collection actions
+  #   index # mandatory
+  #   new
+  #   export
+  #   history_index
+  #   bulk_delete
+  #   # member actions
+  #   show
+  #   edit
+  #   delete
+  #   history_show
+  #   show_in_app
+  # end
+
   config.model 'Organization' do
+    weight -1
+
     list do
       field :name
       field :programs
@@ -20,6 +41,8 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Program' do
+    weight -1
+
     list do
       field :name
       field :organization
@@ -79,11 +102,15 @@ RailsAdmin.config do |config|
       field :keywords
       field :languages
 
-      field :accessibility do
-        render do
-          bindings[:form].select("accessibility", bindings[:object].accessibility_enum, {}, { :multiple => true })
-        end
-      end
+      field :category
+
+      # field :accessibility do
+      #   render do
+      #     bindings[:form].check_box("accessibility",
+      #       bindings[:object].accessibility_enum, [], { :multiple => true })
+      #   end
+      #   #partial "checkbox"
+      # end
 
       # field :languages do
       #   render do
@@ -103,5 +130,12 @@ RailsAdmin.config do |config|
     object_label_method do
       :street
     end
+  end
+
+  config.model 'Category' do
+    object_label_method do
+      :name
+    end
+    visible false
   end
 end
