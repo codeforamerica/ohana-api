@@ -71,6 +71,8 @@ class Organization
       { agency: /#{keyword.strip}s?\b/i },
       { description: /#{keyword.strip}s?\b/i }) }
 
+  scope :find_by_category, lambda { |category| where(keywords: /#{category}/i) }
+
   #combines address fields together into one string
   def address
     "#{self.street_address}, #{self.city}, #{self.state} #{self.zipcode}"

@@ -74,6 +74,28 @@ describe Api::V1::OrganizationsController do
   end
 
   describe "GET 'search'" do
+    context 'with category parameter' do
+
+      before :each do
+        org1 = create(:food_stamps_keyword)
+        org2 = create(:food_stamps_name)
+      end
+
+      it 'only returns orgs with search term in keywords field' do
+        get :search, :category => "food stamps"
+        response.parsed_body["count"].should == 1
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+
+      it 'only performs category search when keyword is present' do
+        get :search, :category => "Food Stamps", :keyword => "Food Stamps"
+        response.parsed_body["count"].should == 1
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Samaritan House'
+      end
+    end
+
     context 'with valid keyword only' do
 
       before :each do

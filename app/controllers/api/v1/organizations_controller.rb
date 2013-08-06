@@ -24,7 +24,11 @@ module Api
       end
 
       def search
-        @results = org_search(params).all.page(params[:page]).per(30)
+        if params[:category].present?
+          @results = Organization.find_by_category(params[:category]).all.page(params[:page]).per(30)
+        else
+          @results = org_search(params).all.page(params[:page]).per(30)
+        end
         begin
           expose @results
         rescue Moped::Errors::QueryFailure
