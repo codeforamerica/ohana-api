@@ -124,6 +124,8 @@ GEM
       sexp_processor (~> 4.0)
     font-awesome-rails (3.2.1.2)
       railties (>= 3.2, < 5.0)
+    glebtv-mongoid_nested_set (0.4.0)
+      mongoid (>= 3.0.0)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -196,8 +198,6 @@ GEM
       mongoid (>= 3.0.1)
       rake
       rspec (>= 2.9)
-    mongoid_nested_set (0.2.1)
-      mongoid (>= 3.0.0)
     mongoid_search (0.3.2)
       fast-stemmer (~> 1.0.0)
       mongoid (>= 3.0.0)
@@ -380,13 +380,13 @@ DEPENDENCIES
   factory_girl_rails (>= 4.2.0)
   figaro
   geocoder!
+  glebtv-mongoid_nested_set
   haml-rails (>= 0.4)
   jquery-rails
   kaminari
   metric_fu
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)
-  mongoid_nested_set
   mongoid_search
   newrelic_rpm
   quiet_assets (>= 1.0.2)

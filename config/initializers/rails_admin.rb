@@ -102,7 +102,8 @@ RailsAdmin.config do |config|
       field :keywords
       field :languages
 
-      field :category
+      #field :category
+      field :categories
 
       # field :accessibility do
       #   render do
@@ -136,6 +137,13 @@ RailsAdmin.config do |config|
     object_label_method do
       :name
     end
-    visible false
+    list do
+      field :name
+      field :parent
+    end
+    edit do
+      field :name
+      field :parent
+    end
   end
 end
