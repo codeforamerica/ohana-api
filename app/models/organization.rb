@@ -2,6 +2,9 @@ class Organization
   include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Search
+
+  search_in :name, :agency, :description, :keywords
 
   normalize_attributes :agency, :city, :description, :eligibility_requirements,
     :fees, :how_to_apply, :name, :service_hours, :service_wait,
@@ -63,13 +66,6 @@ class Organization
   include Geocoder::Model::Mongoid
   geocoded_by :address               # can also be an IP address
   #after_validation :geocode          # auto-fetch coordinates
-
-  scope :find_by_keyword,
-    lambda { |keyword| any_of(
-      { name: /#{keyword.strip}s?\b/i },
-      { keywords: /#{keyword.strip}s?\b/i },
-      { agency: /#{keyword.strip}s?\b/i },
-      { description: /#{keyword.strip}s?\b/i }) }
 
   scope :find_by_category, lambda { |category| where(keywords: /#{category.strip}/i) }
 

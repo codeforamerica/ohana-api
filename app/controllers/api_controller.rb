@@ -36,7 +36,7 @@ class ApiController < RocketPants::Base
     if params[:keyword] && CATEGORIES.include?(params[:keyword].strip.downcase)
       organizations.find_by_category(params[:keyword])
     elsif params[:keyword]
-      organizations.find_by_keyword(params[:keyword])
+      organizations.full_text_search(params[:keyword])
     end
     organizations.find_near(params[:location], current_radius) unless params[:location].blank?
     organizations.order_by(:name => :asc) if params[:sort] == "name"

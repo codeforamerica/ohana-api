@@ -80,3 +80,6 @@ gem "attribute_normalizer"
 
 # App config and ENV variables for heroku
 gem "figaro"
+
+# Search
+gem 'mongoid_search', :git => "git://github.com/mauriciozaffari/mongoid_search.git"

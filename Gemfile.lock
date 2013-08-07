@@ -6,6 +6,14 @@ GIT
     geocoder (1.1.8)
 
 GIT
+  remote: git://github.com/mauriciozaffari/mongoid_search.git
+  revision: cabd032afc4fccaa5d71d0ac065e66c72216b57a
+  specs:
+    mongoid_search (0.3.2)
+      fast-stemmer (~> 1.0.0)
+      mongoid (>= 3.0.0)
+
+GIT
   remote: git://github.com/monfresh/activeadmin-mongoid.git
   revision: 99dcfaee9e222d912a4d469cb298aa61139aae63
   branch: filter-fix
@@ -134,6 +142,7 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    fast-stemmer (1.0.2)
     fastercsv (1.5.5)
     fattr (2.2.1)
     figaro (0.7.0)
@@ -382,6 +391,7 @@ DEPENDENCIES
   metric_fu
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)
+  mongoid_search!
   newrelic_rpm
   quiet_assets (>= 1.0.2)
   rack-cors
