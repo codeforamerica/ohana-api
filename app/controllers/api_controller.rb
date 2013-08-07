@@ -39,6 +39,7 @@ class ApiController < RocketPants::Base
       organizations.full_text_search(params[:keyword])
     end
     organizations.find_near(params[:location], current_radius) unless params[:location].blank?
+    organizations.find_by_language(params[:language]) if params[:language]
     organizations.order_by(:name => :asc) if params[:sort] == "name"
     organizations.order_by(:name => :asc) if params[:order] == "asc"
     organizations.order_by(:name => :desc) if params[:order] == "desc"

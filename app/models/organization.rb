@@ -68,6 +68,7 @@ class Organization
   #after_validation :geocode          # auto-fetch coordinates
 
   scope :find_by_category, lambda { |category| where(keywords: /#{category.strip}/i) }
+  scope :find_by_language, lambda { |language| where(languages_spoken: /#{language.strip}/i) }
 
   #combines address fields together into one string
   def address

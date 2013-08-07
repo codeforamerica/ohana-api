@@ -55,7 +55,7 @@ describe Api::V1::OrganizationsController do
     context 'with invalid data' do
 
       before :each do
-        org = Organization.find_by_keyword('12345').should be_blank
+        org = Organization.full_text_search('12345').should be_blank
         get :show, :id => org
       end
 
@@ -245,6 +245,17 @@ describe Api::V1::OrganizationsController do
         get :search, keyword: "food stamps"
         name = response.parsed_body["response"].first["name"]
         name.should == 'Samaritan House Care'
+      end
+    end
+
+    context "with language parameter" do
+      it "finds organizations that match the language" do
+        organization = create(:organization)
+        organization = create(:nearby_org)
+        get :search, keyword: "library", :language => "Spanish"
+        response.parsed_body["count"].should == 1
+        name = response.parsed_body["response"].first["name"]
+        name.should == 'Burlingame, Easton Branch'
       end
     end
   end

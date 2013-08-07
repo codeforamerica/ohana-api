@@ -12,6 +12,7 @@ FactoryGirl.define do
                phone_hours: "(Monday-Friday, 9-12, 1-5)" }]]
     coordinates [-122.371448, 37.583849]
     keywords ["library"]
+    languages_spoken ["spanish", "vietnamese", "english"]
   end
 
   factory :nearby_org, class: Organization do
@@ -22,6 +23,7 @@ FactoryGirl.define do
     state "CA"
     coordinates [-122.362882, 37.588935]
     keywords ["library"]
+    languages_spoken ["french", "russian"]
   end
 
   factory :farmers_market, class: Organization do
