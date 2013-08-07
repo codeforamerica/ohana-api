@@ -22,7 +22,7 @@ class ApiController < RocketPants::Base
                :metadata => { :specific_reason => "radius must be a number" }
       end
     else
-      2
+      5
     end
   end
 
