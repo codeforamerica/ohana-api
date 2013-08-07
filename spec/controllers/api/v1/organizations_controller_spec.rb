@@ -74,25 +74,14 @@ describe Api::V1::OrganizationsController do
   end
 
   describe "GET 'search'" do
-    context 'with category parameter' do
-
-      before :each do
+    context 'when search term matches category' do
+      it 'only returns orgs with search term in keywords field' do
         org1 = create(:food_stamps_keyword)
         org2 = create(:food_stamps_name)
-      end
-
-      it 'only returns orgs with search term in keywords field' do
-        get :search, :category => "food stamps"
+        get :search, :keyword => "Care "
         response.parsed_body["count"].should == 1
         name = response.parsed_body["response"].first["name"]
-        name.should == 'Samaritan House'
-      end
-
-      it 'only performs category search when keyword is present' do
-        get :search, :category => "Food Stamps", :keyword => "Food Stamps"
-        response.parsed_body["count"].should == 1
-        name = response.parsed_body["response"].first["name"]
-        name.should == 'Samaritan House'
+        name.should == 'Food Stamps'
       end
     end
 
@@ -225,7 +214,7 @@ describe Api::V1::OrganizationsController do
         organization = create(:food_stamps_keyword)
         get :search, keyword: "food stamp"
         name = response.parsed_body["response"].first["name"]
-        name.should == 'Samaritan House'
+        name.should == 'Samaritan House Care'
       end
     end
 
@@ -255,7 +244,7 @@ describe Api::V1::OrganizationsController do
         organization = create(:food_stamps_keyword)
         get :search, keyword: "food stamps"
         name = response.parsed_body["response"].first["name"]
-        name.should == 'Samaritan House'
+        name.should == 'Samaritan House Care'
       end
     end
   end

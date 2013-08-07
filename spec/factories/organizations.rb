@@ -56,7 +56,7 @@ FactoryGirl.define do
   end
 
   factory :food_stamps_keyword, class: Organization do
-    name "Samaritan House"
+    name "Samaritan House Care"
     keywords ["food stamps"]
   end
 

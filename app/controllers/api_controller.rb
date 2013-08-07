@@ -8,6 +8,8 @@ class ApiController < RocketPants::Base
 
   map_error! Mongoid::Errors::DocumentNotFound, RocketPants::NotFound
 
+  CATEGORIES = %w[care education emergency food goods health housing legal money transit work]
+
   private
   def current_radius
     if params[:radius].present?
@@ -31,7 +33,11 @@ class ApiController < RocketPants::Base
            :specific_reason => "keyword and location can't both be blank"
            } if params[:keyword].blank? && params[:location].blank?
 
-    organizations.find_by_keyword(params[:keyword]) if params[:keyword]
+    if params[:keyword] && CATEGORIES.include?(params[:keyword].strip.downcase)
+      organizations.find_by_category(params[:keyword])
+    elsif params[:keyword]
+      organizations.find_by_keyword(params[:keyword])
+    end
     organizations.find_near(params[:location], current_radius) unless params[:location].blank?
     organizations.order_by(:name => :asc) if params[:sort] == "name"
     organizations.order_by(:name => :asc) if params[:order] == "asc"
