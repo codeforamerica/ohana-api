@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/codeforamerica/ohana-api.png?branch=master)](https://travis-ci.org/codeforamerica/ohana-api) [![Coverage Status](https://coveralls.io/repos/codeforamerica/ohana-api/badge.png?branch=master)](https://coveralls.io/r/codeforamerica/ohana-api) [![Dependency Status](https://gemnasium.com/codeforamerica/ohana-api.png)](https://gemnasium.com/codeforamerica/ohana-api)
 
-A brand new project underway by Code for America's 2013 San Mateo County fellowship team. The goal is to build a read/write API for accessing data about available community social services.
+This is the API portion of the [Ohana API](http://ohanapi.org) project, an open source community resource directory developed by Code for America's 2013 San Mateo County fellowship team. The goal of the project is to make it easier for residents in need to find services they are eligible for.
 
-This repo is in the early stages of development, stay tuned for when we are ready to accept contributions.
+Apart from Google, the current search interface that residents and social workers have access to is the Peninsula Library System's [CIP portal](http://http://catalog.plsinfo.org:81/). We are developing a [better search interface](http://ohana.herokuapp.com) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the Ohana API.
 
-There is a front-end portion of this project under development at [Human Services Finder](https://github.com/codeforamerica/human_services_finder)
+The master branch currently only uses one model: Organization. We are remodeling our data in the [data-merge](https://github.com/codeforamerica/ohana-api/tree/data-merge) branch to support a structure where an Organization has many Programs in many Locations. The data-merge branch also has an admin interface that allows users to update an organization's data, such as adding a new program or location.
 
 ## Installation
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
@@ -69,6 +69,10 @@ Create the geospatial indexes for the [geocoder](https://github.com/alexreisner/
 
     rake db:mongoid:create_indexes
 
+Generate the keywords that the [mongoid_search](https://github.com/mauriciozaffari/mongoid_search) gem uses for full text search:
+
+    rake mongoid_search:index
+
 ### Run the app
 Start the app locally using Unicorn:
 
@@ -84,12 +88,12 @@ We recommend these tools to interact with APIs:
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility
 
-### API documentation (work in progress)
+### API documentation
 [http://docs.ohanapi.apiary.io/](http://docs.ohanapi.apiary.io/)
-
+The API structure is still in flux, so documentation is a work in progress. We experimented with Apiary, but found it didn't suit our needs, so we will be probably moving to a custom static site.
 
 ### User authentication and emails
-The app allows developers to sign up for an account, but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
+The app allows developers to sign up for an account via the home page (http://localhost:8080), but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
 
     GMAIL_USERNAME: your_email@gmail.com
     GMAIL_PASSWORD: your_password
@@ -98,7 +102,7 @@ The app allows developers to sign up for an account, but all email addresses nee
 
     rake db:seed
 
-You can then [sign in](http://localhost:8080/users/sign_in) with either of those users, whose username and password are stored in `db/seeds.rb`.
+You can then [sign in](http://localhost:8080/users/sign_in) with either of those users, whose username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
 ### Test the app
 To test locally, you will need to run this once to set up the test DB:
