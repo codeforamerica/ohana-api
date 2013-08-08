@@ -79,8 +79,24 @@ Start the app locally using Unicorn:
     unicorn
 
 ### Verify the app is returning JSON
+To see all organizations, 30 per page:
 
-    [http://localhost:8080/api/organizations](http://localhost:8080/api/organizations)
+    http://localhost:8080/api/organizations
+
+To go the next page (the page parameter works for all API responses):
+
+    http://localhost:8080/api/organizations&page=2
+
+Search for organizations by keyword and/or location:
+
+    http://localhost:8080/api/search?keyword=food
+    http://localhost:8080/api/search?keyword=childcare&location=94403
+    http://localhost:8080/api/search?keyword=food&location=san mateo
+    http://localhost:8080/api/search?location=redwood city, ca
+
+Search for organizations by languages spoken at the location:
+
+    http://localhost:8080/api/search?keyword=food&language=spanish
 
 We recommend these tools to interact with APIs:
 
@@ -90,6 +106,7 @@ We recommend these tools to interact with APIs:
 
 ### API documentation
 [http://docs.ohanapi.apiary.io/](http://docs.ohanapi.apiary.io/)
+
 The API structure is still in flux, so documentation is a work in progress. We experimented with Apiary, but found it didn't suit our needs, so we will be probably moving to a custom static site.
 
 ### User authentication and emails
