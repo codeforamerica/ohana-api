@@ -6,6 +6,7 @@ module Api
       #thanks to the 'api-pagination' gem
       after_filter only: [:index] { paginate(:orgs) }
       after_filter only: [:search] { paginate(:results) }
+      after_filter only: [:nearby] { paginate(:nearby) }
 
       caches :index, :show, :search, :caches_for => 5.minutes
 
@@ -20,7 +21,8 @@ module Api
 
       def nearby
         org = Organization.find(params[:id])
-        expose org.nearbys(current_radius)
+        @nearby = org.nearbys(current_radius).page(params[:page]).per(30)
+        expose @nearby
       end
 
       def search
