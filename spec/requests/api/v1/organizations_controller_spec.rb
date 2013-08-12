@@ -83,6 +83,18 @@ describe Api::V1::OrganizationsController do
         'rel="next"'
       end
     end
+
+    context "when there are more than 30 nearby locations" do
+      it "returns a Link header" do
+        nearby = create(:nearby_org)
+        get "api/organizations/#{nearby.id}/nearby", {}, { 'HTTP_USER_AGENT' => "Rspec" }
+        headers["Link"].should ==
+        "<http://www.example.com/api/organizations/#{nearby.id}/nearby?page=2>; "+
+        "rel=\"last\", "+
+        "<http://www.example.com/api/organizations/#{nearby.id}/nearby?page=2>; "+
+        "rel=\"next\""
+      end
+    end
   end
 
   describe "No API token in request" do

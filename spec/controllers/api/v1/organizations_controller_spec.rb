@@ -309,6 +309,11 @@ describe Api::V1::OrganizationsController do
       nearby = create(:nearby_org)
     end
 
+    it "is paginated" do
+      get :nearby, :id => @organization
+      response.should be_paginated_resource
+    end
+
     context 'with no radius' do
       it "displays nearby locations within 2 miles" do
         get :nearby, :id => @organization
