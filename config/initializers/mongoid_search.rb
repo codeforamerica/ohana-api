@@ -1,7 +1,7 @@
 Mongoid::Search.setup do |config|
   ## Default matching type. Match :any or :all searched keywords.
   ## Default is :any
-  #config.match = :any
+  config.match = :all
 
   ## If true, an empty search will return all objects
   #config.allow_empty_search = false
@@ -16,8 +16,11 @@ Mongoid::Search.setup do |config|
   # For example using ruby-stemmer:
   # config.stem_proc = Proc.new { |word| Lingua.stemmer(word, :language => 'nl') }
 
+  ## Minimum word size. Words smaller than it won't be indexed
+  config.minimum_word_size = 4
+
   ## Words to ignore
-  config.ignore_list = %w{ a an and are as from in of on or to }
+  config.ignore_list = %w{ from }
 
   ## Or from a file
   # config.ignore_list = YAML.load(File.open(File.dirname(__FILE__) + '/config/ignorelist.yml'))["ignorelist"]
@@ -37,7 +40,4 @@ Mongoid::Search.setup do |config|
   # Ligatures to be replaced
   # http://en.wikipedia.org/wiki/Typographic_ligature
   #config.ligatures = { "œ"=>"oe", "æ"=>"ae" }
-
-  # Minimum word size. Words smaller than it won't be indexed
-  #config.minimum_word_size = 2
 end
