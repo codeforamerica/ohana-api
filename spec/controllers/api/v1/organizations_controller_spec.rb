@@ -55,8 +55,7 @@ describe Api::V1::OrganizationsController do
     context 'with invalid data' do
 
       before :each do
-        org = Organization.full_text_search('12345').should be_blank
-        get :show, :id => org
+        get :show, :id => "123456"
       end
 
       it 'returns a not found error' do
@@ -74,12 +73,12 @@ describe Api::V1::OrganizationsController do
   end
 
   describe "GET 'search'" do
-    context 'when search term matches category' do
-      it 'only returns orgs with search term in keywords field' do
+    context 'when search term matches keyword' do
+      it 'boosts orgs with the search term in keywords field' do
         org1 = create(:food_stamps_keyword)
         org2 = create(:food_stamps_name)
         get :search, :keyword => "Care "
-        response.parsed_body["count"].should == 1
+        response.parsed_body["count"].should == 2
         name = response.parsed_body["response"].first["name"]
         name.should == 'Food Stamps'
       end
@@ -140,7 +139,7 @@ describe Api::V1::OrganizationsController do
 
       it 'includes a specific_reason' do
         specific_reason = response.parsed_body["specific_reason"]
-        specific_reason.should == "radius must be a number"
+        specific_reason.should == "radius must be a number."
       end
     end
 
@@ -175,7 +174,7 @@ describe Api::V1::OrganizationsController do
         organization = create(:farmers_market)
         get :search, :keyword => "market", :radius => 2, :location => "00000"
         specific_reason = response.parsed_body["specific_reason"]
-        specific_reason.should == "Invalid ZIP code or address"
+        specific_reason.should == "Invalid ZIP code or address."
       end
     end
 
@@ -184,7 +183,7 @@ describe Api::V1::OrganizationsController do
         organization = create(:farmers_market)
         get :search, keyword: "market", radius: 2, location: "94403ab"
         specific_reason = response.parsed_body["specific_reason"]
-        specific_reason.should == "Invalid ZIP code or address"
+        specific_reason.should == "Invalid ZIP code or address."
       end
     end
 
@@ -251,7 +250,7 @@ describe Api::V1::OrganizationsController do
     context "with language parameter" do
       it "finds organizations that match the language" do
         organization = create(:organization)
-        organization = create(:nearby_org)
+        nearby = create(:nearby_org)
         get :search, keyword: "library", :language => "Spanish"
         response.parsed_body["count"].should == 1
         name = response.parsed_body["response"].first["name"]
@@ -265,7 +264,7 @@ describe Api::V1::OrganizationsController do
       it 'returns a helpful message about search query requirements' do
         get :search, :sort => "name"
         response.parsed_body["specific_reason"].should ==
-        "keyword and location can't both be blank"
+        "Either keyword, location, or language is missing."
       end
     end
 
@@ -281,7 +280,7 @@ describe Api::V1::OrganizationsController do
     end
 
     context 'sort when location and sort are present' do
-      it 'sorts by distance and sorts by name asc by default' do
+      xit 'sorts by distance and sorts by name asc by default' do
         organization = create(:organization)
         nearby = create(:nearby_org)
         get :search, :location => "94010", :sort => "name"
@@ -292,7 +291,7 @@ describe Api::V1::OrganizationsController do
     end
 
     context 'sort when location and sort are present, & order is specified' do
-      it 'sorts by distance and sorts by name and order desc' do
+      xit 'sorts by distance and sorts by name and order desc' do
         organization = create(:organization)
         nearby = create(:nearby_org)
         get :search, :location => "94010", :sort => "name", :order => "desc"
@@ -307,6 +306,7 @@ describe Api::V1::OrganizationsController do
     before :each do
       @organization = create(:organization)
       nearby = create(:nearby_org)
+      far = create(:food_stamps_agency)
     end
 
     it "is paginated" do
@@ -315,17 +315,17 @@ describe Api::V1::OrganizationsController do
     end
 
     context 'with no radius' do
-      it "displays nearby locations within 2 miles" do
+      it "displays nearby locations within 5 miles" do
         get :nearby, :id => @organization
-        response.parsed_body["count"].should == 1
-        name = response.parsed_body["response"][0]["name"]
-        name.should == 'Redwood City Main'
+        response.parsed_body["count"].should == 2
+        name = response.parsed_body["response"][1]["name"]
+        name.should == 'Samaritan House'
       end
     end
 
     context 'with valid radius' do
-      it "displays nearby locations within 5 miles" do
-        get :nearby, :id => @organization, :radius => 5
+      it "displays nearby locations within 1 mile" do
+        get :nearby, :id => @organization, :radius => 1
         response.parsed_body["count"].should == 1
         name = response.parsed_body["response"][0]["name"]
         name.should == 'Redwood City Main'
@@ -336,7 +336,7 @@ describe Api::V1::OrganizationsController do
       it "returns 'invalid radius' message" do
         get :nearby, :id => @organization, :radius => "<script>"
         specific_reason = response.parsed_body["specific_reason"]
-        specific_reason.should == "radius must be a number"
+        specific_reason.should == "radius must be a number."
       end
     end
   end
