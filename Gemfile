@@ -82,4 +82,4 @@ gem "attribute_normalizer"
 gem "figaro"
 
 # Search
-gem 'mongoid_search', :git => "git://github.com/mauriciozaffari/mongoid_search.git"
+gem "tire"

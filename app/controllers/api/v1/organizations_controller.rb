@@ -21,20 +21,13 @@ module Api
 
       def nearby
         org = Organization.find(params[:id])
-        @nearby = org.nearbys(current_radius).page(params[:page]).per(30)
+        @nearby = Organization.nearby(org, params)
         expose @nearby
       end
 
       def search
-        @results = org_search(params).all.page(params[:page]).per(30)
-        begin
-          expose @results
-        rescue Moped::Errors::QueryFailure
-          error! :bad_request,
-                 :metadata => {
-                   :specific_reason => "Invalid ZIP code or address"
-                 }
-        end
+        @results = Organization.search(params)
+        expose @results
       end
     end
   end
