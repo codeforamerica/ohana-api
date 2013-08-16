@@ -58,7 +58,7 @@ On OS X, the easiest way to install ElasticSearch is with Homebrew:
 
     brew install elasticsearch
 
-Follow the Homebrew instructions to launch ElasticSearch .
+Follow the Homebrew instructions to launch ElasticSearch.
 
 **Other**
 

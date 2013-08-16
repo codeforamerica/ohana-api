@@ -6,7 +6,7 @@ class Organization
   include Tire::Model::Search
   include Tire::Model::Callbacks
 
-  # INDEX_NAME is defined in config/initializers/bonsai.rb
+  # INDEX_NAME is defined in config/initializers/tire.rb
   index_name INDEX_NAME
 
   # This is required by the "tire" ElasticSearch gem
