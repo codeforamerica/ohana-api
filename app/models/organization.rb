@@ -6,15 +6,13 @@ class Organization
   include Tire::Model::Search
   include Tire::Model::Callbacks
 
-  index_name "#{Rails.env.downcase}-#{Rails.application.class.to_s.downcase}-organizations"
+  # INDEX_NAME is defined in config/initializers/bonsai.rb
+  index_name INDEX_NAME
 
+  # This is required by the "tire" ElasticSearch gem
   def to_indexed_json
     self.to_json
   end
-
-  # def self.paginate(options = {})
-  #   page(options[:page]).per(options[:per_page])
-  # end
 
   mapping do
     indexes :agency
@@ -22,14 +20,10 @@ class Organization
     indexes :description
     indexes :keywords, boost: 5
     indexes :coordinates, type: 'geo_point'
-    #indexes :hsa, boost: 10
   end
 
-  def hsa
-    self.where(agency: "San Mateo County Human Services Agency")
-  end
-
-  #NE and SW geo coordinates that define the boundaries of San Mateo County
+  # NE and SW geo coordinates that define the boundaries of San Mateo County
+  # Replace the coordinates if setting up the API for another location.
   SMC_BOUNDS = [[37.1074,-122.521], [37.7084,-122.085]].freeze
 
   def self.search(params={})
@@ -41,6 +35,8 @@ class Organization
     # a particular area. Since this app focuses on organizations in San Mateo
     # County, we use SMC_BOUNDS to restrict the search.
     result = Geocoder.search(params[:location], :bounds => SMC_BOUNDS)
+    # Google returns the coordinates as [lat, lon], but the geo_distance filter
+    # below expects [lon, lat], so we need to reverse them.
     coords = result.first.coordinates.reverse if result.present?
 
     begin
