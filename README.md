@@ -51,6 +51,19 @@ Follow the Homebrew instructions if you want Redis to start automatically every 
 
 See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
 
+#### ElasticSearch
+**OS X**
+
+On OS X, the easiest way to install ElasticSearch is with Homebrew:
+
+    brew install elasticsearch
+
+Follow the Homebrew instructions to launch ElasticSearch.
+
+**Other**
+
+Visit the Download page on elasticsearch.org for steps to install on other systems: [http://www.elasticsearch.org/download/](http://www.elasticsearch.org/download/)
+
 ### Clone the app on your local machine:
 
     git clone git://github.com/codeforamerica/ohana-api.git
@@ -69,9 +82,9 @@ Create the geospatial indexes for the [geocoder](https://github.com/alexreisner/
 
     rake db:mongoid:create_indexes
 
-Generate the keywords that the [mongoid_search](https://github.com/mauriciozaffari/mongoid_search) gem uses for full text search:
+Generate the ElasticSearch index that the [tire](https://github.com/karmi/tire) gem uses for full text search:
 
-    rake mongoid_search:index
+    rake environment tire:import CLASS=Organization FORCE=true
 
 ### Run the app
 Start the app locally using Unicorn:
@@ -97,6 +110,12 @@ Search for organizations by keyword and/or location:
 Search for organizations by languages spoken at the location:
 
     http://localhost:8080/api/search?keyword=food&language=spanish
+
+The language parameter can be used alone:
+
+    http://localhost:8080/api/search?language=arabic
+
+Searches with the location parameter return results sorted by distance. Searches with the keyword parameter return results sorted by relevance based on a match between the search term and the organization's `keywords` field.
 
 We recommend these tools to interact with APIs:
 
@@ -146,6 +165,7 @@ To see the actual tests, browse through the [spec](https://github.com/codeforame
 * Template Engines: ERB and HAML
 * Testing Frameworks: RSpec, Factory Girl
 * Redis
+* ElasticSearch
 
 ## Contributing
 

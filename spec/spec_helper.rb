@@ -50,9 +50,13 @@ RSpec.configure do |config|
     # ActiveRecord::ConnectionNotEstablished
     DatabaseCleaner[:mongoid].strategy = :truncation
   end
+
   config.before(:each) do
     DatabaseCleaner.start
+    Organization.tire.index.delete
+    Organization.create_elasticsearch_index
   end
+
   config.after(:each) do
     DatabaseCleaner.clean
     REDIS.keys.each { |key| REDIS.del key if key.include?("ohanapi_defender") }
