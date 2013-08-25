@@ -50,14 +50,18 @@ RailsAdmin.config do |config|
 
     edit do
       field :location
+      field :name
+      field :description
       field :audience
       field :eligibility
       field :fees
       field :funding_sources
       field :how_to_apply
-      field :keywords
       field :service_areas
+      field :urls
       field :wait
+
+      field :keywords
 
       #field :category
       field :categories
@@ -95,8 +99,8 @@ RailsAdmin.config do |config|
       field :mail_address do
         help 'Location must have at least one address type'
       end
+      field :contacts
       field :hours
-      field :transportation
       field :ask_for
       field :emails
       field :faxes
@@ -104,13 +108,14 @@ RailsAdmin.config do |config|
       field :languages
       field :urls
 
-      # field :accessibility do
-      #   render do
-      #     bindings[:form].check_box("accessibility",
-      #       bindings[:object].accessibility_enum, [], { :multiple => true })
-      #   end
-      #   #partial "checkbox"
-      # end
+      field :transportation
+      field :accessibility do
+        render do
+          bindings[:form].select("accessibility",
+            bindings[:object].accessibility_enum, {}, { :multiple => true })
+        end
+        #partial "checkbox"
+      end
 
       # field :languages do
       #   render do

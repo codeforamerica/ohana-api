@@ -50,18 +50,10 @@ class Location
 
   field :phones, type: Array
 
-  # farmers' markets and stores
-  field :payments_accepted, type: Array
-  field :products_sold, type: Array
-
   field :short_desc
   field :transportation
 
   field :urls, type: Array
-
-  # farmers' markets and stores
-  field :payments_accepted, type: Array
-  field :products_sold, type: Array
 
   validates_presence_of :name, :description
   validate :address_presence

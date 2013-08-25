@@ -84,7 +84,7 @@ Create the geospatial indexes for the [geocoder](https://github.com/alexreisner/
 
 Generate the ElasticSearch index that the [tire](https://github.com/karmi/tire) gem uses for full text search:
 
-    rake environment tire:import CLASS=Organization FORCE=true
+    rake environment tire:import CLASS=Location FORCE=true
 
 ### Run the app
 Start the app locally using Unicorn:

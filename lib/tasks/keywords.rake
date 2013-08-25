@@ -10,10 +10,10 @@ task :keywords => :environment do
   puts "Processing #{file}"
   mappings = JSON.parse(File.read(file))
 
-  locs = Location.all
-  locs.each do |loc|
-    keywords = loc.keywords
+  services = Service.all
+  services.each do |service|
+    keywords = service.keywords
     keywords.collect! { |key| mappings.has_key?(key) ? mappings[key] : key } unless keywords.blank?
-    loc.save
+    service.save
   end
 end

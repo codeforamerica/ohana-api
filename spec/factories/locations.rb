@@ -43,8 +43,8 @@ FactoryGirl.define do
     description "yummy food"
     address { FactoryGirl.build(:address) }
     coordinates [-122.274369, 37.317983]
-    payments_accepted ["Credit", "WIC", "SFMNP", "SNAP"]
-    products_sold ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"]
+    #payments_accepted ["Credit", "WIC", "SFMNP", "SNAP"]
+    #products_sold ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"]
     association :organization
     after(:create) { |loc| loc.index.refresh }
   end
