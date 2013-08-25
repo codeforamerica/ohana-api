@@ -73,15 +73,24 @@ class Organization
 
   def self.nearby(org, params={})
     coords = org.coordinates
-    tire.search(page: params[:page], per_page: 30) do
-      query do
-        filtered do
-          filter :geo_distance, coordinates: coords, distance: "#{Organization.current_radius(params[:radius])}miles"
-          filter :not, { :ids => { :values => ["#{org.id}"] } }
+    if coords.present?
+      tire.search(page: params[:page], per_page: 30) do
+        query do
+          filtered do
+            filter :geo_distance, coordinates: coords, distance: "#{Organization.current_radius(params[:radius])}miles"
+            filter :not, { :ids => { :values => ["#{org.id}"] } }
+          end
+        end
+        sort do
+          by :_geo_distance, :coordinates => coords, :unit => "mi", :order => "asc"
         end
       end
-      sort do
-        by :_geo_distance, :coordinates => coords, :unit => "mi", :order => "asc"
+    else
+      # If organization has no coordinates, the search above will raise
+      # an execption, so we perform a search that will return an empty
+      # Tire::Results::Collection instead.
+      tire.search do
+        query { match [:name], "aasdaffasdfs" }
       end
     end
   end

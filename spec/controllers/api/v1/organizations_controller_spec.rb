@@ -339,5 +339,13 @@ describe Api::V1::OrganizationsController do
         specific_reason.should == "radius must be a number."
       end
     end
+
+    context 'when the organization has no coordinates' do
+    it "returns empty array" do
+      no_coords = create(:food_stamps_name)
+      get :nearby, :id => no_coords
+      response.parsed_body["response"].should == []
+    end
+  end
   end
 end
