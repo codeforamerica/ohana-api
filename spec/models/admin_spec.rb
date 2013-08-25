@@ -78,7 +78,7 @@ describe Admin do
       it{ should be_able_to(:manage, User.new) }
       it{ should be_able_to(:manage, Admin.new) }
       it{ should be_able_to(:manage, Organization.new) }
-      it{ should be_able_to(:manage, Program.new) }
+      it{ should be_able_to(:manage, Service.new) }
       it{ should be_able_to(:manage, Location.new) }
     end
 
@@ -89,15 +89,15 @@ describe Admin do
       it{ should_not be_able_to(:manage, Admin.new) }
       it{ should be_able_to(:create, Location.new) }
       it{ should be_able_to(:create, Organization.new) }
-      it{ should be_able_to(:create, Program.new) }
+      it{ should be_able_to(:create, Service.new) }
 
       it{ should be_able_to(:update, Location.new) }
       it{ should be_able_to(:update, Organization.new) }
-      it{ should be_able_to(:update, Program.new) }
+      it{ should be_able_to(:update, Service.new) }
 
       it{ should_not be_able_to(:destroy, Location.new) }
       it{ should_not be_able_to(:destroy, Organization.new) }
-      it{ should_not be_able_to(:destroy, Program.new) }
+      it{ should_not be_able_to(:destroy, Service.new) }
     end
   end
 end

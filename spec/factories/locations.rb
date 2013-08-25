@@ -4,12 +4,13 @@ FactoryGirl.define do
   factory :location do
     address { FactoryGirl.build(:address) }
     coordinates [-122.371448, 37.583849]
-    keywords ["library", "food stamps"]
     phones [{ number: "650 851-1210",
                department: "Information",
                phone_hours: "(Monday-Friday, 9-12, 1-5)" }]
-    association :program
-    program_name "Burlingame, Easton Branch"
+    name "VRS Services"
+    description "Provides jobs training"
+    association :organization
+    after(:create) { |loc| loc.index.refresh }
   end
 
   factory :address do
@@ -20,25 +21,40 @@ FactoryGirl.define do
   end
 
   factory :nearby_loc, class: Location do
+    name "Library"
+    description "great books"
     address { FactoryGirl.build(:address) }
     coordinates [-122.362882, 37.588935]
-    keywords ["nearby"]
-    program_name "Food Stamps"
-    association :program, factory: :food_stamps_program
+    languages ["spanish", "Arabic"]
+    association :organization, factory: :nearby_org
+    after(:create) { |loc| loc.index.refresh }
   end
 
-  factory :no_address, class: Location do
-    keywords ["library"]
-    association :program
+  factory :no_coords, class: Location do
+    name "No Address"
+    description "no coordinates"
+    address { FactoryGirl.build(:address) }
+    association :organization
+    after(:create) { |loc| loc.index.refresh }
   end
 
   factory :farmers_market_loc, class: Location do
+    name "Belmont Farmers Market"
+    description "yummy food"
     address { FactoryGirl.build(:address) }
     coordinates [-122.274369, 37.317983]
-    keywords ["market"]
-    program_name "Pescadero Grown"
     payments_accepted ["Credit", "WIC", "SFMNP", "SNAP"]
     products_sold ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"]
-    association :program, factory: :program
+    association :organization
+    after(:create) { |loc| loc.index.refresh }
+  end
+
+  factory :far_loc, class: Location do
+    name "Belmont Farmers Market"
+    description "yummy food"
+    address { FactoryGirl.build(:address) }
+    coordinates [-122.3250474, 37.568272]
+    association :organization
+    after(:create) { |loc| loc.index.refresh }
   end
 end

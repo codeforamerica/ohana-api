@@ -60,10 +60,15 @@ gem "validates_formatting_of"
 gem 'rack-cors', :require => 'rack/cors'
 
 # API Design
-gem 'rocket_pants', '~> 1.0'
-gem "kaminari"
-gem 'api-pagination'
-gem 'roar-rails'
+#gem 'rocket_pants', '~> 1.0'
+gem "grape"
+gem 'roar'
+gem "roar-rails"
+gem "kaminari", :git => "git://github.com/amatsuda/kaminari.git", :ref => "01f65e112d"
+
+# API Documentation
+gem "grape-swagger", :git => "git://github.com/monfresh/grape-swagger.git", :ref => "557d38e151"
+gem 'swagger-ui_rails'
 
 # Production Monitoring
 gem 'newrelic_rpm'
@@ -83,7 +88,6 @@ gem "enumerize"
 gem "figaro"
 
 # Search
-gem 'mongoid_search'
-
+gem "tire"
 # Nested categories for OpenEligibility
 gem "glebtv-mongoid_nested_set"

@@ -1,5 +1,5 @@
 class MailAddress
-  include RocketPants::Cacheable
+  #include RocketPants::Cacheable
   include Mongoid::Document
 
   embedded_in :location

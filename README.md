@@ -51,6 +51,19 @@ Follow the Homebrew instructions if you want Redis to start automatically every 
 
 See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
 
+#### ElasticSearch
+**OS X**
+
+On OS X, the easiest way to install ElasticSearch is with Homebrew:
+
+    brew install elasticsearch
+
+Follow the Homebrew instructions to launch ElasticSearch.
+
+**Other**
+
+Visit the Download page on elasticsearch.org for steps to install on other systems: [http://www.elasticsearch.org/download/](http://www.elasticsearch.org/download/)
+
 ### Clone the app on your local machine:
 
     git clone git://github.com/codeforamerica/ohana-api.git
@@ -69,6 +82,10 @@ Create the geospatial indexes for the [geocoder](https://github.com/alexreisner/
 
     rake db:mongoid:create_indexes
 
+Generate the ElasticSearch index that the [tire](https://github.com/karmi/tire) gem uses for full text search:
+
+    rake environment tire:import CLASS=Organization FORCE=true
+
 ### Run the app
 Start the app locally using Unicorn:
 
@@ -85,7 +102,36 @@ We recommend these tools to interact with APIs:
 [HTTPie](https://github.com/jkbr/httpie) command line utility
 
 ### API documentation (work in progress)
-[http://docs.ohanapi.apiary.io/](http://docs.ohanapi.apiary.io/)
+[http://localhost:8080/api/docs](localhost:8080/api/docs)
+
+Here are some sample requests to get you started:
+
+To see all locations, 30 per page:
+
+    http://localhost:8080/api/locations
+
+To go the next page (the page parameter works for all API responses):
+
+    http://localhost:8080/api/locations&page=2
+
+Search using one or any combination of these parameters: `keyword`, `location`, and `language`. The `search` endpoint always returns locations. When searching by `keyword`, the API returns locations where the search term matches one or more of the location's name, the location's description, the location's parent organization's name, or the location's services categories. Results that match the services categories appear higher.
+
+The search results include the location's parent organization info, as well as services, so you can have all the info in one query instead of three.
+
+    http://localhost:8080/api/search?keyword=food
+    http://localhost:8080/api/search?keyword=childcare&location=94403
+    http://localhost:8080/api/search?keyword=food&location=san mateo
+    http://localhost:8080/api/search?location=redwood city, ca
+
+Search for organizations by languages spoken at the location:
+
+    http://localhost:8080/api/search?keyword=food&language=spanish
+
+The language parameter can be used alone:
+
+    http://localhost:8080/api/search?language=arabic
+
+Searches with the location parameter return results sorted by distance.
 
 
 ### User authentication and emails

@@ -1,16 +1,19 @@
 class Organization
-  include RocketPants::Cacheable
+  #include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
+
+  has_many :locations, dependent: :destroy
+  #embeds_many :locations
+  #accepts_nested_attributes_for :locations
 
   normalize_attributes :name
 
   field :name
+  field :urls, type: Array
 
   validates_presence_of :name
 
-  has_many :programs, dependent: :destroy
-  #embeds_many :programs
-  #accepts_nested_attributes_for :programs
+  paginates_per Rails.env.test? ? 1 : 30
 
 end

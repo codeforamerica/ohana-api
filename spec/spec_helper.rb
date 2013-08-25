@@ -11,12 +11,11 @@ require 'rspec/rails'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
-  config.include RocketPants::TestHelper, :type => :controller
-  config.include RocketPants::RSpecMatchers, :type => :controller
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
   config.include Warden::Test::Helpers
   config.include AttributeNormalizer::RSpecMatcher, :type => :model
+  config.include Requests::JsonHelpers, type: :request
   Warden.test_mode!
   # ## Mock Framework
   #
@@ -53,6 +52,8 @@ RSpec.configure do |config|
   end
   config.before(:each) do
     DatabaseCleaner.start
+    Location.tire.index.delete
+    Location.create_elasticsearch_index
   end
   config.after(:each) do
     DatabaseCleaner.clean

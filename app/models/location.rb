@@ -1,45 +1,44 @@
 class Location
-  include RocketPants::Cacheable
+  #include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Enumerize
 
-  # embedded_in :program
-  belongs_to :program
-  validate :address_presence
-  validates_presence_of :program
+  paginates_per Rails.env.test? ? 1 : 30
 
-  has_and_belongs_to_many :categories
-  #belongs_to :category
+  # embedded_in :organization
+  belongs_to :organization
+  validates_presence_of :organization
+
+  # embeds_many :services
+  # accepts_nested_attributes_for :services
+  has_many :services, dependent: :destroy
+
+  #has_many :contacts, dependent: :destroy
+  embeds_many :contacts
+  accepts_nested_attributes_for :contacts
 
   # has_one :address
   # has_one :mail_address
-
   embeds_one :address
   embeds_one :mail_address
   accepts_nested_attributes_for :mail_address, :reject_if => :all_blank
   accepts_nested_attributes_for :address, :reject_if => :all_blank
 
-  #has_many :contacts, dependent: :destroy
+  normalize_attributes :description, :hours, :name, :short_desc,
+    :transportation, :urls
 
-  normalize_attributes :hours, :wait, :transportation
-
-  field :program_name
-  field :hours
-  field :wait
-  field :transportation
+  field :accessibility
+  enumerize :accessibility, in: [:cd, :deaf_interpreter, :disabled_parking,
+    :elevator, :ramp, :restroom, :tape_braille, :tty, :wheelchair,
+    :wheelchair_van], multiple: true
 
   field :ask_for, type: Array
   field :coordinates, type: Array
+  field :description
   field :emails, type: Array
   field :faxes, type: Array
-  field :keywords, type: Array
-  field :phones, type: Array
-  field :service_areas, type: Array
-
-  # farmers' markets and stores
-  field :payments_accepted, type: Array
-  field :products_sold, type: Array
+  field :hours
 
   field :languages, type: Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
@@ -47,10 +46,31 @@ class Location
   #   :vietnamese,
   #    ], multiple: true
 
-  field :accessibility
-  enumerize :accessibility, in: [:cd, :deaf_interpreter, :disabled_parking,
-    :elevator, :ramp, :restroom, :tape_braille, :tty, :wheelchair,
-    :wheelchair_van], multiple: true
+  field :name
+
+  field :phones, type: Array
+
+  # farmers' markets and stores
+  field :payments_accepted, type: Array
+  field :products_sold, type: Array
+
+  field :short_desc
+  field :transportation
+
+  field :urls, type: Array
+
+  # farmers' markets and stores
+  field :payments_accepted, type: Array
+  field :products_sold, type: Array
+
+  validates_presence_of :name, :description
+  validate :address_presence
+
+  extend ValidatesFormattingOf::ModelAdditions
+
+  validates :urls, array: {
+    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
+              message: "Please enter a valid URL" } }
 
   validates :emails, array: {
     format: { with: /.+@.+\..+/i,
@@ -60,11 +80,6 @@ class Location
     format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
               allow_blank: true,
               message: "Please enter a valid US phone number" } }
-
-  def self.find_by_keyword(keyword)
-    progs = Program.full_text_search(keyword)
-    Location.where(:program_id.in => progs.map(&:id))
-  end
 
   #combines address fields together into one string
   def full_address
@@ -77,20 +92,128 @@ class Location
     end
   end
 
+  def full_physical_address
+    if self.address.present?
+      "#{self.address.street}, #{self.address.city}, #{self.address.state} "+
+      "#{self.address.zip}"
+    end
+  end
+
   include Geocoder::Model::Mongoid
-  geocoded_by :full_address           # can also be an IP address
+  geocoded_by :full_physical_address           # can also be an IP address
   #after_validation :geocode          # auto-fetch coordinates
 
   #NE and SW geo coordinates that define the boundaries of San Mateo County
   SMC_BOUNDS = [[37.1074,-122.521], [37.7084,-122.085]].freeze
 
-  # Google provides a "bounds" option to restrict the address search to
-  # a particular area. Since this app focues on organizations in San Mateo
-  # County, we use SMC_BOUNDS to restrict the search.
-  def self.find_near(location, radius)
-    result = Geocoder.search(location, :bounds => SMC_BOUNDS)
-    coords = result.first.coordinates if result.present?
-    near(coords, radius)
+  ## ELASTICSEARCH
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
+
+  # INDEX_NAME is defined in config/initializers/tire.rb
+  index_name INDEX_NAME
+
+  # This is required by the "tire" ElasticSearch gem
+  def to_indexed_json
+    self.to_json(:include => {
+      :services =>
+        { :only => [:name, :description, :audience, :fees, :keywords] },
+      :organization => { :only => [:name] }
+      })
+  end
+
+  mapping do
+    indexes :coordinates, type: "geo_point"
+    indexes :name
+    indexes :description, analyzer: "snowball"
+
+    indexes :organization, type: 'object', properties: {
+      name: { type: 'string' }
+    }
+    indexes :services, type: 'object', properties: {
+      keywords: { type: 'string', boost: 5, analyzer: "snowball" }
+    }
+  end
+
+  def self.search(params={})
+    if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
+      error!({
+        "error" => "bad request",
+        "description" => "Either keyword, location, or language is missing."
+      }, 400)
+    end
+
+    # Google provides a "bounds" option to restrict the address search to
+    # a particular area. Since this app focuses on organizations in San Mateo
+    # County, we use SMC_BOUNDS to restrict the search.
+    result = Geocoder.search(params[:location], :bounds => SMC_BOUNDS)
+    # Google returns the coordinates as [lat, lon], but the geo_distance filter
+    # below expects [lon, lat], so we need to reverse them.
+    coords = result.first.coordinates.reverse if result.present?
+
+    begin
+    tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
+      query do
+        match [:name, :description, "organization.name", "services.keywords"],
+          params[:keyword],
+          type: 'phrase_prefix' if params[:keyword].present?
+        filtered do
+          filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
+          filter :term, :languages => params[:language].downcase if params[:language].present?
+        end
+      end
+      sort do
+        by :_geo_distance, :coordinates => coords, :unit => "mi", :order => "asc" if params[:location].present?
+      end
+    end
+    rescue Tire::Search::SearchRequestFailed
+      error!({
+        "error" => "bad request",
+        "description" => "Invalid ZIP code or address."
+      }, 400)
+    end
+  end
+
+  def self.error!(message, status=403)
+    throw :error, :message => message, :status => status
+  end
+
+  def self.current_radius(radius)
+    if radius.present?
+      begin
+        radius = Float radius.to_s
+        # radius must be between 0.1 miles and 10 miles
+        [[0.1, radius].max, 10].min
+      rescue ArgumentError
+        error!({
+        "error" => "bad request",
+        "description" => "radius must be a number."
+      }, 400)
+      end
+    else
+      5
+    end
+  end
+
+  def self.nearby(loc, params={})
+    coords = loc.coordinates
+    if coords.present?
+      tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
+        query do
+          filtered do
+            filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles"
+            filter :not, { :ids => { :values => ["#{loc.id}"] } }
+          end
+        end
+        sort do
+          by :_geo_distance, :coordinates => coords, :unit => "mi", :order => "asc"
+        end
+      end
+    else
+      # If location has no coordinates, the search above will raise
+      # an execption, so we return an empty array instead.
+      []
+    end
   end
 
   def address_presence

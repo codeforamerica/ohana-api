@@ -1,9 +1,9 @@
 class Contact
-  include RocketPants::Cacheable
+  #include RocketPants::Cacheable
   include Mongoid::Document
 
-  #belongs_to :program
-  embedded_in :program
+  #belongs_to :location
+  embedded_in :location
 
   normalize_attributes :name, :title, :email, :fax, :phone
 
@@ -13,7 +13,7 @@ class Contact
   field :fax
   field :phone
 
-  validates_presence_of :name, :title
+  validates_presence_of :name, :title, :allow_blank => true
 
   extend ValidatesFormattingOf::ModelAdditions
 

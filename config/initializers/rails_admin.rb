@@ -25,7 +25,7 @@ RailsAdmin.config do |config|
 
     list do
       field :name
-      field :programs
+      field :locations
     end
 
     edit do
@@ -34,34 +34,33 @@ RailsAdmin.config do |config|
 
     create do
       field :name
-      field :programs do
+      field :locations do
         visible false
       end
     end
   end
 
-  config.model 'Program' do
+  config.model 'Service' do
     weight -1
 
     list do
       field :name
-      field :organization
+      field :location
     end
 
     edit do
-      field :organization
-      field :name
-      field :description, :text do
-        html_attributes rows: 20, cols: 50
-      end
-      field :short_desc, :text
+      field :location
       field :audience
-      field :description
       field :eligibility
       field :fees
-      field :how_to_apply
       field :funding_sources
-      field :urls
+      field :how_to_apply
+      field :keywords
+      field :service_areas
+      field :wait
+
+      #field :category
+      field :categories
     end
   end
 
@@ -69,7 +68,7 @@ RailsAdmin.config do |config|
     list do
       field :name
       field :title
-      field :program
+      field :location
     end
   end
 
@@ -80,11 +79,16 @@ RailsAdmin.config do |config|
 
     list do
       field :full_address
-      field :program
+      field :organization
     end
 
     edit do
-      field :program
+      field :organization
+      field :name
+      field :description, :text do
+        html_attributes rows: 20, cols: 50
+      end
+      field :short_desc, :text
       field :address do
         help 'Location must have at least one address type'
       end
@@ -92,18 +96,13 @@ RailsAdmin.config do |config|
         help 'Location must have at least one address type'
       end
       field :hours
-      field :wait
       field :transportation
       field :ask_for
       field :emails
       field :faxes
       field :phones
-      field :service_areas
-      field :keywords
       field :languages
-
-      #field :category
-      field :categories
+      field :urls
 
       # field :accessibility do
       #   render do

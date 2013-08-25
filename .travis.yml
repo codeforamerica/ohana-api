@@ -6,6 +6,7 @@ rvm:
 services:
   - mongodb
   - redis-server
+  - elasticsearch
 
 before_script:
   - rake db:mongoid:create_indexes

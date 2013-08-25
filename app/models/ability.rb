@@ -12,7 +12,7 @@ class Ability
     when "editor"
       can :access, :rails_admin
       can :dashboard
-      can [:create, :read, :update], [Organization, Program, Location]
+      can [:create, :read, :update], [Organization, Location, Service]
     end
     #
     # The first argument to `can` is the action you are giving the user

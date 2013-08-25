@@ -9,15 +9,15 @@ describe Contact do
   describe "invalid data" do
     before(:each) { @attrs = {} }
 
-    context "without a name" do
-      subject { build(:contact, name: @attrs) }
-      it { should_not be_valid }
-    end
+    # context "without a name" do
+    #   subject { build(:contact, name: @attrs) }
+    #   it { should_not be_valid }
+    # end
 
-    context "without a title" do
-      subject { build(:contact, title: @attrs) }
-      it { should_not be_valid }
-    end
+    # context "without a title" do
+    #   subject { build(:contact, title: @attrs) }
+    #   it { should_not be_valid }
+    # end
 
     context "email without period" do
       subject { build(:contact, email: "moncef@blahcom") }

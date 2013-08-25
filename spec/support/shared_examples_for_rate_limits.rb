@@ -4,8 +4,7 @@ shared_examples_for "rate limit reached" do
   end
 
   it 'returns a rate limited exceeded body' do
-    parsed_body = JSON.parse(response.body)
-    parsed_body["description"].should == 'Rate limit exceeded'
+    json["description"].should == 'Rate limit exceeded'
   end
 
   it 'does not return the remaining requests header' do
