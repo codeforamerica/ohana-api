@@ -108,7 +108,7 @@ GEM
       rest-client
       simplecov (>= 0.7)
       thor
-    database_cleaner (1.0.1)
+    database_cleaner (1.1.1)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.1)
     devise (3.0.3)
