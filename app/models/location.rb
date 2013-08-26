@@ -105,11 +105,14 @@ class Location
   # INDEX_NAME is defined in config/initializers/tire.rb
   index_name INDEX_NAME
 
-  # This is required by the "tire" ElasticSearch gem
+  # Defines the JSON output of search results.
+  # Since search returns locations, we also want to include
+  # the location's parent organization info, as well as the
+  # services that belong to the location. This allows clients
+  # to get all this information in one query instead of three.
   def to_indexed_json
     self.to_json(:include => {
-      :services =>
-        { :only => [:name, :description, :audience, :fees, :keywords] },
+      :services => { :except => [:_id, :location_id, :created_at] },
       :organization => { :only => [:name] }
       })
   end
@@ -123,7 +126,9 @@ class Location
       name: { type: 'string' }
     }
     indexes :services, type: 'object', properties: {
-      keywords: { type: 'string', boost: 5, analyzer: "snowball" }
+      keywords: { type: 'string', boost: 5, analyzer: "snowball" },
+      name: { type: 'string', analyzer: "snowball" },
+      description: { type: 'string', analyzer: "snowball" }
     }
   end
 
@@ -146,7 +151,8 @@ class Location
     begin
     tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
       query do
-        match [:name, :description, "organization.name", "services.keywords"],
+        match [:name, :description, "organization.name", "services.keywords",
+          "services.name", "services.description"],
           params[:keyword],
           type: 'phrase_prefix' if params[:keyword].present?
         filtered do

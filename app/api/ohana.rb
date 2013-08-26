@@ -63,7 +63,7 @@ module Ohana
 
       segment '/:locations_id' do
         resource '/nearby' do
-          desc "Search for locations near the one queried."
+          desc "Returns locations near the one queried."
           params do
             optional :page, type: Integer
             optional :radius, type: Float
@@ -81,7 +81,7 @@ module Ohana
 
     resource 'search' do
       # GET /api/search?keyword={keyword}&location={loc}
-      desc "Search by keyword and/or location. Returns locations."
+      desc "Search by keyword, location, or language. Returns locations."
       params do
         optional :keyword, type: String
         optional :location, type: String, desc: "An address or 5-digit ZIP code"
