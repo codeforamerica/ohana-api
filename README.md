@@ -102,7 +102,7 @@ We recommend these tools to interact with APIs:
 [HTTPie](https://github.com/jkbr/httpie) command line utility
 
 ### API documentation (work in progress)
-[http://localhost:8080/api/docs](localhost:8080/api/docs)
+[http://localhost:8080/api/docs](http://localhost:8080/api/docs)
 
 Here are some sample requests to get you started:
 

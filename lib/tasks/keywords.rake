@@ -13,7 +13,16 @@ task :keywords => :environment do
   services = Service.all
   services.each do |service|
     keywords = service.keywords
-    keywords.collect! { |key| mappings.has_key?(key) ? mappings[key] : key } unless keywords.blank?
+    ## use this to replace CIP keywords with OE terms
+    #keywords.collect! { |key| mappings.has_key?(key) ? mappings[key] : key } unless keywords.blank?
+
+    ## use this to add OE terms to the existing CIP list
+    mappings.each do |k,v|
+      if keywords.include?(k)
+        service.keywords << v
+        service.keywords = service.keywords.uniq
+      end
+    end
     service.save
   end
 end
