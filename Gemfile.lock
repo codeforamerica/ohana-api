@@ -111,7 +111,7 @@ GEM
     database_cleaner (1.0.1)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.1)
-    devise (3.0.0)
+    devise (3.0.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
