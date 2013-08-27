@@ -18,6 +18,9 @@ class Location
   embeds_many :contacts
   accepts_nested_attributes_for :contacts
 
+  embeds_many :schedules
+  accepts_nested_attributes_for :schedules
+
   # has_one :address
   # has_one :mail_address
   embeds_one :address

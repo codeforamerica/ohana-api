@@ -49,9 +49,16 @@ RailsAdmin.config do |config|
     end
 
     edit do
-      field :location
+      field :location do
+        partial "location"
+        help ""
+      end
       field :name
       field :description
+      # field :schedules do
+      #   partial "open"
+      # end
+      field :schedules
       field :audience
       field :eligibility
       field :fees
@@ -77,11 +84,8 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Location' do
-    object_label_method do
-      :full_address
-    end
-
     list do
+      field :name
       field :full_address
       field :organization
     end
@@ -148,6 +152,21 @@ RailsAdmin.config do |config|
     edit do
       field :name
       field :parent
+    end
+  end
+
+  config.model 'Schedule' do
+    object_label_method do
+      :day_name
+    end
+    edit do
+      field :open do
+        partial "open"
+      end
+
+      field :close do
+        partial "close"
+      end
     end
   end
 end

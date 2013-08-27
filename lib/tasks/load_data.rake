@@ -33,8 +33,8 @@ task :load_data => :environment do
       end
     end
 
-    # Organization.all.unset('locs')
-    # Organization.all.unset('servs')
+    Organization.all.unset('locs')
+    Location.all.unset('servs')
   end
   puts "Done loading #{file} into DB"
   puts "Done loading San Mateo County data into DB."

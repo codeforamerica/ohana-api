@@ -10,6 +10,9 @@ class Service
   has_and_belongs_to_many :categories
   #belongs_to :category
 
+  embeds_many :schedules
+  accepts_nested_attributes_for :schedules
+
   normalize_attributes :audience, :description, :eligibility, :fees,
     :how_to_apply, :name, :short_desc, :wait
 

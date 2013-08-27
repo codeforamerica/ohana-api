@@ -91,3 +91,5 @@ gem "figaro"
 gem "tire"
 # Nested categories for OpenEligibility
 gem "glebtv-mongoid_nested_set"
+
+gem 'mongoid_time_field'
