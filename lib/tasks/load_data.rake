@@ -5,7 +5,7 @@ task :load_data => :environment do
   puts "Creating Organizations with San Mateo County, CA Data and saving to DB"
   puts "========================================================================="
 
-  file = "data/test.json"
+  file = "data/ohana_airs_8-26.json"
 
   puts "Processing #{file}"
   File.open(file).each do |line|
@@ -32,10 +32,10 @@ task :load_data => :environment do
         end
       end
     end
-
-    Organization.all.unset('locs')
-    Location.all.unset('servs')
   end
   puts "Done loading #{file} into DB"
-  puts "Done loading San Mateo County data into DB."
+  Organization.all.unset('locs')
+  puts "Done unsetting locs from Organization"
+  Location.all.unset('servs')
+  puts "Done unsetting servs from Location"
 end
