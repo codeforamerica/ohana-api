@@ -17,6 +17,14 @@ describe Ohana::API do
         '<http://www.example.com/api/organizations?page=2>; '+
         'rel="next"'
       end
+
+      it "returns an X-Total header" do
+        orgs = create_list(:organization, 2)
+        get 'api/organizations'
+        response.status.should == 200
+        expect(json.length).to eq(1)
+        headers["X-Total"].should == "2"
+      end
     end
 
     context "when on page 2 of 2" do

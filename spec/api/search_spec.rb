@@ -51,6 +51,12 @@ describe Ohana::API do
         json.length.should == 1
         json.first["name"].should == @locations.last.name
       end
+
+      it "returns an X-Total header" do
+        response.status.should == 200
+        expect(json.length).to eq(1)
+        headers["X-Total"].should == "2"
+      end
     end
 
     context 'with invalid radius' do

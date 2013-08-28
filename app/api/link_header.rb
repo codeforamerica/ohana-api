@@ -24,7 +24,7 @@ module LinkHeader
     end
 
     header 'Link', links.join(', ') unless links.empty?
-    header "X-Total", "#{coll.count}"
+    header "X-Total", coll.class == Tire::Results::Collection ? "#{coll.total_entries}" : "#{coll.count}"
   end
 
   def first_page?() current_page == 1 end

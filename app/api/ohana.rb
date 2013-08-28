@@ -31,8 +31,8 @@ module Ohana
           get do
             org = Organization.find(params[:organization_id])
             locations = org.locations.page(params[:page])
-            locations.extend LocationsRepresenter
             set_link_header(locations)
+            locations.extend LocationsRepresenter
             locations
           end
         end
@@ -49,9 +49,8 @@ module Ohana
       end
       get do
         locations = Location.page(params[:page])
-        locations.extend LocationsRepresenter
         set_link_header(locations)
-        locations
+        locations.extend LocationsRepresenter
       end
 
       desc "Get the details for a specific location"
