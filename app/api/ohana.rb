@@ -81,12 +81,51 @@ module Ohana
 
     resource 'search' do
       # GET /api/search?keyword={keyword}&location={loc}
-      desc "Search by keyword, location, or language. Returns locations."
+      desc "Search by keyword, location, or language. Returns locations.", {
+        :notes =>
+        <<-NOTE
+          Search
+          ------
+
+          **Required parameters**: one of keyword, location, or language
+
+          When searching by `keyword`, the API returns locations where the
+          search term matches one or more of these fields:
+
+              the location's name
+              the location's description
+              the location's parent organization's name
+              the location's service's keywords
+              the location's service's name
+              the location's service's descriptions
+
+          Results that match services keywords appear higher.
+
+          Queries that include `location` filter the results to only include
+          locations that are 5 miles (by default) from the `location`.
+          To search within a radius smaller or greater than 5 miles, use the
+          `radius` parameter.
+          `location` can be an address (full or partial), or a 5-digit ZIP code.
+          Results are sorted by distance.
+
+          The search results JSON includes the location's parent organization
+          info, as well as the location's services, so you can have all the
+          info in one query instead of three.
+
+          Search returns 30 results per page. Use the `page` parameter to
+          get a new set of results.
+
+          The total results count is available in the HTTP Response via the
+          `X-Total` header, and the pagination information is available via
+          the `Link` header.
+        NOTE
+      }
       params do
         optional :keyword, type: String
         optional :location, type: String, desc: "An address or 5-digit ZIP code"
         optional :radius, type: Float, desc: "Distance in miles from the location parameter"
         optional :language, type: String, desc: "Languages other than English spoken at the location"
+        optional :page, type: Integer
       end
       get do
         locations = Location.search(params)
