@@ -114,9 +114,12 @@ class Location
   # services that belong to the location. This allows clients
   # to get all this information in one query instead of three.
   def to_indexed_json
-    self.to_json(:include => {
+    self.to_json(:except => [:organization_id], :methods => ['url'], :include => {
       :services => { :except => [:_id, :location_id, :created_at] },
-      :organization => { :only => [:name] }
+      :organization => { :only => [:name] },
+      :address => { :except => [:_id] },
+      :mail_address => { :except => [:_id] },
+      :contacts => { :except => [:_id] }
       })
   end
 
@@ -221,5 +224,16 @@ class Location
     unless address or mail_address
       errors[:base] << "A location must have at least one address type."
     end
+  end
+
+  def url
+    "#{Rails.application.routes.url_helpers.root_url}locations/#{self.id}"
+  end
+
+  def other_locations
+    other_locs = self.organization.locations
+    coll = []
+    other_locs.each { |loc| coll.push(loc.url) } if other_locs.size > 1
+    coll
   end
 end

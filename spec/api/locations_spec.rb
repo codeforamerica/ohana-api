@@ -46,18 +46,12 @@ describe Ohana::API do
             "organization"=>{
               "id"=>"#{locs.last.organization.id}",
               "name"=>"Parent Agency",
-              "links"=>[
-                {
-                  "rel"=>"self",
-                  "href"=>"http://example.com/api/organizations/#{locs.last.organization.id}"
-                },
-                {
-                  "rel"=>"locations",
-                  "href"=>"http://example.com/api/organizations/#{locs.last.organization.id}/locations"
-                },
-              ]
+              "url" => "http://example.com/api/organizations/#{locs.last.organization.id}",
+              "locations_url" =>"http://example.com/api/organizations/#{locs.last.organization.id}/locations"
             },
-            "services"=>[]
+            "services"=>[],
+            "url" => "http://example.com/api/locations/#{locs.last.id}",
+            "other_locations" => []
         }]
         json.should == represented
       end
@@ -100,22 +94,17 @@ describe Ohana::API do
             "organization" => {
               "id" => "#{@location.organization.id}",
               "name"=> "Parent Agency",
-              "links" => [
-                {
-                  "rel" => "self",
-                  "href" => "http://example.com/api/organizations/#{@location.organization.id}"
-                },
-                {
-                  "rel" => "locations",
-                  "href" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
-                },
-              ]
+              "url" => "http://example.com/api/organizations/#{@location.organization.id}",
+              "locations_url" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
             },
             "services" => [{
               "description" => @location.services.first.description,
               "keywords" => @location.services.first.keywords,
               "name" => @location.services.first.name
-            }]}
+            }],
+            "url" => "http://example.com/api/locations/#{@location.id}",
+            "other_locations" => []
+          }
           json.should == represented
         end
 

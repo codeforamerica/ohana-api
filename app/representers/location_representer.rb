@@ -21,18 +21,14 @@ module LocationRepresenter
   property :urls
   property :address, extend: AddressRepresenter, class: Address
   property :mail_address, extend: MailAddressRepresenter, class: MailAddress
-  property :contacts
+  collection :contacts, extend: ContactRepresenter, class: Contact
   property :updated_at
 
   property :organization, extend: OrganizationRepresenter, class: Organization
 
   collection :services, :extend => ServiceRepresenter, :class => Service
 
-  # link :self do
-  #   location_url(represented)
-  # end
+  property :url
 
-  # link :services do
-  #   location_services_url
-  # end
+  property :other_locations
 end

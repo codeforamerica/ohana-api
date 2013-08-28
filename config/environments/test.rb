@@ -36,4 +36,6 @@ OhanaApi::Application.configure do
 
   # Roar-Rails hypermedia links base url
   config.representer.default_url_options = { :host => "example.com/api" }
+
+  config.api_base_host = "example.com/api"
 end

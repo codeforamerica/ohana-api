@@ -53,4 +53,6 @@ OhanaApi::Application.configure do
 
   # Roar-Rails hypermedia links base url
   config.representer.default_url_options = { :host => "localhost:8080/api" }
+
+  config.api_base_host = "localhost:8080/api"
 end

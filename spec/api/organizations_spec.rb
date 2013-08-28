@@ -27,16 +27,8 @@ describe Ohana::API do
         represented = [{
           "id" => "#{orgs.last.id}",
           "name" => "#{orgs.last.name}",
-          "links" => [
-            {
-              "rel" => "self",
-              "href" => "http://example.com/api/organizations/#{orgs.last.id}"
-            },
-            {
-              "rel" => "locations",
-              "href" => "http://example.com/api/organizations/#{orgs.last.id}/locations"
-            },
-          ]
+          "url" => "http://example.com/api/organizations/#{orgs.last.id}",
+          "locations_url" => "http://example.com/api/organizations/#{orgs.last.id}/locations"
         }]
         json.should == represented
       end
@@ -59,16 +51,8 @@ describe Ohana::API do
           represented = {
             "id" => "#{@org.id}",
             "name" => "#{@org.name}",
-            "links" => [
-            {
-              "rel" => "self",
-              "href" => "http://example.com/api/organizations/#{@org.id}"
-            },
-            {
-              "rel" => "locations",
-              "href" => "http://example.com/api/organizations/#{@org.id}/locations"
-            },
-          ]
+            "url" => "http://example.com/api/organizations/#{@org.id}",
+            "locations_url" => "http://example.com/api/organizations/#{@org.id}/locations"
           }
           json.should == represented
         end

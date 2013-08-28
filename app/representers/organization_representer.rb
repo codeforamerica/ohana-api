@@ -8,12 +8,14 @@ module OrganizationRepresenter
   property :id
   property :name
 
-  link :self do
+  property :url
+  property :locations_url
+
+  def url
     "#{root_url}organizations/#{self.id}"
   end
 
-  link :locations do
+  def locations_url
     "#{root_url}organizations/#{self.id}/locations"
   end
-
 end
