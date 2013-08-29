@@ -2,7 +2,7 @@ module API
   class Root < Grape::API
     prefix 'api'
     format :json
-    version 'v1', using: :header, vendor: 'ohanapi'
+    version 'v1', using: :header, vendor: 'ohanapi', strict: true
 
     rescue_from Mongoid::Errors::DocumentNotFound do
       rack_response({

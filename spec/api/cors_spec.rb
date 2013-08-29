@@ -5,7 +5,7 @@ describe "CORS REQUESTS" do
     before :each do
       organization = create(:organization)
       get 'api/organizations', {},
-        { 'Accept' => 'application/vnd.ohanapi+json; version=1',
+        { 'HTTP_ACCEPT' => 'application/vnd.ohanapi-v1+json',
           'HTTP_ORIGIN' => 'http://ohanapi.org', 'HTTP_USER_AGENT' => "Rspec" }
     end
 
