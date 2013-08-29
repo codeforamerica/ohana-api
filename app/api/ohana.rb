@@ -2,7 +2,7 @@ module Ohana
   class API < Grape::API
 
     resource "/" do
-      # GET /api/
+      # GET /
       desc "Provides hypermedia links to all top-level endpoints"
       get do
         {
@@ -14,8 +14,8 @@ module Ohana
     end
 
     resource 'organizations' do
-      # GET /api/organizations
-      # GET /api/organizations?page=2
+      # GET /organizations
+      # GET /organizations?page=2
       desc "Returns all organizations, 30 per page"
       params do
         optional :page, type: Integer
@@ -53,8 +53,8 @@ module Ohana
 
 
     resource 'locations' do
-      # GET /api/locations
-      # GET /api/locations?page=2
+      # GET /locations
+      # GET /locations?page=2
       desc "Returns all locations, 30 per page"
       params do
         optional :page, type: Integer
@@ -91,7 +91,7 @@ module Ohana
     end
 
     resource 'search' do
-      # GET /api/search?keyword={keyword}&location={loc}
+      # GET /search?keyword={keyword}&location={loc}
       desc "Search by keyword, location, or language. Returns locations.", {
         :notes =>
         <<-NOTE
@@ -142,6 +142,21 @@ module Ohana
         locations = Location.search(params)
         set_link_header(locations)
         locations
+      end
+    end
+
+    resource "rate_limit" do
+      # GET /rate_limit
+      desc "Provides rate limit info"
+      get do
+        token = request.env["HTTP_X_API_TOKEN"].to_s
+        limit = (token.present? && User.where('api_applications.api_token' => token).exists?) ? 5000 : 60
+        {
+          "rate" => {
+            "limit" => limit,
+            "remaining" => limit - (REDIS.get("ohanapi_defender:#{request.ip}:#{Time.now.strftime('%Y-%m-%dT%H')}")).to_i
+          }
+        }
       end
     end
   end

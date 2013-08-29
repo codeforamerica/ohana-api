@@ -46,9 +46,9 @@ class ApiDefender < Rack::Throttle::Hourly
     elsif allowed?(request)
       status, headers, response = app.call(env)
 
-      cache_counter(request, "decr") if (etag.present? && status == 304)
+      cache_counter(request, "decr") if (etag.present? && status == 304 && need_defense?(request))
 
-      headers = rate_limit_headers(request, headers)
+      headers = rate_limit_headers(request, headers) if request.fullpath.include?("api/")
       [status, headers, response]
     else
       http_error(request, "rate limit")
@@ -101,6 +101,6 @@ class ApiDefender < Rack::Throttle::Hourly
   protected
   # only API calls should be throttled
   def need_defense?(request)
-    request.fullpath.include?("api/")
+    request.fullpath.include?("api/") && !(request.fullpath.include?("api/rate_limit"))
   end
 end
