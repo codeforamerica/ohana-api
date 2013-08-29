@@ -16,4 +16,8 @@ class Organization
 
   paginates_per Rails.env.test? ? 1 : 30
 
+  def url
+    "#{Rails.application.routes.url_helpers.root_url}organizations/#{self.id}"
+  end
+
 end

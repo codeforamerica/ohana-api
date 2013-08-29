@@ -116,7 +116,7 @@ class Location
   def to_indexed_json
     self.to_json(:except => [:organization_id], :methods => ['url'], :include => {
       :services => { :except => [:_id, :location_id, :created_at] },
-      :organization => { :only => [:name] },
+      :organization => { :only => [:name], :methods => ['url'] },
       :address => { :except => [:_id] },
       :mail_address => { :except => [:_id] },
       :contacts => { :except => [:_id] }
