@@ -1,6 +1,18 @@
 module Ohana
   class API < Grape::API
 
+    resource "/" do
+      # GET /api/
+      desc "Provides hypermedia links to all top-level endpoints"
+      get do
+        {
+          "organization_url" => "http://ohanapi.herokuapp.com/api/organizations{org}",
+          "location_url" => "http://ohanapi.herokuapp.com/api/locations{location}",
+          "general_search_url" => "http://ohanapi.herokuapp.com/api/search{?keyword,location,radius,language}"
+        }
+      end
+    end
+
     resource 'organizations' do
       # GET /api/organizations
       # GET /api/organizations?page=2
