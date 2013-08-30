@@ -6,8 +6,8 @@ module Ohana
       desc "Provides hypermedia links to all top-level endpoints"
       get do
         {
-          "organization_url" => "http://ohanapi.herokuapp.com/api/organizations{org}",
-          "location_url" => "http://ohanapi.herokuapp.com/api/locations{location}",
+          "organizations_url" => "http://ohanapi.herokuapp.com/api/organizations{/organization_id}",
+          "locations_url" => "http://ohanapi.herokuapp.com/api/locations{/location_id}",
           "general_search_url" => "http://ohanapi.herokuapp.com/api/search{?keyword,location,radius,language}"
         }
       end
