@@ -154,7 +154,7 @@ module Ohana
         {
           "rate" => {
             "limit" => limit,
-            "remaining" => limit - (REDIS.get("ohanapi_defender:#{request.ip}:#{Time.now.strftime('%Y-%m-%dT%H')}")).to_i
+            "remaining" => limit - (REDIS.get("throttle:#{request.ip}:#{Time.now.strftime('%Y-%m-%dT%H')}")).to_i
           }
         }
       end

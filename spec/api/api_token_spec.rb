@@ -14,6 +14,12 @@ describe "API token in request" do
   context "when the rate limit has not been reached" do
     before { get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token } }
 
+    it "sets a REDIS key with the token" do
+      get 'api/locations', {}, {}
+      keys = REDIS.keys
+      keys.should include "throttle:127.0.0.1-#{@token}:#{Time.now.strftime('%Y-%m-%dT%H')}"
+    end
+
     it 'returns the requests limit headers' do
       headers['X-RateLimit-Limit'].should == "5000"
     end
@@ -21,12 +27,24 @@ describe "API token in request" do
     it 'returns the remaining requests header' do
       headers['X-RateLimit-Remaining'].should == "4999"
     end
+
+    it "sets a new REDIS key without the token" do
+      get 'api/locations', {}, {}
+      keys = REDIS.keys
+      keys.should include "throttle:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
+    end
+
+    it "keeps track of the 2 separate REDIS keys" do
+      get 'api/locations', {}, {}
+      get 'api/locations', {}, { 'HTTP_X_API_TOKEN' => @token }
+      headers['X-RateLimit-Remaining'].should == "4998"
+    end
   end
 
   context "when the rate limit has been reached" do
 
     before :each do
-      key = "ohanapi_defender:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
+      key = "throttle:127.0.0.1-#{@token}:#{Time.now.strftime('%Y-%m-%dT%H')}"
       REDIS.set(key, "5000")
       get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token }
     end
@@ -38,7 +56,7 @@ describe "API token in request" do
     context 'when the ETag has not changed' do
 
       before :each do
-        get 'api/organizations'
+        get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token }
         etag = headers['ETag']
         get 'api/organizations', {},
           { 'HTTP_IF_NONE_MATCH' => etag, 'HTTP_X_API_TOKEN' => @token }
@@ -61,7 +79,7 @@ describe "API token in request" do
 
       before :each do
         organization = create(:organization)
-        get 'api/organizations'
+        get 'api/organizations', {}, { 'HTTP_X_API_TOKEN' => @token }
         get 'api/organizations', {},
           { 'HTTP_IF_NONE_MATCH' => "1234567890", 'HTTP_X_API_TOKEN' => @token }
       end

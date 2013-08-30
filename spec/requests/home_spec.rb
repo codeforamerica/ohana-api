@@ -13,7 +13,7 @@ describe "Home" do
     end
 
     it "doesn't change the rate limit REDIS key" do
-      key = REDIS.get "ohanapi_defender:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
+      key = REDIS.get "throttle:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
       expect(key).to eq("1")
     end
 

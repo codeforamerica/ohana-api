@@ -17,7 +17,7 @@ describe "No API token in request" do
   context "when the rate limit has been reached" do
 
     before :each do
-      key = "ohanapi_defender:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
+      key = "throttle:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
       REDIS.set(key, "60")
       get 'api/organizations'
     end

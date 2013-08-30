@@ -10,7 +10,7 @@ class ApiDefender < Rack::Throttle::Hourly
     options = {
       # The REDIS constant is defined in config/initializers/geocoder.rb
       cache: REDIS,
-      key_prefix: "ohanapi_defender"
+      key_prefix: :throttle
     }
     @app, @options = app, options
   end
@@ -56,8 +56,7 @@ class ApiDefender < Rack::Throttle::Hourly
   end
 
   def max_per_window(request)
-    token = request.env["HTTP_X_API_TOKEN"].to_s
-    (token.present? && User.where('api_applications.api_token' => token).exists?) ? 5000 : 60
+    valid_api_token?(request) ? 5000 : 60
   end
 
   # rack-throttle supports various key/value stores for storing rate-limiting
@@ -102,5 +101,28 @@ class ApiDefender < Rack::Throttle::Hourly
   # only API calls should be throttled
   def need_defense?(request)
     request.fullpath.include?("api/") && !(request.fullpath.include?("api/rate_limit"))
+  end
+
+  # @param  [Rack::Request] request
+  # @return [String]
+  def client_identifier(request)
+    if valid_api_token?(request)
+      "#{request.ip.to_s}-#{api_token(request)}"
+    else
+     request.ip.to_s
+    end
+  end
+
+  # @param  [Rack::Request] request
+  # @return [Boolean]
+  def valid_api_token?(request)
+    token = api_token(request)
+    token.present? && User.where('api_applications.api_token' => token).exists?
+  end
+
+  # @param  [Rack::Request] request
+  # @return [String]
+  def api_token(request)
+    request.env["HTTP_X_API_TOKEN"].to_s
   end
 end
