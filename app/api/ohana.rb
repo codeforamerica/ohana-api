@@ -5,10 +5,11 @@ module Ohana
       # GET /
       desc "Provides hypermedia links to all top-level endpoints"
       get do
+        base_url = Rails.application.routes.url_helpers.root_url
         {
-          "organizations_url" => "http://ohanapi.herokuapp.com/api/organizations{/organization_id}",
-          "locations_url" => "http://ohanapi.herokuapp.com/api/locations{/location_id}",
-          "general_search_url" => "http://ohanapi.herokuapp.com/api/search{?keyword,location,radius,language}"
+          "organizations_url" => "#{base_url}organizations{/organization_id}",
+          "locations_url" => "#{base_url}locations{/location_id}",
+          "general_search_url" => "#{base_url}search{?keyword,location,radius,language}"
         }
       end
     end
