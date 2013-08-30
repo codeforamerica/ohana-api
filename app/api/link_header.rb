@@ -15,10 +15,10 @@ module LinkHeader
     end
 
     links = pages.map do |k, v|
-      # Grape's request.params (a Hashie::Mash) includes a "route info" symbol
-      # that we aren't interested in for the Link header, so we remove
-      # everything from the Hashie::Mash except for the page info.
-      params = request.params.slice(:page)
+      # Grape's request.params (a Hashie::Mash) includes several params
+      # that we aren't interested in for the Link header, so we remove them.
+      params = request.params.except(:route_info, :method, :search_format)
+
       new_params = params.merge({ :page => v })
       %(<#{url}?#{new_params.to_param}>; rel="#{k}")
     end
