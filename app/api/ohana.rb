@@ -25,14 +25,12 @@ module Ohana
         organizations = Organization.page(params[:page])
         set_link_header(organizations)
         organizations.extend OrganizationsRepresenter
-        organizations
       end
 
       desc "Get the details for a specific organization"
       get ':id' do
         org = Organization.find(params[:id])
         org.extend OrganizationRepresenter
-        org
       end
 
       segment '/:organization_id' do
@@ -46,7 +44,6 @@ module Ohana
             locations = org.locations.page(params[:page])
             set_link_header(locations)
             locations.extend LocationsRepresenter
-            locations
           end
         end
       end
@@ -61,7 +58,7 @@ module Ohana
         optional :page, type: Integer
       end
       get do
-        locations = Location.page(params[:page])
+        locations = Location.includes([:organization, :services]).page(params[:page])
         set_link_header(locations)
         locations.extend LocationsRepresenter
       end
@@ -70,7 +67,6 @@ module Ohana
       get ':id' do
         location = Location.find(params[:id])
         location.extend LocationRepresenter
-        location
       end
 
       segment '/:locations_id' do
@@ -83,9 +79,8 @@ module Ohana
           get do
             location = Location.find(params[:locations_id])
             nearby = Location.nearby(location, params)
-            #locations.extend LocationsRepresenter
             set_link_header(nearby) if location.coordinates.present?
-            nearby
+            nearby.extend LocationsRepresenter
           end
         end
       end
@@ -142,6 +137,7 @@ module Ohana
       get do
         locations = Location.search(params)
         set_link_header(locations)
+        #locations.extend LocationsRepresenter
         locations
       end
     end

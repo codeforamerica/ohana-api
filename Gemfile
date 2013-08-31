@@ -88,7 +88,7 @@ gem "enumerize"
 gem "figaro"
 
 # Search
-gem "tire"
+gem "tire",:git => "git://github.com/monfresh/tire.git", :ref => "2d174e792a"
 # Nested categories for OpenEligibility
 gem "glebtv-mongoid_nested_set"
 

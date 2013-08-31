@@ -54,5 +54,37 @@ describe Ohana::API do
         'rel="next"'
       end
     end
+
+    context "when there is only one page of search results" do
+      it "does not return a Link header" do
+        create(:location)
+        get 'api/search?keyword=parent'
+        headers.keys.should_not include "Link"
+      end
+    end
+
+    context "when there are no search results" do
+      it "does not return a Link header" do
+        create(:location)
+        get 'api/search?keyword=foobar'
+        headers.keys.should_not include "Link"
+      end
+    end
+
+    context "when visiting a location" do
+      it "does not return a Link header" do
+        loc = create(:location)
+        get "api/locations/#{loc.id}"
+        headers.keys.should_not include "Link"
+      end
+    end
+
+    context "when there is only one location" do
+      it "does not return a Link header" do
+        create(:location)
+        get "api/locations"
+        headers.keys.should_not include "Link"
+      end
+    end
   end
 end
