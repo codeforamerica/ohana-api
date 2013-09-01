@@ -36,7 +36,7 @@ describe Ohana::API do
       it "returns pagination headers" do
         headers["X-Current-Page"].should == "1"
         headers["X-Next-Page"].should == "2"
-        headers["X-Previous-Page"].should == ""
+        headers["X-Previous-Page"].should be_nil
       end
     end
 
@@ -50,7 +50,7 @@ describe Ohana::API do
         '<http://www.example.com/api/search?keyword=parent&page=1>; '+
         'rel="prev"'
         headers["X-Current-Page"].should == "2"
-        headers["X-Next-Page"].should == ""
+        headers["X-Next-Page"].should be_nil
         headers["X-Previous-Page"].should == "1"
       end
     end

@@ -32,8 +32,8 @@ module LinkHeader
     header "X-Total-Count", "#{coll.total_count}"
     header "X-Total-Pages", "#{coll.total_pages}"
     header "X-Current-Page", "#{coll.current_page}"
-    header "X-Next-Page", "#{coll.next_page}"
-    header "X-Previous-Page", "#{coll.previous_page}"
+    header "X-Next-Page", "#{coll.next_page}" unless coll.next_page.nil?
+    header "X-Previous-Page", "#{coll.previous_page}" unless coll.previous_page.nil?
   end
 
 end
