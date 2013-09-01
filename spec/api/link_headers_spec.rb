@@ -6,9 +6,12 @@ describe Ohana::API do
     include DefaultUserAgent
 
     context "when on page 1 of 2" do
-      it "returns a Link header" do
+      before(:each) do
         orgs = create_list(:location, 2)
         get 'api/search?keyword=parent'
+      end
+
+      it "returns a Link header" do
         response.status.should == 200
         expect(json.length).to eq(1)
         headers["Link"].should ==
@@ -19,19 +22,21 @@ describe Ohana::API do
       end
 
       it "returns an X-Total-Count header" do
-        orgs = create_list(:location, 2)
-        get 'api/search?keyword=parent'
         response.status.should == 200
         expect(json.length).to eq(1)
         headers["X-Total-Count"].should == "2"
       end
 
       it "returns an X-Total-Pages header" do
-        orgs = create_list(:location, 2)
-        get 'api/search?keyword=parent'
         response.status.should == 200
         expect(json.length).to eq(1)
         headers["X-Total-Pages"].should == "2"
+      end
+
+      it "returns pagination headers" do
+        headers["X-Current-Page"].should == "1"
+        headers["X-Next-Page"].should == "2"
+        headers["X-Previous-Page"].should == ""
       end
     end
 
@@ -44,6 +49,9 @@ describe Ohana::API do
         'rel="first", '+
         '<http://www.example.com/api/search?keyword=parent&page=1>; '+
         'rel="prev"'
+        headers["X-Current-Page"].should == "2"
+        headers["X-Next-Page"].should == ""
+        headers["X-Previous-Page"].should == "1"
       end
     end
 
@@ -60,6 +68,9 @@ describe Ohana::API do
         'rel="last", '+
         '<http://www.example.com/api/search?keyword=parent&page=3>; '+
         'rel="next"'
+        headers["X-Current-Page"].should == "2"
+        headers["X-Next-Page"].should == "3"
+        headers["X-Previous-Page"].should == "1"
       end
     end
 
