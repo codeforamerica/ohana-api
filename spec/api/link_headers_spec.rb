@@ -18,12 +18,20 @@ describe Ohana::API do
         'rel="next"'
       end
 
-      it "returns an X-Total header" do
+      it "returns an X-Total-Count header" do
         orgs = create_list(:location, 2)
         get 'api/search?keyword=parent'
         response.status.should == 200
         expect(json.length).to eq(1)
-        headers["X-Total"].should == "2"
+        headers["X-Total-Count"].should == "2"
+      end
+
+      it "returns an X-Total-Pages header" do
+        orgs = create_list(:location, 2)
+        get 'api/search?keyword=parent'
+        response.status.should == 200
+        expect(json.length).to eq(1)
+        headers["X-Total-Pages"].should == "2"
       end
     end
 

@@ -28,6 +28,16 @@ describe "API token in request" do
       headers['X-RateLimit-Remaining'].should == "4999"
     end
 
+    it 'returns Link header' do
+      create_list(:location, 2)
+      get 'api/search?keyword=parent', {}, { 'HTTP_X_API_TOKEN' => @token }
+      headers['Link'].should ==
+        '<http://www.example.com/api/search?keyword=parent&page=2>; '+
+        'rel="last", '+
+        '<http://www.example.com/api/search?keyword=parent&page=2>; '+
+        'rel="next"'
+    end
+
     it "sets a new REDIS key without the token" do
       get 'api/locations', {}, {}
       keys = REDIS.keys

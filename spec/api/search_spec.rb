@@ -52,10 +52,10 @@ describe Ohana::API do
         json.first["name"].should == @locations.last.name
       end
 
-      it "returns an X-Total header" do
+      it "returns an X-Total-Count header" do
         response.status.should == 200
         expect(json.length).to eq(1)
-        headers["X-Total"].should == "2"
+        headers["X-Total-Count"].should == "2"
       end
     end
 
