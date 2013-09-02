@@ -10,12 +10,4 @@ module OrganizationRepresenter
 
   property :url
   property :locations_url
-
-  def url
-    "#{root_url}organizations/#{self.id}"
-  end
-
-  def locations_url
-    "#{root_url}organizations/#{self.id}/locations"
-  end
 end

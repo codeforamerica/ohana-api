@@ -5,8 +5,8 @@ module ContactRepresenter
 
   property :name
   property :title
+  property :phone
   property :email
   property :fax
-  property :phone
 
 end

@@ -114,13 +114,36 @@ class Location
   # services that belong to the location. This allows clients
   # to get all this information in one query instead of three.
   def to_indexed_json
-    self.to_json(:except => [:organization_id], :methods => ['url'], :include => {
+    hash = self.as_json(:except => [:organization_id], :methods => ['url'], :include => {
       :services => { :except => [:_id, :location_id, :created_at] },
       :organization => { :only => [:name], :methods => ['url'] },
       :address => { :except => [:_id] },
       :mail_address => { :except => [:_id] },
       :contacts => { :except => [:_id] }
       })
+    remove_nil_fields(hash,["contacts","services"])
+    hash.to_json
+  end
+
+  # Removes nil fields from hash
+  #
+  # The main hash passed to the method is a JSON representation
+  # of a Model including associated models (see to_indexed_json).
+  # The fields passed are the associated models that contain
+  # nil fields that we want to get rid of.
+  # Each field is an Array of Hashes because it's a 1-N relationship:
+  # Location embeds_many :contacts and has_many :services.
+  # Once each associated model is cleaned up, we removed nil fields
+  # from the main hash too.
+  #
+  # @param obj [Hash]
+  # @param fields [Array] Array of strings
+  # @return [Hash] The obj Hash with all nil fields stripped out
+  def remove_nil_fields(obj,fields=[])
+    fields.each do |field|
+      obj[field].each { |h| h.reject! { |_,v| v.blank? } }
+    end
+    obj.reject! { |_,v| v.blank? }
   end
 
   mapping do

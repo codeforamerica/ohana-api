@@ -7,10 +7,10 @@ FactoryGirl.define do
     after(:create) { |s| s.location.index.refresh }
   end
 
-  factory :food_stamps_service, class: Service do
+  factory :service_with_nil_fields, class: Service do
     name "Food Stamps"
     description "SNAP market"
     keywords ["health", "yoga"]
-    association :location
+    fees nil
   end
 end

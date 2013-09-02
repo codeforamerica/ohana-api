@@ -139,6 +139,37 @@ describe Ohana::API do
           response.content_type.should == 'application/json'
         end
       end
+
+      context 'with nil fields' do
+
+        before(:each) do
+          @loc = create(:loc_with_nil_fields)
+        end
+
+        it 'does not return nil fields when visiting all locations' do
+          get "api/locations"
+          keys = json.first.keys
+          ["faxes", "fees", "email"].each do |key|
+            keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields when visiting one location' do
+          get "api/locations/#{@loc.id}"
+          keys = json.keys
+          ["faxes", "fees", "email"].each do |key|
+            keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields when searching for location' do
+          get "api/search?keyword=belmont"
+          keys = json.first.keys
+          ["faxes", "fees", "email"].each do |key|
+            keys.should_not include(key)
+          end
+        end
+      end
     end
 
   end
