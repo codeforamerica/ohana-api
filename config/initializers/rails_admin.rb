@@ -18,6 +18,11 @@ RailsAdmin.config do |config|
   #   delete
   #   history_show
   #   show_in_app
+  #   nested_set do
+  #     visible do
+  #       %w(Page).include? bindings[:abstract_model].category
+  #     end
+  #   end
   # end
 
   config.model 'Organization' do
@@ -141,19 +146,19 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model 'Category' do
-    object_label_method do
-      :name
-    end
-    list do
-      field :name
-      field :parent
-    end
-    edit do
-      field :name
-      field :parent
-    end
-  end
+  # config.model 'Category' do
+  #   # object_label_method do
+  #   #   :name
+  #   # end
+  #   list do
+  #     field :name
+  #     field :parent
+  #   end
+  #   edit do
+  #     field :name
+  #     field :parent
+  #   end
+  # end
 
   config.model 'Schedule' do
     object_label_method do

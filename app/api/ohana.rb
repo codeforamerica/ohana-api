@@ -86,6 +86,39 @@ module Ohana
       end
     end
 
+    resource 'services' do
+      segment '/:services_id' do
+        resource '/categories' do
+          desc "Replace all categories for a service"
+          params do
+            requires :category_ids, type: Array
+          end
+          put do
+            authenticate!
+            s = Service.find(params[:services_id])
+            s.category_ids = params[:category_ids]
+            s.save
+            s
+          end
+        end
+        resource '/keywords' do
+          desc "Add one or more keywords to a service"
+          params do
+            requires :keywords, type: Array
+          end
+          post do
+            authenticate!
+            s = Service.find(params[:services_id])
+            params[:keywords].each do |k|
+              s.keywords << k unless s.keywords.include? k
+            end
+            s.save
+            s
+          end
+        end
+      end
+    end
+
     resource 'search' do
       # GET /search?keyword={keyword}&location={loc}
       desc "Search by keyword, location, or language. Returns locations.", {

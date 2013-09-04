@@ -11,6 +11,7 @@ module ServiceRepresenter
   property :fees
   property :funding_sources
   property :keywords
+  collection :categories, extend: CategoryRepresenter, class: Category
   property :how_to_apply
   property :name
   property :service_areas

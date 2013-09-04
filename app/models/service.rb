@@ -12,6 +12,7 @@ class Service
 
   embeds_many :schedules
   accepts_nested_attributes_for :schedules
+  #accepts_nested_attributes_for :categories
 
   normalize_attributes :audience, :description, :eligibility, :fees,
     :how_to_apply, :name, :short_desc, :wait

@@ -11,8 +11,8 @@ class Location
   validates_presence_of :organization
 
   # embeds_many :services
-  # accepts_nested_attributes_for :services
   has_many :services, dependent: :destroy
+  #accepts_nested_attributes_for :services
 
   #has_many :contacts, dependent: :destroy
   embeds_many :contacts
