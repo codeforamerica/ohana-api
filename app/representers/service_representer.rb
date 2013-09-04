@@ -5,6 +5,7 @@ module ServiceRepresenter
   include Roar::Representer::JSON
   include Roar::Representer::Feature::Hypermedia
 
+  property :id
   property :audience
   property :description
   property :eligibility
