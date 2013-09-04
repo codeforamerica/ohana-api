@@ -55,10 +55,11 @@ module Ohana
       # GET /locations?page=2
       desc "Returns all locations, 30 per page"
       params do
-        optional :page, type: Integer
+        optional :page, type: Integer, default: 1
+        optional :per_page, type: Integer
       end
       get do
-        locations = Location.includes([:organization, :services]).page(params[:page])
+        locations = Location.includes([:organization, :services]).page(params[:page]).per(params[:per_page])
         set_link_header(locations)
         locations.extend LocationsRepresenter
       end
