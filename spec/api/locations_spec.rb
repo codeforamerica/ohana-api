@@ -102,7 +102,8 @@ describe Ohana::API do
               "description" => @location.services.first.description,
               "keywords" => @location.services.first.keywords,
               "categories" => [],
-              "name" => @location.services.first.name
+              "name" => @location.services.first.name,
+              "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
             }],
             "url" => "http://example.com/api/locations/#{@location.id}",
             "other_locations" => []
