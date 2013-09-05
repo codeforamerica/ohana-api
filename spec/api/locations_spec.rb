@@ -29,6 +29,7 @@ describe Ohana::API do
             "accessibility"=>[],
             "coordinates"=>locs.last.coordinates,
             "description"=>locs.last.description,
+            "kind"=>locs.last.kind,
             "name"=>locs.last.name,
             "phones"=>[{
               "number"=>"650 851-1210",
@@ -77,6 +78,7 @@ describe Ohana::API do
             "accessibility" => [],
             "coordinates" => @location.coordinates,
             "description" => @location.description,
+            "kind"=>@location.kind,
             "name" => @location.name,
             "phones" => [{
               "number" => "650 851-1210",

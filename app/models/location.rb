@@ -43,6 +43,7 @@ class Location
   field :faxes, type: Array
   field :hours
 
+  field :kind
   enumerize :kind, in: [:other, :human_services, :entertainment]
 
   field :languages, type: Array

@@ -9,6 +9,7 @@ FactoryGirl.define do
                phone_hours: "(Monday-Friday, 9-12, 1-5)" }]
     name "VRS Services"
     description "Provides jobs training"
+    kind "other"
     association :organization
     after(:create) { |loc| loc.index.refresh }
   end
