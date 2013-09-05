@@ -98,8 +98,10 @@ describe Ohana::API do
               "locations_url" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
             },
             "services" => [{
+              "id" => "#{@location.services.first.id}",
               "description" => @location.services.first.description,
               "keywords" => @location.services.first.keywords,
+              "categories" => [],
               "name" => @location.services.first.name
             }],
             "url" => "http://example.com/api/locations/#{@location.id}",

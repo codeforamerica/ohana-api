@@ -6,4 +6,6 @@ module CategoryRepresenter
   property :id
   property :name
   property :parent_id
+  property :parent_name
+
 end

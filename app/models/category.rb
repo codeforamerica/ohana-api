@@ -4,4 +4,9 @@ class Category
 
   has_and_belongs_to_many :services
   #has_many :services
+
+  def parent_name
+    parent = Category.find(self.parent_id) if self.parent_id
+    parent.name if parent
+  end
 end

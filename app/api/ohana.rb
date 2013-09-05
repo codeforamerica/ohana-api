@@ -19,7 +19,7 @@ module Ohana
       # GET /organizations?page=2
       desc "Returns all organizations, 30 per page"
       params do
-        optional :page, type: Integer
+        optional :page, type: Integer, default: 1
       end
       get do
         organizations = Organization.page(params[:page])
@@ -37,7 +37,7 @@ module Ohana
         resource '/locations' do
           desc "Return the queried organization's locations."
           params do
-            optional :page, type: Integer
+            optional :page, type: Integer, default: 1
           end
           get do
             org = Organization.find(params[:organization_id])
@@ -74,7 +74,7 @@ module Ohana
         resource '/nearby' do
           desc "Returns locations near the one queried."
           params do
-            optional :page, type: Integer
+            optional :page, type: Integer, default: 1
             optional :radius, type: Float
           end
           get do
@@ -117,6 +117,25 @@ module Ohana
             s
           end
         end
+      end
+    end
+
+    resource 'categories' do
+      # GET /categories
+      desc "Returns all categories"
+      params do
+        optional :page, type: Integer, default: 1
+      end
+      get do
+        categories = Category.page(params[:page]).per(400)
+        set_link_header(categories)
+        categories.extend CategoriesRepresenter
+      end
+
+      desc "Get the details for a specific organization"
+      get ':id' do
+        cat = Category.find(params[:id])
+        cat.extend CategoryRepresenter
       end
     end
 
@@ -166,7 +185,7 @@ module Ohana
         optional :location, type: String, desc: "An address or 5-digit ZIP code"
         optional :radius, type: Float, desc: "Distance in miles from the location parameter"
         optional :language, type: String, desc: "Languages other than English spoken at the location"
-        optional :page, type: Integer
+        optional :page, type: Integer, default: 1
       end
       get do
         locations = Location.search(params)
