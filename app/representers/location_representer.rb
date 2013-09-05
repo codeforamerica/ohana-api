@@ -13,6 +13,7 @@ module LocationRepresenter
   property :emails
   property :faxes
   property :hours
+  property :kind
   property :languages
   property :name
   property :phones

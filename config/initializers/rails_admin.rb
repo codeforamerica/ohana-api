@@ -76,8 +76,6 @@ RailsAdmin.config do |config|
       field :wait
 
       field :keywords
-
-      #field :category
       field :categories
     end
   end
@@ -101,6 +99,11 @@ RailsAdmin.config do |config|
     edit do
       field :organization
       field :name
+      field :kind do
+        render do
+          bindings[:form].select("kind", bindings[:object].kind_enum, {}, {})
+        end
+      end
       field :description, :text do
         html_attributes rows: 20, cols: 50
       end
