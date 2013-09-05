@@ -31,6 +31,7 @@ RailsAdmin.config do |config|
     list do
       field :name
       field :locations
+      field :updated_at
     end
 
     edit do
@@ -49,8 +50,9 @@ RailsAdmin.config do |config|
     weight -1
 
     list do
-      field :name
+      #field :name
       field :location
+      field :updated_at
     end
 
     edit do
@@ -93,6 +95,7 @@ RailsAdmin.config do |config|
       field :name
       field :full_address
       field :organization
+      field :updated_at
     end
 
     edit do
@@ -146,19 +149,19 @@ RailsAdmin.config do |config|
     end
   end
 
-  # config.model 'Category' do
-  #   # object_label_method do
-  #   #   :name
-  #   # end
-  #   list do
-  #     field :name
-  #     field :parent
-  #   end
-  #   edit do
-  #     field :name
-  #     field :parent
-  #   end
-  # end
+  config.model 'Category' do
+    object_label_method do
+      :name
+    end
+    list do
+      field :name
+      field :parent_name
+    end
+    edit do
+      field :name
+      field :parent_name
+    end
+  end
 
   config.model 'Schedule' do
     object_label_method do
