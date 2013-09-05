@@ -19,5 +19,6 @@ module ServiceRepresenter
   property :short_desc
   property :urls
   property :wait
+  property :updated_at
 
 end
