@@ -7,6 +7,6 @@ module CategoryRepresenter
   property :oe_id
   property :name
   property :parent_id
-  property :parent_name
+  #property :parent_name
 
 end

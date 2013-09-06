@@ -1,5 +1,11 @@
+require "garner/mixins/rack"
+
 module Ohana
   class API < Grape::API
+
+    use Rack::ConditionalGet
+    use Rack::ETag
+    helpers Garner::Mixins::Rack
 
     resource "/" do
       # GET /
@@ -66,7 +72,7 @@ module Ohana
 
       desc "Get the details for a specific location"
       get ':id' do
-        location = Location.find(params[:id])
+        location = Location.includes([:organization, :services]).find(params[:id])
         location.extend LocationRepresenter
       end
 
@@ -108,7 +114,7 @@ module Ohana
             requires :keywords, type: Array
           end
           post do
-            authenticate!
+            #authenticate!
             s = Service.find(params[:services_id])
             params[:keywords].each do |k|
               s.keywords << k unless s.keywords.include? k
@@ -123,19 +129,10 @@ module Ohana
     resource 'categories' do
       # GET /categories
       desc "Returns all categories"
-      params do
-        optional :page, type: Integer, default: 1
-      end
       get do
-        categories = Category.page(params[:page]).per(400)
-        set_link_header(categories)
-        categories.extend CategoriesRepresenter
-      end
-
-      desc "Get the details for a specific organization"
-      get ':id' do
-        cat = Category.find(params[:id])
-        cat.extend CategoryRepresenter
+        garner.bind(Category) do
+          Category.page(1).per(400)
+        end
       end
     end
 

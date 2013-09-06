@@ -1,3 +1,5 @@
+require "garner/mixins/rack"
+
 module API
   class Root < Grape::API
     prefix 'api'
@@ -5,6 +7,12 @@ module API
     version 'v1', using: :header, vendor: 'ohanapi'
 
     helpers do
+
+      Garner::Mixins::Rack
+
+      Garner.configure do |config|
+        config.mongoid_identity_fields = [:_id]
+      end
 
       def authenticate!
         error!('401 Unauthorized', 401) unless valid_api_token?

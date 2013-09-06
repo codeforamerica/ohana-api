@@ -1,5 +1,5 @@
 require 'roar/representer/json'
-# require 'roar/representer/feature/hypermedia'
+require 'roar/representer/feature/hypermedia'
 
 module LocationRepresenter
   include Roar::Representer::JSON
