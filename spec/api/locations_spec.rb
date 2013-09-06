@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Ohana::API do
 
-  describe "GET Requests" do
+  describe "Location Requests" do
     include DefaultUserAgent
 
     describe "GET /api/locations" do
@@ -174,6 +174,33 @@ describe Ohana::API do
             keys.should_not include(key)
           end
         end
+      end
+    end
+
+    describe "PUT /api/locations/:id" do
+      before(:each) do
+        @loc = create(:location)
+      end
+
+      it "doesn't allow setting non-whitelisted attributes" do
+        put "api/locations/#{@loc.id}?foo=bar"
+        @loc.reload
+        expect(response).to be_success
+        json.should_not include "foo"
+      end
+
+      it "allows setting whitelisted attributes" do
+        put "api/locations/#{@loc.id}?kind=human_services"
+        @loc.reload
+        expect(response).to be_success
+        json["kind"].should == "human_services"
+      end
+
+      it "validates the kind attribute" do
+        put "api/locations/#{@loc.id}?kind=human_service"
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Kind is not included in the list"
       end
     end
 

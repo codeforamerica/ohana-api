@@ -6,6 +6,10 @@ class Location
 
   paginates_per Rails.env.test? ? 1 : 30
 
+  attr_accessible :accessibility, :address, :ask_for, :contacts, :description,
+                  :emails, :faxes, :hours, :kind, :languages, :mail_address,
+                  :name, :phones, :short_desc, :transportation, :urls
+
   # embedded_in :organization
   belongs_to :organization
   validates_presence_of :organization

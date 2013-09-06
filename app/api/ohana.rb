@@ -76,6 +76,18 @@ module Ohana
         location.extend LocationRepresenter
       end
 
+      desc "Update a location"
+      params do
+        requires :id, type: String, desc: "Location ID"
+      end
+      put ':id' do
+        authenticate!
+        loc = Location.find(params[:id])
+        params = request.params.except(:route_info)
+        loc.update_attributes!(params)
+        loc
+      end
+
       segment '/:locations_id' do
         resource '/nearby' do
           desc "Returns locations near the one queried."
@@ -83,6 +95,7 @@ module Ohana
             optional :page, type: Integer, default: 1
             optional :radius, type: Float
           end
+
           get do
             location = Location.find(params[:locations_id])
             nearby = Location.nearby(location, params)
@@ -114,7 +127,7 @@ module Ohana
             requires :keywords, type: Array
           end
           post do
-            #authenticate!
+            authenticate!
             s = Service.find(params[:services_id])
             params[:keywords].each do |k|
               s.keywords << k unless s.keywords.include? k
