@@ -77,7 +77,7 @@ OhanaApi::Application.configure do
   config.active_support.deprecation = :notify
 
   # Roar-Rails hypermedia links base url
-  config.representer.default_url_options = { :host => "ohanapi.herokuapp.com/api" }
+  #config.representer.default_url_options = { :host => "ohanapi.herokuapp.com/api" }
 
   config.api_base_host = "ohanapi.herokuapp.com/api"
 

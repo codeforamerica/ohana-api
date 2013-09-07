@@ -1,12 +1,12 @@
-require 'roar/representer/json'
+# require 'roar/representer/json'
 
-module ContactRepresenter
-  include Roar::Representer::JSON
+# module ContactRepresenter
+#   include Roar::Representer::JSON
 
-  property :name
-  property :title
-  property :phone
-  property :email
-  property :fax
+#   property :name
+#   property :title
+#   property :phone
+#   property :email
+#   property :fax
 
-end
+# end

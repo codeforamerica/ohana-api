@@ -1,13 +1,13 @@
-require 'roar/representer/json'
-require 'roar/representer/feature/hypermedia'
+# require 'roar/representer/json'
+# require 'roar/representer/feature/hypermedia'
 
-module AddressRepresenter
-  include Roar::Representer::JSON
-  include Roar::Representer::Feature::Hypermedia
+# module AddressRepresenter
+#   include Roar::Representer::JSON
+#   include Roar::Representer::Feature::Hypermedia
 
-  property :street
-  property :city
-  property :state
-  property :zip
+#   property :street
+#   property :city
+#   property :state
+#   property :zip
 
-end
+# end

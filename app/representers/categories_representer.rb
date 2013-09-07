@@ -1,10 +1,10 @@
-require 'roar/representer/json'
-require 'representable/json/collection'
+# require 'roar/representer/json'
+# require 'representable/json/collection'
 
-module CategoriesRepresenter
-  include Roar::Representer::JSON
-  include Representable::JSON::Collection
+# module CategoriesRepresenter
+#   include Roar::Representer::JSON
+#   include Representable::JSON::Collection
 
-  items extend: CategoryRepresenter, class: Category
+#   items extend: CategoryRepresenter, class: Category
 
-end
+# end

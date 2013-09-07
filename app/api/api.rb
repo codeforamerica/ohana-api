@@ -40,7 +40,7 @@ module API
       }.to_json, 400)
     end
 
-    mount Ohana::API
+    mount Ohana::Locations
     Grape::Endpoint.send :include, LinkHeader
     add_swagger_documentation markdown: true, hide_documentation_path: true,
       hide_format: true, api_version: 'v1'

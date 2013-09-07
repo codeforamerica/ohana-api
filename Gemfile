@@ -63,9 +63,10 @@ gem 'rack-cors', :require => 'rack/cors'
 #gem 'rocket_pants', '~> 1.0'
 gem "grape"
 gem 'newrelic-grape'
+gem 'grape-entity'
 gem "garner"
-gem 'roar'
-gem "roar-rails"
+#gem 'roar'
+#gem "roar-rails"
 gem "kaminari", :git => "git://github.com/amatsuda/kaminari.git", :ref => "01f65e112d"
 
 # API Documentation

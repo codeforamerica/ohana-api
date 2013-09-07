@@ -1,12 +1,12 @@
-require 'roar/representer/json'
+# require 'roar/representer/json'
 
-module CategoryRepresenter
-  include Roar::Representer::JSON
+# module CategoryRepresenter
+#   include Roar::Representer::JSON
 
-  property :id
-  property :oe_id
-  property :name
-  property :parent_id
-  #property :parent_name
+#   property :id
+#   property :oe_id
+#   property :name
+#   property :parent_id
+#   #property :parent_name
 
-end
+# end
