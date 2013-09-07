@@ -57,8 +57,7 @@ RailsAdmin.config do |config|
 
     edit do
       field :location do
-        partial "location"
-        help ""
+        read_only true
       end
       field :name
       field :description
@@ -97,7 +96,9 @@ RailsAdmin.config do |config|
     end
 
     edit do
-      field :organization
+      field :organization do
+        read_only true
+      end
       field :name
       field :kind do
         render do

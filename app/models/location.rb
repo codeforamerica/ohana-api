@@ -8,7 +8,9 @@ class Location
 
   attr_accessible :accessibility, :address, :ask_for, :contacts, :description,
                   :emails, :faxes, :hours, :kind, :languages, :mail_address,
-                  :name, :phones, :short_desc, :transportation, :urls
+                  :name, :phones, :short_desc, :transportation, :urls,
+                  :contacts_attributes, :mail_address_attributes,
+                  :address_attributes
 
   # embedded_in :organization
   belongs_to :organization
