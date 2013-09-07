@@ -4,9 +4,9 @@ module Ohana
 
   module Entities
     class Location < Grape::Entity
-      expose :name
-      expose :description, documentation: { type: "string", desc: "Location description." }
-      expose :accessibility, :if => lambda { |object, options| object.accessibility.present? }
+      expose :name, :description, :accessibility, :languages
+     # expose :description, documentation: { type: "string", desc: "Location description." }
+     # expose :accessibility
     end
   end
 
@@ -21,12 +21,10 @@ module Ohana
       optional :per_page, type: Integer
     end
     get '/locations' do
-      # locations = Location.page(params[:page]).per(params[:per_page])
-      # present locations, with: Ohana::Entities::Location
-      garner.options(expires_in: 15.minutes) do
+      garner.options(expires_in: 1.minute) do
         locations = Location.includes([:organization, :services]).page(params[:page]).per(params[:per_page])
-        present locations, with: Ohana::Entities::Location
-        locations.to_s
+        locations = present locations, with: Ohana::Entities::Location
+        locations.as_json
       end
     end
   end
