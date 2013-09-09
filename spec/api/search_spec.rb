@@ -37,12 +37,12 @@ describe Ohana::API do
         json.first["name"].should == "Belmont Farmers Market"
       end
 
-      xit 'includes products_sold' do
-        products_sold = json.first["products_sold"]
-        products_sold.should be_present
-        products_sold.should be_a Array
+      it 'includes products_sold' do
+        products = json.first["products"]
+        products.should be_present
+        products.should be_a Array
         ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"].each do |product|
-          products_sold.should include(product)
+          products.should include(product)
         end
       end
 
@@ -212,7 +212,7 @@ describe Ohana::API do
           loc1 = create(:location)
           loc2 = create(:nearby_loc)
           get "api/search?location=1236%20Broadway,%20Burlingame,%20CA%2094010"
-          json.first["name"].should == "Library"
+          json.first["name"].should == "VRS Services"
         end
       end
 
