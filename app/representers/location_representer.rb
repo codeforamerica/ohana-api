@@ -15,8 +15,11 @@ module LocationRepresenter
   property :hours
   property :kind
   property :languages
+  property :market_match
   property :name
+  property :payments
   property :phones
+  property :products
   property :short_desc
   property :transportation
   property :urls
