@@ -38,8 +38,8 @@ describe "GET 'nearby'" do
 
   context 'when the location has no coordinates' do
     it "returns empty array" do
-      no_coords = create(:no_coords)
-      get "api/locations/#{no_coords.id}/nearby"
+      no_address = create(:no_address)
+      get "api/locations/#{no_address.id}/nearby"
       json.should == []
     end
   end

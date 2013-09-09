@@ -111,7 +111,10 @@ class Location
 
   include Geocoder::Model::Mongoid
   geocoded_by :full_physical_address           # can also be an IP address
-  after_validation :geocode          # auto-fetch coordinates
+
+  # Only call Google's geocoding service if the address has changed
+  # to avoid unnecessary requests that affect our rate limit.
+  after_validation :geocode, if: :address_changed?
 
   #NE and SW geo coordinates that define the boundaries of San Mateo County
   SMC_BOUNDS = [[37.1074,-122.521], [37.7084,-122.085]].freeze
@@ -273,5 +276,17 @@ class Location
     coll = []
     other_locs.each { |loc| coll.push(loc.url) } if other_locs.size > 1
     coll
+  end
+
+  def physical_address_changed?
+    self.address.changed? if self.address
+  end
+
+  def mail_address_changed?
+    self.mail_address.changed? if self.mail_address
+  end
+
+  def address_changed?
+    physical_address_changed? || mail_address_changed?
   end
 end

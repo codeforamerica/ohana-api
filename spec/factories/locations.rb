@@ -42,6 +42,13 @@ FactoryGirl.define do
     zip "94020"
   end
 
+  factory :po_box, class: Address do
+    street "P.O Box 123"
+    city "La Honda"
+    state "CA"
+    zip "94020"
+  end
+
 
   factory :nearby_loc, class: Location do
     name "Library"
@@ -53,10 +60,10 @@ FactoryGirl.define do
     after(:create) { |loc| loc.index.refresh }
   end
 
-  factory :no_coords, class: Location do
+  factory :no_address, class: Location do
     name "No Address"
     description "no coordinates"
-    mail_address { FactoryGirl.build(:mail_address) }
+    mail_address { FactoryGirl.build(:po_box) }
     association :organization
     after(:create) { |loc| loc.index.refresh }
   end
