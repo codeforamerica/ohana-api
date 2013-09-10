@@ -22,8 +22,8 @@ describe "GET 'nearby'" do
   end
 
   context 'with valid radius' do
-    it "displays nearby locations within 1 mile" do
-      get "api/locations/#{@loc.id}/nearby?radius=1"
+    it "displays nearby locations within 2 mile2" do
+      get "api/locations/#{@loc.id}/nearby?radius=2"
       json.length.should == 1
       json.first["name"].should == "Library"
     end
@@ -38,8 +38,8 @@ describe "GET 'nearby'" do
 
   context 'when the location has no coordinates' do
     it "returns empty array" do
-      no_coords = create(:no_coords)
-      get "api/locations/#{no_coords.id}/nearby"
+      no_address = create(:no_address)
+      get "api/locations/#{no_address.id}/nearby"
       json.should == []
     end
   end

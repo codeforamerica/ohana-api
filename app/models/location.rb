@@ -1,5 +1,4 @@
 class Location
-  #include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Enumerize
@@ -10,7 +9,7 @@ class Location
                   :emails, :faxes, :hours, :kind, :languages, :mail_address,
                   :name, :phones, :short_desc, :transportation, :urls,
                   :contacts_attributes, :mail_address_attributes,
-                  :address_attributes
+                  :address_attributes, :products, :payments, :market_match
 
   # embedded_in :organization
   belongs_to :organization
@@ -50,7 +49,7 @@ class Location
   field :hours
 
   field :kind
-  enumerize :kind, in: [:other, :human_services, :entertainment]
+  enumerize :kind, in: [:other, :human_services, :entertainment, :farmers_market]
 
   field :languages, type: Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
@@ -67,7 +66,14 @@ class Location
 
   field :urls, type: Array
 
-  validates_presence_of :name, :description
+  # farmers markets
+  field :market_match, type: Boolean
+  field :products, type: Array
+  field :payments, type: Array
+
+  validates_presence_of :name
+  validates_presence_of :description,
+    :unless => Proc.new { |loc| loc.attributes.include?("market_match") }
   validate :address_presence
 
   extend ValidatesFormattingOf::ModelAdditions
@@ -105,7 +111,10 @@ class Location
 
   include Geocoder::Model::Mongoid
   geocoded_by :full_physical_address           # can also be an IP address
-  #after_validation :geocode          # auto-fetch coordinates
+
+  # Only call Google's geocoding service if the address has changed
+  # to avoid unnecessary requests that affect our rate limit.
+  after_validation :geocode, if: :address_changed?
 
   #NE and SW geo coordinates that define the boundaries of San Mateo County
   SMC_BOUNDS = [[37.1074,-122.521], [37.7084,-122.085]].freeze
@@ -267,5 +276,17 @@ class Location
     coll = []
     other_locs.each { |loc| coll.push(loc.url) } if other_locs.size > 1
     coll
+  end
+
+  def physical_address_changed?
+    self.address.changed? if self.address
+  end
+
+  def mail_address_changed?
+    self.mail_address.changed? if self.mail_address
+  end
+
+  def address_changed?
+    physical_address_changed? || mail_address_changed?
   end
 end

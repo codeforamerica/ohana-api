@@ -49,7 +49,7 @@ group :development do
 end
 
 # Geocoding
-gem "geocoder", :git => "git://github.com/alexreisner/geocoder.git", :ref => "bb2d338afc"
+gem "geocoder", :git => "git://github.com/alexreisner/geocoder.git", :ref => "3568e5e8e6"
 gem "redis"
 
 # Format validation for URLs, phone numbers, zipcodes

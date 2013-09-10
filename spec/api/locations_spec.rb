@@ -171,29 +171,58 @@ describe Ohana::API do
     end
 
     describe "PUT /api/locations/:id" do
+      let(:valid_attributes) { { name: "test app",
+                           main_url: "http://localhost:8080",
+                           callback_url: "http://localhost:8080" } }
       before(:each) do
         @loc = create(:location)
+        user = FactoryGirl.create(:user)
+        api_application = user.api_applications.create! valid_attributes
+        @token = api_application.api_token
       end
 
       it "doesn't allow setting non-whitelisted attributes" do
-        put "api/locations/#{@loc.id}?foo=bar"
+        put "api/locations/#{@loc.id}", { :foo => "bar" },
+          { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response).to be_success
         json.should_not include "foo"
       end
 
       it "allows setting whitelisted attributes" do
-        put "api/locations/#{@loc.id}?kind=human_services"
+        put "api/locations/#{@loc.id}", { :kind => "human_services" },
+          { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response).to be_success
         json["kind"].should == "human_services"
       end
 
       it "validates the kind attribute" do
-        put "api/locations/#{@loc.id}?kind=human_service"
+        put "api/locations/#{@loc.id}", { :kind => "human_service" },
+          { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
         json["message"].should include "Kind is not included in the list"
+      end
+
+      it "doesn't geocode when address hasn't changed" do
+        @loc.coordinates = []
+        @loc.save
+        put "api/locations/#{@loc.id}", { :kind => "entertainment" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(@loc.coordinates).to eq([])
+      end
+
+      it "geocodes when address has changed" do
+        address = {
+          street: "1 davis drive", city: "belmont", state: "CA", zip: "94002"
+        }
+        coords = @loc.coordinates
+        put "api/locations/#{@loc.id}", { :address => address },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(@loc.coordinates).to_not eq(coords)
       end
     end
 

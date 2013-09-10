@@ -8,6 +8,17 @@ This repo is in the early stages of development, stay tuned for when we are read
 
 There is a front-end portion of this project under development at [Human Services Finder](https://github.com/codeforamerica/human_services_finder)
 
+## Stack Overview
+
+* Ruby version 2.0.0
+* Rails version 3.2.13
+* MongoDB with the Mongoid ORM
+* Redis
+* ElasticSearch
+* API framework: Grape
+* Testing Frameworks: RSpec, Factory Girl, Capybara
+
+
 ## Installation
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
@@ -69,22 +80,14 @@ Visit the Download page on elasticsearch.org for steps to install on other syste
     git clone git://github.com/codeforamerica/ohana-api.git
     cd ohana-api
 
-### Install the dependencies:
+### Install the dependencies and prepare the DB:
 
-    bundle
+    script/bootstrap
 
-### Load the data
-You can load a dataset of community-based organizations in San Mateo County in your local db with this command:
+If you get a `permission denied` message, set the correct permissions, then run the above script again:
 
-    rake load_data
+    chmod -R 755 script
 
-Create the geospatial indexes for the [geocoder](https://github.com/alexreisner/geocoder) gem:
-
-    rake db:mongoid:create_indexes
-
-Generate the ElasticSearch index that the [tire](https://github.com/karmi/tire) gem uses for full text search:
-
-    rake environment tire:import CLASS=Location FORCE=true
 
 ### Run the app
 Start the app locally using Unicorn:
@@ -140,18 +143,12 @@ The app allows developers to sign up for an account, but all email addresses nee
     GMAIL_USERNAME: your_email@gmail.com
     GMAIL_PASSWORD: your_password
 
-`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can load 2 example users in the database with this command:
+`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can [sign in](http://localhost:8080/users/sign_in) with either of the users whose username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
-    rake db:seed
-
-You can then [sign in](http://localhost:8080/users/sign_in) with either of those users, whose username and password are stored in `db/seeds.rb`.
+To try out the admin interface, go to [/admin](http://localhost:8080/admin) and sign in with the username and password listed in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
 ### Test the app
-To test locally, you will need to run this once to set up the test DB:
-
-    rake db:mongoid:create_indexes RAILS_ENV=test
-
-Then you can run tests with this simple command:
+Run tests locally with this simple command:
 
     rspec
 
@@ -163,14 +160,8 @@ For faster tests:
 
 To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
-## Development Details
-
-* Ruby version 2.0.0
-* Rails version 3.2.13
-* MongoDB with the Mongoid ORM
-* Template Engines: ERB and HAML
-* Testing Frameworks: RSpec, Factory Girl
-* Redis
+### Drop the database
+If you ever want to start from scratch, run `script/drop`, then `script/bootstrap` to set everything up again.
 
 ## Contributing
 
