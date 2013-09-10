@@ -29,12 +29,11 @@ module Ohana
         optional :per_page, type: Integer
       end
       get do
-        garner.options(expires_in: 15.minutes) do
-          locations = Location.page(params[:page]).per(params[:per_page])
+        #garner.options(expires_in: 15.minutes) do
+          locations = Location.includes([:organization, :services]).page(params[:page]).per(params[:per_page])
           set_link_header(locations)
-          locations = present locations, with: Entities::Location
-          locations.as_json
-        end
+          present(locations, with: Entities::Location)
+        #end
       end
 
       desc "Get the details for a specific location"
