@@ -65,14 +65,14 @@ module Ohana
         optional :per_page, type: Integer
       end
       get do
-        locations = Location.includes([:organization, :services]).page(params[:page]).per(params[:per_page])
+        locations = Location.page(params[:page]).per(params[:per_page])
         set_link_header(locations)
         locations.extend LocationsRepresenter
       end
 
       desc "Get the details for a specific location"
       get ':id' do
-        location = Location.includes([:organization, :services]).find(params[:id])
+        location = Location.find(params[:id])
         location.extend LocationRepresenter
       end
 
