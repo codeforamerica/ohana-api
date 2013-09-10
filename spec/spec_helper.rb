@@ -55,7 +55,8 @@ RSpec.configure do |config|
     DatabaseCleaner.start
     Location.tire.index.delete
     Location.create_elasticsearch_index
-    #Garner.config.reset!
+    Garner.config.reset!
+    Garner.config.cache.clear
   end
   config.after(:each) do
     DatabaseCleaner.clean

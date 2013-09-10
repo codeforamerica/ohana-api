@@ -15,7 +15,6 @@ describe Ohana::API do
       it "returns the correct number of existing locations" do
         create_list(:location, 2)
         get "/api/locations"
-        puts json
         expect(response).to be_success
         expect(json.length).to eq(1)
       end

@@ -29,19 +29,21 @@ module Ohana
         optional :per_page, type: Integer
       end
       get do
-        #garner.options(expires_in: 1.minute) do
+        garner.options(expires_in: 15.minutes) do
           locations = Location.page(params[:page]).per(params[:per_page])
           set_link_header(locations)
           locations = present locations, with: Entities::Location
           locations.as_json
-        #end
+        end
       end
 
       desc "Get the details for a specific location"
       get ':id' do
-        location = Location.find(params[:id])
-        location = present location, with: Entities::Location
-        location
+        garner.options(expires_in: 5.minutes) do
+          location = Location.find(params[:id])
+          location = present location, with: Entities::Location
+          location.as_json
+        end
       end
 
       desc "Update a location"
@@ -65,10 +67,13 @@ module Ohana
           end
 
           get do
-            location = Location.find(params[:locations_id])
-            nearby = Location.nearby(location, params)
-            set_link_header(nearby) if location.coordinates.present?
-            present nearby, with: Entities::Location
+            garner.options(expires_in: 15.minutes) do
+              location = Location.find(params[:locations_id])
+              nearby = Location.nearby(location, params)
+              set_link_header(nearby) if location.coordinates.present?
+              nearby = present nearby, with: Entities::Location
+              nearby.as_json
+            end
           end
         end
       end
@@ -82,15 +87,21 @@ module Ohana
         optional :page, type: Integer, default: 1
       end
       get do
-        organizations = Organization.page(params[:page])
-        set_link_header(organizations)
-        present organizations, with: Organization::Entity
+        garner.options(expires_in: 15.minutes) do
+          orgs = Organization.page(params[:page])
+          set_link_header(orgs)
+          orgs = present orgs, with: Organization::Entity
+          orgs.as_json
+        end
       end
 
       desc "Get the details for a specific organization"
       get ':id' do
-        org = Organization.find(params[:id])
-        present org, with: Organization::Entity
+        garner.options(expires_in: 5.minutes) do
+          org = Organization.find(params[:id])
+          org = present org, with: Organization::Entity
+          org.as_json
+        end
       end
 
       segment '/:organization_id' do
@@ -100,10 +111,13 @@ module Ohana
             optional :page, type: Integer, default: 1
           end
           get do
-            org = Organization.find(params[:organization_id])
-            locations = org.locations.page(params[:page])
-            set_link_header(locations)
-            present locations, with: Entities::Location
+            garner.options(expires_in: 15.minutes) do
+              org = Organization.find(params[:organization_id])
+              locations = org.locations.page(params[:page])
+              set_link_header(locations)
+              locations = present locations, with: Entities::Location
+              locations.as_json
+            end
           end
         end
       end
@@ -203,7 +217,6 @@ module Ohana
       get do
         locations = Location.search(params)
         set_link_header(locations)
-        #locations.extend LocationsRepresenter
         locations
       end
     end
