@@ -1,6 +1,7 @@
 class Address
   #include RocketPants::Cacheable
   include Mongoid::Document
+  include Grape::Entity::DSL
 
   embedded_in :location
   #belongs_to :location
@@ -23,4 +24,10 @@ class Address
                             allow_blank: true,
                             message: "%{value} is not a valid ZIP code"
 
+  entity do
+    expose :street
+    expose   :city
+    expose  :state
+    expose    :zip
+  end
 end

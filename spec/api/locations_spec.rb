@@ -15,6 +15,7 @@ describe Ohana::API do
       it "returns the correct number of existing locations" do
         create_list(:location, 2)
         get "/api/locations"
+        puts json
         expect(response).to be_success
         expect(json.length).to eq(1)
       end
@@ -26,7 +27,6 @@ describe Ohana::API do
         expect(json.length).to eq(1)
         represented = [{
           "id" => "#{locs.last.id}",
-            "accessibility"=>[],
             "coordinates"=>locs.last.coordinates,
             "description"=>locs.last.description,
             "kind"=>locs.last.kind,
@@ -42,7 +42,6 @@ describe Ohana::API do
               "state"=>locs.last.address.state,
               "zip"=>locs.last.address.zip
             },
-            "contacts"=>[],
             "updated_at"=> locs.last.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
             "organization"=>{
               "id"=>"#{locs.last.organization.id}",
@@ -50,9 +49,7 @@ describe Ohana::API do
               "url" => "http://example.com/api/organizations/#{locs.last.organization.id}",
               "locations_url" =>"http://example.com/api/organizations/#{locs.last.organization.id}/locations"
             },
-            "services"=>[],
-            "url" => "http://example.com/api/locations/#{locs.last.id}",
-            "other_locations" => []
+            "url" => "http://example.com/api/locations/#{locs.last.id}"
         }]
         json.should == represented
       end
@@ -75,7 +72,6 @@ describe Ohana::API do
         it "returns a status by id" do
           represented = {
             "id" => "#{@location.id}",
-            "accessibility" => [],
             "coordinates" => @location.coordinates,
             "description" => @location.description,
             "kind"=>@location.kind,
@@ -91,7 +87,6 @@ describe Ohana::API do
               "state" => @location.address.state,
               "zip" => @location.address.zip
             },
-            "contacts" => [],
             "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
             "organization" => {
               "id" => "#{@location.organization.id}",
@@ -103,12 +98,10 @@ describe Ohana::API do
               "id" => "#{@location.services.first.id}",
               "description" => @location.services.first.description,
               "keywords" => @location.services.first.keywords,
-              "categories" => [],
               "name" => @location.services.first.name,
               "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
             }],
-            "url" => "http://example.com/api/locations/#{@location.id}",
-            "other_locations" => []
+            "url" => "http://example.com/api/locations/#{@location.id}"
           }
           json.should == represented
         end

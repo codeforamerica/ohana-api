@@ -2,6 +2,7 @@ class Service
   #include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Grape::Entity::DSL
 
   # embedded_in :location
   belongs_to :location
@@ -33,4 +34,22 @@ class Service
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
               message: "Please enter a valid URL" } }
+
+  entity do
+    expose              :id
+    expose        :audience, :unless => lambda { |o,_| o.audience.blank? }
+    expose     :description, :unless => lambda { |o,_| o.description.blank? }
+    expose     :eligibility, :unless => lambda { |o,_| o.eligibility.blank? }
+    expose            :fees, :unless => lambda { |o,_| o.fees.blank? }
+    expose :funding_sources, :unless => lambda { |o,_| o.funding_sources.blank? }
+    expose        :keywords, :unless => lambda { |o,_| o.keywords.blank? }
+    expose      :categories, :using => Category::Entity, :unless => lambda { |o,_| o.categories.blank? }
+    expose    :how_to_apply, :unless => lambda { |o,_| o.how_to_apply.blank? }
+    expose            :name, :unless => lambda { |o,_| o.name.blank? }
+    expose   :service_areas, :unless => lambda { |o,_| o.service_areas.blank? }
+    expose      :short_desc, :unless => lambda { |o,_| o.short_desc.blank? }
+    expose            :urls, :unless => lambda { |o,_| o.urls.blank? }
+    expose            :wait, :unless => lambda { |o,_| o.wait.blank? }
+    expose      :updated_at
+  end
 end

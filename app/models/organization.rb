@@ -2,6 +2,7 @@ class Organization
   #include RocketPants::Cacheable
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Grape::Entity::DSL
 
   has_many :locations, dependent: :destroy
   #embeds_many :locations
@@ -26,6 +27,13 @@ class Organization
 
   def root_url
     Rails.application.routes.url_helpers.root_url
+  end
+
+  entity do
+    expose :id
+    expose :name
+    expose :url
+    expose :locations_url
   end
 
 end

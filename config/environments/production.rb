@@ -50,7 +50,7 @@ OhanaApi::Application.configure do
 
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
-  config.action_mailer.default_url_options = { :host => 'ohanapi.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => ENV["MAILER_URL"] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   # Disable delivery errors, bad email addresses will be ignored
@@ -76,9 +76,6 @@ OhanaApi::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Roar-Rails hypermedia links base url
-  #config.representer.default_url_options = { :host => "ohanapi.herokuapp.com/api" }
-
-  config.api_base_host = "ohanapi.herokuapp.com/api"
+  config.api_base_host = ENV["API_BASE_HOST"]
 
 end
