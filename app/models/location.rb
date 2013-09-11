@@ -132,14 +132,19 @@ class Location
   # services that belong to the location. This allows clients
   # to get all this information in one query instead of three.
   def to_indexed_json
-    hash = self.as_json(:except => [:organization_id], :methods => ['url'], :include => {
-      :services => { :except => [:_id, :location_id, :created_at] },
-      :organization => { :only => [:name], :methods => ['url'] },
-      :address => { :except => [:_id] },
-      :mail_address => { :except => [:_id] },
-      :contacts => { :except => [:_id] }
+    hash = self.as_json(
+      :except => [:organization_id],
+        :methods => ['url', 'other_locations'],
+      :include => {
+        :services => { :except => [:location_id, :created_at] },
+        :organization => { :methods => ['url', 'locations_url'] },
+        :address => { :except => [:_id] },
+        :mail_address => { :except => [:_id] },
+        :contacts => { :except => [] }
       })
-    remove_nil_fields(hash,["contacts","services"])
+    hash.merge!("accessibility" => accessibility.map(&:text))
+    hash.merge!("kind" => kind.text) if kind.present?
+    remove_nil_fields(hash,["organization","contacts","services"])
     hash.to_json
   end
 
@@ -159,7 +164,11 @@ class Location
   # @return [Hash] The obj Hash with all nil fields stripped out
   def remove_nil_fields(obj,fields=[])
     fields.each do |field|
-      obj[field].each { |h| h.reject! { |_,v| v.blank? } }
+      if obj[field].is_a? Array
+        obj[field].each { |h| h.reject! { |_,v| v.blank? } }
+      elsif obj[field].is_a? Hash
+        obj[field].reject! { |_,v| v.blank? }
+      end
     end
     obj.reject! { |_,v| v.blank? }
   end
@@ -180,12 +189,12 @@ class Location
   end
 
   def self.search(params={})
-    if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
-      error!({
-        "error" => "bad request",
-        "description" => "Either keyword, location, or language is missing."
-      }, 400)
-    end
+    # if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
+    # #   error!({
+    # #     "error" => "bad request",
+    # #     "description" => "Either keyword, location, or language is missing."
+    # #   }, 400)
+    # end
 
     # Google provides a "bounds" option to restrict the address search to
     # a particular area. Since this app focuses on organizations in San Mateo
@@ -209,6 +218,7 @@ class Location
       end
       sort do
         by :_geo_distance, :coordinates => coords, :unit => "mi", :order => "asc" if params[:location].present?
+        by :created_at, "desc" if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
       end
     end
     rescue Tire::Search::SearchRequestFailed
@@ -242,11 +252,12 @@ class Location
 
   def self.nearby(loc, params={})
     coords = loc.coordinates
+    distance = params[:radius] ? Location.current_radius(params[:radius]) : 0.5
     if coords.present?
       tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
         query do
           filtered do
-            filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles"
+            filter :geo_distance, coordinates: coords, distance: "#{distance}miles"
             filter :not, { :ids => { :values => ["#{loc.id}"] } }
           end
         end

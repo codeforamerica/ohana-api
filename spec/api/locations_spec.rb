@@ -6,7 +6,7 @@ describe Ohana::API do
     include DefaultUserAgent
 
     describe "GET /api/locations" do
-      it "returns an empty array when no locations exist" do
+      xit "returns an empty array when no locations exist" do
         get "/api/locations"
         expect(response).to be_success
         json.should == []
@@ -19,38 +19,21 @@ describe Ohana::API do
         expect(json.length).to eq(1)
       end
 
-      it "supports pagination" do
-        locs = create_list(:location, 2)
+      it "sorts results by creation date descending" do
+        loc1 = create(:location)
+        sleep 1
+        loc2 = create(:nearby_loc)
         get "/api/locations?page=2"
         expect(response).to be_success
         expect(json.length).to eq(1)
-        represented = [{
-          "id" => "#{locs.last.id}",
-            "coordinates"=>locs.last.coordinates,
-            "description"=>locs.last.description,
-            "kind"=>locs.last.kind,
-            "name"=>locs.last.name,
-            "phones"=>[{
-              "number"=>"650 851-1210",
-              "department"=>"Information",
-              "phone_hours"=>"(Monday-Friday, 9-12, 1-5)"
-            }],
-            "address"=>{
-              "street"=>locs.last.address.street,
-              "city"=>locs.last.address.city,
-              "state"=>locs.last.address.state,
-              "zip"=>locs.last.address.zip
-            },
-            "updated_at"=> locs.last.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
-            "organization"=>{
-              "id"=>"#{locs.last.organization.id}",
-              "name"=>"Parent Agency",
-              "url" => "http://example.com/api/organizations/#{locs.last.organization.id}",
-              "locations_url" =>"http://example.com/api/organizations/#{locs.last.organization.id}/locations"
-            },
-            "url" => "http://example.com/api/locations/#{locs.last.id}"
-        }]
-        json.should == represented
+        expect(json.first["accessibility"]).
+          to eq(["Information on tape or in Braille", "Disabled Parking"])
+        expect(json.first["kind"]).to eq("Other")
+        expect(json.first["organization"].keys).to include("locations_url")
+        expect(json.first["url"]).
+          to eq("http://example.com/api/locations/#{loc1.id}")
+        expect(json.first["organization"]["url"]).
+          to eq("http://example.com/api/organizations/#{loc1.organization.id}")
       end
 
       it "returns the correct info about the locations" do
@@ -71,28 +54,24 @@ describe Ohana::API do
         it "returns a status by id" do
           represented = {
             "id" => "#{@location.id}",
-            "coordinates" => @location.coordinates,
-            "description" => @location.description,
-            "kind"=>@location.kind,
-            "name" => @location.name,
-            "phones" => [{
-              "number" => "650 851-1210",
-              "department" => "Information",
-              "phone_hours" => "(Monday-Friday, 9-12, 1-5)"
-            }],
+            "accessibility"=>["Information on tape or in Braille", "Disabled Parking"],
             "address" => {
               "street" => @location.address.street,
               "city" => @location.address.city,
               "state" => @location.address.state,
               "zip" => @location.address.zip
             },
+            "coordinates" => @location.coordinates,
+            "description" => @location.description,
+            "kind"=>"Other",
+            "name" => @location.name,
+            "phones" => [{
+              "number" => "650 851-1210",
+              "department" => "Information",
+              "phone_hours" => "(Monday-Friday, 9-12, 1-5)"
+            }],
             "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
-            "organization" => {
-              "id" => "#{@location.organization.id}",
-              "name"=> "Parent Agency",
-              "url" => "http://example.com/api/organizations/#{@location.organization.id}",
-              "locations_url" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
-            },
+            "url" => "http://example.com/api/locations/#{@location.id}",
             "services" => [{
               "id" => "#{@location.services.first.id}",
               "description" => @location.services.first.description,
@@ -100,7 +79,12 @@ describe Ohana::API do
               "name" => @location.services.first.name,
               "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
             }],
-            "url" => "http://example.com/api/locations/#{@location.id}"
+            "organization" => {
+              "id" => "#{@location.organization.id}",
+              "name"=> "Parent Agency",
+              "url" => "http://example.com/api/organizations/#{@location.organization.id}",
+              "locations_url" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
+            }
           }
           json.should == represented
         end
@@ -167,6 +151,33 @@ describe Ohana::API do
           end
         end
       end
+
+      context "when farmers market" do
+        before(:each) do
+          fm = create(:farmers_market_loc)
+          get "api/locations/#{fm.id}"
+        end
+
+        it 'includes products' do
+          products = json["products"]
+          products.should be_a Array
+          ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"].each do |product|
+            products.should include(product)
+          end
+        end
+
+        it 'includes payments' do
+          payments = json["payments"]
+          payments.should be_a Array
+          ["Credit", "WIC", "SFMNP", "SNAP"].each do |payment|
+            payments.should include(payment)
+          end
+        end
+
+        it 'includes market_match' do
+          expect(json["market_match"]).to eq(true)
+        end
+      end
     end
 
     describe "PUT /api/locations/:id" do
@@ -193,11 +204,11 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response).to be_success
-        json["kind"].should == "human_services"
+        json["kind"].should == "Human Services"
       end
 
       it "validates the kind attribute" do
-        put "api/locations/#{@loc.id}", { :kind => "human_service" },
+        put "api/locations/#{@loc.id}", { :kind => "Human Services" },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)

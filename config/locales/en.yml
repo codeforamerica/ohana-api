@@ -15,5 +15,11 @@ en:
         tty: "TTY"
         wheelchair: "Wheelchair"
         wheelchair_van: "Wheelchair-accessible van"
+      kind:
+        entertainment: "Entertainment"
+        farmers_market: "Farmers' Market"
+        human_services: "Human Services"
+        other: "Other"
+
 
 

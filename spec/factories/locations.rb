@@ -9,7 +9,8 @@ FactoryGirl.define do
                phone_hours: "(Monday-Friday, 9-12, 1-5)" }]
     name "VRS Services"
     description "Provides jobs training"
-    kind "other"
+    kind :other
+    accessibility [:tape_braille, :disabled_parking]
     association :organization
     after(:create) { |loc| loc.index.refresh }
   end
@@ -75,6 +76,8 @@ FactoryGirl.define do
     #coordinates [-122.274369, 37.317983]
     payments ["Credit", "WIC", "SFMNP", "SNAP"]
     products ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"]
+    market_match true
+    kind :farmers_market
     association :organization
     after(:create) { |loc| loc.index.refresh }
   end

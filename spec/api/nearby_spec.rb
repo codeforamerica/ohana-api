@@ -10,19 +10,19 @@ describe "GET 'nearby'" do
   end
 
   it "is paginated" do
-    get "api/locations/#{@loc.id}/nearby?page=2"
+    get "api/locations/#{@loc.id}/nearby?page=2&radius=5"
     json.first["name"].should == "Belmont Farmers Market"
   end
 
   context 'with no radius' do
-    it "displays nearby locations within 5 miles" do
+    it "displays nearby locations within 0.5 miles" do
       get "api/locations/#{@loc.id}/nearby"
-      json.first["name"].should == "Library"
+      json.should == []
     end
   end
 
   context 'with valid radius' do
-    it "displays nearby locations within 2 mile2" do
+    it "displays nearby locations within 2 miles" do
       get "api/locations/#{@loc.id}/nearby?radius=2"
       json.length.should == 1
       json.first["name"].should == "Library"
