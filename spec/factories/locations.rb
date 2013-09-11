@@ -54,6 +54,7 @@ FactoryGirl.define do
   factory :nearby_loc, class: Location do
     name "Library"
     description "great books"
+    kind :human_services
     address { FactoryGirl.build(:near) }
     #coordinates [-122.362882, 37.588935]
     languages ["spanish", "Arabic"]

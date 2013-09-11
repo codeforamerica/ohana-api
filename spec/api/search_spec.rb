@@ -198,6 +198,37 @@ describe Ohana::API do
       end
     end
 
+    context "with kind parameter" do
+      before(:each) do
+        loc1 = create(:location)
+        loc2 = create(:nearby_loc)
+        loc3 = create(:farmers_market_loc)
+        loc4 = create(:no_address)
+      end
+      it "finds famers markets" do
+        get "api/search?kind=market"
+        json.length.should == 1
+        json.first["name"].should == "Belmont Farmers Market"
+      end
+
+      it "finds human services" do
+        get "api/search?kind=human"
+        json.length.should == 1
+        json.first["name"].should == "Library"
+      end
+
+      it "finds other" do
+        get "api/search?kind=other"
+        json.length.should == 1
+        json.first["name"].should == "VRS Services"
+      end
+
+      it "filters out everything except kind=human and kind is not set" do
+        get "api/search?exclude=market_other"
+        headers["X-Total-Count"].should == "2"
+      end
+    end
+
     describe 'sorting search results' do
       context 'sort when neither keyword nor location is not present' do
         xit 'returns a helpful message about search query requirements' do
