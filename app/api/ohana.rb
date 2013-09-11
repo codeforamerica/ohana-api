@@ -73,8 +73,7 @@ module Ohana
               location = Location.find(params[:locations_id])
               nearby = Location.nearby(location, params)
               set_link_header(nearby) if location.coordinates.present?
-              present nearby, with: Entities::Location
-              # nearby = present nearby, with: Entities::Location
+              nearby
               # nearby.as_json
             #end
           end

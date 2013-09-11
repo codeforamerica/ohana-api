@@ -55,6 +55,7 @@ FactoryGirl.define do
     name "Library"
     description "great books"
     kind :human_services
+    accessibility [:elevator]
     address { FactoryGirl.build(:near) }
     #coordinates [-122.362882, 37.588935]
     languages ["spanish", "Arabic"]
