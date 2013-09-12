@@ -179,15 +179,29 @@ class Location
     indexes :name, type: "string", analyzer: "standard"
     indexes :description, analyzer: "snowball"
 
-    indexes :organization, type: 'object', properties: {
-      name: { type: 'string' }
-    }
-    indexes :services, type: 'object', properties: {
-      keywords: { type: 'string', boost: 5, analyzer: "snowball" },
-      categories: { type: 'object', properties: { name: { type: 'string', boost: 10, analyzer: "snowball" } } },
-      name: { type: 'string', analyzer: "snowball" },
-      description: { type: 'string', analyzer: "snowball" }
-    }
+    indexes :organization do
+      indexes :name, type: 'string'
+    end
+
+    indexes :services do
+      indexes :keywords, type: 'string', boost: 5, analyzer: "snowball"
+      indexes :name, type: 'string', analyzer: "snowball"
+      indexes :description, type: 'string', analyzer: "snowball"
+
+      indexes :categories do
+        indexes :name, type: 'string', boost: 10, analyzer: "snowball"
+      end
+    end
+
+    # indexes :organization, type: 'object', properties: {
+    #   name: { type: 'string' }
+    # }
+    # indexes :services, type: 'object', properties: {
+    #   keywords: { type: 'string', boost: 5, analyzer: "snowball" },
+    #   categories: { type: 'object', properties: { name: { type: 'string', boost: 10, analyzer: "snowball" } } },
+    #   name: { type: 'string', analyzer: "snowball" },
+    #   description: { type: 'string', analyzer: "snowball" }
+    # }
   end
 
   def self.search(params={})
@@ -213,11 +227,11 @@ class Location
           "services.name", "services.description", "services.categories.name"],
           params[:keyword],
           type: 'phrase_prefix' if params[:keyword].present?
+        match ["services.categories.name"], params[:category] if params[:category].present?
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
           filter :term, :kind => params[:kind].downcase if params[:kind].present?
-          #filter :term, "services.categories.name" => params[:category].downcase if params[:category].present?
           filter :not, { :terms => { :kind => ["market", "other"] } } if params[:exclude] == "market_other"
         end
       end
