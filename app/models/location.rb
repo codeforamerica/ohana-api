@@ -258,8 +258,8 @@ class Location
     if radius.present?
       begin
         radius = Float radius.to_s
-        # radius must be between 0.1 miles and 10 miles
-        [[0.1, radius].max, 10].min
+        # radius must be between 0.1 miles and 50 miles
+        [[0.1, radius].max, 50].min
       rescue ArgumentError
         error!({
         "error" => "bad request",

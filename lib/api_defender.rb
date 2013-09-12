@@ -100,7 +100,10 @@ class ApiDefender < Rack::Throttle::Hourly
   protected
   # only API calls should be throttled
   def need_defense?(request)
-    request.fullpath.include?("api/") && !(request.fullpath.include?("api/rate_limit"))
+    rate_limit = request.fullpath.include?("api/rate_limit")
+    docs = request.fullpath.include?("doc")
+    base = request.fullpath.include?("api/")
+    base && !rate_limit && !docs
   end
 
   # @param  [Rack::Request] request
