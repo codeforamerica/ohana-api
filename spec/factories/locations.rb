@@ -99,7 +99,6 @@ FactoryGirl.define do
     faxes nil
     address { FactoryGirl.build(:address) }
     contacts { [FactoryGirl.build(:contact_with_nil_fields)] }
-    services { [FactoryGirl.build(:service_with_nil_fields)] }
     coordinates [-122.3250474, 37.568272]
     association :organization
     after(:create) { |loc| loc.index.refresh }

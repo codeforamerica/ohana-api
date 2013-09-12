@@ -12,5 +12,7 @@ FactoryGirl.define do
     description "SNAP market"
     keywords ["health", "yoga"]
     fees nil
+    association :location, factory: :loc_with_nil_fields
+    after(:create) { |s| s.location.index.refresh }
   end
 end

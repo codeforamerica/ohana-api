@@ -229,6 +229,34 @@ describe Ohana::API do
       end
     end
 
+    context "when keyword matches category name" do
+      before(:each) do
+        create(:nearby_loc)
+        create(:location)
+        cat = Category.create!(:name => "Jobs")
+        FactoryGirl.create(:service_with_nil_fields, :category_ids => ["#{cat.id}"])
+      end
+      it "boosts location whose services category name matches the query" do
+        get "api/search?keyword=jobs"
+        headers["X-Total-Count"].should == "2"
+        json.first["name"].should == "Belmont Farmers Market"
+      end
+    end
+
+    context "with category parameter" do
+      before(:each) do
+        create(:nearby_loc)
+        create(:location)
+        cat = Category.create!(:name => "Jobs")
+        FactoryGirl.create(:service_with_nil_fields, :category_ids => ["#{cat.id}"])
+      end
+      xit "only returns location whose category name matches the query" do
+        get "api/search?category=jobs"
+        headers["X-Total-Count"].should == "1"
+        json.first["name"].should == "Belmont Farmers Market"
+      end
+    end
+
     describe 'sorting search results' do
       context 'sort when neither keyword nor location is not present' do
         xit 'returns a helpful message about search query requirements' do

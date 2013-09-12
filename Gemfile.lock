@@ -280,6 +280,9 @@ GEM
       activesupport (= 3.2.13)
       bundler (~> 1.0)
       railties (= 3.2.13)
+    rails_12factor (0.0.2)
+      rails_serve_static_assets
+      rails_stdout_logging
     rails_admin (0.4.9)
       bootstrap-sass (~> 2.2)
       builder (~> 3.0)
@@ -304,6 +307,8 @@ GEM
       i18n
       require_all
       ruby-progressbar
+    rails_serve_static_assets (0.0.1)
+    rails_stdout_logging (0.0.2)
     railties (3.2.13)
       actionpack (= 3.2.13)
       activesupport (= 3.2.13)
@@ -426,6 +431,7 @@ DEPENDENCIES
   rack-throttle
   rack-timeout
   rails (= 3.2.13)
+  rails_12factor
   rails_admin
   redis
   rspec-rails (>= 2.12.2)

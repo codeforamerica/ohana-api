@@ -136,7 +136,8 @@ class Location
       :except => [:organization_id],
         :methods => ['url', 'other_locations'],
       :include => {
-        :services => { :except => [:location_id, :created_at] },
+        :services => { :except => [:location_id, :created_at],
+          :methods => ['categories'] },
         :organization => { :methods => ['url', 'locations_url'] },
         :address => { :except => [:_id] },
         :mail_address => { :except => [:_id] },
@@ -175,7 +176,7 @@ class Location
 
   mapping do
     indexes :coordinates, type: "geo_point"
-    indexes :name
+    indexes :name, type: "string", analyzer: "standard"
     indexes :description, analyzer: "snowball"
 
     indexes :organization, type: 'object', properties: {
@@ -183,6 +184,7 @@ class Location
     }
     indexes :services, type: 'object', properties: {
       keywords: { type: 'string', boost: 5, analyzer: "snowball" },
+      categories: { type: 'object', properties: { name: { type: 'string', boost: 10, analyzer: "snowball" } } },
       name: { type: 'string', analyzer: "snowball" },
       description: { type: 'string', analyzer: "snowball" }
     }
@@ -208,13 +210,14 @@ class Location
     tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
       query do
         match [:name, :description, "organization.name", "services.keywords",
-          "services.name", "services.description"],
+          "services.name", "services.description", "services.categories.name"],
           params[:keyword],
           type: 'phrase_prefix' if params[:keyword].present?
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
           filter :term, :kind => params[:kind].downcase if params[:kind].present?
+          #filter :term, "services.categories.name" => params[:category].downcase if params[:category].present?
           filter :not, { :terms => { :kind => ["market", "other"] } } if params[:exclude] == "market_other"
         end
       end
