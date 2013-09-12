@@ -15,7 +15,8 @@ describe Ohana::API do
       end
 
       xit 'includes an error description' do
-        json["description"].should == "Either keyword, location, or language is missing."
+        json["description"].
+          should == "Either keyword, location, or language is missing."
       end
     end
 
@@ -234,7 +235,8 @@ describe Ohana::API do
         create(:nearby_loc)
         create(:location)
         cat = Category.create!(:name => "Jobs")
-        FactoryGirl.create(:service_with_nil_fields, :category_ids => ["#{cat.id}"])
+        FactoryGirl.create(:service_with_nil_fields,
+          :category_ids => ["#{cat.id}"])
       end
       it "boosts location whose services category name matches the query" do
         get "api/search?keyword=jobs"
@@ -248,7 +250,8 @@ describe Ohana::API do
         create(:nearby_loc)
         create(:location)
         cat = Category.create!(:name => "Jobs")
-        FactoryGirl.create(:service_with_nil_fields, :category_ids => ["#{cat.id}"])
+        FactoryGirl.create(:service_with_nil_fields,
+          :category_ids => ["#{cat.id}"])
       end
       it "only returns location whose category name matches the query" do
         get "api/search?category=jobs"
@@ -257,11 +260,30 @@ describe Ohana::API do
       end
     end
 
+    context "with market_match parameter" do
+      before(:each) do
+        create(:farmers_market_loc)
+        create(:farmers_market_loc,
+          :market_match => false, :name => "Not Participating")
+      end
+      it "only returns farmers' markets who participate in Market Match" do
+        get "api/search?market_match=1"
+        headers["X-Total-Count"].should == "1"
+        json.first["name"].should == "Belmont Farmers Market"
+      end
+      it "only returns markets who don't participate in Market Match" do
+        get "api/search?market_match=0"
+        headers["X-Total-Count"].should == "1"
+        json.first["name"].should == "Not Participating"
+      end
+    end
+
     describe 'sorting search results' do
       context 'sort when neither keyword nor location is not present' do
         xit 'returns a helpful message about search query requirements' do
           get "api/search?sort=name"
-          json["description"].should == "Either keyword, location, or language is missing."
+          json["description"].
+            should == "Either keyword, location, or language is missing."
         end
       end
 
@@ -285,7 +307,7 @@ describe Ohana::API do
         end
       end
 
-      context 'sort when location and sort are present, & order is specified' do
+      context 'sort when location & sort are present, & order is specified' do
         xit 'sorts by distance and sorts by name and order desc' do
           organization = create(:organization)
           nearby = create(:nearby_org)
