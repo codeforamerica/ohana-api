@@ -92,9 +92,9 @@ gem "enumerize"
 gem "figaro"
 
 # Search
-gem "tire",:git => "git://github.com/monfresh/tire.git", :ref => "2d174e792a"
+gem "tire", :git => "git://github.com/monfresh/tire.git", :ref => "2d174e792a"
+
 # Nested categories for OpenEligibility
 gem "glebtv-mongoid_nested_set"
-#gem 'rails_admin_nested_set'
 
 gem 'mongoid_time_field'
