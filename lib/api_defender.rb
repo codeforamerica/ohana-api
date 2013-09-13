@@ -10,7 +10,7 @@ class ApiDefender < Rack::Throttle::Hourly
     options = {
       # The REDIS constant is defined in config/initializers/geocoder.rb
       cache: REDIS,
-      key_prefix: "ohanapi_defender"
+      key_prefix: :throttle
     }
     @app, @options = app, options
   end
@@ -46,9 +46,9 @@ class ApiDefender < Rack::Throttle::Hourly
     elsif allowed?(request)
       status, headers, response = app.call(env)
 
-      cache_counter(request, "decr") if (etag.present? && status == 304)
+      cache_counter(request, "decr") if (etag.present? && status == 304 && need_defense?(request))
 
-      headers = rate_limit_headers(request, headers)
+      headers = rate_limit_headers(request, headers) if request.fullpath.include?("api/")
       [status, headers, response]
     else
       http_error(request, "rate limit")
@@ -56,8 +56,7 @@ class ApiDefender < Rack::Throttle::Hourly
   end
 
   def max_per_window(request)
-    token = request.env["HTTP_X_API_TOKEN"].to_s
-    (token.present? && User.where('api_applications.api_token' => token).exists?) ? 5000 : 60
+    valid_api_token?(request) ? 5000 : 60
   end
 
   # rack-throttle supports various key/value stores for storing rate-limiting
@@ -101,6 +100,32 @@ class ApiDefender < Rack::Throttle::Hourly
   protected
   # only API calls should be throttled
   def need_defense?(request)
-    request.fullpath.include?("api/")
+    rate_limit = request.fullpath.include?("api/rate_limit")
+    docs = request.fullpath.include?("doc")
+    base = request.fullpath.include?("api/")
+    base && !rate_limit && !docs
+  end
+
+  # @param  [Rack::Request] request
+  # @return [String]
+  def client_identifier(request)
+    if valid_api_token?(request)
+      "#{request.ip.to_s}-#{api_token(request)}"
+    else
+     request.ip.to_s
+    end
+  end
+
+  # @param  [Rack::Request] request
+  # @return [Boolean]
+  def valid_api_token?(request)
+    token = api_token(request)
+    token.present? && User.where('api_applications.api_token' => token).exists?
+  end
+
+  # @param  [Rack::Request] request
+  # @return [String]
+  def api_token(request)
+    request.env["HTTP_X_API_TOKEN"].to_s
   end
 end

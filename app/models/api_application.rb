@@ -9,7 +9,6 @@ class ApiApplication
   field :main_url
   field :callback_url
   field :api_token
-  #field :user_id
 
   embedded_in :user
   #belongs_to :user

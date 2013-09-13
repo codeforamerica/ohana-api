@@ -50,4 +50,9 @@ OhanaApi::Application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+
+  # Roar-Rails hypermedia links base url
+  #config.representer.default_url_options = { :host => "localhost:8080/api" }
+
+  config.api_base_host = "localhost:8080/api"
 end

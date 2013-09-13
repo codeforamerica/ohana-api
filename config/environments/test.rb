@@ -33,4 +33,9 @@ OhanaApi::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Roar-Rails hypermedia links base url
+  #config.representer.default_url_options = { :host => "example.com/api" }
+
+  config.api_base_host = "example.com/api"
 end

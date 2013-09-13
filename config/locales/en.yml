@@ -2,4 +2,24 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  enumerize:
+    location:
+      accessibility:
+        cd: "Information on CD"
+        deaf_interpreter: "Interpreter for the deaf"
+        disabled_parking: "Disabled Parking"
+        elevator: "Elevator"
+        ramp: "Ramp"
+        restroom: "Disabled Restroom"
+        tape_braille: "Information on tape or in Braille"
+        tty: "TTY"
+        wheelchair: "Wheelchair"
+        wheelchair_van: "Wheelchair-accessible van"
+      kind:
+        entertainment: "Entertainment"
+        farmers_market: "Farmers' Market"
+        human_services: "Human Services"
+        other: "Other"
+
+
+

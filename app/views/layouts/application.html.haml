@@ -1,14 +1,28 @@
 !!!
 %html
   %head
-    %title OhanaApi
-    = stylesheet_link_tag    "application", :media => "all"
-    = javascript_include_tag "application"
-    = csrf_meta_tags
-  %body
-  %ul.hmenu
-    = render 'shared/navigation'
-  - flash.each do |name, msg|
-    - if msg.is_a?(String)
-      = content_tag :div, msg, :id => "flash_#{name}"
-  = yield
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+      %title= content_for?(:title) ? yield(:title) : "Ohana API"
+      %meta{:content => content_for?(:description) ? yield(:description) : "Fellowship Applications", :name => "description"}
+        = stylesheet_link_tag "application", :media => "all"
+        = javascript_include_tag "application"
+        = csrf_meta_tags
+        = yield(:head)
+  %body{:class => "#{controller_name} #{action_name}"}
+    .navbar.navbar-fixed-top
+      %nav.navbar-inner
+        .container
+          - if request.env['PATH_INFO'].include?("admins")
+            = render 'admin/navigation'
+          - else
+            = render 'shared/navigation'
+    #main{:role => "main"}
+      .container
+        .content
+          .row
+            .span12
+              = render 'shared/messages'
+              = yield
+          %footer
+      / ! end of .container
+    / ! end of #main

@@ -3,13 +3,16 @@ class Ability
 
   def initialize(user)
     # Define abilities for the passed in user here.
-    user ||= AdminUser.new
+    user ||= Admin.new
     case user.role
     when "admin"
+      can :access, :rails_admin
+      can :dashboard
       can :manage, :all
     when "editor"
-      can :manage, Organization, :emails => user.email
-      cannot [:destroy], Organization
+      can :access, :rails_admin
+      can :dashboard
+      can [:create, :read, :update], [Organization, Location, Service]
     end
     #
     # The first argument to `can` is the action you are giving the user

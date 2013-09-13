@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+echo "===> Creating the DB indexes..."
+rake db:mongoid:create_indexes --quiet
+
+script/tire --quiet

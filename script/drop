@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+echo "===> Dropping all collections from the database..."
+echo "===> Run 'script/bootstrap' to set everything up again."
+rake db:drop

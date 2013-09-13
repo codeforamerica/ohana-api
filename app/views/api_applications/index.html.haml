@@ -6,5 +6,4 @@
     %li
       = link_to "#{api_application.name} (#{api_application.main_url})", api_application_path(api_application)
 %br
-
-= link_to 'Register new application', new_api_application_path
+= link_to 'Register new application', new_api_application_path, :class => "btn btn-primary"

@@ -11,11 +11,12 @@ end
 
 # Front end
 gem 'jquery-rails'
-gem "jquery-ui-rails"
+gem 'bootstrap-sass'
 gem "haml-rails", ">= 0.4"
 
 # Server for deployment
 gem "unicorn", ">= 4.3.1"
+gem 'rails_12factor' # Heroku recommended
 
 # Test coverage
 gem 'coveralls', require: false
@@ -42,14 +43,14 @@ group :development do
   gem "quiet_assets", ">= 1.0.2"
   gem "better_errors", ">= 0.7.2"
   gem "binding_of_caller", ">= 0.7.1", :platforms => [:mri_19, :rbx]
+  #gem "debugger"
 
   # Code quality and style
   gem "metric_fu"
-
 end
 
 # Geocoding
-gem "geocoder", :git => "git://github.com/alexreisner/geocoder.git", :ref => "bb2d338afc"
+gem "geocoder", :git => "git://github.com/alexreisner/geocoder.git", :ref => "3568e5e8e6"
 gem "redis"
 
 # Format validation for URLs, phone numbers, zipcodes
@@ -60,9 +61,18 @@ gem "validates_formatting_of"
 gem 'rack-cors', :require => 'rack/cors'
 
 # API Design
-gem 'rocket_pants', '~> 1.0'
-gem "kaminari"
-gem 'api-pagination'
+#gem 'rocket_pants', '~> 1.0'
+gem "grape"
+gem 'newrelic-grape'
+gem 'grape-entity'
+gem "garner"
+#gem 'roar'
+#gem "roar-rails"
+gem "kaminari", :git => "git://github.com/amatsuda/kaminari.git", :ref => "01f65e112d"
+
+# API Documentation
+gem "grape-swagger", :git => "git://github.com/monfresh/grape-swagger.git", :ref => "557d38e151"
+gem 'swagger-ui_rails'
 
 # Production Monitoring
 gem 'newrelic_rpm'
@@ -73,13 +83,18 @@ gem 'rack-throttle'
 
 # Authentication & Administration
 gem 'devise'
-gem 'activeadmin-mongoid', :git => "git://github.com/monfresh/activeadmin-mongoid.git", :branch => "filter-fix"
-#gem 'activeadmin-mongoid', :git => "git://github.com/elia/activeadmin-mongoid.git"
+gem 'rails_admin'
 gem "cancan"
 gem "attribute_normalizer"
+gem "enumerize"
 
 # App config and ENV variables for heroku
 gem "figaro"
 
 # Search
-gem "tire"
+gem "tire",:git => "git://github.com/monfresh/tire.git", :ref => "2d174e792a"
+# Nested categories for OpenEligibility
+gem "glebtv-mongoid_nested_set"
+#gem 'rails_admin_nested_set'
+
+gem 'mongoid_time_field'

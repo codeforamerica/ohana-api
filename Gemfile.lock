@@ -1,20 +1,41 @@
 GIT
   remote: git://github.com/alexreisner/geocoder.git
-  revision: bb2d338afcdffc3a1244aa3637026c7a04148fde
-  ref: bb2d338afc
+  revision: 3568e5e8e65aa1fe94edc2a3f69f6eed4b88a9d9
+  ref: 3568e5e8e6
   specs:
     geocoder (1.1.8)
 
 GIT
-  remote: git://github.com/monfresh/activeadmin-mongoid.git
-  revision: 99dcfaee9e222d912a4d469cb298aa61139aae63
-  branch: filter-fix
+  remote: git://github.com/amatsuda/kaminari.git
+  revision: 01f65e112dd9741921e850473739065a55615b1d
+  ref: 01f65e112d
   specs:
-    activeadmin-mongoid (0.2.0.pre.1)
-      activeadmin (~> 0.6)
-      meta_search (>= 1.1.0.pre)
-      mongoid (~> 3.0)
-      sass-rails (~> 3.1, >= 3.1.4)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+
+GIT
+  remote: git://github.com/monfresh/grape-swagger.git
+  revision: 557d38e151ad0756b9519e764dc16990f3b394ca
+  ref: 557d38e151
+  specs:
+    grape-swagger (0.6.0)
+      grape (>= 0.2.0)
+      kramdown
+
+GIT
+  remote: git://github.com/monfresh/tire.git
+  revision: 2d174e792a7e1a1be56cfee3974fb5a080a940a1
+  ref: 2d174e792a
+  specs:
+    tire (0.6.0)
+      activemodel (>= 3.0)
+      activesupport
+      ansi
+      hashr (~> 0.0.19)
+      multi_json (~> 1.3)
+      rake
+      rest-client (~> 1.6)
 
 GEM
   remote: https://rubygems.org/
@@ -32,18 +53,6 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
-    activeadmin (0.6.0)
-      arbre (>= 1.0.1)
-      bourbon (>= 1.0.0)
-      devise (>= 1.1.2)
-      fastercsv
-      formtastic (>= 2.0.0)
-      inherited_resources (>= 1.3.1)
-      jquery-rails (>= 1.0.0)
-      kaminari (>= 0.13.0)
-      meta_search (>= 0.9.2)
-      rails (>= 3.0.0)
-      sass (>= 3.1.0)
     activemodel (3.2.13)
       activesupport (= 3.2.13)
       builder (~> 3.0.0)
@@ -59,18 +68,13 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     ansi (1.4.3)
-    api-pagination (1.1.1)
-    api_smith (1.3.0)
-      hashie (>= 1.0, < 3.0)
-      httparty
-    arbre (1.0.1)
-      activesupport (>= 3.0.0)
     area (0.10.0)
       fastercsv (~> 1.5)
     arel (3.0.2)
-    arrayfields (4.7.4)
+    arrayfields (4.9.0)
     attribute_normalizer (1.1.0)
     awesome_print (1.1.0)
+    backports (3.3.3)
     bcrypt-ruby (3.1.1)
     better_errors (0.9.0)
       coderay (>= 1.0.0)
@@ -78,9 +82,8 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bluff (0.1.0)
-    bourbon (3.1.8)
-      sass (>= 3.2.0)
-      thor
+    bootstrap-sass (2.3.2.1)
+      sass (~> 3.2)
     builder (3.0.4)
     bullet (4.6.0)
       uniform_notifier
@@ -93,16 +96,17 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    chronic (0.9.1)
-    churn (0.0.28)
+    chronic (0.10.0)
+    churn (0.0.29)
       chronic (>= 0.2.3)
       hirb
       json_pure
       main
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.1)
-    code_analyzer (0.3.2)
+    code_analyzer (0.4.2)
       sexp_processor
+    code_metrics (0.1.0)
     coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -119,14 +123,17 @@ GEM
       rest-client
       simplecov (>= 0.7)
       thor
-    database_cleaner (1.0.1)
+    database_cleaner (1.1.1)
     debug_inspector (0.0.2)
-    devise (3.0.0)
+    descendants_tracker (0.0.1)
+    devise (3.0.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
     diff-lcs (1.2.4)
+    enumerize (0.6.1)
+      activesupport (>= 3.2)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -143,11 +150,31 @@ GEM
     flay (2.0.1)
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.0)
-    flog (3.2.2)
+    flog (4.1.1)
       ruby_parser (~> 3.1, > 3.1.0)
       sexp_processor (~> 4.0)
-    formtastic (2.2.1)
-      actionpack (>= 3.0)
+    font-awesome-rails (3.2.1.2)
+      railties (>= 3.2, < 5.0)
+    garner (0.4.4)
+      activesupport
+      json
+      multi_json (>= 1.3.0)
+      rack
+    glebtv-mongoid_nested_set (0.4.0)
+      mongoid (>= 3.0.0)
+    grape (0.5.0)
+      activesupport
+      builder
+      hashie (>= 1.2.0)
+      multi_json (>= 1.3.2)
+      multi_xml (>= 0.5.2)
+      rack (>= 1.3.0)
+      rack-accept
+      rack-mount
+      virtus
+    grape-entity (0.3.0)
+      activesupport
+      multi_json (>= 1.3.2)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -155,32 +182,22 @@ GEM
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
-    has_scope (0.5.1)
-    hashie (1.2.0)
+    hashie (2.0.5)
     hashr (0.0.22)
     hike (1.2.3)
     hirb (0.7.1)
-    httparty (0.11.0)
-      multi_json (~> 1.0)
-      multi_xml (>= 0.5.2)
     i18n (0.6.1)
-    inherited_resources (1.4.0)
-      has_scope (~> 0.5.0)
-      responders (~> 0.9)
-    japgolly-Saikuro (1.1.1.0)
     journey (1.0.4)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (4.0.3)
+    jquery-ui-rails (3.0.1)
       jquery-rails
       railties (>= 3.1.0)
     json (1.8.0)
     json_pure (1.8.0)
-    kaminari (0.14.1)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
     kgio (2.8.0)
+    kramdown (1.1.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -189,66 +206,65 @@ GEM
       chronic (>= 0.6.2)
       fattr (>= 2.2.0)
       map (>= 5.1.0)
-    map (6.2.0)
-    meta_search (1.1.3)
-      actionpack (~> 3.1)
-      activerecord (~> 3.1)
-      activesupport (~> 3.1)
-      polyamorous (~> 0.5.0)
-    metric_fu (4.2.1)
-      arrayfields (= 4.7.4)
+    map (6.5.1)
+    metric_fu (4.4.0)
       bluff
-      cane (= 2.5.2)
-      churn (= 0.0.28)
+      cane (~> 2.5.2)
+      churn (~> 0.0.28)
+      code_metrics (~> 0.1)
       coderay
-      fattr (= 2.2.1)
-      flay (= 2.0.1)
-      flog (= 3.2.2)
-      japgolly-Saikuro (>= 1.1.1.0)
-      map (= 6.2.0)
+      flay (~> 2.0.1)
+      flog (~> 4.1.1)
+      metric_fu-Saikuro (>= 1.1.1.0)
       metric_fu-roodi (>= 2.2.1)
       multi_json
-      parallel (= 0.6.2)
-      rails_best_practices (= 1.13.2)
+      rails_best_practices (~> 1.14, >= 1.14.1)
       redcard
-      reek (= 1.3.1)
-      ruby2ruby (~> 2.0, >= 2.0.2)
-      ruby_parser (~> 3.0, >= 3.1.1)
-      sexp_processor (~> 4.0)
-    metric_fu-roodi (2.2.1)
+      reek (~> 1.3.1)
+    metric_fu-Saikuro (1.1.1.0)
+    metric_fu-roodi (2.2.2)
       ruby_parser
     mime-types (1.23)
     mini_portile (0.5.1)
-    moneta (0.7.19)
     mongoid (3.1.4)
       activemodel (~> 3.2)
       moped (~> 1.4)
       origin (~> 1.0)
       tzinfo (~> 0.3.22)
-    mongoid-rspec (1.8.2)
+    mongoid-rspec (1.9.0)
       mongoid (>= 3.0.1)
       rake
-      rspec (>= 2.9)
-    moped (1.5.0)
-    multi_json (1.7.7)
-    multi_xml (0.5.4)
-    newrelic_rpm (3.6.5.130)
+      rspec (>= 2.14)
+    mongoid_time_field (0.2.9)
+      mongoid (>= 3.0.0)
+    moped (1.5.1)
+    multi_json (1.7.9)
+    multi_xml (0.5.5)
+    nested_form (0.3.2)
+    newrelic-grape (1.3.1)
+      grape
+      newrelic_rpm
+    newrelic_rpm (3.6.6.147)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     origin (1.1.0)
     orm_adapter (0.4.0)
-    parallel (0.6.2)
-    polyamorous (0.5.0)
-      activerecord (~> 3.0)
+    parallel (0.7.1)
     polyglot (0.3.3)
-    progressbar (0.20.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.4.5)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
     rack-cache (1.2)
       rack (>= 0.4)
     rack-cors (0.2.8)
       rack
+    rack-mount (0.8.3)
+      rack (>= 1.0.0)
+    rack-pjax (0.7.0)
+      nokogiri (~> 1.5)
+      rack (~> 1.3)
     rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
@@ -264,14 +280,35 @@ GEM
       activesupport (= 3.2.13)
       bundler (~> 1.0)
       railties (= 3.2.13)
-    rails_best_practices (1.13.2)
+    rails_12factor (0.0.2)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_admin (0.4.9)
+      bootstrap-sass (~> 2.2)
+      builder (~> 3.0)
+      coffee-rails (>= 3.1, < 5)
+      font-awesome-rails (~> 3.0)
+      haml (~> 4.0)
+      jquery-rails (>= 2.1, < 4)
+      jquery-ui-rails (~> 3.0)
+      kaminari (~> 0.14)
+      nested_form (~> 0.3)
+      rack-pjax (~> 0.6)
+      rails (~> 3.1)
+      remotipart (~> 1.0)
+      safe_yaml (~> 0.6)
+      sass-rails (~> 3.1)
+    rails_best_practices (1.14.3)
       activesupport
       awesome_print
-      code_analyzer
+      code_analyzer (>= 0.4.2)
       colored
       erubis
       i18n
-      progressbar
+      require_all
+      ruby-progressbar
+    rails_serve_static_assets (0.0.1)
+    rails_stdout_logging (0.0.2)
     railties (3.2.13)
       actionpack (= 3.2.13)
       activesupport (= 3.2.13)
@@ -285,29 +322,22 @@ GEM
       json (~> 1.4)
     redcard (1.1.0)
     redis (3.0.4)
-    reek (1.3.1)
+    reek (1.3.2)
       ruby2ruby (~> 2.0.2)
       ruby_parser (~> 3.1.1)
       sexp_processor
-    responders (0.9.3)
-      railties (~> 3.1)
+    remotipart (1.2.1)
+    require_all (1.2.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rocket_pants (1.7.0)
-      actionpack (>= 3.0, < 5.0)
-      api_smith
-      hashie (~> 1.0)
-      moneta
-      railties (>= 3.0, < 5.0)
-      will_paginate (~> 3.0)
-    rspec (2.14.0)
+    rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    rspec-core (2.14.2)
-    rspec-expectations (2.14.0)
+    rspec-core (2.14.5)
+    rspec-expectations (2.14.2)
       diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.14.1)
+    rspec-mocks (2.14.3)
     rspec-rails (2.14.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -315,17 +345,19 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
+    ruby-progressbar (1.2.0)
     ruby2ruby (2.0.6)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.0)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
+    safe_yaml (0.9.4)
     sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    sexp_processor (4.2.1)
+    sexp_processor (4.3.0)
     simplecov (0.7.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
@@ -335,6 +367,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    swagger-ui_rails (0.0.2)
     thor (0.18.1)
     tilt (1.4.1)
     tire (0.6.0)
@@ -359,9 +392,11 @@ GEM
     uniform_notifier (1.2.0)
     validates_formatting_of (0.8.0)
       activemodel (~> 3.0)
+    virtus (0.5.5)
+      backports (~> 3.3)
+      descendants_tracker (~> 0.0.1)
     warden (1.2.3)
       rack (>= 1.0)
-    will_paginate (3.0.4)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -369,12 +404,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeadmin-mongoid!
-  api-pagination
   area
   attribute_normalizer
   better_errors (>= 0.7.2)
   binding_of_caller (>= 0.7.1)
+  bootstrap-sass
   bullet
   cancan
   capybara
@@ -382,27 +416,36 @@ DEPENDENCIES
   coveralls
   database_cleaner (>= 1.0.0.RC1)
   devise
+  enumerize
   factory_girl_rails (>= 4.2.0)
   figaro
+  garner
   geocoder!
+  glebtv-mongoid_nested_set
+  grape
+  grape-entity
+  grape-swagger!
   haml-rails (>= 0.4)
   jquery-rails
-  jquery-ui-rails
-  kaminari
+  kaminari!
   metric_fu
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)
+  mongoid_time_field
+  newrelic-grape
   newrelic_rpm
   quiet_assets (>= 1.0.2)
   rack-cors
   rack-throttle
   rack-timeout
   rails (= 3.2.13)
+  rails_12factor
+  rails_admin
   redis
-  rocket_pants (~> 1.0)
   rspec-rails (>= 2.12.2)
   sass-rails (~> 3.2.3)
-  tire
+  swagger-ui_rails
+  tire!
   uglifier (>= 1.0.3)
   unicorn (>= 4.3.1)
   validates_formatting_of

@@ -8,6 +8,17 @@ Apart from Google, the current search interface that residents and social worker
 
 The master branch currently only uses one model: Organization. We are remodeling our data in the [data-merge](https://github.com/codeforamerica/ohana-api/tree/data-merge) branch to support a structure where an Organization has many Programs in many Locations. The data-merge branch also has an admin interface that allows users to update an organization's data, such as adding a new program or location.
 
+## Stack Overview
+
+* Ruby version 2.0.0
+* Rails version 3.2.13
+* MongoDB with the Mongoid ORM
+* Redis
+* ElasticSearch
+* API framework: Grape
+* Testing Frameworks: RSpec, Factory Girl, Capybara
+
+
 ## Installation
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
@@ -69,18 +80,14 @@ Visit the Download page on elasticsearch.org for steps to install on other syste
     git clone git://github.com/codeforamerica/ohana-api.git
     cd ohana-api
 
-### Install the dependencies:
+### Install the dependencies and prepare the DB:
 
-    bundle
+    script/bootstrap
 
-### Load the data
-You can load a dataset of community-based organizations in San Mateo County in your local db with this command:
+If you get a `permission denied` message, set the correct permissions, then run the above script again:
 
-    rake load_data
+    chmod -R 755 script
 
-Create the geospatial indexes for the [geocoder](https://github.com/alexreisner/geocoder) gem:
-
-    rake db:mongoid:create_indexes
 
 Generate the ElasticSearch index that the [tire](https://github.com/karmi/tire) gem uses for full text search:
 
@@ -123,10 +130,37 @@ We recommend these tools to interact with APIs:
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility
 
-### API documentation
-[http://docs.ohanapi.apiary.io/](http://docs.ohanapi.apiary.io/)
+### API documentation (work in progress)
+[http://localhost:8080/api/docs](http://localhost:8080/api/docs)
 
-The API structure is still in flux, so documentation is a work in progress. We experimented with Apiary, but found it didn't suit our needs, so we will be probably moving to a custom static site.
+Here are some sample requests to get you started:
+
+To see all locations, 30 per page:
+
+    http://localhost:8080/api/locations
+
+To go the next page (the page parameter works for all API responses):
+
+    http://localhost:8080/api/locations&page=2
+
+Search using one or any combination of these parameters: `keyword`, `location`, and `language`. The `search` endpoint always returns locations. When searching by `keyword`, the API returns locations where the search term matches one or more of the location's name, the location's description, the location's parent organization's name, or the location's services categories. Results that match the services categories appear higher.
+
+The search results include the location's parent organization info, as well as services, so you can have all the info in one query instead of three.
+
+    http://localhost:8080/api/search?keyword=food
+    http://localhost:8080/api/search?keyword=childcare&location=94403
+    http://localhost:8080/api/search?keyword=food&location=san mateo
+    http://localhost:8080/api/search?location=redwood city, ca
+
+Search for organizations by languages spoken at the location:
+
+    http://localhost:8080/api/search?keyword=food&language=spanish
+
+The language parameter can be used alone:
+
+    http://localhost:8080/api/search?language=arabic
+
+Searches with the location parameter return results sorted by distance.
 
 ### User authentication and emails
 The app allows developers to sign up for an account via the home page (http://localhost:8080), but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
@@ -134,18 +168,12 @@ The app allows developers to sign up for an account via the home page (http://lo
     GMAIL_USERNAME: your_email@gmail.com
     GMAIL_PASSWORD: your_password
 
-`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can load 2 example users in the database with this command:
+`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can [sign in](http://localhost:8080/users/sign_in) with either of the users whose username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
-    rake db:seed
-
-You can then [sign in](http://localhost:8080/users/sign_in) with either of those users, whose username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
+To try out the admin interface, go to [/admin](http://localhost:8080/admin) and sign in with the username and password listed in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
 ### Test the app
-To test locally, you will need to run this once to set up the test DB:
-
-    rake db:mongoid:create_indexes RAILS_ENV=test
-
-Then you can run tests with this simple command:
+Run tests locally with this simple command:
 
     rspec
 
@@ -157,15 +185,8 @@ For faster tests:
 
 To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
-## Development Details
-
-* Ruby version 2.0.0
-* Rails version 3.2.13
-* MongoDB with the Mongoid ORM
-* Template Engines: ERB and HAML
-* Testing Frameworks: RSpec, Factory Girl
-* Redis
-* ElasticSearch
+### Drop the database
+If you ever want to start from scratch, run `script/drop`, then `script/bootstrap` to set everything up again.
 
 ## Contributing
 
