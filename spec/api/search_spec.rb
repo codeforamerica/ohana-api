@@ -228,6 +228,11 @@ describe Ohana::API do
         get "api/search?exclude=market_other"
         headers["X-Total-Count"].should == "2"
       end
+
+      it "filters out kind=other" do
+        get "api/search?exclude=other"
+        headers["X-Total-Count"].should == "3"
+      end
     end
 
     context "when keyword matches category name" do

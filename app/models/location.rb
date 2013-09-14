@@ -233,6 +233,7 @@ class Location
           filter :term, :languages => params[:language].downcase if params[:language].present?
           filter :term, :kind => params[:kind].downcase if params[:kind].present?
           filter :not, { :terms => { :kind => ["market", "other"] } } if params[:exclude] == "market_other"
+          filter :not, { :term => { :kind => "other" } } if params[:exclude] == "other"
           filter :exists, field: 'market_match' if params[:market_match] == "1"
           filter :missing, field: 'market_match' if params[:market_match] == "0"
           filter :term, :payments => params[:payments].downcase if params[:payments].present?
