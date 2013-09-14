@@ -34,7 +34,7 @@ class Location
   accepts_nested_attributes_for :address, :reject_if => :all_blank
 
   normalize_attributes :description, :hours, :name, :short_desc,
-    :transportation, :urls
+    :transportation, :urls, :kind
 
   field :accessibility
   enumerize :accessibility, in: [:cd, :deaf_interpreter, :disabled_parking,
@@ -50,7 +50,6 @@ class Location
 
   field :kind
   enumerize :kind, in: [:other, :human_services, :entertainment, :farmers_market]
-
   field :languages, type: Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
   #   :mandarin, :polish, :portuguese, :russian, :spanish, :tagalog, :urdu,

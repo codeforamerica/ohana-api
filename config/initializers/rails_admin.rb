@@ -101,9 +101,7 @@ RailsAdmin.config do |config|
       end
       field :name
       field :kind do
-        render do
-          bindings[:form].select("kind", bindings[:object].kind_enum, {}, {})
-        end
+        partial "kind"
       end
       field :description, :text do
         html_attributes rows: 20, cols: 50

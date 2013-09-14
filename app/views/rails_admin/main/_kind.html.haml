@@ -1,0 +1,1 @@
+= form.select(:kind, options_for_select(Location.kind.options.push(""), form.object.kind.present? ? form.object.kind : ""))
