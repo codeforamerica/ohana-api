@@ -177,6 +177,7 @@ class Location
     indexes :coordinates, type: "geo_point"
     indexes :name, type: "string", analyzer: "standard"
     indexes :description, analyzer: "snowball"
+    indexes :products, :index => :not_analyzed
 
     indexes :organization do
       indexes :name, type: 'string'
@@ -234,6 +235,8 @@ class Location
           filter :not, { :terms => { :kind => ["market", "other"] } } if params[:exclude] == "market_other"
           filter :exists, field: 'market_match' if params[:market_match] == "1"
           filter :missing, field: 'market_match' if params[:market_match] == "0"
+          filter :term, :payments => params[:payments].downcase if params[:payments].present?
+          filter :term, :products => params[:products].titleize if params[:products].present?
         end
       end
       sort do

@@ -278,6 +278,37 @@ describe Ohana::API do
       end
     end
 
+    context "with payments parameter" do
+      before(:each) do
+        create(:farmers_market_loc)
+        create(:farmers_market_loc,
+          :name => "No SFMNP", :payments => ["Credit"])
+      end
+      it "only returns farmers' markets who accept SFMNP" do
+        get "api/search?payments=SFMNP"
+        headers["X-Total-Count"].should == "1"
+        json.first["name"].should == "Belmont Farmers Market"
+      end
+    end
+
+    context "with products parameter" do
+      before(:each) do
+        create(:farmers_market_loc)
+        create(:farmers_market_loc,
+          :name => "No Cheese", :products => ["Baked Goods"])
+      end
+      it "only returns farmers' markets who sell Baked Goods" do
+        get "api/search?products=baked%20goods"
+        headers["X-Total-Count"].should == "1"
+        json.first["name"].should == "No Cheese"
+      end
+      it "finds a match when query is capitalized" do
+        get "api/search?products=Baked%20Goods"
+        headers["X-Total-Count"].should == "1"
+        json.first["name"].should == "No Cheese"
+      end
+    end
+
     describe 'sorting search results' do
       context 'sort when neither keyword nor location is not present' do
         xit 'returns a helpful message about search query requirements' do
