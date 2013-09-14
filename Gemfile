@@ -18,6 +18,9 @@ gem "haml-rails", ">= 0.4"
 gem "unicorn", ">= 4.3.1"
 gem 'rails_12factor' # Heroku recommended
 
+# Analytics
+gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
+
 # Test coverage
 gem 'coveralls', require: false
 
