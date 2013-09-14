@@ -145,8 +145,7 @@ GEM
     enumerize (0.6.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
-    execjs (1.4.0)
-      multi_json (~> 1.0)
+    execjs (2.0.1)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.2.1)
@@ -165,7 +164,7 @@ GEM
     flog (4.1.1)
       ruby_parser (~> 3.1, > 3.1.0)
       sexp_processor (~> 4.0)
-    font-awesome-rails (3.2.1.2)
+    font-awesome-rails (3.2.1.3)
       railties (>= 3.2, < 5.0)
     garner (0.4.4)
       activesupport
@@ -364,7 +363,7 @@ GEM
       sexp_processor (~> 4.0)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
-    safe_yaml (0.9.4)
+    safe_yaml (0.9.5)
     sass (3.2.10)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -388,7 +387,7 @@ GEM
       atomic
     tilt (1.4.1)
     tins (0.9.0)
-    treetop (1.4.14)
+    treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.37)
