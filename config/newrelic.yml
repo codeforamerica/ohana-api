@@ -32,7 +32,7 @@ common: &default_settings
   #       - Ajax Service
   #       - All Services
   #
-  app_name: ohanapi
+  app_name: <%= ENV["NEW_RELIC_APP_NAME"] %>
 
   # When "true", the agent collects performance data about your
   # application and reports this data to the New Relic service at
@@ -252,4 +252,4 @@ production:
 staging:
   <<: *default_settings
   monitor_mode: true
-  app_name: '<%= ENV["NEW_RELIC_APP_NAME"] %> <%= ENV["SPECIFIC_APP"] %>'
+  app_name: <%= ENV["NEW_RELIC_APP_NAME"] %> (Staging)
