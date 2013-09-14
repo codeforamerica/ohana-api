@@ -176,11 +176,11 @@ module Ohana
       desc "Search using a variety of parameters. Returns locations.", {
         :notes =>
         <<-NOTE
-          Search
-          ------
+          # Search
 
-          **Possible parameters**: keyword, location, radius, language, kind,
-          market_match, category, page.
+          ## Parameters
+
+          ### keyword
 
           When searching by `keyword`, the API returns locations where the
           search term matches one or more of these fields:
@@ -201,6 +201,7 @@ module Ohana
           #{ENV["API_BASE_URL"]}search?keyword=food
           ```
 
+          ### location, radius
           Queries that include the `location` parameter filter the results to
           only include locations that are 5 miles (by default) from the
           `location`.
@@ -217,7 +218,7 @@ module Ohana
 
           `#{ENV["API_BASE_URL"]}search?keyword=emergency&location=94403`
 
-
+          ### language
           The `language` parameter can be used to filter locations by language
           spoken at the location.
 
@@ -229,6 +230,16 @@ module Ohana
 
           `#{ENV["API_BASE_URL"]}search?keyword=daycare&language=spanish`
 
+          ### category
+          The `category` parameter is used to search only on the service
+          categories field using the [OpenEligibility](http://openeligibility.org) taxonomy.
+
+          Example:
+
+          `#{ENV["API_BASE_URL"]}search?category=emergency food`
+
+          ### kind
+
           The `kind` parameter can be used to filter locations by the
           overall type of organization. Possible values are:
 
@@ -239,8 +250,13 @@ module Ohana
           `other` (for those that have been flagged as neither Farmer's Market
            nor Human Service, but haven't been further categorized)
 
-          For farmers' markets only, an additional parameter can be added to
-          get a list of markets that participate in the Market Match program.
+          Example:
+
+          `#{ENV["API_BASE_URL"]}search?kind=human`
+
+          ### market_match (Farmers' Markets only)
+
+          Get a list of markets that participate in the Market Match program.
 
           Examples:
 
@@ -248,13 +264,50 @@ module Ohana
 
           `#{ENV["API_BASE_URL"]}search?kind=market&market_match=0` (to get non-participants)
 
-          The `category` parameter is used to search only on the service
-          categories field using the OpenEligibility taxonomy.
+          ### products, payments (Farmers' Markets only)
+          These two additional parameters are available for farmers' markets
+          to filter the markets that only accept certain types of payment and
+          sell certain kinds of products.
 
-          Example:
+          Examples:
 
-          `#{ENV["API_BASE_URL"]}search?category=emergency food`
+          `#{ENV["API_BASE_URL"]}search?products=Baked Goods`
 
+          `#{ENV["API_BASE_URL"]}search?products=baked goods`
+
+          `#{ENV["API_BASE_URL"]}search?payments=SFMNP`
+
+          `#{ENV["API_BASE_URL"]}search?payments=snap`
+
+          `#{ENV["API_BASE_URL"]}search?payments=SNAP&products=vegetables`
+
+          Possible values for `payments`: Credit, WIC, WICcash, SFMNP, SNAP
+
+          Possible values for `products`:
+
+              Baked Goods
+              Cheese
+              Crafts
+              Flowers
+              Eggs
+              Seafood
+              Herbs
+              Vegetables
+              Honey
+              Jams
+              Maple
+              Meat
+              Nursery
+              Nuts
+              Plants
+              Poultry
+              Prepared Food
+              Soap
+              Trees
+              Wine
+
+
+          ## JSON response
           The search results JSON includes the location's parent organization
           info, as well as the location's services, so you can have all the
           info in one query instead of three.
@@ -288,6 +341,9 @@ module Ohana
         optional :language, type: String, desc: "Languages other than English spoken at the location"
         optional :kind, type: String, desc: "The type of organization, such as human services, farmers' markets"
         optional :category, type: String, desc: "The service category based on the OpenEligibility taxonomy"
+        optional :market_match, type: String, desc: "To filter farmers' markets that participate in Market Match"
+        optional :products, type: String, desc: "To filter farmers' markets that sell certain products"
+        optional :payments, type: String, desc: "To filter farmers' markets that accept certain payment types"
         optional :page, type: Integer, default: 1
       end
       get do
