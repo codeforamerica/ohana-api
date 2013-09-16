@@ -49,7 +49,11 @@ class Location
   field :hours
 
   field :kind
-  enumerize :kind, in: [:other, :human_services, :entertainment, :farmers_market]
+  # Don't change the terms here! You can change their display
+  # name in config/locales/en.yml
+  enumerize :kind, in: [:other, :human_services, :entertainment,
+    :farmers_market, :libraries, :museums, :parks, :test]
+
   field :languages, type: Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
   #   :mandarin, :polish, :portuguese, :russian, :spanish, :tagalog, :urdu,
@@ -175,7 +179,7 @@ class Location
 
   mapping do
     indexes :coordinates, type: "geo_point"
-    indexes :name, type: "string", analyzer: "standard"
+    indexes :name, type: "string", analyzer: "snowball"
     indexes :description, analyzer: "snowball"
     indexes :products, :index => :not_analyzed
 
@@ -225,14 +229,13 @@ class Location
       query do
         match [:name, :description, "organization.name", "services.keywords",
           "services.name", "services.description", "services.categories.name"],
-          params[:keyword],
-          type: 'phrase_prefix' if params[:keyword].present?
+          params[:keyword] if params[:keyword].present?
         match ["services.categories.name"], params[:category] if params[:category].present?
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
           filter :term, :kind => params[:kind].downcase if params[:kind].present?
-          filter :not, { :terms => { :kind => ["market", "other"] } } if params[:exclude] == "market_other"
+          filter :not, { :terms => { :kind => ["market", "other", "entertainment"] } } if params[:exclude] == "market_other"
           filter :not, { :term => { :kind => "other" } } if params[:exclude] == "other"
           filter :exists, field: 'market_match' if params[:market_match] == "1"
           filter :missing, field: 'market_match' if params[:market_match] == "0"
