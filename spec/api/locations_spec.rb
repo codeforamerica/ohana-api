@@ -41,6 +41,14 @@ describe Ohana::API do
         get "/api/locations"
         json.first["address"]["street"].should == "1800 Easton Drive"
       end
+
+      it "doesn't include test data" do
+        create(:location)
+        create(:far_loc)
+        get "/api/locations"
+        headers["X-Total-Count"].should == "1"
+        expect(json.first["name"]).to eq "VRS Services"
+      end
     end
 
     describe "GET /api/locations/:id" do

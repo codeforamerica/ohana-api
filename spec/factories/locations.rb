@@ -88,6 +88,7 @@ FactoryGirl.define do
     name "Belmont Farmers Market"
     description "yummy food"
     address { FactoryGirl.build(:far) }
+    kind :test
     #coordinates [-122.3250474, 37.568272]
     association :organization
     after(:create) { |loc| loc.index.refresh }
