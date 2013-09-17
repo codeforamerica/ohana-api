@@ -51,8 +51,9 @@ class Location
   field :kind
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
-  enumerize :kind, in: [:other, :human_services, :entertainment,
-    :farmers_market, :libraries, :museums, :parks, :sports, :arts, :test]
+  enumerize :kind, in: [:arts, :entertainment, :farmers_market,
+    :gov, :human_services, :libraries, :museums, :other, :parks, :sports,
+    :test]
 
   field :languages, type: Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
@@ -182,6 +183,7 @@ class Location
     indexes :name, type: "string", analyzer: "snowball"
     indexes :description, analyzer: "snowball"
     indexes :products, :index => :not_analyzed
+    indexes :kind, type: "string", analyzer: "keyword"
 
     indexes :organization do
       indexes :name, type: 'string'
@@ -234,14 +236,18 @@ class Location
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
-          filter :term, :kind => params[:kind].downcase if params[:kind].present?
-          filter :not, { :terms => { :kind => ["market", "other", "entertainment", "museums", "sports"] } } if params[:exclude] == "market_other"
-          filter :not, { :term => { :kind => "other" } } if params[:exclude] == "other"
+          filter :term, :kind => params[:kind] if params[:kind].present?
+          filter :not, {
+            :terms => {
+              :kind => ["Arts", "Entertainment", "Farmers' Markets",
+                "Government", "Libraries", "Museums", "Other", "Parks",
+                "Sports", "Test"] } } if params[:exclude] == "market_other"
+          filter :not, { :term => { :kind => "Other" } } if params[:exclude] == "Other"
           filter :exists, field: 'market_match' if params[:market_match] == "1"
           filter :missing, field: 'market_match' if params[:market_match] == "0"
           filter :term, :payments => params[:payments].downcase if params[:payments].present?
           filter :term, :products => params[:products].titleize if params[:products].present?
-          filter :not, { :term => { :kind => "test" } } if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
+          filter :not, { :term => { :kind => "Test" } } if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
         end
       end
       sort do

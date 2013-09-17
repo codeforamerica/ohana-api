@@ -206,20 +206,20 @@ describe Ohana::API do
         loc3 = create(:farmers_market_loc)
         loc4 = create(:no_address)
       end
-      it "finds famers markets" do
-        get "api/search?kind=market"
+      it "finds farmers markets" do
+        get "api/search?kind=Farmers'%20Markets"
         json.length.should == 1
         json.first["name"].should == "Belmont Farmers Market"
       end
 
       it "finds human services" do
-        get "api/search?kind=human"
+        get "api/search?kind=Human%20Services"
         json.length.should == 1
         json.first["name"].should == "Library"
       end
 
       it "finds other" do
-        get "api/search?kind=other"
+        get "api/search?kind=Other"
         json.length.should == 1
         json.first["name"].should == "VRS Services"
       end
@@ -230,7 +230,7 @@ describe Ohana::API do
       end
 
       it "filters out kind=other" do
-        get "api/search?exclude=other"
+        get "api/search?exclude=Other"
         headers["X-Total-Count"].should == "3"
       end
     end

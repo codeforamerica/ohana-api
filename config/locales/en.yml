@@ -16,15 +16,18 @@ en:
         wheelchair: "Wheelchair"
         wheelchair_van: "Wheelchair-accessible van"
       kind:
+        arts: "Arts"
         entertainment: "Entertainment"
-        farmers_market: "Farmers' Market"
+        farmers_market: "Farmers' Markets"
+        gov: "Government"
         human_services: "Human Services"
         libraries: "Libraries"
         museums: "Museums"
         other: "Other"
         parks: "Parks"
         sports: "Sports"
-        arts: "Arts"
+        test: "Test"
+
 
 
 
