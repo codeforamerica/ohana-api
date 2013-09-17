@@ -90,8 +90,8 @@ RailsAdmin.config do |config|
   config.model 'Location' do
     list do
       field :name
-      field :full_address
       field :organization
+      field :kind
       field :updated_at
     end
 
