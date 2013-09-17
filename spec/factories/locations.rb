@@ -66,6 +66,7 @@ FactoryGirl.define do
   factory :no_address, class: Location do
     name "No Address"
     description "no coordinates"
+    kind :test
     mail_address { FactoryGirl.build(:po_box) }
     association :organization
     after(:create) { |loc| loc.index.refresh }
@@ -89,6 +90,7 @@ FactoryGirl.define do
     description "yummy food"
     address { FactoryGirl.build(:far) }
     kind :test
+    languages ["spanish", "Arabic"]
     #coordinates [-122.3250474, 37.568272]
     association :organization
     after(:create) { |loc| loc.index.refresh }

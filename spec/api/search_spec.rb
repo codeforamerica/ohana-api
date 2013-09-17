@@ -226,11 +226,16 @@ describe Ohana::API do
 
       it "filters out everything except kind=human and kind is not set" do
         get "api/search?exclude=market_other"
+        headers["X-Total-Count"].should == "1"
+      end
+
+      it "filters out kind=other and kind=test" do
+        get "api/search?exclude=Other"
         headers["X-Total-Count"].should == "2"
       end
 
-      it "filters out kind=other" do
-        get "api/search?exclude=Other"
+      it "filters out kind=test" do
+        get "api/locations"
         headers["X-Total-Count"].should == "3"
       end
     end
