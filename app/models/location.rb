@@ -52,7 +52,7 @@ class Location
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
   enumerize :kind, in: [:other, :human_services, :entertainment,
-    :farmers_market, :libraries, :museums, :parks, :sports, :test]
+    :farmers_market, :libraries, :museums, :parks, :sports, :arts, :test]
 
   field :languages, type: Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
