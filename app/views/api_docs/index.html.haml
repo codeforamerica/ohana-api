@@ -1,6 +1,17 @@
 %h1 Overview
-%h2 User Agent Required
+%h2 Description
 %p
-  All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. We request that you use the name of your application for the User-Agent header value. This allows us to contact you if there are problems.
+  The Ohana API exposes information about various organizations in San Mateo County. Most of the organizations provide human services, but the API also includes museums, parks, libraries, hobby clubs, educators, government services, and other types of organizations.
+%h2 Register your app
+%p
+  You can use the API without registering an application, but you will be limited to
+  60 requests per hour. By registering an application, your limit goes up to 5000 requests per hour.
+  = link_to "Sign up", "http://ohanapi.herokuapp.com"
+  now to take advantage of the higher limit.
+%h2 User-Agent
+%p
+  All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. Unless you're using our
+  = link_to "Ohanakapa", "https://github.com/codeforamerica/ohanakapa-ruby"
+  Ruby wrapper, we request that you use the name of your application for the User-Agent header value. This allows us to contact you if there are problems.
 
 = render 'swagger_ui/swagger_ui', discovery_url: '/api/swagger_doc'

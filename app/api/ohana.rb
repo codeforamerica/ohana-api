@@ -241,18 +241,24 @@ module Ohana
           ### kind
 
           The `kind` parameter can be used to filter locations by the
-          overall type of organization. Possible values are:
+          overall type of organization. Possible values are (exact spelling):
 
-          `human` (for Human Services)
+              Arts
+              Entertainment
+              Farmers' Markets
+              Government
+              Human Services
+              Libraries
+              Museums
+              Other
+              Parks
+              Sports
 
-          `market` (for Farmer's Markets)
+          Examples:
 
-          `other` (for those that have been flagged as neither Farmer's Market
-           nor Human Service, but haven't been further categorized)
+          `#{ENV["API_BASE_URL"]}search?kind=Human Services`
 
-          Example:
-
-          `#{ENV["API_BASE_URL"]}search?kind=human`
+          `#{ENV["API_BASE_URL"]}search?kind=Libaries`
 
           ### market_match (Farmers' Markets only)
 
