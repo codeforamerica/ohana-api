@@ -52,7 +52,7 @@ class Location
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
   enumerize :kind, in: [:other, :human_services, :entertainment,
-    :farmers_market, :libraries, :museums, :parks, :test]
+    :farmers_market, :libraries, :museums, :parks, :sports, :test]
 
   field :languages, type: Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
@@ -235,7 +235,7 @@ class Location
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
           filter :term, :kind => params[:kind].downcase if params[:kind].present?
-          filter :not, { :terms => { :kind => ["market", "other", "entertainment"] } } if params[:exclude] == "market_other"
+          filter :not, { :terms => { :kind => ["market", "other", "entertainment", "museums", "sports"] } } if params[:exclude] == "market_other"
           filter :not, { :term => { :kind => "other" } } if params[:exclude] == "other"
           filter :exists, field: 'market_match' if params[:market_match] == "1"
           filter :missing, field: 'market_match' if params[:market_match] == "0"
