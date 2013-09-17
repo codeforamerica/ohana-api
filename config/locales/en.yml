@@ -18,8 +18,8 @@ en:
       kind:
         arts: "Arts"
         entertainment: "Entertainment"
-        farmers_market: "Farmers' Markets"
-        gov: "Government"
+        farmers_markets: "Farmers' Markets"
+        government: "Government"
         human_services: "Human Services"
         libraries: "Libraries"
         museums: "Museums"
