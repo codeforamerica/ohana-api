@@ -43,3 +43,5 @@ dump.rdb
 /data/keywords.json
 /data/ohana_airs_8-26.json
 /data/null_address.json
+
+script/backup_mongo
