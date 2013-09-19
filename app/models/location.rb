@@ -229,10 +229,22 @@ class Location
     begin
     tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
       query do
-        match [:name, :description, "organization.name", "services.keywords",
-          "services.name", "services.description", "services.categories.name"],
-          params[:keyword] if params[:keyword].present?
-        match ["services.categories.name"], params[:category] if params[:category].present?
+        boolean do
+          should do
+            match [:name, :description, "organization.name",
+              "services.keywords", "services.name", "services.description",
+              "services.categories.name"], params[:keyword], type: "phrase",
+              boost: 5 if params[:keyword].present?
+          end
+          # should do
+          #   match [:name, :description, "organization.name",
+          #     "services.keywords", "services.name", "services.description",
+          #     "services.categories.name"], params[:keyword] if params[:keyword].present?
+          # end
+          should do
+            match ["services.categories.name"], params[:category] if params[:category].present?
+          end
+        end
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
