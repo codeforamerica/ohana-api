@@ -228,21 +228,29 @@ class Location
     tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
       query do
         if params[:keyword].present?
-          boolean do
-            must do
-              match [:name, :description, "organization.name",
-                "services.keywords", "services.name", "services.description",
-                "services.categories.name"], params[:keyword]
+          custom_filters_score do
+            query do
+              boolean do
+                must do
+                  match [:name, :description, "organization.name",
+                    "services.keywords", "services.name", "services.description",
+                    "services.categories.name"], params[:keyword]
+                end
+                should do
+                  term "name.exact", params[:keyword], boost: 25
+                  prefix "name.exact", params[:keyword], boost: 15
+                  term "services.keywords.exact", params[:keyword], boost: 10
+                  match [:name, :description, "organization.name",
+                    "services.keywords", "services.name", "services.description",
+                    "services.categories.name"], params[:keyword], slop: 0, boost: 5, type: "phrase"
+                end
+              end
             end
-            should do
-              term "kind", "Human Services", boost: 30
-              term "name.exact", params[:keyword], boost: 20
-              prefix "name.exact", params[:keyword], boost: 15
-              term "services.keywords.exact", params[:keyword], boost: 10
-              match [:name, :description, "organization.name",
-                "services.keywords", "services.name", "services.description",
-                "services.categories.name"], params[:keyword], slop: 0, boost: 5, type: "phrase"
+            filter do
+              filter :term, kind: "Human Services"
+              script '30'
             end
+            score_mode "total"
           end
         end
         match ["services.categories.name"], params[:category] if params[:category].present?

@@ -97,7 +97,7 @@ FactoryGirl.define do
   end
 
   factory :loc_with_nil_fields, class: Location do
-    name "Belmont Farmers Market"
+    name "Belmont Farmers Market with cat"
     description "yummy food"
     faxes nil
     address { FactoryGirl.build(:address) }

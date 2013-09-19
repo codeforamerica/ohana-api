@@ -242,16 +242,16 @@ describe Ohana::API do
 
     context "when keyword matches category name" do
       before(:each) do
-        create(:nearby_loc)
-        create(:location)
-        cat = Category.create!(:name => "Jobs")
+        create(:far_loc)
+        create(:farmers_market_loc)
+        cat = Category.create!(:name => "food")
         FactoryGirl.create(:service_with_nil_fields,
           :category_ids => ["#{cat.id}"])
       end
       it "boosts location whose services category name matches the query" do
-        get "api/search?keyword=jobs"
-        headers["X-Total-Count"].should == "3"
-        json.first["name"].should == "Belmont Farmers Market"
+        get "api/search?keyword=food"
+        headers["X-Total-Count"].should == "2"
+        json.first["name"].should == "Belmont Farmers Market with cat"
       end
     end
 
@@ -266,7 +266,7 @@ describe Ohana::API do
       it "only returns location whose category name matches the query" do
         get "api/search?category=jobs"
         headers["X-Total-Count"].should == "1"
-        json.first["name"].should == "Belmont Farmers Market"
+        json.first["name"].should == "Belmont Farmers Market with cat"
       end
     end
 
