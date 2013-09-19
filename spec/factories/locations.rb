@@ -77,10 +77,10 @@ FactoryGirl.define do
     description "yummy food"
     address { FactoryGirl.build(:far_west) }
     #coordinates [-122.274369, 37.317983]
+    market_match true
     payments ["Credit", "WIC", "SFMNP", "SNAP"]
     products ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"]
-    market_match true
-    kind :farmers_market
+    kind :farmers_markets
     association :organization
     after(:create) { |loc| loc.index.refresh }
   end

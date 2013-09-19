@@ -180,7 +180,11 @@ class Location
 
   mapping do
     indexes :coordinates, type: "geo_point"
-    indexes :name, type: "string", analyzer: "snowball"
+    indexes :name, type: "multi_field",
+      fields: {
+        name:  { type: "string", index: "analyzed", analyzer: "snowball" },
+        exact: { type: "string", index: "not_analyzed" }
+      }
     indexes :description, analyzer: "snowball"
     indexes :products, :index => :not_analyzed
     indexes :kind, type: "string", analyzer: "keyword"
@@ -190,7 +194,11 @@ class Location
     end
 
     indexes :services do
-      indexes :keywords, type: 'string', boost: 5, analyzer: "snowball"
+      indexes :keywords, type: "multi_field",
+        fields: {
+          keywords: { type: "string", index: "analyzed", analyzer: "snowball" },
+          exact: { type: "string", index: "not_analyzed" }
+        }
       indexes :name, type: 'string', analyzer: "snowball"
       indexes :description, type: 'string', analyzer: "snowball"
 
@@ -229,22 +237,24 @@ class Location
     begin
     tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
       query do
-        boolean do
-          should do
-            match [:name, :description, "organization.name",
-              "services.keywords", "services.name", "services.description",
-              "services.categories.name"], params[:keyword], type: "phrase",
-              boost: 5 if params[:keyword].present?
-          end
-          # should do
-          #   match [:name, :description, "organization.name",
-          #     "services.keywords", "services.name", "services.description",
-          #     "services.categories.name"], params[:keyword] if params[:keyword].present?
-          # end
-          should do
-            match ["services.categories.name"], params[:category] if params[:category].present?
+        if params[:keyword].present?
+          boolean do
+            must do
+              match [:name, :description, "organization.name",
+                "services.keywords", "services.name", "services.description",
+                "services.categories.name"], params[:keyword]
+            end
+            should do
+              term "name.exact", params[:keyword], boost: 20
+              prefix "name.exact", params[:keyword], boost: 15
+              term "services.keywords.exact", params[:keyword], boost: 10
+              match [:name, :description, "organization.name",
+                "services.keywords", "services.name", "services.description",
+                "services.categories.name"], params[:keyword], slop: 0, boost: 5, type: "phrase"
+            end
           end
         end
+        match ["services.categories.name"], params[:category] if params[:category].present?
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
