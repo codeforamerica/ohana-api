@@ -245,6 +245,7 @@ class Location
                 "services.categories.name"], params[:keyword]
             end
             should do
+              term :kind, "Human Services", boost: 30
               term "name.exact", params[:keyword], boost: 20
               prefix "name.exact", params[:keyword], boost: 15
               term "services.keywords.exact", params[:keyword], boost: 10

@@ -53,7 +53,7 @@ FactoryGirl.define do
 
   factory :nearby_loc, class: Location do
     name "Library"
-    description "great books"
+    description "great books about jobs"
     kind :human_services
     accessibility [:elevator]
     address { FactoryGirl.build(:near) }
@@ -74,7 +74,7 @@ FactoryGirl.define do
 
   factory :farmers_market_loc, class: Location do
     name "Belmont Farmers Market"
-    description "yummy food"
+    description "yummy food about jobs"
     address { FactoryGirl.build(:far_west) }
     #coordinates [-122.274369, 37.317983]
     market_match true

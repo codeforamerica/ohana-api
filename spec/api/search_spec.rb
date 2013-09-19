@@ -250,7 +250,7 @@ describe Ohana::API do
       end
       it "boosts location whose services category name matches the query" do
         get "api/search?keyword=jobs"
-        headers["X-Total-Count"].should == "2"
+        headers["X-Total-Count"].should == "3"
         json.first["name"].should == "Belmont Farmers Market"
       end
     end
@@ -320,6 +320,19 @@ describe Ohana::API do
     end
 
     describe 'sorting search results' do
+      context "general keyword search" do
+        before(:each) do
+          loc1 = create(:location)
+          loc2 = create(:nearby_loc)
+          loc3 = create(:farmers_market_loc)
+          loc4 = create(:no_address)
+        end
+        it "favors human services" do
+          get "api/search?keyword=jobs"
+          headers["X-Total-Count"].should == "3"
+          json.first["name"].should == "Library"
+        end
+      end
       context 'sort when neither keyword nor location is not present' do
         xit 'returns a helpful message about search query requirements' do
           get "api/search?sort=name"
