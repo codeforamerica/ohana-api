@@ -203,19 +203,9 @@ class Location
       indexes :description, type: 'string', analyzer: "snowball"
 
       indexes :categories do
-        indexes :name, type: 'string', boost: 10, analyzer: "snowball"
+        indexes :name, type: 'string', analyzer: "snowball"
       end
     end
-
-    # indexes :organization, type: 'object', properties: {
-    #   name: { type: 'string' }
-    # }
-    # indexes :services, type: 'object', properties: {
-    #   keywords: { type: 'string', boost: 5, analyzer: "snowball" },
-    #   categories: { type: 'object', properties: { name: { type: 'string', boost: 10, analyzer: "snowball" } } },
-    #   name: { type: 'string', analyzer: "snowball" },
-    #   description: { type: 'string', analyzer: "snowball" }
-    # }
   end
 
   def self.search(params={})
@@ -245,7 +235,7 @@ class Location
                 "services.categories.name"], params[:keyword]
             end
             should do
-              term :kind, "Human Services", boost: 30
+              term "kind", "Human Services", boost: 30
               term "name.exact", params[:keyword], boost: 20
               prefix "name.exact", params[:keyword], boost: 15
               term "services.keywords.exact", params[:keyword], boost: 10
