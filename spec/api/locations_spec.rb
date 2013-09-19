@@ -183,6 +183,7 @@ describe Ohana::API do
         end
 
         it 'includes market_match' do
+          puts json
           expect(json["market_match"]).to eq(true)
         end
       end
