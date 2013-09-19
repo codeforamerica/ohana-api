@@ -269,7 +269,7 @@ class Location
           filter :missing, field: 'market_match' if params[:market_match] == "0"
           filter :term, :payments => params[:payments].downcase if params[:payments].present?
           filter :term, :products => params[:products].titleize if params[:products].present?
-          filter :not, { :term => { :kind => "Test" } } if params[:keyword].blank?
+          filter :not, { :term => { :kind => "Test" } } if params[:keyword] != "maceo"
         end
       end
       sort do
