@@ -152,8 +152,9 @@ module Ohana
             authenticate!
             s = Service.find(params[:services_id])
             params[:keywords].each do |k|
-              s.keywords << k unless s.keywords.include? k
+              s.keywords << k
             end
+            s.keywords = s.keywords.uniq
             s.save
             s
           end
