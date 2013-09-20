@@ -257,9 +257,21 @@ module Ohana
 
           Examples:
 
+          *Single*:
+
           `#{ENV["API_BASE_URL"]}search?kind=Human Services`
 
-          `#{ENV["API_BASE_URL"]}search?kind=Libaries`
+          *Multiple*:
+
+          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks`
+
+          *Sort by kind (default order is "asc")*:
+
+          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks&sort=kind`
+
+          *Sort by kind in descending order*:
+
+          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks&sort=kind&order=desc`
 
           ### market_match (Farmers' Markets only)
 
@@ -346,7 +358,7 @@ module Ohana
         optional :location, type: String, desc: "An address or 5-digit ZIP code"
         optional :radius, type: Float, desc: "Distance in miles from the location parameter"
         optional :language, type: String, desc: "Languages other than English spoken at the location"
-        optional :kind, type: String, desc: "The type of organization, such as human services, farmers' markets"
+        optional :kind, type: Array, desc: "The type of organization, such as human services, farmers' markets"
         optional :category, type: String, desc: "The service category based on the OpenEligibility taxonomy"
         optional :market_match, type: String, desc: "To filter farmers' markets that participate in Market Match"
         optional :products, type: String, desc: "To filter farmers' markets that sell certain products"

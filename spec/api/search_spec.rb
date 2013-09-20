@@ -238,6 +238,23 @@ describe Ohana::API do
         get "api/locations"
         headers["X-Total-Count"].should == "3"
       end
+
+      it "allows multiple kinds" do
+        get "api/search?kind[]=Other&kind[]=Human%20Services"
+        headers["X-Total-Count"].should == "2"
+      end
+
+      it "allows sorting by kind (default order is asc)" do
+        get "api/search?kind[]=Other&kind[]=Human%20Services&sort=kind"
+        headers["X-Total-Count"].should == "2"
+        json.first["name"].should == "Library"
+      end
+
+      it "allows sorting by kind and ordering desc)" do
+        get "api/search?kind[]=Other&kind[]=Human%20Services&sort=kind&order=desc"
+        headers["X-Total-Count"].should == "2"
+        json.first["name"].should == "VRS Services"
+      end
     end
 
     context "when keyword matches category name" do

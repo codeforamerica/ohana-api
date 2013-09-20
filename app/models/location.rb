@@ -248,7 +248,7 @@ class Location
             end
             filter do
               filter :term, kind: "Human Services"
-              script '30'
+              boost 30
             end
             score_mode "total"
           end
@@ -257,7 +257,7 @@ class Location
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
-          filter :term, :kind => params[:kind] if params[:kind].present?
+          filter :terms, :kind => params[:kind] if params[:kind].present?
           filter :not, {
             :terms => {
               :kind => ["Arts", "Entertainment", "Farmers' Markets",
@@ -273,6 +273,9 @@ class Location
       end
       sort do
         by :_geo_distance, :coordinates => coords, :unit => "mi", :order => "asc" if params[:location].present?
+        if params[:sort] == "kind"
+          by :kind, params[:order] == "desc" ? "desc" : "asc"
+        end
         by :created_at, "desc" if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
       end
     end
