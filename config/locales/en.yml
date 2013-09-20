@@ -17,6 +17,7 @@ en:
         wheelchair_van: "Wheelchair-accessible van"
       kind:
         arts: "Arts"
+        clinics: "Clinics"
         entertainment: "Entertainment"
         farmers_markets: "Farmers' Markets"
         government: "Government"

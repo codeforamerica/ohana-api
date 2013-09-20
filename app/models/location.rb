@@ -51,7 +51,7 @@ class Location
   field :kind
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
-  enumerize :kind, in: [:arts, :entertainment, :farmers_markets,
+  enumerize :kind, in: [:arts, :clinics, :entertainment, :farmers_markets,
     :government, :human_services, :libraries, :museums, :other, :parks, :sports,
     :test]
 
