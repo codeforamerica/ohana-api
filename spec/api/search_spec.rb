@@ -207,19 +207,19 @@ describe Ohana::API do
         loc4 = create(:no_address)
       end
       it "finds farmers markets" do
-        get "api/search?kind=Farmers'%20Markets"
+        get "api/search?kind=farmers'%20markets"
         json.length.should == 1
         json.first["name"].should == "Belmont Farmers Market"
       end
 
       it "finds human services" do
-        get "api/search?kind=Human%20Services"
+        get "api/search?kind=Human%20services"
         json.length.should == 1
         json.first["name"].should == "Library"
       end
 
       it "finds other" do
-        get "api/search?kind=Other"
+        get "api/search?kind=other"
         json.length.should == 1
         json.first["name"].should == "VRS Services"
       end
@@ -240,18 +240,18 @@ describe Ohana::API do
       end
 
       it "allows multiple kinds" do
-        get "api/search?kind[]=Other&kind[]=Human%20Services"
+        get "api/search?kind[]=Other&kind[]=human%20Services"
         headers["X-Total-Count"].should == "2"
       end
 
       it "allows sorting by kind (default order is asc)" do
-        get "api/search?kind[]=Other&kind[]=Human%20Services&sort=kind"
+        get "api/search?kind[]=Other&kind[]=Human%20services&sort=kind"
         headers["X-Total-Count"].should == "2"
         json.first["name"].should == "Library"
       end
 
       it "allows sorting by kind and ordering desc)" do
-        get "api/search?kind[]=Other&kind[]=Human%20Services&sort=kind&order=desc"
+        get "api/search?kind[]=Other&kind[]=human%20services&sort=kind&order=desc"
         headers["X-Total-Count"].should == "2"
         json.first["name"].should == "VRS Services"
       end

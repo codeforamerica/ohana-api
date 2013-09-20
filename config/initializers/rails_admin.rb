@@ -157,11 +157,9 @@ RailsAdmin.config do |config|
     end
     list do
       field :name
-      field :parent_name
     end
     edit do
       field :name
-      field :parent_name
     end
   end
 

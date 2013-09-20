@@ -257,7 +257,7 @@ class Location
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
-          filter :terms, :kind => params[:kind] if params[:kind].present?
+          filter :terms, :kind => params[:kind].map(&:titleize) if params[:kind].present?
           filter :not, {
             :terms => {
               :kind => ["Arts", "Entertainment", "Farmers' Markets",
