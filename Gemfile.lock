@@ -132,6 +132,7 @@ GEM
       simplecov (>= 0.7)
       term-ansicolor
       thor
+    dalli (2.6.4)
     database_cleaner (1.1.1)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.1)
@@ -218,6 +219,7 @@ GEM
       fattr (>= 2.2.0)
       map (>= 5.1.0)
     map (6.5.1)
+    memcachier (0.0.2)
     metric_fu (4.4.1)
       bluff
       cane (~> 2.5, >= 2.5.2)
@@ -424,6 +426,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 3.2.1)
   coveralls
+  dalli
   database_cleaner (>= 1.0.0.RC1)
   devise
   enumerize
@@ -438,6 +441,8 @@ DEPENDENCIES
   haml-rails (>= 0.4)
   jquery-rails
   kaminari!
+  kgio
+  memcachier
   metric_fu
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)

@@ -43,7 +43,8 @@ class Service
     expose            :fees, :unless => lambda { |o,_| o.fees.blank? }
     expose :funding_sources, :unless => lambda { |o,_| o.funding_sources.blank? }
     expose        :keywords, :unless => lambda { |o,_| o.keywords.blank? }
-    expose      :categories, :using => Category::Entity, :unless => lambda { |o,_| o.categories.blank? }
+    #expose      :categories, :using => Category::Entity, :unless => lambda { |o,_| o.categories.blank? }
+    expose      :categories, :unless => lambda { |o,_| o.categories.blank? }
     expose    :how_to_apply, :unless => lambda { |o,_| o.how_to_apply.blank? }
     expose            :name, :unless => lambda { |o,_| o.name.blank? }
     expose   :service_areas, :unless => lambda { |o,_| o.service_areas.blank? }

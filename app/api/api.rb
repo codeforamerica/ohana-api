@@ -1,4 +1,5 @@
 require "garner/mixins/rack"
+require "active_support/cache/dalli_store"
 
 module API
   class Root < Grape::API
@@ -12,6 +13,7 @@ module API
 
       Garner.configure do |config|
         config.mongoid_identity_fields = [:_id]
+        config.cache = ActiveSupport::Cache::DalliStore.new(ENV["MEMCACHIER_SERVERS"], { :compress => true })
       end
 
       def authenticate!

@@ -219,7 +219,7 @@ class Location
     # Google provides a "bounds" option to restrict the address search to
     # a particular area. Since this app focuses on organizations in San Mateo
     # County, we use SMC_BOUNDS to restrict the search.
-    result = Geocoder.search(params[:location], :bounds => SMC_BOUNDS)
+    result = Geocoder.search(params[:location], :bounds => SMC_BOUNDS) if params[:location].present?
     # Google returns the coordinates as [lat, lon], but the geo_distance filter
     # below expects [lon, lat], so we need to reverse them.
     coords = result.first.coordinates.reverse if result.present?
