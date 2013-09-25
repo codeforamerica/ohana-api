@@ -194,6 +194,13 @@ class Location
     end
 
     indexes :services do
+      indexes :categories do
+        indexes :name, type: "multi_field",
+          fields: {
+            name: { type: "string", index: "analyzed", analyzer: "snowball" },
+            exact: { type: "string", index: "not_analyzed" }
+          }
+      end
       indexes :keywords, type: "multi_field",
         fields: {
           keywords: { type: "string", index: "analyzed", analyzer: "snowball" },
@@ -201,10 +208,6 @@ class Location
         }
       indexes :name, type: 'string', analyzer: "snowball"
       indexes :description, type: 'string', analyzer: "snowball"
-
-      indexes :categories do
-        indexes :name, type: 'string', analyzer: "snowball"
-      end
     end
   end
 
@@ -253,7 +256,6 @@ class Location
             score_mode "total"
           end
         end
-        match ["services.categories.name"], params[:category] if params[:category].present?
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           filter :term, :languages => params[:language].downcase if params[:language].present?
@@ -269,6 +271,7 @@ class Location
           filter :term, :payments => params[:payments].downcase if params[:payments].present?
           filter :term, :products => params[:products].titleize if params[:products].present?
           filter :not, { :term => { :kind => "Test" } } if params[:keyword] != "maceo"
+          filter :term, "services.categories.name.exact" => params[:category] if params[:category].present?
         end
       end
       sort do

@@ -223,10 +223,20 @@ module Ohana
           ### category
           The `category` parameter is used to search only on the service
           categories field using the [OpenEligibility](http://openeligibility.org) taxonomy.
+          It is provided to allow targeted search results that will only return
+          locations that belong to the category passed in the request. The value
+          of the `category` parameter must match the OpenEligibility term spelling exactly.
 
-          Example:
+          Examples:
 
-          `#{ENV["API_BASE_URL"]}search?category=emergency food`
+          `#{ENV["API_BASE_URL"]}search?category=Emergency Food`
+
+          `#{ENV["API_BASE_URL"]}search?category=Help Fill out Forms`
+
+          To get an array containing all possible categories, you can run this
+          Ruby code via our [wrapper](https://github.com/codeforamerica/ohanakapa-ruby):
+
+          `Ohanakapa.categories.map(&:name)`
 
           ### kind
 

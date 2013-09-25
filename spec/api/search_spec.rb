@@ -280,10 +280,14 @@ describe Ohana::API do
         FactoryGirl.create(:service_with_nil_fields,
           :category_ids => ["#{cat.id}"])
       end
-      it "only returns location whose category name matches the query" do
-        get "api/search?category=jobs"
+      it "only returns locations whose category name matches the query" do
+        get "api/search?category=Jobs"
         headers["X-Total-Count"].should == "1"
         json.first["name"].should == "Belmont Farmers Market with cat"
+      end
+      it "only finds exact spelling matches for the category" do
+        get "api/search?category=jobs"
+        headers["X-Total-Count"].should == "0"
       end
     end
 
