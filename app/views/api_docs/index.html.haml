@@ -1,14 +1,34 @@
 %h1 Overview
 %h2 Description
 %p
-  The Ohana API exposes information about various organizations in San Mateo County. Most of the organizations provide human services, but the API also includes museums, parks, libraries, hobby clubs, educators, government services, and other types of organizations.
-%h2 Register your app
+  The Ohana API exposes information about various organizations in San Mateo County. Most of the organizations provide human services, but the API also includes museums, parks, libraries, hobby clubs, educators, government services, and other types of organizations. We want you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.). An example would be an SMS-based search interface for those residents who don't have access to a browser.
+%h3 Step 1
+%p
+  = link_to "Create an account", "http://ohanapi.herokuapp.com/users/sign_up"
+%h3 Step 2
+%p
+  = link_to "Register an app", "http://ohanapi.herokuapp.com/api_applications/new"
 %p
   You can use the API without registering an application, but you will be limited to
   60 requests per hour. By registering an application, your limit goes up to 5000 requests per hour.
-  = link_to "Sign up", "http://ohanapi.herokuapp.com"
-  now to take advantage of the higher limit.
-%h2 User-Agent
+  Once you register your app, a random API Token will automatically be generated for you, and you
+  will need to pass that token via the "X-Api-Token" HTTP header when making API calls in order to benefit from the higher rate limit.
+%h3 Step 3
+%p
+  Build something that matters!
+%p
+  If you're a Ruby developer, we a have a
+  = link_to "wrapper", "https://github.com/codeforamerica/ohanakapa-ruby"
+  for you that makes interacting with the API easy.
+%p
+  If you need inspiration, check out this app we built on top of the API:
+  = link_to "SMC-Connect", "http://smc-connect.org"
+%p
+  To dig into the API, click on
+  = link_to "/api", "http://ohanapi.herokuapp.com/api/docs#!/api"
+  below to explore all the endpoints and read the documentation.
+
+%h2 Important Note
 %p
   All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. Unless you're using our
   = link_to "Ohanakapa", "https://github.com/codeforamerica/ohanakapa-ruby"

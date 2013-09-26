@@ -65,7 +65,6 @@ gem 'rack-cors', :require => 'rack/cors'
 
 # API Design
 gem "grape"
-gem 'newrelic-grape'
 gem 'grape-entity'
 gem "kaminari", :git => "git://github.com/amatsuda/kaminari.git", :ref => "01f65e112d"
 
@@ -81,6 +80,7 @@ gem 'swagger-ui_rails'
 
 # Production Monitoring
 gem 'newrelic_rpm'
+gem 'newrelic-grape'
 gem "rack-timeout"
 
 # Rate Limiting
