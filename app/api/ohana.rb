@@ -191,6 +191,16 @@ module Ohana
           #{ENV["API_BASE_URL"]}search?keyword=food
           ```
 
+          ### org_name
+
+          This parameter allows you to filter locations that belong to a
+          specific organization.
+
+          Example:
+          ```
+          #{ENV["API_BASE_URL"]}search?org_name=San+Mateo+County+Human+Services+Agency
+          ```
+
           ### location, radius
           Queries that include the `location` parameter filter the results to
           only include locations that are 5 miles (by default) from the

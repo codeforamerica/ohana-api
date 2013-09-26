@@ -190,7 +190,11 @@ class Location
     indexes :kind, type: "string", analyzer: "keyword"
 
     indexes :organization do
-      indexes :name, type: 'string'
+      indexes :name, type: "multi_field",
+        fields: {
+          name:  { type: "string", index: "analyzed", analyzer: "snowball" },
+          exact: { type: "string", index: "not_analyzed" }
+        }
     end
 
     indexes :services do
@@ -272,6 +276,7 @@ class Location
           filter :term, :products => params[:products].titleize if params[:products].present?
           filter :not, { :term => { :kind => "Test" } } if params[:keyword] != "maceo"
           filter :term, "services.categories.name.exact" => params[:category] if params[:category].present?
+          filter :term, "organization.name.exact" => params[:org_name] if params[:org_name].present?
         end
       end
       sort do

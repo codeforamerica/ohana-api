@@ -291,6 +291,18 @@ describe Ohana::API do
       end
     end
 
+    context "with org_name parameter" do
+      before(:each) do
+        create(:nearby_loc)
+        create(:location)
+      end
+      it "only returns locations whose org name matches the query" do
+        get "api/search?org_name=Food+Stamps"
+        headers["X-Total-Count"].should == "1"
+        json.first["name"].should == "Library"
+      end
+    end
+
     context "with market_match parameter" do
       before(:each) do
         create(:farmers_market_loc)
