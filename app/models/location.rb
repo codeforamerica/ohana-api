@@ -180,6 +180,10 @@ class Location
 
   mapping do
     indexes :coordinates, type: "geo_point"
+    indexes :address do
+      indexes :zip, index: "analyzed"
+      indexes :city, index: "not_analyzed"
+    end
     indexes :name, type: "multi_field",
       fields: {
         name:  { type: "string", index: "analyzed", analyzer: "snowball" },
@@ -212,6 +216,7 @@ class Location
         }
       indexes :name, type: 'string', analyzer: "snowball"
       indexes :description, type: 'string', analyzer: "snowball"
+      indexes :service_areas, index: "not_analyzed"
     end
   end
 
@@ -244,24 +249,47 @@ class Location
                     "services.categories.name"], params[:keyword]
                 end
                 should do
-                  term "name.exact", params[:keyword], boost: 25
-                  prefix "name.exact", params[:keyword], boost: 15
-                  term "services.keywords.exact", params[:keyword], boost: 10
+                  term "name.exact", params[:keyword], boost: 30
+                  prefix "name.exact", params[:keyword], boost: 5
+                  term "services.keywords.exact", params[:keyword], boost: 20
+                  term "services.categories.name.exact", params[:keyword], boost: 20
                   match [:name, :description, "organization.name",
                     "services.keywords", "services.name", "services.description",
-                    "services.categories.name"], params[:keyword], slop: 0, boost: 5, type: "phrase"
+                    "services.categories.name"], params[:keyword], slop: 0, boost: 15, type: "phrase"
                 end
+              end
+            end
+            if params[:location].present?
+              filter do
+                filter :term,
+                  "address.city" => params[:location].
+                                      split(",")[0].gsub("+"," ").titleize
+                boost 50
+              end
+              filter do
+                filter :term, "address.zip" => params[:location]
+                boost 50
               end
             end
             filter do
               filter :term, kind: "Human Services"
+              boost 25
+            end
+            filter do
+              filter :term, "organization.name.exact" => "San Mateo County Human Services Agency"
               boost 30
             end
+            # filter do
+            #   filter :geo_distance_range, :from => "0mi", :to => "5mi", :coordinates => coords
+            #   boost 30
+            # end
             score_mode "total"
           end
         end
+        #match ["services.categories.name.name"], :default_operator => 'AND' if params[:category].present?
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
+          #filter :geo_bounding_box, :coordinates => { :top_left => "37.7084,-122.521", :bottom_right => "37.1066,-122.08" }
           filter :term, :languages => params[:language].downcase if params[:language].present?
           filter :terms, :kind => params[:kind].map(&:titleize) if params[:kind].present?
           filter :not, {
@@ -277,6 +305,7 @@ class Location
           filter :not, { :term => { :kind => "Test" } } if params[:keyword] != "maceo"
           filter :term, "services.categories.name.exact" => params[:category] if params[:category].present?
           filter :term, "organization.name.exact" => params[:org_name] if params[:org_name].present?
+          filter :terms, "services.service_areas" => Location.smc_service_areas if params[:service_area] == "smc"
         end
       end
       sort do
@@ -365,5 +394,19 @@ class Location
 
   def address_changed?
     physical_address_changed? || mail_address_changed?
+  end
+
+  def self.smc_service_areas
+    [
+      'San Mateo County','Atherton','Belmont','Brisbane','Burlingame','Colma',
+      'Daly City','East Palo Alto','Foster City','Half Moon Bay',
+      'Hillsborough','Menlo Park','Millbrae','Pacifica','Portola Valley',
+      'Redwood City','San Bruno','San Carlos','San Mateo',
+      'South San Francisco','Woodside','Broadmoor','Burlingame Hills',
+      'Devonshire','El Granada','Emerald Lake Hills','Highlands-Baywood Park',
+      'Kings Mountain','Ladera','La Honda','Loma Mar','Menlo Oaks','Montara',
+      'Moss Beach','North Fair Oaks','Palomar Park','Pescadero',
+      'Princeton-by-the-Sea','San Gregorio','Sky Londa','West Menlo Park'
+    ]
   end
 end
