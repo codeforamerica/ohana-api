@@ -246,6 +246,9 @@ GEM
       mongoid (>= 3.0.1)
       rake
       rspec (>= 2.14)
+    mongoid_slug (3.1.2)
+      mongoid (> 3.0)
+      stringex (~> 1.4)
     mongoid_time_field (0.2.9)
       mongoid (>= 3.0.0)
     moped (1.5.1)
@@ -381,6 +384,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    stringex (1.5.1)
     swagger-ui_rails (0.0.3)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
@@ -446,6 +450,7 @@ DEPENDENCIES
   metric_fu
   mongoid (>= 3.1.2)
   mongoid-rspec (>= 1.7.0)
+  mongoid_slug
   mongoid_time_field
   newrelic-grape
   newrelic_rpm

@@ -87,6 +87,7 @@ describe Ohana::API do
               "name" => @location.services.first.name,
               "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
             }],
+            "slugs" => ["vrs-services-parent-agency"],
             "organization" => {
               "id" => "#{@location.organization.id}",
               "name"=> "Parent Agency",

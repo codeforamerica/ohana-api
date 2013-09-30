@@ -103,3 +103,5 @@ gem "tire", :git => "git://github.com/monfresh/tire.git", :ref => "2d174e792a"
 gem "glebtv-mongoid_nested_set"
 
 gem 'mongoid_time_field'
+
+gem 'mongoid_slug'

@@ -1,6 +1,7 @@
 class Location
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Slug
   extend Enumerize
 
   paginates_per Rails.env.test? ? 1 : 30
@@ -62,6 +63,7 @@ class Location
   #    ], multiple: true
 
   field :name
+  slug :name, :org_name, history: true
 
   field :phones, type: Array
 
@@ -147,6 +149,7 @@ class Location
         :mail_address => { :except => [:_id] },
         :contacts => { :except => [] }
       })
+    hash.merge!("slugs" => _slugs) if _slugs.present?
     hash.merge!("accessibility" => accessibility.map(&:text))
     hash.merge!("kind" => kind.text) if kind.present?
     remove_nil_fields(hash,["organization","contacts","services"])
@@ -365,5 +368,9 @@ class Location
 
   def address_changed?
     physical_address_changed? || mail_address_changed?
+  end
+
+  def org_name
+    self.organization.name unless self.name == self.organization.name
   end
 end

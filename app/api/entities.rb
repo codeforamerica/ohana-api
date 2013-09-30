@@ -27,6 +27,7 @@ module Entities
     expose          :phones, :unless => lambda { |o,_| o.phones.blank? }
     expose        :products, :unless => lambda { |o,_| o.products.blank? }
     expose      :short_desc, :unless => lambda { |o,_| o.short_desc.blank? }
+    expose           :slugs, :unless => lambda { |o,_| o.slugs.blank? }
     expose  :transportation, :unless => lambda { |o,_| o.transportation.blank? }
     expose      :updated_at
     expose            :urls, :unless => lambda { |o,_| o.urls.blank? }
