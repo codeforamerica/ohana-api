@@ -1,6 +1,7 @@
 class Organization
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Slug
   include Grape::Entity::DSL
 
   has_many :locations, dependent: :destroy
@@ -10,6 +11,7 @@ class Organization
   normalize_attributes :name
 
   field :name
+  slug :name, history: true
   field :urls, type: Array
 
   validates_presence_of :name
@@ -31,6 +33,7 @@ class Organization
   entity do
     expose :id
     expose :name
+    expose :slugs
     expose :url
     expose :locations_url
   end

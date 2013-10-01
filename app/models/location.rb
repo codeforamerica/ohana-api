@@ -63,7 +63,7 @@ class Location
   #    ], multiple: true
 
   field :name
-  slug :name, :org_name, history: true
+  slug :name, history: true
 
   field :phones, type: Array
 
@@ -368,9 +368,5 @@ class Location
 
   def address_changed?
     physical_address_changed? || mail_address_changed?
-  end
-
-  def org_name
-    self.organization.name unless self.name == self.organization.name
   end
 end

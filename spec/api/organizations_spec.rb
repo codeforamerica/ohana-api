@@ -27,6 +27,7 @@ describe Ohana::API do
         represented = [{
           "id" => "#{orgs.last.id}",
           "name" => "#{orgs.last.name}",
+          "slugs" => orgs.last.slugs,
           "url" => "http://example.com/api/organizations/#{orgs.last.id}",
           "locations_url" => "http://example.com/api/organizations/#{orgs.last.id}/locations"
         }]
@@ -51,6 +52,7 @@ describe Ohana::API do
           represented = {
             "id" => "#{@org.id}",
             "name" => "#{@org.name}",
+            "slugs" => @org.slugs,
             "url" => "http://example.com/api/organizations/#{@org.id}",
             "locations_url" => "http://example.com/api/organizations/#{@org.id}/locations"
           }

@@ -51,13 +51,13 @@ module Ohana
           If using the API to display a location's details
           on a web page that will be crawled by search engines, we recommend
           setting the end of the canonical URL of the location's page to the
-          last slug in the array, which can be accessed by `slugs[-1]`.
+          last slug in the array.
 
-          Examples:
+          Example:
 
           `http://ohanapi.herokuapp.com/api/locations/521d339d1974fcdb2b002664`
-          yields the same location as:
-          `http://ohanapi.herokuapp.com/api/locations/southwest-branch-ymca-of-silicon-valley`
+          returns the same location as:
+          `http://ohanapi.herokuapp.com/api/locations/southwest-branch`
         NOTE
       }
       get ':id' do
@@ -114,7 +114,25 @@ module Ohana
         end
       end
 
-      desc "Get the details for a specific organization"
+      desc "Get the details for a specific organization", {
+        :notes =>
+        <<-NOTE
+          # Fetching an organization
+
+          You can fetch an organization either by its id or by one of its slugs.
+          The `slugs` field is an array containing all slugs for a particular
+          organization over time. Most organizations will only have one slug, but it's
+          possible that a few will have their name edited at some point. Since
+          the API keeps track of the slug history, those organizations will have
+          multiple slugs.
+
+          Example:
+
+          `http://ohanapi.herokuapp.com/api/organizations/521d339d1974fcdb2b00265f`
+          returns the same organization as:
+          `http://ohanapi.herokuapp.com/api/organizations/ymca-of-silicon-valley`
+        NOTE
+      }
       get ':id' do
         garner.bind(Organization) do
           org = Organization.find(params[:id])

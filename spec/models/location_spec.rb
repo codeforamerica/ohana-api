@@ -16,9 +16,6 @@ describe Location do
     "#{subject.address.city}, " + "#{subject.address.state} " +
     "#{subject.address.zip}" }
 
-  it { should respond_to(:org_name) }
-  its(:org_name) { should == "Parent Agency" }
-
   it { should normalize_attribute(:urls).
     from(" http://www.codeforamerica.org  ").
     to("http://www.codeforamerica.org") }
