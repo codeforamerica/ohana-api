@@ -278,6 +278,7 @@ class Location
           filter :term, :payments => params[:payments].downcase if params[:payments].present?
           filter :term, :products => params[:products].titleize if params[:products].present?
           filter :not, { :term => { :kind => "Test" } } if params[:keyword] != "maceo"
+          filter :missing, field: :kind if params[:include] == "no_kind"
           filter :term, "services.categories.name.exact" => params[:category] if params[:category].present?
           filter :term, "organization.name.exact" => params[:org_name] if params[:org_name].present?
         end
