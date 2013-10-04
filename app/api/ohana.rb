@@ -181,9 +181,8 @@ module Ohana
           post do
             authenticate!
             s = Service.find(params[:services_id])
-            params[:keywords].each do |k|
-              s.keywords << k
-            end
+            k = params[:keywords]
+            s.keywords.blank? ? s.keywords = k : s.keywords += k
             s.keywords = s.keywords.uniq
             s.save
             s
