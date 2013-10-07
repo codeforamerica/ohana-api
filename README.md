@@ -6,8 +6,17 @@ This is the API portion of the [Ohana API](http://ohanapi.org) project, an open 
 
 Apart from Google, the current search interface that residents and social workers have access to is the Peninsula Library System's [CIP portal](http://http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we are developing a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa).
 
-We encourage third-party developers to build additional applications on top of the API, such as an SMS-based search interface. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress).
+We encourage third-party developers to build additional applications on top of the API, such as this [SMS-based search interface](https://github.com/marks/ohana-sms) that Mark Silverberg started developing. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the ]API documentation](http://ohanapi.herokuapp.com/api.docs).
 
+## API documentation
+[http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
+
+## Ruby wrapper
+[https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
+
+## Apps that are using the Ohana API
+[SMC-Connect](http://www.smc-connect.org)
+[Ohana SMS](https://github.com/marks/ohana-sms)
 
 ## Stack Overview
 
@@ -131,35 +140,37 @@ We recommend these tools to interact with APIs:
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility
 
-### API documentation (work in progress)
-[http://localhost:8080/api/docs](http://localhost:8080/api/docs)
+### API documentation
+Production: [http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
+
+Local: [http://localhost:8080/api/docs](http://localhost:8080/api/docs)
 
 Here are some sample requests to get you started:
 
 To see all locations, 30 per page:
 
-    http://localhost:8080/api/locations
+    http://ohanapi.herokuapp.com/api/locations
 
 To go the next page (the page parameter works for all API responses):
 
-    http://localhost:8080/api/locations&page=2
+    http://ohanapi.herokuapp.com/api/locations&page=2
 
 Search using one or any combination of these parameters: `keyword`, `location`, and `language`. The `search` endpoint always returns locations. When searching by `keyword`, the API returns locations where the search term matches one or more of the location's name, the location's description, the location's parent organization's name, or the location's services categories. Results that match the services categories appear higher.
 
 The search results include the location's parent organization info, as well as services, so you can have all the info in one query instead of three.
 
-    http://localhost:8080/api/search?keyword=food
-    http://localhost:8080/api/search?keyword=childcare&location=94403
-    http://localhost:8080/api/search?keyword=food&location=san mateo
-    http://localhost:8080/api/search?location=redwood city, ca
+    http://ohanapi.herokuapp.com/api/search?keyword=food
+    http://ohanapi.herokuapp.com/api/search?keyword=childcare&location=94403
+    http://ohanapi.herokuapp.com/api/search?keyword=food&location=san mateo
+    http://ohanapi.herokuapp.com/api/search?location=redwood city, ca
 
 Search for organizations by languages spoken at the location:
 
-    http://localhost:8080/api/search?keyword=food&language=spanish
+    http://ohanapi.herokuapp.com/api/search?keyword=food&language=spanish
 
 The language parameter can be used alone:
 
-    http://localhost:8080/api/search?language=arabic
+    http://ohanapi.herokuapp.com/api/search?language=arabic
 
 Searches with the location parameter return results sorted by distance.
 
