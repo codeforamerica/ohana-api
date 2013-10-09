@@ -15,7 +15,7 @@ class StatusController < ApplicationController
     render json:
       {
         "status" => status,
-        "updated" => Time.now.to_i
+        "updated" => Time.now.to_i,
         "dependencies" => ["Mandrill","Mongolab","Redis To Go","MemCachier","Elasticsearch"]
       }
   end
