@@ -1,5 +1,5 @@
 Tire.configure do
-  url ENV['SEARCHBOX_URL']
+  url ENV['BONSAI_URL']
 end
 
 # This is required to be able to run tests using a separate

@@ -13,7 +13,7 @@ describe StatusController do
       it "returns DB failure error" do
         get "get_status"
         body = JSON.parse(response.body)
-        body["status"].should == "DB returned blank location or category"
+        body["status"].should == "DB did not return location or category"
       end
     end
 

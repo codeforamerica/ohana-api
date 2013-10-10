@@ -21,7 +21,7 @@ class StatusController < ApplicationController
       {
         "status" => status,
         "updated" => Time.now.to_i,
-        "dependencies" => ["Mandrill","Mongolab","Redis To Go","MemCachier","Elasticsearch"]
+        "dependencies" => ["Mandrill","Mongolab","Redis To Go","MemCachier","Bonsai"]
       }
   end
 end
