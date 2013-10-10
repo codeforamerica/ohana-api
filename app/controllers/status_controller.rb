@@ -6,10 +6,15 @@ class StatusController < ApplicationController
     test_location = Location.first
     test_category = Category.first
 
-    if test_location.present? && test_category.present?
-      status = "ok"
+    # Search check
+    test_search = Location.search(:keyword => "food")
+
+    if test_location.nil? || test_category.nil?
+      status = "DB did not return location or category"
+    elsif test_search.count == 0
+      status = "Search returned no results"
     else
-      status = "DB returned blank location or category"
+      status = "ok"
     end
 
     render json:
