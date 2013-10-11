@@ -5,7 +5,7 @@ Coveralls.wear!('rails')
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'garner'
+#require 'garner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -56,8 +56,8 @@ RSpec.configure do |config|
     DatabaseCleaner.start
     Location.tire.index.delete
     Location.create_elasticsearch_index
-    Garner.config.reset!
-    Garner.config.cache.clear
+    # Garner.config.reset!
+    # Garner.config.cache.clear
   end
 
   config.after(:each) do

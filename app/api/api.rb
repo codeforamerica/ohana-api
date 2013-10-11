@@ -1,4 +1,4 @@
-require "garner/mixins/rack"
+#require "garner/mixins/rack"
 require "active_support/cache/dalli_store"
 
 module API
@@ -9,12 +9,12 @@ module API
 
     helpers do
 
-      Garner::Mixins::Rack
+      #Garner::Mixins::Rack
 
-      Garner.configure do |config|
-        config.mongoid_identity_fields = [:_id]
-        config.cache = ActiveSupport::Cache::DalliStore.new(ENV["MEMCACHIER_SERVERS"], { :compress => true })
-      end
+      # Garner.configure do |config|
+      #   config.mongoid_identity_fields = [:_id]
+      #   config.cache = ActiveSupport::Cache::DalliStore.new(ENV["MEMCACHIER_SERVERS"], { :compress => true })
+      # end
 
       def authenticate!
         error!('401 Unauthorized', 401) unless valid_api_token?

@@ -1,9 +1,9 @@
-require "garner/mixins/rack"
+#require "garner/mixins/rack"
 
 module Ohana
   class API < Grape::API
 
-    helpers Garner::Mixins::Rack
+    #helpers Garner::Mixins::Rack
     use Rack::ConditionalGet
     use Rack::ETag
 
@@ -29,11 +29,11 @@ module Ohana
         optional :per_page, type: Integer
       end
       get do
-        garner.options(expires_in: 30.minutes) do
+        #garner.options(expires_in: 30.minutes) do
           locations = Location.search(params)
           set_link_header(locations)
           locations
-        end
+        #end
       end
 
       desc "Get the details for a specific location", {
@@ -61,10 +61,10 @@ module Ohana
         NOTE
       }
       get ':id' do
-        garner.bind(Location) do
+        #garner.bind(Location) do
           location = Location.find(params[:id])
-          present(location, with: Entities::Location).as_json
-        end
+          present(location, with: Entities::Location)
+        #end
       end
 
       desc "Update a location"
@@ -88,12 +88,12 @@ module Ohana
           end
 
           get do
-            garner.options(expires_in: 30.minutes) do
+            #garner.options(expires_in: 30.minutes) do
               location = Location.find(params[:locations_id])
               nearby = Location.nearby(location, params)
               set_link_header(nearby) if location.coordinates.present?
               nearby
-            end
+            #end
           end
         end
       end
@@ -107,11 +107,11 @@ module Ohana
         optional :page, type: Integer, default: 1
       end
       get do
-        garner.options(expires_in: 30.minutes) do
+        #garner.options(expires_in: 30.minutes) do
           orgs = Organization.page(params[:page])
           set_link_header(orgs)
-          present(orgs, with: Organization::Entity).as_json
-        end
+          present(orgs, with: Organization::Entity)
+        #end
       end
 
       desc "Get the details for a specific organization", {
@@ -134,10 +134,10 @@ module Ohana
         NOTE
       }
       get ':id' do
-        garner.bind(Organization) do
+        #garner.bind(Organization) do
           org = Organization.find(params[:id])
-          present(org, with: Organization::Entity).as_json
-        end
+          present(org, with: Organization::Entity)
+        #end
       end
 
       segment '/:organization_id' do
@@ -147,12 +147,12 @@ module Ohana
             optional :page, type: Integer, default: 1
           end
           get do
-            garner.options(expires_in: 30.minutes) do
+            #garner.options(expires_in: 30.minutes) do
               org = Organization.find(params[:organization_id])
               locations = org.locations.page(params[:page])
               set_link_header(locations)
-              present(locations, with: Entities::Location).as_json
-            end
+              present(locations, with: Entities::Location)
+            #end
           end
         end
       end
@@ -195,9 +195,9 @@ module Ohana
       # GET /categories
       desc "Returns all categories"
       get do
-        garner.bind(Category) do
+        #garner.bind(Category) do
           Category.page(1).per(400)
-        end
+        #end
       end
     end
 
@@ -415,11 +415,11 @@ module Ohana
         optional :page, type: Integer, default: 1
       end
       get do
-        garner.options(expires_in: 30.minutes) do
+        #garner.options(expires_in: 30.minutes) do
           locations = Location.search(params)
           set_link_header(locations)
           locations
-        end
+        #end
       end
     end
 

@@ -69,7 +69,7 @@ gem 'grape-entity'
 gem "kaminari", :git => "git://github.com/amatsuda/kaminari.git", :ref => "01f65e112d"
 
 # Caching
-gem "garner"
+#gem "garner"
 gem 'dalli'
 gem 'kgio'
 gem 'memcachier'
