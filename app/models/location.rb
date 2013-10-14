@@ -140,7 +140,7 @@ class Location
   def to_indexed_json
     hash = self.as_json(
       :except => [:organization_id],
-        :methods => ['url', 'other_locations'],
+        :methods => ['url'],
       :include => {
         :services => { :except => [:location_id, :created_at],
           :methods => ['categories'] },
@@ -379,13 +379,6 @@ class Location
 
   def url
     "#{Rails.application.routes.url_helpers.root_url}locations/#{self.id}"
-  end
-
-  def other_locations
-    other_locs = self.organization.locations
-    coll = []
-    other_locs.each { |loc| coll.push(loc.url) } if other_locs.size > 1
-    coll
   end
 
   def physical_address_changed?

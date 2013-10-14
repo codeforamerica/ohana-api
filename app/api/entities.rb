@@ -35,7 +35,6 @@ module Entities
 
     expose        :services, :using => Service::Entity, :unless => lambda { |o,_| o.services.blank? }
     expose    :organization, :using => Organization::Entity
-    expose :other_locations, :unless => lambda { |o,_| o.other_locations.blank? }
   end
 
 end
