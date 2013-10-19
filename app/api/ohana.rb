@@ -294,6 +294,8 @@ module Ohana
           overall type of organization. Possible values are (exact spelling):
 
               Arts
+              Clinics
+              Education
               Entertainment
               Farmers' Markets
               Government
@@ -324,7 +326,7 @@ module Ohana
 
           ### market_match (Farmers' Markets only)
 
-          Get a list of markets that participate in the Market Match program.
+          Get a list of markets that participate in the [Market Match](http://www.pcfma.com/pcfma_marketmatch.php) program.
 
           Examples:
 
