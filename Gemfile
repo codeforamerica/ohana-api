@@ -16,7 +16,10 @@ gem "haml-rails", ">= 0.4"
 
 # Server for deployment
 gem "unicorn", ">= 4.3.1"
-gem 'rails_12factor' # Heroku recommended
+
+group :production, :staging do
+  gem 'rails_12factor' # Heroku recommended
+end
 
 # Analytics
 gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
