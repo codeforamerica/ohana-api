@@ -179,6 +179,17 @@ class Location
       end
     end
     obj.reject! { |_,v| v.blank? }
+
+    # remove service_ids and category_ids fields to speed up response time.
+    # clients don't need them.
+    if obj["services"].present?
+      obj["services"].each do |s|
+        s.reject! { |k,_| k == "category_ids" }
+        if s["categories"].present?
+          s["categories"].each { |c| c.reject! { |k,_| k == "service_ids" } }
+        end
+      end
+    end
   end
 
   mapping do
