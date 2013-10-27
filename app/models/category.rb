@@ -8,6 +8,7 @@ class Category
 
   entity do
     expose :id
+    expose :depth
     expose :oe_id
     expose :name
     expose :parent_id
