@@ -140,6 +140,35 @@ module Ohana
         #end
       end
 
+      desc "Update an organization", {
+        :notes =>
+        <<-NOTE
+          ### The only organization parameter that can be updated is the name.
+          Example HTTP PUT request:
+          ```
+          #{ENV["API_BASE_URL"]}organizations/org_id?name=new name
+          ```
+
+          Example request via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa-ruby):
+          ```
+          Ohanakapa.put("organizations/org_id/", :query => { :name => "new name" })
+          ```
+          where `org_id` is the id of the organization you want to update.
+
+          A valid API token is required. You can get one by [registering your app](http://ohanapi.herokuapp.com).
+        NOTE
+      }
+      params do
+        requires :id, type: String, desc: "Organization ID"
+        requires :name, type: String, desc: "Organization Name"
+      end
+      put ':id' do
+        authenticate!
+        org = Organization.find(params[:id])
+        org.update_attributes!(name: params[:name])
+        present org, with: Organization::Entity
+      end
+
       segment '/:organization_id' do
         resource '/locations' do
           desc "Return the queried organization's locations."

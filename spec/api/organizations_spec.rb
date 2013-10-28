@@ -92,5 +92,43 @@ describe Ohana::API do
       end
     end
 
+    describe "PUT /api/organizations/:id" do
+      let(:valid_attributes) { { name: "test app",
+                           main_url: "http://localhost:8080",
+                           callback_url: "http://localhost:8080" } }
+      before(:each) do
+        @org = create(:organization)
+        user = FactoryGirl.create(:user)
+        api_application = user.api_applications.create! valid_attributes
+        @token = api_application.api_token
+      end
+
+      it "requires name parameter" do
+        put "api/organizations/#{@org.id}", { :foo => "bar" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @org.reload
+        expect(response.status).to eq(400)
+        expect(json["error"]).to eq("missing parameter: name")
+      end
+
+      it "doesn't allow setting non-whitelisted attributes" do
+        put "api/organizations/#{@org.id}", { :foo => "bar", :name => "test" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @org.reload
+        expect(response).to be_success
+        json.should_not include "foo"
+        json["name"].should == "test"
+      end
+
+      it "allows setting whitelisted attributes" do
+        put "api/organizations/#{@org.id}", { :name => "test org" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @org.reload
+        expect(response).to be_success
+        json["name"].should == "test org"
+      end
+
+    end
+
   end
 end
