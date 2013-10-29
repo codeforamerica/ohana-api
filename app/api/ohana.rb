@@ -76,6 +76,7 @@ module Ohana
         loc = Location.find(params[:id])
         params = request.params.except(:route_info)
         loc.update_attributes!(params)
+        #loc.update_attributes!(phones: []) if params[:phones].blank?
         present loc, with: Entities::Location
       end
 
