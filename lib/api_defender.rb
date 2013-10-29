@@ -109,11 +109,8 @@ class ApiDefender < Rack::Throttle::Hourly
   # @param  [Rack::Request] request
   # @return [String]
   def client_identifier(request)
-    if valid_api_token?(request)
-      "#{request.ip.to_s}-#{api_token(request)}"
-    else
-     request.ip.to_s
-    end
+    token = api_token(request)
+    token.present? ? "#{request.ip.to_s}-#{token}" : request.ip.to_s
   end
 
   # @param  [Rack::Request] request
