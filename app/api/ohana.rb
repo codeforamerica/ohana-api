@@ -97,6 +97,19 @@ module Ohana
             #end
           end
         end
+
+        resource '/contacts' do
+          desc "Delete all contacts for a location"
+          params do
+            requires :locations_id, type: String
+          end
+          delete do
+            authenticate!
+            loc = Location.find(params[:locations_id])
+            loc.update_attributes!(contacts: [])
+            loc
+          end
+        end
       end
     end
 

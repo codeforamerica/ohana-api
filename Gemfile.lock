@@ -95,8 +95,6 @@ GEM
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     builder (3.0.4)
-    bullet (4.6.0)
-      uniform_notifier
     cancan (1.6.10)
     cane (2.6.0)
       parallel
@@ -399,7 +397,6 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    uniform_notifier (1.2.0)
     uuidtools (2.1.4)
     validates_formatting_of (0.8.0)
       activemodel (~> 3.0)
@@ -420,7 +417,6 @@ DEPENDENCIES
   better_errors (>= 0.7.2)
   binding_of_caller (>= 0.7.1)
   bootstrap-sass
-  bullet
   cancan
   capybara
   coffee-rails (~> 3.2.1)

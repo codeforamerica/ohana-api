@@ -417,4 +417,14 @@ class Location
       'Princeton-by-the-Sea','San Gregorio','Sky Londa','West Menlo Park'
     ]
   end
+
+  after_validation :handle_post_validation
+  def handle_post_validation
+    unless self.errors[:contacts].nil?
+      self.contacts.each do |contact|
+        contact.errors.each { |attr,msg| self.errors.add(attr, msg) }
+      end
+      self.errors.delete(:contacts)
+    end
+  end
 end

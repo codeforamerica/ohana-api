@@ -44,12 +44,12 @@ OhanaApi::Application.configure do
   config.assets.debug = true
 
   # Bullet gem config
-  config.after_initialize do
-    Bullet.enable = true
-    Bullet.alert = true
-    Bullet.bullet_logger = true
-    Bullet.rails_logger = true
-  end
+  # config.after_initialize do
+  #   Bullet.enable = true
+  #   Bullet.alert = true
+  #   Bullet.bullet_logger = true
+  #   Bullet.rails_logger = true
+  # end
 
   # Roar-Rails hypermedia links base url
   #config.representer.default_url_options = { :host => "localhost:8080/api" }
