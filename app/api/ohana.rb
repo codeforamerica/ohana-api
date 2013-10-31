@@ -75,8 +75,16 @@ module Ohana
         authenticate!
         loc = Location.find(params[:id])
         params = request.params.except(:route_info)
+
+        if params[:faxes].present?
+          params[:faxes] = params[:faxes].delete_if { |fax| fax.blank? }
+        end
+
+        if params[:emails].present?
+          params[:emails] = params[:emails].delete_if { |email| email.blank? }
+        end
+
         loc.update_attributes!(params)
-        #loc.update_attributes!(phones: []) if params[:phones].blank?
         present loc, with: Entities::Location
       end
 
@@ -217,17 +225,26 @@ module Ohana
           end
         end
         resource '/keywords' do
-          desc "Add one or more keywords to a service"
+          desc "Replace all keywords for a service"
           params do
             requires :keywords, type: Array
           end
-          post do
+          put do
             authenticate!
             s = Service.find(params[:services_id])
-            k = params[:keywords]
-            s.keywords.blank? ? s.keywords = k : s.keywords += k
-            s.keywords = s.keywords.uniq
-            s.save
+            k = params[:keywords].delete_if { |k| k.blank? }
+            s.update_attributes!(keywords: k)
+            s
+          end
+
+          desc "Delete all keywords for a service"
+          params do
+            requires :services_id, type: String
+          end
+          delete do
+            authenticate!
+            s = Service.find(params[:services_id])
+            s.update_attributes!(keywords: [])
             s
           end
         end

@@ -9,6 +9,7 @@ FactoryGirl.define do
                phone_hours: "(Monday-Friday, 9-12, 1-5)" }]
     name "VRS Services"
     description "Provides jobs training"
+    short_desc "short description"
     kind :other
     accessibility [:tape_braille, :disabled_parking]
     association :organization
@@ -54,6 +55,7 @@ FactoryGirl.define do
   factory :nearby_loc, class: Location do
     name "Library"
     description "great books about jobs"
+    short_desc "short description"
     kind :human_services
     accessibility [:elevator]
     address { FactoryGirl.build(:near) }
@@ -66,6 +68,7 @@ FactoryGirl.define do
   factory :no_address, class: Location do
     name "No Address"
     description "no coordinates"
+    short_desc "short description"
     kind :test
     mail_address { FactoryGirl.build(:po_box) }
     association :organization
@@ -75,6 +78,7 @@ FactoryGirl.define do
   factory :farmers_market_loc, class: Location do
     name "Belmont Farmers Market"
     description "yummy food about jobs"
+    short_desc "short description"
     address { FactoryGirl.build(:far_west) }
     #coordinates [-122.274369, 37.317983]
     market_match true
@@ -88,6 +92,7 @@ FactoryGirl.define do
   factory :far_loc, class: Location do
     name "Belmont Farmers Market"
     description "yummy food"
+    short_desc "short description"
     address { FactoryGirl.build(:far) }
     kind :test
     languages ["spanish", "Arabic"]
@@ -99,6 +104,7 @@ FactoryGirl.define do
   factory :loc_with_nil_fields, class: Location do
     name "Belmont Farmers Market with cat"
     description "yummy food"
+    short_desc "short description"
     faxes nil
     address { FactoryGirl.build(:address) }
     contacts { [FactoryGirl.build(:contact_with_nil_fields)] }

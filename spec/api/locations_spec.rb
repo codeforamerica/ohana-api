@@ -78,6 +78,7 @@ describe Ohana::API do
               "department" => "Information",
               "phone_hours" => "(Monday-Friday, 9-12, 1-5)"
             }],
+            "short_desc" => "short description",
             "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
             "url" => "http://example.com/api/locations/#{@location.id}",
             "services" => [{
@@ -191,7 +192,7 @@ describe Ohana::API do
       end
     end
 
-    describe "PUT /api/locations/:id" do
+    describe "Update a location (PUT /api/locations/:id)" do
       let(:valid_attributes) { { name: "test app",
                            main_url: "http://localhost:8080",
                            callback_url: "http://localhost:8080" } }
@@ -224,6 +225,190 @@ describe Ohana::API do
         @loc.reload
         expect(response.status).to eq(400)
         json["message"].should include "Kind is not included in the list"
+      end
+
+      it "validates the accessibility attribute" do
+        put "api/locations/#{@loc.id}", { :accessibility => "Human Services" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Accessibility is invalid"
+      end
+
+      it "validates phone number" do
+        put "api/locations/#{@loc.id}", { :phones => [{ number: "703" }] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "703 is not a valid US phone number"
+      end
+
+      it "validates fax number" do
+        put "api/locations/#{@loc.id}", { :faxes => ["703"] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "703 is not a valid US fax number"
+      end
+
+      it "allows empty fax number" do
+        put "api/locations/#{@loc.id}", { :faxes => [""] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(200)
+      end
+
+      it "strips out empty emails from array" do
+        put "api/locations/#{@loc.id}", { :emails => [""] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(200)
+      end
+
+      it "validates contact phone" do
+        put "api/locations/#{@loc.id}",
+          { :contacts => [{ name: "foo", title: "cfo", phone: "703" }] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Phone 703 is not a valid US phone number"
+      end
+
+      it "validates contact fax" do
+        put "api/locations/#{@loc.id}",
+          { :contacts => [{ name: "foo", title: "cfo", fax: "703" }] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Fax 703 is not a valid US fax number"
+      end
+
+      it "validates contact email" do
+        put "api/locations/#{@loc.id}",
+          { :contacts => [{ name: "foo", title: "cfo", email: "703" }] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Email 703 is not a valid email"
+      end
+
+      it "requires contact name" do
+        put "api/locations/#{@loc.id}",
+          { :contacts => [{ title: "cfo" }] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Name can't be blank for Contact"
+      end
+
+      it "requires contact title" do
+        put "api/locations/#{@loc.id}",
+          { :contacts => [{ name: "cfo" }] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Title can't be blank for Contact"
+      end
+
+      it "requires description" do
+        put "api/locations/#{@loc.id}",
+          { :description => "" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Description can't be blank"
+      end
+
+      it "requires short description" do
+        put "api/locations/#{@loc.id}",
+          { :short_desc => "" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Short desc can't be blank"
+      end
+
+      it "limits short description to 200 characters" do
+        put "api/locations/#{@loc.id}",
+          { :short_desc => "A 6 month residential co-ed treatment program
+            designed to provide homeless veterans with the skills necessary
+            to function self-sufficiently in society. Residents attend schools
+            all day" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "too long (maximum is 200 characters)"
+      end
+
+      it "requires location name" do
+        put "api/locations/#{@loc.id}",
+          { :name => "" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Name can't be blank"
+      end
+
+      it "validates location email" do
+        put "api/locations/#{@loc.id}",
+          { :emails => ["703", "mo@cfa.org"] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "703 is not a valid email"
+      end
+
+      it "validates location URLs" do
+        put "api/locations/#{@loc.id}",
+          { :urls => ["badurl"] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Urls badurl is not a valid URL"
+      end
+
+      it "validates location address state" do
+        put "api/locations/#{@loc.id}",
+          { :address => {:state => "C" } },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "State is too short (minimum is 2 characters)"
+      end
+
+      it "validates location address zip" do
+        put "api/locations/#{@loc.id}",
+          { :address => {:zip => "1234" } },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Zip 1234 is not a valid ZIP code"
+      end
+
+      it "validates location mail address state" do
+        put "api/locations/#{@loc.id}",
+          { :mail_address => {:state => "C" } },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "State is too short (minimum is 2 characters)"
+      end
+
+      it "validates location mail address zip" do
+        put "api/locations/#{@loc.id}",
+          { :mail_address => {:zip => "1234" } },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Zip 1234 is not a valid ZIP code"
+      end
+
+      it "rejects location with neither address nor mail address" do
+        put "api/locations/#{@loc.id}", { :address => nil },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "A location must have at least one address type."
       end
 
       it "doesn't geocode when address hasn't changed" do

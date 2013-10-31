@@ -34,8 +34,8 @@ class Location
   accepts_nested_attributes_for :mail_address, :reject_if => :all_blank
   accepts_nested_attributes_for :address, :reject_if => :all_blank
 
-  normalize_attributes :description, :hours, :name, :short_desc,
-    :transportation, :urls, :kind
+  normalize_attributes :description, :hours, :kind, :name,
+    :short_desc, :transportation, :urls
 
   field :accessibility
   enumerize :accessibility, in: [:cd, :deaf_interpreter, :disabled_parking,
@@ -77,25 +77,45 @@ class Location
   field :products, type: Array
   field :payments, type: Array
 
+  # This is where you define all the fields that you want to be required
+  # when uploading a dataset or creating a new entry via an admin interface.
+  # You can separate the required fields with a comma. For example:
+  # validates_presence_of :name, :hours, :phones
+  # You can also specify certain rules for individual fields, as we did
+  # below for the "description" field. If a location has been categorized
+  # as a Farmers' Market (i.e. its "kind" field = "farmers_markets"), then
+  # it is allowed to have an empty description.
   validates_presence_of :name
-  validates_presence_of :description,
-    :unless => Proc.new { |loc| loc.attributes.include?("market_match") }
+  validates_presence_of :description, :short_desc,
+    :unless => Proc.new { |loc| loc.kind == "farmers_markets" }
   validate :address_presence
 
-  extend ValidatesFormattingOf::ModelAdditions
 
+  validates_length_of :short_desc, :maximum => 200
+
+  # These are custom validations for values within arrays and hashes.
+  # For example, the faxes field is an array that can contain multiple faxes.
+  # To be able to validate each fax number in the array, we have to use a
+  # custom array validator.
+  # Both custom validators are defined in app/validators/
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: "Please enter a valid URL" } }
+              message: "%{value} is not a valid URL" } }
 
   validates :emails, array: {
     format: { with: /.+@.+\..+/i,
-              message: "Please enter a valid email" } }
+              allow_blank: true,
+              message: "%{value} is not a valid email" } }
 
   validates :phones, hash:  {
     format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
               allow_blank: true,
-              message: "Please enter a valid US phone number" } }
+              message: "%{value} is not a valid US phone number" } }
+
+  validates :faxes, array:  {
+    format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
+              allow_blank: true,
+              message: "%{value} is not a valid US fax number" } }
 
   #combines address fields together into one string
   def full_address
@@ -418,13 +438,33 @@ class Location
     ]
   end
 
+  # This allows you to display helpful error messages for attributes
+  # of embedded objects, like contacts and address. For example,
+  # the address model requires the state attribute to be exactly 2 characters.
+  # See this line in app/models/address.rb:
+  # validates_length_of :state, :maximum => 2, :minimum => 2
+  # Without the custom validation below, if you try to create or update and
+  # address with a state that has less than 2 characters, the default
+  # error message will be "Address is invalid", which is not specific enough.
+  # By adding this custom validation, we can make the error message more
+  # helpful: "State is too short (minimum is 2 characters)".
   after_validation :handle_post_validation
   def handle_post_validation
-    unless self.errors[:contacts].nil?
+    unless self.errors[:contacts].blank?
       self.contacts.each do |contact|
         contact.errors.each { |attr,msg| self.errors.add(attr, msg) }
       end
       self.errors.delete(:contacts)
+    end
+
+    unless self.errors[:address].blank?
+      address.errors.each { |attr,msg| self.errors.add(attr, msg) }
+      self.errors.delete(:address)
+    end
+
+    unless self.errors[:mail_address].blank?
+      mail_address.errors.each { |attr,msg| self.errors.add(attr, msg) }
+      self.errors.delete(:mail_address)
     end
   end
 end

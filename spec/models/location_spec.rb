@@ -99,5 +99,10 @@ describe Location do
       subject { build(:location, emails: ["moncef@blah.com "]) }
       it { should be_valid }
     end
+
+    context "without a description but is a Farmers' Market" do
+      subject { build(:location, description: nil, kind: "farmers_markets")}
+      it { should be_valid }
+    end
   end
 end

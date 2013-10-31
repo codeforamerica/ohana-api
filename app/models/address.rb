@@ -17,7 +17,6 @@ class Address
   validates_presence_of :street, :city, :state, :zip
 
   validates_length_of :state, :maximum => 2, :minimum => 2
-  validates_length_of :zip, :maximum => 10, :minimum => 5
 
   extend ValidatesFormattingOf::ModelAdditions
   validates_formatting_of :zip, using: :us_zip,
