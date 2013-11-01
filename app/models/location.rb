@@ -113,7 +113,7 @@ class Location
               allow_blank: true,
               message: "%{value} is not a valid US phone number" } }
 
-  validates :faxes, array:  {
+  validates :faxes, hash:  {
     format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
               allow_blank: true,
               message: "%{value} is not a valid US fax number" } }

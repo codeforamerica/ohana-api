@@ -244,6 +244,14 @@ describe Ohana::API do
       end
 
       it "validates fax number" do
+        put "api/locations/#{@loc.id}", { :faxes => [{ number: "703" }] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "703 is not a valid US fax number"
+      end
+
+      xit "validates fax number is a hash" do
         put "api/locations/#{@loc.id}", { :faxes => ["703"] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
@@ -251,12 +259,12 @@ describe Ohana::API do
         json["message"].should include "703 is not a valid US fax number"
       end
 
-      it "allows empty fax number" do
-        put "api/locations/#{@loc.id}", { :faxes => [""] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(200)
-      end
+      # it "allows empty fax number" do
+      #   put "api/locations/#{@loc.id}", { :faxes => [""] },
+      #     { 'HTTP_X_API_TOKEN' => @token }
+      #   @loc.reload
+      #   expect(response.status).to eq(200)
+      # end
 
       it "strips out empty emails from array" do
         put "api/locations/#{@loc.id}", { :emails => [""] },
