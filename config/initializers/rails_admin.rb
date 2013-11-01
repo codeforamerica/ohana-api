@@ -40,9 +40,7 @@ RailsAdmin.config do |config|
 
     create do
       field :name
-      field :locations do
-        visible false
-      end
+      field :locations
     end
   end
 
@@ -56,9 +54,7 @@ RailsAdmin.config do |config|
     end
 
     edit do
-      field :location do
-        read_only true
-      end
+      field :location
       field :name
       field :description
       # field :schedules do
@@ -96,9 +92,7 @@ RailsAdmin.config do |config|
     end
 
     edit do
-      field :organization do
-        read_only true
-      end
+      field :organization
       field :name
       field :kind do
         partial "kind"

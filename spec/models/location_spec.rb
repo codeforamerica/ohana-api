@@ -26,6 +26,11 @@ describe Location do
       it { should_not be_valid }
     end
 
+    context "with an empty name" do
+      subject { build(:location, name: "")}
+      it { should_not be_valid }
+    end
+
     context "without a description" do
       subject { build(:location, description: nil)}
       it { should_not be_valid }
