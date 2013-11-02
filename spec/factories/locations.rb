@@ -106,6 +106,7 @@ FactoryGirl.define do
     description "yummy food"
     short_desc "short description"
     faxes nil
+    kind :farmers_markets
     address { FactoryGirl.build(:address) }
     contacts { [FactoryGirl.build(:contact_with_nil_fields)] }
     coordinates [-122.3250474, 37.568272]
