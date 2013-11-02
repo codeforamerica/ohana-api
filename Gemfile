@@ -15,7 +15,7 @@ gem 'bootstrap-sass'
 gem "haml-rails", ">= 0.4"
 
 # Server for deployment
-gem "unicorn", ">= 4.3.1"
+gem "passenger"
 
 group :production, :staging do
   gem 'rails_12factor' # Heroku recommended

@@ -45,3 +45,4 @@ dump.rdb
 /data/null_address.json
 
 script/backup_mongo
+script/import_to_staging
