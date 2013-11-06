@@ -6,7 +6,7 @@ task :load_cip_data => :environment do
   puts "===> Populating the DB with San Mateo County, CA data"
   puts "===> Hang tight, this will take a few minutes..."
 
-  file = "data/ohana_airs_8-26.json"
+  file = "data/sample_data.json"
 
   File.open(file).each do |line|
     data_item = JSON.parse(line)

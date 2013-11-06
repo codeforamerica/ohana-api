@@ -97,24 +97,19 @@ If you get a `permission denied` message, set the correct permissions, then run 
 
     chmod -R 755 script
 
-
-Generate the ElasticSearch index that the [tire](https://github.com/karmi/tire) gem uses for full text search:
-
-    rake environment tire:import CLASS=Organization FORCE=true
-
 ### Run the app
 Start the app locally using Unicorn:
 
     unicorn
 
 ### Verify the app is returning JSON
-To see all organizations, 30 per page:
+To see all locations, 30 per page:
 
-    http://localhost:8080/api/organizations
+    http://localhost:8080/api/locations
 
 To go the next page (the page parameter works for all API responses):
 
-    http://localhost:8080/api/organizations&page=2
+    http://localhost:8080/api/locations&page=2
 
 Search for organizations by keyword and/or location:
 
