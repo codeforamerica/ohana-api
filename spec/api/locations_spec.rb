@@ -524,6 +524,19 @@ describe Ohana::API do
         @loc.reload
         expect(@loc.coordinates).to_not eq(coords)
       end
+
+      it "resets coordinates when address is removed" do
+        put "api/locations/#{@loc.id}",
+          {
+            :address => nil,
+            :mail_address => {
+              street: "1 davis drive", city: "belmont",
+              state: "CA", zip: "94002"
+            }
+          }, { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(@loc.coordinates).to be_nil
+      end
     end
 
   end

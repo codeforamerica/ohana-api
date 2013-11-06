@@ -118,6 +118,8 @@ class Location
               allow_blank: true,
               message: "%{value} is not a valid US fax number" } }
 
+  after_validation :reset_coordinates, if: :address_blank?
+
   #combines address fields together into one string
   def full_address
     if self.address.present?
@@ -134,6 +136,14 @@ class Location
       "#{self.address.street}, #{self.address.city}, #{self.address.state} "+
       "#{self.address.zip}"
     end
+  end
+
+  def address_blank?
+    self.address.blank?
+  end
+
+  def reset_coordinates
+    self.coordinates = nil
   end
 
   include Geocoder::Model::Mongoid
@@ -444,16 +454,8 @@ class Location
     "#{Rails.application.routes.url_helpers.root_url}locations/#{self.id}"
   end
 
-  def physical_address_changed?
-    self.address.changed? if self.address
-  end
-
-  def mail_address_changed?
-    self.mail_address.changed? if self.mail_address
-  end
-
   def address_changed?
-    physical_address_changed? || mail_address_changed?
+    self.address.changed? if self.address.present?
   end
 
   def self.smc_service_areas
