@@ -391,6 +391,50 @@ describe Ohana::API do
         json["message"].should include "Zip 1234 is not a valid ZIP code"
       end
 
+      it "requires location address street" do
+        put "api/locations/#{@loc.id}",
+          { :address => {
+              street: "", city: "utopia", state: "CA", zip: "12345" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Street can't be blank"
+      end
+
+      it "requires location address state" do
+        put "api/locations/#{@loc.id}",
+          { :address => {
+              street: "boo", city: "utopia", state: "", zip: "12345" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "State can't be blank"
+      end
+
+      it "requires location address city" do
+        put "api/locations/#{@loc.id}",
+          { :address => {
+              street: "funu", city: "", state: "CA", zip: "12345" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "City can't be blank"
+      end
+
+      it "requires location address zip" do
+        put "api/locations/#{@loc.id}",
+          { :address => {
+              street: "jam", city: "utopia", state: "CA", zip: "" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Zip can't be blank"
+      end
+
       it "validates location mail address state" do
         put "api/locations/#{@loc.id}",
           { :mail_address => {:state => "C" } },
@@ -407,6 +451,50 @@ describe Ohana::API do
         @loc.reload
         expect(response.status).to eq(400)
         json["message"].should include "Zip 1234 is not a valid ZIP code"
+      end
+
+      it "requires location mail_address street" do
+        put "api/locations/#{@loc.id}",
+          { :mail_address => {
+              street: "", city: "utopia", state: "CA", zip: "12345" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Street can't be blank"
+      end
+
+      it "requires location mail_address state" do
+        put "api/locations/#{@loc.id}",
+          { :mail_address => {
+              street: "boo", city: "utopia", state: "", zip: "12345" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "State can't be blank"
+      end
+
+      it "requires location mail_address city" do
+        put "api/locations/#{@loc.id}",
+          { :mail_address => {
+              street: "funu", city: "", state: "CA", zip: "12345" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "City can't be blank"
+      end
+
+      it "requires location mail_address zip" do
+        put "api/locations/#{@loc.id}",
+          { :mail_address => {
+              street: "jam", city: "utopia", state: "CA", zip: "" }
+          },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].should include "Zip can't be blank"
       end
 
       it "rejects location with neither address nor mail address" do

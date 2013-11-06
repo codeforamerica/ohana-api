@@ -213,45 +213,75 @@ class Location
     end
   end
 
-  mapping do
-    indexes :coordinates, type: "geo_point"
-    indexes :address do
-      indexes :zip, index: "analyzed"
-      indexes :city, index: "not_analyzed"
-    end
-    indexes :name, type: "multi_field",
-      fields: {
-        name:  { type: "string", index: "analyzed", analyzer: "snowball" },
-        exact: { type: "string", index: "not_analyzed" }
+  settings :number_of_shards => 1,
+           :number_of_replicas => 1,
+    :analysis => {
+      :tokenizer => {
+        :extract_url_domain => {
+          "pattern"   => "(http|https):\/\/(www.)?([^\/]+)",
+          "group"     => "3",
+          "type"      => "pattern"
+        },
+        :extract_email_domain => {
+          "pattern"   => ".+@(.+)",
+          "group"     => "1",
+          "type"      => "pattern"
+        }
+      },
+      :analyzer => {
+        :url_analyzer => {
+          "tokenizer" => "extract_url_domain",
+          "type" => "custom"
+        },
+        :email_analyzer => {
+          "tokenizer" => "extract_email_domain",
+          "type" => "custom"
+        }
       }
-    indexes :description, analyzer: "snowball"
-    indexes :products, :index => :not_analyzed
-    indexes :kind, type: "string", analyzer: "keyword"
+    } do
 
-    indexes :organization do
+    mapping do
+      indexes :coordinates, type: "geo_point"
+      indexes :address do
+        indexes :zip, index: "analyzed"
+        indexes :city, index: "not_analyzed"
+      end
       indexes :name, type: "multi_field",
         fields: {
           name:  { type: "string", index: "analyzed", analyzer: "snowball" },
           exact: { type: "string", index: "not_analyzed" }
         }
-    end
+      indexes :description, analyzer: "snowball"
+      indexes :products, :index => :not_analyzed
+      indexes :kind, type: "string", analyzer: "keyword"
+      indexes :emails, type: "string", index_analyzer: "email_analyzer", search_analyzer: "keyword"
+      indexes :urls, type: "string", index_analyzer: "url_analyzer", search_analyzer: "keyword"
 
-    indexes :services do
-      indexes :categories do
+      indexes :organization do
         indexes :name, type: "multi_field",
           fields: {
-            name: { type: "string", index: "analyzed", analyzer: "snowball" },
+            name:  { type: "string", index: "analyzed", analyzer: "snowball" },
             exact: { type: "string", index: "not_analyzed" }
           }
       end
-      indexes :keywords, type: "multi_field",
-        fields: {
-          keywords: { type: "string", index: "analyzed", analyzer: "snowball" },
-          exact: { type: "string", index: "not_analyzed" }
-        }
-      indexes :name, type: 'string', analyzer: "snowball"
-      indexes :description, type: 'string', analyzer: "snowball"
-      indexes :service_areas, index: "not_analyzed"
+
+      indexes :services do
+        indexes :categories do
+          indexes :name, type: "multi_field",
+            fields: {
+              name: { type: "string", index: "analyzed", analyzer: "snowball" },
+              exact: { type: "string", index: "not_analyzed" }
+            }
+        end
+        indexes :keywords, type: "multi_field",
+          fields: {
+            keywords: { type: "string", index: "analyzed", analyzer: "snowball" },
+            exact: { type: "string", index: "not_analyzed" }
+          }
+        indexes :name, type: 'string', analyzer: "snowball"
+        indexes :description, type: 'string', analyzer: "snowball"
+        indexes :service_areas, index: "not_analyzed"
+      end
     end
   end
 
@@ -321,7 +351,8 @@ class Location
             score_mode "total"
           end
         end
-        #match ["services.categories.name.name"], :default_operator => 'AND' if params[:category].present?
+        match [:urls, :emails], params[:email] if params[:email].present?
+
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           #filter :geo_bounding_box, :coordinates => { :top_left => "37.7084,-122.521", :bottom_right => "37.1066,-122.08" }
