@@ -198,9 +198,7 @@ describe Ohana::API do
                            callback_url: "http://localhost:8080" } }
       before(:each) do
         @loc = create(:location)
-        user = FactoryGirl.create(:user)
-        api_application = user.api_applications.create! valid_attributes
-        @token = api_application.api_token
+        @token = ENV["ADMIN_APP_TOKEN"]
       end
 
       it "doesn't allow setting non-whitelisted attributes" do

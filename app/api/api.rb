@@ -24,7 +24,7 @@ module API
       # @return [Boolean]
       def valid_api_token?
         token = env["HTTP_X_API_TOKEN"].to_s
-        token.present? && User.where('api_applications.api_token' => token).exists?
+        token.present? && token == ENV["ADMIN_APP_TOKEN"]
       end
 
     end
