@@ -98,9 +98,9 @@ If you get a `permission denied` message, set the correct permissions, then run 
     chmod -R 755 script
 
 ### Run the app
-Start the app locally using Unicorn:
+Start the app locally on port 8080 using Passenger:
 
-    unicorn
+    passenger start -p 8080
 
 ### Verify the app is returning JSON
 To see all locations, 30 per page:
