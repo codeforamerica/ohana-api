@@ -28,10 +28,12 @@
   = link_to "/api", "http://ohanapi.herokuapp.com/api/docs#!/api"
   below to explore all the endpoints and read the documentation.
 
-%h2 Important Note
+%h2 Important Notes
 %p
   All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. Unless you're using our
   = link_to "Ohanakapa", "https://github.com/codeforamerica/ohanakapa-ruby"
   Ruby wrapper, we request that you use the name of your application for the User-Agent header value. This allows us to contact you if there are problems.
+%p
+  Currently, only one app is allowed to write to the API. Please ignore non-GET endpoints until we redesign the documentation (which is being generated automatically from the code via <a href="https://github.com/tim-vandecasteele/grape-swagger">grape-swagger</a> and <a href="https://github.com/d4be4st/swagger-ui_rails">swagger-ui_rails</a>).
 
 = render 'swagger_ui/swagger_ui', discovery_url: '/api/swagger_doc'

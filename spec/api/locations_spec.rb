@@ -193,9 +193,6 @@ describe Ohana::API do
     end
 
     describe "Update a location (PUT /api/locations/:id)" do
-      let(:valid_attributes) { { name: "test app",
-                           main_url: "http://localhost:8080",
-                           callback_url: "http://localhost:8080" } }
       before(:each) do
         @loc = create(:location)
         @token = ENV["ADMIN_APP_TOKEN"]
@@ -536,6 +533,15 @@ describe Ohana::API do
           }, { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(@loc.coordinates).to be_nil
+      end
+
+      it "updates the Elasticsearch index when location changes" do
+        put "api/locations/#{@loc.id}",
+          { :name => "changeme" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        sleep 1 # Elasticsearch needs time to update the index
+        get "/api/search?keyword=changeme"
+        json.first["name"].should == "changeme"
       end
     end
 

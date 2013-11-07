@@ -93,9 +93,6 @@ describe Ohana::API do
     end
 
     describe "PUT /api/organizations/:id" do
-      let(:valid_attributes) { { name: "test app",
-                           main_url: "http://localhost:8080",
-                           callback_url: "http://localhost:8080" } }
       before(:each) do
         @org = create(:organization)
         @token = ENV["ADMIN_APP_TOKEN"]
@@ -124,6 +121,40 @@ describe Ohana::API do
         @org.reload
         expect(response).to be_success
         json["name"].should == "test org"
+      end
+
+      it "updates Elasticsearch index when org name changes" do
+        loc_1 = {
+          name: "loc1",
+          description: "training",
+          short_desc: "short desc",
+          address: {
+            street: "puma",
+            city: "paris",
+            state: "VA",
+            zip: "90210"
+          }
+        }
+
+        loc_2 = {
+          name: "loc2",
+          description: "training",
+          short_desc: "short desc",
+          address: {
+            street: "tiger",
+            city: "paris",
+            state: "VA",
+            zip: "90210"
+          }
+        }
+        loc1 = @org.locations.create!(loc_1)
+        loc2 = @org.locations.create!(loc_2)
+
+        put "api/organizations/#{@org.id}", { :name => "testorg" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        sleep 1 #Elasticsearch needs time to update the index
+        get "/api/search?keyword=training"
+        json.first["organization"]["name"].should == "testorg"
       end
 
     end

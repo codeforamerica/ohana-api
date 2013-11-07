@@ -165,7 +165,7 @@ module Ohana
       desc "Update an organization", {
         :notes =>
         <<-NOTE
-          ### The only organization parameter that can be updated is the name.
+          ### Currently, the only organization parameter that can be updated is the name.
           Example HTTP PUT request:
           ```
           #{ENV["API_BASE_URL"]}organizations/org_id?name=new name

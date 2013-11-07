@@ -18,6 +18,11 @@ class Organization
 
   paginates_per Rails.env.test? ? 1 : 30
 
+  after_save :refresh_tire_index
+  def refresh_tire_index
+    self.locations.each { |loc| loc.update_index }
+  end
+
   def url
     "#{root_url}organizations/#{self.id}"
   end
