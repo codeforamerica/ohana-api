@@ -87,12 +87,12 @@ class Location
   # as a Farmers' Market (i.e. its "kind" field = "farmers_markets"), then
   # it is allowed to have an empty description.
   validates_presence_of :name
-  validates_presence_of :description, :short_desc,
+  validates_presence_of :description,
     :unless => Proc.new { |loc| loc.kind == "farmers_markets" }
   validate :address_presence
 
 
-  validates_length_of :short_desc, :maximum => 200
+  validates_length_of :short_desc, :maximum => 281
 
   # These are custom validations for values within arrays and hashes.
   # For example, the faxes field is an array that can contain multiple faxes.

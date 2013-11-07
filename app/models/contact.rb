@@ -14,7 +14,7 @@ class Contact
   field :fax
   field :phone
 
-  validates_presence_of :name, :title, message: "can't be blank for Contact"
+  #validates_presence_of :name, :title, message: "can't be blank for Contact"
 
   extend ValidatesFormattingOf::ModelAdditions
 
