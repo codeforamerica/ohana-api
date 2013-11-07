@@ -1,5 +1,3 @@
-require 'json'
-
 task :fix_faxes => :environment do
   puts "======================================"
   puts "Converting faxes from String to Hash"
