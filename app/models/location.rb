@@ -83,12 +83,12 @@ class Location
   # You can separate the required fields with a comma. For example:
   # validates_presence_of :name, :hours, :phones
   # You can also specify certain rules for individual fields, as we did
-  # below for the "description" field. If a location has been categorized
-  # as a Farmers' Market (i.e. its "kind" field = "farmers_markets"), then
-  # it is allowed to have an empty description.
+  # below for the "description" and "short_desc" fields. If a location is a
+  # Farmers' Market (i.e. it contains a "market_match" field), then it is
+  # allowed to have an empty description.
   validates_presence_of :name
   validates_presence_of :description, :short_desc,
-    :unless => Proc.new { |loc| loc.kind == "farmers_markets" }
+    :unless => Proc.new { |loc| loc.attributes.include?("market_match") }
   validate :address_presence
 
 

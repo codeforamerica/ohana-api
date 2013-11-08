@@ -14,7 +14,7 @@ task :load_farmers_markets => :environment do
       org.locations.create!(location)
     end
 
-    org.locations.each { |loc| loc.update_attributes!(kind: :farmers_market) }
+    org.locations.each { |loc| loc.update_attributes!(kind: :farmers_markets) }
   end
 
   puts "===> Cleaning up the DB..."
