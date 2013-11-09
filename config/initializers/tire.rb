@@ -1,5 +1,5 @@
 Tire.configure do
-  url ENV['FOUNDELASTICSEARCH_URL']
+  url ENV['ELASTICSEARCH_URL']
 end
 
 # This is required to be able to run tests using a separate

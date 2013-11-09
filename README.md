@@ -14,6 +14,7 @@ We encourage third-party developers to build additional applications on top of t
 
 ## Apps that are using the Ohana API
 [SMC-Connect](http://www.smc-connect.org)
+[GitHub repo for SMC-Connect](https://github.com/codeforamerica/human_services_finder)
 
 [Ohana SMS](https://github.com/marks/ohana-sms)
 
@@ -27,6 +28,8 @@ We encourage third-party developers to build additional applications on top of t
 * API framework: Grape
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
+## Deploying to Heroku
+See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account).
 
 ## Installation
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
