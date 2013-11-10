@@ -41,7 +41,7 @@ then
   heroku addons:add searchbox --app $herokuApp
 
   echo "Setting ELASTICSEARCH_URL"
-  elasticsearchUrl = $(heroku config:get SEARCHBOX_URL)
+  elasticsearchUrl=$(heroku config:get SEARCHBOX_URL)
   heroku config:set ELASTICSEARCH_URL=$elasticsearchUrl --app $herokuApp
 
   echo "All done setting up env vars and add-ons."
