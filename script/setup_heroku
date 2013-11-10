@@ -1,0 +1,55 @@
+#!/bin/sh
+
+set -e
+
+if [ $1 ]
+then
+  herokuApp="$1"
+
+  echo "Getting ready to set environment variables for $herokuApp"
+
+  echo "Setting API_BASE_HOST"
+  heroku config:set API_BASE_HOST=$herokuApp.herokuapp.com/api --app $herokuApp
+
+  echo "Setting API_BASE_URL"
+  heroku config:set API_BASE_URL=http://$herokuApp.herokuapp.com/api/ --app $herokuApp
+
+  echo "Setting MAILER_URL"
+  heroku config:set MAILER_URL=$herokuApp.herokuapp.com --app $herokuApp
+
+  echo "Setting DEVISE_SECRET_KEY"
+  # generate a random string with 128 alphanumeric characters
+  token1 = $(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
+  heroku config:set DEVISE_SECRET_KEY=$token1 --app $herokuApp
+
+  echo "Setting SECRET_TOKEN"
+  token2 = $(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
+  heroku config:set SECRET_TOKEN=$token2 --app $herokuApp
+
+  echo "Getting ready to install add-ons for $herokuApp"
+
+  echo "Installing MongoLab"
+  heroku addons:add mongolab --app $herokuApp
+
+  echo "Installing Redis To Go"
+  heroku addons:add redistogo --app $herokuApp
+
+  echo "Installing Mandrill by MailChimp"
+  heroku addons:add mandrill --app $herokuApp
+
+  echo "Installing Searchbox"
+  heroku addons:add searchbox --app $herokuApp
+
+  echo "Setting ELASTICSEARCH_URL"
+  elasticsearchUrl = $(heroku config:get SEARCHBOX_URL)
+  heroku config:set ELASTICSEARCH_URL=$elasticsearchUrl --app $herokuApp
+
+  echo "All done setting up env vars and add-ons."
+  echo "Pushing code to Heroku now."
+  git push heroku master
+
+  heroku run script/setup_db --app $herokuApp
+else
+  echo "Please add your Heroku app name to the end of the command."
+  echo "Usage: setup_heroku your_app_name"
+fi

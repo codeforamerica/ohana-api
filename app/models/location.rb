@@ -151,7 +151,7 @@ class Location
 
   # Only call Google's geocoding service if the address has changed
   # to avoid unnecessary requests that affect our rate limit.
-  after_validation :geocode, if: :address_changed?
+  after_validation :geocode, if: :needs_geocoding?
 
   #NE and SW geo coordinates that define the boundaries of San Mateo County
   SMC_BOUNDS = [[37.1074,-122.521], [37.7084,-122.085]].freeze
@@ -454,8 +454,10 @@ class Location
     "#{Rails.application.routes.url_helpers.root_url}locations/#{self.id}"
   end
 
-  def address_changed?
-    self.address.changed? if self.address.present?
+  def needs_geocoding?
+    if self.address.present?
+      self.address.changed? || self.coordinates.nil?
+    end
   end
 
   def self.smc_service_areas
