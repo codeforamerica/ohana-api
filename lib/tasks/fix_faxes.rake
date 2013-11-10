@@ -1,7 +1,5 @@
 task :fix_faxes => :environment do
-  puts "======================================"
-  puts "Converting faxes from String to Hash"
-  puts "======================================"
+  puts "===> Converting faxes from String to Hash..."
 
   # When we first converted the data from MARC21 format to JSON,
   # we assumed the faxes field would be an array of Strings, but

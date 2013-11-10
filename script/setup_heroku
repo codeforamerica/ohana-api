@@ -45,7 +45,7 @@ then
   heroku config:set ELASTICSEARCH_URL=$elasticsearchUrl --app $herokuApp
 
   echo "All done setting up env vars and add-ons."
-  echo "Pushing code to Heroku now."
+  echo "Pushing code to Heroku now. This will take a few minutes..."
   git push heroku master
 
   heroku run script/setup_db --app $herokuApp

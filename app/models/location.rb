@@ -153,6 +153,12 @@ class Location
   # to avoid unnecessary requests that affect our rate limit.
   after_validation :geocode, if: :needs_geocoding?
 
+  def needs_geocoding?
+    if self.address.present?
+      self.address.changed? || self.coordinates.nil?
+    end
+  end
+
   #NE and SW geo coordinates that define the boundaries of San Mateo County
   SMC_BOUNDS = [[37.1074,-122.521], [37.7084,-122.085]].freeze
 
@@ -452,12 +458,6 @@ class Location
 
   def url
     "#{Rails.application.routes.url_helpers.root_url}locations/#{self.id}"
-  end
-
-  def needs_geocoding?
-    if self.address.present?
-      self.address.changed? || self.coordinates.nil?
-    end
   end
 
   def self.smc_service_areas

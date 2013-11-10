@@ -7,8 +7,8 @@ task :setup_db => [
   :fix_faxes]
 
 task :load_cip_data => :environment do
-  puts "===> Populating the DB with San Mateo County, CA data"
-  puts "===> Hang tight, this will take a few minutes..."
+  puts "===> Populating the DB with San Mateo County, CA data."
+  puts "===> Hang tight, this will take a few seconds..."
 
   file = "data/sample_data.json"
 

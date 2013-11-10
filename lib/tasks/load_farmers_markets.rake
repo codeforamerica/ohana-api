@@ -15,6 +15,7 @@ task :load_farmers_markets => :environment do
     end
 
     org.locations.each { |loc| loc.update_attributes!(kind: :farmers_markets) }
+    sleep 0.25
   end
 
   puts "===> Cleaning up the DB..."
