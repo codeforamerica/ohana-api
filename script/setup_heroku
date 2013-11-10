@@ -19,11 +19,11 @@ then
 
   echo "Setting DEVISE_SECRET_KEY"
   # generate a random string with 128 alphanumeric characters
-  token1 = $(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
+  token1=$(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
   heroku config:set DEVISE_SECRET_KEY=$token1 --app $herokuApp
 
   echo "Setting SECRET_TOKEN"
-  token2 = $(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
+  token2=$(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
   heroku config:set SECRET_TOKEN=$token2 --app $herokuApp
 
   echo "Getting ready to install add-ons for $herokuApp"
