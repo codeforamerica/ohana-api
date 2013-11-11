@@ -24,5 +24,4 @@ puts '===> Setting up admin user...'
 admin = Admin.create! :name => 'Admin User',
                           :email => 'admin@example.com',
                           :password => 'iholdthekeys',
-                          :password_confirmation => 'iholdthekeys',
-                          :role => "admin"
+                          :password_confirmation => 'iholdthekeys'

@@ -179,7 +179,7 @@ The app allows developers to sign up for an account via the home page (http://lo
 
 `application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can [sign in](http://localhost:8080/users/sign_in) with either of the users whose username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
-To try out the admin interface, go to [/admin](http://localhost:8080/admin) and sign in with the username and password listed in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
+To try out the Rails Admin interface, you need to set the "role" of the admin user to "admin". The easiest way to do this is with a MongoDB GUI like [MongoHub](http://mongohub.todayclose.com/). You can find the admin user in the "admins" collection. Once you've set the role, go to [/admin](http://localhost:8080/admin) and sign in with the username and password listed in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
 ### Test the app
 Run tests locally with this simple command:
