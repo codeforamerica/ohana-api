@@ -2,7 +2,7 @@
   protect_from_forgery
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to ENV["API_BASE_HOST"], :alert => exception.message
+    redirect_to main_app.root_url, :alert => exception.message
   end
 
   # This is to prevent the app from returning a 500 Internal Server Error
