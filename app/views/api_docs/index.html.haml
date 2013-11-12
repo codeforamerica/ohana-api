@@ -1,13 +1,18 @@
 %h1 Overview
 %h2 Description
 %p
-  The Ohana API exposes information about various organizations in San Mateo County. Most of the organizations provide human services, but the API also includes museums, parks, libraries, hobby clubs, educators, government services, and other types of organizations. We want you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.). An example would be an SMS-based search interface for those residents who don't have access to a browser.
+  The Ohana API exposes information about various organizations in San Mateo County. Most of the organizations provide human services, but the API also includes museums, parks, libraries, hobby clubs, educators, government services, and other types of organizations. We want you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.). Here are some applications that are being built on top of the Ohana API:
+  %ul
+    %li
+      #{link_to "SMC Connect", "http://www.smc-connect.org"} - A web-based search interface (#{link_to "source code", "https://github.com/codeforamerica/human_services_finder"})
+    %li
+      #{link_to "Ohana SMS", "https://github.com/marks/ohana-sms/"} - A text-message-based search interface (prototype)
 %h3 Step 1
 %p
-  = link_to "Create an account", "http://ohanapi.herokuapp.com/users/sign_up"
+  = link_to "Create an account", new_user_registration_path
 %h3 Step 2
 %p
-  = link_to "Register an app", "http://ohanapi.herokuapp.com/api_applications/new"
+  = link_to "Register an app", new_api_application_path
 %p
   You can use the API without registering an application, but you will be limited to
   60 requests per hour. By registering an application, your limit goes up to 5000 requests per hour.
@@ -17,23 +22,16 @@
 %p
   Build something that matters!
 %p
-  If you're a Ruby developer, we a have a
-  = link_to "wrapper", "https://github.com/codeforamerica/ohanakapa-ruby"
-  for you that makes interacting with the API easy.
+  If you're a Ruby developer, we a have a #{link_to "wrapper", "https://github.com/codeforamerica/ohanakapa-ruby"} for you that makes interacting with the API easy.
 %p
-  If you need inspiration, check out this app we built on top of the API:
-  = link_to "SMC-Connect", "http://smc-connect.org"
+  If you need inspiration, check out this app we built on top of the API: #{link_to "SMC-Connect", "http://smc-connect.org"}
 %p
-  To dig into the API, click on
-  = link_to "/api", "http://ohanapi.herokuapp.com/api/docs#!/api"
-  below to explore all the endpoints and read the documentation.
+  To dig into the API, click on "/api" below to explore all the endpoints and read the documentation.
 
 %h2 Important Notes
 %p
-  All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. Unless you're using our
-  = link_to "Ohanakapa", "https://github.com/codeforamerica/ohanakapa-ruby"
-  Ruby wrapper, we request that you use the name of your application for the User-Agent header value. This allows us to contact you if there are problems.
+  All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. Unless you're using our #{link_to "Ohanakapa", "https://github.com/codeforamerica/ohanakapa-ruby"} Ruby wrapper, we request that you use the name of your application for the User-Agent header value. This allows us to contact you if there are problems.
 %p
-  Currently, only one app is allowed to write to the API. Please ignore non-GET endpoints until we redesign the documentation (which is being generated automatically from the code via <a href="https://github.com/tim-vandecasteele/grape-swagger">grape-swagger</a> and <a href="https://github.com/d4be4st/swagger-ui_rails">swagger-ui_rails</a>).
+  Currently, only one app is allowed to write to the API. Please ignore non-GET endpoints until we redesign the documentation (which is being generated automatically from the code via #{link_to "grape-swagger","https://github.com/tim-vandecasteele/grape-swagger"} and #{link_to "swagger-ui_rails", "https://github.com/d4be4st/swagger-ui_rails"}).
 
 = render 'swagger_ui/swagger_ui', discovery_url: '/api/swagger_doc'
