@@ -76,10 +76,6 @@ module Ohana
         loc = Location.find(params[:id])
         params = request.params.except(:route_info)
 
-        if params[:faxes].present?
-          params[:faxes] = params[:faxes].delete_if { |fax| fax.blank? }
-        end
-
         if params[:emails].present?
           params[:emails] = params[:emails].delete_if { |email| email.blank? }
         end
@@ -210,6 +206,21 @@ module Ohana
     end
 
     resource 'services' do
+      desc "Update a service"
+      params do
+        requires :id, type: String, desc: "Service ID"
+      end
+      put ':id' do
+        authenticate!
+        service = Service.find(params[:id])
+        params = request.params.except(:route_info)
+
+        params[:service_areas] = [] if params[:service_areas].blank?
+
+        service.update_attributes!(params)
+        service
+      end
+
       segment '/:services_id' do
         resource '/categories' do
           desc "Replace all categories for a service"
@@ -221,30 +232,6 @@ module Ohana
             s = Service.find(params[:services_id])
             s.category_ids = params[:category_ids]
             s.save
-            s
-          end
-        end
-        resource '/keywords' do
-          desc "Replace all keywords for a service"
-          params do
-            requires :keywords, type: Array
-          end
-          put do
-            authenticate!
-            s = Service.find(params[:services_id])
-            k = params[:keywords].delete_if { |k| k.blank? }
-            s.update_attributes!(keywords: k)
-            s
-          end
-
-          desc "Delete all keywords for a service"
-          params do
-            requires :services_id, type: String
-          end
-          delete do
-            authenticate!
-            s = Service.find(params[:services_id])
-            s.update_attributes!(keywords: [])
             s
           end
         end

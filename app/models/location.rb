@@ -113,12 +113,36 @@ class Location
               allow_blank: true,
               message: "%{value} is not a valid US phone number" } }
 
-  validates :faxes, hash:  {
-    format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
-              allow_blank: true,
-              message: "%{value} is not a valid US fax number" } }
+  # validates :faxes, hash:  {
+  #   format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
+  #             allow_blank: true,
+  #             message: "%{value} is not a valid US fax number" } }
 
   after_validation :reset_coordinates, if: :address_blank?
+
+  validate :fax_format
+
+  def fax_format
+    if faxes.is_a?(String)
+      errors[:base] << "Fax must be an array of hashes with number (required) and department (optional) attributes"
+    elsif faxes.is_a?(Array)
+      faxes.each do |fax|
+        if !fax.is_a?(Hash)
+          errors[:base] << "Fax must be a hash with number (required) and department (optional) attributes"
+        elsif fax.is_a?(Hash)
+          if fax["number"].blank?
+            errors[:base] << "Fax hash must have a number attribute"
+          else
+            regexp = /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/
+            if fax["number"].match(regexp).nil?
+              errors[:base] << "Please enter a valid US fax number"
+            end
+          end
+        end
+      end
+    end
+  end
+
 
   #combines address fields together into one string
   def full_address

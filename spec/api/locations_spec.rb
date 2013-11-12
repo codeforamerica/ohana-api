@@ -79,6 +79,7 @@ describe Ohana::API do
               "phone_hours" => "(Monday-Friday, 9-12, 1-5)"
             }],
             "short_desc" => "short description",
+            "slugs" => ["vrs-services"],
             "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
             "url" => "http://example.com/api/locations/#{@location.id}",
             "services" => [{
@@ -88,7 +89,6 @@ describe Ohana::API do
               "name" => @location.services.first.name,
               "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
             }],
-            "slugs" => ["vrs-services"],
             "organization" => {
               "id" => "#{@location.organization.id}",
               "name"=> "Parent Agency",
@@ -243,23 +243,33 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "703 is not a valid US fax number"
+        json["message"].should include "Please enter a valid US fax number"
       end
 
-      xit "validates fax number is a hash" do
+      it "validates fax number is a hash" do
         put "api/locations/#{@loc.id}", { :faxes => ["703"] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "703 is not a valid US fax number"
+        json["message"].
+          should include "Fax must be a hash"
       end
 
-      # it "allows empty fax number" do
-      #   put "api/locations/#{@loc.id}", { :faxes => [""] },
-      #     { 'HTTP_X_API_TOKEN' => @token }
-      #   @loc.reload
-      #   expect(response.status).to eq(200)
-      # end
+      it "validates fax number is an array" do
+        put "api/locations/#{@loc.id}", { :faxes => "703" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].
+          should include "Fax must be an array"
+      end
+
+      it "allows empty fax number" do
+        put "api/locations/#{@loc.id}", { :faxes => nil },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(200)
+      end
 
       it "strips out empty emails from array" do
         put "api/locations/#{@loc.id}", { :emails => [""] },
