@@ -82,8 +82,13 @@ module OhanaApi
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    require "api_defender"
-    config.middleware.insert_after Rack::Lock, ApiDefender
+    ## Uncomment the following 2 lines if you want to activate rate limiting
+    ## You would also need to uncomment the following specs:
+    ## no_api_token_spec.rb, api_token_spec.rb, no_user_agent_spec.rb,
+    ## rate_limit_spec.rb, and re-enable any pending specs related to
+    ## rate limiting.
+    #require "api_defender"
+    #config.middleware.insert_after Rack::Lock, ApiDefender
 
     # CORS support
     config.middleware.use Rack::Cors do

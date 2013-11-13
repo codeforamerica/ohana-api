@@ -12,7 +12,7 @@ describe "Home" do
       get '/', {}, { 'HTTP_IF_NONE_MATCH' => etag }
     end
 
-    it "doesn't change the rate limit REDIS key" do
+    xit "doesn't change the rate limit REDIS key" do
       key = REDIS.get "throttle:127.0.0.1:#{Time.now.strftime('%Y-%m-%dT%H')}"
       expect(key).to eq("1")
     end
