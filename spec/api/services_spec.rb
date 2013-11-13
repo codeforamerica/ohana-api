@@ -56,7 +56,16 @@ describe Ohana::API do
         expect(response.status).to eq(400)
         json["message"].should include "Service areas must be an array"
       end
+    end
 
+    describe "Update a service without a valid token" do
+      it "doesn't allow updating a service witout a valid token" do
+        service = create(:service)
+        put "api/services/#{service.id}", { :name => "new name" },
+          { 'HTTP_X_API_TOKEN' => "invalid_token" }
+        service.reload
+        expect(response.status).to eq(401)
+      end
     end
 
   end

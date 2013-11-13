@@ -555,5 +555,15 @@ describe Ohana::API do
       end
     end
 
+    describe "Update a location without a valid token" do
+      it "doesn't allow updating a location witout a valid token" do
+        @loc = create(:location)
+        put "api/locations/#{@loc.id}", { :name => "new name" },
+          { 'HTTP_X_API_TOKEN' => "invalid_token" }
+        @loc.reload
+        expect(response.status).to eq(401)
+      end
+    end
+
   end
 end
