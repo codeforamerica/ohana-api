@@ -565,5 +565,26 @@ describe Ohana::API do
       end
     end
 
+    describe "Create a location (POST /api/locations/)" do
+      before(:each) do
+        org = create(:organization)
+        @required_attributes = {
+          :name => "new location",
+          :description => "description",
+          :short_desc => "short_desc",
+          :address => {
+                street: "main", city: "utopia", state: "CA", zip: "12345" },
+          :organization_id => org.id
+        }
+      end
+      it "doesn't allow setting non-whitelisted attributes" do
+        post "api/locations/",
+          @required_attributes.merge(foo: "bar"),
+          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        expect(response.status).to eq(201)
+        json.should_not include "foo"
+      end
+    end
+
   end
 end

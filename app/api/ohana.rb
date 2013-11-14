@@ -84,6 +84,13 @@ module Ohana
         present loc, with: Entities::Location
       end
 
+      desc "Create a location"
+      post do
+        authenticate!
+        loc = Location.create!(params)
+        present loc, with: Entities::Location
+      end
+
       segment '/:locations_id' do
         resource '/nearby' do
           desc "Returns locations near the one queried."
