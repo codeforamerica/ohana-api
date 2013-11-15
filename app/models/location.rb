@@ -294,7 +294,11 @@ class Location
       indexes :description, analyzer: "snowball"
       indexes :products, :index => :not_analyzed
       indexes :kind, type: "string", analyzer: "keyword"
-      indexes :emails, type: "string", index_analyzer: "email_analyzer", search_analyzer: "keyword"
+      indexes :emails, type: "multi_field",
+        fields: {
+          exact:  { type: "string", index: "not_analyzed" },
+          domain: { type: "string", index_analyzer: "email_analyzer", search_analyzer: "keyword" }
+        }
       indexes :urls, type: "string", index_analyzer: "url_analyzer", search_analyzer: "keyword"
 
       indexes :organization do
@@ -391,7 +395,14 @@ class Location
             score_mode "total"
           end
         end
-        match [:urls, :emails], params[:email] if params[:email].present?
+        match "emails.exact", params[:email] if params[:email].present?
+
+        generic_domains = %w(gmail.com aol.com sbcglobal.net hotmail.com yahoo.com)
+        if params[:domain].present? && generic_domains.include?(params[:domain])
+          match "emails.exact", params[:domain]
+        elsif params[:domain].present?
+          match [:urls, "emails.domain"], params[:domain]
+        end
 
         filtered do
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?

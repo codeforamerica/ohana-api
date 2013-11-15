@@ -352,53 +352,97 @@ describe Ohana::API do
       end
     end
 
-    context "with email parameter" do
+    context "with domain parameter" do
       it "finds domain name when url contains 'www'" do
         create(:location, urls:["http://www.smchsa.org"])
         create(:location, emails:["info@cfa.org"])
-        get "api/search?email=smchsa.org"
+        get "api/search?domain=smchsa.org"
         headers["X-Total-Count"].should == "1"
       end
 
       it "finds naked domain name" do
         create(:location, urls:["http://smchsa.com"])
         create(:location, emails:["hello@cfa.com"])
-        get "api/search?email=smchsa.com"
+        get "api/search?domain=smchsa.com"
         headers["X-Total-Count"].should == "1"
       end
 
       it "finds long domain name in both url and email" do
         create(:location, urls:["http://www.co.sanmateo.ca.us"])
         create(:location, emails:["info@co.sanmateo.ca.us"])
-        get "api/search?email=co.sanmateo.ca.us"
+        get "api/search?domain=co.sanmateo.ca.us"
         headers["X-Total-Count"].should == "2"
       end
 
       it "finds domain name when URL contains path" do
         create(:location, urls:["http://www.smchealth.org/mcah"])
         create(:location, emails:["org@mcah.org"])
-        get "api/search?email=smchealth.org"
+        get "api/search?domain=smchealth.org"
         headers["X-Total-Count"].should == "1"
       end
 
       it "finds domain name when URL contains multiple paths" do
         create(:location, urls:["http://www.co.sanmateo.ca.us/portal/site/planning"])
         create(:location, emails:["sanmateo@ca.us"])
-        get "api/search?email=co.sanmateo.ca.us"
+        get "api/search?domain=co.sanmateo.ca.us"
         headers["X-Total-Count"].should == "1"
       end
 
       it "finds domain name when URL contains a dash" do
         create(:location, urls:["http://www.childsup-connect.ca.gov"])
         create(:location, emails:["gov@childsup-connect.gov"])
-        get "api/search?email=childsup-connect.ca.gov"
+        get "api/search?domain=childsup-connect.ca.gov"
         headers["X-Total-Count"].should == "1"
       end
 
       it "finds domain name when URL contains a number" do
         create(:location, urls:["http://www.prenatalto3.org"])
         create(:location, emails:["info@rwc2020.org"])
-        get "api/search?email=prenatalto3.org"
+        get "api/search?domain=prenatalto3.org"
+        headers["X-Total-Count"].should == "1"
+      end
+
+      it "doesn't return results for gmail domain" do
+        create(:location, emails:["info@gmail.com"])
+        get "api/search?domain=gmail.com"
+        headers["X-Total-Count"].should == "0"
+      end
+
+      it "doesn't return results for aol domain" do
+        create(:location, emails:["info@aol.com"])
+        get "api/search?domain=aol.com"
+        headers["X-Total-Count"].should == "0"
+      end
+
+      it "doesn't return results for hotmail domain" do
+        create(:location, emails:["info@hotmail.com"])
+        get "api/search?domain=hotmail.com"
+        headers["X-Total-Count"].should == "0"
+      end
+
+      it "doesn't return results for yahoo domain" do
+        create(:location, emails:["info@yahoo.com"])
+        get "api/search?domain=yahoo.com"
+        headers["X-Total-Count"].should == "0"
+      end
+
+      it "doesn't return results for sbcglobal domain" do
+        create(:location, emails:["info@sbcglobal.net"])
+        get "api/search?domain=sbcglobal.net"
+        headers["X-Total-Count"].should == "0"
+      end
+    end
+
+    context "with email parameter" do
+      it "doesn't return results when only domain name is provided" do
+        create(:location, emails:["info@gmail.com"])
+        get "api/search?email=gmail.com"
+        headers["X-Total-Count"].should == "0"
+      end
+
+      it "only returns exact matches for full email address" do
+        create(:location, emails:["info@gmail.com"])
+        get "api/search?email=info@gmail.com"
         headers["X-Total-Count"].should == "1"
       end
     end
