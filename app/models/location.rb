@@ -397,7 +397,7 @@ class Location
         end
         match "emails.exact", params[:email] if params[:email].present?
 
-        generic_domains = %w(gmail.com aol.com sbcglobal.net hotmail.com yahoo.com)
+        generic_domains = %w(gmail.com aol.com sbcglobal.net hotmail.com yahoo.com co.sanmateo.ca.us)
         if params[:domain].present? && generic_domains.include?(params[:domain])
           match "emails.exact", params[:domain]
         elsif params[:domain].present?

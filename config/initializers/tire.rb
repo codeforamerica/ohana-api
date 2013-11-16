@@ -1,5 +1,7 @@
 Tire.configure do
   url ENV['ELASTICSEARCH_URL']
+  ## Uncomment the line below to debug Elasticsearch errors
+  #logger 'elasticsearch.log', :level => 'debug'
 end
 
 # This is required to be able to run tests using a separate
