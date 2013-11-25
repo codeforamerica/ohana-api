@@ -368,9 +368,9 @@ describe Ohana::API do
       end
 
       it "finds long domain name in both url and email" do
-        create(:location, urls:["http://www.co.sanmateo.ca.us"])
-        create(:location, emails:["info@co.sanmateo.ca.us"])
-        get "api/search?domain=co.sanmateo.ca.us"
+        create(:location, urls:["http://smchsa.org"])
+        create(:location, emails:["info@smchsa.org"])
+        get "api/search?domain=smchsa.org"
         headers["X-Total-Count"].should == "2"
       end
 
@@ -382,9 +382,9 @@ describe Ohana::API do
       end
 
       it "finds domain name when URL contains multiple paths" do
-        create(:location, urls:["http://www.co.sanmateo.ca.us/portal/site/planning"])
+        create(:location, urls:["http://www.smchsa.org/portal/site/planning"])
         create(:location, emails:["sanmateo@ca.us"])
-        get "api/search?domain=co.sanmateo.ca.us"
+        get "api/search?domain=smchsa.org"
         headers["X-Total-Count"].should == "1"
       end
 
@@ -429,6 +429,12 @@ describe Ohana::API do
       it "doesn't return results for sbcglobal domain" do
         create(:location, emails:["info@sbcglobal.net"])
         get "api/search?domain=sbcglobal.net"
+        headers["X-Total-Count"].should == "0"
+      end
+
+      it "doesn't return results for co.sanmateo.ca.us domain" do
+        create(:location, emails:["info@co.sanmateo.ca.us"])
+        get "api/search?domain=co.sanmateo.ca.us"
         headers["X-Total-Count"].should == "0"
       end
     end
