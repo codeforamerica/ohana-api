@@ -1,3 +1,5 @@
+require "spec_helper"
+
 feature "Visit home page after signing in" do
   # The 'login_as' method is a Warden test helper that
   # allows you to simulate a user login without having

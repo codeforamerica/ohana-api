@@ -1,3 +1,5 @@
+require "spec_helper"
+
 feature "Creating a new API Application" do
   # The create_api_app' methods is defined in
   # spec/support/features/session_helpers.rb

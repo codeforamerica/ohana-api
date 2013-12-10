@@ -1,3 +1,5 @@
+require "spec_helper"
+
 feature "Update an existing API Application" do
   # The 'visit_app' and 'update_api_app' methods are defined in
   # spec/support/features/session_helpers.rb
