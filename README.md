@@ -2,7 +2,7 @@
 
 This is the API portion of the [Ohana API](http://ohanapi.org) project, an open source community resource directory developed by Code for America's 2013 San Mateo County fellowship team. The goal of the project is to make it easier for residents in need to find services they are eligible for.
 
-Apart from Google, the current search interface that residents and social workers have access to is the Peninsula Library System's [CIP portal](http://http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we are developing a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa).
+Apart from Google, the current search interface that residents and social workers have access to is the Peninsula Library System's [CIP portal](http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we are developing a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa).
 
 We encourage third-party developers to build additional applications on top of the API, such as this [SMS-based search interface](https://github.com/marks/ohana-sms) that Mark Silverberg started developing. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the [API documentation](http://ohanapi.herokuapp.com/api.docs).
 
