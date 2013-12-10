@@ -100,6 +100,14 @@ If you get a `permission denied` message, set the correct permissions, then run 
 
     chmod -R 755 script
 
+In `config/application.yml`, set the `ADMIN_APP_TOKEN` environment variable so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
+
+    ADMIN_APP_TOKEN: your_token
+
+`your_token` can be any string you want for testing purposes, but in production, you should use a random string, which you can generate from the command line:
+
+    rake secret
+
 ### Run the app
 Start the app locally on port 8080 using Passenger:
 
