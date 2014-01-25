@@ -130,7 +130,7 @@ GEM
       simplecov (>= 0.7)
       term-ansicolor
       thor
-    daemon_controller (1.1.7)
+    daemon_controller (1.1.8)
     dalli (2.6.4)
     database_cleaner (1.1.1)
     debug_inspector (0.0.2)
@@ -259,7 +259,7 @@ GEM
     origin (1.1.0)
     orm_adapter (0.4.0)
     parallel (0.8.2)
-    passenger (4.0.23)
+    passenger (4.0.36)
       daemon_controller (>= 1.1.0)
       rack
       rake (>= 0.8.1)
@@ -329,7 +329,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (10.1.0)
+    rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
     redcard (1.1.0)
