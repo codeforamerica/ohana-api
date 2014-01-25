@@ -32,7 +32,7 @@ describe "GET 'nearby'" do
   context 'with invalid radius' do
     it "returns 'invalid radius' message" do
       get "api/locations/#{@loc.id}/nearby?radius=script"
-      json["error"].should == "invalid parameter: radius"
+      json["error"].should == "radius is invalid"
     end
   end
 

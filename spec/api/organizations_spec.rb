@@ -103,7 +103,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @org.reload
         expect(response.status).to eq(400)
-        expect(json["error"]).to eq("missing parameter: name")
+        expect(json["error"]).to eq("name is missing")
       end
 
       it "doesn't allow setting non-whitelisted attributes" do

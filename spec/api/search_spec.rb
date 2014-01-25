@@ -74,7 +74,7 @@ describe Ohana::API do
       end
 
       it 'includes an error description' do
-        json["error"].should == "invalid parameter: radius"
+        json["error"].should == "radius is invalid"
       end
     end
 
