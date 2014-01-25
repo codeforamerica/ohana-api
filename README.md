@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/codeforamerica/ohana-api.png?label=ready)](https://waffle.io/codeforamerica/ohana-api)
 #Ohana API
 
 This is the API portion of the [Ohana API](http://ohanapi.org) project, an open source community resource directory developed by Code for America's 2013 San Mateo County fellowship team. The goal of the project is to make it easier for residents in need to find services they are eligible for.
