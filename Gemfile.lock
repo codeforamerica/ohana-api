@@ -135,7 +135,7 @@ GEM
       term-ansicolor
       thor
     daemon_controller (1.1.8)
-    dalli (2.6.4)
+    dalli (2.7.0)
     database_cleaner (1.1.1)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.3)
