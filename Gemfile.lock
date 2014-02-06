@@ -136,7 +136,7 @@ GEM
       thor
     daemon_controller (1.1.8)
     dalli (2.7.0)
-    database_cleaner (1.1.1)
+    database_cleaner (1.2.0)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.3)
     devise (3.2.2)
