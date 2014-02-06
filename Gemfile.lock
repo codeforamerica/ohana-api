@@ -278,8 +278,7 @@ GEM
       rack (>= 0.4)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-cors (0.2.8)
-      rack
+    rack-cors (0.2.9)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
     rack-pjax (0.7.0)
