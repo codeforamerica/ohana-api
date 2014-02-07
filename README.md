@@ -99,9 +99,11 @@ Visit the Download page on elasticsearch.org for steps to install on other syste
 
     script/bootstrap
 
-If you get a `permission denied` message, set the correct permissions, then run the above script again:
+If you get a `permission denied` message, set the correct permissions:
 
     chmod -R 755 script
+
+then run `script/bootstrap` again.
 
 In `config/application.yml`, set the `ADMIN_APP_TOKEN` environment variable so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
 
@@ -147,6 +149,12 @@ We recommend these tools to interact with APIs:
 [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) Chrome extension
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility
+
+### Resetting the app
+If you want to wipe out the local test DB and start from scratch:
+
+    script/drop
+    script/bootstrap
 
 ### API documentation
 Production: [http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)

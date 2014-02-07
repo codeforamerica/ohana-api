@@ -5,4 +5,5 @@ set -e
 echo "===> Creating the DB indexes..."
 rake db:mongoid:create_indexes --quiet
 
+echo "===> Creating the Elasticsearch index..."
 script/tire --quiet
