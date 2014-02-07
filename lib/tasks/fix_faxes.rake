@@ -17,6 +17,6 @@ task :fix_faxes => :environment do
     location.faxes.each do |fax|
       new_faxes.push({ :number => fax }) if fax.is_a?(String)
     end
-    location.update_attributes!(:faxes => new_faxes)
+    location.update_attributes!(:faxes => new_faxes) unless new_faxes.empty?
   end
 end
