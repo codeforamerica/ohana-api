@@ -264,8 +264,15 @@ describe Ohana::API do
           should include "Fax must be an array"
       end
 
-      it "allows empty fax number" do
+      it "allows nil faxes attribute" do
         put "api/locations/#{@loc.id}", { :faxes => nil },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(200)
+      end
+
+      it "allows empty array for faxes attribute" do
+        put "api/locations/#{@loc.id}", { :faxes => [] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(200)
