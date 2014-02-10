@@ -253,6 +253,19 @@ module Ohana
           Category.page(1).per(400)
         #end
       end
+
+      segment "/:category_id" do
+        resource "/children" do
+          desc "Returns the category's children categories"
+          params do
+            requires :category_id, type: String
+          end
+          get do
+            children = Category.find(params[:category_id]).children
+            present children, with: Category::Entity
+          end
+        end
+      end
     end
 
     resource 'search' do
