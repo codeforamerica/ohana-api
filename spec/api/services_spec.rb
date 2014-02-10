@@ -68,5 +68,34 @@ describe Ohana::API do
       end
     end
 
+    describe "PUT /api/services/:services_id/categories" do
+      before(:each) do
+        @service = create(:service)
+        @token = ENV["ADMIN_APP_TOKEN"]
+        @food = Category.create!(:name => "Food", :oe_id => "101")
+      end
+
+      context "when the passed in slug exists" do
+        it "updates a service's categories" do
+          put "api/services/#{@service.id}/categories",
+            { :category_slugs => ["food"]},
+            { 'HTTP_X_API_TOKEN' => @token }
+          @service.reload
+          expect(response).to be_success
+          json["category_ids"].first.should == "#{@food.id}"
+        end
+      end
+
+      context "when the passed in slug doesn't exist" do
+        it "raises a 404 error" do
+          put "api/services/#{@service.id}/categories",
+            { :category_slugs => ["health"]},
+            { 'HTTP_X_API_TOKEN' => @token }
+          @service.reload
+          expect(response.status).to eq(404)
+          json["message"].should include "could not be found"
+        end
+      end
+    end
   end
 end
