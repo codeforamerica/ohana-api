@@ -230,14 +230,24 @@ module Ohana
 
       segment '/:services_id' do
         resource '/categories' do
-          desc "Replace all categories for a service"
+          desc "Update a service's categories"
           params do
-            requires :category_ids, type: Array
+            requires :category_slugs, type: Array
           end
           put do
             authenticate!
             s = Service.find(params[:services_id])
-            s.category_ids = params[:category_ids]
+
+            # create an array of category ids from the category slugs
+            # that were passed in
+            cat_ids = []
+            params[:category_slugs].each do |cat_slug|
+              cat = Category.find(cat_slug)
+              cat_ids.push(cat.id)
+            end
+
+            # Set the service's category_ids to this new array of ids
+            s.category_ids = cat_ids
             s.save
             s
           end
