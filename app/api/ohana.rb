@@ -250,7 +250,8 @@ module Ohana
       desc "Returns all categories"
       get do
         #garner.bind(Category) do
-          Category.page(1).per(400)
+          cats = Category.page(1).per(400)
+          present cats, with: Category::Entity
         #end
       end
 

@@ -54,5 +54,24 @@ describe Ohana::API do
         end
       end
     end
+
+    describe "GET /api/categories" do
+      before :each do
+        @food = Category.create!(:name => "Food", :oe_id => "101")
+        get "/api/categories"
+      end
+
+      it "displays the category's slugs" do
+        represented = [{
+          "id" => "#{@food.id}",
+          "depth" => 0,
+          "oe_id" => "101",
+          "name"  => "Food",
+          "parent_id" => nil,
+          "slugs" => ["food"],
+        }]
+        json.should == represented
+      end
+    end
   end
 end
