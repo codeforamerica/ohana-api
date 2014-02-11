@@ -3,11 +3,33 @@
 
 #Ohana API
 
-This is the API portion of the [Ohana API](http://ohanapi.org) project, an open source community resource directory developed by Code for America's 2013 San Mateo County fellowship team. The goal of the project is to make it easier for residents in need to find services they are eligible for.
+This is the API portion of the [Ohana API](http://ohanapi.org) project, an open source community resource platform developed by [@monfresh](https://github.com/monfresh), [@spara](https://github.com/monfresh), and [@anselmbradford](https://github.com/anselmbradford) during their Code for America Fellowship in 2013, in partnership with San Mateo County's Human Services Agency.The goal of the project is to make it easier for residents in need to find services they are eligible for.
 
-Apart from Google, the current search interface that residents and social workers have access to is the Peninsula Library System's [CIP portal](http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we are developing a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa).
+Before we started working on Ohaha, the search interface that residents and social workers in San Mateo County had access to was the Peninsula Library System's [CIP portal](http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we developed a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa). We also built an [admin site](https://github.com/codeforamerica/ohana-api-admin) to allow organizations to update their own information.
 
 We encourage third-party developers to build additional applications on top of the API, such as this [SMS-based search interface](https://github.com/marks/ohana-sms) that Mark Silverberg started developing. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the [API documentation](http://ohanapi.herokuapp.com/api.docs).
+
+## Current Status
+We are happy to announce that this project has been awarded a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which means we get to keep working on it in 2014! Our primary goals this year are: simplifying the installation process, streamlining the code, reducing dependencies, and preparing the project for broader installation by a variety of organizations and governments.
+
+One of the major changes will be replacing MongoDB and Elasticsearch with Postgres. This work will probably begin between mid-March and mid-April.
+
+## Data Schema
+We are working on documenting the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/hsd_specification).
+
+In the meantime, you can browse the 3 main models: [Organization](https://github.com/codeforamerica/ohana-api/blob/master/app/models/organization.rb), [Location](https://github.com/codeforamerica/ohana-api/blob/master/app/models/location.rb), and [Service](https://github.com/codeforamerica/ohana-api/blob/master/app/models/service.rb), and see the fields they each have.
+
+A Location also has [address](https://github.com/codeforamerica/ohana-api/blob/master/app/models/address.rb), [mail_address](https://github.com/codeforamerica/ohana-api/blob/master/app/models/mail_address.rb), and [contact](https://github.com/codeforamerica/ohana-api/blob/master/app/models/contact.rb) attributes, which are defined as separate models (embedded documents in MongoDB).
+
+## Taxonomy
+We are currently using the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/codeforamerica/ohana-api/blob/master/app/models/category.rb).
+Ohana API only accepts the categories defined by Open Eligibility.
+
+The easiest way to assign categories to a service is to use the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin/blob/master/app/controllers/hsa_controller.rb#L183-187) interface. Here's a screenshot:
+
+![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
+
+You can also try it from the Rails console, mimicking how the API would do it when it receives a [PUT request to update a service's categories](https://github.com/codeforamerica/ohana-api/blob/master/app/api/ohana.rb#L239-257).
 
 ## API documentation
 [http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
@@ -18,6 +40,8 @@ We encourage third-party developers to build additional applications on top of t
 ## Apps that are using the Ohana API
 [SMC-Connect](http://www.smc-connect.org)
 [GitHub repo for SMC-Connect](https://github.com/codeforamerica/human_services_finder)
+
+[Ohana API Admin site](https://github.com/codeforamerica/ohana-api-admin)
 
 [Ohana SMS](https://github.com/marks/ohana-sms)
 

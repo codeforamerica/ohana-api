@@ -238,8 +238,14 @@ module Ohana
             authenticate!
             s = Service.find(params[:services_id])
 
-            # create an array of category ids from the category slugs
-            # that were passed in
+            # Create an array of category ids from the category slugs
+            # that were passed in. The slugs are "URL friendly" versions
+            # of the Open Eligibility (http://openeligibility.org) category
+            # names.
+            # For example, "Prevent & Treat" becomes "prevent-and-treat".
+            # If you want to see all 327 slugs, run this command from the
+            # Rails console:
+            # Category.all.map(&:slugs).flatten
             cat_ids = []
             params[:category_slugs].each do |cat_slug|
               cat = Category.find(cat_slug)
