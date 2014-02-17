@@ -61,6 +61,8 @@ See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-th
 ## Installation
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
+_Additional installation instructions are available on the [wiki](https://github.com/codeforamerica/ohana-api-admin/wiki)._
+
 ###Prerequisites
 
 #### Git, Ruby 2.0.0+, Rails 3.2.13+ (+ Homebrew on OS X)
@@ -115,6 +117,8 @@ Follow the Homebrew instructions to launch ElasticSearch.
 Visit the Download page on elasticsearch.org for steps to install on other systems: [http://www.elasticsearch.org/download/](http://www.elasticsearch.org/download/)
 
 ### Clone the app on your local machine:
+
+From the Terminal, navigate to the directory into which you'd like to create a copy of the Ohana API source code. For instance, on OS X `cd ~` will place you in your home directory. Next download this repository into your working directory with:
 
     git clone git://github.com/codeforamerica/ohana-api.git
     cd ohana-api
