@@ -176,9 +176,9 @@ Searches with the location parameter return results sorted by distance. Searches
 
 We recommend these tools to interact with APIs:
 
-[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) Chrome extension
+[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) A Google Chrome extension for formatting the JSON response so it is easier to read in the browser.
 
-[HTTPie](https://github.com/jkbr/httpie) command line utility
+[HTTPie](https://github.com/jkbr/httpie) command line utility for making interactions with web services from the command line more human friendly.
 
 ### Resetting the app
 If you want to wipe out the local test DB and start from scratch:
