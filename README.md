@@ -127,6 +127,8 @@ From the Terminal, navigate to the directory into which you'd like to create a c
 
     script/bootstrap
 
+_Note: Installation and preparation can take several minutes to complete!_
+
 If you get a `permission denied` message, set the correct permissions:
 
     chmod -R 755 script
