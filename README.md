@@ -155,7 +155,7 @@ To see all locations, 30 per page:
 
 To go the next page (the page parameter works for all API responses):
 
-    http://localhost:8080/api/locations&page=2
+    http://localhost:8080/api/locations?page=2
 
 Search for organizations by keyword and/or location:
 
@@ -199,7 +199,7 @@ To see all locations, 30 per page:
 
 To go the next page (the page parameter works for all API responses):
 
-    http://ohanapi.herokuapp.com/api/locations&page=2
+    http://ohanapi.herokuapp.com/api/locations?page=2
 
 Search using one or any combination of these parameters: `keyword`, `location`, and `language`. The `search` endpoint always returns locations. When searching by `keyword`, the API returns locations where the search term matches one or more of the location's name, the location's description, the location's parent organization's name, or the location's services categories. Results that match the services categories appear higher.
 
