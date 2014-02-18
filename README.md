@@ -5,7 +5,7 @@
 
 This is the API portion of the [Ohana API](http://ohanapi.org) project, an open source community resource platform developed by [@monfresh](https://github.com/monfresh), [@spara](https://github.com/spara), and [@anselmbradford](https://github.com/anselmbradford) during their Code for America Fellowship in 2013, in partnership with San Mateo County's Human Services Agency. The goal of the project is to make it easier for residents in need to find services they are eligible for.
 
-Before we started working on Ohaha, the search interface that residents and social workers in San Mateo County had access to was the Peninsula Library System's [CIP portal](http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we developed a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa). We also built an [admin site](https://github.com/codeforamerica/ohana-api-admin) to allow organizations to update their own information.
+Before we started working on the Ohana API, the search interface that residents and social workers in San Mateo County had access to was the Peninsula Library System's [CIP portal](http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we developed a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa). We also built an [admin site](https://github.com/codeforamerica/ohana-api-admin) to allow organizations to update their own information.
 
 We encourage third-party developers to build additional applications on top of the API, such as this [SMS-based search interface](https://github.com/marks/ohana-sms) that Mark Silverberg started developing. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the [API documentation](http://ohanapi.herokuapp.com/api.docs).
 
@@ -81,6 +81,8 @@ Follow the Homebrew instructions for configuring MongoDB and starting it automat
 
     mongod
 
+MongoDB installation instructions using MacPorts are available on the [wiki](https://github.com/codeforamerica/ohana-api/wiki/Installation#wiki-installing-mongodb).
+
 **Other**
 
 See the Downloads page on mongodb.org for steps to install on other systems: [http://www.mongodb.org/downloads](http://www.mongodb.org/downloads)
@@ -116,12 +118,16 @@ Visit the Download page on elasticsearch.org for steps to install on other syste
 
 ### Clone the app on your local machine:
 
+From the Terminal, navigate to the directory into which you'd like to create a copy of the Ohana API source code. For instance, on OS X `cd ~` will place you in your home directory. Next download this repository into your working directory with:
+
     git clone git://github.com/codeforamerica/ohana-api.git
     cd ohana-api
 
 ### Install the dependencies and prepare the DB:
 
     script/bootstrap
+
+_Note: Installation and preparation can take several minutes to complete!_
 
 If you get a `permission denied` message, set the correct permissions:
 
@@ -149,7 +155,7 @@ To see all locations, 30 per page:
 
 To go the next page (the page parameter works for all API responses):
 
-    http://localhost:8080/api/locations&page=2
+    http://localhost:8080/api/locations?page=2
 
 Search for organizations by keyword and/or location:
 
@@ -170,9 +176,9 @@ Searches with the location parameter return results sorted by distance. Searches
 
 We recommend these tools to interact with APIs:
 
-[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) Chrome extension
+[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) A Google Chrome extension for formatting the JSON response so it is easier to read in the browser.
 
-[HTTPie](https://github.com/jkbr/httpie) command line utility
+[HTTPie](https://github.com/jkbr/httpie) command line utility for making interactions with web services from the command line more human friendly.
 
 ### Resetting the app
 If you want to wipe out the local test DB and start from scratch:
@@ -193,7 +199,7 @@ To see all locations, 30 per page:
 
 To go the next page (the page parameter works for all API responses):
 
-    http://ohanapi.herokuapp.com/api/locations&page=2
+    http://ohanapi.herokuapp.com/api/locations?page=2
 
 Search using one or any combination of these parameters: `keyword`, `location`, and `language`. The `search` endpoint always returns locations. When searching by `keyword`, the API returns locations where the search term matches one or more of the location's name, the location's description, the location's parent organization's name, or the location's services categories. Results that match the services categories appear higher.
 
