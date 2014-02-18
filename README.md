@@ -61,7 +61,7 @@ See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-th
 ## Installation
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
-_Additional installation instructions are available on the [wiki](https://github.com/codeforamerica/ohana-api-admin/wiki)._
+_Additional installation instructions are available on the [wiki](https://github.com/codeforamerica/ohana-api/wiki)._
 
 ###Prerequisites
 
