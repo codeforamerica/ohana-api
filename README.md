@@ -34,7 +34,7 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 ## API documentation
 [http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
 
-[Search documentation][http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15]
+[Search documentation](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
 
 ## Ruby wrapper
 [https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
@@ -194,7 +194,9 @@ Pagination links are available via the `Link` header.
 
 Here is an example response using cURL:
 `curl -s -D - http://ohanapi.herokuapp.com/api/search\?keyword\=shelter -o /dev/null`
+
 Response Headers:
+
 ```
 HTTP/1.1 200 OK
 Cache-Control: max-age=0, private, must-revalidate
@@ -271,7 +273,7 @@ For faster tests:
 To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
 ### Drop the database
-If you ever want to start from scratch, run `script/drop`, then `script/bootstrap` to set everything up again.
+If you ever want to start from scratch, run `script/drop`, then `script/bootstrap` to set everything up again. Do this on your local machine only, not in production!
 
 ## Contributing
 
