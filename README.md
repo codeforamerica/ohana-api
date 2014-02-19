@@ -34,6 +34,8 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 ## API documentation
 [http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
 
+[Search documentation][http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15]
+
 ## Ruby wrapper
 [https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
 
@@ -162,8 +164,8 @@ To go the next page (the page parameter works for all API responses):
 Search for organizations by keyword and/or location:
 
     http://localhost:8080/api/search?keyword=food
-    http://localhost:8080/api/search?keyword=childcare&location=94403
-    http://localhost:8080/api/search?keyword=food&location=san mateo
+    http://localhost:8080/api/search?keyword=counseling&location=94403
+    http://localhost:8080/api/search?keyword=market&location=san mateo
     http://localhost:8080/api/search?location=redwood city, ca
 
 Search for organizations by languages spoken at the location:
@@ -172,10 +174,66 @@ Search for organizations by languages spoken at the location:
 
 The language parameter can be used alone:
 
-    http://localhost:8080/api/search?language=arabic
+    http://localhost:8080/api/search?language=tagalog
 
 Searches with the location parameter return results sorted by distance. Searches with the keyword parameter return results sorted by relevance based on a match between the search term and the organization's `keywords` field.
 
+Pagination info is available via the following HTTP response headers :
+
+X-Total-Count
+
+X-Total-Pages
+
+X-Current-Page
+
+X-Next-Page
+
+X-Previous-Page
+
+Pagination links are available via the `Link` header.
+
+Here is an example response using cURL:
+`curl -s -D - http://ohanapi.herokuapp.com/api/search\?keyword\=shelter -o /dev/null`
+Response Headers:
+```
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json
+Date: Wed, 19 Feb 2014 14:16:40 GMT
+Etag: "f104eaabf805bd034a7c376f15b66a4b"
+Link: <http://ohanapi.herokuapp.com/api/search?keyword=shelter&page=3>; rel="last", <http://ohanapi.herokuapp.com/api/search?keyword=shelter&page=2>; rel="next"
+Server: nginx/1.4.4 + Phusion Passenger 4.0.37
+Status: 200 OK
+X-Current-Page: 1
+X-Next-Page: 2
+X-Powered-By: Phusion Passenger 4.0.37
+X-Rack-Cache: miss
+X-Request-Id: af51fefe-4eee-48a6-8172-f232001976bd
+X-Runtime: 0.699663
+X-Total-Count: 86
+X-Total-Pages: 3
+X-Ua-Compatible: IE=Edge,chrome=1
+Content-Length: 140193
+Connection: keep-alive
+```
+
+If you're a Rubyist, you can access this info easily by using our Ruby wrapper. Check out the [Accessing HTTP Responses](https://github.com/codeforamerica/ohanakapa-ruby#accessing-http-responses) section of the README.
+
+If you just want to fetch the results for the next page, for example, then you should use the `Link` headers as opposed to constructing your own URLs based on the other pagination headers. The wrapper makes that easy too:
+
+```ruby
+shelters = Ohanakapa.search("search", keyword: "shelter")
+next_page_results = Ohanakapa.last_response.rels[:next].get.data
+```
+If you want to append the next page results to the previous results:
+```ruby
+shelters = Ohanakapa.search("search", keyword: "shelter")
+shelters.concat Ohanakapa.last_response.rels[:next].get.data
+```
+
+Read more about [search](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15) in the API docs.
+
+### Tools
 We recommend these tools to interact with APIs:
 
 [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) A Google Chrome extension for formatting the JSON response so it is easier to read in the browser.
@@ -188,39 +246,6 @@ If you want to wipe out the local test DB and start from scratch:
     script/drop
     script/bootstrap
 
-### API documentation
-Production: [http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
-
-Local: [http://localhost:8080/api/docs](http://localhost:8080/api/docs)
-
-Here are some sample requests to get you started:
-
-To see all locations, 30 per page:
-
-    http://ohanapi.herokuapp.com/api/locations
-
-To go the next page (the page parameter works for all API responses):
-
-    http://ohanapi.herokuapp.com/api/locations?page=2
-
-Search using one or any combination of these parameters: `keyword`, `location`, and `language`. The `search` endpoint always returns locations. When searching by `keyword`, the API returns locations where the search term matches one or more of the location's name, the location's description, the location's parent organization's name, or the location's services categories. Results that match the services categories appear higher.
-
-The search results include the location's parent organization info, as well as services, so you can have all the info in one query instead of three.
-
-    http://ohanapi.herokuapp.com/api/search?keyword=food
-    http://ohanapi.herokuapp.com/api/search?keyword=childcare&location=94403
-    http://ohanapi.herokuapp.com/api/search?keyword=food&location=san mateo
-    http://ohanapi.herokuapp.com/api/search?location=redwood city, ca
-
-Search for organizations by languages spoken at the location:
-
-    http://ohanapi.herokuapp.com/api/search?keyword=food&language=spanish
-
-The language parameter can be used alone:
-
-    http://ohanapi.herokuapp.com/api/search?language=arabic
-
-Searches with the location parameter return results sorted by distance.
 
 ### User authentication and emails
 The app allows developers to sign up for an account via the home page (http://localhost:8080), but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
