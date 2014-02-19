@@ -48,7 +48,7 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 ## Stack Overview
 
 * Ruby version 2.0.0
-* Rails version 3.2.13
+* Rails version 3.2.16
 * MongoDB with the Mongoid ORM
 * Redis
 * ElasticSearch
@@ -63,7 +63,7 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 ###Prerequisites
 
-#### Git, Ruby 2.0.0+, Rails 3.2.13+ (+ Homebrew on OS X)
+#### Git, Ruby 2.0.0+, Rails 3.2.16+ (+ Homebrew on OS X)
 **OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
 
 **Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
@@ -81,7 +81,7 @@ Follow the Homebrew instructions for configuring MongoDB and starting it automat
 
     mongod
 
-MongoDB installation instructions using MacPorts are available on the [wiki](https://github.com/codeforamerica/ohana-api/wiki/Installation#wiki-installing-mongodb).
+[MongoDB installation instructions using MacPorts](https://github.com/codeforamerica/ohana-api/wiki/Installing-MongoDB-with-MacPorts-on-OS-X) are available on the wiki.
 
 **Other**
 
@@ -98,6 +98,8 @@ On OS X, the easiest way to install Redis is with Homebrew:
 Follow the Homebrew instructions if you want Redis to start automatically every time you restart your computer. Otherwise launch Redis manually in a separate Terminal tab or window:
 
     redis-server
+
+[Redis installation instructions using MacPorts](https://github.com/codeforamerica/ohana-api/wiki/Installing-Redis-with-MacPorts-on-OS-X) are available on the wiki.
 
 **Other**
 
