@@ -6,13 +6,14 @@ class Contact
   #belongs_to :location
   embedded_in :location
 
-  normalize_attributes :name, :title, :email, :fax, :phone
+  normalize_attributes :name, :title, :email, :fax, :phone, :extension
 
   field :name
   field :title
   field :email
   field :fax
   field :phone
+  field :extension
 
   validates_presence_of :name, :title, message: "can't be blank for Contact"
 
