@@ -437,6 +437,12 @@ describe Ohana::API do
         get "api/search?domain=co.sanmateo.ca.us"
         headers["X-Total-Count"].should == "0"
       end
+
+      it "doesn't return results for smcgov.org domain" do
+        create(:location, emails:["info@smcgov.org"])
+        get "api/search?domain=smcgov.org"
+        headers["X-Total-Count"].should == "0"
+      end
     end
 
     context "with email parameter" do
