@@ -109,6 +109,17 @@ module Ohana
           end
         end
 
+        resource '/services' do
+          desc "Create a new service for this location"
+          post do
+            authenticate!
+            location = Location.find(params[:locations_id])
+            location.services.create!(params)
+            location.services.last
+          end
+        end
+
+
         resource '/contacts' do
           desc "Delete all contacts for a location"
           params do

@@ -593,5 +593,47 @@ describe Ohana::API do
       end
     end
 
+    describe "Create a service for a location (POST /api/locations/:id/services)" do
+      before(:each) do
+        @loc = create(:location)
+        @service_attributes = {
+          :fees => "new fees",
+          :audience => "new audience",
+          :keywords => ["food", "youth"]
+        }
+      end
+
+      it "doesn't allow setting non-whitelisted attributes" do
+        post "api/locations/#{@loc.id}/services",
+          @service_attributes.merge(foo: "bar"),
+          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        expect(response.status).to eq(201)
+        json.should_not include "foo"
+      end
+
+      it "allows setting whitelisted attributes" do
+        post "api/locations/#{@loc.id}/services",
+          @service_attributes,
+          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        json["audience"].should == "new audience"
+        json["fees"].should == "new fees"
+        json["keywords"].should == ["food", "youth"]
+      end
+
+      it "sets service_areas to empty array if empty string" do
+        post "api/locations/#{@loc.id}/services",
+          @service_attributes.merge(services_areas: ""),
+          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        json["service_areas"].should == []
+      end
+
+      it "sets service_areas to empty array if nil" do
+        post "api/locations/#{@loc.id}/services",
+          @service_attributes.merge(services_areas: nil),
+          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        json["service_areas"].should == []
+      end
+    end
+
   end
 end
