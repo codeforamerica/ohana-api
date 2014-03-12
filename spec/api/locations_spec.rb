@@ -635,5 +635,26 @@ describe Ohana::API do
       end
     end
 
+    describe "DELETE api/locations/:id" do
+      before :each do
+        service = create(:service)
+        @service_id = service.id
+        @location = service.location
+        @id = @location.id
+        delete "api/locations/#{@id}", {},
+          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+      end
+
+      it "deletes the location" do
+        get "api/locations/#{@id}"
+        expect(response.status).to eq(404)
+      end
+
+      it "deletes the service too" do
+        expect { Service.find(@service_id) }.
+          to raise_error(Mongoid::Errors::DocumentNotFound)
+      end
+    end
+
   end
 end
