@@ -14,6 +14,8 @@ We are happy to announce that this project has been awarded a [grant from the Kn
 
 One of the major changes will be replacing MongoDB and Elasticsearch with Postgres. This work will probably begin between mid-March and mid-April.
 
+Because the project will be undergoing these major changes, we don't recommend using it for a production app just yet, but please feel free to try it out and provide feedback!
+
 ## Data Schema
 We are working on documenting the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/hsd_specification).
 
