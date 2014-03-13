@@ -17,11 +17,7 @@ One of the major changes will be replacing MongoDB and Elasticsearch with Postgr
 Because the project will be undergoing these major changes, we don't recommend using it for a production app just yet, but please feel free to try it out and provide feedback!
 
 ## Data Schema
-We are working on documenting the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/hsd_specification).
-
-In the meantime, you can browse the 3 main models: [Organization](https://github.com/codeforamerica/ohana-api/blob/master/app/models/organization.rb), [Location](https://github.com/codeforamerica/ohana-api/blob/master/app/models/location.rb), and [Service](https://github.com/codeforamerica/ohana-api/blob/master/app/models/service.rb), and see the fields they each have.
-
-A Location also has [address](https://github.com/codeforamerica/ohana-api/blob/master/app/models/address.rb), [mail_address](https://github.com/codeforamerica/ohana-api/blob/master/app/models/mail_address.rb), and [contact](https://github.com/codeforamerica/ohana-api/blob/master/app/models/contact.rb) attributes, which are defined as separate models (embedded documents in MongoDB).
+If you would like to try out the current version of the project that uses MongoDB, please read the Wiki article about [Populating the Mongo DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Mongo-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
 
 ## Taxonomy
 We are currently using the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/codeforamerica/ohana-api/blob/master/app/models/category.rb).
