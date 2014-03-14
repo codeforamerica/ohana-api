@@ -87,7 +87,9 @@ class Location
   validates_presence_of :description
   validate :address_presence
 
-  ## Uncomment the line below if you want to require a short description
+  ## Uncomment the line below if you want to require a short description.
+  ## We recommend having a short description so that web clients can display
+  ## an overview within the search results. See smc-connect.org as an example.
   #validates_presence_of :short_desc
 
   ## Uncomment the line below if you want to limit the
