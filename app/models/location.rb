@@ -82,17 +82,24 @@ class Location
   # when uploading a dataset or creating a new entry via an admin interface.
   # You can separate the required fields with a comma. For example:
   # validates_presence_of :name, :hours, :phones
-  # You can also specify certain rules for individual fields, as we did
-  # below for the "description" and "short_desc" fields. If a location is a
-  # Farmers' Market (i.e. it contains a "market_match" field), then it is
-  # allowed to have an empty description.
+
   validates_presence_of :name
-  validates_presence_of :description, :short_desc,
-    :unless => Proc.new { |loc| loc.attributes.include?("market_match") }
+  validates_presence_of :description
   validate :address_presence
 
+  ## Uncomment the line below if you want to require a short description.
+  ## We recommend having a short description so that web clients can display
+  ## an overview within the search results. See smc-connect.org as an example.
+  #validates_presence_of :short_desc
 
-  validates_length_of :short_desc, :maximum => 200
+  ## Uncomment the line below if you want to limit the
+  ## short description's length. If you want to display a short description
+  ## on a front-end client like smc-connect.org, we recommmend writing or
+  ## re-writing a description that's one to two sentences long, with a
+  ## maximum of 200 characters. This is just a recommendation though.
+  ## Feel free to modify the maximum below, and the way the description is
+  ## displayed in the ohana-web-search client to suit your needs.
+  #validates_length_of :short_desc, :maximum => 200
 
   # These are custom validations for values within arrays and hashes.
   # For example, the faxes field is an array that can contain multiple faxes.
