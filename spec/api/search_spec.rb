@@ -462,6 +462,15 @@ describe Ohana::API do
       end
     end
 
+    context "when email parameter contains full email address" do
+      it "only returns locations where admin email is exact match" do
+        create(:location, emails:["moncef@smcgov.org"])
+        create(:location_with_admin)
+        get "api/search?email=moncef@gmail.com"
+        headers["X-Total-Count"].should == "0"
+      end
+    end
+
     describe 'sorting search results' do
       context "general keyword search" do
         before(:each) do
