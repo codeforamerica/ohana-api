@@ -6,10 +6,10 @@ class Location
 
   paginates_per Rails.env.test? ? 1 : 30
 
-  attr_accessible :accessibility, :address, :ask_for, :contacts, :description,
-                  :emails, :faxes, :hours, :kind, :languages, :mail_address,
-                  :name, :phones, :short_desc, :transportation, :urls,
-                  :contacts_attributes, :mail_address_attributes,
+  attr_accessible :accessibility, :address, :admins, :ask_for, :contacts,
+                  :description, :emails, :faxes, :hours, :kind, :languages,
+                  :mail_address, :name, :phones, :short_desc, :transportation,
+                  :urls, :contacts_attributes, :mail_address_attributes,
                   :address_attributes, :products, :payments, :market_match,
                   :organization_id
 
@@ -42,6 +42,11 @@ class Location
   enumerize :accessibility, in: [:cd, :deaf_interpreter, :disabled_parking,
     :elevator, :ramp, :restroom, :tape_braille, :tty, :wheelchair,
     :wheelchair_van], multiple: true
+
+  # List of emails that should have access to edit a location's info.
+  # Admins can be added to a location via the Admin GUI:
+  # https://github.com/codeforamerica/ohana-api-admin
+  field :admins, type: Array
 
   field :ask_for, type: Array
   field :coordinates, type: Array
@@ -128,6 +133,7 @@ class Location
   after_validation :reset_coordinates, if: :address_blank?
 
   validate :fax_format
+  validate :format_of_admin_email
 
   def fax_format
     if faxes.is_a?(String)
@@ -150,6 +156,13 @@ class Location
     end
   end
 
+  def format_of_admin_email
+    regexp = /.+@.+\..+/i
+    if admins.present? &&
+        (!admins.is_a?(Array) || admins.detect { |a| a.match(regexp).nil? })
+      errors[:base] << "Admins must be an array of valid email addresses"
+    end
+  end
 
   #combines address fields together into one string
   def full_address
@@ -306,6 +319,7 @@ class Location
           exact:  { type: "string", index: "not_analyzed" },
           domain: { type: "string", index_analyzer: "email_analyzer", search_analyzer: "keyword" }
         }
+      indexes :admins, index: "not_analyzed"
       indexes :urls, type: "string", index_analyzer: "url_analyzer", search_analyzer: "keyword"
 
       indexes :organization do
@@ -402,7 +416,7 @@ class Location
             score_mode "total"
           end
         end
-        match "emails.exact", params[:email] if params[:email].present?
+        match [:admins, "emails.exact"], params[:email] if params[:email].present?
 
         generic_domains = %w(gmail.com aol.com sbcglobal.net hotmail.com yahoo.com co.sanmateo.ca.us smcgov.org)
         if params[:domain].present? && generic_domains.include?(params[:domain])

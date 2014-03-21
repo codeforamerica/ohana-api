@@ -14,6 +14,10 @@ FactoryGirl.define do
     accessibility [:tape_braille, :disabled_parking]
     association :organization
     after(:create) { |loc| loc.index.refresh }
+
+    factory :location_with_admin do
+      admins ["moncef@smcgov.org"]
+    end
   end
 
   factory :address do
