@@ -11,6 +11,7 @@ module Entities
     expose              :id, :unless => lambda { |o,_| o.id.blank? }
     expose   :accessibility, :format_with => :accessibility_text, :unless => lambda { |o,_| o.accessibility.blank? }
     expose         :address, :using => Address::Entity, :unless => lambda { |o,_| o.address.blank? }
+    expose          :admins, :unless => lambda { |o,_| o.admins.blank? }
     expose         :ask_for, :unless => lambda { |o,_| o.ask_for.blank? }
     expose        :contacts, :using => Contact::Entity, :unless => lambda { |o,_| o.contacts.blank? }
     expose     :coordinates, :unless => lambda { |o,_| o.coordinates.blank? }

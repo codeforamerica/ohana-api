@@ -445,17 +445,29 @@ describe Ohana::API do
       end
     end
 
-    context "with email parameter" do
-      it "doesn't return results when only domain name is provided" do
+    context "when email parameter only contains domain name" do
+      it "doesn't return results" do
         create(:location, emails:["info@gmail.com"])
         get "api/search?email=gmail.com"
         headers["X-Total-Count"].should == "0"
       end
+    end
 
-      it "only returns exact matches for full email address" do
-        create(:location, emails:["info@gmail.com"])
-        get "api/search?email=info@gmail.com"
-        headers["X-Total-Count"].should == "1"
+    context "when email parameter contains full email address" do
+      it "returns locations where either emails or admins fields match" do
+        create(:location, emails:["moncef@smcgov.org"])
+        create(:location_with_admin)
+        get "api/search?email=moncef@smcgov.org"
+        headers["X-Total-Count"].should == "2"
+      end
+    end
+
+    context "when email parameter contains full email address" do
+      it "only returns locations where admin email is exact match" do
+        create(:location, emails:["moncef@smcgov.org"])
+        create(:location_with_admin)
+        get "api/search?email=moncef@gmail.com"
+        headers["X-Total-Count"].should == "0"
       end
     end
 

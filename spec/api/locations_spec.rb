@@ -186,7 +186,6 @@ describe Ohana::API do
         end
 
         it 'includes market_match' do
-          puts json
           expect(json["market_match"]).to eq(true)
         end
       end
@@ -310,6 +309,42 @@ describe Ohana::API do
         @loc.reload
         expect(response.status).to eq(400)
         json["message"].should include "Email 703 is not a valid email"
+      end
+
+      it "validates admin email" do
+        put "api/locations/#{@loc.id}",
+          { :admins => ["moncef-at-ohanapi.org"] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].
+          should include "Admins must be an array of valid email addresses"
+      end
+
+      it "validates admins is an array" do
+        put "api/locations/#{@loc.id}",
+          { :admins => "moncef@ohanapi.org" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(400)
+        json["message"].
+          should include "Admins must be an array of valid email addresses"
+      end
+
+      it "allows empty admins array" do
+        put "api/locations/#{@loc.id}",
+          { :admins => [] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(200)
+      end
+
+      it "allows valid admins array" do
+        put "api/locations/#{@loc.id}",
+          { :admins => ["moncef@ohanapi.org"] },
+          { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
+        expect(response.status).to eq(200)
       end
 
       it "requires contact name" do
