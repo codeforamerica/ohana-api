@@ -244,8 +244,8 @@ GEM
       moped (~> 1.4)
       origin (~> 1.0)
       tzinfo (~> 0.3.29)
-    mongoid-rspec (1.10.0)
-      mongoid (>= 3.0.1)
+    mongoid-rspec (1.11.0)
+      mongoid (~> 3.1.6)
       rake
       rspec (>= 2.14)
     mongoid_slug (3.2.0)
