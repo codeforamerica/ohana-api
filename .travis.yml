@@ -19,4 +19,4 @@ notifications:
   webhooks: http://cfa-project-monitor.herokuapp.com/projects/f4e235b6-734e-4d63-a19b-32426335c047/status
 env:
   matrix:
-    secure: SyAQm64busWPLwPPdpebaH3QIaK7acP8j7eIj449kI+KYSkTEj5G+ir/Nu1z0XLGv50vmezdg8FsKBe32Bi5c5f1I5rRLsTI9K/lN10OYh6ZzERoTTsypjx+s9xQ1NRPzamMGEpcxG2iOU/n2KU3CPW4BPIp9dpmhUFZ3Obk71Q=
+    secure: VLRxbuU8TtYrEvKLmMDA4fzcJo6xRWvh4QJ+gZ+zva8UXxI4fzPhi2gXhU4mH/K+g6WzHJsoT1U7mXZOibwY+0wilaBoc6HciPhPcFRJV6FozA2sxosBi7RliJGBfqvOdlIvla6Jg8I5gbXDz+w/6ySwzqrNvPp61l1qBS0oKAc=
