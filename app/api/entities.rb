@@ -22,7 +22,6 @@ module Entities
     expose            :kind, :format_with => :kind_text, :unless => lambda { |o,_| o.kind.blank? }
     expose       :languages, :unless => lambda { |o,_| o.languages.blank? }
     expose    :mail_address, :using => MailAddress::Entity, :unless => lambda { |o,_| o.mail_address.blank? }
-    expose    :market_match, :unless => lambda { |o,_| o.kind != "farmers_markets" }
     expose            :name, :unless => lambda { |o,_| o.name.blank? }
     expose        :payments, :unless => lambda { |o,_| o.payments.blank? }
     expose          :phones, :unless => lambda { |o,_| o.phones.blank? }

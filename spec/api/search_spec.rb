@@ -38,14 +38,6 @@ describe Ohana::API do
         json.first["name"].should == "Belmont Farmers Market"
       end
 
-      it 'includes products' do
-        products = json.first["products"]
-        products.should be_a Array
-        ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"].each do |product|
-          products.should include(product)
-        end
-      end
-
       it 'is a paginated resource' do
         get "/api/search?keyword=market&page=2"
         json.length.should == 1
@@ -203,13 +195,7 @@ describe Ohana::API do
       before(:each) do
         loc1 = create(:location)
         loc2 = create(:nearby_loc)
-        loc3 = create(:farmers_market_loc)
-        loc4 = create(:no_address)
-      end
-      it "finds farmers markets" do
-        get "api/search?kind=farmers'%20markets"
-        json.length.should == 1
-        json.first["name"].should == "Belmont Farmers Market"
+        loc3 = create(:no_address)
       end
 
       it "finds human services" do
@@ -231,12 +217,12 @@ describe Ohana::API do
 
       it "filters out kind=other and kind=test" do
         get "api/search?exclude=Other"
-        headers["X-Total-Count"].should == "2"
+        headers["X-Total-Count"].should == "1"
       end
 
       it "filters out kind=test" do
         get "api/locations"
-        headers["X-Total-Count"].should == "3"
+        headers["X-Total-Count"].should == "2"
       end
 
       it "allows multiple kinds" do
@@ -300,55 +286,6 @@ describe Ohana::API do
         get "api/search?org_name=Food+Stamps"
         headers["X-Total-Count"].should == "1"
         json.first["name"].should == "Library"
-      end
-    end
-
-    context "with market_match parameter" do
-      before(:each) do
-        create(:farmers_market_loc)
-        create(:farmers_market_loc,
-          :market_match => false, :name => "Not Participating")
-      end
-      it "only returns farmers' markets who participate in Market Match" do
-        get "api/search?market_match=1"
-        headers["X-Total-Count"].should == "1"
-        json.first["name"].should == "Belmont Farmers Market"
-      end
-      it "only returns markets who don't participate in Market Match" do
-        get "api/search?market_match=0"
-        headers["X-Total-Count"].should == "1"
-        json.first["name"].should == "Not Participating"
-      end
-    end
-
-    context "with payments parameter" do
-      before(:each) do
-        create(:farmers_market_loc)
-        create(:farmers_market_loc,
-          :name => "No SFMNP", :payments => ["Credit"])
-      end
-      it "only returns farmers' markets who accept SFMNP" do
-        get "api/search?payments=SFMNP"
-        headers["X-Total-Count"].should == "1"
-        json.first["name"].should == "Belmont Farmers Market"
-      end
-    end
-
-    context "with products parameter" do
-      before(:each) do
-        create(:farmers_market_loc)
-        create(:farmers_market_loc,
-          :name => "No Cheese", :products => ["Baked Goods"])
-      end
-      it "only returns farmers' markets who sell Baked Goods" do
-        get "api/search?products=baked%20goods"
-        headers["X-Total-Count"].should == "1"
-        json.first["name"].should == "No Cheese"
-      end
-      it "finds a match when query is capitalized" do
-        get "api/search?products=Baked%20Goods"
-        headers["X-Total-Count"].should == "1"
-        json.first["name"].should == "No Cheese"
       end
     end
 

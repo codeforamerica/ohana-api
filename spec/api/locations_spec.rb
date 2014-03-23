@@ -162,33 +162,6 @@ describe Ohana::API do
           end
         end
       end
-
-      context "when farmers market" do
-        before(:each) do
-          fm = create(:farmers_market_loc)
-          get "api/locations/#{fm.id}"
-        end
-
-        it 'includes products' do
-          products = json["products"]
-          products.should be_a Array
-          ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"].each do |product|
-            products.should include(product)
-          end
-        end
-
-        it 'includes payments' do
-          payments = json["payments"]
-          payments.should be_a Array
-          ["Credit", "WIC", "SFMNP", "SNAP"].each do |payment|
-            payments.should include(payment)
-          end
-        end
-
-        it 'includes market_match' do
-          expect(json["market_match"]).to eq(true)
-        end
-      end
     end
 
     describe "Update a location (PUT /api/locations/:id)" do

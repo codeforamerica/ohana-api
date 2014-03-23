@@ -2,7 +2,6 @@ require 'json'
 
 task :setup_db => [
   :load_cip_data,
-  :load_farmers_markets,
   :create_categories]
 
 task :load_cip_data => :environment do
