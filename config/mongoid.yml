@@ -21,7 +21,7 @@ development:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: ohana_api_development
+      database: ohana-api-smc_development
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
@@ -85,7 +85,7 @@ development:
 test:
   sessions:
     default:
-      database: ohana_api_test
+      database: ohana-api-smc_test
       hosts:
         - localhost:27017
       options:
