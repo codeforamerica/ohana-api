@@ -5,11 +5,9 @@
 This is the repo for the San Mateo County instance of the [Ohana API](http://ohanapi.org). The API exposes information about community resources in San Mateo County to make it easier for residents in need to find services they are eligible for.
 
 ## Apps that are using the Ohana API in San Mateo County
-[SMC-Connect](http://www.smc-connect.org), a mobile-friendly website for looking up community and human services.
-[GitHub repo for SMC-Connect](https://github.com/smcgov/SMC-Connect)
+[SMC-Connect](http://www.smc-connect.org), a mobile-friendly website for looking up community and human services. ([GitHub repo for SMC-Connect](https://github.com/smcgov/SMC-Connect))
 
-[SMC-Connect Admin site](http://admin.smc-connect.org), which allows organizations to update their own information.
-[GitHub repo for SMC-Connect Admin](https://github.com/smcgov/SMC-Connect-Admin)
+[SMC-Connect Admin site](http://admin.smc-connect.org), which allows organizations to update their own information. ([GitHub repo for SMC-Connect Admin](https://github.com/smcgov/SMC-Connect-Admin))
 
 We encourage third-party developers to build additional applications on top of the API. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the [API documentation](http://ohanapi.herokuapp.com/api.docs).
 
