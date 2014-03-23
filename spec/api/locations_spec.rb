@@ -374,9 +374,7 @@ describe Ohana::API do
         json["message"].should include "Description can't be blank"
       end
 
-      # Enable this test if you would like to require a short description
-      # Remove the "x" before "it" to enable the test.
-      xit "requires short description" do
+      it "requires short description" do
         put "api/locations/#{@loc.id}",
           { :short_desc => "" },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -385,9 +383,7 @@ describe Ohana::API do
         json["message"].should include "Short desc can't be blank"
       end
 
-      # Enable this test if you want to limit the short description's length
-      # Remove the "x" before "it" to enable the test.
-      xit "limits short description to 200 characters" do
+      it "limits short description to 200 characters" do
         put "api/locations/#{@loc.id}",
           { :short_desc => "A 6 month residential co-ed treatment program
             designed to provide homeless veterans with the skills necessary
