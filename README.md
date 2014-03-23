@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/chttps://travis-ci.org/smcgov/ohana-api-smc.png?branch=master)](https://travis-ci.org/smcgov/ohana-api-smc)
+[![Build Status](https://travis-ci.org/smcgov/ohana-api-smc.png?branch=master)](https://travis-ci.org/smcgov/ohana-api-smc)
 
 #Ohana API - San Mateo County
 
