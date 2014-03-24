@@ -21,9 +21,6 @@ group :production, :staging do
   gem 'rails_12factor' # Heroku recommended
 end
 
-# Analytics
-gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
-
 # Test coverage
 gem 'coveralls', require: false
 
