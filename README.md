@@ -47,7 +47,7 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 
 ## Stack Overview
 
-* Ruby version 2.0.0
+* Ruby version 2.1.1
 * Rails version 3.2.17
 * MongoDB with the Mongoid ORM
 * Redis
@@ -63,7 +63,7 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 ###Prerequisites
 
-#### Git, Ruby 2.0.0+, Rails 3.2.17+ (+ Homebrew on OS X)
+#### Git, Ruby 2.1+, Rails 3.2.17+ (+ Homebrew on OS X)
 **OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
 
 **Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
@@ -309,6 +309,15 @@ We use the [GitHub issue tracker](https://github.com/codeforamerica/ohana-api/is
 [fork]: http://help.github.com/fork-a-repo/
 [branch]: http://learn.github.com/p/branching.html
 [pr]: http://help.github.com/send-pull-requests/
+
+## Supported Ruby Version
+This library aims to support and is [tested against](http://travis-ci.org/codeforamerica/ohana-api) Ruby version 2.1.1.
+
+If something doesn't work on this version, it should be considered a bug.
+
+This library may inadvertently work (or seem to work) on other Ruby implementations, however support will only be provided for the version above.
+
+If you would like this library to support another Ruby version, you may volunteer to be a maintainer. Being a maintainer entails making sure all tests run and pass on that implementation. When something breaks on your implementation, you will be personally responsible for providing patches in a timely fashion. If critical issues for a particular implementation exist at the time of a major release, support for that Ruby version may be dropped.
 
 ## Copyright
 Copyright (c) 2013 Code for America. See [LICENSE](https://github.com/codeforamerica/ohana-api/blob/master/LICENSE.md) for details.
