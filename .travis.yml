@@ -1,6 +1,8 @@
+before_install: gem update bundler
+bundler_args: --without assets:development:production
 language: ruby
 rvm:
-- 2.0.0
+- 2.1.1
 services:
 - mongodb
 - redis-server
@@ -11,9 +13,7 @@ notifications:
   campfire:
     rooms:
     - secure: |-
-        eEuzoYFXLPeIMt+zHGzZp6XCvbfxRDe8FA3kVwrNRB0zoOktPRZXD9O8ng2z
-        x2Yg8C7i1unstuW0bjPvwphpdxJOTFSxliw6P4Xk1Y9HnTYQqqUbDat/zL9c
-        AyjYezuRQgYFSBP2BgNZ2RL9RiLSyLQBWhcHGB0yBS6rsheKWbk=
+        TyZdyfY2Wpl3Temx1S/L+UWNmlNRWltqAFkuPNrG3y0WJIjhGqliLc2utRQH4hxtZK4fwxVaTMBIXm4Lo6aIc8kS7CsWiirxuB78IHGXOn8qtjF/Mj5kGOJSCFNXuN4bkoRnbmlkEhp45NO/Ihv9NaY3O+pyUMBZOlXPXULeFms=
     on_success: never
     on_failure: always
 env:
