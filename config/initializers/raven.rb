@@ -1,5 +1,7 @@
 require 'raven'
 
 Raven.configure do |config|
-  config.dsn = ENV["SENTRY_DSN"]
+  if Rails.env.production?
+    config.dsn = ENV["SENTRY_DSN"] or raise "missing SENTRY_DSN environment variable"
+  end
 end
