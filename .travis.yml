@@ -16,6 +16,6 @@ notifications:
     on_success: never
     on_failure: always
 env:
-  matrix:
-  - secure: VLRxbuU8TtYrEvKLmMDA4fzcJo6xRWvh4QJ+gZ+zva8UXxI4fzPhi2gXhU4mH/K+g6WzHJsoT1U7mXZOibwY+0wilaBoc6HciPhPcFRJV6FozA2sxosBi7RliJGBfqvOdlIvla6Jg8I5gbXDz+w/6ySwzqrNvPp61l1qBS0oKAc=
-  - secure: UDLeRRewznh1rsMTJuz2bmLvP1ds4Zhgr3ecgOul0EWPwcBxn8gaVYbEzuyxORetqb02XvpTAnjLg774yVxmWK62B5DtNjppW4pFqQfc4VQ6PxkJV/f9njxWVkv5qJPEHGzV8pW+0OtVSaqLi4SEcjXfXhjJKIHoqe0MuA+cmho=
+  global:
+    - secure: VLRxbuU8TtYrEvKLmMDA4fzcJo6xRWvh4QJ+gZ+zva8UXxI4fzPhi2gXhU4mH/K+g6WzHJsoT1U7mXZOibwY+0wilaBoc6HciPhPcFRJV6FozA2sxosBi7RliJGBfqvOdlIvla6Jg8I5gbXDz+w/6ySwzqrNvPp61l1qBS0oKAc=
+    - secure: UDLeRRewznh1rsMTJuz2bmLvP1ds4Zhgr3ecgOul0EWPwcBxn8gaVYbEzuyxORetqb02XvpTAnjLg774yVxmWK62B5DtNjppW4pFqQfc4VQ6PxkJV/f9njxWVkv5qJPEHGzV8pW+0OtVSaqLi4SEcjXfXhjJKIHoqe0MuA+cmho=
