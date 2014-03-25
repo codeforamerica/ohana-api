@@ -1,5 +1,5 @@
 before_install: gem update bundler
-bundler_args: --without assets:development:production
+bundler_args: "--without assets:development:production"
 language: ruby
 rvm:
 - 2.1.1
@@ -12,10 +12,10 @@ before_script:
 notifications:
   campfire:
     rooms:
-    - secure: |-
-        TyZdyfY2Wpl3Temx1S/L+UWNmlNRWltqAFkuPNrG3y0WJIjhGqliLc2utRQH4hxtZK4fwxVaTMBIXm4Lo6aIc8kS7CsWiirxuB78IHGXOn8qtjF/Mj5kGOJSCFNXuN4bkoRnbmlkEhp45NO/Ihv9NaY3O+pyUMBZOlXPXULeFms=
+    - secure: TyZdyfY2Wpl3Temx1S/L+UWNmlNRWltqAFkuPNrG3y0WJIjhGqliLc2utRQH4hxtZK4fwxVaTMBIXm4Lo6aIc8kS7CsWiirxuB78IHGXOn8qtjF/Mj5kGOJSCFNXuN4bkoRnbmlkEhp45NO/Ihv9NaY3O+pyUMBZOlXPXULeFms=
     on_success: never
     on_failure: always
 env:
   matrix:
-    secure: VLRxbuU8TtYrEvKLmMDA4fzcJo6xRWvh4QJ+gZ+zva8UXxI4fzPhi2gXhU4mH/K+g6WzHJsoT1U7mXZOibwY+0wilaBoc6HciPhPcFRJV6FozA2sxosBi7RliJGBfqvOdlIvla6Jg8I5gbXDz+w/6ySwzqrNvPp61l1qBS0oKAc=
+  - secure: VLRxbuU8TtYrEvKLmMDA4fzcJo6xRWvh4QJ+gZ+zva8UXxI4fzPhi2gXhU4mH/K+g6WzHJsoT1U7mXZOibwY+0wilaBoc6HciPhPcFRJV6FozA2sxosBi7RliJGBfqvOdlIvla6Jg8I5gbXDz+w/6ySwzqrNvPp61l1qBS0oKAc=
+  - secure: UDLeRRewznh1rsMTJuz2bmLvP1ds4Zhgr3ecgOul0EWPwcBxn8gaVYbEzuyxORetqb02XvpTAnjLg774yVxmWK62B5DtNjppW4pFqQfc4VQ6PxkJV/f9njxWVkv5qJPEHGzV8pW+0OtVSaqLi4SEcjXfXhjJKIHoqe0MuA+cmho=
