@@ -15,7 +15,8 @@ gem 'bootstrap-sass'
 gem "haml-rails", ">= 0.4"
 
 # Server for deployment
-gem "passenger"
+gem "puma"
+gem "puma_auto_tune"
 
 group :production, :staging do
   gem 'rails_12factor' # Heroku recommended
