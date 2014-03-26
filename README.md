@@ -12,7 +12,7 @@ We encourage third-party developers to build additional applications on top of t
 ## Current Status
 We are happy to announce that this project has been awarded a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which means we get to keep working on it in 2014! Our primary goals this year are: simplifying the installation process, streamlining the code, reducing dependencies, and preparing the project for broader installation by a variety of organizations and governments.
 
-One of the major changes will be replacing MongoDB and Elasticsearch with Postgres. This work will probably begin between mid-March and mid-April.
+One of the major changes will be replacing MongoDB and Elasticsearch with Postgres. This work will probably begin between mid-March and mid-April. The main reason is to reduce dependencies, but another important reason is that we want to upgrade the app to Rails 4, but Mongoid currently doesn't support Rails 4, and there's no specific date yet as to when that will happen.
 
 Because the project will be undergoing these major changes, we don't recommend using it for a production app just yet, but please feel free to try it out and provide feedback!
 
