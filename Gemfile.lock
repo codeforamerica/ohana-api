@@ -278,8 +278,6 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rack-throttle (0.3.0)
-      rack (>= 1.0.0)
     rack-timeout (0.0.4)
     rails (3.2.17)
       actionmailer (= 3.2.17)
@@ -446,7 +444,6 @@ DEPENDENCIES
   passenger
   quiet_assets (>= 1.0.2)
   rack-cors
-  rack-throttle
   rack-timeout
   rails (= 3.2.17)
   rails_12factor

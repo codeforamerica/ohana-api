@@ -82,8 +82,8 @@ gem 'newrelic_rpm'
 gem 'newrelic-grape'
 gem "rack-timeout"
 
-# Rate Limiting
-gem 'rack-throttle'
+# Uncomment if you're using Rate Limiting
+#gem 'rack-throttle'
 
 # Authentication & Administration
 gem 'devise'
