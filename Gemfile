@@ -61,7 +61,6 @@ gem "geocoder", :git => "git://github.com/alexreisner/geocoder.git", :ref => "35
 gem "redis"
 
 # Format validation for URLs, phone numbers, zipcodes
-gem "area"
 gem "validates_formatting_of"
 
 # CORS support
