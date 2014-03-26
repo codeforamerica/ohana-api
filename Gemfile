@@ -85,10 +85,9 @@ gem "rack-timeout"
 # Uncomment if you're using Rate Limiting
 #gem 'rack-throttle'
 
-# Authentication & Administration
+# Authentication
 gem 'devise'
-gem 'rails_admin'
-gem "cancan"
+
 gem "attribute_normalizer"
 gem "enumerize"
 
