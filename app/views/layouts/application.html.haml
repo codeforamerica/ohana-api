@@ -12,10 +12,7 @@
     .navbar.navbar-fixed-top
       %nav.navbar-inner
         .container
-          - if request.env['PATH_INFO'].include?("admins")
-            = render 'admin/navigation'
-          - else
-            = render 'shared/navigation'
+          = render 'shared/navigation'
     #main{:role => "main"}
       .container
         .content

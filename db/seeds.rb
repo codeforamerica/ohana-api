@@ -19,9 +19,3 @@ user2 = User.create! :name => 'Second User',
                      :password => 'mong01dtest',
                      :password_confirmation => 'mong01dtest'
 user2.confirm!
-
-puts '===> Setting up admin user...'
-admin = Admin.create! :name => 'Admin User',
-                          :email => 'admin@example.com',
-                          :password => 'iholdthekeys',
-                          :password_confirmation => 'iholdthekeys'

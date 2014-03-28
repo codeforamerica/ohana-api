@@ -1,10 +1,6 @@
   class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to main_app.root_url, :alert => exception.message
-  end
-
   # This is to prevent the app from returning a 500 Internal Server Error
   # when a valid Accept Header is passed to a non-API URL, such as the
   # home page. This was causing some Ohanakapa wrapper specs to fail.
