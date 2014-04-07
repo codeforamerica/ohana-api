@@ -9,6 +9,7 @@ services:
   - redis-server
   - elasticsearch
 before_script:
+  - psql -c 'create database ohana_api_test;' -U postgres
   - cp config/database.travis.yml config/database.yml
 notifications:
   campfire:
