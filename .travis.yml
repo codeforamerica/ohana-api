@@ -2,13 +2,14 @@ before_install: gem update bundler
 bundler_args: --without assets:development:production
 language: ruby
 rvm:
-- 2.1.1
+  - 2.1.1
+addons:
+  postgresql: "9.3"
 services:
-- mongodb
-- redis-server
-- elasticsearch
+  - redis-server
+  - elasticsearch
 before_script:
-- rake db:mongoid:create_indexes
+  - psql -c 'create database ohana-api_test;' -U postgres
 notifications:
   campfire:
     rooms:
