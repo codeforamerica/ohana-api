@@ -9,7 +9,7 @@ services:
   - redis-server
   - elasticsearch
 before_script:
-  - psql -c 'create database ohana-api_test;' -U postgres
+  - psql -c 'create database ohana_api_test;' -U postgres
 notifications:
   campfire:
     rooms:
