@@ -6,6 +6,16 @@ describe Location do
 
   it { should be_valid }
 
+  # Associations
+  it { should belong_to :organization }
+  it { should have_one :address }
+  it { should have_many :contacts }
+  it { should have_many :faxes }
+  it { should have_one :mail_address }
+  it { should have_many :phones }
+  it { should have_many :services }
+
+  # Instance methods
   it { should respond_to(:full_address) }
   its(:full_address) { should == "#{subject.address.street}, " +
     "#{subject.address.city}, " + "#{subject.address.state} " +
@@ -16,6 +26,7 @@ describe Location do
     "#{subject.address.city}, " + "#{subject.address.state} " +
     "#{subject.address.zip}" }
 
+  # Attribute normalization
   it { should normalize_attribute(:urls).
     from(" http://www.codeforamerica.org  ").
     to("http://www.codeforamerica.org") }
@@ -57,13 +68,7 @@ describe Location do
     end
 
     context "without an address" do
-      subject { build(:location, address: {}) }
-      it { should_not be_valid }
-    end
-
-    context "with a non-US phone" do
-      subject { build(:location,
-                        phones: [{ "number" => "33 6 65 08 51 12" }]) }
+      subject { build(:location, address: nil) }
       it { should_not be_valid }
     end
 
@@ -74,6 +79,11 @@ describe Location do
 
     context "email without @" do
       subject { build(:location, emails: ["moncef.blahcom"]) }
+      it { should_not be_valid }
+    end
+
+    context "admin email without @" do
+      subject { build(:location, admin_emails: ["moncef.blahcom"]) }
       it { should_not be_valid }
     end
   end
@@ -91,12 +101,6 @@ describe Location do
 
     context "URL with capitalizations" do
       subject { build(:location, urls: ["HTTP://WWW.monfresh.com.au"]) }
-      it { should be_valid }
-    end
-
-    context "with US phone containing dots" do
-      subject { build(:location,
-                        phones: [{ "number" => "123.456.7890" }]) }
       it { should be_valid }
     end
 

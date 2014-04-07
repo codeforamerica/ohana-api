@@ -16,12 +16,12 @@ describe Ohana::API do
 
         it "returns the category's children" do
           represented = [{
-            "id" => "#{@food_child.id}",
+            "id"    => @food_child.id,
             "depth" => @food_child.depth,
             "oe_id" => "101-01",
             "name"  => "Emergency Food",
-            "parent_id" => "#{@food_child.parent_id}",
-            "slugs" => ["emergency-food"],
+            "parent_id" => @food_child.parent_id,
+            "slug" => "emergency-food",
           }]
           json.should == represented
         end
@@ -58,17 +58,18 @@ describe Ohana::API do
     describe "GET /api/categories" do
       before :each do
         @food = Category.create!(:name => "Food", :oe_id => "101")
+        @food.update_attributes!(name: "Emergency Food")
         get "/api/categories"
       end
 
-      it "displays the category's slugs" do
+      it "displays the category's latest slug" do
         represented = [{
-          "id" => "#{@food.id}",
+          "id"    => @food.id,
           "depth" => 0,
           "oe_id" => "101",
-          "name"  => "Food",
+          "name"  => "Emergency Food",
           "parent_id" => nil,
-          "slugs" => ["food"],
+          "slug" => "emergency-food",
         }]
         json.should == represented
       end

@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 ruby '2.1.1'
 gem 'rails', '3.2.17'
 
+gem "pg"
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -24,20 +26,15 @@ end
 # Test coverage
 gem 'coveralls', require: false
 
-# MongoDB ORM
-gem "mongoid", ">= 3.1.2"
-
 group :test, :development do
-  # Testing with Rspec
   gem "rspec-rails", ">= 2.12.2"
   gem "factory_girl_rails", ">= 4.2.0"
 end
 
 group :test do
-  # Testing with Rspec and Mongoid
   gem "database_cleaner", ">= 1.0.0.RC1"
-  gem "mongoid-rspec", ">= 1.7.0"
   gem "capybara"
+  gem 'shoulda-matchers'
 end
 
 group :development do
@@ -98,8 +95,6 @@ gem "figaro"
 gem "tire", :git => "git://github.com/monfresh/tire.git", :ref => "2d174e792a"
 
 # Nested categories for OpenEligibility
-gem "glebtv-mongoid_nested_set"
+gem "ancestry"
 
-gem 'mongoid_time_field'
-
-gem 'mongoid_slug'
+gem "friendly_id", "~> 4.0.10"

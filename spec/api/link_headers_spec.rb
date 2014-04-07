@@ -7,7 +7,7 @@ describe Ohana::API do
 
     context "when on page 1 of 2" do
       before(:each) do
-        orgs = create_list(:location, 2)
+        locs = create_list(:location, 2)
         get 'api/search?keyword=parent'
       end
 

@@ -14,7 +14,7 @@ module Ohana
         {
           "organizations_url" => "#{ENV["API_BASE_URL"]}organizations{/organization_id}",
           "locations_url" => "#{ENV["API_BASE_URL"]}locations{/location_id}",
-          "general_search_url" => "#{ENV["API_BASE_URL"]}search{?keyword,location,radius,language,kind,category,market_match}",
+          "general_search_url" => "#{ENV["API_BASE_URL"]}search{?keyword,location,radius,language,kind,category}",
           "rate_limit_url" => "#{ENV["API_BASE_URL"]}rate_limit"
         }
       end
@@ -41,17 +41,12 @@ module Ohana
         <<-NOTE
           # Fetching a location
 
-          You can fetch a location either by its id or by one of its slugs.
-          The `slugs` field is an array containing all slugs for a particular
-          location over time. Most locations will only have one slug, but it's
-          possible that a few will have their name edited at some point. Since
-          the API keeps track of the slug history, those locations will have
-          multiple slugs.
+          You can fetch a location either by its id or by its slug.
 
           If using the API to display a location's details
           on a web page that will be crawled by search engines, we recommend
           setting the end of the canonical URL of the location's page to the
-          last slug in the array.
+          location's slug.
 
           Example:
 
@@ -113,7 +108,7 @@ module Ohana
             #garner.options(expires_in: 30.minutes) do
               location = Location.find(params[:locations_id])
               nearby = Location.nearby(location, params)
-              set_link_header(nearby) if location.coordinates.present?
+              set_link_header(nearby)
               nearby
             #end
           end
@@ -165,12 +160,7 @@ module Ohana
         <<-NOTE
           # Fetching an organization
 
-          You can fetch an organization either by its id or by one of its slugs.
-          The `slugs` field is an array containing all slugs for a particular
-          organization over time. Most organizations will only have one slug, but it's
-          possible that a few will have their name edited at some point. Since
-          the API keeps track of the slug history, those organizations will have
-          multiple slugs.
+          You can fetch an organization either by its id or by its slug.
 
           Example:
 
@@ -246,7 +236,7 @@ module Ohana
         params[:service_areas] = [] if params[:service_areas].blank?
 
         service.update_attributes!(params)
-        service
+        present service, with: Service::Entity
       end
 
       segment '/:services_id' do
@@ -266,7 +256,7 @@ module Ohana
             # For example, "Prevent & Treat" becomes "prevent-and-treat".
             # If you want to see all 327 slugs, run this command from the
             # Rails console:
-            # Category.all.map(&:slugs).flatten
+            # Category.all.map(&:slug)
             cat_ids = []
             params[:category_slugs].each do |cat_slug|
               cat = Category.find(cat_slug)
@@ -276,7 +266,7 @@ module Ohana
             # Set the service's category_ids to this new array of ids
             s.category_ids = cat_ids
             s.save
-            s
+            present s, with: Service::Entity
           end
         end
       end
@@ -429,59 +419,6 @@ module Ohana
 
           `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks&sort=kind&order=desc`
 
-          ### market_match (Farmers' Markets only)
-
-          Get a list of markets that participate in the [Market Match](http://www.pcfma.com/pcfma_marketmatch.php) program.
-
-          Examples:
-
-          `#{ENV["API_BASE_URL"]}search?kind=market&market_match=1` (to get participants)
-
-          `#{ENV["API_BASE_URL"]}search?kind=market&market_match=0` (to get non-participants)
-
-          ### products, payments (Farmers' Markets only)
-          These two additional parameters are available for farmers' markets
-          to filter the markets that only accept certain types of payment and
-          sell certain kinds of products.
-
-          Examples:
-
-          `#{ENV["API_BASE_URL"]}search?products=Baked Goods`
-
-          `#{ENV["API_BASE_URL"]}search?products=baked goods`
-
-          `#{ENV["API_BASE_URL"]}search?payments=SFMNP`
-
-          `#{ENV["API_BASE_URL"]}search?payments=snap`
-
-          `#{ENV["API_BASE_URL"]}search?payments=SNAP&products=vegetables`
-
-          Possible values for `payments`: Credit, WIC, WICcash, SFMNP, SNAP
-
-          Possible values for `products`:
-
-              Baked Goods
-              Cheese
-              Crafts
-              Flowers
-              Eggs
-              Seafood
-              Herbs
-              Vegetables
-              Honey
-              Jams
-              Maple
-              Meat
-              Nursery
-              Nuts
-              Plants
-              Poultry
-              Prepared Food
-              Soap
-              Trees
-              Wine
-
-
           ## JSON response
           The search results JSON includes the location's parent organization
           info, as well as the location's services, so you can have all the
@@ -516,9 +453,6 @@ module Ohana
         optional :language, type: String, desc: "Languages other than English spoken at the location"
         optional :kind, type: Array, desc: "The type of organization, such as human services, farmers' markets"
         optional :category, type: String, desc: "The service category based on the OpenEligibility taxonomy"
-        optional :market_match, type: String, desc: "To filter farmers' markets that participate in Market Match"
-        optional :products, type: String, desc: "To filter farmers' markets that sell certain products"
-        optional :payments, type: String, desc: "To filter farmers' markets that accept certain payment types"
         optional :page, type: Integer, default: 1
       end
       get do

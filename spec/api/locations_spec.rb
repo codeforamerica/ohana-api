@@ -4,6 +4,7 @@ describe Ohana::API do
 
   describe "Location Requests" do
     include DefaultUserAgent
+    include Features::SessionHelpers
 
     describe "GET /api/locations" do
       xit "returns an empty array when no locations exist" do
@@ -36,32 +37,127 @@ describe Ohana::API do
           to eq("http://example.com/api/organizations/#{loc1.organization.id}")
       end
 
-      it "returns the correct info about the locations" do
+      it "displays address when present" do
         create(:location)
         get "/api/locations"
         json.first["address"]["street"].should == "1800 Easton Drive"
       end
 
-      it "doesn't include test data" do
-        create(:location)
-        create(:far_loc)
+      it "displays mail_address when present" do
+        loc = create(:location)
+        loc.create_mail_address!(attributes_for(:mail_address))
+        loc.index.refresh
         get "/api/locations"
-        headers["X-Total-Count"].should == "1"
-        expect(json.first["name"]).to eq "VRS Services"
+        json.first["mail_address"]["street"].should == "1 davis dr"
+      end
+
+      it "displays contacts when present" do
+        loc = create(:location)
+        loc.contacts.create!(attributes_for(:contact))
+        loc.index.refresh
+        get "/api/locations"
+        json.first["contacts"].first["title"].should == "CTO"
+      end
+
+      it "displays faxes when present" do
+        loc = create(:location)
+        loc.faxes.create!(attributes_for(:fax))
+        loc.index.refresh
+        get "/api/locations"
+        json.first["faxes"].first["number"].should == "703-555-1212"
+      end
+
+      it "displays phones when present" do
+        loc = create(:location)
+        loc.phones.create!(attributes_for(:phone))
+        loc.index.refresh
+        get "/api/locations"
+        json.first["phones"].first["extension"].should == "x2000"
+      end
+
+      context 'with nil fields' do
+
+        before(:each) do
+          @loc = create(:loc_with_nil_fields)
+        end
+
+        it 'does not return nil fields within Location' do
+          get "api/locations"
+          location_keys = json.first.keys
+          missing_keys = %w(accessibility admin_emails contacts emails faxes
+            hours languages mail_address phones transportation urls services)
+          missing_keys.each do |key|
+            location_keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields within Contacts' do
+          attrs = attributes_for(:contact)
+          @loc.contacts.create!(attrs)
+          @loc.index.refresh
+          get "api/locations"
+          contact_keys = json.first["contacts"].first.keys
+          ["phone fax", "email"].each do |key|
+            contact_keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields within Faxes' do
+          @loc.faxes.create!(attributes_for(:fax_with_no_dept))
+          @loc.index.refresh
+          get "api/locations"
+          fax_keys = json.first["faxes"].first.keys
+          fax_keys.should_not include("department")
+        end
+
+        it 'does not return nil fields within Phones' do
+          @loc.phones.create!(attributes_for(:phone_with_missing_fields))
+          @loc.index.refresh
+          get "api/locations"
+          phone_keys = json.first["phones"].first.keys
+          ["extension", "vanity_number"].each do |key|
+            phone_keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields within Organization' do
+          get "api/locations"
+          org_keys = json.first["organization"].keys
+          org_keys.should_not include("urls")
+        end
+
+        it 'does not return nil fields within Services' do
+          attrs = attributes_for(:service)
+          @loc.services.create!(attrs)
+          @loc.index.refresh
+          get "api/locations"
+          service_keys = json.first["services"].first.keys
+          ["audience", "eligibility", "fees"].each do |key|
+            service_keys.should_not include(key)
+          end
+        end
+      end
+
+      context "when location has no physical address" do
+        it 'does not return nil coordinates' do
+          create(:no_address)
+          get "api/locations"
+          location_keys = json.first.keys
+          location_keys.should_not include("coordinates")
+        end
       end
     end
 
     describe "GET /api/locations/:id" do
       context 'with valid data' do
         before :each do
-          service = create(:service)
-          @location = service.location
+          create_service
           get "/api/locations/#{@location.id}"
         end
 
         it "returns a status by id" do
           represented = {
-            "id" => "#{@location.id}",
+            "id" => @location.id,
             "accessibility"=>["Information on tape or in Braille", "Disabled Parking"],
             "address" => {
               "street" => @location.address.street,
@@ -73,26 +169,21 @@ describe Ohana::API do
             "description" => @location.description,
             "kind"=>"Other",
             "name" => @location.name,
-            "phones" => [{
-              "number" => "650 851-1210",
-              "department" => "Information",
-              "phone_hours" => "(Monday-Friday, 9-12, 1-5)"
-            }],
             "short_desc" => "short description",
-            "slugs" => ["vrs-services"],
+            "slug" => "vrs-services",
             "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
             "url" => "http://example.com/api/locations/#{@location.id}",
             "services" => [{
-              "id" => "#{@location.services.first.id}",
+              "id" => @location.services.reload.first.id,
               "description" => @location.services.first.description,
               "keywords" => @location.services.first.keywords,
               "name" => @location.services.first.name,
               "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
             }],
             "organization" => {
-              "id" => "#{@location.organization.id}",
+              "id" => @location.organization.id,
               "name"=> "Parent Agency",
-              "slugs" => @location.organization.slugs,
+              "slug" => "parent-agency",
               "url" => "http://example.com/api/organizations/#{@location.organization.id}",
               "locations_url" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
             }
@@ -136,14 +227,6 @@ describe Ohana::API do
 
         before(:each) do
           @loc = create(:loc_with_nil_fields)
-        end
-
-        it 'does not return nil fields when visiting all locations' do
-          get "api/locations"
-          keys = json.first.keys
-          ["faxes", "fees", "email"].each do |key|
-            keys.should_not include(key)
-          end
         end
 
         it 'does not return nil fields when visiting one location' do
@@ -191,7 +274,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Kind is not included in the list"
+        json["message"].should include "Please enter a valid value for Kind"
       end
 
       it "validates the accessibility attribute" do
@@ -199,11 +282,13 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Accessibility is invalid"
+        json["message"].
+          should include "Please enter a valid value for Accessibility"
       end
 
       it "validates phone number" do
-        put "api/locations/#{@loc.id}", { :phones => [{ number: "703" }] },
+        put "api/locations/#{@loc.id}",
+          { :phones_attributes => [{ number: "703" }] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
@@ -211,40 +296,17 @@ describe Ohana::API do
       end
 
       it "validates fax number" do
-        put "api/locations/#{@loc.id}", { :faxes => [{ number: "703" }] },
+        put "api/locations/#{@loc.id}",
+          { :faxes_attributes => [{ number: "703" }] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Please enter a valid US fax number"
+        json["message"].should include "703 is not a valid US fax number"
       end
 
-      it "validates fax number is a hash" do
-        put "api/locations/#{@loc.id}", { :faxes => ["703"] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].
-          should include "Fax must be a hash"
-      end
 
-      it "validates fax number is an array" do
-        put "api/locations/#{@loc.id}", { :faxes => "703" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].
-          should include "Fax must be an array"
-      end
-
-      it "allows nil faxes attribute" do
-        put "api/locations/#{@loc.id}", { :faxes => nil },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(200)
-      end
-
-      it "allows empty array for faxes attribute" do
-        put "api/locations/#{@loc.id}", { :faxes => [] },
+      it "allows empty array for faxes_attributes" do
+        put "api/locations/#{@loc.id}", { :faxes_attributes => [] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(200)
@@ -259,62 +321,65 @@ describe Ohana::API do
 
       it "validates contact phone" do
         put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "foo", title: "cfo", phone: "703" }] },
+          { :contacts_attributes => [{
+              name: "foo", title: "cfo", phone: "703" }] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Phone 703 is not a valid US phone number"
+        json["message"].should include "703 is not a valid US phone number"
       end
 
       it "validates contact fax" do
         put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "foo", title: "cfo", fax: "703" }] },
+          { :contacts_attributes => [{
+              name: "foo", title: "cfo", fax: "703" }] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Fax 703 is not a valid US fax number"
+        json["message"].should include "703 is not a valid US fax number"
       end
 
       it "validates contact email" do
         put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "foo", title: "cfo", email: "703" }] },
+          { :contacts_attributes => [{
+              name: "foo", title: "cfo", email: "703" }] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Email 703 is not a valid email"
+        json["message"].should include "703 is not a valid email"
       end
 
       it "validates admin email" do
         put "api/locations/#{@loc.id}",
-          { :admins => ["moncef-at-ohanapi.org"] },
+          { :admin_emails => ["moncef-at-ohanapi.org"] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
         json["message"].
-          should include "Admins must be an array of valid email addresses"
+          should include "admin_emails must be an array of valid email addresses"
       end
 
-      it "validates admins is an array" do
+      it "validates admin_emails is an array" do
         put "api/locations/#{@loc.id}",
-          { :admins => "moncef@ohanapi.org" },
+          { :admin_emails => "moncef@ohanapi.org" },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
         json["message"].
-          should include "Admins must be an array of valid email addresses"
+          should include "admin_emails must be an array of valid email addresses"
       end
 
-      it "allows empty admins array" do
+      it "allows empty admin_emails array" do
         put "api/locations/#{@loc.id}",
-          { :admins => [] },
+          { :admin_emails => [] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(200)
       end
 
-      it "allows valid admins array" do
+      it "allows valid admin_emails array" do
         put "api/locations/#{@loc.id}",
-          { :admins => ["moncef@ohanapi.org"] },
+          { :admin_emails => ["moncef@ohanapi.org"] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(200)
@@ -322,7 +387,7 @@ describe Ohana::API do
 
       it "requires contact name" do
         put "api/locations/#{@loc.id}",
-          { :contacts => [{ title: "cfo" }] },
+          { :contacts_attributes => [{ title: "cfo" }] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
@@ -331,7 +396,7 @@ describe Ohana::API do
 
       it "requires contact title" do
         put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "cfo" }] },
+          { :contacts_attributes => [{ name: "cfo" }] },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
@@ -396,30 +461,35 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Urls badurl is not a valid URL"
+        json["message"].should include "badurl is not a valid URL"
       end
 
       it "validates location address state" do
         put "api/locations/#{@loc.id}",
-          { :address => {:state => "C" } },
+          { :address_attributes => {
+              street: "123", city: "utopia", state: "C", zip: "12345" }
+          },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "State is too short (minimum is 2 characters)"
+        json["message"].
+          should include "Please enter a valid 2-letter state abbreviation"
       end
 
       it "validates location address zip" do
         put "api/locations/#{@loc.id}",
-          { :address => {:zip => "1234" } },
+          { :address_attributes => {
+              street: "123", city: "utopia", state: "CA", zip: "1234" }
+          },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Zip 1234 is not a valid ZIP code"
+        json["message"].should include "1234 is not a valid ZIP code"
       end
 
       it "requires location address street" do
         put "api/locations/#{@loc.id}",
-          { :address => {
+          { :address_attributes => {
               street: "", city: "utopia", state: "CA", zip: "12345" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -430,7 +500,7 @@ describe Ohana::API do
 
       it "requires location address state" do
         put "api/locations/#{@loc.id}",
-          { :address => {
+          { :address_attributes => {
               street: "boo", city: "utopia", state: "", zip: "12345" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -441,7 +511,7 @@ describe Ohana::API do
 
       it "requires location address city" do
         put "api/locations/#{@loc.id}",
-          { :address => {
+          { :address_attributes => {
               street: "funu", city: "", state: "CA", zip: "12345" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -452,7 +522,7 @@ describe Ohana::API do
 
       it "requires location address zip" do
         put "api/locations/#{@loc.id}",
-          { :address => {
+          { :address_attributes => {
               street: "jam", city: "utopia", state: "CA", zip: "" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -463,25 +533,30 @@ describe Ohana::API do
 
       it "validates location mail address state" do
         put "api/locations/#{@loc.id}",
-          { :mail_address => {:state => "C" } },
+          { :mail_address_attributes => {
+            street: "123", city: "utopia", state: "C", zip: "12345" }
+          },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "State is too short (minimum is 2 characters)"
+        json["message"].should include "Please enter a valid 2-letter state abbreviation"
       end
 
       it "validates location mail address zip" do
         put "api/locations/#{@loc.id}",
-          { :mail_address => {:zip => "1234" } },
+          { :mail_address_attributes => {
+              street: "123", city: "belmont", state: "CA", zip: "1234"
+            }
+          },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Zip 1234 is not a valid ZIP code"
+        json["message"].should include "1234 is not a valid ZIP code"
       end
 
       it "requires location mail_address street" do
         put "api/locations/#{@loc.id}",
-          { :mail_address => {
+          { :mail_address_attributes => {
               street: "", city: "utopia", state: "CA", zip: "12345" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -492,7 +567,7 @@ describe Ohana::API do
 
       it "requires location mail_address state" do
         put "api/locations/#{@loc.id}",
-          { :mail_address => {
+          { :mail_address_attributes => {
               street: "boo", city: "utopia", state: "", zip: "12345" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -503,7 +578,7 @@ describe Ohana::API do
 
       it "requires location mail_address city" do
         put "api/locations/#{@loc.id}",
-          { :mail_address => {
+          { :mail_address_attributes => {
               street: "funu", city: "", state: "CA", zip: "12345" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -514,7 +589,7 @@ describe Ohana::API do
 
       it "requires location mail_address zip" do
         put "api/locations/#{@loc.id}",
-          { :mail_address => {
+          { :mail_address_attributes => {
               street: "jam", city: "utopia", state: "CA", zip: "" }
           },
           { 'HTTP_X_API_TOKEN' => @token }
@@ -531,13 +606,9 @@ describe Ohana::API do
         json["message"].should include "A location must have at least one address type."
       end
 
-      it "doesn't geocode when address hasn't changed" do
-        @loc.coordinates = []
-        @loc.save
+      xit "doesn't geocode when address hasn't changed" do
         put "api/locations/#{@loc.id}", { :kind => "entertainment" },
           { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(@loc.coordinates).to eq([])
       end
 
       it "geocodes when address has changed" do
@@ -545,7 +616,7 @@ describe Ohana::API do
           street: "1 davis drive", city: "belmont", state: "CA", zip: "94002"
         }
         coords = @loc.coordinates
-        put "api/locations/#{@loc.id}", { :address => address },
+        put "api/locations/#{@loc.id}", { :address_attributes => address },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(@loc.coordinates).to_not eq(coords)
@@ -555,7 +626,7 @@ describe Ohana::API do
         put "api/locations/#{@loc.id}",
           {
             :address => nil,
-            :mail_address => {
+            :mail_address_attributes => {
               street: "1 davis drive", city: "belmont",
               state: "CA", zip: "94002"
             }
@@ -591,7 +662,7 @@ describe Ohana::API do
           :name => "new location",
           :description => "description",
           :short_desc => "short_desc",
-          :address => {
+          :address_attributes => {
                 street: "main", city: "utopia", state: "CA", zip: "12345" },
           :organization_id => org.id
         }
@@ -649,9 +720,8 @@ describe Ohana::API do
 
     describe "DELETE api/locations/:id" do
       before :each do
-        service = create(:service)
-        @service_id = service.id
-        @location = service.location
+        create_service
+        @service_id = @service.id
         @id = @location.id
         delete "api/locations/#{@id}", {},
           { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
@@ -664,7 +734,7 @@ describe Ohana::API do
 
       it "deletes the service too" do
         expect { Service.find(@service_id) }.
-          to raise_error(Mongoid::Errors::DocumentNotFound)
+          to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

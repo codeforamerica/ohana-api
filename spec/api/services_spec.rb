@@ -4,10 +4,11 @@ describe Ohana::API do
 
   describe "PUT Requests for Services" do
     include DefaultUserAgent
+    include Features::SessionHelpers
 
     describe "PUT /api/services/:id/" do
       before(:each) do
-        @service = create(:service)
+        create_service
         @token = ENV["ADMIN_APP_TOKEN"]
       end
 
@@ -60,17 +61,17 @@ describe Ohana::API do
 
     describe "Update a service without a valid token" do
       it "doesn't allow updating a service witout a valid token" do
-        service = create(:service)
-        put "api/services/#{service.id}", { :name => "new name" },
+        create_service
+        put "api/services/#{@service.id}", { :name => "new name" },
           { 'HTTP_X_API_TOKEN' => "invalid_token" }
-        service.reload
+        @service.reload
         expect(response.status).to eq(401)
       end
     end
 
     describe "PUT /api/services/:services_id/categories" do
       before(:each) do
-        @service = create(:service)
+        create_service
         @token = ENV["ADMIN_APP_TOKEN"]
         @food = Category.create!(:name => "Food", :oe_id => "101")
       end
@@ -82,7 +83,7 @@ describe Ohana::API do
             { 'HTTP_X_API_TOKEN' => @token }
           @service.reload
           expect(response).to be_success
-          json["category_ids"].first.should == "#{@food.id}"
+          json["categories"].first["name"].should == "Food"
         end
       end
 

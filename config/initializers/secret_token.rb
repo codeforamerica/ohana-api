@@ -10,4 +10,4 @@ if Rails.env.production? && ENV['SECRET_TOKEN'].blank?
 	To generate it, run "rake secret", then set it with "heroku config:set SECRET_TOKEN=the_token_you_generated"'
 end
 
-OhanaApi::Application.config.secret_token = ENV['SECRET_TOKEN'] || '6bb1869cc43f25b000d02cf02245a55e330d67da37f97d2c6fb8cd12af3052bab3cc0f630938f531fa35b55976026458ac987e55c103600514bf4810a1945f96'
+OhanaApi::Application.config.secret_token = ENV['SECRET_TOKEN'] || '7bb1869cc43f25b000d02cf02245a55e330d67da37f97d2c6fb8cd12af3052bab3cc0f630938f531fa35b55976026458ac987e55c103600514bf4810a1945f96'

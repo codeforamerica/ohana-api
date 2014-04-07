@@ -12,7 +12,6 @@ module API
       #Garner::Mixins::Rack
 
       # Garner.configure do |config|
-      #   config.mongoid_identity_fields = [:_id]
       #   config.cache = ActiveSupport::Cache::DalliStore.new(ENV["MEMCACHIER_SERVERS"], { :compress => true })
       # end
 
@@ -29,16 +28,24 @@ module API
 
     end
 
-    rescue_from Mongoid::Errors::DocumentNotFound do
+    rescue_from ActiveRecord::RecordNotFound do
       rack_response({
         "error" => "Not Found",
         "message" => "The requested resource could not be found."
       }.to_json, 404)
     end
 
-    rescue_from Mongoid::Errors::Validations do |e|
+    rescue_from ActiveRecord::RecordInvalid do |e|
+      if e.record.errors.first.first == :kind
+        message = "Please enter a valid value for Kind"
+      elsif e.record.errors.first.first == :accessibility
+        message = "Please enter a valid value for Accessibility"
+      else
+        message = e.record.errors.first.last
+      end
+
       rack_response({
-        "message" => e.message
+        "message" => message
       }.to_json, 400)
     end
 
