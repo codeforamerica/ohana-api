@@ -3,7 +3,7 @@
 set -e
 
 echo "===> Creating ohana-api_production database..."
-rake db:create
+rake db:create:all
 echo "===> Loading the DB schema..."
 rake db:schema:load
 
