@@ -51,7 +51,7 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 * Rails version 3.2.17
 * MongoDB with the Mongoid ORM
 * Redis
-* ElasticSearch
+* ElasticSearch <=1.0.1
 * API framework: Grape
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
@@ -105,14 +105,20 @@ Follow the Homebrew instructions if you want Redis to start automatically every 
 
 See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
 
-#### ElasticSearch
+#### ElasticSearch <=1.0.1
 **OS X**
+
+Please make sure you are using Elasticsearch 1.0.1 or lower. This app is currently not compatible with Elasticsearch 1.1.0.
 
 On OS X, the easiest way to install ElasticSearch is with Homebrew:
 
-    brew install elasticsearch
+    brew install https://raw.github.com/Homebrew/homebrew/9b8103f6fb570dc3a5ce5b5b84cb76fb6915cace/Library/Formula/elasticsearch.rb
 
 Follow the Homebrew instructions to launch ElasticSearch.
+
+If you already had 1.0.1 and then upgraded to 1.1.0, you can switch back to 1.0.1 with this command:
+
+    brew switch elasticsearch 1.0.1
 
 **Other**
 
