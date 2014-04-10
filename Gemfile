@@ -1,20 +1,23 @@
 source 'https://rubygems.org'
 
 ruby '2.1.1'
-gem 'rails', '3.2.17'
+gem 'rails', '~> 4.0.4'
 
 gem "pg"
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'bootstrap-sass'
-end
+gem 'sass-rails',   '~> 4.0.2'
+gem 'coffee-rails', '~> 4.0.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'bootstrap-sass'
+
+# Rails 4
+gem 'protected_attributes'
+#gem 'rails-observers'
+#gem 'rails-perftest'
 
 # Front end
 gem 'jquery-rails'
-gem "haml-rails", ">= 0.4"
+gem "haml-rails", '~> 0.5.3'
 
 # Server for deployment
 gem "passenger"
@@ -23,18 +26,18 @@ group :production, :staging do
   gem 'rails_12factor' # Heroku recommended
 end
 
-# Test coverage
-gem 'coveralls', require: false
-
 group :test, :development do
-  gem "rspec-rails", ">= 2.12.2"
+  gem "rspec-rails", '~> 2.14.2'
   gem "factory_girl_rails", ">= 4.2.0"
 end
 
 group :test do
   gem "database_cleaner", ">= 1.0.0.RC1"
   gem "capybara"
+  #gem "minitest"
   gem 'shoulda-matchers'
+  # Test coverage
+  gem 'coveralls', require: false
 end
 
 group :development do
@@ -54,7 +57,7 @@ gem "geocoder", :git => "git://github.com/alexreisner/geocoder.git", :ref => "35
 gem "redis"
 
 # Format validation for URLs, phone numbers, zipcodes
-gem "validates_formatting_of"
+gem "validates_formatting_of", '~> 0.8.1'
 
 # CORS support
 gem 'rack-cors', :require => 'rack/cors'
@@ -97,4 +100,4 @@ gem "tire", :git => "git://github.com/monfresh/tire.git", :ref => "2d174e792a"
 # Nested categories for OpenEligibility
 gem "ancestry"
 
-gem "friendly_id", "~> 4.0.10"
+gem "friendly_id", "~> 5.0.3"

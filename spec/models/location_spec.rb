@@ -109,4 +109,38 @@ describe Location do
       it { should be_valid }
     end
   end
+
+  describe "slug candidates" do
+    before(:each) { @loc = create(:location) }
+
+    context "when address is present and name is already taken" do
+      it "creates a new slug based on address street" do
+        new_loc = create(:nearby_loc)
+        new_loc.update_attributes!(name: "VRS Services")
+        new_loc.reload.slug.should eq("vrs-services-250-myrtle-road")
+      end
+    end
+
+    context "when mail_address is present and name is taken" do
+      it "creates a new slug based on mail_address city" do
+        new_loc = create(:no_address)
+        new_loc.update_attributes!(name: "VRS Services")
+        new_loc.reload.slug.should eq("vrs-services-la-honda")
+      end
+    end
+
+    context "when name is not taken" do
+      it "creates a new slug based on name" do
+        new_loc = create(:no_address)
+        new_loc.reload.slug.should eq("no-address")
+      end
+    end
+
+    context "when name is not updated" do
+      it "doesn't update slug" do
+        @loc.update_attributes!(description: "new description")
+        @loc.reload.slug.should eq("vrs-services")
+      end
+    end
+  end
 end

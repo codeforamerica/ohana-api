@@ -32,9 +32,9 @@ describe Ohana::API do
         expect(json.first["kind"]).to eq("Other")
         expect(json.first["organization"].keys).to include("locations_url")
         expect(json.first["url"]).
-          to eq("http://example.com/api/locations/#{loc1.id}")
+          to eq("#{ENV["API_BASE_URL"]}locations/#{loc1.id}")
         expect(json.first["organization"]["url"]).
-          to eq("http://example.com/api/organizations/#{loc1.organization.id}")
+          to eq("#{ENV["API_BASE_URL"]}organizations/#{loc1.organization.id}")
       end
 
       it "displays address when present" do
@@ -171,21 +171,21 @@ describe Ohana::API do
             "name" => @location.name,
             "short_desc" => "short description",
             "slug" => "vrs-services",
-            "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
-            "url" => "http://example.com/api/locations/#{@location.id}",
+            "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%3N%:z"),
+            "url" => "#{ENV["API_BASE_URL"]}locations/#{@location.id}",
             "services" => [{
               "id" => @location.services.reload.first.id,
               "description" => @location.services.first.description,
               "keywords" => @location.services.first.keywords,
               "name" => @location.services.first.name,
-              "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
+              "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S.%3N%:z")
             }],
             "organization" => {
               "id" => @location.organization.id,
               "name"=> "Parent Agency",
               "slug" => "parent-agency",
-              "url" => "http://example.com/api/organizations/#{@location.organization.id}",
-              "locations_url" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
+              "url" => "#{ENV["API_BASE_URL"]}organizations/#{@location.organization.id}",
+              "locations_url" => "#{ENV["API_BASE_URL"]}organizations/#{@location.organization.id}/locations"
             }
           }
           json.should == represented
@@ -391,7 +391,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Name can't be blank for Contact"
+        json["message"].should include "name can't be blank"
       end
 
       it "requires contact title" do
@@ -400,7 +400,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Title can't be blank for Contact"
+        json["message"].should include "title can't be blank"
       end
 
       it "requires description" do
@@ -495,7 +495,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Street can't be blank"
+        json["message"].should include "street can't be blank"
       end
 
       it "requires location address state" do
@@ -506,7 +506,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "State can't be blank"
+        json["message"].should include "state can't be blank"
       end
 
       it "requires location address city" do
@@ -517,7 +517,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "City can't be blank"
+        json["message"].should include "city can't be blank"
       end
 
       it "requires location address zip" do
@@ -528,7 +528,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Zip can't be blank"
+        json["message"].should include "zip can't be blank"
       end
 
       it "validates location mail address state" do
@@ -562,7 +562,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Street can't be blank"
+        json["message"].should include "street can't be blank"
       end
 
       it "requires location mail_address state" do
@@ -573,7 +573,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "State can't be blank"
+        json["message"].should include "state can't be blank"
       end
 
       it "requires location mail_address city" do
@@ -584,7 +584,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "City can't be blank"
+        json["message"].should include "city can't be blank"
       end
 
       it "requires location mail_address zip" do
@@ -595,7 +595,7 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Zip can't be blank"
+        json["message"].should include "zip can't be blank"
       end
 
       it "rejects location with neither address nor mail address" do

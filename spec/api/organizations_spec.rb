@@ -28,8 +28,8 @@ describe Ohana::API do
           "id" => orgs.last.id,
           "name" => "#{orgs.last.name}",
           "slug" => orgs.last.slug,
-          "url" => "http://example.com/api/organizations/#{orgs.last.id}",
-          "locations_url" => "http://example.com/api/organizations/#{orgs.last.id}/locations"
+          "url" => "#{ENV["API_BASE_URL"]}organizations/#{orgs.last.id}",
+          "locations_url" => "#{ENV["API_BASE_URL"]}organizations/#{orgs.last.id}/locations"
         }]
         json.should == represented
       end
@@ -53,8 +53,8 @@ describe Ohana::API do
             "id" => @org.id,
             "name" => "#{@org.name}",
             "slug" => "parent-agency",
-            "url" => "http://example.com/api/organizations/#{@org.id}",
-            "locations_url" => "http://example.com/api/organizations/#{@org.id}/locations"
+            "url" => "#{ENV["API_BASE_URL"]}organizations/#{@org.id}",
+            "locations_url" => "#{ENV["API_BASE_URL"]}organizations/#{@org.id}/locations"
           }
           json.should == represented
         end

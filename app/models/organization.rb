@@ -2,7 +2,16 @@ class Organization < ActiveRecord::Base
   attr_accessible :name, :urls
 
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :slug_candidates, use: [:history]
+
+  # Try building a slug based on the following fields in
+  # increasing order of specificity.
+  def slug_candidates
+    [
+      :name,
+      [:name, :domain_name]
+    ]
+  end
 
   has_many :locations, dependent: :destroy
   #accepts_nested_attributes_for :locations
@@ -15,23 +24,21 @@ class Organization < ActiveRecord::Base
 
   paginates_per Rails.env.test? ? 1 : 30
 
-  self.include_root_in_json = false
-
   after_save :refresh_tire_index
   def refresh_tire_index
     self.locations.each { |loc| loc.tire.update_index }
   end
 
   def url
-    "#{root_url}organizations/#{self.id}"
+    "#{ENV["API_BASE_URL"]}organizations/#{self.id}"
   end
 
   def locations_url
-    "#{root_url}organizations/#{self.id}/locations"
+    "#{ENV["API_BASE_URL"]}organizations/#{self.id}/locations"
   end
 
-  def root_url
-    Rails.application.routes.url_helpers.root_url
+  def domain_name
+    URI.parse(urls.first).host.gsub(/^www\./, '') if urls.present?
   end
 
   include Grape::Entity::DSL

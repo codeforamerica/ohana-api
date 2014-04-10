@@ -1,6 +1,24 @@
 class Location < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :slug_candidates, use: [:history]
+
+  # Try building a slug based on the following fields in
+  # increasing order of specificity.
+  def slug_candidates
+    [
+      :name,
+      [:name, :address_street],
+      [:name, :mail_address_city]
+    ]
+  end
+
+  def address_street
+    address.street if address.present?
+  end
+
+  def mail_address_city
+    mail_address.city if mail_address.present?
+  end
 
   extend Enumerize
   serialize :accessibility, Array
@@ -72,7 +90,8 @@ class Location < ActiveRecord::Base
   # validates_presence_of :name, :hours, :phones
 
   validates_presence_of :description, :organization, :name,
-    message: lambda { |x,y| "#{y[:attribute]} can't be blank" }
+    message: "can't be blank for Location"
+
   validate :address_presence
 
   ## Uncomment the line below if you want to require a short description.
@@ -170,8 +189,6 @@ class Location < ActiveRecord::Base
   # INDEX_NAME is defined in config/initializers/tire.rb
   index_name INDEX_NAME
 
-  self.include_root_in_json = false
-
   # Defines the JSON output of search results.
   # Since search returns locations, we also want to include
   # the location's parent organization info, as well as the
@@ -200,7 +217,7 @@ class Location < ActiveRecord::Base
     #hash[:organization].merge!("slugs" => organization.slugs.map(&:slug))
     hash.merge!("accessibility" => accessibility.map(&:text))
     hash.merge!("kind" => kind.text) if kind.present?
-    remove_nil_fields(hash,[:organization,:contacts,:faxes,:phones,:services])
+    remove_nil_fields(hash,["organization","contacts","faxes","phones","services"])
     hash.to_json
   end
 
@@ -467,7 +484,7 @@ class Location < ActiveRecord::Base
   end
 
   def url
-    "#{Rails.application.routes.url_helpers.root_url}locations/#{self.id}"
+    "#{ENV["API_BASE_URL"]}locations/#{self.id}"
   end
 
   def self.smc_service_areas

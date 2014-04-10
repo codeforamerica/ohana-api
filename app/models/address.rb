@@ -6,7 +6,7 @@ class Address < ActiveRecord::Base
 
   #validates_presence_of :location
   validates_presence_of :street, :city, :state, :zip,
-    message: lambda { |x,y| "#{y[:attribute]} can't be blank" }
+    message: "can't be blank for Address"
 
   validates_length_of :state, :maximum => 2, :minimum => 2,
     message: "Please enter a valid 2-letter state abbreviation"

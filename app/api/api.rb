@@ -25,7 +25,6 @@ module API
         token = env["HTTP_X_API_TOKEN"].to_s
         token.present? && token == ENV["ADMIN_APP_TOKEN"]
       end
-
     end
 
     rescue_from ActiveRecord::RecordNotFound do
@@ -41,7 +40,7 @@ module API
       elsif e.record.errors.first.first == :accessibility
         message = "Please enter a valid value for Accessibility"
       else
-        message = e.record.errors.first.last
+        message = e.message
       end
 
       rack_response({

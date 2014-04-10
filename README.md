@@ -50,10 +50,10 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 ## Stack Overview
 
 * Ruby version 2.1.1
-* Rails version 3.2.17
+* Rails version 4.0.4
 * Postgres
 * Redis
-* ElasticSearch
+* ElasticSearch <=1.0.1
 * API framework: Grape
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
@@ -65,7 +65,7 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 ###Prerequisites
 
-#### Git, Ruby 2.1+, Rails 3.2.17+ (+ Homebrew on OS X)
+#### Git, Ruby 2.1.1, Rails 4.0.4 (+ Homebrew on OS X)
 **OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
 
 **Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
@@ -100,14 +100,20 @@ Follow the Homebrew instructions if you want Redis to start automatically every 
 
 See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
 
-#### ElasticSearch
+#### ElasticSearch <=1.0.1
 **OS X**
+
+Please make sure you are using Elasticsearch 1.0.1 or lower. This app is currently not compatible with Elasticsearch 1.1.0.
 
 On OS X, the easiest way to install ElasticSearch is with Homebrew:
 
-    brew install elasticsearch
+    brew install https://raw.github.com/Homebrew/homebrew/9b8103f6fb570dc3a5ce5b5b84cb76fb6915cace/Library/Formula/elasticsearch.rb
 
 Follow the Homebrew instructions to launch ElasticSearch.
+
+If you already had 1.0.1 and then upgraded to 1.1.0, you can switch back to 1.0.1 with this command:
+
+    brew switch elasticsearch 1.0.1
 
 **Other**
 
@@ -132,9 +138,11 @@ If you get a `permission denied` message, set the correct permissions:
 
 then run `script/bootstrap` again.
 
-In `config/application.yml`, set the `ADMIN_APP_TOKEN` environment variable so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
+In `config/application.yml`, set the following environment variables so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
 
     ADMIN_APP_TOKEN: your_token
+    API_BASE_URL: http://localhost:8080/api/
+    API_BASE_HOST: http://localhost:8080/
 
 `your_token` can be any string you want for testing purposes, but in production, you should use a random string, which you can generate from the command line:
 
@@ -144,6 +152,8 @@ In `config/application.yml`, set the `ADMIN_APP_TOKEN` environment variable so t
 Start the app locally on port 8080 using Passenger:
 
     passenger start -p 8080
+
+If for some reason, you can't run on port 8080, make sure you update `API_BASE_URL` and `API_BASE_HOST` in `config/application.yml` if you change the port number. You'll also need to update the port number in `OHANA_API_ENDPOINT` when running the Admin Interface.
 
 ### Verify the app is returning JSON
 To see all locations, 30 per page:
@@ -241,13 +251,8 @@ If you want to wipe out the local test DB and reset it with the sample data, run
 
     script/reset
 
-### User authentication and emails
-The app allows developers to sign up for an account via the home page (http://localhost:8080), but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
-
-    GMAIL_USERNAME: your_email@gmail.com
-    GMAIL_PASSWORD: your_password
-
-`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can [sign in](http://localhost:8080/users/sign_in) with either of the users whose username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
+### User authentication
+The app automatically sets up users you can [sign in](http://localhost:8080/users/sign_in) with. Their username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
 
 ### Test the app

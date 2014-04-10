@@ -6,18 +6,18 @@ describe Contact do
 
   it { should be_valid }
 
+  it do
+    should validate_presence_of(:name).
+      with_message("can't be blank for Contact")
+  end
+
+  it do
+    should validate_presence_of(:title).
+      with_message("can't be blank for Contact")
+  end
+
   describe "invalid data" do
     before(:each) { @attrs = {} }
-
-    # context "without a name" do
-    #   subject { build(:contact, name: @attrs) }
-    #   it { should_not be_valid }
-    # end
-
-    # context "without a title" do
-    #   subject { build(:contact, title: @attrs) }
-    #   it { should_not be_valid }
-    # end
 
     context "email without period" do
       subject { build(:contact, email: "moncef@blahcom") }

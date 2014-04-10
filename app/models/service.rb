@@ -1,7 +1,7 @@
 class Service < ActiveRecord::Base
   belongs_to :location, touch: true
 
-  has_and_belongs_to_many :categories, uniq: true
+  has_and_belongs_to_many :categories, -> { uniq }
   #accepts_nested_attributes_for :categories
 
   #has_many :schedules
@@ -82,8 +82,6 @@ class Service < ActiveRecord::Base
       "Western U.S.", "Western United States", "Worldwide"
     ]
   end
-
-  self.include_root_in_json = false
 
   include Grape::Entity::DSL
   entity do

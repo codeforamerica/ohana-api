@@ -243,7 +243,7 @@ describe Ohana::API do
       before(:each) do
         create(:far_loc)
         create(:farmers_market_loc)
-        cat = Category.create!(:name => "food")
+        cat = create(:category)
         create_service
         @service.category_ids = [cat.id]
         @service.save
@@ -260,7 +260,7 @@ describe Ohana::API do
       before(:each) do
         create(:nearby_loc)
         create(:farmers_market_loc)
-        cat = Category.create!(:name => "Jobs")
+        cat = create(:jobs)
         create_service
         @service = @location.services.first
         @service.category_ids = [cat.id]
