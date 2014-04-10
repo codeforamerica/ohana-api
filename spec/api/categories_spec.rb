@@ -59,10 +59,10 @@ describe Ohana::API do
       before :each do
         @food = Category.create!(:name => "Food", :oe_id => "101")
         @food.update_attributes!(name: "Emergency Food")
-        get "/api/categories"
       end
 
       it "displays the category's latest slug" do
+        get "/api/categories"
         represented = [{
           "id"    => @food.id,
           "depth" => 0,
@@ -72,6 +72,12 @@ describe Ohana::API do
           "slug" => "emergency-food",
         }]
         json.should == represented
+      end
+
+      it "is accessible by its old slug" do
+        @food.children.create!(name: "Community Gardens", oe_id: "101-01")
+        get "/api/categories/food/children"
+        expect(json.first["name"]).to eq("Community Gardens")
       end
     end
   end

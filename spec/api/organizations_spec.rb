@@ -157,6 +157,13 @@ describe Ohana::API do
         json.first["organization"]["name"].should == "testorg"
       end
 
+      it "is accessible by its old slug" do
+        put "api/organizations/#{@org.id}",
+          { :name => "new name" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        get "api/organizations/parent-agency"
+        expect(json["name"]).to eq("new name")
+      end
     end
 
   end

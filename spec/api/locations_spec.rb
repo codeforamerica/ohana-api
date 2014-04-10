@@ -655,6 +655,21 @@ describe Ohana::API do
       end
     end
 
+    describe "Update a location's slug" do
+      before(:each) do
+        @loc = create(:location)
+        @token = ENV["ADMIN_APP_TOKEN"]
+      end
+
+      it "is accessible by its old slug" do
+        put "api/locations/#{@loc.id}",
+          { :name => "new name" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        get "api/locations/vrs-services"
+        expect(json["name"]).to eq("new name")
+      end
+    end
+
     describe "Create a location (POST /api/locations/)" do
       before(:each) do
         org = create(:organization)
