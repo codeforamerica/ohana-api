@@ -1,96 +1,102 @@
-class Location
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  include Mongoid::Slug
+class Location < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:history]
+
+  # Try building a slug based on the following fields in
+  # increasing order of specificity.
+  def slug_candidates
+    [
+      :name,
+      [:name, :address_street],
+      [:name, :mail_address_city]
+    ]
+  end
+
+  def address_street
+    address.street if address.present?
+  end
+
+  def mail_address_city
+    mail_address.city if mail_address.present?
+  end
+
   extend Enumerize
-
-  paginates_per Rails.env.test? ? 1 : 30
-
-  attr_accessible :accessibility, :address, :admins, :ask_for, :contacts,
-                  :description, :emails, :faxes, :hours, :kind, :languages,
-                  :mail_address, :name, :phones, :short_desc, :transportation,
-                  :urls, :contacts_attributes, :mail_address_attributes,
-                  :address_attributes, :products, :payments, :market_match,
-                  :organization_id
-
-  # embedded_in :organization
-  belongs_to :organization
-  validates_presence_of :organization
-
-  # embeds_many :services
-  has_many :services, dependent: :destroy
-  #accepts_nested_attributes_for :services
-
-  #has_many :contacts, dependent: :destroy
-  embeds_many :contacts
-  accepts_nested_attributes_for :contacts
-
-  embeds_many :schedules
-  accepts_nested_attributes_for :schedules
-
-  # has_one :address
-  # has_one :mail_address
-  embeds_one :address
-  embeds_one :mail_address
-  accepts_nested_attributes_for :mail_address, :reject_if => :all_blank
-  accepts_nested_attributes_for :address, :reject_if => :all_blank
-
-  normalize_attributes :description, :hours, :kind, :name,
-    :short_desc, :transportation, :urls
-
-  field :accessibility
+  serialize :accessibility, Array
+  # Don't change the terms here! You can change their display
+  # name in config/locales/en.yml
   enumerize :accessibility, in: [:cd, :deaf_interpreter, :disabled_parking,
     :elevator, :ramp, :restroom, :tape_braille, :tty, :wheelchair,
-    :wheelchair_van], multiple: true
+    :wheelchair_van], multiple: true, scope: true
 
-  # List of emails that should have access to edit a location's info.
-  # Admins can be added to a location via the Admin GUI:
-  # https://github.com/codeforamerica/ohana-api-admin
-  field :admins, type: Array
-
-  field :ask_for, type: Array
-  field :coordinates, type: Array
-  field :description
-  field :emails, type: Array
-  field :faxes, type: Array
-  field :hours
-
-  field :kind
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
   enumerize :kind, in: [:arts, :clinics, :education, :entertainment,
     :farmers_markets, :government, :human_services, :libraries, :museums,
-    :other, :parks, :sports, :test]
+    :other, :parks, :sports, :test], scope: true
 
-  field :languages, type: Array
+  # List of admin emails that should have access to edit a location's info.
+  # Admin emails can be added to a location via the Admin GUI:
+  # https://github.com/codeforamerica/ohana-api-admin
+  serialize :admin_emails, Array
+
+  serialize :emails, Array
+
+  serialize :languages, Array
   # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
   #   :mandarin, :polish, :portuguese, :russian, :spanish, :tagalog, :urdu,
   #   :vietnamese,
-  #    ], multiple: true
+  #    ], multiple: true, scope: true
 
-  field :name
-  slug :name, history: true
+  serialize :urls, Array
 
-  field :phones, type: Array
+  attr_accessible :accessibility, :address, :admin_emails, :contacts,
+                  :description, :emails, :faxes, :hours, :kind, :languages,
+                  :latitude, :longitude, :mail_address, :name, :phones,
+                  :short_desc, :transportation, :urls, :address_attributes,
+                  :contacts_attributes, :faxes_attributes,
+                  :mail_address_attributes, :phones_attributes,
+                  :services_attributes, :organization_id
 
-  field :short_desc
-  field :transportation
+  belongs_to :organization, touch: true
 
-  field :urls, type: Array
+  has_one :address, dependent: :destroy
+  validates_presence_of :address,
+    :message => "A location must have at least one address type.",
+    :unless => Proc.new { |loc| loc.mail_address.present? }
+  accepts_nested_attributes_for :address, :allow_destroy => true
 
-  # farmers markets
-  field :market_match, type: Boolean
-  field :products, type: Array
-  field :payments, type: Array
+  has_many :contacts, dependent: :destroy
+  accepts_nested_attributes_for :contacts
+
+  has_many :faxes, dependent: :destroy
+  accepts_nested_attributes_for :faxes
+
+  has_one :mail_address, dependent: :destroy
+  validates_presence_of :mail_address,
+    :message => "A location must have at least one address type.",
+    :unless => Proc.new { |loc| loc.address.present? }
+  accepts_nested_attributes_for :mail_address, :allow_destroy => true
+
+  has_many :phones, dependent: :destroy
+  accepts_nested_attributes_for :phones
+
+  has_many :services, dependent: :destroy
+  after_touch() { tire.update_index }
+  accepts_nested_attributes_for :services
+
+  #has_many :schedules, dependent: :destroy
+  #accepts_nested_attributes_for :schedules
+
+  normalize_attributes :description, :hours, :kind, :name,
+    :short_desc, :transportation, :urls
 
   # This is where you define all the fields that you want to be required
   # when uploading a dataset or creating a new entry via an admin interface.
   # You can separate the required fields with a comma. For example:
   # validates_presence_of :name, :hours, :phones
 
-  validates_presence_of :name
-  validates_presence_of :description
-  validate :address_presence
+  validates_presence_of :description, :organization, :name,
+    message: "can't be blank for Location"
 
   ## Uncomment the line below if you want to require a short description.
   ## We recommend having a short description so that web clients can display
@@ -120,47 +126,13 @@ class Location
               allow_blank: true,
               message: "%{value} is not a valid email" } }
 
-  validates :phones, hash:  {
-    format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
-              allow_blank: true,
-              message: "%{value} is not a valid US phone number" } }
-
-  # validates :faxes, hash:  {
-  #   format: { with: /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/,
-  #             allow_blank: true,
-  #             message: "%{value} is not a valid US fax number" } }
-
-  after_validation :reset_coordinates, if: :address_blank?
-
-  validate :fax_format
   validate :format_of_admin_email
-
-  def fax_format
-    if faxes.is_a?(String)
-      errors[:base] << "Fax must be an array of hashes with number (required) and department (optional) attributes"
-    elsif faxes.is_a?(Array)
-      faxes.each do |fax|
-        if !fax.is_a?(Hash)
-          errors[:base] << "Fax must be a hash with number (required) and department (optional) attributes"
-        elsif fax.is_a?(Hash)
-          if fax["number"].blank?
-            errors[:base] << "Fax hash must have a number attribute"
-          else
-            regexp = /\A(\((\d{3})\)|\d{3})[ |\.|\-]?(\d{3})[ |\.|\-]?(\d{4})\z/
-            if fax["number"].match(regexp).nil?
-              errors[:base] << "Please enter a valid US fax number"
-            end
-          end
-        end
-      end
-    end
-  end
 
   def format_of_admin_email
     regexp = /.+@.+\..+/i
-    if admins.present? &&
-        (!admins.is_a?(Array) || admins.detect { |a| a.match(regexp).nil? })
-      errors[:base] << "Admins must be an array of valid email addresses"
+    if admin_emails.present? &&
+        (!admin_emails.is_a?(Array) || admin_emails.detect { |a| a.match(regexp).nil? })
+      errors[:base] << "admin_emails must be an array of valid email addresses"
     end
   end
 
@@ -182,15 +154,21 @@ class Location
     end
   end
 
+  def coordinates
+    [longitude, latitude] if longitude.present? && latitude.present?
+  end
+
+  after_validation :reset_coordinates, if: :address_blank?
+
   def address_blank?
-    self.address.blank?
+    address.blank?
   end
 
   def reset_coordinates
-    self.coordinates = nil
+    self.latitude = nil
+    self.longitude = nil
   end
 
-  include Geocoder::Model::Mongoid
   geocoded_by :full_physical_address           # can also be an IP address
 
   # Only call Google's geocoding service if the address has changed
@@ -199,7 +177,7 @@ class Location
 
   def needs_geocoding?
     if self.address.present?
-      self.address.changed? || self.coordinates.nil?
+      self.address.changed? || latitude.nil? || longitude.nil?
     end
   end
 
@@ -209,6 +187,8 @@ class Location
   ## ELASTICSEARCH
   include Tire::Model::Search
   include Tire::Model::Callbacks
+
+  paginates_per Rails.env.test? ? 1 : 30
 
   # INDEX_NAME is defined in config/initializers/tire.rb
   index_name INDEX_NAME
@@ -224,16 +204,24 @@ class Location
         :methods => ['url'],
       :include => {
         :services => { :except => [:location_id, :created_at],
-          :methods => ['categories'] },
+          :include => { :categories => { :except =>
+            [:ancestry, :created_at, :updated_at],
+            :methods => ['depth'] } }
+        },
         :organization => { :methods => ['url', 'locations_url'] },
-        :address => { :except => [:_id] },
-        :mail_address => { :except => [:_id] },
-        :contacts => { :except => [] }
-      })
-    hash.merge!("slugs" => _slugs) if _slugs.present?
+        :address => { :except => [:created_at, :updated_at] },
+        :mail_address => { :except => [:created_at, :updated_at] },
+        :contacts => { :except => [:created_at, :updated_at] },
+        :faxes => { :except => [:created_at, :updated_at] },
+        :phones => { :except => [:created_at, :updated_at] }
+      },
+      :methods => ['coordinates', 'url']
+    )
+    #hash.merge!("slugs" => slugs.map(&:slug)) if slugs.present?
+    #hash[:organization].merge!("slugs" => organization.slugs.map(&:slug))
     hash.merge!("accessibility" => accessibility.map(&:text))
     hash.merge!("kind" => kind.text) if kind.present?
-    remove_nil_fields(hash,["organization","contacts","services"])
+    remove_nil_fields(hash,["organization","contacts","faxes","phones","services"])
     hash.to_json
   end
 
@@ -244,7 +232,7 @@ class Location
   # The fields passed are the associated models that contain
   # nil fields that we want to get rid of.
   # Each field is an Array of Hashes because it's a 1-N relationship:
-  # Location embeds_many :contacts and has_many :services.
+  # Location has_many :contacts and has_many :services.
   # Once each associated model is cleaned up, we removed nil fields
   # from the main hash too.
   #
@@ -260,17 +248,6 @@ class Location
       end
     end
     obj.reject! { |_,v| v.blank? }
-
-    # remove service_ids and category_ids fields to speed up response time.
-    # clients don't need them.
-    if obj["services"].present?
-      obj["services"].each do |s|
-        s.reject! { |k,_| k == "category_ids" }
-        if s["categories"].present?
-          s["categories"].each { |c| c.reject! { |k,_| k == "service_ids" } }
-        end
-      end
-    end
   end
 
   settings :number_of_shards => 1,
@@ -312,14 +289,13 @@ class Location
           exact: { type: "string", index: "not_analyzed" }
         }
       indexes :description, analyzer: "snowball"
-      indexes :products, :index => :not_analyzed
       indexes :kind, type: "string", analyzer: "keyword"
       indexes :emails, type: "multi_field",
         fields: {
           exact:  { type: "string", index: "not_analyzed" },
           domain: { type: "string", index_analyzer: "email_analyzer", search_analyzer: "keyword" }
         }
-      indexes :admins, index: "not_analyzed"
+      indexes :admin_emails, index: "not_analyzed"
       indexes :urls, type: "string", index_analyzer: "url_analyzer", search_analyzer: "keyword"
 
       indexes :organization do
@@ -416,7 +392,7 @@ class Location
             score_mode "total"
           end
         end
-        match [:admins, "emails.exact"], params[:email] if params[:email].present?
+        match [:admin_emails, "emails.exact"], params[:email] if params[:email].present?
 
         generic_domains = %w(gmail.com aol.com sbcglobal.net hotmail.com yahoo.com co.sanmateo.ca.us smcgov.org)
         if params[:domain].present? && generic_domains.include?(params[:domain])
@@ -436,11 +412,6 @@ class Location
                 "Government", "Libraries", "Museums", "Other", "Parks",
                 "Sports", "Test"] } } if params[:exclude] == "market_other"
           filter :not, { :term => { :kind => "Other" } } if params[:exclude] == "Other"
-          filter :exists, field: 'market_match' if params[:market_match] == "1"
-          filter :missing, field: 'market_match' if params[:market_match] == "0"
-          filter :term, :payments => params[:payments].downcase if params[:payments].present?
-          filter :term, :products => params[:products].titleize if params[:products].present?
-          filter :not, { :term => { :kind => "Test" } } if params[:keyword] != "maceo"
           filter :missing, field: 'services.categories' if params[:include] == "no_cats"
           filter :term, "services.categories.name.exact" => params[:category] if params[:category].present?
           filter :term, "organization.name.exact" => params[:org_name] if params[:org_name].present?
@@ -501,19 +472,18 @@ class Location
       end
     else
       # If location has no coordinates, the search above will raise
-      # an execption, so we return an empty array instead.
-      []
+      # an exception, so we return an empty results list instead.
+      tire.search do
+        query do
+          string "sfdadf"
+        end
+      end
     end
   end
 
-  def address_presence
-    unless address or mail_address
-      errors[:base] << "A location must have at least one address type."
-    end
-  end
 
   def url
-    "#{Rails.application.routes.url_helpers.root_url}locations/#{self.id}"
+    "#{ENV["API_BASE_URL"]}locations/#{self.id}"
   end
 
   def self.smc_service_areas
@@ -528,35 +498,5 @@ class Location
       'Moss Beach','North Fair Oaks','Palomar Park','Pescadero',
       'Princeton-by-the-Sea','San Gregorio','Sky Londa','West Menlo Park'
     ]
-  end
-
-  # This allows you to display helpful error messages for attributes
-  # of embedded objects, like contacts and address. For example,
-  # the address model requires the state attribute to be exactly 2 characters.
-  # See this line in app/models/address.rb:
-  # validates_length_of :state, :maximum => 2, :minimum => 2
-  # Without the custom validation below, if you try to create or update and
-  # address with a state that has less than 2 characters, the default
-  # error message will be "Address is invalid", which is not specific enough.
-  # By adding this custom validation, we can make the error message more
-  # helpful: "State is too short (minimum is 2 characters)".
-  after_validation :handle_post_validation
-  def handle_post_validation
-    unless self.errors[:contacts].blank?
-      self.contacts.each do |contact|
-        contact.errors.each { |attr,msg| self.errors.add(attr, msg) }
-      end
-      self.errors.delete(:contacts)
-    end
-
-    unless self.errors[:address].blank?
-      address.errors.each { |attr,msg| self.errors.add(attr, msg) }
-      self.errors.delete(:address)
-    end
-
-    unless self.errors[:mail_address].blank?
-      mail_address.errors.each { |attr,msg| self.errors.add(attr, msg) }
-      self.errors.delete(:mail_address)
-    end
   end
 end

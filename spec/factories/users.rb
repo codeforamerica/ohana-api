@@ -8,18 +8,12 @@ FactoryGirl.define do
     password_confirmation 'mong01dtest'
     # required if the Devise Confirmable module is used
     confirmed_at Time.now
-  end
 
-  factory :user_with_app, :class => :user do
-    name 'User with app'
-    email 'app@example.com'
-    password 'mong01dtest'
-    password_confirmation 'mong01dtest'
-    confirmed_at Time.now
-    api_applications [{ name: "first app",
-                        main_url: "http://ohanapi",
-                        callback_url: "http://callme" }]
-
+    factory :user_with_app do
+      after(:create) do |user|
+        create(:api_application, user: user)
+      end
+    end
   end
 
   factory :unconfirmed_user, :class => :user do

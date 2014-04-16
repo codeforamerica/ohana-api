@@ -6,8 +6,10 @@ describe Address do
 
   it { should be_valid }
 
+  it { should belong_to :location }
+
   describe "invalid data" do
-    before(:each) do 
+    before(:each) do
       @attrs = { street: "123", city: "belmont", state: "CA", zip: "90210" }
     end
 

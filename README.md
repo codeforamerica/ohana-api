@@ -12,16 +12,18 @@ We encourage third-party developers to build additional applications on top of t
 ## Current Status
 We are happy to announce that this project has been awarded a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which means we get to keep working on it in 2014! Our primary goals this year are: simplifying the installation process, streamlining the code, reducing dependencies, and preparing the project for broader installation by a variety of organizations and governments.
 
-One of the major changes will be replacing MongoDB and Elasticsearch with Postgres. This work will probably begin between mid-March and mid-April. The main reason is to reduce dependencies, but another important reason is that we want to upgrade the app to Rails 4, but Mongoid currently doesn't support Rails 4, and there's no specific date yet as to when that will happen.
+One of the major changes (that is now complete as of early April 2014) is the replacement of MongoDB with Postgres. The main reason for that change was to reduce dependencies, but another important reason is that we want to upgrade the app to Rails 4, but Mongoid currently doesn't support Rails 4, and there's no specific date yet as to when that will happen.
+
+The next changes underway in April are: upgrading to Rails 4, and replacing Elasticsearch with the full-text search capabilities in Postgres.
 
 Because the project will be undergoing these major changes, we don't recommend using it for a production app just yet, but please feel free to try it out and provide feedback!
 
 ## Data Schema
-If you would like to try out the current version of the project that uses MongoDB, please read the Wiki article about [Populating the Mongo DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Mongo-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
+If you would like to try out the current version of the project that uses Postgres, please read the Wiki article about [Populating the Postgres DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
 
 ## Taxonomy
-We are currently using the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/codeforamerica/ohana-api/blob/master/app/models/category.rb).
-Ohana API only accepts the categories defined by Open Eligibility.
+By default, this project uses the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/codeforamerica/ohana-api/blob/master/app/models/category.rb).
+If you would like to use your own taxonomy, feel free to update this rake task to [create your own hierarchy or tree structure](https://github.com/codeforamerica/ohana-api/blob/master/lib/tasks/oe.rake). Then run `rake create_categories`.
 
 The easiest way to assign categories to a service is to use the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin/blob/master/app/controllers/hsa_controller.rb#L183-187) interface. Here's a screenshot:
 
@@ -48,8 +50,8 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 ## Stack Overview
 
 * Ruby version 2.1.1
-* Rails version 3.2.17
-* MongoDB with the Mongoid ORM
+* Rails version 4.0.4
+* Postgres
 * Redis
 * ElasticSearch <=1.0.1
 * API framework: Grape
@@ -63,29 +65,22 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 ###Prerequisites
 
-#### Git, Ruby 2.1+, Rails 3.2.17+ (+ Homebrew on OS X)
+#### Git, Ruby 2.1.1, Rails 4.0.4 (+ Homebrew on OS X)
 **OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
 
 **Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
 
 
-#### MongoDB
+#### PostgreSQL
 **OS X**
 
-On OS X, the easiest way to install MongoDB (or almost any development tool) is with Homebrew:
+On OS X, the easiest way to install PostgreSQL is with [Postgres.app](http://postgresapp.com/)
 
-    brew update
-    brew install mongodb
-
-Follow the Homebrew instructions for configuring MongoDB and starting it automatically every time you restart your computer. Otherwise, you can launch MongoDB manually in a separate Terminal tab or window with this command:
-
-    mongod
-
-[MongoDB installation instructions using MacPorts](https://github.com/codeforamerica/ohana-api/wiki/Installing-MongoDB-with-MacPorts-on-OS-X) are available on the wiki.
+If that doesn't work, try this [tutorial](http://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/).
 
 **Other**
 
-See the Downloads page on mongodb.org for steps to install on other systems: [http://www.mongodb.org/downloads](http://www.mongodb.org/downloads)
+See the Downloads page on postgresql.org for steps to install on other systems: [http://www.postgresql.org/download/](http://www.postgresql.org/download/)
 
 
 #### Redis
@@ -143,9 +138,11 @@ If you get a `permission denied` message, set the correct permissions:
 
 then run `script/bootstrap` again.
 
-In `config/application.yml`, set the `ADMIN_APP_TOKEN` environment variable so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
+In `config/application.yml`, set the following environment variables so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
 
     ADMIN_APP_TOKEN: your_token
+    API_BASE_URL: http://localhost:8080/api/
+    API_BASE_HOST: http://localhost:8080/
 
 `your_token` can be any string you want for testing purposes, but in production, you should use a random string, which you can generate from the command line:
 
@@ -156,6 +153,8 @@ Start the app locally on port 8080 using Passenger:
 
     passenger start -p 8080
 
+If for some reason, you can't run on port 8080, make sure you update `API_BASE_URL` and `API_BASE_HOST` in `config/application.yml` if you change the port number. You'll also need to update the port number in `OHANA_API_ENDPOINT` when running the Admin Interface.
+
 ### Verify the app is returning JSON
 To see all locations, 30 per page:
 
@@ -165,11 +164,12 @@ To go the next page (the page parameter works for all API responses):
 
     http://localhost:8080/api/locations?page=2
 
+Note that the sample dataset has less than 30 locations, so the second page will be empty.
+
 Search for organizations by keyword and/or location:
 
     http://localhost:8080/api/search?keyword=food
     http://localhost:8080/api/search?keyword=counseling&location=94403
-    http://localhost:8080/api/search?keyword=market&location=san mateo
     http://localhost:8080/api/search?location=redwood city, ca
 
 Search for organizations by languages spoken at the location:
@@ -246,37 +246,33 @@ We recommend these tools to interact with APIs:
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility for making interactions with web services from the command line more human friendly.
 
-### Resetting the app
-If you want to wipe out the local test DB and start from scratch:
+### Resetting the DB
+If you want to wipe out the local test DB and reset it with the sample data, run this command:
 
-    script/drop
-    script/bootstrap
+    script/reset
 
-
-### User authentication and emails
-The app allows developers to sign up for an account via the home page (http://localhost:8080), but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
-
-    GMAIL_USERNAME: your_email@gmail.com
-    GMAIL_PASSWORD: your_password
-
-`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can [sign in](http://localhost:8080/users/sign_in) with either of the users whose username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
+### User authentication
+The app automatically sets up users you can [sign in](http://localhost:8080/users/sign_in) with. Their username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
 
 ### Test the app
-Run tests locally with this simple command:
+First, run this command to make sure your local test database is up to date:
+
+    script/test
+
+Then run tests locally with this simple command:
 
     rspec
 
-For faster tests:
+For faster tests (optional):
 
     gem install zeus
     zeus start #in a separate Terminal window or tab
     zeus rspec spec
 
-To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
+Read more about [Zeus](https://github.com/burke/zeus).
 
-### Drop the database
-If you ever want to start from scratch, run `script/drop`, then `script/bootstrap` to set everything up again. Do this on your local machine only, not in production!
+To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
 ## Contributing
 

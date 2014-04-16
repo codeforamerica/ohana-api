@@ -25,11 +25,11 @@ describe Ohana::API do
         expect(response).to be_success
         expect(json.length).to eq(1)
         represented = [{
-          "id" => "#{orgs.last.id}",
+          "id" => orgs.last.id,
           "name" => "#{orgs.last.name}",
-          "slugs" => orgs.last.slugs,
-          "url" => "http://example.com/api/organizations/#{orgs.last.id}",
-          "locations_url" => "http://example.com/api/organizations/#{orgs.last.id}/locations"
+          "slug" => orgs.last.slug,
+          "url" => "#{ENV["API_BASE_URL"]}organizations/#{orgs.last.id}",
+          "locations_url" => "#{ENV["API_BASE_URL"]}organizations/#{orgs.last.id}/locations"
         }]
         json.should == represented
       end
@@ -50,11 +50,11 @@ describe Ohana::API do
 
         it "returns a status by id" do
           represented = {
-            "id" => "#{@org.id}",
+            "id" => @org.id,
             "name" => "#{@org.name}",
-            "slugs" => @org.slugs,
-            "url" => "http://example.com/api/organizations/#{@org.id}",
-            "locations_url" => "http://example.com/api/organizations/#{@org.id}/locations"
+            "slug" => "parent-agency",
+            "url" => "#{ENV["API_BASE_URL"]}organizations/#{@org.id}",
+            "locations_url" => "#{ENV["API_BASE_URL"]}organizations/#{@org.id}/locations"
           }
           json.should == represented
         end
@@ -128,7 +128,7 @@ describe Ohana::API do
           name: "loc1",
           description: "training",
           short_desc: "short desc",
-          address: {
+          address_attributes: {
             street: "puma",
             city: "paris",
             state: "VA",
@@ -140,7 +140,7 @@ describe Ohana::API do
           name: "loc2",
           description: "training",
           short_desc: "short desc",
-          address: {
+          address_attributes: {
             street: "tiger",
             city: "paris",
             state: "VA",
@@ -157,6 +157,13 @@ describe Ohana::API do
         json.first["organization"]["name"].should == "testorg"
       end
 
+      it "is accessible by its old slug" do
+        put "api/organizations/#{@org.id}",
+          { :name => "new name" },
+          { 'HTTP_X_API_TOKEN' => @token }
+        get "api/organizations/parent-agency"
+        expect(json["name"]).to eq("new name")
+      end
     end
 
   end

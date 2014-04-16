@@ -1,19 +1,11 @@
-class Service
-  #include RocketPants::Cacheable
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  include Grape::Entity::DSL
+class Service < ActiveRecord::Base
+  belongs_to :location, touch: true
 
-  # embedded_in :location
-  belongs_to :location
-  validates_presence_of :location
-
-  has_and_belongs_to_many :categories
-  #belongs_to :category
-
-  embeds_many :schedules
-  accepts_nested_attributes_for :schedules
+  has_and_belongs_to_many :categories, -> { uniq }
   #accepts_nested_attributes_for :categories
+
+  #has_many :schedules
+  #accepts_nested_attributes_for :schedules
 
   attr_accessible :audience, :description, :eligibility, :fees,
     :funding_sources, :keywords, :how_to_apply, :name, :service_areas,
@@ -22,18 +14,10 @@ class Service
   normalize_attributes :audience, :description, :eligibility, :fees,
     :how_to_apply, :name, :short_desc, :wait
 
-  field :audience
-  field :description
-  field :eligibility
-  field :fees
-  field :funding_sources, type: Array
-  field :keywords, type: Array
-  field :how_to_apply
-  field :name
-  field :service_areas, type: Array, default: []
-  field :short_desc
-  field :urls, type: Array
-  field :wait
+  serialize :funding_sources, Array
+  serialize :keywords, Array
+  serialize :service_areas, Array
+  serialize :urls, Array
 
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
@@ -99,6 +83,7 @@ class Service
     ]
   end
 
+  include Grape::Entity::DSL
   entity do
     expose              :id
     expose        :audience, :unless => lambda { |o,_| o.audience.blank? }
@@ -108,7 +93,6 @@ class Service
     expose :funding_sources, :unless => lambda { |o,_| o.funding_sources.blank? }
     expose        :keywords, :unless => lambda { |o,_| o.keywords.blank? }
     expose      :categories, :using => Category::Entity, :unless => lambda { |o,_| o.categories.blank? }
-    #expose      :categories, :unless => lambda { |o,_| o.categories.blank? }
     expose    :how_to_apply, :unless => lambda { |o,_| o.how_to_apply.blank? }
     expose            :name, :unless => lambda { |o,_| o.name.blank? }
     expose   :service_areas, :unless => lambda { |o,_| o.service_areas.blank? }

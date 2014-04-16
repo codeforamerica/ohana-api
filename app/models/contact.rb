@@ -1,23 +1,11 @@
-class Contact
-  #include RocketPants::Cacheable
-  include Mongoid::Document
-  include Grape::Entity::DSL
+class Contact < ActiveRecord::Base
+  attr_accessible :email, :extension, :fax, :name, :phone, :title
 
-  #belongs_to :location
-  embedded_in :location
+  belongs_to :location, touch: true
 
   normalize_attributes :name, :title, :email, :fax, :phone, :extension
 
-  field :name
-  field :title
-  field :email
-  field :fax
-  field :phone
-  field :extension
-
   validates_presence_of :name, :title, message: "can't be blank for Contact"
-
-  extend ValidatesFormattingOf::ModelAdditions
 
   validates_formatting_of :email, with: /.+@.+\..+/i,
     allow_blank: true, message: "%{value} is not a valid email"
@@ -30,6 +18,7 @@ class Contact
     allow_blank: true,
     message: "%{value} is not a valid US fax number"
 
+  include Grape::Entity::DSL
   entity do
     expose    :id
     expose  :name, :unless => lambda { |o,_| o.name.blank? }

@@ -10,8 +10,8 @@ describe StatusController do
       expect(response).to be_success
     end
 
-    context "when DB is down or empty" do
-      it "returns DB failure error" do
+    context "when DB can't find any Categories" do
+      it "returns error" do
         create(:loc_with_nil_fields)
         get "get_status"
         body = JSON.parse(response.body)
@@ -22,7 +22,7 @@ describe StatusController do
     context "when DB and search are up and running" do
       it "returns ok status" do
         create(:loc_with_nil_fields)
-        category = Category.create!(:name => "food")
+        category = create(:category)
         FactoryGirl.create(:service_with_nil_fields,
           :category_ids => ["#{category.id}"])
         get "get_status"
@@ -34,7 +34,7 @@ describe StatusController do
     context "when search returns no results" do
       it "returns search failure status" do
         create(:location)
-        category = Category.create!(:name => "foobar")
+        category = create(:category)
         get "get_status"
         body = JSON.parse(response.body)
         body["status"].should == "Search returned no results"

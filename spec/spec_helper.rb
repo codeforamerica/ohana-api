@@ -5,11 +5,17 @@ Coveralls.wear!('rails')
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-#require 'garner'
+#Keep rspec/autorun disabled if you're using Zeus
+#require 'rspec/autorun'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+# Checks for pending migrations before tests are run.
+# If you are not using ActiveRecord, you can remove this line.
+# This only works in Rails 4.1. Uncomment after upgrading from 4.0.4
+#ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
@@ -46,18 +52,17 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.before(:suite) do
-    # adding "[:mongoid]" is required when using ActiveAdmin.
-    # Otherwise, all tests will fail with the error
-    # ActiveRecord::ConnectionNotEstablished
-    DatabaseCleaner[:mongoid].strategy = :truncation
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
   end
 
   config.before(:each) do
     DatabaseCleaner.start
     Location.tire.index.delete
     Location.create_elasticsearch_index
-    # Garner.config.reset!
-    # Garner.config.cache.clear
   end
 
   config.after(:each) do

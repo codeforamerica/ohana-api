@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Ohana::API do
   include DefaultUserAgent
+  include Features::SessionHelpers
 
   describe "GET 'search'" do
     context "when none of the required parameters are present" do
@@ -53,7 +54,7 @@ describe Ohana::API do
 
     context 'with invalid radius' do
       before :each do
-        location = create(:farmers_market_loc)
+        location = create(:location)
         get "api/search?location=94403&radius=ads"
       end
 
@@ -157,7 +158,7 @@ describe Ohana::API do
       end
 
       it "finds the plural occurrence in service's keywords field" do
-        create(:service)
+        create_service
         get "api/search?keyword=pantry"
         keywords = json.first["services"].first["keywords"]
         keywords.should include "food pantries"
@@ -184,7 +185,7 @@ describe Ohana::API do
       end
 
       it "finds the plural occurrence in service's keywords field" do
-        create(:service)
+        create_service
         get "api/search?keyword=emergencies"
         keywords = json.first["services"].first["keywords"]
         keywords.should include "emergency"
@@ -215,13 +216,8 @@ describe Ohana::API do
         headers["X-Total-Count"].should == "1"
       end
 
-      it "filters out kind=other and kind=test" do
+      it "filters out kind=other" do
         get "api/search?exclude=Other"
-        headers["X-Total-Count"].should == "1"
-      end
-
-      it "filters out kind=test" do
-        get "api/locations"
         headers["X-Total-Count"].should == "2"
       end
 
@@ -247,33 +243,46 @@ describe Ohana::API do
       before(:each) do
         create(:far_loc)
         create(:farmers_market_loc)
-        cat = Category.create!(:name => "food")
-        FactoryGirl.create(:service_with_nil_fields,
-          :category_ids => ["#{cat.id}"])
+        cat = create(:category)
+        create_service
+        @service.category_ids = [cat.id]
+        @service.save
+        @location.index.refresh
       end
       it "boosts location whose services category name matches the query" do
         get "api/search?keyword=food"
-        headers["X-Total-Count"].should == "2"
-        json.first["name"].should == "Belmont Farmers Market with cat"
+        headers["X-Total-Count"].should == "3"
+        json.first["name"].should == "VRS Services"
       end
     end
 
     context "with category parameter" do
       before(:each) do
         create(:nearby_loc)
-        create(:location)
-        cat = Category.create!(:name => "Jobs")
-        FactoryGirl.create(:service_with_nil_fields,
-          :category_ids => ["#{cat.id}"])
+        create(:farmers_market_loc)
+        cat = create(:jobs)
+        create_service
+        @service = @location.services.first
+        @service.category_ids = [cat.id]
+        @service.save
+        @location.index.refresh
       end
+
       it "only returns locations whose category name matches the query" do
         get "api/search?category=Jobs"
         headers["X-Total-Count"].should == "1"
-        json.first["name"].should == "Belmont Farmers Market with cat"
+        json.first["name"].should == "VRS Services"
       end
+
       it "only finds exact spelling matches for the category" do
         get "api/search?category=jobs"
         headers["X-Total-Count"].should == "0"
+      end
+
+      it "includes the depth attribute" do
+        get "api/search?category=Jobs"
+        expect(json.first["services"].first["categories"].first["depth"]).
+          to eq 0
       end
     end
 
