@@ -10,7 +10,8 @@ describe Fax do
   it { should allow_mass_assignment_of(:number) }
   it { should allow_mass_assignment_of(:department) }
 
-  it { should validate_presence_of(:number) }
+  it { should validate_presence_of(:number).
+    with_message("can't be blank for Fax") }
 
   it { should normalize_attribute(:number).
     from(" 800-555-1212  ").

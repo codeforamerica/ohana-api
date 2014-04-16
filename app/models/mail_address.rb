@@ -2,7 +2,6 @@ class MailAddress < ActiveRecord::Base
   attr_accessible :attention, :city, :state, :street, :zip
 
   belongs_to :location, touch: true
-  #validates_presence_of :location
 
   normalize_attributes :street, :city, :state, :zip
 
@@ -18,7 +17,8 @@ class MailAddress < ActiveRecord::Base
 
   include Grape::Entity::DSL
   entity do
-    expose :attention, :unless => lambda { |o,_| o.attention.blank? }
+    expose :id
+    expose :attention
     expose :street
     expose :city
     expose :state

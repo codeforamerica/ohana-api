@@ -6,11 +6,9 @@ describe Organization do
 
   it { should be_valid }
 
-  describe "invalidations" do
-    context "without a name" do
-      subject { build(:organization, name: nil)}
-      it { should_not be_valid }
-    end
+  it do
+    should validate_presence_of(:name).
+      with_message("can't be blank for Organization")
   end
 
   describe "slug candidates" do

@@ -75,13 +75,13 @@ module Ohana
           params[:emails] = params[:emails].delete_if { |email| email.blank? }
         end
 
-        loc.update_attributes!(params)
+        loc.update!(params)
         present loc, with: Entities::Location
       end
 
       desc "Delete a location"
       params do
-        requires :id, type: String, desc: "Location ID"
+        requires :id, type: Integer, desc: "Location ID"
       end
       delete ':id' do
         authenticate!
@@ -96,7 +96,7 @@ module Ohana
         present loc, with: Entities::Location
       end
 
-      segment '/:locations_id' do
+      segment '/:location_id' do
         resource '/nearby' do
           desc "Returns locations near the one queried."
           params do
@@ -106,7 +106,7 @@ module Ohana
 
           get do
             #garner.options(expires_in: 30.minutes) do
-              location = Location.find(params[:locations_id])
+              location = Location.find(params[:location_id])
               nearby = Location.nearby(location, params)
               set_link_header(nearby)
               nearby
@@ -116,25 +116,196 @@ module Ohana
 
         resource '/services' do
           desc "Create a new service for this location"
+          params do
+            requires :location_id, type: Integer
+          end
           post do
             authenticate!
-            location = Location.find(params[:locations_id])
+            location = Location.find(params[:location_id])
             location.services.create!(params)
             location.services.last
           end
         end
 
-
-        resource '/contacts' do
-          desc "Delete all contacts for a location"
+        resource '/address' do
+          desc "Create a new address for this location"
           params do
-            requires :locations_id, type: String
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.create_address!(params)
+            location.address
+          end
+
+          desc "Update an address"
+          params do
+            requires :location_id, type: Integer, desc: "Address ID"
+          end
+          patch do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.address.update!(params)
+            location.address
+          end
+
+          desc "Delete an address"
+          params do
+            requires :location_id, type: Integer, desc: "Location ID"
           end
           delete do
             authenticate!
-            loc = Location.find(params[:locations_id])
-            loc.update_attributes!(contacts: [])
-            loc
+            location = Location.find(params[:location_id])
+            address_id = location.address.id
+            location.address_attributes = { id: address_id, _destroy: "1" }
+            res = location.save
+
+            if res == false
+              error!("A location must have at least one address type.", 400)
+            end
+          end
+        end
+
+        resource '/mail_address' do
+          desc "Create a new mailing address for this location"
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.create_mail_address!(params)
+            location.mail_address
+          end
+
+          desc "Update a mailing address"
+          params do
+            requires :location_id, type: Integer, desc: "Mail Address ID"
+          end
+          patch do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.mail_address.update!(params)
+            location.mail_address
+          end
+
+          desc "Delete a mailing address"
+          params do
+            requires :location_id, type: Integer, desc: "Location ID"
+          end
+          delete do
+            authenticate!
+            location = Location.find(params[:location_id])
+            mail_address_id = location.mail_address.id
+            location.mail_address_attributes =
+              { id: mail_address_id, _destroy: "1" }
+            res = location.save
+            if res == false
+              error!("A location must have at least one address type.", 400)
+            end
+          end
+        end
+
+        resource '/contacts' do
+          desc "Create a new contact for this location"
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.contacts.create!(params)
+            location.contacts.last
+          end
+
+          desc "Update a contact"
+          params do
+            requires :id, type: Integer, desc: "Contact ID"
+          end
+          patch ":id" do
+            authenticate!
+            contact = Contact.find(params[:id])
+            contact.update!(params)
+            present contact, with: Contact::Entity
+          end
+
+          desc "Delete a contact"
+          params do
+            requires :id, type: Integer, desc: "Contact ID"
+          end
+          delete ':id' do
+            authenticate!
+            contact = Contact.find(params[:id])
+            contact.delete
+          end
+        end
+
+        resource '/faxes' do
+          desc "Create a new fax for this location"
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.faxes.create!(params)
+            location.faxes.last
+          end
+
+          desc "Update a fax"
+          params do
+            requires :id, type: Integer, desc: "fax ID"
+          end
+          patch ":id" do
+            authenticate!
+            fax = Fax.find(params[:id])
+            fax.update!(params)
+            present fax, with: Fax::Entity
+          end
+
+          desc "Delete a fax"
+          params do
+            requires :id, type: Integer, desc: "fax ID"
+          end
+          delete ':id' do
+            authenticate!
+            fax = Fax.find(params[:id])
+            fax.delete
+          end
+        end
+
+        resource '/phones' do
+          desc "Create a new phone for this location"
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.phones.create!(params)
+            location.phones.last
+          end
+
+          desc "Update a phone"
+          params do
+            requires :id, type: Integer, desc: "phone ID"
+          end
+          patch ":id" do
+            authenticate!
+            phone = Phone.find(params[:id])
+            phone.update!(params)
+            present phone, with: Phone::Entity
+          end
+
+          desc "Delete a phone"
+          params do
+            requires :id, type: Integer, desc: "phone ID"
+          end
+          delete ':id' do
+            authenticate!
+            phone = Phone.find(params[:id])
+            phone.delete
           end
         end
       end
@@ -201,7 +372,7 @@ module Ohana
       put ':id' do
         authenticate!
         org = Organization.find(params[:id])
-        org.update_attributes!(name: params[:name])
+        org.update!(name: params[:name])
         present org, with: Organization::Entity
       end
 
@@ -235,7 +406,7 @@ module Ohana
 
         params[:service_areas] = [] if params[:service_areas].blank?
 
-        service.update_attributes!(params)
+        service.update!(params)
         present service, with: Service::Entity
       end
 

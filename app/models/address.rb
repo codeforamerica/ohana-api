@@ -1,10 +1,8 @@
 class Address < ActiveRecord::Base
-
   attr_accessible :city, :state, :street, :zip
 
   belongs_to :location, touch: true
 
-  #validates_presence_of :location
   validates_presence_of :street, :city, :state, :zip,
     message: "can't be blank for Address"
 
@@ -19,9 +17,10 @@ class Address < ActiveRecord::Base
 
   include Grape::Entity::DSL
   entity do
+    expose :id
     expose :street
-    expose   :city
-    expose  :state
-    expose    :zip
+    expose :city
+    expose :state
+    expose :zip
   end
 end

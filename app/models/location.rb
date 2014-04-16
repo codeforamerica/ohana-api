@@ -60,7 +60,10 @@ class Location < ActiveRecord::Base
   belongs_to :organization, touch: true
 
   has_one :address, dependent: :destroy
-  accepts_nested_attributes_for :address, :reject_if => :all_blank
+  validates_presence_of :address,
+    :message => "A location must have at least one address type.",
+    :unless => Proc.new { |loc| loc.mail_address.present? }
+  accepts_nested_attributes_for :address, :allow_destroy => true
 
   has_many :contacts, dependent: :destroy
   accepts_nested_attributes_for :contacts
@@ -69,7 +72,10 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :faxes
 
   has_one :mail_address, dependent: :destroy
-  accepts_nested_attributes_for :mail_address, :reject_if => :all_blank
+  validates_presence_of :mail_address,
+    :message => "A location must have at least one address type.",
+    :unless => Proc.new { |loc| loc.address.present? }
+  accepts_nested_attributes_for :mail_address, :allow_destroy => true
 
   has_many :phones, dependent: :destroy
   accepts_nested_attributes_for :phones
@@ -91,8 +97,6 @@ class Location < ActiveRecord::Base
 
   validates_presence_of :description, :organization, :name,
     message: "can't be blank for Location"
-
-  validate :address_presence
 
   ## Uncomment the line below if you want to require a short description.
   ## We recommend having a short description so that web clients can display
@@ -477,11 +481,6 @@ class Location < ActiveRecord::Base
     end
   end
 
-  def address_presence
-    unless address or mail_address
-      errors[:base] << "A location must have at least one address type."
-    end
-  end
 
   def url
     "#{ENV["API_BASE_URL"]}locations/#{self.id}"

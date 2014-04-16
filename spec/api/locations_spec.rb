@@ -160,10 +160,11 @@ describe Ohana::API do
             "id" => @location.id,
             "accessibility"=>["Information on tape or in Braille", "Disabled Parking"],
             "address" => {
+              "id"     => @location.address.id,
               "street" => @location.address.street,
-              "city" => @location.address.city,
-              "state" => @location.address.state,
-              "zip" => @location.address.zip
+              "city"   => @location.address.city,
+              "state"  => @location.address.state,
+              "zip"    => @location.address.zip
             },
             "coordinates" => @location.coordinates,
             "description" => @location.description,
@@ -319,36 +320,6 @@ describe Ohana::API do
         expect(response.status).to eq(200)
       end
 
-      it "validates contact phone" do
-        put "api/locations/#{@loc.id}",
-          { :contacts_attributes => [{
-              name: "foo", title: "cfo", phone: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "703 is not a valid US phone number"
-      end
-
-      it "validates contact fax" do
-        put "api/locations/#{@loc.id}",
-          { :contacts_attributes => [{
-              name: "foo", title: "cfo", fax: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "703 is not a valid US fax number"
-      end
-
-      it "validates contact email" do
-        put "api/locations/#{@loc.id}",
-          { :contacts_attributes => [{
-              name: "foo", title: "cfo", email: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "703 is not a valid email"
-      end
-
       it "validates admin email" do
         put "api/locations/#{@loc.id}",
           { :admin_emails => ["moncef-at-ohanapi.org"] },
@@ -383,24 +354,6 @@ describe Ohana::API do
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response.status).to eq(200)
-      end
-
-      it "requires contact name" do
-        put "api/locations/#{@loc.id}",
-          { :contacts_attributes => [{ title: "cfo" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "name can't be blank"
-      end
-
-      it "requires contact title" do
-        put "api/locations/#{@loc.id}",
-          { :contacts_attributes => [{ name: "cfo" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "title can't be blank"
       end
 
       it "requires description" do

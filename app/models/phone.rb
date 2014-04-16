@@ -3,7 +3,7 @@ class Phone < ActiveRecord::Base
 
   normalize_attributes :department, :extension, :number, :vanity_number
 
-  validates_presence_of :number
+  validates_presence_of :number, message: "can't be blank for Phone"
 
   validates_formatting_of :number, :using => :us_phone,
     message: "%{value} is not a valid US phone number"

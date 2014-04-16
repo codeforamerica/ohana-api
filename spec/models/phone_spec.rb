@@ -25,27 +25,17 @@ describe Phone do
   it { should normalize_attribute(:vanity_number).
     from(" 800 YOU-NEED  ").to("800 YOU-NEED") }
 
-  describe "with invalid data" do
-    context "without a number" do
-      subject { build(:phone, number: nil)}
-      it { should_not be_valid }
-    end
-
-    context "with an empty number" do
-      subject { build(:phone, number: "")}
-      it { should_not be_valid }
-    end
-
-    context "with a non-US phone" do
-      subject { build(:phone, number: "33 6 65 08 51 12") }
-      it { should_not be_valid }
-    end
+  it do
+    should validate_presence_of(:number).
+      with_message("can't be blank for Phone")
   end
 
-  describe "valid data" do
-    context "with US phone containing dots" do
-      subject { build(:phone, number: "123.456.7890") }
-      it { should be_valid }
-    end
+  it { should allow_value("703-555-1212", "800.123.4567").
+    for(:number) }
+
+  it do
+    should_not allow_value("703-").
+      for(:number).
+      with_message('703- is not a valid US phone number')
   end
 end
