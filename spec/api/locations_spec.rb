@@ -592,6 +592,7 @@ describe Ohana::API do
         put "api/locations/#{@loc.id}",
           { :name => "changeme" },
           { 'HTTP_X_API_TOKEN' => @token }
+        @loc.reload
         sleep 1 # Elasticsearch needs time to update the index
         get "/api/search?keyword=changeme"
         json.first["name"].should == "changeme"
