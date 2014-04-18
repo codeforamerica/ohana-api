@@ -7,7 +7,6 @@ This is the API portion of the [Ohana API](http://ohanapi.org) project, an open 
 
 Before we started working on the Ohana API, the search interface that residents and social workers in San Mateo County had access to was the Peninsula Library System's [CIP portal](http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we developed a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa). We also built an [admin site](https://github.com/codeforamerica/ohana-api-admin) to allow organizations to update their own information.
 
-We encourage third-party developers to build additional applications on top of the API, such as this [SMS-based search interface](https://github.com/marks/ohana-sms) that Mark Silverberg started developing. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the [API documentation](http://ohanapi.herokuapp.com/api.docs).
 
 ## Current Status
 We are happy to announce that this project has been awarded a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which means we get to keep working on it in 2014! Our primary goals this year are: simplifying the installation process, streamlining the code, reducing dependencies, and preparing the project for broader installation by a variety of organizations and governments.
@@ -32,9 +31,9 @@ The easiest way to assign categories to a service is to use the [Ohana API Admin
 You can also try it from the Rails console, mimicking how the API would do it when it receives a [PUT request to update a service's categories](https://github.com/codeforamerica/ohana-api/blob/master/app/api/ohana.rb#L239-257).
 
 ## API documentation
-[http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
+[http://ohana-api-demo.herokuapp.com/api/docs](http://ohana-api-demo.herokuapp.com/api/docs)
 
-[Search documentation](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
+[Search documentation](http://ohana-api-demo.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
 
 ## Ruby wrapper
 [https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
@@ -202,7 +201,7 @@ X-Previous-Page
 Pagination links are available via the `Link` header.
 
 Here is an example response using cURL:
-`curl -s -D - http://ohanapi.herokuapp.com/api/search\?keyword\=shelter -o /dev/null`
+`curl -s -D - http://ohana-api-demo.herokuapp.com/api/search\?keyword\=shelter -o /dev/null`
 
 Response Headers:
 
@@ -212,7 +211,7 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Type: application/json
 Date: Wed, 19 Feb 2014 14:16:40 GMT
 Etag: "f104eaabf805bd034a7c376f15b66a4b"
-Link: <http://ohanapi.herokuapp.com/api/search?keyword=shelter&page=3>; rel="last", <http://ohanapi.herokuapp.com/api/search?keyword=shelter&page=2>; rel="next"
+Link: <http://ohana-api-demo.herokuapp.com/api/search?keyword=shelter&page=3>; rel="last", <http://ohana-api-demo.herokuapp.com/api/search?keyword=shelter&page=2>; rel="next"
 Server: nginx/1.4.4 + Phusion Passenger 4.0.37
 Status: 200 OK
 X-Current-Page: 1
@@ -242,7 +241,7 @@ shelters = Ohanakapa.search("search", keyword: "shelter")
 shelters.concat Ohanakapa.last_response.rels[:next].get.data
 ```
 
-Read more about [search](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15) in the API docs.
+Read more about [search](http://ohana-api-demo.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15) in the API docs.
 
 ### Tools
 We recommend these tools to interact with APIs:
