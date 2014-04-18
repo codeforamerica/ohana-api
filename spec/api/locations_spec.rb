@@ -17,14 +17,14 @@ describe Ohana::API do
         create_list(:location, 2)
         get "/api/locations"
         expect(response).to be_success
-        expect(json.length).to eq(1)
+        expect(json.length).to eq(2)
       end
 
       it "sorts results by creation date descending" do
         loc1 = create(:location)
         sleep 1
         loc2 = create(:nearby_loc)
-        get "/api/locations?page=2"
+        get "/api/locations?page=2&per_page=1"
         expect(response).to be_success
         expect(json.length).to eq(1)
         expect(json.first["accessibility"]).

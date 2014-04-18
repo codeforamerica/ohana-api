@@ -24,7 +24,7 @@ describe Ohana::API do
     context 'with valid keyword only' do
       before :each do
         @locations = create_list(:farmers_market_loc, 2)
-        get "/api/search?keyword=market"
+        get "/api/search?keyword=market&per_page=1"
       end
 
       it 'returns a successful status code' do
@@ -40,7 +40,7 @@ describe Ohana::API do
       end
 
       it 'is a paginated resource' do
-        get "/api/search?keyword=market&page=2"
+        get "/api/search?keyword=market&per_page=1&page=2"
         json.length.should == 1
         json.first["name"].should == @locations.last.name
       end

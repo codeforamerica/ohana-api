@@ -23,10 +23,10 @@ module Ohana
     resource "locations" do
       # GET /locatons
       # GET /locations?page=2
-      desc 'Returns all locations, 30 per page'
+      desc 'Returns all locations, 30 per page by default'
       params do
         optional :page, type: Integer, default: 1
-        optional :per_page, type: Integer
+        optional :per_page, type: Integer, default: 30
       end
       get do
         #garner.options(expires_in: 30.minutes) do
@@ -625,6 +625,7 @@ module Ohana
         optional :kind, type: Array, desc: "The type of organization, such as human services, farmers' markets"
         optional :category, type: String, desc: "The service category based on the OpenEligibility taxonomy"
         optional :page, type: Integer, default: 1
+        optional :per_page, type: Integer, default: 30
       end
       get do
         #garner.options(expires_in: 30.minutes) do

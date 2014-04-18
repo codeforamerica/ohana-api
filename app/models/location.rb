@@ -188,7 +188,7 @@ class Location < ActiveRecord::Base
   include Tire::Model::Search
   include Tire::Model::Callbacks
 
-  paginates_per Rails.env.test? ? 1 : 30
+  #paginates_per Rails.env.test? ? 1 : 30
 
   # INDEX_NAME is defined in config/initializers/tire.rb
   index_name INDEX_NAME
@@ -343,7 +343,7 @@ class Location < ActiveRecord::Base
     coords = result.first.coordinates.reverse if result.present?
 
     begin
-    tire.search(page: params[:page], per_page: Rails.env.test? ? 1 : 30) do
+    tire.search(page: params[:page], per_page: Location.per_page(params[:per_page])) do
       query do
         if params[:keyword].present?
           custom_filters_score do
@@ -452,6 +452,14 @@ class Location < ActiveRecord::Base
       end
     else
       5
+    end
+  end
+
+  def self.per_page(params)
+    if params.to_i > 100
+      100
+    else
+      params.to_i if params.present?
     end
   end
 
