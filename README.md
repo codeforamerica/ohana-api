@@ -12,9 +12,9 @@ We encourage third-party developers to build additional applications on top of t
 ## Current Status
 We are happy to announce that this project has been awarded a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which means we get to keep working on it in 2014! Our primary goals this year are: simplifying the installation process, streamlining the code, reducing dependencies, and preparing the project for broader installation by a variety of organizations and governments.
 
-One of the major changes (that is now complete as of early April 2014) is the replacement of MongoDB with Postgres. The main reason for that change was to reduce dependencies, but another important reason is that we want to upgrade the app to Rails 4, but Mongoid currently doesn't support Rails 4, and there's no specific date yet as to when that will happen.
+One of the major changes (that is now complete as of April 17, 2014) is the replacement of MongoDB with Postgres. The main reason for that change was to reduce dependencies, but another important reason is that we wanted to upgrade the app to Rails 4, but Mongoid didn't (maybe still doesn't?) support Rails 4.
 
-The next changes underway in April are: upgrading to Rails 4, and replacing Elasticsearch with the full-text search capabilities in Postgres.
+The next change underway in April is replacing Elasticsearch with the full-text search capabilities in Postgres.
 
 Because the project will be undergoing these major changes, we don't recommend using it for a production app just yet, but please feel free to try it out and provide feedback!
 
@@ -69,6 +69,11 @@ Please note that the instructions below have only been tested on OS X. If you ar
 **OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
 
 **Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
+
+**Linux**:
+
+* To make sure you are using the right Ruby version, we recommend [RVM](http://rvm.io), but you can use other Ruby version managers.
+* You need a Javascript runtime. We recommend Node.JS (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)). On Ubuntu, it's as simple as <code>sudo apt-get install nodejs</code>. On others, [check the official instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager).
 
 
 #### PostgreSQL
