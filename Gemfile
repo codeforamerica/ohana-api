@@ -74,7 +74,7 @@ gem 'kgio'
 gem 'memcachier'
 
 # API Documentation
-gem "grape-swagger", :git => "git://github.com/monfresh/grape-swagger.git", :ref => "557d38e151"
+gem "grape-swagger"
 gem 'swagger-ui_rails'
 
 # Production Monitoring
