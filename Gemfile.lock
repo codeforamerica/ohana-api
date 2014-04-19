@@ -15,15 +15,6 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
-  remote: git://github.com/monfresh/grape-swagger.git
-  revision: 557d38e151ad0756b9519e764dc16990f3b394ca
-  ref: 557d38e151
-  specs:
-    grape-swagger (0.6.0)
-      grape (>= 0.2.0)
-      kramdown
-
-GIT
   remote: git://github.com/monfresh/tire.git
   revision: 2d174e792a7e1a1be56cfee3974fb5a080a940a1
   ref: 2d174e792a
@@ -168,6 +159,10 @@ GEM
     grape-entity (0.4.0)
       activesupport
       multi_json (>= 1.3.2)
+    grape-swagger (0.7.2)
+      grape (>= 0.2.0)
+      grape-entity (>= 0.3.0)
+      kramdown (>= 1.3.1)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
@@ -187,7 +182,7 @@ GEM
     json (1.8.1)
     json_pure (1.8.1)
     kgio (2.9.1)
-    kramdown (1.1.0)
+    kramdown (1.3.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -379,7 +374,7 @@ DEPENDENCIES
   geocoder!
   grape
   grape-entity
-  grape-swagger!
+  grape-swagger
   haml-rails (~> 0.5.3)
   jquery-rails
   kaminari!
