@@ -158,9 +158,9 @@ In `config/application.yml`, set the following environment variables so that the
     rake secret
 
 ### Run the app
-Start the app locally on port 8080 using Passenger:
+Start the app locally on port 8080:
 
-    passenger start -p 8080
+    rails s -p 8080
 
 If for some reason, you can't run on port 8080, make sure you update `API_BASE_URL` and `API_BASE_HOST` in `config/application.yml` if you change the port number. You'll also need to update the port number in `OHANA_API_ENDPOINT` when running the Admin Interface.
 
