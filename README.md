@@ -144,11 +144,14 @@ If you get a `permission denied` message, set the correct permissions:
 
 then run `script/bootstrap` again.
 
+### Set up the environment variables
+Inside the `config` folder, you will find a file named `application.example.yml`. Rename it to `application.yml` and double check that it is in your `.gitignore` file (it should be by default).
+
 In `config/application.yml`, set the following environment variables so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
 
-    ADMIN_APP_TOKEN: your_token
     API_BASE_URL: http://localhost:8080/api/
     API_BASE_HOST: http://localhost:8080/
+    ADMIN_APP_TOKEN: your_token
 
 `your_token` can be any string you want for testing purposes, but in production, you should use a random string, which you can generate from the command line:
 

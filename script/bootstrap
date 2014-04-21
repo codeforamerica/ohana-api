@@ -8,5 +8,3 @@ bundle install --quiet "$@"
 script/setup_db --quiet
 
 script/users
-
-rails generate figaro:install
