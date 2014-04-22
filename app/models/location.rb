@@ -81,7 +81,6 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :phones
 
   has_many :services, dependent: :destroy
-  after_touch() { tire.update_index }
   accepts_nested_attributes_for :services
 
   #has_many :schedules, dependent: :destroy
@@ -186,7 +185,14 @@ class Location < ActiveRecord::Base
 
   ## ELASTICSEARCH
   include Tire::Model::Search
-  include Tire::Model::Callbacks
+
+  after_save    :update_tire_index
+  after_destroy :update_tire_index
+  after_touch   :update_tire_index
+
+  def update_tire_index
+    tire.update_index
+  end
 
   #paginates_per Rails.env.test? ? 1 : 30
 
