@@ -61,7 +61,12 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 ## Deploying to Heroku
 See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account).
 
-## Installation
+## Installation - The Fast & Easy Way
+
+We have a [virtual machine](https://github.com/codeforamerica/ohana-api-dev-box) with all the tools you need to get started.
+
+## Installation - The Long Way
+
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
 ###Prerequisites
