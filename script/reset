@@ -9,5 +9,5 @@ rake setup_db
 echo "===> Done populating the DB. Now preparing the test database..."
 rake db:test:load
 
-script/tire --quiet
+script/tire
 echo "===> All done!"

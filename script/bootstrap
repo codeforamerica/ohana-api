@@ -3,8 +3,8 @@
 set -e
 
 echo "===> Bundling..."
-bundle install --quiet "$@"
+bundle install
 
-script/setup_db --quiet
+script/setup_db
 
 script/users

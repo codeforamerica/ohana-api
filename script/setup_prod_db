@@ -10,4 +10,4 @@ rake db:schema:load
 echo "===> Populating up the DB..."
 rake setup_db
 
-script/tire --quiet
+script/tire
