@@ -16,7 +16,9 @@ task :load_data => :environment do
 
     locs = data_item["locations"]
     locs.each do |location|
-      org.locations.create!(location)
+      Location.without_callback(:update_tire_index) do
+        Location.create!(location.merge(organization_id: org.id))
+      end
     end
   end
   puts "===> Done populating the DB with #{file}."

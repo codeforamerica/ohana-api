@@ -24,8 +24,8 @@ class Organization < ActiveRecord::Base
 
   paginates_per Rails.env.test? ? 1 : 30
 
-  after_save :refresh_tire_index
-  def refresh_tire_index
+  after_save :update_tire_index
+  def update_tire_index
     self.locations.each { |loc| loc.tire.update_index }
   end
 

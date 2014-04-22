@@ -705,6 +705,12 @@ describe Ohana::API do
         expect { Service.find(@service_id) }.
           to raise_error(ActiveRecord::RecordNotFound)
       end
+
+      it "updates the search index" do
+        @location.index.refresh
+        get "api/search?keyword=vrs"
+        expect(json.length).to eq(0)
+      end
     end
 
   end
