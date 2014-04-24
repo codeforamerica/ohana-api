@@ -26,10 +26,7 @@ describe "Version in Accept Header" do
           'HTTP_ORIGIN' => 'http://ohanapi.org', 'HTTP_USER_AGENT' => "Rspec" }
     end
 
-    # This is probably a bug with Grape. It's returning a 404 instead.
-    # In other cases, it returns a 500.
-    # See this issue: https://github.com/intridea/grape/issues/464
-    xit "returns a 406 response" do
+    it "returns a 406 response" do
       expect(response.status).to eq(406)
     end
   end
@@ -42,10 +39,7 @@ describe "Version in Accept Header" do
           'HTTP_ORIGIN' => 'http://ohanapi.org', 'HTTP_USER_AGENT' => "Rspec" }
     end
 
-    # In api.rb, if the versioning has the strict option set to true,
-    # requests without a valid Accept Header will return a 404.
-    # Make sure you don't use the strict option.
-    it "returns a 200 response" do
+      it "returns a 200 response" do
       expect(response.status).to eq(200)
     end
   end

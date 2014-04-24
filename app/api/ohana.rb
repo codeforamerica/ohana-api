@@ -576,7 +576,7 @@ module Ohana
 
           *Single*:
 
-          `#{ENV["API_BASE_URL"]}search?kind=Human Services`
+          `#{ENV["API_BASE_URL"]}search?kind[]=Human Services`
 
           *Multiple*:
 

@@ -200,13 +200,13 @@ describe Ohana::API do
       end
 
       it "finds human services" do
-        get "api/search?kind=Human%20services"
+        get "api/search?kind[]=Human%20services"
         json.length.should == 1
         json.first["name"].should == "Library"
       end
 
       it "finds other" do
-        get "api/search?kind=other"
+        get "api/search?kind[]=other"
         json.length.should == 1
         json.first["name"].should == "VRS Services"
       end

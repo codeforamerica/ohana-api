@@ -79,11 +79,11 @@ describe Ohana::API do
         original_create_list(:location, 3)
         get 'api/search?keyword=parent&page=3'
         headers["Link"].should ==
-        '<http://www.example.com/api/search?keyword=parent&page=1>; '+
+        '<http://www.example.com/api/search?keyword=parent&page=1&per_page=30>; '+
         'rel="first", '+
-        '<http://www.example.com/api/search?keyword=parent&page=1>; '+
+        '<http://www.example.com/api/search?keyword=parent&page=1&per_page=30>; '+
         'rel="prev", '+
-        '<http://www.example.com/api/search?keyword=parent&page=1>; '+
+        '<http://www.example.com/api/search?keyword=parent&page=1&per_page=30>; '+
         'rel="last"'
         headers.keys.should_not include "X-Current-Page"
         headers.keys.should_not include "X-Next-Page"
@@ -105,7 +105,7 @@ describe Ohana::API do
         create(:location)
         get 'api/search?keyword=foobar'
         headers["Link"].should ==
-        '<http://www.example.com/api/search?keyword=foobar&page=0>; '+
+        '<http://www.example.com/api/search?keyword=foobar&page=0&per_page=30>; '+
         'rel="last"'
         headers["X-Total-Count"].should == "0"
       end

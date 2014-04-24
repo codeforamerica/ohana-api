@@ -5,7 +5,12 @@ module API
   class Root < Grape::API
     prefix 'api'
     format :json
-    version 'v1', using: :header, vendor: 'ohanapi'
+    # If you want to disallow an empty Accept header,
+    # add strict: true below. If you want to return a 404
+    # instead of a 406 when an invalid Accept header is supplied,
+    # remove cascade: false. See the grape README for more details:
+    # https://github.com/intridea/grape#header
+    version 'v1', using: :header, vendor: 'ohanapi', cascade: false
 
     helpers do
 
