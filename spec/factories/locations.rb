@@ -5,7 +5,6 @@ FactoryGirl.define do
     name "VRS Services"
     description "Provides jobs training"
     short_desc "short description"
-    kind :other
     accessibility [:tape_braille, :disabled_parking]
     organization
     address
@@ -20,7 +19,6 @@ FactoryGirl.define do
     name "Library"
     description "great books about jobs"
     short_desc "short description"
-    kind :human_services
     accessibility [:elevator]
     association :address, factory: :near
     languages ["spanish", "Arabic"]
@@ -32,7 +30,6 @@ FactoryGirl.define do
     name "No Address"
     description "no coordinates"
     short_desc "short description"
-    kind :test
     association :mail_address, factory: :po_box
     organization
     after(:create) { |loc| loc.index.refresh }
@@ -43,7 +40,6 @@ FactoryGirl.define do
     description "yummy food about jobs"
     short_desc "short description"
     association :address, factory: :far_west
-    kind :farmers_markets
     organization
     after(:create) { |loc| loc.index.refresh }
   end
@@ -53,7 +49,6 @@ FactoryGirl.define do
     description "yummy food"
     short_desc "short description"
     association :address, factory: :far
-    kind :test
     languages ["spanish", "Arabic"]
     organization
     after(:create) { |loc| loc.index.refresh }
@@ -63,7 +58,6 @@ FactoryGirl.define do
     name "Belmont Farmers Market with cat"
     description "yummy food"
     short_desc "short description"
-    kind :farmers_markets
     address
     organization
     latitude 37.568272

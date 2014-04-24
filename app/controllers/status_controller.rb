@@ -7,7 +7,7 @@ class StatusController < ApplicationController
     test_category = Category.first
 
     # Search check
-    test_search = Location.search(:kind => ["Farmers' Markets"])
+    test_search = Location.search(:keyword => "food")
 
     if test_location.nil? || test_category.nil?
       status = "DB did not return location or category"
@@ -23,7 +23,7 @@ class StatusController < ApplicationController
         "updated" => Time.now.to_i,
         "dependencies" => [
           "Mandrill",
-          "Mongolab",
+          "Postgres",
           "Redis To Go",
           "MemCachier",
           "Found Elasticsearch"

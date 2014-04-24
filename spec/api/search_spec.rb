@@ -192,53 +192,6 @@ describe Ohana::API do
       end
     end
 
-    context "with kind parameter" do
-      before(:each) do
-        loc1 = create(:location)
-        loc2 = create(:nearby_loc)
-        loc3 = create(:no_address)
-      end
-
-      it "finds human services" do
-        get "api/search?kind[]=Human%20services"
-        json.length.should == 1
-        json.first["name"].should == "Library"
-      end
-
-      it "finds other" do
-        get "api/search?kind[]=other"
-        json.length.should == 1
-        json.first["name"].should == "VRS Services"
-      end
-
-      it "filters out everything except kind=human and kind is not set" do
-        get "api/search?exclude=market_other"
-        headers["X-Total-Count"].should == "1"
-      end
-
-      it "filters out kind=other" do
-        get "api/search?exclude=Other"
-        headers["X-Total-Count"].should == "2"
-      end
-
-      it "allows multiple kinds" do
-        get "api/search?kind[]=Other&kind[]=human%20Services"
-        headers["X-Total-Count"].should == "2"
-      end
-
-      it "allows sorting by kind (default order is asc)" do
-        get "api/search?kind[]=Other&kind[]=Human%20services&sort=kind"
-        headers["X-Total-Count"].should == "2"
-        json.first["name"].should == "Library"
-      end
-
-      it "allows sorting by kind and ordering desc)" do
-        get "api/search?kind[]=Other&kind[]=human%20services&sort=kind&order=desc"
-        headers["X-Total-Count"].should == "2"
-        json.first["name"].should == "VRS Services"
-      end
-    end
-
     context "when keyword matches category name" do
       before(:each) do
         create(:far_loc)
@@ -418,19 +371,6 @@ describe Ohana::API do
     end
 
     describe 'sorting search results' do
-      context "general keyword search" do
-        before(:each) do
-          loc1 = create(:location)
-          loc2 = create(:nearby_loc)
-          loc3 = create(:farmers_market_loc)
-          loc4 = create(:no_address)
-        end
-        it "favors human services" do
-          get "api/search?keyword=jobs"
-          headers["X-Total-Count"].should == "3"
-          json.first["name"].should == "Library"
-        end
-      end
       context 'sort when neither keyword nor location is not present' do
         xit 'returns a helpful message about search query requirements' do
           get "api/search?sort=name"

@@ -4,10 +4,6 @@ module Entities
       a.map(&:text)
     end
 
-    format_with(:kind_text) do |kind|
-      kind.text
-    end
-
     # format_with(:slug_text) do |slugs|
     #   slugs.map(&:slug) if slugs.present?
     # end
@@ -22,7 +18,6 @@ module Entities
     expose          :emails, :unless => lambda { |o,_| o.emails.blank? }
     expose           :faxes, :using => Fax::Entity, :unless => lambda { |o,_| o.faxes.blank? }
     expose           :hours, :unless => lambda { |o,_| o.hours.blank? }
-    expose            :kind, :format_with => :kind_text, :unless => lambda { |o,_| o.kind.blank? }
     expose       :languages, :unless => lambda { |o,_| o.languages.blank? }
     expose    :mail_address, :using => MailAddress::Entity, :unless => lambda { |o,_| o.mail_address.blank? }
     expose            :name, :unless => lambda { |o,_| o.name.blank? }

@@ -33,20 +33,6 @@ en:
         tty: "TTY"
         wheelchair: "Wheelchair"
         wheelchair_van: "Wheelchair-accessible van"
-      kind:
-        arts: "Arts"
-        clinics: "Clinics"
-        education: "Education"
-        entertainment: "Entertainment"
-        farmers_markets: "Farmers' Markets"
-        government: "Government"
-        human_services: "Human Services"
-        libraries: "Libraries"
-        museums: "Museums"
-        other: "Other"
-        parks: "Parks"
-        sports: "Sports"
-        test: "Test"
 
 
 

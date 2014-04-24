@@ -28,12 +28,6 @@ class Location < ActiveRecord::Base
     :elevator, :ramp, :restroom, :tape_braille, :tty, :wheelchair,
     :wheelchair_van], multiple: true, scope: true
 
-  # Don't change the terms here! You can change their display
-  # name in config/locales/en.yml
-  enumerize :kind, in: [:arts, :clinics, :education, :entertainment,
-    :farmers_markets, :government, :human_services, :libraries, :museums,
-    :other, :parks, :sports, :test], scope: true
-
   # List of admin emails that should have access to edit a location's info.
   # Admin emails can be added to a location via the Admin GUI:
   # https://github.com/codeforamerica/ohana-api-admin
@@ -50,7 +44,7 @@ class Location < ActiveRecord::Base
   serialize :urls, Array
 
   attr_accessible :accessibility, :address, :admin_emails, :contacts,
-                  :description, :emails, :faxes, :hours, :kind, :languages,
+                  :description, :emails, :faxes, :hours, :languages,
                   :latitude, :longitude, :mail_address, :name, :phones,
                   :short_desc, :transportation, :urls, :address_attributes,
                   :contacts_attributes, :faxes_attributes,
@@ -86,7 +80,7 @@ class Location < ActiveRecord::Base
   #has_many :schedules, dependent: :destroy
   #accepts_nested_attributes_for :schedules
 
-  normalize_attributes :description, :hours, :kind, :name,
+  normalize_attributes :description, :hours, :name,
     :short_desc, :transportation, :urls
 
   # This is where you define all the fields that you want to be required
@@ -226,7 +220,6 @@ class Location < ActiveRecord::Base
     #hash.merge!("slugs" => slugs.map(&:slug)) if slugs.present?
     #hash[:organization].merge!("slugs" => organization.slugs.map(&:slug))
     hash.merge!("accessibility" => accessibility.map(&:text))
-    hash.merge!("kind" => kind.text) if kind.present?
     remove_nil_fields(hash,["organization","contacts","faxes","phones","services"])
     hash.to_json
   end
@@ -295,7 +288,6 @@ class Location < ActiveRecord::Base
           exact: { type: "string", index: "not_analyzed" }
         }
       indexes :description, analyzer: "snowball"
-      indexes :kind, type: "string", analyzer: "keyword"
       indexes :emails, type: "multi_field",
         fields: {
           exact:  { type: "string", index: "not_analyzed" },
@@ -384,10 +376,6 @@ class Location < ActiveRecord::Base
               end
             end
             filter do
-              filter :term, kind: "Human Services"
-              boost 25
-            end
-            filter do
               filter :term, "organization.name.exact" => "San Mateo County Human Services Agency"
               boost 30
             end
@@ -411,13 +399,6 @@ class Location < ActiveRecord::Base
           filter :geo_distance, coordinates: coords, distance: "#{Location.current_radius(params[:radius])}miles" if params[:location].present?
           #filter :geo_bounding_box, :coordinates => { :top_left => "37.7084,-122.521", :bottom_right => "37.1066,-122.08" }
           filter :term, :languages => params[:language].downcase if params[:language].present?
-          filter :terms, :kind => params[:kind].map(&:titleize) if params[:kind].present?
-          filter :not, {
-            :terms => {
-              :kind => ["Arts", "Entertainment", "Farmers' Markets",
-                "Government", "Libraries", "Museums", "Other", "Parks",
-                "Sports", "Test"] } } if params[:exclude] == "market_other"
-          filter :not, { :term => { :kind => "Other" } } if params[:exclude] == "Other"
           filter :missing, field: 'services.categories' if params[:include] == "no_cats"
           filter :term, "services.categories.name.exact" => params[:category] if params[:category].present?
           filter :term, "organization.name.exact" => params[:org_name] if params[:org_name].present?
@@ -426,9 +407,6 @@ class Location < ActiveRecord::Base
       end
       sort do
         by :_geo_distance, :coordinates => coords, :unit => "mi", :order => "asc" if params[:location].present?
-        if params[:sort] == "kind"
-          by :kind, params[:order] == "desc" ? "desc" : "asc"
-        end
         by :created_at, "desc" if params[:keyword].blank? && params[:location].blank? && params[:language].blank?
       end
     end

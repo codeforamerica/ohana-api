@@ -14,7 +14,7 @@ module Ohana
         {
           "organizations_url" => "#{ENV["API_BASE_URL"]}organizations{/organization_id}",
           "locations_url" => "#{ENV["API_BASE_URL"]}locations{/location_id}",
-          "general_search_url" => "#{ENV["API_BASE_URL"]}search{?keyword,location,radius,language,kind,category}",
+          "general_search_url" => "#{ENV["API_BASE_URL"]}search{?keyword,location,radius,language,category}",
           "rate_limit_url" => "#{ENV["API_BASE_URL"]}rate_limit"
         }
       end
@@ -554,42 +554,6 @@ module Ohana
 
           `Ohanakapa.categories.map(&:name)`
 
-          ### kind
-
-          The `kind` parameter can be used to filter locations by the
-          overall type of organization. Possible values are (exact spelling):
-
-              Arts
-              Clinics
-              Education
-              Entertainment
-              Farmers' Markets
-              Government
-              Human Services
-              Libraries
-              Museums
-              Other
-              Parks
-              Sports
-
-          Examples:
-
-          *Single*:
-
-          `#{ENV["API_BASE_URL"]}search?kind[]=Human Services`
-
-          *Multiple*:
-
-          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks`
-
-          *Sort by kind (default order is "asc")*:
-
-          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks&sort=kind`
-
-          *Sort by kind in descending order*:
-
-          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks&sort=kind&order=desc`
-
           ## JSON response
           The search results JSON includes the location's parent organization
           info, as well as the location's services, so you can have all the
@@ -622,7 +586,6 @@ module Ohana
         optional :location, type: String, desc: "An address or 5-digit ZIP code"
         optional :radius, type: Float, desc: "Distance in miles from the location parameter"
         optional :language, type: String, desc: "Languages other than English spoken at the location"
-        optional :kind, type: Array, desc: "The type of organization, such as human services, farmers' markets"
         optional :category, type: String, desc: "The service category based on the OpenEligibility taxonomy"
         optional :page, type: Integer, default: 1
         optional :per_page, type: Integer, default: 30

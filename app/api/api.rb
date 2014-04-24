@@ -40,9 +40,7 @@ module API
     end
 
     rescue_from ActiveRecord::RecordInvalid do |e|
-      if e.record.errors.first.first == :kind
-        message = "Please enter a valid value for Kind"
-      elsif e.record.errors.first.first == :accessibility
+      if e.record.errors.first.first == :accessibility
         message = "Please enter a valid value for Accessibility"
       else
         message = e.message

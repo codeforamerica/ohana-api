@@ -29,7 +29,6 @@ describe Ohana::API do
         expect(json.length).to eq(1)
         expect(json.first["accessibility"]).
           to eq(["Information on tape or in Braille", "Disabled Parking"])
-        expect(json.first["kind"]).to eq("Other")
         expect(json.first["organization"].keys).to include("locations_url")
         expect(json.first["url"]).
           to eq("#{ENV["API_BASE_URL"]}locations/#{loc1.id}")
@@ -168,7 +167,6 @@ describe Ohana::API do
             },
             "coordinates" => @location.coordinates,
             "description" => @location.description,
-            "kind"=>"Other",
             "name" => @location.name,
             "short_desc" => "short description",
             "slug" => "vrs-services",
@@ -263,19 +261,11 @@ describe Ohana::API do
       end
 
       it "allows setting whitelisted attributes" do
-        put "api/locations/#{@loc.id}", { :kind => "human_services" },
+        put "api/locations/#{@loc.id}", { :name => "New Name" },
           { 'HTTP_X_API_TOKEN' => @token }
         @loc.reload
         expect(response).to be_success
-        json["kind"].should == "Human Services"
-      end
-
-      it "validates the kind attribute" do
-        put "api/locations/#{@loc.id}", { :kind => "Human Services" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Please enter a valid value for Kind"
+        json["name"].should == "New Name"
       end
 
       it "validates the accessibility attribute" do
@@ -560,7 +550,7 @@ describe Ohana::API do
       end
 
       xit "doesn't geocode when address hasn't changed" do
-        put "api/locations/#{@loc.id}", { :kind => "entertainment" },
+        put "api/locations/#{@loc.id}", { :admin_emails => ["foo@bar.com"] },
           { 'HTTP_X_API_TOKEN' => @token }
       end
 
