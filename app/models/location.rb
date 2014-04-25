@@ -129,17 +129,6 @@ class Location < ActiveRecord::Base
     end
   end
 
-  #combines address fields together into one string
-  def full_address
-    if self.address.present?
-      "#{self.address.street}, #{self.address.city}, #{self.address.state} "+
-      "#{self.address.zip}"
-    elsif self.mail_address.present? && self.address.blank?
-      "#{self.mail_address.street}, #{self.mail_address.city}, "+
-      "#{self.mail_address.state} #{self.mail_address.zip}"
-    end
-  end
-
   def full_physical_address
     if self.address.present?
       "#{self.address.street}, #{self.address.city}, #{self.address.state} "+

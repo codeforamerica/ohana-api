@@ -16,11 +16,6 @@ describe Location do
   it { should have_many :services }
 
   # Instance methods
-  it { should respond_to(:full_address) }
-  its(:full_address) { should == "#{subject.address.street}, " +
-    "#{subject.address.city}, " + "#{subject.address.state} " +
-    "#{subject.address.zip}" }
-
   it { should respond_to(:full_physical_address) }
   its(:full_physical_address) { should == "#{subject.address.street}, " +
     "#{subject.address.city}, " + "#{subject.address.state} " +
