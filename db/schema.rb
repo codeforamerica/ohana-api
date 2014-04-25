@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140424182454) do
+ActiveRecord::Schema.define(version: 20140425033933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "city"
     t.text     "state"
     t.text     "zip"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "addresses", ["location_id"], name: "index_addresses_on_location_id", using: :btree
@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "main_url"
     t.text     "callback_url"
     t.text     "api_token"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "api_applications", ["api_token"], name: "index_api_applications_on_api_token", unique: true, using: :btree
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "name"
     t.text     "oe_id"
     t.text     "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "ancestry"
   end
 
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "fax"
     t.text     "phone"
     t.text     "extension"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "contacts", ["location_id"], name: "index_contacts_on_location_id", using: :btree
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.integer  "location_id"
     t.text     "number"
     t.text     "department"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "faxes", ["location_id"], name: "index_faxes_on_location_id", using: :btree
@@ -111,8 +111,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "transportation"
     t.text     "urls"
     t.text     "slug"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "locations", ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude", using: :btree
@@ -126,8 +126,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "city"
     t.text     "state"
     t.text     "zip"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "mail_addresses", ["location_id"], name: "index_mail_addresses_on_location_id", using: :btree
@@ -136,8 +136,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "name"
     t.text     "urls"
     t.text     "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
@@ -148,8 +148,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "department"
     t.text     "extension"
     t.text     "vanity_number"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "phones", ["location_id"], name: "index_phones_on_location_id", using: :btree
@@ -168,8 +168,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.text     "funding_sources"
     t.text     "service_areas"
     t.text     "keywords"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "services", ["location_id"], name: "index_services_on_location_id", using: :btree
@@ -190,8 +190,8 @@ ActiveRecord::Schema.define(version: 20140424182454) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
