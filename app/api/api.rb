@@ -10,7 +10,7 @@ module API
     # instead of a 406 when an invalid Accept header is supplied,
     # remove cascade: false. See the grape README for more details:
     # https://github.com/intridea/grape#header
-    version 'v1', using: :header, vendor: 'ohanapi', cascade: false
+    version 'v1', using: :header, vendor: 'ohanapi'
 
     helpers do
 
