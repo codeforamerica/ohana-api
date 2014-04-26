@@ -2,26 +2,26 @@
 require 'coveralls'
 Coveralls.wear!('rails')
 
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
-#Keep rspec/autorun disabled if you're using Zeus
-#require 'rspec/autorun'
+# Keep rspec/autorun disabled if you're using Zeus
+# require 'rspec/autorun'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 # This only works in Rails 4.1. Uncomment after upgrading from 4.0.4
-#ActiveRecord::Migration.maintain_test_schema!
+# ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
   config.include Warden::Test::Helpers
-  config.include AttributeNormalizer::RSpecMatcher, :type => :model
+  config.include AttributeNormalizer::RSpecMatcher, type: :model
   config.include Requests::JsonHelpers, type: :request
   Warden.test_mode!
   # ## Mock Framework
@@ -33,7 +33,7 @@ RSpec.configure do |config|
   # config.mock_with :rr
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = '#{::Rails.root}/spec/fixtures'
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -49,7 +49,7 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  config.order = 'random'
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -67,7 +67,7 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
-    REDIS.keys.each { |key| REDIS.del key if key.include?("throttle") }
+    REDIS.keys.each { |key| REDIS.del key if key.include?('throttle') }
     Warden.test_reset!
   end
 end

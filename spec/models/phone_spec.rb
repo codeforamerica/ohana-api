@@ -13,28 +13,37 @@ describe Phone do
   it { should allow_mass_assignment_of(:department) }
   it { should allow_mass_assignment_of(:vanity_number) }
 
-  it { should normalize_attribute(:number).
-    from(" 703 555-1212  ").to("703 555-1212") }
+  it do
+    should normalize_attribute(:number).
+      from(' 703 555-1212  ').to('703 555-1212')
+  end
 
-  it { should normalize_attribute(:extension).
-    from(" x5104  ").to("x5104") }
+  it do
+    should normalize_attribute(:extension).
+      from(' x5104  ').to('x5104')
+  end
 
-  it { should normalize_attribute(:department).
-    from(" Intake  ").to("Intake") }
+  it do
+    should normalize_attribute(:department).
+      from(' Intake  ').to('Intake')
+  end
 
-  it { should normalize_attribute(:vanity_number).
-    from(" 800 YOU-NEED  ").to("800 YOU-NEED") }
+  it do
+    should normalize_attribute(:vanity_number).
+      from(' 800 YOU-NEED  ').to('800 YOU-NEED')
+  end
 
   it do
     should validate_presence_of(:number).
       with_message("can't be blank for Phone")
   end
 
-  it { should allow_value("703-555-1212", "800.123.4567").
-    for(:number) }
+  it do
+    should allow_value('703-555-1212', '800.123.4567').for(:number)
+  end
 
   it do
-    should_not allow_value("703-").
+    should_not allow_value('703-').
       for(:number).
       with_message('703- is not a valid US phone number')
   end

@@ -2,12 +2,12 @@
 
 FactoryGirl.define do
   factory :contact do
-    name "Moncef Belyamani"
-    title "CTO"
+    name 'Moncef Belyamani'
+    title 'CTO'
 
     factory :foobar do
-      name "Foo"
-      title "Bar"
+      name 'Foo'
+      title 'Bar'
     end
   end
 end

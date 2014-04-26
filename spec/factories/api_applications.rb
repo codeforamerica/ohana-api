@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :api_application do
-    name "test app"
-    main_url "http://localhost"
-    callback_url "http://localhost/callback"
+    name 'test app'
+    main_url 'http://localhost'
+    callback_url 'http://localhost/callback'
   end
 end

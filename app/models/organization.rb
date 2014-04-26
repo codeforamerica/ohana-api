@@ -14,7 +14,7 @@ class Organization < ActiveRecord::Base
   end
 
   has_many :locations, dependent: :destroy
-  #accepts_nested_attributes_for :locations
+  # accepts_nested_attributes_for :locations
 
   normalize_attributes :name
 
@@ -26,15 +26,15 @@ class Organization < ActiveRecord::Base
 
   after_save :update_tire_index
   def update_tire_index
-    self.locations.each { |loc| loc.tire.update_index }
+    locations.each { |loc| loc.tire.update_index }
   end
 
   def url
-    "#{ENV["API_BASE_URL"]}organizations/#{self.id}"
+    "#{ENV['API_BASE_URL']}organizations/#{id}"
   end
 
   def locations_url
-    "#{ENV["API_BASE_URL"]}organizations/#{self.id}/locations"
+    "#{ENV['API_BASE_URL']}organizations/#{id}/locations"
   end
 
   def domain_name
@@ -43,16 +43,10 @@ class Organization < ActiveRecord::Base
 
   include Grape::Entity::DSL
   entity do
-    # format_with(:slug_text) do |slugs|
-    #   slugs.map(&:slug) if slugs.present?
-    # end
-
     expose :id
     expose :name
-    #expose :slugs, :format_with => :slug_text
     expose :slug
     expose :url
     expose :locations_url
   end
-
 end

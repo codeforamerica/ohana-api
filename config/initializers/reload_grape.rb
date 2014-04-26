@@ -1,5 +1,5 @@
-if Rails.env == "development"
-  api_files = Dir["#{Rails.root}/app/api/**/*.rb"]
+if Rails.env == 'development'
+  api_files = Dir['#{Rails.root}/app/api/**/*.rb']
   api_reloader = ActiveSupport::FileUpdateChecker.new(api_files) do
     Rails.application.reload_routes!
   end

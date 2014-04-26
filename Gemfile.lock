@@ -60,6 +60,7 @@ GEM
     ansi (1.4.3)
     arel (4.0.2)
     arrayfields (4.9.2)
+    ast (2.0.0)
     attribute_normalizer (1.1.0)
     awesome_print (1.2.0)
     axiom-types (0.1.1)
@@ -222,12 +223,16 @@ GEM
       mini_portile (~> 0.5.0)
     orm_adapter (0.5.0)
     parallel (1.0.0)
+    parser (2.1.9)
+      ast (>= 1.1, < 3.0)
+      slop (~> 3.4, >= 3.4.5)
     passenger (4.0.41)
       daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
     pg (0.17.1)
     polyglot (0.3.4)
+    powerpack (0.0.9)
     protected_attributes (1.0.7)
       activemodel (>= 4.0.1, < 5.0)
     quiet_assets (1.0.2)
@@ -294,6 +299,12 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
+    rubocop (0.21.0)
+      json (>= 1.7.7, < 2)
+      parser (~> 2.1.9)
+      powerpack (~> 0.0.6)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.4)
     ruby-progressbar (1.4.2)
     ruby2ruby (2.0.8)
       ruby_parser (~> 3.1)
@@ -314,6 +325,7 @@ GEM
       multi_json
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
+    slop (3.5.0)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -390,6 +402,7 @@ DEPENDENCIES
   rails_12factor
   redis
   rspec-rails (~> 2.14.2)
+  rubocop
   sass-rails (~> 4.0.2)
   shoulda-matchers
   swagger-ui_rails

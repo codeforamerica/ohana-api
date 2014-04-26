@@ -4,7 +4,6 @@
 # validates :emails, array: {
 #                      format: { with: /some regex/,
 #                                 message: "Please enter a valid email" } }
-
 class ArrayValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, values)
     if values.present?

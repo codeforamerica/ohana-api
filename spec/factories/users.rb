@@ -16,7 +16,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :unconfirmed_user, :class => :user do
+  factory :unconfirmed_user, class: :user do
     name 'Unconfirmed User'
     email 'invalid@example.com'
     password 'mong01dtest'

@@ -1,31 +1,33 @@
 module Features
+  # Helper methods you can use in specs to perform common and
+  # repetitive actions.
   module SessionHelpers
     def sign_in(email, password)
       visit '/users/sign_in'
-      within("#new_user") do
-        fill_in 'Email', :with => email
-        fill_in 'Password', :with => password
+      within('#new_user') do
+        fill_in 'Email',    with: email
+        fill_in 'Password', with: password
       end
       click_button 'Sign in'
     end
 
     def create_api_app(name, main_url, callback_url)
-      click_link "Register new application"
-      within("#new_api_application") do
-        fill_in 'Name',         :with => name
-        fill_in 'Main URL',     :with => main_url
-        fill_in 'Callback URL', :with => callback_url
+      click_link 'Register new application'
+      within('#new_api_application') do
+        fill_in 'Name',         with: name
+        fill_in 'Main URL',     with: main_url
+        fill_in 'Callback URL', with: callback_url
       end
-      click_button "Register application"
+      click_button 'Register application'
     end
 
     def update_api_app(name, main_url, callback_url)
-      within(".edit_api_application") do
-        fill_in 'Name',         :with => name
-        fill_in 'Main URL',     :with => main_url
-        fill_in 'Callback URL', :with => callback_url
+      within('.edit_api_application') do
+        fill_in 'Name',         with: name
+        fill_in 'Main URL',     with: main_url
+        fill_in 'Callback URL', with: callback_url
       end
-      click_button "Update application"
+      click_button 'Update application'
     end
 
     def visit_app(name, main_url)

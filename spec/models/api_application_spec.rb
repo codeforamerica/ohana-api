@@ -13,10 +13,12 @@ describe ApiApplication do
 
   it { should_not allow_mass_assignment_of(:api_token) }
 
-  it { should allow_value("http://localhost", "https://localhost").
-    for(:main_url) }
+  it do
+    should allow_value('http://localhost', 'https://localhost').
+      for(:main_url)
+  end
 
-  it { should_not allow_value("http://").for(:main_url) }
+  it { should_not allow_value('http://').for(:main_url) }
 
-  it { should_not allow_value("http://").for(:callback_url) }
+  it { should_not allow_value('http://').for(:callback_url) }
 end

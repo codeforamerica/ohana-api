@@ -2,99 +2,117 @@ require 'spec_helper'
 
 describe Ohana::API do
 
-  describe "PUT Requests for Services" do
+  describe 'PUT Requests for Services' do
     include DefaultUserAgent
     include Features::SessionHelpers
 
-    describe "PUT /api/services/:id/" do
+    describe 'PUT /api/services/:id/' do
       before(:each) do
         create_service
-        @token = ENV["ADMIN_APP_TOKEN"]
+        @token = ENV['ADMIN_APP_TOKEN']
       end
 
       it "doesn't allow setting non-whitelisted attributes" do
-        put "api/services/#{@service.id}/",
-          { :foo => "bar", :keywords => ["test"] },
-          { 'HTTP_X_API_TOKEN' => @token }
+        put(
+          "api/services/#{@service.id}/",
+          { foo: 'bar', keywords: ['test'] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @service.reload
         expect(response).to be_success
-        json.should_not include "foo"
-        json["keywords"].should == ["test"]
+        json.should_not include 'foo'
+        json['keywords'].should == ['test']
       end
 
-      it "updates Elasticsearch index when service changes" do
-        put "api/services/#{@service.id}/",
-          { :service_areas => ["East Palo Alto", "San Mateo County"] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        sleep 1 #Elasticsearch needs time to update the index
-        get "/api/search?keyword=yoga"
-        json.first["services"].first["service_areas"].should == ["East Palo Alto", "San Mateo County"]
+      it 'updates Elasticsearch index when service changes' do
+        put(
+          "api/services/#{@service.id}/",
+          { service_areas: ['East Palo Alto', 'San Mateo County'] },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        sleep 1 # Elasticsearch needs time to update the index
+        get '/api/search?keyword=yoga'
+        json.first['services'].first['service_areas'].
+          should == ['East Palo Alto', 'San Mateo County']
       end
 
-      it "validates service areas" do
-        put "api/services/#{@service.id}/",
-          { :service_areas => ["belmont", "Atherton"] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates service areas' do
+        put(
+          "api/services/#{@service.id}/",
+          { service_areas: %w(belmont Atherton) },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @service.reload
         expect(response.status).to eq(400)
-        json["message"].should include "At least one service area"
+        json['message'].should include 'At least one service area'
       end
 
-      it "ensures keywords is an array" do
-        put "api/services/#{@service.id}/",
-          { :keywords => "health" },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'ensures keywords is an array' do
+        put(
+          "api/services/#{@service.id}/",
+          { keywords: 'health' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @service.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Keywords must be an array"
+        json['message'].should include 'Keywords must be an array'
       end
 
-      it "ensures service_areas is an array" do
-        put "api/services/#{@service.id}/",
-          { :service_areas => "health" },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'ensures service_areas is an array' do
+        put(
+          "api/services/#{@service.id}/",
+          { service_areas: 'health' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @service.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Service areas must be an array"
+        json['message'].should include 'Service areas must be an array'
       end
     end
 
-    describe "Update a service without a valid token" do
+    describe 'Update a service without a valid token' do
       it "doesn't allow updating a service witout a valid token" do
         create_service
-        put "api/services/#{@service.id}", { :name => "new name" },
-          { 'HTTP_X_API_TOKEN' => "invalid_token" }
+        put(
+          "api/services/#{@service.id}",
+          { name: 'new name' },
+          'HTTP_X_API_TOKEN' => 'invalid_token'
+        )
         @service.reload
         expect(response.status).to eq(401)
       end
     end
 
-    describe "PUT /api/services/:services_id/categories" do
+    describe 'PUT /api/services/:services_id/categories' do
       before(:each) do
         create_service
-        @token = ENV["ADMIN_APP_TOKEN"]
-        @food = Category.create!(:name => "Food", :oe_id => "101")
+        @token = ENV['ADMIN_APP_TOKEN']
+        @food = Category.create!(name: 'Food', oe_id: '101')
       end
 
-      context "when the passed in slug exists" do
+      context 'when the passed in slug exists' do
         it "updates a service's categories" do
-          put "api/services/#{@service.id}/categories",
-            { :category_slugs => ["food"]},
-            { 'HTTP_X_API_TOKEN' => @token }
+          put(
+            "api/services/#{@service.id}/categories",
+            { category_slugs: ['food'] },
+            'HTTP_X_API_TOKEN' => @token
+          )
           @service.reload
           expect(response).to be_success
-          json["categories"].first["name"].should == "Food"
+          json['categories'].first['name'].should == 'Food'
         end
       end
 
       context "when the passed in slug doesn't exist" do
-        it "raises a 404 error" do
-          put "api/services/#{@service.id}/categories",
-            { :category_slugs => ["health"]},
-            { 'HTTP_X_API_TOKEN' => @token }
+        it 'raises a 404 error' do
+          put(
+            "api/services/#{@service.id}/categories",
+            { category_slugs: ['health'] },
+            'HTTP_X_API_TOKEN' => @token
+          )
           @service.reload
           expect(response.status).to eq(404)
-          json["message"].should include "could not be found"
+          json['message'].should include 'could not be found'
         end
       end
     end

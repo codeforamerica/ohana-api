@@ -22,38 +22,45 @@ describe Service do
   it { should allow_mass_assignment_of(:urls) }
   it { should allow_mass_assignment_of(:wait) }
 
-  it { should normalize_attribute(:audience).
-    from(" youth  ").
-    to("youth") }
+  it do
+    should normalize_attribute(:audience).from(' youth  ').to('youth')
+  end
 
-  it { should normalize_attribute(:description).
-    from(" Youth Development  ").
-    to("Youth Development") }
+  it do
+    should normalize_attribute(:description).from(' Youth Development  ').
+      to('Youth Development')
+  end
 
-  it { should normalize_attribute(:eligibility).
-    from(" Youth Development  ").
-    to("Youth Development") }
+  it do
+    should normalize_attribute(:eligibility).from(' Youth Development  ').
+      to('Youth Development')
+  end
 
-  it { should normalize_attribute(:fees).
-    from(" Youth Development  ").
-    to("Youth Development") }
+  it do
+    should normalize_attribute(:fees).from(' Youth Development  ').
+      to('Youth Development')
+  end
 
-  it { should normalize_attribute(:how_to_apply).
-    from(" Youth Development  ").
-    to("Youth Development") }
+  it do
+    should normalize_attribute(:how_to_apply).from(' Youth Development  ').
+      to('Youth Development')
+  end
 
-  it { should normalize_attribute(:name).
-    from(" Youth Development  ").
-    to("Youth Development") }
+  it do
+    should normalize_attribute(:name).from(' Youth Development  ').
+      to('Youth Development')
+  end
 
-  it { should normalize_attribute(:short_desc).
-    from(" Youth Development  ").
-    to("Youth Development") }
+  it do
+    should normalize_attribute(:short_desc).from(' Youth Development  ').
+      to('Youth Development')
+  end
 
-  it { should normalize_attribute(:wait).
-    from(" Youth Development  ").
-    to("Youth Development") }
+  it do
+    should normalize_attribute(:wait).from(' Youth Development  ').
+      to('Youth Development')
+  end
 
-  it { should allow_value(["http://www.codeforamerica.org"]).for(:urls) }
+  it { should allow_value(['http://www.codeforamerica.org']).for(:urls) }
 
 end
