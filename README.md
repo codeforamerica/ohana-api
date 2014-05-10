@@ -110,12 +110,6 @@ From the Terminal, navigate to the directory into which you'd like to create a c
 
 _Note: Installation and preparation can take several minutes to complete!_
 
-If you get a `permission denied` message, set the correct permissions:
-
-    chmod -R 755 script
-
-then run `script/bootstrap` again.
-
 ### Set up the environment variables & customizable settings
 Inside the `config` folder, you will find a file named `application.example.yml`. Rename it to `application.yml` and double check that it is in your `.gitignore` file (it should be by default).
 
