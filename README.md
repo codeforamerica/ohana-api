@@ -71,7 +71,7 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 #### Javascript Runtime
 
-* You need a Javascript runtime. We recommend Node.JS (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)). On Ubuntu, run <code>sudo apt-get install nodejs</code>. On others, [check the official instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager).
+* You need a Javascript runtime. [We recommend Node.JS](https://github.com/codeforamerica/howto/blob/master/Node.js.md) (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)).
 
 #### PostgreSQL
 **OS X**
