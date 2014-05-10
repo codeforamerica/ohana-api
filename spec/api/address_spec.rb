@@ -158,7 +158,20 @@ describe Ohana::API do
   end
 
   describe 'POST /api/locations/:location/address' do
-    it 'replaces the address for the specified location' do
+    it "creates an address if one doesn't exist" do
+      loc2 = create(:no_address)
+      post(
+        "api/locations/#{loc2.id}/address",
+        @attrs,
+        'HTTP_X_API_TOKEN' => @token
+      )
+      expect(response).to be_success
+      get "api/locations/#{loc2.id}"
+      expect(json['address']['street']).to eq 'foo'
+      expect(Address.count).to eq 2
+    end
+
+    it "doesn't create a new address if one already exists" do
       post(
         "api/locations/#{@loc.id}/address",
         @attrs,
@@ -166,7 +179,8 @@ describe Ohana::API do
       )
       expect(response).to be_success
       get "api/locations/#{@loc.id}"
-      expect(json['address']['street']).to eq 'foo'
+      expect(json['address']['street']).to eq '1800 Easton Drive'
+      expect(Address.count).to eq 1
     end
 
     it "doesn't allow creating a address witout a valid token" do

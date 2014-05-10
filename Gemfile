@@ -54,7 +54,7 @@ group :development do
 end
 
 # Geocoding
-gem 'geocoder', git: 'git://github.com/alexreisner/geocoder.git', ref: '3568e5e8e6'
+gem 'geocoder'
 gem 'redis'
 
 # Format validation for URLs, phone numbers, zipcodes
@@ -66,7 +66,7 @@ gem 'rack-cors', require: 'rack/cors'
 # API Design
 gem 'grape'
 gem 'grape-entity'
-gem 'kaminari', git: 'git://github.com/amatsuda/kaminari.git', ref: '01f65e112d'
+gem 'kaminari'
 
 # Caching
 # gem 'garner'
@@ -96,9 +96,12 @@ gem 'enumerize'
 gem 'figaro'
 
 # Search
-gem 'tire', git: 'git://github.com/monfresh/tire.git', ref: '2d174e792a'
+gem 'pg_search'
 
 # Nested categories for OpenEligibility
 gem 'ancestry'
 
 gem 'friendly_id', '~> 5.0.3'
+
+# Customizable Settings
+gem 'rails_config'

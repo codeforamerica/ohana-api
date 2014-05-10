@@ -96,18 +96,18 @@ describe Ohana::API do
     end
 
     context 'with invalid zip' do
-      it "specifies that an 'Invalid ZIP code or address' was passed" do
+      it 'returns no results' do
         create(:farmers_market_loc)
         get 'api/search?location=00000'
-        json['description'].should == 'Invalid ZIP code or address.'
+        expect(json.length).to eq 0
       end
     end
 
     context 'with invalid location' do
-      it "specifies that an 'Invalid ZIP code or address' was passed" do
+      it 'returns no results' do
         create(:farmers_market_loc)
         get 'api/search?location=94403ab'
-        json['description'].should == 'Invalid ZIP code or address.'
+        expect(json.length).to eq 0
       end
     end
 
@@ -200,7 +200,6 @@ describe Ohana::API do
         create_service
         @service.category_ids = [cat.id]
         @service.save
-        @location.index.refresh
       end
       it 'boosts location whose services category name matches the query' do
         get 'api/search?keyword=food'
@@ -215,10 +214,8 @@ describe Ohana::API do
         create(:farmers_market_loc)
         cat = create(:jobs)
         create_service
-        @service = @location.services.first
         @service.category_ids = [cat.id]
         @service.save
-        @location.index.refresh
       end
 
       it 'only returns locations whose category name matches the query' do
@@ -239,6 +236,27 @@ describe Ohana::API do
       end
     end
 
+    context 'with category and keyword parameters' do
+      before(:each) do
+        loc1 = create(:nearby_loc)
+        loc2 = create(:farmers_market_loc)
+        loc3 = create(:location)
+
+        cat = create(:jobs)
+        [loc1, loc2, loc3].each do |loc|
+          loc.services.create!(attributes_for(:service))
+          service = loc.services.first
+          service.category_ids = [cat.id]
+          service.save
+        end
+      end
+
+      it 'returns unique locations when keyword matches the query' do
+        get 'api/search?category=Jobs&keyword=jobs'
+        expect(headers['X-Total-Count']).to eq '3'
+      end
+    end
+
     context 'with org_name parameter' do
       before(:each) do
         create(:nearby_loc)
@@ -246,6 +264,30 @@ describe Ohana::API do
       end
       it 'only returns locations whose org name matches the query' do
         get 'api/search?org_name=Food+Stamps'
+        expect(headers['X-Total-Count']).to eq '1'
+        json.first['name'].should == 'Library'
+      end
+    end
+
+    context 'with keyword and location parameters' do
+      before(:each) do
+        create(:nearby_loc)
+        create(:location)
+      end
+      it 'only returns locations matching both parameters' do
+        get 'api/search?keyword=books&location=Burlingame'
+        expect(headers['X-Total-Count']).to eq '1'
+        json.first['name'].should == 'Library'
+      end
+    end
+
+    context 'when keyword parameter has multiple words' do
+      before(:each) do
+        create(:nearby_loc)
+        create(:location)
+      end
+      it 'only returns locations matching all words' do
+        get 'api/search?keyword=library%20books%20jobs'
         expect(headers['X-Total-Count']).to eq '1'
         json.first['name'].should == 'Library'
       end
@@ -331,15 +373,9 @@ describe Ohana::API do
         expect(headers['X-Total-Count']).to eq '0'
       end
 
-      it "doesn't return results for co.sanmateo.ca.us domain" do
-        create(:location, emails: ['info@co.sanmateo.ca.us'])
-        get 'api/search?domain=co.sanmateo.ca.us'
-        expect(headers['X-Total-Count']).to eq '0'
-      end
-
-      it "doesn't return results for smcgov.org domain" do
-        create(:location, emails: ['info@smcgov.org'])
-        get 'api/search?domain=smcgov.org'
+      it 'extracts domain name from parameter' do
+        create(:location, emails: ['info@sbcglobal.net'])
+        get 'api/search?domain=info@sbcglobal.net'
         expect(headers['X-Total-Count']).to eq '0'
       end
     end

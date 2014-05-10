@@ -27,14 +27,13 @@ class StatusController < ApplicationController
   end
 
   def test_search
-    Location.search(keyword: 'food')
+    Location.text_search(keyword: 'food')
   end
 
   DEPENDENCIES = [
     'Mandrill',
     'Postgres',
     'Redis To Go',
-    'MemCachier',
-    'Found Elasticsearch'
+    'MemCachier'
   ]
 end

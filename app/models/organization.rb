@@ -24,11 +24,6 @@ class Organization < ActiveRecord::Base
 
   paginates_per Rails.env.test? ? 1 : 30
 
-  after_save :update_tire_index
-  def update_tire_index
-    locations.each { |loc| loc.tire.update_index }
-  end
-
   def url
     "#{ENV['API_BASE_URL']}organizations/#{id}"
   end

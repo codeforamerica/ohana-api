@@ -12,5 +12,3 @@ rake db:test:load
 
 echo "===> Populating up the DB..."
 rake setup_db
-
-script/tire

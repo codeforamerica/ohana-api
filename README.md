@@ -13,12 +13,6 @@ You can see a running version of the application at
 ## Current Status
 We are happy to announce that this project has been awarded a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which means we get to keep working on it in 2014! Our primary goals this year are: simplifying the installation process, streamlining the code, reducing dependencies, and preparing the project for broader installation by a variety of organizations and governments.
 
-One of the major changes (that is now complete as of April 17, 2014) is the replacement of MongoDB with Postgres. The main reason for that change was to reduce dependencies, but another important reason is that we wanted to upgrade the app to Rails 4, but Mongoid didn't (maybe still doesn't?) support Rails 4.
-
-The next change underway in April is replacing Elasticsearch with the full-text search capabilities in Postgres.
-
-Because the project will be undergoing these major changes, we don't recommend using it for a production app just yet, but please feel free to try it out and provide feedback!
-
 ## Data Schema
 If you would like to try out the current version of the project that uses Postgres, please read the Wiki article about [Populating the Postgres DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
 
@@ -54,7 +48,6 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 * Rails version 4.0.4
 * Postgres
 * Redis
-* ElasticSearch <=1.0.1
 * API framework: Grape
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
@@ -111,25 +104,6 @@ Follow the Homebrew instructions if you want Redis to start automatically every 
 
 See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
 
-#### ElasticSearch <=1.0.1
-**OS X**
-
-Please make sure you are using Elasticsearch 1.0.1 or lower. This app is currently not compatible with Elasticsearch 1.1.0.
-
-On OS X, the easiest way to install ElasticSearch is with Homebrew:
-
-    brew install https://raw.github.com/Homebrew/homebrew/9b8103f6fb570dc3a5ce5b5b84cb76fb6915cace/Library/Formula/elasticsearch.rb
-
-Follow the Homebrew instructions to launch ElasticSearch.
-
-If you already had 1.0.1 and then upgraded to 1.1.0, you can switch back to 1.0.1 with this command:
-
-    brew switch elasticsearch 1.0.1
-
-**Other**
-
-Visit the Download page on elasticsearch.org for steps to install on other systems: [http://www.elasticsearch.org/download/](http://www.elasticsearch.org/download/)
-
 ### Clone the app on your local machine:
 
 From the Terminal, navigate to the directory into which you'd like to create a copy of the Ohana API source code. For instance, on OS X `cd ~` will place you in your home directory. Next download this repository into your working directory with:
@@ -149,7 +123,7 @@ If you get a `permission denied` message, set the correct permissions:
 
 then run `script/bootstrap` again.
 
-### Set up the environment variables
+### Set up the environment variables & customizable settings
 Inside the `config` folder, you will find a file named `application.example.yml`. Rename it to `application.yml` and double check that it is in your `.gitignore` file (it should be by default).
 
 In `config/application.yml`, set the following environment variables so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
@@ -161,6 +135,10 @@ In `config/application.yml`, set the following environment variables so that the
 `your_token` can be any string you want for testing purposes, but in production, you should use a random string, which you can generate from the command line:
 
     rake secret
+
+Inside the `config` folder, you will also find a file called `settings.yml`.
+In that file, there are 3 variables you can customize. Please read through the
+instructions in that file carefully.
 
 ### Run the app
 Start the app locally on port 8080:

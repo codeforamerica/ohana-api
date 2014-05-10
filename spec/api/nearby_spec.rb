@@ -10,7 +10,7 @@ describe "GET 'nearby'" do
   end
 
   it 'is paginated' do
-    get "api/locations/#{@loc.id}/nearby?page=2&radius=5"
+    get "api/locations/#{@loc.id}/nearby?page=2&per_page=1&radius=5"
     json.first['name'].should == 'Belmont Farmers Market'
   end
 

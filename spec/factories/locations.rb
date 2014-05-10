@@ -8,7 +8,6 @@ FactoryGirl.define do
     accessibility [:tape_braille, :disabled_parking]
     organization
     address
-    after(:create) { |loc| loc.index.refresh }
 
     factory :location_with_admin do
       admin_emails ['moncef@smcgov.org']
@@ -23,7 +22,6 @@ FactoryGirl.define do
     association :address, factory: :near
     languages %w(spanish Arabic)
     association :organization, factory: :nearby_org
-    after(:create) { |loc| loc.index.refresh }
   end
 
   factory :no_address, class: Location do
@@ -32,7 +30,6 @@ FactoryGirl.define do
     short_desc 'short description'
     association :mail_address, factory: :po_box
     organization
-    after(:create) { |loc| loc.index.refresh }
   end
 
   factory :farmers_market_loc, class: Location do
@@ -41,7 +38,6 @@ FactoryGirl.define do
     short_desc 'short description'
     association :address, factory: :far_west
     organization
-    after(:create) { |loc| loc.index.refresh }
   end
 
   factory :far_loc, class: Location do
@@ -51,7 +47,6 @@ FactoryGirl.define do
     association :address, factory: :far
     languages %w(spanish Arabic)
     organization
-    after(:create) { |loc| loc.index.refresh }
   end
 
   factory :loc_with_nil_fields, class: Location do
@@ -62,6 +57,5 @@ FactoryGirl.define do
     organization
     latitude 37.568272
     longitude(-122.3250474)
-    after(:create) { |loc| loc.index.refresh }
   end
 end

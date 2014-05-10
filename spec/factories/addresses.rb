@@ -16,7 +16,7 @@ FactoryGirl.define do
   end
 
   factory :far, class: Address do
-    street '621 Magnolia Avenue'
+    street '1000 Magnolia Avenue'
     city 'Millbrae'
     state 'CA'
     zip '94030'

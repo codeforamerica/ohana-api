@@ -7,7 +7,7 @@ describe Ohana::API do
     include Features::SessionHelpers
 
     describe 'GET /api/locations' do
-      xit 'returns an empty array when no locations exist' do
+      it 'returns an empty array when no locations exist' do
         get '/api/locations'
         expect(response).to be_success
         json.should == []
@@ -22,7 +22,6 @@ describe Ohana::API do
 
       it 'sorts results by creation date descending' do
         loc1 = create(:location)
-        sleep 1
         create(:nearby_loc)
         get '/api/locations?page=2&per_page=1'
         expect(response).to be_success
@@ -45,7 +44,6 @@ describe Ohana::API do
       it 'displays mail_address when present' do
         loc = create(:location)
         loc.create_mail_address!(attributes_for(:mail_address))
-        loc.index.refresh
         get '/api/locations'
         json.first['mail_address']['street'].should == '1 davis dr'
       end
@@ -53,7 +51,6 @@ describe Ohana::API do
       it 'displays contacts when present' do
         loc = create(:location)
         loc.contacts.create!(attributes_for(:contact))
-        loc.index.refresh
         get '/api/locations'
         json.first['contacts'].first['title'].should == 'CTO'
       end
@@ -61,7 +58,6 @@ describe Ohana::API do
       it 'displays faxes when present' do
         loc = create(:location)
         loc.faxes.create!(attributes_for(:fax))
-        loc.index.refresh
         get '/api/locations'
         json.first['faxes'].first['number'].should == '703-555-1212'
       end
@@ -69,7 +65,6 @@ describe Ohana::API do
       it 'displays phones when present' do
         loc = create(:location)
         loc.phones.create!(attributes_for(:phone))
-        loc.index.refresh
         get '/api/locations'
         json.first['phones'].first['extension'].should == 'x2000'
       end
@@ -95,7 +90,6 @@ describe Ohana::API do
         it 'does not return nil fields within Contacts' do
           attrs = attributes_for(:contact)
           @loc.contacts.create!(attrs)
-          @loc.index.refresh
           get 'api/locations'
           contact_keys = json.first['contacts'].first.keys
           %w(phone fax email).each do |key|
@@ -105,7 +99,6 @@ describe Ohana::API do
 
         it 'does not return nil fields within Faxes' do
           @loc.faxes.create!(attributes_for(:fax_with_no_dept))
-          @loc.index.refresh
           get 'api/locations'
           fax_keys = json.first['faxes'].first.keys
           fax_keys.should_not include('department')
@@ -113,7 +106,6 @@ describe Ohana::API do
 
         it 'does not return nil fields within Phones' do
           @loc.phones.create!(attributes_for(:phone_with_missing_fields))
-          @loc.index.refresh
           get 'api/locations'
           phone_keys = json.first['phones'].first.keys
           %w(extension vanity_number).each do |key|
@@ -130,7 +122,6 @@ describe Ohana::API do
         it 'does not return nil fields within Services' do
           attrs = attributes_for(:service)
           @loc.services.create!(attrs)
-          @loc.index.refresh
           get 'api/locations'
           service_keys = json.first['services'].first.keys
           %w(audience eligibility fees).each do |key|
@@ -361,7 +352,7 @@ describe Ohana::API do
         @loc.reload
         expect(response.status).to eq(400)
         expect(json['message']).
-          to include 'admin_emails must be an array of valid email addresses'
+          to include 'Attribute was supposed to be a Array, but was a String.'
       end
 
       it 'allows empty admin_emails array' do
@@ -627,12 +618,10 @@ describe Ohana::API do
           to include 'A location must have at least one address type.'
       end
 
-      xit "doesn't geocode when address hasn't changed" do
-        put(
-          "api/locations/#{@loc.id}",
-          { admin_emails: ['foo@bar.com'] },
-          'HTTP_X_API_TOKEN' => @token
-        )
+      it "doesn't geocode when address hasn't changed" do
+        @loc.update(name: 'new name')
+        expect(@loc).not_to receive(:geocode)
+        @loc.save!
       end
 
       it 'geocodes when address has changed' do
@@ -666,14 +655,12 @@ describe Ohana::API do
         expect(@loc.coordinates).to be_nil
       end
 
-      it 'updates the Elasticsearch index when location changes' do
+      it 'updates the search index when location changes' do
         put(
           "api/locations/#{@loc.id}",
           { name: 'changeme' },
           'HTTP_X_API_TOKEN' => @token
         )
-        @loc.reload
-        sleep 1 # Elasticsearch needs time to update the index
         get '/api/search?keyword=changeme'
         json.first['name'].should == 'changeme'
       end
@@ -805,7 +792,6 @@ describe Ohana::API do
       end
 
       it 'updates the search index' do
-        @location.index.refresh
         get 'api/search?keyword=vrs'
         expect(json.length).to eq(0)
       end

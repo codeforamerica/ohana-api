@@ -1,7 +1,5 @@
-# require 'garner/mixins/rack'
 module Ohana
   class API < Grape::API
-    # helpers Garner::Mixins::Rack
     use Rack::ConditionalGet
     use Rack::ETag
 
@@ -19,7 +17,7 @@ module Ohana
     end
 
     resource 'locations' do
-      # GET /locatons
+      # GET /locations
       # GET /locations?page=2
       desc 'Returns all locations, 30 per page by default'
       params do
@@ -27,9 +25,10 @@ module Ohana
         optional :per_page, type: Integer, default: 30
       end
       get do
-        locations = Location.search(params)
+        locations = Location.page(params[:page]).per(params[:per_page]).
+                            order('created_at DESC')
         set_link_header(locations)
-        locations
+        present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
       end
 
       desc(
@@ -54,7 +53,7 @@ module Ohana
       )
       get ':id' do
         location = Location.find(params[:id])
-        present(location, with: Entities::Location)
+        present location, with: Entities::Location
       end
 
       desc 'Update a location'
@@ -96,14 +95,23 @@ module Ohana
           desc 'Returns locations near the one queried.'
           params do
             optional :page, type: Integer, default: 1
-            optional :radius, type: Float
+            optional :per_page, type: Integer, default: 30
+            optional :radius, type: Float, default: 0.5
           end
 
           get do
             location = Location.find(params[:location_id])
-            nearby = Location.nearby(location, params)
+            radius = Location.current_radius(params[:radius])
+
+            if location.latitude.present? && location.longitude.present?
+              nearby = location.nearbys(radius).
+                                page(params[:page]).per(params[:per_page])
+            else
+              nearby = Location.none.page(params[:page]).per(params[:per_page])
+            end
+
             set_link_header(nearby)
-            nearby
+            present nearby.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
           end
         end
 
@@ -128,7 +136,7 @@ module Ohana
           post do
             authenticate!
             location = Location.find(params[:location_id])
-            location.create_address!(params)
+            location.create_address!(params) unless location.address.present?
             location.address
           end
 
@@ -168,7 +176,7 @@ module Ohana
           post do
             authenticate!
             location = Location.find(params[:location_id])
-            location.create_mail_address!(params)
+            location.create_mail_address!(params) unless location.mail_address.present?
             location.mail_address
           end
 
@@ -314,7 +322,7 @@ module Ohana
       get do
         orgs = Organization.page(params[:page])
         set_link_header(orgs)
-        present(orgs, with: Organization::Entity)
+        present orgs, with: Organization::Entity
       end
 
       desc(
@@ -334,7 +342,7 @@ module Ohana
       )
       get ':id' do
         org = Organization.find(params[:id])
-        present(org, with: Organization::Entity)
+        present org, with: Organization::Entity
       end
 
       desc(
@@ -377,7 +385,7 @@ module Ohana
             org = Organization.find(params[:organization_id])
             locations = org.locations.page(params[:page])
             set_link_header(locations)
-            present(locations, with: Entities::Location)
+            present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
           end
         end
       end
@@ -579,9 +587,9 @@ module Ohana
         optional :per_page, type: Integer, default: 30
       end
       get do
-        locations = Location.search(params)
+        locations = Location.text_search(params).uniq.page(params[:page]).per(params[:per_page])
         set_link_header(locations)
-        locations
+        present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
       end
     end
 

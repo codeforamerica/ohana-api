@@ -8,6 +8,4 @@ echo "===> Done resetting the DB. Now populating it again..."
 rake setup_db
 echo "===> Done populating the DB. Now preparing the test database..."
 rake db:test:load
-
-script/tire
 echo "===> All done!"
