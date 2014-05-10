@@ -64,10 +64,14 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 ###Prerequisites
 
-#### Git, Ruby 2.1.1, Rails 4.0.4 (+ Homebrew on OS X)
-**OS X or Linux**: Prepare a development environment with [Ruby](https://github.com/codeforamerica/howto/blob/master/Ruby.md) and [Rails](https://github.com/codeforamerica/howto/blob/master/Rails.md).
+#### Git, Ruby 2.1.1, Rails 4.0.4
+On OS X or Linux, prepare a development environment with [Ruby](https://github.com/codeforamerica/howto/blob/master/Ruby.md) and [Rails](https://github.com/codeforamerica/howto/blob/master/Rails.md).
 
-**Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
+On Windows, try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
+
+On Linux, you will also need `libpq-dev`:
+
+    $ apt-get install libpq-dev
 
 #### Javascript Runtime
 
