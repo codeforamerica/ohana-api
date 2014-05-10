@@ -1,33 +1,3 @@
-GIT
-  remote: git://github.com/alexreisner/geocoder.git
-  revision: 3568e5e8e65aa1fe94edc2a3f69f6eed4b88a9d9
-  ref: 3568e5e8e6
-  specs:
-    geocoder (1.1.8)
-
-GIT
-  remote: git://github.com/amatsuda/kaminari.git
-  revision: 01f65e112dd9741921e850473739065a55615b1d
-  ref: 01f65e112d
-  specs:
-    kaminari (0.14.1)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
-
-GIT
-  remote: git://github.com/monfresh/tire.git
-  revision: 2d174e792a7e1a1be56cfee3974fb5a080a940a1
-  ref: 2d174e792a
-  specs:
-    tire (0.6.0)
-      activemodel (>= 3.0)
-      activesupport
-      ansi
-      hashr (~> 0.0.19)
-      multi_json (~> 1.3)
-      rake
-      rest-client (~> 1.6)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -57,7 +27,6 @@ GEM
       tzinfo (~> 0.3.37)
     ancestry (2.1.0)
       activerecord (>= 3.0.0)
-    ansi (1.4.3)
     arel (4.0.2)
     arrayfields (4.9.2)
     ast (2.0.0)
@@ -149,6 +118,7 @@ GEM
       sexp_processor (~> 4.4)
     friendly_id (5.0.3)
       activerecord (>= 4.0.0)
+    geocoder (1.2.0)
     grape (0.7.0)
       activesupport
       builder
@@ -174,7 +144,6 @@ GEM
       haml (>= 3.1, < 5.0)
       railties (>= 4.0.1)
     hashie (2.1.1)
-    hashr (0.0.22)
     hike (1.2.3)
     hirb (0.7.1)
     i18n (0.6.9)
@@ -184,6 +153,9 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.1)
     json_pure (1.8.1)
+    kaminari (0.15.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.9.1)
     kramdown (1.3.3)
     mail (2.5.4)
@@ -231,6 +203,10 @@ GEM
       rack
       rake (>= 0.8.1)
     pg (0.17.1)
+    pg_search (0.7.3)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     polyglot (0.3.4)
     powerpack (0.0.9)
     protected_attributes (1.0.7)
@@ -266,6 +242,8 @@ GEM
       i18n
       require_all
       ruby-progressbar
+    rails_config (0.4.1)
+      activesupport (>= 3.0)
     rails_serve_static_assets (0.0.1)
     rails_stdout_logging (0.0.2)
     railties (4.0.4)
@@ -380,13 +358,13 @@ DEPENDENCIES
   factory_girl_rails (>= 4.2.0)
   figaro
   friendly_id (~> 5.0.3)
-  geocoder!
+  geocoder
   grape
   grape-entity
   grape-swagger
   haml-rails (~> 0.5.3)
   jquery-rails
-  kaminari!
+  kaminari
   kgio
   memcachier
   metric_fu
@@ -394,18 +372,19 @@ DEPENDENCIES
   newrelic_rpm
   passenger
   pg
+  pg_search
   protected_attributes
   quiet_assets (>= 1.0.2)
   rack-cors
   rack-timeout
   rails (~> 4.0.4)
   rails_12factor
+  rails_config
   redis
   rspec-rails (~> 2.14.2)
   rubocop
   sass-rails (~> 4.0.2)
   shoulda-matchers
   swagger-ui_rails
-  tire!
   uglifier (>= 1.3.0)
   validates_formatting_of (~> 0.8.1)

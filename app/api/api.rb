@@ -39,6 +39,12 @@ module API
       }.to_json, 404)
     end
 
+    rescue_from ActiveRecord::SerializationTypeMismatch do |e|
+      rack_response({
+        'message' => e.message
+      }.to_json, 400)
+    end
+
     rescue_from ActiveRecord::RecordInvalid do |e|
       if e.record.errors.first.first == :accessibility
         message = 'Please enter a valid value for Accessibility'

@@ -61,8 +61,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
-    Location.tire.index.delete
-    Location.create_elasticsearch_index
   end
 
   config.after(:each) do

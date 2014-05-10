@@ -39,7 +39,6 @@ module Features
       @location = create(:location)
       @service = @location.services.create!(attributes_for(:service))
       @location.reload
-      @location.index.refresh
     end
   end
 end

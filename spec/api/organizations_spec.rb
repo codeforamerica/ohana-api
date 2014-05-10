@@ -138,7 +138,7 @@ describe Ohana::API do
         json['name'].should == 'test org'
       end
 
-      it 'updates Elasticsearch index when org name changes' do
+      it 'updates search index when org name changes' do
         loc_1 = {
           name: 'loc1',
           description: 'training',
@@ -170,9 +170,11 @@ describe Ohana::API do
           { name: 'testorg' },
           'HTTP_X_API_TOKEN' => @token
         )
-        sleep 1 # Elasticsearch needs time to update the index
-        get '/api/search?keyword=training'
-        json.first['organization']['name'].should == 'testorg'
+        get '/api/search?org_name=Parent%20Agency'
+        expect(headers['X-Total-Count']).to eq '0'
+
+        get '/api/search?org_name=testorg'
+        expect(headers['X-Total-Count']).to eq '2'
       end
 
       it 'is accessible by its old slug' do

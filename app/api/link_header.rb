@@ -1,14 +1,14 @@
 module LinkHeader
-  # Set Link header for pagination info
+  # Set Link and pagination-related HTTP headers
   #
-  # @param coll [Tire::Results::Collection or
-  # @return [Sawyer::Resource]
+  # @param coll ActiveRecord::Relation
+  # @return various pagination-related HTTP Headers
   def set_link_header(coll)
     params = request.params.except(:route_info, :method, :search_format)
 
     pages = pages(coll)
 
-    links = links(pages,params)
+    links = links(pages, params)
 
     links.delete_if { |v| v.blank? }
 
@@ -17,7 +17,7 @@ module LinkHeader
     header 'X-Total-Pages', "#{coll.total_pages}"
     header 'X-Current-Page', "#{coll.current_page}" unless coll.empty?
     header 'X-Next-Page', "#{coll.next_page}" unless coll.next_page.nil?
-    header 'X-Previous-Page', "#{pages[:prev]}" unless coll.previous_page.nil?
+    header 'X-Previous-Page', "#{pages[:prev]}" unless coll.prev_page.nil?
   end
 
   def url
@@ -39,7 +39,7 @@ module LinkHeader
     pages
   end
 
-  def links(pages,params)
+  def links(pages, params)
     pages.map do |k, v|
       new_params = params.merge(page: v)
       unless new_params[:page].blank?

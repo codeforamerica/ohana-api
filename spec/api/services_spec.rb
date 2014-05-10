@@ -24,16 +24,14 @@ describe Ohana::API do
         json['keywords'].should == ['test']
       end
 
-      it 'updates Elasticsearch index when service changes' do
+      it 'updates search index when service changes' do
         put(
           "api/services/#{@service.id}/",
-          { service_areas: ['East Palo Alto', 'San Mateo County'] },
+          { description: 'fresh tunes for the soul' },
           'HTTP_X_API_TOKEN' => @token
         )
-        sleep 1 # Elasticsearch needs time to update the index
         get '/api/search?keyword=yoga'
-        json.first['services'].first['service_areas'].
-          should == ['East Palo Alto', 'San Mateo County']
+        expect(headers['X-Total-Count']).to eq '0'
       end
 
       it 'validates service areas' do
@@ -55,7 +53,8 @@ describe Ohana::API do
         )
         @service.reload
         expect(response.status).to eq(400)
-        json['message'].should include 'Keywords must be an array'
+        expect(json['message']).
+          to include 'Attribute was supposed to be a Array, but was a String.'
       end
 
       it 'ensures service_areas is an array' do
@@ -66,7 +65,8 @@ describe Ohana::API do
         )
         @service.reload
         expect(response.status).to eq(400)
-        json['message'].should include 'Service areas must be an array'
+        expect(json['message']).
+          to include 'Attribute was supposed to be a Array, but was a String.'
       end
     end
 

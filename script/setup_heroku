@@ -37,13 +37,6 @@ then
   echo "Installing Mandrill by MailChimp"
   heroku addons:add mandrill --app $herokuApp
 
-  echo "Installing Searchbox"
-  heroku addons:add searchbox --app $herokuApp
-
-  echo "Setting ELASTICSEARCH_URL"
-  elasticsearchUrl=$(heroku config:get SEARCHBOX_URL --app $herokuApp)
-  heroku config:set ELASTICSEARCH_URL=$elasticsearchUrl --app $herokuApp
-
   echo "All done setting up env vars and add-ons."
   echo "Pushing code to Heroku now. This will take a few minutes..."
   git push heroku master

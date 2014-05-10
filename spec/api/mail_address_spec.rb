@@ -164,7 +164,20 @@ describe Ohana::API do
   end
 
   describe 'POST /api/locations/:location/mail_address' do
-    it 'replaces the mail_address for the specified location' do
+    it "creates a mail_address if one doesn't exist" do
+      loc2 = create(:nearby_loc)
+      post(
+        "api/locations/#{loc2.id}/mail_address",
+        @attrs,
+        'HTTP_X_API_TOKEN' => @token
+      )
+      expect(response).to be_success
+      get "api/locations/#{loc2.id}"
+      expect(json['mail_address']['street']).to eq 'foo'
+      expect(MailAddress.count).to eq 2
+    end
+
+    it "doesn't create a new mail_address if one already exists" do
       post(
         "api/locations/#{@loc.id}/mail_address",
         @attrs,
@@ -172,7 +185,8 @@ describe Ohana::API do
       )
       expect(response).to be_success
       get "api/locations/#{@loc.id}"
-      expect(json['mail_address']['street']).to eq 'foo'
+      expect(json['mail_address']['street']).to eq '1 davis dr'
+      expect(MailAddress.count).to eq 1
     end
 
     it "doesn't allow creating a mail_address witout a valid token" do

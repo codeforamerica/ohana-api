@@ -1,0 +1,58 @@
+# Google provides a "bounds" option to restrict the address search to
+# a particular area. This allows Google to disambiguate between two
+# cities with the same name. For example, there is a city in San Mateo
+# County called 'Brisbane'. There also happens to be a 'Brisbane' in
+# Australia. If you didn't restrict the search to within San Mateo County,
+# and you searched for locations near 'Brisbane', Google would look in
+# Australia by default, and you wouldn't get any results.
+#
+# The bounds are defined by the NE and SW geo coordinates of your search area.
+# It should be an array of two arrays. The first array should represent the
+# NE coordinates, and the second the SW coordinates. Within each inner array,
+# the coordinates should be Floats in [latitude, longitude] order. For example:
+# bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+#
+# The app is set to search within the continental US by default.
+# Make sure to change the coordinates to match your preferred search area.
+#
+# This setting is used in 'app/models/location.rb'.
+bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+
+
+# An array of email domain names used by the admin interface to determine which
+# users get to access which locations. For convenience, the API allows a client
+# to retrieve locations that match a particular domain name. This means that
+# when someone signs in to the admin interface with an organization email
+# address, like "moncef@codeforamerica.org", then they will have access to all
+# locations that match "codeforamerica.org". This works for these types of
+# organization domain names, but if we allowed the same lookup for people with
+# generic email addresses that end in "@gmail.com" for example, then they would
+# be able to access all locations with "gmail.com" in the "emails" field.
+# To prevent that, the API compares the domain name with the list of generic
+# domains that you define below, and if it finds it, then it looks for an exact
+# match of the full email address.
+#
+# Depending on the email addresses present in your data, you might need to add
+# domains to the list below. For example, in San Mateo County, many employees
+# have a generic "@smcgov.org" email, even though they work in different
+# departments, and should only be able to access their specific locations.
+#
+# This setting is used in 'app/models/location.rb'.
+generic_domains:
+  - gmail.com
+  - aol.com
+  - sbcglobal.net
+  - hotmail.com
+  - yahoo.com
+
+# If you want to validate the "service_areas" field against
+# a list of specific jurisdiction names (city name, county name, etc.),
+# then enter them below, one per line preceded by a dash and a space,
+# just like the generic_domains above. Make sure to preserve the 2-space
+# indentation. For example:
+# valid_service_areas:
+#   - Alameda County
+#   - Oakland
+#
+# This setting is used in 'app/models/service.rb'.
+valid_service_areas:

@@ -43,7 +43,7 @@ describe Ohana::API do
 
     it 'requires valid fax id' do
       patch(
-        "api/locations/#{@loc.id}/faxes/2",
+        "api/locations/#{@loc.id}/faxes/2014",
         { number: '800-555-1212', department: 'Youth Development' },
         'HTTP_X_API_TOKEN' => @token
       )
