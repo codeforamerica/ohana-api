@@ -71,21 +71,16 @@ Please note that the instructions below have only been tested on OS X. If you ar
 
 #### Javascript Runtime
 
-* You need a Javascript runtime. [We recommend Node.JS](https://github.com/codeforamerica/howto/blob/master/Node.js.md) (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)).
+You need a Javascript runtime. [We recommend Node.JS](https://github.com/codeforamerica/howto/blob/master/Node.js.md) (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)).
 
 #### PostgreSQL
-**OS X**
 
-On OS X, the easiest way to install PostgreSQL is with [Postgres.app](http://postgresapp.com/)
+PostgreSQL is an open source object-relational database system that [runs well on Mac and Linux](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md).
 
-If that doesn't work, try this [tutorial](http://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/).
-
-**Other**
-
-See the Downloads page on postgresql.org for steps to install on other systems: [http://www.postgresql.org/download/](http://www.postgresql.org/download/)
-
+After installation, you may need to create a user and database in Postgres for use by Ohana-API. **TODO: verify that this is true, write this part**.
 
 #### Redis
+
 **OS X**
 
 On OS X, the easiest way to install Redis is with Homebrew:
