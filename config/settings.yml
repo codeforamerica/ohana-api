@@ -6,9 +6,9 @@
 # and you searched for locations near 'Brisbane', Google would look in
 # Australia by default, and you wouldn't get any results.
 #
-# The bounds are defined by the NE and SW geo coordinates of your search area.
+# The bounds are defined by the SW and NE geo coordinates of your search area.
 # It should be an array of two arrays. The first array should represent the
-# NE coordinates, and the second the SW coordinates. Within each inner array,
+# SW coordinates, and the second the NE coordinates. Within each inner array,
 # the coordinates should be Floats in [latitude, longitude] order. For example:
 # bounds: [[37.1074, -122.521], [37.7084, -122.085]]
 #
@@ -16,7 +16,7 @@
 # Make sure to change the coordinates to match your preferred search area.
 #
 # This setting is used in 'app/models/location.rb'.
-bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 
 
 # An array of email domain names used by the admin interface to determine which
