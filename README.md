@@ -69,10 +69,6 @@ On OS X or Linux, prepare a development environment with [Ruby](https://github.c
 
 On Windows, try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
 
-On Linux, you will also need `libpq-dev`:
-
-    $ apt-get install libpq-dev
-
 #### Javascript Runtime
 
 You need a Javascript runtime. [We recommend Node.JS](https://github.com/codeforamerica/howto/blob/master/Node.js.md) (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)).
@@ -82,6 +78,10 @@ You need a Javascript runtime. [We recommend Node.JS](https://github.com/codefor
 PostgreSQL is an open source object-relational database system that [runs well on Mac and Linux](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md).
 
 After installation, you may need to create a user and database in Postgres for use by Ohana-API. **TODO: verify that this is true, write this part**.
+
+On Linux, Ruby will also need `libpq-dev` to access PostgreSQL:
+
+    $ apt-get install libpq-dev
 
 #### Redis
 
