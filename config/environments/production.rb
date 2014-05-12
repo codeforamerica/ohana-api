@@ -92,6 +92,11 @@ OhanaApi::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # Set the schema format to ruby until we upgrade to Rails 4.1,
+  # at which point we can use the setting below instead.
+  # This is to suppress the "Error dumping database" message on Heroku.
+  config.active_record.schema_format = :ruby
+
   # Do not dump schema after migrations.
   # This is a Rails 4.1 setting. Uncomment after upgrading.
   # config.active_record.dump_schema_after_migration = false
