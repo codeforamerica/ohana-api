@@ -5,10 +5,10 @@ set -e
 echo "===> Creating ohana-api_development database..."
 rake db:create
 echo "===> Loading the DB schema..."
-rake db:schema:load
+rake db:structure:load
 
 echo "===> Creating ohana-api_test database..."
 rake db:test:load
 
-echo "===> Populating up the DB..."
+echo "===> Populating the DB..."
 rake setup_db
