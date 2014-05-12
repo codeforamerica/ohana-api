@@ -2,10 +2,11 @@
 
 set -e
 
-echo "===> Creating ohana-api_production database..."
-rake db:create:all
 echo "===> Loading the DB schema..."
 rake db:schema:load
 
-echo "===> Populating up the DB..."
+echo "===> Running the migrations..."
+rake db:migrate
+
+echo "===> Populating the DB..."
 rake setup_db
