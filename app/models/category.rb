@@ -19,7 +19,7 @@ class Category < ActiveRecord::Base
 
   validates_presence_of :name, :oe_id, message: "can't be blank for Category"
 
-  default_scope order("oe_id ASC")
+  default_scope { order('oe_id ASC') }
 
   include Grape::Entity::DSL
   entity do

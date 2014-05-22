@@ -400,39 +400,6 @@ ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
 
 
 --
--- Name: pg_search_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE pg_search_documents (
-    id integer NOT NULL,
-    content text,
-    searchable_id integer,
-    searchable_type character varying(255),
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: pg_search_documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE pg_search_documents_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: pg_search_documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE pg_search_documents_id_seq OWNED BY pg_search_documents.id;
-
-
---
 -- Name: phones; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -444,7 +411,8 @@ CREATE TABLE phones (
     extension text,
     vanity_number text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    number_type character varying(255)
 );
 
 
@@ -631,13 +599,6 @@ ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organization
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY pg_search_documents ALTER COLUMN id SET DEFAULT nextval('pg_search_documents_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY phones ALTER COLUMN id SET DEFAULT nextval('phones_id_seq'::regclass);
 
 
@@ -725,14 +686,6 @@ ALTER TABLE ONLY mail_addresses
 
 ALTER TABLE ONLY organizations
     ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
-
-
---
--- Name: pg_search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY pg_search_documents
-    ADD CONSTRAINT pg_search_documents_pkey PRIMARY KEY (id);
 
 
 --
@@ -1024,13 +977,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140402222453');
 
 INSERT INTO schema_migrations (version) VALUES ('20140404220233');
 
-INSERT INTO schema_migrations (version) VALUES ('20140422221247');
-
 INSERT INTO schema_migrations (version) VALUES ('20140424182454');
 
 INSERT INTO schema_migrations (version) VALUES ('20140505011725');
-
-INSERT INTO schema_migrations (version) VALUES ('20140505132443');
 
 INSERT INTO schema_migrations (version) VALUES ('20140508030435');
 
@@ -1039,3 +988,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140508030926');
 INSERT INTO schema_migrations (version) VALUES ('20140508031024');
 
 INSERT INTO schema_migrations (version) VALUES ('20140508194831');
+
+INSERT INTO schema_migrations (version) VALUES ('20140522153640');

@@ -8,11 +8,11 @@ describe Phone do
 
   it { should belong_to :location }
 
-  it { should allow_mass_assignment_of(:number) }
-  it { should allow_mass_assignment_of(:extension) }
   it { should allow_mass_assignment_of(:department) }
+  it { should allow_mass_assignment_of(:extension) }
+  it { should allow_mass_assignment_of(:number) }
+  it { should allow_mass_assignment_of(:number_type) }
   it { should allow_mass_assignment_of(:vanity_number) }
-
   it do
     should normalize_attribute(:number).
       from(' 703 555-1212  ').to('703 555-1212')
@@ -40,6 +40,10 @@ describe Phone do
 
   it do
     should allow_value('703-555-1212', '800.123.4567').for(:number)
+  end
+
+  it do
+    should allow_value('711').for(:number)
   end
 
   it do
