@@ -99,7 +99,7 @@ describe Ohana::API do
         @service.category_ids = cat_ids
       end
 
-      it "orders the categories by oe_id" do
+      it 'orders the categories by oe_id' do
         get "api/locations/#{@location.id}"
 
         path = "#{ENV['API_BASE_URL']}organizations"
@@ -165,7 +165,7 @@ describe Ohana::API do
                 'name'  => 'Orthodontics',
                 'parent_id' => @dental.id,
                 'slug' => 'orthodontics'
-              },
+              }
             ],
             'name' => @location.services.first.name,
             'updated_at' => service_formatted_time

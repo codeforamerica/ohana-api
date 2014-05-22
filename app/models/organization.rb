@@ -36,6 +36,8 @@ class Organization < ActiveRecord::Base
     URI.parse(urls.first).host.gsub(/^www\./, '') if urls.present?
   end
 
+  default_scope { order('id ASC') }
+
   include Grape::Entity::DSL
   entity do
     expose :id
