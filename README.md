@@ -54,40 +54,37 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 ## Deploying to Heroku
 See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account).
 
-## Installation - The Fast & Easy Way
+## Installation with Vagrant
 
 We have a [virtual machine](https://github.com/codeforamerica/ohana-api-dev-box) with all the tools you need to get started.
 
-## Installation - The Long Way
+## Installation on your environment
 
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
 ###Prerequisites
 
-#### Git, Ruby 2.1.1, Rails 4.0.4 (+ Homebrew on OS X)
-**OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
+#### Git, Ruby 2.1.1, Rails 4.0.4
+On OS X or Linux, prepare a development environment with [Ruby](https://github.com/codeforamerica/howto/blob/master/Ruby.md) and [Rails](https://github.com/codeforamerica/howto/blob/master/Rails.md).
 
-**Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
+On Windows, try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
 
-**Linux**:
+#### Javascript Runtime
 
-* To make sure you are using the right Ruby version, we recommend [RVM](http://rvm.io), but you can use other Ruby version managers.
-* You need a Javascript runtime. We recommend Node.JS (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)). On Ubuntu, it's as simple as <code>sudo apt-get install nodejs</code>. On others, [check the official instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager).
-
+You need a Javascript runtime. [We recommend Node.JS](https://github.com/codeforamerica/howto/blob/master/Node.js.md) (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)).
 
 #### PostgreSQL
-**OS X**
 
-On OS X, the easiest way to install PostgreSQL is with [Postgres.app](http://postgresapp.com/)
+PostgreSQL is an open source object-relational database system that [runs well on Mac and Linux](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md).
 
-If that doesn't work, try this [tutorial](http://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/).
+After installation, you may need to create a user and database in Postgres for use by Ohana-API. **TODO: verify that this is true, write this part**.
 
-**Other**
+On Linux, Ruby will also need `libpq-dev` to access PostgreSQL:
 
-See the Downloads page on postgresql.org for steps to install on other systems: [http://www.postgresql.org/download/](http://www.postgresql.org/download/)
-
+    $ apt-get install libpq-dev
 
 #### Redis
+
 **OS X**
 
 On OS X, the easiest way to install Redis is with Homebrew:
@@ -116,12 +113,6 @@ From the Terminal, navigate to the directory into which you'd like to create a c
     script/bootstrap
 
 _Note: Installation and preparation can take several minutes to complete!_
-
-If you get a `permission denied` message, set the correct permissions:
-
-    chmod -R 755 script
-
-then run `script/bootstrap` again.
 
 ### Set up the environment variables & customizable settings
 Inside the `config` folder, you will find a file named `application.example.yml`. Rename it to `application.yml` and double check that it is in your `.gitignore` file (it should be by default).
