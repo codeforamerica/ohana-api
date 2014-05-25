@@ -1,1 +1,2 @@
-Rack::Timeout.timeout = 20  # seconds
+# The value represents seconds
+Rack::Timeout.timeout = 20

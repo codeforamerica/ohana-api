@@ -2,99 +2,203 @@ require 'spec_helper'
 
 describe Ohana::API do
 
-  describe "Location Requests" do
+  describe 'Location Requests' do
     include DefaultUserAgent
+    include Features::SessionHelpers
 
-    describe "GET /api/locations" do
-      xit "returns an empty array when no locations exist" do
-        get "/api/locations"
+    describe 'GET /api/locations' do
+      it 'returns an empty array when no locations exist' do
+        get '/api/locations'
         expect(response).to be_success
         json.should == []
       end
 
-      it "returns the correct number of existing locations" do
+      it 'returns the correct number of existing locations' do
         create_list(:location, 2)
-        get "/api/locations"
+        get '/api/locations'
         expect(response).to be_success
-        expect(json.length).to eq(1)
+        expect(json.length).to eq(2)
       end
 
-      it "sorts results by creation date descending" do
+      it 'sorts results by creation date descending' do
         loc1 = create(:location)
-        sleep 1
-        loc2 = create(:nearby_loc)
-        get "/api/locations?page=2"
+        create(:nearby_loc)
+        get '/api/locations?page=2&per_page=1'
         expect(response).to be_success
         expect(json.length).to eq(1)
-        expect(json.first["accessibility"]).
-          to eq(["Information on tape or in Braille", "Disabled Parking"])
-        expect(json.first["kind"]).to eq("Other")
-        expect(json.first["organization"].keys).to include("locations_url")
-        expect(json.first["url"]).
-          to eq("http://example.com/api/locations/#{loc1.id}")
-        expect(json.first["organization"]["url"]).
-          to eq("http://example.com/api/organizations/#{loc1.organization.id}")
+        expect(json.first['accessibility']).
+          to eq(['Information on tape or in Braille', 'Disabled Parking'])
+        expect(json.first['organization'].keys).to include('locations_url')
+        expect(json.first['url']).
+          to eq("#{ENV['API_BASE_URL']}locations/#{loc1.id}")
+        expect(json.first['organization']['url']).
+          to eq("#{ENV['API_BASE_URL']}organizations/#{loc1.organization.id}")
       end
 
-      it "returns the correct info about the locations" do
+      it 'displays address when present' do
         create(:location)
-        get "/api/locations"
-        json.first["address"]["street"].should == "1800 Easton Drive"
+        get '/api/locations'
+        json.first['address']['street'].should == '1800 Easton Drive'
+      end
+
+      it 'displays mail_address when present' do
+        loc = create(:location)
+        loc.create_mail_address!(attributes_for(:mail_address))
+        get '/api/locations'
+        json.first['mail_address']['street'].should == '1 davis dr'
+      end
+
+      it 'displays contacts when present' do
+        loc = create(:location)
+        loc.contacts.create!(attributes_for(:contact))
+        get '/api/locations'
+        json.first['contacts'].first['title'].should == 'CTO'
+      end
+
+      it 'displays faxes when present' do
+        loc = create(:location)
+        loc.faxes.create!(attributes_for(:fax))
+        get '/api/locations'
+        json.first['faxes'].first['number'].should == '703-555-1212'
+      end
+
+      it 'displays phones when present' do
+        loc = create(:location)
+        loc.phones.create!(attributes_for(:phone))
+        get '/api/locations'
+        json.first['phones'].first['extension'].should == 'x2000'
       end
 
       it "doesn't include test data" do
         create(:location)
         create(:far_loc)
-        get "/api/locations"
-        headers["X-Total-Count"].should == "1"
-        expect(json.first["name"]).to eq "VRS Services"
+        get '/api/locations'
+        expect(headers['X-Total-Count']).to eq '1'
+        expect(json.first['name']).to eq 'VRS Services'
+      end
+
+      context 'with nil fields' do
+        before(:each) do
+          @loc = create(:loc_with_nil_fields)
+        end
+
+        it 'does not return nil fields within Location' do
+          get 'api/locations'
+          location_keys = json.first.keys
+          missing_keys = %w(
+            accessibility admin_emails contacts emails faxes
+            hours languages mail_address phones transportation urls services
+          )
+          missing_keys.each do |key|
+            location_keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields within Contacts' do
+          attrs = attributes_for(:contact)
+          @loc.contacts.create!(attrs)
+          get 'api/locations'
+          contact_keys = json.first['contacts'].first.keys
+          %w(phone fax email).each do |key|
+            contact_keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields within Faxes' do
+          @loc.faxes.create!(attributes_for(:fax_with_no_dept))
+          get 'api/locations'
+          fax_keys = json.first['faxes'].first.keys
+          fax_keys.should_not include('department')
+        end
+
+        it 'does not return nil fields within Phones' do
+          @loc.phones.create!(attributes_for(:phone_with_missing_fields))
+          get 'api/locations'
+          phone_keys = json.first['phones'].first.keys
+          %w(extension vanity_number).each do |key|
+            phone_keys.should_not include(key)
+          end
+        end
+
+        it 'does not return nil fields within Organization' do
+          get 'api/locations'
+          org_keys = json.first['organization'].keys
+          org_keys.should_not include('urls')
+        end
+
+        it 'does not return nil fields within Services' do
+          attrs = attributes_for(:service)
+          @loc.services.create!(attrs)
+          get 'api/locations'
+          service_keys = json.first['services'].first.keys
+          %w(audience eligibility fees).each do |key|
+            service_keys.should_not include(key)
+          end
+        end
+      end
+
+      context 'when location has no physical address' do
+        it 'does not return nil coordinates' do
+          create(:no_address)
+          get 'api/locations'
+          location_keys = json.first.keys
+          location_keys.should_not include('coordinates')
+        end
       end
     end
 
-    describe "GET /api/locations/:id" do
+    describe 'GET /api/locations/:id' do
       context 'with valid data' do
         before :each do
-          service = create(:service)
-          @location = service.location
+          create_service
           get "/api/locations/#{@location.id}"
         end
 
-        it "returns a status by id" do
+        it 'returns a status by id' do
+          path = "#{ENV['API_BASE_URL']}organizations"
+
+          service_formatted_time = @location.services.first.updated_at.
+            strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
+
+          location_formatted_time = @location.updated_at.
+            strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
+
+          locations_url = "#{path}/#{@location.organization.id}/locations"
+
           represented = {
-            "id" => "#{@location.id}",
-            "accessibility"=>["Information on tape or in Braille", "Disabled Parking"],
-            "address" => {
-              "street" => @location.address.street,
-              "city" => @location.address.city,
-              "state" => @location.address.state,
-              "zip" => @location.address.zip
+            'id' => @location.id,
+            'accessibility' => @location.accessibility.map(&:text),
+            'address' => {
+              'id'     => @location.address.id,
+              'street' => @location.address.street,
+              'city'   => @location.address.city,
+              'state'  => @location.address.state,
+              'zip'    => @location.address.zip
             },
-            "coordinates" => @location.coordinates,
-            "description" => @location.description,
-            "kind"=>"Other",
-            "name" => @location.name,
-            "phones" => [{
-              "number" => "650 851-1210",
-              "department" => "Information",
-              "phone_hours" => "(Monday-Friday, 9-12, 1-5)"
+            'coordinates' => @location.coordinates,
+            'description' => @location.description,
+            'kind' => @location.kind.text,
+            'name' => @location.name,
+            'short_desc' => 'short description',
+            'slug' => 'vrs-services',
+            'slugs' => ['vrs-services'],
+            'updated_at' => location_formatted_time,
+            'url' => "#{ENV['API_BASE_URL']}locations/#{@location.id}",
+            'services' => [{
+              'id' => @location.services.reload.first.id,
+              'description' => @location.services.first.description,
+              'keywords' => @location.services.first.keywords,
+              'name' => @location.services.first.name,
+              'updated_at' => service_formatted_time
             }],
-            "short_desc" => "short description",
-            "slugs" => ["vrs-services"],
-            "updated_at" => @location.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z"),
-            "url" => "http://example.com/api/locations/#{@location.id}",
-            "services" => [{
-              "id" => "#{@location.services.first.id}",
-              "description" => @location.services.first.description,
-              "keywords" => @location.services.first.keywords,
-              "name" => @location.services.first.name,
-              "updated_at" => @location.services.first.updated_at.strftime("%Y-%m-%dT%H:%M:%S%:z")
-            }],
-            "organization" => {
-              "id" => "#{@location.organization.id}",
-              "name"=> "Parent Agency",
-              "slugs" => @location.organization.slugs,
-              "url" => "http://example.com/api/organizations/#{@location.organization.id}",
-              "locations_url" => "http://example.com/api/organizations/#{@location.organization.id}/locations"
+            'organization' => {
+              'id' => @location.organization.id,
+              'name' => 'Parent Agency',
+              'slug' => 'parent-agency',
+              'slugs' => ['parent-agency'],
+              '_slugs' => ['parent-agency'],
+              'url' => "#{path}/#{@location.organization.id}",
+              'locations_url' => locations_url
             }
           }
           json.should == represented
@@ -109,18 +213,18 @@ describe Ohana::API do
         end
 
         it "returns the location's street" do
-          json["address"]["street"].should == "1800 Easton Drive"
+          json['address']['street'].should == '1800 Easton Drive'
         end
       end
 
       context 'with invalid data' do
 
         before :each do
-          get "/api/locations/1"
+          get '/api/locations/1'
         end
 
         it 'returns a not found error' do
-          json["error"].should == "Not Found"
+          json['error'].should == 'Not Found'
         end
 
         it 'returns a 404 status code' do
@@ -138,558 +242,605 @@ describe Ohana::API do
           @loc = create(:loc_with_nil_fields)
         end
 
-        it 'does not return nil fields when visiting all locations' do
-          get "api/locations"
-          keys = json.first.keys
-          ["faxes", "fees", "email"].each do |key|
-            keys.should_not include(key)
-          end
-        end
-
         it 'does not return nil fields when visiting one location' do
           get "api/locations/#{@loc.id}"
           keys = json.keys
-          ["faxes", "fees", "email"].each do |key|
+          %w(faxes fees email).each do |key|
             keys.should_not include(key)
           end
         end
 
         it 'does not return nil fields when searching for location' do
-          get "api/search?keyword=belmont"
+          get 'api/search?keyword=belmont'
           keys = json.first.keys
-          ["faxes", "fees", "email"].each do |key|
+          %w(faxes fees email).each do |key|
             keys.should_not include(key)
           end
         end
       end
 
-      context "when farmers market" do
+      context 'when farmers market' do
         before(:each) do
           fm = create(:farmers_market_loc)
           get "api/locations/#{fm.id}"
         end
 
         it 'includes products' do
-          products = json["products"]
+          products = json['products']
           products.should be_a Array
-          ["Cheese", "Flowers", "Eggs", "Seafood", "Herbs"].each do |product|
+          %w(Cheese Flowers Eggs Seafood Herbs).each do |product|
             products.should include(product)
           end
         end
 
         it 'includes payments' do
-          payments = json["payments"]
+          payments = json['payments']
           payments.should be_a Array
-          ["Credit", "WIC", "SFMNP", "SNAP"].each do |payment|
+          %w(Credit WIC SFMNP SNAP).each do |payment|
             payments.should include(payment)
           end
         end
 
         it 'includes market_match' do
-          expect(json["market_match"]).to eq(true)
+          expect(json['market_match']).to eq(true)
         end
       end
     end
 
-    describe "Update a location (PUT /api/locations/:id)" do
+    describe 'Update a location (PUT /api/locations/:id)' do
       before(:each) do
         @loc = create(:location)
-        @token = ENV["ADMIN_APP_TOKEN"]
+        @token = ENV['ADMIN_APP_TOKEN']
       end
 
       it "doesn't allow setting non-whitelisted attributes" do
-        put "api/locations/#{@loc.id}", { :foo => "bar" },
-          { 'HTTP_X_API_TOKEN' => @token }
+        put(
+          "api/locations/#{@loc.id}",
+          { foo: 'bar' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response).to be_success
-        json.should_not include "foo"
+        json.should_not include 'foo'
       end
 
-      it "allows setting whitelisted attributes" do
-        put "api/locations/#{@loc.id}", { :kind => "human_services" },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'allows setting whitelisted attributes' do
+        put(
+          "api/locations/#{@loc.id}",
+          { name: 'New Name' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response).to be_success
-        json["kind"].should == "Human Services"
+        json['name'].should == 'New Name'
       end
 
-      it "validates the kind attribute" do
-        put "api/locations/#{@loc.id}", { :kind => "Human Services" },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates the accessibility attribute' do
+        put(
+          "api/locations/#{@loc.id}",
+          { accessibility: 'Human Services' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Kind is not included in the list"
+        json['message'].
+          should include 'Please enter a valid value for Accessibility'
       end
 
-      it "validates the accessibility attribute" do
-        put "api/locations/#{@loc.id}", { :accessibility => "Human Services" },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates the kind attribute' do
+        put(
+          "api/locations/#{@loc.id}",
+          { kind: 'Human Services' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Accessibility is invalid"
+        json['message'].should include 'Please enter a valid value for Kind'
       end
 
-      it "validates phone number" do
-        put "api/locations/#{@loc.id}", { :phones => [{ number: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates phone number' do
+        put(
+          "api/locations/#{@loc.id}",
+          { phones_attributes: [{ number: '703' }] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "703 is not a valid US phone number"
+        json['message'].should include '703 is not a valid US phone number'
       end
 
-      it "validates fax number" do
-        put "api/locations/#{@loc.id}", { :faxes => [{ number: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates fax number' do
+        put(
+          "api/locations/#{@loc.id}",
+          { faxes_attributes: [{ number: '703' }] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Please enter a valid US fax number"
+        json['message'].should include '703 is not a valid US fax number'
       end
 
-      it "validates fax number is a hash" do
-        put "api/locations/#{@loc.id}", { :faxes => ["703"] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].
-          should include "Fax must be a hash"
-      end
-
-      it "validates fax number is an array" do
-        put "api/locations/#{@loc.id}", { :faxes => "703" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].
-          should include "Fax must be an array"
-      end
-
-      it "allows nil faxes attribute" do
-        put "api/locations/#{@loc.id}", { :faxes => nil },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'allows empty array for faxes_attributes' do
+        put(
+          "api/locations/#{@loc.id}",
+          { faxes_attributes: [] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(200)
       end
 
-      it "allows empty array for faxes attribute" do
-        put "api/locations/#{@loc.id}", { :faxes => [] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'strips out empty emails from array' do
+        put(
+          "api/locations/#{@loc.id}",
+          { emails: [''] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(200)
       end
 
-      it "strips out empty emails from array" do
-        put "api/locations/#{@loc.id}", { :emails => [""] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates admin email' do
+        put(
+          "api/locations/#{@loc.id}",
+          { admin_emails: ['moncef-at-ohanapi.org'] },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        @loc.reload
+        expect(response.status).to eq(400)
+        expect(json['message']).
+          to include 'admin_emails must be an array of valid email addresses'
+      end
+
+      it 'validates admin_emails is an array' do
+        put(
+          "api/locations/#{@loc.id}",
+          { admin_emails: 'moncef@ohanapi.org' },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        @loc.reload
+        expect(response.status).to eq(400)
+        expect(json['message']).
+          to include 'Attribute was supposed to be a Array, but was a String.'
+      end
+
+      it 'allows empty admin_emails array' do
+        put(
+          "api/locations/#{@loc.id}",
+          { admin_emails: [] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(200)
       end
 
-      it "validates contact phone" do
-        put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "foo", title: "cfo", phone: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Phone 703 is not a valid US phone number"
-      end
-
-      it "validates contact fax" do
-        put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "foo", title: "cfo", fax: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Fax 703 is not a valid US fax number"
-      end
-
-      it "validates contact email" do
-        put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "foo", title: "cfo", email: "703" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Email 703 is not a valid email"
-      end
-
-      it "validates admin email" do
-        put "api/locations/#{@loc.id}",
-          { :admins => ["moncef-at-ohanapi.org"] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].
-          should include "Admins must be an array of valid email addresses"
-      end
-
-      it "validates admins is an array" do
-        put "api/locations/#{@loc.id}",
-          { :admins => "moncef@ohanapi.org" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].
-          should include "Admins must be an array of valid email addresses"
-      end
-
-      it "allows empty admins array" do
-        put "api/locations/#{@loc.id}",
-          { :admins => [] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'allows valid admin_emails array' do
+        put(
+          "api/locations/#{@loc.id}",
+          { admin_emails: ['moncef@ohanapi.org'] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(200)
       end
 
-      it "allows valid admins array" do
-        put "api/locations/#{@loc.id}",
-          { :admins => ["moncef@ohanapi.org"] },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(200)
-      end
-
-      it "requires contact name" do
-        put "api/locations/#{@loc.id}",
-          { :contacts => [{ title: "cfo" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'requires description' do
+        put(
+          "api/locations/#{@loc.id}",
+          { description: '' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Name can't be blank for Contact"
+        json['message'].should include "Description can't be blank"
       end
 
-      it "requires contact title" do
-        put "api/locations/#{@loc.id}",
-          { :contacts => [{ name: "cfo" }] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      xit 'requires short description' do
+        put(
+          "api/locations/#{@loc.id}",
+          { short_desc: '' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Title can't be blank for Contact"
+        json['message'].should include "Short desc can't be blank"
       end
 
-      it "requires description" do
-        put "api/locations/#{@loc.id}",
-          { :description => "" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Description can't be blank"
-      end
-
-      it "requires short description" do
-        put "api/locations/#{@loc.id}",
-          { :short_desc => "" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Short desc can't be blank"
-      end
-
-      it "limits short description to 200 characters" do
-        put "api/locations/#{@loc.id}",
-          { :short_desc => "A 6 month residential co-ed treatment program
+      it 'limits short description to 200 characters' do
+        put(
+          "api/locations/#{@loc.id}",
+          { short_desc: 'A 6 month residential co-ed treatment program
             designed to provide homeless veterans with the skills necessary
             to function self-sufficiently in society. Residents attend schools
-            all day" },
-          { 'HTTP_X_API_TOKEN' => @token }
+            all day' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "too long (maximum is 200 characters)"
+        json['message'].should include 'too long (maximum is 200 characters)'
       end
 
-      it "requires location name" do
-        put "api/locations/#{@loc.id}",
-          { :name => "" },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'requires location name' do
+        put(
+          "api/locations/#{@loc.id}",
+          { name: '' },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Name can't be blank"
+        json['message'].should include "Name can't be blank"
       end
 
-      it "validates location email" do
-        put "api/locations/#{@loc.id}",
-          { :emails => ["703", "mo@cfa.org"] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates location email' do
+        put(
+          "api/locations/#{@loc.id}",
+          { emails: ['703', 'mo@cfa.org'] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "703 is not a valid email"
+        json['message'].should include '703 is not a valid email'
       end
 
-      it "validates location URLs" do
-        put "api/locations/#{@loc.id}",
-          { :urls => ["badurl"] },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'validates location URLs' do
+        put(
+          "api/locations/#{@loc.id}",
+          { urls: ['badurl'] },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Urls badurl is not a valid URL"
+        json['message'].should include 'badurl is not a valid URL'
       end
 
-      it "validates location address state" do
-        put "api/locations/#{@loc.id}",
-          { :address => {:state => "C" } },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "State is too short (minimum is 2 characters)"
-      end
-
-      it "validates location address zip" do
-        put "api/locations/#{@loc.id}",
-          { :address => {:zip => "1234" } },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Zip 1234 is not a valid ZIP code"
-      end
-
-      it "requires location address street" do
-        put "api/locations/#{@loc.id}",
-          { :address => {
-              street: "", city: "utopia", state: "CA", zip: "12345" }
+      it 'validates location address state' do
+        put(
+          "api/locations/#{@loc.id}",
+          { address_attributes: {
+            street: '123', city: 'utopia', state: 'C', zip: '12345' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Street can't be blank"
+        json['message'].
+          should include 'Please enter a valid 2-letter state abbreviation'
       end
 
-      it "requires location address state" do
-        put "api/locations/#{@loc.id}",
-          { :address => {
-              street: "boo", city: "utopia", state: "", zip: "12345" }
+      it 'validates location address zip' do
+        put(
+          "api/locations/#{@loc.id}",
+          { address_attributes: {
+            street: '123', city: 'utopia', state: 'CA', zip: '1234' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "State can't be blank"
+        json['message'].should include '1234 is not a valid ZIP code'
       end
 
-      it "requires location address city" do
-        put "api/locations/#{@loc.id}",
-          { :address => {
-              street: "funu", city: "", state: "CA", zip: "12345" }
+      it 'requires location address street' do
+        put(
+          "api/locations/#{@loc.id}",
+          { address_attributes: {
+            street: '', city: 'utopia', state: 'CA', zip: '12345' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "City can't be blank"
+        json['message'].should include "street can't be blank"
       end
 
-      it "requires location address zip" do
-        put "api/locations/#{@loc.id}",
-          { :address => {
-              street: "jam", city: "utopia", state: "CA", zip: "" }
+      it 'requires location address state' do
+        put(
+          "api/locations/#{@loc.id}",
+          { address_attributes: {
+            street: 'boo', city: 'utopia', state: '', zip: '12345' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Zip can't be blank"
+        json['message'].should include "state can't be blank"
       end
 
-      it "validates location mail address state" do
-        put "api/locations/#{@loc.id}",
-          { :mail_address => {:state => "C" } },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "State is too short (minimum is 2 characters)"
-      end
-
-      it "validates location mail address zip" do
-        put "api/locations/#{@loc.id}",
-          { :mail_address => {:zip => "1234" } },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(response.status).to eq(400)
-        json["message"].should include "Zip 1234 is not a valid ZIP code"
-      end
-
-      it "requires location mail_address street" do
-        put "api/locations/#{@loc.id}",
-          { :mail_address => {
-              street: "", city: "utopia", state: "CA", zip: "12345" }
+      it 'requires location address city' do
+        put(
+          "api/locations/#{@loc.id}",
+          { address_attributes: {
+            street: 'funu', city: '', state: 'CA', zip: '12345' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Street can't be blank"
+        json['message'].should include "city can't be blank"
       end
 
-      it "requires location mail_address state" do
-        put "api/locations/#{@loc.id}",
-          { :mail_address => {
-              street: "boo", city: "utopia", state: "", zip: "12345" }
+      it 'requires location address zip' do
+        put(
+          "api/locations/#{@loc.id}",
+          { address_attributes: {
+            street: 'jam', city: 'utopia', state: 'CA', zip: '' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "State can't be blank"
+        json['message'].should include "zip can't be blank"
       end
 
-      it "requires location mail_address city" do
-        put "api/locations/#{@loc.id}",
-          { :mail_address => {
-              street: "funu", city: "", state: "CA", zip: "12345" }
+      it 'validates location mail address state' do
+        put(
+          "api/locations/#{@loc.id}",
+          { mail_address_attributes: {
+            street: '123', city: 'utopia', state: 'C', zip: '12345' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "City can't be blank"
+        expect(json['message']).
+          to include 'Please enter a valid 2-letter state abbreviation'
       end
 
-      it "requires location mail_address zip" do
-        put "api/locations/#{@loc.id}",
-          { :mail_address => {
-              street: "jam", city: "utopia", state: "CA", zip: "" }
+      it 'validates location mail address zip' do
+        put(
+          "api/locations/#{@loc.id}",
+          { mail_address_attributes: {
+            street: '123', city: 'belmont', state: 'CA', zip: '1234' }
           },
-          { 'HTTP_X_API_TOKEN' => @token }
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "Zip can't be blank"
+        json['message'].should include '1234 is not a valid ZIP code'
       end
 
-      it "rejects location with neither address nor mail address" do
-        put "api/locations/#{@loc.id}", { :address => nil },
-          { 'HTTP_X_API_TOKEN' => @token }
+      it 'requires location mail_address street' do
+        put(
+          "api/locations/#{@loc.id}",
+          { mail_address_attributes: {
+            street: '', city: 'utopia', state: 'CA', zip: '12345' }
+          },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(response.status).to eq(400)
-        json["message"].should include "A location must have at least one address type."
+        json['message'].should include "street can't be blank"
+      end
+
+      it 'requires location mail_address state' do
+        put(
+          "api/locations/#{@loc.id}",
+          { mail_address_attributes: {
+            street: 'boo', city: 'utopia', state: '', zip: '12345' }
+          },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        @loc.reload
+        expect(response.status).to eq(400)
+        json['message'].should include "state can't be blank"
+      end
+
+      it 'requires location mail_address city' do
+        put(
+          "api/locations/#{@loc.id}",
+          { mail_address_attributes: {
+            street: 'funu', city: '', state: 'CA', zip: '12345' }
+          },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        @loc.reload
+        expect(response.status).to eq(400)
+        json['message'].should include "city can't be blank"
+      end
+
+      it 'requires location mail_address zip' do
+        put(
+          "api/locations/#{@loc.id}",
+          { mail_address_attributes: {
+            street: 'jam', city: 'utopia', state: 'CA', zip: '' }
+          },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        @loc.reload
+        expect(response.status).to eq(400)
+        json['message'].should include "zip can't be blank"
+      end
+
+      it 'rejects location with neither address nor mail address' do
+        put(
+          "api/locations/#{@loc.id}",
+          { address: nil },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        @loc.reload
+        expect(response.status).to eq(400)
+        expect(json['message']).
+          to include 'A location must have at least one address type.'
       end
 
       it "doesn't geocode when address hasn't changed" do
-        @loc.coordinates = []
-        @loc.save
-        put "api/locations/#{@loc.id}", { :kind => "entertainment" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        @loc.reload
-        expect(@loc.coordinates).to eq([])
+        @loc.update(name: 'new name')
+        expect(@loc).not_to receive(:geocode)
+        @loc.save!
       end
 
-      it "geocodes when address has changed" do
+      it 'geocodes when address has changed' do
         address = {
-          street: "1 davis drive", city: "belmont", state: "CA", zip: "94002"
+          street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
         }
         coords = @loc.coordinates
-        put "api/locations/#{@loc.id}", { :address => address },
-          { 'HTTP_X_API_TOKEN' => @token }
+
+        put(
+          "api/locations/#{@loc.id}",
+          { address_attributes: address },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(@loc.coordinates).to_not eq(coords)
       end
 
-      it "resets coordinates when address is removed" do
-        put "api/locations/#{@loc.id}",
+      it 'resets coordinates when address is removed' do
+        put(
+          "api/locations/#{@loc.id}",
           {
-            :address => nil,
-            :mail_address => {
-              street: "1 davis drive", city: "belmont",
-              state: "CA", zip: "94002"
+            address: nil,
+            mail_address_attributes: {
+              street: '1 davis drive', city: 'belmont',
+              state: 'CA', zip: '94002'
             }
-          }, { 'HTTP_X_API_TOKEN' => @token }
+          },
+          'HTTP_X_API_TOKEN' => @token
+        )
         @loc.reload
         expect(@loc.coordinates).to be_nil
       end
 
-      it "updates the Elasticsearch index when location changes" do
-        put "api/locations/#{@loc.id}",
-          { :name => "changeme" },
-          { 'HTTP_X_API_TOKEN' => @token }
-        sleep 1 # Elasticsearch needs time to update the index
-        get "/api/search?keyword=changeme"
-        json.first["name"].should == "changeme"
+      it 'updates the search index when location changes' do
+        put(
+          "api/locations/#{@loc.id}",
+          { name: 'changeme' },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        get '/api/search?keyword=changeme'
+        json.first['name'].should == 'changeme'
       end
     end
 
-    describe "Update a location without a valid token" do
+    describe 'Update a location without a valid token' do
       it "doesn't allow updating a location witout a valid token" do
         @loc = create(:location)
-        put "api/locations/#{@loc.id}", { :name => "new name" },
-          { 'HTTP_X_API_TOKEN' => "invalid_token" }
+        put(
+          "api/locations/#{@loc.id}",
+          { name: 'new name' },
+          'HTTP_X_API_TOKEN' => 'invalid_token'
+        )
         @loc.reload
         expect(response.status).to eq(401)
       end
     end
 
-    describe "Create a location (POST /api/locations/)" do
+    describe "Update a location's slug" do
+      before(:each) do
+        @loc = create(:location)
+        @token = ENV['ADMIN_APP_TOKEN']
+      end
+
+      it 'is accessible by its old slug' do
+        put(
+          "api/locations/#{@loc.id}",
+          { name: 'new name' },
+          'HTTP_X_API_TOKEN' => @token
+        )
+        get 'api/locations/vrs-services'
+        expect(json['name']).to eq('new name')
+      end
+    end
+
+    describe 'Create a location (POST /api/locations/)' do
       before(:each) do
         org = create(:organization)
         @required_attributes = {
-          :name => "new location",
-          :description => "description",
-          :short_desc => "short_desc",
-          :address => {
-                street: "main", city: "utopia", state: "CA", zip: "12345" },
-          :organization_id => org.id
+          name: 'new location',
+          description: 'description',
+          kind: 'other',
+          short_desc: 'short_desc',
+          address_attributes: {
+            street: 'main', city: 'utopia', state: 'CA', zip: '12345' },
+          organization_id: org.id
         }
       end
       it "doesn't allow setting non-whitelisted attributes" do
-        post "api/locations/",
-          @required_attributes.merge(foo: "bar"),
-          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        post(
+          'api/locations/',
+          @required_attributes.merge(foo: 'bar'),
+          'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+        )
         expect(response.status).to eq(201)
-        json.should_not include "foo"
+        json.should_not include 'foo'
       end
     end
 
-    describe "Create a service for a location (POST /api/locations/:id/services)" do
+    describe 'POST /api/locations/:id/services' do
       before(:each) do
         @loc = create(:location)
         @service_attributes = {
-          :fees => "new fees",
-          :audience => "new audience",
-          :keywords => ["food", "youth"]
+          fees: 'new fees',
+          audience: 'new audience',
+          keywords: %w(food youth)
         }
       end
 
       it "doesn't allow setting non-whitelisted attributes" do
-        post "api/locations/#{@loc.id}/services",
-          @service_attributes.merge(foo: "bar"),
-          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        post(
+          "api/locations/#{@loc.id}/services",
+          @service_attributes.merge(foo: 'bar'),
+          'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+        )
         expect(response.status).to eq(201)
-        json.should_not include "foo"
+        json.should_not include 'foo'
       end
 
-      it "allows setting whitelisted attributes" do
-        post "api/locations/#{@loc.id}/services",
+      it 'allows setting whitelisted attributes' do
+        post(
+          "api/locations/#{@loc.id}/services",
           @service_attributes,
-          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
-        json["audience"].should == "new audience"
-        json["fees"].should == "new fees"
-        json["keywords"].should == ["food", "youth"]
+          'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+        )
+        expect(json['audience']).to eq 'new audience'
+        expect(json['fees']).to eq 'new fees'
+        expect(json['keywords']).to eq %w(food youth)
       end
 
-      it "sets service_areas to empty array if empty string" do
-        post "api/locations/#{@loc.id}/services",
-          @service_attributes.merge(services_areas: ""),
-          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
-        json["service_areas"].should == []
+      it 'sets service_areas to empty array if empty string' do
+        post(
+          "api/locations/#{@loc.id}/services",
+          @service_attributes.merge(services_areas: ''),
+          'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+        )
+        json['service_areas'].should == []
       end
 
-      it "sets service_areas to empty array if nil" do
-        post "api/locations/#{@loc.id}/services",
+      it 'sets service_areas to empty array if nil' do
+        post(
+          "api/locations/#{@loc.id}/services",
           @service_attributes.merge(services_areas: nil),
-          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
-        json["service_areas"].should == []
+          'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+        )
+        json['service_areas'].should == []
       end
     end
 
-    describe "DELETE api/locations/:id" do
+    describe 'DELETE api/locations/:id' do
       before :each do
-        service = create(:service)
-        @service_id = service.id
-        @location = service.location
+        create_service
+        @service_id = @service.id
         @id = @location.id
-        delete "api/locations/#{@id}", {},
-          { 'HTTP_X_API_TOKEN' => ENV["ADMIN_APP_TOKEN"] }
+        delete(
+          "api/locations/#{@id}",
+          {},
+          'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+        )
       end
 
-      it "deletes the location" do
+      it 'deletes the location' do
         get "api/locations/#{@id}"
         expect(response.status).to eq(404)
       end
 
-      it "deletes the service too" do
+      it 'deletes the service too' do
         expect { Service.find(@service_id) }.
-          to raise_error(Mongoid::Errors::DocumentNotFound)
+          to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it 'updates the search index' do
+        get 'api/search?keyword=vrs'
+        expect(json.length).to eq(0)
       end
     end
-
   end
 end

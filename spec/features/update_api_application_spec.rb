@@ -1,6 +1,6 @@
-require "spec_helper"
+require 'spec_helper'
 
-feature "Update an existing API Application" do
+feature 'Update an existing API Application' do
   # The 'visit_app' and 'update_api_app' methods are defined in
   # spec/support/features/session_helpers.rb
 
@@ -15,24 +15,24 @@ feature "Update an existing API Application" do
   # https://github.com/jnicklas/capybara
   background do
     user = FactoryGirl.create(:user_with_app)
-    login_as(user, :scope => :user)
+    login_as(user, scope: :user)
     name = user.api_applications.first.name
     main_url = user.api_applications.first.main_url
     visit_app(name, main_url)
   end
 
-  scenario "with valid fields" do
-    update_api_app("my awesome app", "http://localhost", "http://callback")
-    expect(page).to have_content "Application was successfully updated."
-    expect(page).to have_content "API Token"
+  scenario 'with valid fields' do
+    update_api_app('my awesome app', 'http://localhost', 'http://callback')
+    expect(page).to have_content 'Application was successfully updated.'
+    expect(page).to have_content 'API Token'
   end
 
-  scenario "with blank fields" do
-    update_api_app("", "", "")
+  scenario 'with blank fields' do
+    update_api_app('', '', '')
     expect(page).to have_content "Name can't be blank"
     expect(page).to have_content "Main url can't be blank"
     expect(page).to have_content "Callback url can't be blank"
-    expect(page).to have_button "Update application"
-    expect(page).to have_content "API Token"
+    expect(page).to have_button 'Update application'
+    expect(page).to have_content 'API Token'
   end
 end

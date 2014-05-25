@@ -2,10 +2,14 @@
 
 FactoryGirl.define do
   factory :organization do
-    name "Parent Agency"
+    name 'Parent Agency'
   end
 
   factory :nearby_org, class: Organization do
-    name "Food Stamps"
+    name 'Food Stamps'
+  end
+
+  factory :hsa, class: Organization do
+    name 'San Mateo County Human Services Agency'
   end
 end

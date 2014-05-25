@@ -27,4 +27,5 @@ task :create_categories => :environment do
       end
     end
   end
+  puts "===> All done creating categories."
 end

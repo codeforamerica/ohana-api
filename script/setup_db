@@ -2,11 +2,13 @@
 
 set -e
 
-echo "===> Setting up the DB."
+echo "===> Creating ohana-api-smc_development database..."
+rake db:create
+echo "===> Loading the DB schema..."
+rake db:structure:load
+
+echo "===> Creating ohana-api-smc_test database..."
+rake db:test:load
+
+echo "===> Populating the DB..."
 rake setup_db
-
-echo "===> Creating the DB indexes..."
-rake db:mongoid:create_indexes --quiet
-
-echo "===> Creating the Elasticsearch index..."
-script/tire --quiet

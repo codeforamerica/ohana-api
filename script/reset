@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+echo "===> Resetting the database..."
+rake db:reset
+echo "===> Done resetting the DB. Now populating it again..."
+rake setup_db
+echo "===> Done populating the DB. Now preparing the test database..."
+rake db:test:load
+echo "===> All done!"
