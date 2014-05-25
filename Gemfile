@@ -20,8 +20,7 @@ gem 'jquery-rails'
 gem 'haml-rails', '~> 0.5.3'
 
 # Server for deployment
-gem 'puma'
-gem 'puma_auto_tune'
+gem 'unicorn'
 
 group :production, :staging do
   gem 'rails_12factor' # Heroku recommended
