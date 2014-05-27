@@ -1,6 +1,6 @@
 development:
   adapter: postgresql
-  database: ohana-api_development
+  database: ohana_api_development
   encoding: utf8
   host: localhost
   port: 5432
@@ -21,7 +21,7 @@ test:
 
 production:
   adapter: postgresql
-  database: ohana-api_production
+  database: ohana_api_production
   encoding: unicode
   host: localhost
   port: 5432
