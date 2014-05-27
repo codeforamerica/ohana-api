@@ -1,6 +1,6 @@
 development:
   adapter: postgresql
-  database: ohana-api_development
+  database: ohana_api_development
   template: template0
   encoding: utf8
   host: localhost
