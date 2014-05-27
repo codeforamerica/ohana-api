@@ -3,7 +3,7 @@
 set -e
 
 echo "===> Loading the DB schema..."
-rake db:schema:load
+rake db:structure:load
 
 echo "===> Running the migrations..."
 rake db:migrate
