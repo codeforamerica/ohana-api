@@ -8,8 +8,8 @@ addons:
 services:
   - redis-server
 before_script:
-  - psql -c 'create database ohana-api-smc_test;' -U postgres
-  - psql -U postgres -q -d ohana-api-smc_test -f db/structure.sql
+  - psql -c 'create database ohana_api_smc_test;' -U postgres
+  - psql -U postgres -q -d ohana_api_smc_test -f db/structure.sql
   - cp config/database.travis.yml config/database.yml
 notifications:
   campfire:
