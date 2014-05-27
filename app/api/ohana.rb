@@ -10,7 +10,7 @@ module Ohana
         {
           'organizations_url' => "#{ENV['API_BASE_URL']}organizations{/organization_id}",
           'locations_url' => "#{ENV['API_BASE_URL']}locations{/location_id}",
-          'general_search_url' => "#{ENV['API_BASE_URL']}search{?keyword,location,radius,language,category}",
+          'general_search_url' => "#{ENV['API_BASE_URL']}search{?keyword,location,radius,language,category,org_name}",
           'rate_limit_url' => "#{ENV['API_BASE_URL']}rate_limit"
         }
       end
@@ -583,13 +583,21 @@ module Ohana
         optional :radius, type: Float, desc: 'Distance in miles from the location parameter'
         optional :language, type: String, desc: 'Languages other than English spoken at the location'
         optional :category, type: String, desc: 'The service category based on the OpenEligibility taxonomy'
+        optional :org_name, type: String, desc: 'The name of the organization'
         optional :page, type: Integer, default: 1
         optional :per_page, type: Integer, default: 30
       end
       get do
+        tables = [:organization, :address, :mail_address, :contacts, :phones,
+                  :faxes, services: :categories]
+        tables.delete(:organization) if params[:org_name].present?
+        tables.push(:services).delete(services: :categories) if params[:category].present?
+
         locations = Location.text_search(params).uniq.page(params[:page]).per(params[:per_page])
+
         set_link_header(locations)
-        present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
+
+        present locations.includes(tables), with: Entities::Location
       end
     end
 
