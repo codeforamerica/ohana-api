@@ -8,4 +8,8 @@ FactoryGirl.define do
   factory :nearby_org, class: Organization do
     name 'Food Stamps'
   end
+
+  factory :food_pantry, class: Organization do
+    name 'Food Pantry'
+  end
 end

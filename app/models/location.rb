@@ -183,7 +183,12 @@ class Location < ActiveRecord::Base
     near(coords, current_radius(r)) if l.present?
   end)
 
-  scope :belongs_to_org, ->(org) { joins(:organization).where(organizations: { name: org }) if org.present? }
+  scope :belongs_to_org, (lambda do |org|
+    if org.present?
+      joins(:organization).where('organizations.name @@ :q', q: org)
+    end
+  end)
+
   scope :has_email, ->(e) { where('admin_emails @@ :q or emails @@ :q', q: e) if e.present? }
 
   scope :has_domain, (lambda do |domain|
