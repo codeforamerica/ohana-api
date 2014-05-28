@@ -1,75 +1,65 @@
-#require "garner/mixins/rack"
-
 module Ohana
   class API < Grape::API
-
-    #helpers Garner::Mixins::Rack
     use Rack::ConditionalGet
     use Rack::ETag
 
-    resource "/" do
+    resource '/' do
       # GET /
-      desc "Provides hypermedia links to all top-level endpoints"
+      desc 'Provides hypermedia links to all top-level endpoints'
       get do
         {
-          "organizations_url" => "#{ENV["API_BASE_URL"]}organizations{/organization_id}",
-          "locations_url" => "#{ENV["API_BASE_URL"]}locations{/location_id}",
-          "general_search_url" => "#{ENV["API_BASE_URL"]}search{?keyword,location,radius,language,kind,category,market_match}",
-          "rate_limit_url" => "#{ENV["API_BASE_URL"]}rate_limit"
+          'organizations_url' => "#{ENV['API_BASE_URL']}organizations{/organization_id}",
+          'locations_url' => "#{ENV['API_BASE_URL']}locations{/location_id}",
+          'general_search_url' => "#{ENV['API_BASE_URL']}search{?keyword,location,radius,language,kind,category,market_match,service_area,org_name}",
+          'rate_limit_url' => "#{ENV['API_BASE_URL']}rate_limit"
         }
       end
     end
 
-    resource "locations" do
-      # GET /locatons
+    resource 'locations' do
+      # GET /locations
       # GET /locations?page=2
-      desc 'Returns all locations, 30 per page'
+      desc 'Returns all locations, 30 per page by default'
       params do
         optional :page, type: Integer, default: 1
-        optional :per_page, type: Integer
+        optional :per_page, type: Integer, default: 30
       end
       get do
-        #garner.options(expires_in: 30.minutes) do
-          locations = Location.search(params)
-          set_link_header(locations)
-          locations
-        #end
+        locations = Location.where.not(kind: 'test').order('created_at DESC').
+                            page(params[:page]).per(params[:per_page])
+
+        set_link_header(locations)
+        present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
       end
 
-      desc "Get the details for a specific location", {
-        :notes =>
-        <<-NOTE
-          # Fetching a location
+      desc(
+        'Get the details for a specific location',
+        notes:
+          <<-NOTE
+            # Fetching a location
 
-          You can fetch a location either by its id or by one of its slugs.
-          The `slugs` field is an array containing all slugs for a particular
-          location over time. Most locations will only have one slug, but it's
-          possible that a few will have their name edited at some point. Since
-          the API keeps track of the slug history, those locations will have
-          multiple slugs.
+            You can fetch a location either by its id or by its slug.
 
-          If using the API to display a location's details
-          on a web page that will be crawled by search engines, we recommend
-          setting the end of the canonical URL of the location's page to the
-          last slug in the array.
+            If using the API to display a location's details
+            on a web page that will be crawled by search engines, we recommend
+            setting the end of the canonical URL of the location's page to the
+            location's slug.
 
-          Example:
+            Example:
 
-          `http://ohanapi.herokuapp.com/api/locations/521d339d1974fcdb2b002664`
-          returns the same location as:
-          `http://ohanapi.herokuapp.com/api/locations/southwest-branch`
-        NOTE
-      }
+            `http://ohanapi.herokuapp.com/api/locations/1675`
+            returns the same location as:
+            `http://ohanapi.herokuapp.com/api/locations/southwest-branch`
+          NOTE
+      )
       get ':id' do
-        #garner.bind(Location) do
-          location = Location.find(params[:id])
-          present(location, with: Entities::Location)
-        #end
+        location = Location.find(params[:id])
+        present location, with: Entities::Location
       end
 
-      desc "Update a location"
+      desc 'Update a location'
       params do
-        requires :id, type: String, desc: "Location ID"
+        requires :id, type: String, desc: 'Location ID'
       end
       put ':id' do
         authenticate!
@@ -80,13 +70,13 @@ module Ohana
           params[:emails] = params[:emails].delete_if { |email| email.blank? }
         end
 
-        loc.update_attributes!(params)
+        loc.update!(params)
         present loc, with: Entities::Location
       end
 
-      desc "Delete a location"
+      desc 'Delete a location'
       params do
-        requires :id, type: String, desc: "Location ID"
+        requires :id, type: Integer, desc: 'Location ID'
       end
       delete ':id' do
         authenticate!
@@ -94,52 +84,230 @@ module Ohana
         loc.destroy
       end
 
-      desc "Create a location"
+      desc 'Create a location'
       post do
         authenticate!
         loc = Location.create!(params)
         present loc, with: Entities::Location
       end
 
-      segment '/:locations_id' do
+      segment '/:location_id' do
         resource '/nearby' do
-          desc "Returns locations near the one queried."
+          desc 'Returns locations near the one queried.'
           params do
             optional :page, type: Integer, default: 1
-            optional :radius, type: Float
+            optional :per_page, type: Integer, default: 30
+            optional :radius, type: Float, default: 0.5
           end
 
           get do
-            #garner.options(expires_in: 30.minutes) do
-              location = Location.find(params[:locations_id])
-              nearby = Location.nearby(location, params)
-              set_link_header(nearby) if location.coordinates.present?
-              nearby
-            #end
+            location = Location.find(params[:location_id])
+            radius = Location.current_radius(params[:radius])
+
+            if location.latitude.present? && location.longitude.present?
+              nearby = location.nearbys(radius).
+                                page(params[:page]).per(params[:per_page])
+            else
+              nearby = Location.none.page(params[:page]).per(params[:per_page])
+            end
+
+            set_link_header(nearby)
+            present nearby.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
           end
         end
 
         resource '/services' do
-          desc "Create a new service for this location"
+          desc 'Create a new service for this location'
+          params do
+            requires :location_id, type: Integer
+          end
           post do
             authenticate!
-            location = Location.find(params[:locations_id])
+            location = Location.find(params[:location_id])
             location.services.create!(params)
             location.services.last
           end
         end
 
-
-        resource '/contacts' do
-          desc "Delete all contacts for a location"
+        resource '/address' do
+          desc 'Create a new address for this location'
           params do
-            requires :locations_id, type: String
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.create_address!(params) unless location.address.present?
+            location.address
+          end
+
+          desc 'Update an address'
+          params do
+            requires :location_id, type: Integer, desc: 'Address ID'
+          end
+          patch do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.address.update!(params)
+            location.address
+          end
+
+          desc 'Delete an address'
+          params do
+            requires :location_id, type: Integer, desc: 'Location ID'
           end
           delete do
             authenticate!
-            loc = Location.find(params[:locations_id])
-            loc.update_attributes!(contacts: [])
-            loc
+            location = Location.find(params[:location_id])
+            address_id = location.address.id
+            location.address_attributes = { id: address_id, _destroy: '1' }
+            res = location.save
+
+            if res == false
+              error!('A location must have at least one address type.', 400)
+            end
+          end
+        end
+
+        resource '/mail_address' do
+          desc 'Create a new mailing address for this location'
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.create_mail_address!(params) unless location.mail_address.present?
+            location.mail_address
+          end
+
+          desc 'Update a mailing address'
+          params do
+            requires :location_id, type: Integer, desc: 'Mail Address ID'
+          end
+          patch do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.mail_address.update!(params)
+            location.mail_address
+          end
+
+          desc 'Delete a mailing address'
+          params do
+            requires :location_id, type: Integer, desc: 'Location ID'
+          end
+          delete do
+            authenticate!
+            location = Location.find(params[:location_id])
+            mail_address_id = location.mail_address.id
+            location.mail_address_attributes =
+              { id: mail_address_id, _destroy: '1' }
+            res = location.save
+            if res == false
+              error!('A location must have at least one address type.', 400)
+            end
+          end
+        end
+
+        resource '/contacts' do
+          desc 'Create a new contact for this location'
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.contacts.create!(params)
+            location.contacts.last
+          end
+
+          desc 'Update a contact'
+          params do
+            requires :id, type: Integer, desc: 'Contact ID'
+          end
+          patch ':id' do
+            authenticate!
+            contact = Contact.find(params[:id])
+            contact.update!(params)
+            present contact, with: Contact::Entity
+          end
+
+          desc 'Delete a contact'
+          params do
+            requires :id, type: Integer, desc: 'Contact ID'
+          end
+          delete ':id' do
+            authenticate!
+            contact = Contact.find(params[:id])
+            contact.delete
+          end
+        end
+
+        resource '/faxes' do
+          desc 'Create a new fax for this location'
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.faxes.create!(params)
+            location.faxes.last
+          end
+
+          desc 'Update a fax'
+          params do
+            requires :id, type: Integer, desc: 'fax ID'
+          end
+          patch ':id' do
+            authenticate!
+            fax = Fax.find(params[:id])
+            fax.update!(params)
+            present fax, with: Fax::Entity
+          end
+
+          desc 'Delete a fax'
+          params do
+            requires :id, type: Integer, desc: 'fax ID'
+          end
+          delete ':id' do
+            authenticate!
+            fax = Fax.find(params[:id])
+            fax.delete
+          end
+        end
+
+        resource '/phones' do
+          desc 'Create a new phone for this location'
+          params do
+            requires :location_id, type: Integer
+          end
+          post do
+            authenticate!
+            location = Location.find(params[:location_id])
+            location.phones.create!(params)
+            location.phones.last
+          end
+
+          desc 'Update a phone'
+          params do
+            requires :id, type: Integer, desc: 'phone ID'
+          end
+          patch ':id' do
+            authenticate!
+            phone = Phone.find(params[:id])
+            phone.update!(params)
+            present phone, with: Phone::Entity
+          end
+
+          desc 'Delete a phone'
+          params do
+            requires :id, type: Integer, desc: 'phone ID'
+          end
+          delete ':id' do
+            authenticate!
+            phone = Phone.find(params[:id])
+            phone.delete
           end
         end
       end
@@ -148,70 +316,63 @@ module Ohana
     resource 'organizations' do
       # GET /organizations
       # GET /organizations?page=2
-      desc "Returns all organizations, 30 per page"
+      desc 'Returns all organizations, 30 per page'
       params do
         optional :page, type: Integer, default: 1
       end
       get do
-        #garner.options(expires_in: 30.minutes) do
-          orgs = Organization.page(params[:page])
-          set_link_header(orgs)
-          present(orgs, with: Organization::Entity)
-        #end
+        orgs = Organization.page(params[:page])
+        set_link_header(orgs)
+        present orgs, with: Organization::Entity
       end
 
-      desc "Get the details for a specific organization", {
-        :notes =>
-        <<-NOTE
-          # Fetching an organization
+      desc(
+        'Get the details for a specific organization',
+        notes:
+          <<-NOTE
+            # Fetching an organization
 
-          You can fetch an organization either by its id or by one of its slugs.
-          The `slugs` field is an array containing all slugs for a particular
-          organization over time. Most organizations will only have one slug, but it's
-          possible that a few will have their name edited at some point. Since
-          the API keeps track of the slug history, those organizations will have
-          multiple slugs.
+            You can fetch an organization either by its id or by its slug.
 
-          Example:
+            Example:
 
-          `http://ohanapi.herokuapp.com/api/organizations/521d339d1974fcdb2b00265f`
-          returns the same organization as:
-          `http://ohanapi.herokuapp.com/api/organizations/ymca-of-silicon-valley`
-        NOTE
-      }
+            `http://ohanapi.herokuapp.com/api/organizations/1342`
+            returns the same organization as:
+            `http://ohanapi.herokuapp.com/api/organizations/ymca-of-silicon-valley`
+          NOTE
+      )
       get ':id' do
-        #garner.bind(Organization) do
-          org = Organization.find(params[:id])
-          present(org, with: Organization::Entity)
-        #end
+        org = Organization.find(params[:id])
+        present org, with: Organization::Entity
       end
 
-      desc "Update an organization", {
-        :notes =>
-        <<-NOTE
-          ### Currently, the only organization parameter that can be updated is the name.
-          Example HTTP PUT request:
-          ```
-          #{ENV["API_BASE_URL"]}organizations/org_id?name=new name
-          ```
+      desc(
+        'Update an organization',
+        notes:
+          <<-NOTE
+            ### Currently, the only organization parameter that can be updated is the name.
+            Example HTTP PUT request:
+            ```
+            #{ENV['API_BASE_URL']}organizations/org_id?name=new name
+            ```
 
-          Example request via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa-ruby):
-          ```
-          Ohanakapa.put("organizations/org_id/", :query => { :name => "new name" })
-          ```
-          where `org_id` is the id of the organization you want to update.
+            Example request via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa-ruby):
+            ```
+            Ohanakapa.put("organizations/org_id/", :query => { :name => "new name" })
+            ```
+            where `org_id` is the id of the organization you want to update.
 
-          A valid API token is required. You can get one by [registering your app](http://ohanapi.herokuapp.com).
-        NOTE
-      }
+            A valid API token is required. You can get one by [registering your app](http://ohanapi.herokuapp.com).
+          NOTE
+      )
       params do
-        requires :id, type: String, desc: "Organization ID"
-        requires :name, type: String, desc: "Organization Name"
+        requires :id, type: String, desc: 'Organization ID'
+        requires :name, type: String, desc: 'Organization Name'
       end
       put ':id' do
         authenticate!
         org = Organization.find(params[:id])
-        org.update_attributes!(name: params[:name])
+        org.update!(name: params[:name])
         present org, with: Organization::Entity
       end
 
@@ -222,31 +383,34 @@ module Ohana
             optional :page, type: Integer, default: 1
           end
           get do
-            #garner.options(expires_in: 30.minutes) do
-              org = Organization.find(params[:organization_id])
-              locations = org.locations.page(params[:page])
-              set_link_header(locations)
-              present(locations, with: Entities::Location)
-            #end
+            org = Organization.find(params[:organization_id])
+            locations = org.locations.page(params[:page])
+            set_link_header(locations)
+            present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
           end
         end
       end
     end
 
     resource 'services' do
-      desc "Update a service"
+      desc 'Update a service'
       params do
-        requires :id, type: String, desc: "Service ID"
+        requires :id, type: String, desc: 'Service ID'
       end
       put ':id' do
         authenticate!
         service = Service.find(params[:id])
-        params = request.params.except(:route_info)
 
-        params[:service_areas] = [] if params[:service_areas].blank?
+        if params[:service_areas].is_a?(Array)
+          service.update!(params)
+        elsif params[:service_areas].blank?
+          params[:service_areas] = []
+          service.update!(params)
+        else
+          service.update!(params.except(:service_areas))
+        end
 
-        service.update_attributes!(params)
-        service
+        present service, with: Service::Entity
       end
 
       segment '/:services_id' do
@@ -260,13 +424,13 @@ module Ohana
             s = Service.find(params[:services_id])
 
             # Create an array of category ids from the category slugs
-            # that were passed in. The slugs are "URL friendly" versions
+            # that were passed in. The slugs are 'URL friendly' versions
             # of the Open Eligibility (http://openeligibility.org) category
             # names.
-            # For example, "Prevent & Treat" becomes "prevent-and-treat".
+            # For example, 'Prevent & Treat' becomes 'prevent-and-treat'.
             # If you want to see all 327 slugs, run this command from the
             # Rails console:
-            # Category.all.map(&:slugs).flatten
+            # Category.all.map(&:slug)
             cat_ids = []
             params[:category_slugs].each do |cat_slug|
               cat = Category.find(cat_slug)
@@ -276,7 +440,7 @@ module Ohana
             # Set the service's category_ids to this new array of ids
             s.category_ids = cat_ids
             s.save
-            s
+            present s, with: Service::Entity
           end
         end
       end
@@ -284,16 +448,14 @@ module Ohana
 
     resource 'categories' do
       # GET /categories
-      desc "Returns all categories"
+      desc 'Returns all categories'
       get do
-        #garner.bind(Category) do
-          cats = Category.page(1).per(400)
-          present cats, with: Category::Entity
-        #end
+        cats = Category.page(1).per(400)
+        present cats, with: Category::Entity
       end
 
-      segment "/:category_id" do
-        resource "/children" do
+      segment '/:category_id' do
+        resource '/children' do
           desc "Returns the category's children categories"
           params do
             requires :category_id, type: String
@@ -308,233 +470,241 @@ module Ohana
 
     resource 'search' do
       # GET /search?keyword={keyword}&location={loc}
-      desc "Search using a variety of parameters. Returns locations.", {
-        :notes =>
-        <<-NOTE
-          # Search
+      desc(
+        'Search using a variety of parameters. Returns locations.',
+        notes:
+          <<-NOTE
+            # Search
 
-          ## Parameters
+            ## Parameters
 
-          ### keyword
+            ### keyword
 
-          When searching by `keyword`, the API returns locations where the
-          search term matches one or more of these fields:
+            When searching by `keyword`, the API returns locations where the
+            search term matches one or more of these fields:
 
-              the location's name
-              the location's description
-              the location's parent organization's name
-              the location's services' keywords
-              the location's services' name
-              the location's services' descriptions
-              the location's services' category names
+                the location's name
+                the location's description
+                the location's parent organization's name
+                the location's services' keywords
+                the location's services' name
+                the location's services' descriptions
+                the location's services' category names
 
-          Results that match service categories are ranked the highest,
-          followed by service keywords matches.
+            Results that match service categories are ranked the highest,
+            followed by service keywords matches.
 
-          Example:
-          ```
-          #{ENV["API_BASE_URL"]}search?keyword=food
-          ```
+            Example:
+            ```
+            #{ENV['API_BASE_URL']}search?keyword=food
+            ```
 
-          ### org_name
+            ### org_name
 
-          This parameter allows you to filter locations that belong to a
-          specific organization.
+            This parameter allows you to filter locations that belong to a
+            specific organization.
 
-          Example:
-          ```
-          #{ENV["API_BASE_URL"]}search?org_name=San+Mateo+County+Human+Services+Agency
-          ```
+            Example:
+            ```
+            #{ENV['API_BASE_URL']}search?org_name=San+Mateo+County+Human+Services+Agency
+            ```
 
-          ### location, radius
-          Queries that include the `location` parameter filter the results to
-          only include locations that are 5 miles (by default) from the
-          `location`.
-          To search within a radius smaller or greater than 5 miles, use the
-          `radius` parameter. `radius` must be a Float between 0.1 and 50.
-          `location` can be an address (full or partial), or a 5-digit ZIP code.
-          Results are sorted by distance.
+            ### location, radius
+            Queries that include the `location` parameter filter the results to
+            only include locations that are 5 miles (by default) from the
+            `location`.
+            To search within a radius smaller or greater than 5 miles, use the
+            `radius` parameter. `radius` must be a Float between 0.1 and 50.
+            `location` can be an address (full or partial), or a 5-digit ZIP code.
+            Results are sorted by distance.
 
-          Examples:
+            Examples:
 
-          `#{ENV["API_BASE_URL"]}search?location=94403`
+            `#{ENV['API_BASE_URL']}search?location=94403`
 
-          `#{ENV["API_BASE_URL"]}search?location=san mateo&radius=10`
+            `#{ENV['API_BASE_URL']}search?location=san mateo&radius=10`
 
-          `#{ENV["API_BASE_URL"]}search?keyword=emergency&location=94403`
+            `#{ENV['API_BASE_URL']}search?keyword=emergency&location=94403`
 
-          ### language
-          The `language` parameter can be used to filter locations by language
-          spoken at the location.
+            ### language
+            The `language` parameter can be used to filter locations by language
+            spoken at the location.
 
-          Examples:
+            Examples:
 
-          `#{ENV["API_BASE_URL"]}search?language=tagalog`
+            `#{ENV['API_BASE_URL']}search?language=tagalog`
 
-          `#{ENV["API_BASE_URL"]}search?location=east palo alto&language=tongan`
+            `#{ENV['API_BASE_URL']}search?location=east palo alto&language=tongan`
 
-          `#{ENV["API_BASE_URL"]}search?keyword=daycare&language=spanish`
+            `#{ENV['API_BASE_URL']}search?keyword=daycare&language=spanish`
 
-          ### category
-          The `category` parameter is used to search only on the service
-          categories field using the [OpenEligibility](http://openeligibility.org) taxonomy.
-          It is provided to allow targeted search results that will only return
-          locations that belong to the category passed in the request. The value
-          of the `category` parameter must match the OpenEligibility term spelling exactly.
+            ### category
+            The `category` parameter is used to search only on the service
+            categories field using the [OpenEligibility](http://openeligibility.org) taxonomy.
+            It is provided to allow targeted search results that will only return
+            locations that belong to the category passed in the request. The value
+            of the `category` parameter must match the OpenEligibility term spelling exactly.
 
-          Examples:
+            Examples:
 
-          `#{ENV["API_BASE_URL"]}search?category=Emergency Food`
+            `#{ENV['API_BASE_URL']}search?category=Emergency Food`
 
-          `#{ENV["API_BASE_URL"]}search?category=Help Fill out Forms`
+            `#{ENV['API_BASE_URL']}search?category=Help Fill out Forms`
 
-          To get an array containing all possible categories, you can run this
-          Ruby code via our [wrapper](https://github.com/codeforamerica/ohanakapa-ruby):
+            To get an array containing all possible categories, you can run this
+            Ruby code via our [wrapper](https://github.com/codeforamerica/ohanakapa-ruby):
 
-          `Ohanakapa.categories.map(&:name)`
+            `Ohanakapa.categories.map(&:name)`
 
-          ### kind
+            ### kind
 
-          The `kind` parameter can be used to filter locations by the
-          overall type of organization. Possible values are (exact spelling):
+            The `kind` parameter can be used to filter locations by the
+            overall type of organization. Possible values are (exact spelling):
 
-              Arts
-              Clinics
-              Education
-              Entertainment
-              Farmers' Markets
-              Government
-              Human Services
-              Libraries
-              Museums
-              Other
-              Parks
-              Sports
+                Arts
+                Clinics
+                Education
+                Entertainment
+                Farmers' Markets
+                Government
+                Human Services
+                Libraries
+                Museums
+                Other
+                Parks
+                Sports
 
-          Examples:
+            Examples:
 
-          *Single*:
+            *Single*:
 
-          `#{ENV["API_BASE_URL"]}search?kind=Human Services`
+            `#{ENV['API_BASE_URL']}search?kind[]=Human Services`
 
-          *Multiple*:
+            *Multiple*:
 
-          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks`
+            `#{ENV['API_BASE_URL']}search?kind[]=Libaries&kind[]=Parks`
 
-          *Sort by kind (default order is "asc")*:
+            *Sort by kind (default order is 'asc')*:
 
-          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks&sort=kind`
+            `#{ENV['API_BASE_URL']}search?kind[]=Libaries&kind[]=Parks&sort=kind`
 
-          *Sort by kind in descending order*:
+            *Sort by kind in descending order*:
 
-          `#{ENV["API_BASE_URL"]}search?kind[]=Libaries&kind[]=Parks&sort=kind&order=desc`
+            `#{ENV['API_BASE_URL']}search?kind[]=Libaries&kind[]=Parks&sort=kind&order=desc`
 
-          ### market_match (Farmers' Markets only)
+            ### market_match (Farmers' Markets only)
 
-          Get a list of markets that participate in the [Market Match](http://www.pcfma.com/pcfma_marketmatch.php) program.
+            Get a list of markets that participate in the [Market Match](http://www.pcfma.com/pcfma_marketmatch.php) program.
 
-          Examples:
+            Examples:
 
-          `#{ENV["API_BASE_URL"]}search?kind=market&market_match=1` (to get participants)
+            `#{ENV['API_BASE_URL']}search?market_match=1` (to get participants)
 
-          `#{ENV["API_BASE_URL"]}search?kind=market&market_match=0` (to get non-participants)
+            `#{ENV['API_BASE_URL']}search?market_match=0` (to get non-participants)
 
-          ### products, payments (Farmers' Markets only)
-          These two additional parameters are available for farmers' markets
-          to filter the markets that only accept certain types of payment and
-          sell certain kinds of products.
+            ### products, payments (Farmers' Markets only)
+            These two additional parameters are available for farmers' markets
+            to filter the markets that only accept certain types of payment and
+            sell certain kinds of products.
 
-          Examples:
+            Examples:
 
-          `#{ENV["API_BASE_URL"]}search?products=Baked Goods`
+            `#{ENV['API_BASE_URL']}search?products=Baked Goods`
 
-          `#{ENV["API_BASE_URL"]}search?products=baked goods`
+            `#{ENV['API_BASE_URL']}search?products=baked goods`
 
-          `#{ENV["API_BASE_URL"]}search?payments=SFMNP`
+            `#{ENV['API_BASE_URL']}search?payments=SFMNP`
 
-          `#{ENV["API_BASE_URL"]}search?payments=snap`
+            `#{ENV['API_BASE_URL']}search?payments=snap`
 
-          `#{ENV["API_BASE_URL"]}search?payments=SNAP&products=vegetables`
+            `#{ENV['API_BASE_URL']}search?payments=SNAP&products=vegetables`
 
-          Possible values for `payments`: Credit, WIC, WICcash, SFMNP, SNAP
+            Possible values for `payments`: Credit, WIC, WICcash, SFMNP, SNAP
 
-          Possible values for `products`:
+            Possible values for `products`:
 
-              Baked Goods
-              Cheese
-              Crafts
-              Flowers
-              Eggs
-              Seafood
-              Herbs
-              Vegetables
-              Honey
-              Jams
-              Maple
-              Meat
-              Nursery
-              Nuts
-              Plants
-              Poultry
-              Prepared Food
-              Soap
-              Trees
-              Wine
+                Baked Goods
+                Cheese
+                Crafts
+                Flowers
+                Eggs
+                Seafood
+                Herbs
+                Vegetables
+                Honey
+                Jams
+                Maple
+                Meat
+                Nursery
+                Nuts
+                Plants
+                Poultry
+                Prepared Food
+                Soap
+                Trees
+                Wine
 
 
-          ## JSON response
-          The search results JSON includes the location's parent organization
-          info, as well as the location's services, so you can have all the
-          info in one query instead of three.
+            ## JSON response
+            The search results JSON includes the location's parent organization
+            info, as well as the location's services, so you can have all the
+            info in one query instead of three.
 
-          Search returns 30 results per page. Use the `page` parameter to
-          get a new set of results.
+            Search returns 30 results per page. Use the `page` parameter to
+            get a new set of results.
 
-          Example:
+            Example:
 
-          `#{ENV["API_BASE_URL"]}search?keyword=education&page=2`
+            `#{ENV['API_BASE_URL']}search?keyword=education&page=2`
 
-          Pagination info is available via the following HTTP response headers:
+            Pagination info is available via the following HTTP response headers:
 
-          `X-Total-Count`
+            `X-Total-Count`
 
-          `X-Total-Pages`
+            `X-Total-Pages`
 
-          `X-Current-Page`
+            `X-Current-Page`
 
-          `X-Next-Page`
+            `X-Next-Page`
 
-          `X-Previous-Page`
+            `X-Previous-Page`
 
-          Pagination links are available via the `Link` header.
-        NOTE
-      }
+            Pagination links are available via the `Link` header.
+          NOTE
+      )
       params do
         optional :keyword, type: String
-        optional :location, type: String, desc: "An address or 5-digit ZIP code"
-        optional :radius, type: Float, desc: "Distance in miles from the location parameter"
-        optional :language, type: String, desc: "Languages other than English spoken at the location"
-        optional :kind, type: Array, desc: "The type of organization, such as human services, farmers' markets"
-        optional :category, type: String, desc: "The service category based on the OpenEligibility taxonomy"
+        optional :location, type: String, desc: 'An address or 5-digit ZIP code'
+        optional :radius, type: Float, desc: 'Distance in miles from the location parameter'
+        optional :language, type: String, desc: 'Languages other than English spoken at the location'
+        optional :kind, desc: "The type of organization, such as human services, farmers' markets"
         optional :market_match, type: String, desc: "To filter farmers' markets that participate in Market Match"
         optional :products, type: String, desc: "To filter farmers' markets that sell certain products"
         optional :payments, type: String, desc: "To filter farmers' markets that accept certain payment types"
+        optional :category, type: String, desc: 'The service category based on the OpenEligibility taxonomy'
+        optional :org_name, type: String, desc: 'The name of the organization'
         optional :page, type: Integer, default: 1
+        optional :per_page, type: Integer, default: 30
       end
       get do
-        #garner.options(expires_in: 30.minutes) do
-          locations = Location.search(params)
-          set_link_header(locations)
-          locations
-        #end
+        tables = [:organization, :address, :mail_address, :contacts, :phones,
+                  :faxes, services: :categories]
+        tables.delete(:organization) if params[:org_name].present?
+        tables.push(:services).delete(services: :categories) if params[:category].present?
+
+        locations = Location.text_search(params).uniq.page(params[:page]).per(params[:per_page])
+
+        set_link_header(locations)
+
+        present locations.includes(tables), with: Entities::Location
       end
     end
 
     ## Uncomment this endpoint if you want to enable rate limiting.
     ## See lines 85-90 in config/application.rb
-    # resource "rate_limit" do
+    # resource 'rate_limit' do
     #   # GET /rate_limit
-    #   desc "Provides rate limit info", {
+    #   desc 'Provides rate limit info', {
     #     :notes =>
     #     <<-NOTE
     #       Rate Limiting
@@ -546,7 +716,7 @@ module Ohana
 
     #       Requests that have a valid header and token get 5000 requests per hour.
 
-    #       You can check your rate limit via the `#{ENV["API_BASE_URL"]}rate_limit` endpoint,
+    #       You can check your rate limit via the `#{ENV['API_BASE_URL']}rate_limit` endpoint,
     #       which won't affect your rate limit, or by examining the following
     #       response headers:
 
@@ -564,11 +734,11 @@ module Ohana
     #           Transfer-Encoding: chunked
 
     #           {
-    #             "description": "Rate limit exceeded",
-    #             "hourly_rate_limit": 60,
-    #             "method": "GET",
-    #             "request": "http://localhost:8080/api/search",
-    #             "status": 403
+    #             'description': 'Rate limit exceeded',
+    #             'hourly_rate_limit': 60,
+    #             'method': 'GET',
+    #             'request': 'http://localhost:8080/api/search',
+    #             'status': 403
     #           }
 
     #       **Staying within the rate limit**
@@ -589,12 +759,12 @@ module Ohana
     #     NOTE
     #   }
     #   get do
-    #     token = request.env["HTTP_X_API_TOKEN"].to_s
+    #     token = request.env['HTTP_X_API_TOKEN'].to_s
     #     limit = (token.present? && User.where('api_applications.api_token' => token).exists?) ? 5000 : 60
     #     {
-    #       "rate" => {
-    #         "limit" => limit,
-    #         "remaining" => limit - (REDIS.get("throttle:#{request.ip}:#{Time.now.strftime('%Y-%m-%dT%H')}")).to_i
+    #       'rate' => {
+    #         'limit' => limit,
+    #         'remaining' => limit - (REDIS.get('throttle:#{request.ip}:#{Time.now.strftime('%Y-%m-%dT%H')}')).to_i
     #       }
     #     }
     #   end

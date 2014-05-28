@@ -20,9 +20,9 @@ The easiest way to assign categories to a service is to use the [Ohana API Admin
 ![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
 
 ## API documentation
-[http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
+[http://ohana-api-demo.herokuapp.com/api/docs](http://ohana-api-demo.herokuapp.com/api/docs)
 
-[Search documentation](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
+[Search documentation](http://ohana-api-demo.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
 
 ## Ruby wrapper
 [https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
@@ -30,42 +30,44 @@ The easiest way to assign categories to a service is to use the [Ohana API Admin
 ## Stack Overview
 
 * Ruby version 2.1.1
-* Rails version 3.2.17
-* MongoDB with the Mongoid ORM
+* Rails version 4.0.4
+* Postgres
 * Redis
-* ElasticSearch
 * API framework: Grape
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
 
-## Installation
+## Installation - The Fast & Easy Way
+
+We have a [virtual machine](https://github.com/codeforamerica/ohana-api-dev-box) with all the tools you need to get started.
+
+## Installation - The Long Way
+
 Please note that the instructions below have only been tested on OS X. If you are running another operating system and run into any issues, feel free to update this README, or open an issue if you are unable to resolve installation issues.
 
 ###Prerequisites
 
-#### Git, Ruby 2.1+, Rails 3.2.17+ (+ Homebrew on OS X)
+#### Git, Ruby 2.1.1 (+ Homebrew on OS X)
 **OS X**: [Set up a dev environment on OS X with Homebrew, Git, RVM, Ruby, and Rails](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/)
 
 **Windows**: Try [RailsInstaller](http://railsinstaller.org), along with some of these [tutorials](https://www.google.com/search?q=install+rails+on+windows) if you get stuck.
 
+**Linux**:
 
-#### MongoDB
+* To make sure you are using the right Ruby version, we recommend [RVM](http://rvm.io), but you can use other Ruby version managers.
+* You need a Javascript runtime. We recommend Node.JS (if you have a good reason not to use it, [there are other options](https://github.com/sstephenson/execjs)). On Ubuntu, it's as simple as <code>sudo apt-get install nodejs</code>. On others, [check the official instructions](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager).
+
+
+#### PostgreSQL
 **OS X**
 
-On OS X, the easiest way to install MongoDB (or almost any development tool) is with Homebrew:
+On OS X, the easiest way to install PostgreSQL is with [Postgres.app](http://postgresapp.com/)
 
-    brew update
-    brew install mongodb
-
-Follow the Homebrew instructions for configuring MongoDB and starting it automatically every time you restart your computer. Otherwise, you can launch MongoDB manually in a separate Terminal tab or window with this command:
-
-    mongod
-
-[MongoDB installation instructions using MacPorts](https://github.com/codeforamerica/ohana-api/wiki/Installing-MongoDB-with-MacPorts-on-OS-X) are available on the wiki.
+If that doesn't work, try this [tutorial](http://www.moncefbelyamani.com/how-to-install-postgresql-on-a-mac-with-homebrew-and-lunchy/).
 
 **Other**
 
-See the Downloads page on mongodb.org for steps to install on other systems: [http://www.mongodb.org/downloads](http://www.mongodb.org/downloads)
+See the Downloads page on postgresql.org for steps to install on other systems: [http://www.postgresql.org/download/](http://www.postgresql.org/download/)
 
 
 #### Redis
@@ -85,19 +87,6 @@ Follow the Homebrew instructions if you want Redis to start automatically every 
 
 See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
 
-#### ElasticSearch
-**OS X**
-
-On OS X, the easiest way to install ElasticSearch is with Homebrew:
-
-    brew install elasticsearch
-
-Follow the Homebrew instructions to launch ElasticSearch.
-
-**Other**
-
-Visit the Download page on elasticsearch.org for steps to install on other systems: [http://www.elasticsearch.org/download/](http://www.elasticsearch.org/download/)
-
 ### Clone the app on your local machine:
 
 From the Terminal, navigate to the directory into which you'd like to create a copy of the Ohana API source code. For instance, on OS X `cd ~` will place you in your home directory. Next download this repository into your working directory with:
@@ -111,24 +100,29 @@ From the Terminal, navigate to the directory into which you'd like to create a c
 
 _Note: Installation and preparation can take several minutes to complete!_
 
-If you get a `permission denied` message, set the correct permissions:
+### Set up the environment variables & customizable settings
+Inside the `config` folder, you will find a file named `application.example.yml`. Rename it to `application.yml` and double check that it is in your `.gitignore` file (it should be by default).
 
-    chmod -R 755 script
+In `config/application.yml`, set the following environment variables so that the tests can pass, and so you can run the [Ohana API Admin](https://github.com/codeforamerica/ohana-api-admin) app locally:
 
-then run `script/bootstrap` again.
-
-In `config/application.yml`, set the `ADMIN_APP_TOKEN` environment variable so that the tests can pass, and so you can run the [SMC-Connect Admin](https://github.com/smcgov/SMC-Connect-Admin) app locally:
-
+    API_BASE_URL: http://localhost:8080/api/
+    API_BASE_HOST: http://localhost:8080/
     ADMIN_APP_TOKEN: your_token
 
 `your_token` can be any string you want for testing purposes, but in production, you should use a random string, which you can generate from the command line:
 
     rake secret
 
-### Run the app
-Start the app locally on port 8080 using Passenger:
+Inside the `config` folder, you will also find a file called `settings.yml`.
+In that file, there are 3 variables you can customize. Please read through the
+instructions in that file carefully.
 
-    passenger start -p 8080
+### Run the app
+Start the app locally on port 8080:
+
+    rails s -p 8080
+
+If for some reason, you can't run on port 8080, make sure you update `API_BASE_URL` and `API_BASE_HOST` in `config/application.yml` if you change the port number. You'll also need to update the port number in `OHANA_API_ENDPOINT` when running the Admin Interface.
 
 ### Verify the app is returning JSON
 To see all locations, 30 per page:
@@ -139,11 +133,12 @@ To go the next page (the page parameter works for all API responses):
 
     http://localhost:8080/api/locations?page=2
 
+Note that the sample dataset has less than 30 locations, so the second page will be empty.
+
 Search for organizations by keyword and/or location:
 
     http://localhost:8080/api/search?keyword=food
     http://localhost:8080/api/search?keyword=counseling&location=94403
-    http://localhost:8080/api/search?keyword=market&location=san mateo
     http://localhost:8080/api/search?location=redwood city, ca
 
 Search for organizations by languages spoken at the location:
@@ -171,7 +166,7 @@ X-Previous-Page
 Pagination links are available via the `Link` header.
 
 Here is an example response using cURL:
-`curl -s -D - http://ohanapi.herokuapp.com/api/search\?keyword\=shelter -o /dev/null`
+`curl -s -D - http://ohana-api-demo.herokuapp.com/api/search\?keyword\=shelter -o /dev/null`
 
 Response Headers:
 
@@ -181,7 +176,7 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Type: application/json
 Date: Wed, 19 Feb 2014 14:16:40 GMT
 Etag: "f104eaabf805bd034a7c376f15b66a4b"
-Link: <http://ohanapi.herokuapp.com/api/search?keyword=shelter&page=3>; rel="last", <http://ohanapi.herokuapp.com/api/search?keyword=shelter&page=2>; rel="next"
+Link: <http://ohana-api-demo.herokuapp.com/api/search?keyword=shelter&page=3>; rel="last", <http://ohana-api-demo.herokuapp.com/api/search?keyword=shelter&page=2>; rel="next"
 Server: nginx/1.4.4 + Phusion Passenger 4.0.37
 Status: 200 OK
 X-Current-Page: 1
@@ -211,7 +206,7 @@ shelters = Ohanakapa.search("search", keyword: "shelter")
 shelters.concat Ohanakapa.last_response.rels[:next].get.data
 ```
 
-Read more about [search](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15) in the API docs.
+Read more about [search](http://ohana-api-demo.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15) in the API docs.
 
 ### Tools
 We recommend these tools to interact with APIs:
@@ -220,35 +215,34 @@ We recommend these tools to interact with APIs:
 
 [HTTPie](https://github.com/jkbr/httpie) command line utility for making interactions with web services from the command line more human friendly.
 
-### Resetting the app
-If you want to wipe out the local test DB and start from scratch:
+### Resetting the DB
+If you want to wipe out the local test DB and reset it with the sample data, run this command:
 
-    script/drop
-    script/bootstrap
+    script/reset
 
 Do this on your local machine only, not in production!
 
-### User authentication and emails
-The app allows developers to sign up for an account via the home page (http://localhost:8080), but all email addresses need to be verified first. In development, the app sends email via Gmail. If you want to try this email process on your local machine, you need to configure your Gmail username and password by creating a file called `application.yml` in the config folder, and entering your info like so:
-
-    GMAIL_USERNAME: your_email@gmail.com
-    GMAIL_PASSWORD: your_password
-
-`application.yml` is ignored in `.gitignore`, so you don't have to worry about exposing your credentials if you ever push code to GitHub. If you don't care about email interactions, but still want to try out the signed in experience, you can [sign in](http://localhost:8080/users/sign_in) with either of the users whose username and password are stored in [db/seeds.rb](https://github.com/smcgov/ohana-api-smc/blob/master/db/seeds.rb).
-
+### User authentication
+The app automatically sets up users you can [sign in](http://localhost:8080/users/sign_in) with. Their username and password are stored in [db/seeds.rb](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb).
 
 ### Test the app
-Run tests locally with this simple command:
+First, run this command to make sure your local test database is up to date:
+
+    script/test
+
+Then run tests locally with this simple command:
 
     rspec
 
-For faster tests:
+For faster tests (optional):
 
     gem install zeus
     zeus start #in a separate Terminal window or tab
     zeus rspec spec
 
-To see the actual tests, browse through the [spec](https://github.com/smcgov/ohana-api-smc/tree/master/spec) directory.
+Read more about [Zeus](https://github.com/burke/zeus).
+
+To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
 ## Contributing
 

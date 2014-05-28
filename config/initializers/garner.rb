@@ -1,12 +1,5 @@
 # require "garner"
-# require "garner/mixins/mongoid"
 # require "garner/mixins/rack"
-
-# module Mongoid
-#   module Document
-#     include Garner::Mixins::Mongoid::Document
-#   end
-# end
 
 # # Monkey patch to cache headers until this is built into Garner
 # # https://github.com/artsy/garner/issues/54

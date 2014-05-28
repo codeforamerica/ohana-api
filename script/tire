@@ -1,6 +1,0 @@
-#!/bin/sh
-
-set -e
-
-echo "===> Creating the ElasticSearch index..."
-rake environment tire:import CLASS=Location FORCE=true

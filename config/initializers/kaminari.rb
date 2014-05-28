@@ -1,15 +1,14 @@
 module Kaminari
+  # Kaminar's built-in methods for getting the next page
+  # and determining if a page is the last page are wrong,
+  # so I'm overriding them.
   module PageScopeMethods
+    def next_page
+      current_page < total_pages ? (current_page + 1) : nil
+    end
 
-    # Kaminar's built-in method for getting the previous page
-    # is "prev_page", but since we are using two types of
-    # collections (one that uses Kaminari, and one that uses Tire),
-    # we need to be able to use the same method for both. Here, we
-    # are adding a new method that Kaminari can use for Arrays.
-    #
-    # @return [Integer] The position of the previous within the pagination
-    def previous_page
-      current_page > 1 ? (current_page - 1) : nil
+    def last_page?
+      current_page == total_pages
     end
   end
 end

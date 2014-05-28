@@ -1,0 +1,23 @@
+AllCops:
+  Include:
+    - 'Gemfile'
+    - 'Rakefile'
+  Exclude:
+    - 'bin/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+
+# Allow dots at the end of lines when chaining methods
+# that span multiple lines
+DotPosition:
+  Enabled: false
+
+LineLength:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+MethodLength:
+  CountComments: false
+  Max: 15

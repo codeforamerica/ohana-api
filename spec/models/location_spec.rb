@@ -6,107 +6,149 @@ describe Location do
 
   it { should be_valid }
 
-  it { should respond_to(:full_address) }
-  its(:full_address) { should == "#{subject.address.street}, " +
-    "#{subject.address.city}, " + "#{subject.address.state} " +
-    "#{subject.address.zip}" }
+  # Associations
+  it { should belong_to :organization }
+  it { should have_one :address }
+  it { should have_many :contacts }
+  it { should have_many :faxes }
+  it { should have_one :mail_address }
+  it { should have_many :phones }
+  it { should have_many :services }
 
+  # Instance methods
   it { should respond_to(:full_physical_address) }
-  its(:full_physical_address) { should == "#{subject.address.street}, " +
-    "#{subject.address.city}, " + "#{subject.address.state} " +
-    "#{subject.address.zip}" }
 
-  it { should normalize_attribute(:urls).
-    from(" http://www.codeforamerica.org  ").
-    to("http://www.codeforamerica.org") }
+  its(:full_physical_address) do
+    should == "#{subject.address.street}, " \
+      "#{subject.address.city}, #{subject.address.state} " \
+      "#{subject.address.zip}"
+  end
 
-  describe "invalidations" do
-    context "without a name" do
-      subject { build(:location, name: nil)}
+  # Attribute normalization
+  it do
+    should normalize_attribute(:urls).from(' http://www.codeforamerica.org  ').
+      to('http://www.codeforamerica.org')
+  end
+
+  describe 'invalidations' do
+    context 'without a name' do
+      subject { build(:location, name: nil) }
       it { should_not be_valid }
     end
 
-    context "with an empty name" do
-      subject { build(:location, name: "")}
+    context 'without a kind' do
+      subject { build(:location, kind: nil) }
       it { should_not be_valid }
     end
 
-    context "without a description" do
-      subject { build(:location, description: nil)}
+    context 'with an empty name' do
+      subject { build(:location, name: '') }
       it { should_not be_valid }
     end
 
-    context "with URL containing 3 slashes" do
-      subject { build(:location, urls: ["http:///codeforamerica.org"]) }
+    context 'without a description' do
+      subject { build(:location, description: nil) }
       it { should_not be_valid }
     end
 
-    context "with URL missing a period" do
-      subject { build(:location, urls: ["http://codeforamericaorg"]) }
+    context 'with URL containing 3 slashes' do
+      subject { build(:location, urls: ['http:///codeforamerica.org']) }
       it { should_not be_valid }
     end
 
-    context "URL without protocol" do
-      subject { build(:location, urls: ["www.codeforamerica.org"]) }
+    context 'with URL missing a period' do
+      subject { build(:location, urls: ['http://codeforamericaorg']) }
       it { should_not be_valid }
     end
 
-    context "URL with trailing whitespace" do
-      subject { build(:location, urls: ["http://www.codeforamerica.org "]) }
+    context 'URL without protocol' do
+      subject { build(:location, urls: ['www.codeforamerica.org']) }
       it { should_not be_valid }
     end
 
-    context "without an address" do
-      subject { build(:location, address: {}) }
+    context 'URL with trailing whitespace' do
+      subject { build(:location, urls: ['http://www.codeforamerica.org ']) }
       it { should_not be_valid }
     end
 
-    context "with a non-US phone" do
-      subject { build(:location,
-                        phones: [{ "number" => "33 6 65 08 51 12" }]) }
+    context 'without an address' do
+      subject { build(:location, address: nil) }
       it { should_not be_valid }
     end
 
-    context "email without period" do
-      subject { build(:location, emails: ["moncef@blahcom"]) }
+    context 'email without period' do
+      subject { build(:location, emails: ['moncef@blahcom']) }
       it { should_not be_valid }
     end
 
-    context "email without @" do
-      subject { build(:location, emails: ["moncef.blahcom"]) }
+    context 'email without @' do
+      subject { build(:location, emails: ['moncef.blahcom']) }
+      it { should_not be_valid }
+    end
+
+    context 'admin email without @' do
+      subject { build(:location, admin_emails: ['moncef.blahcom']) }
       it { should_not be_valid }
     end
   end
 
-  describe "valid data" do
-    context "URL with wwww" do
-      subject { build(:location, urls: ["http://wwww.codeforamerica.org"]) }
+  describe 'valid data' do
+    context 'URL with wwww' do
+      subject { build(:location, urls: ['http://wwww.codeforamerica.org']) }
       it { should be_valid }
     end
 
-    context "non-US URL" do
-      subject { build(:location, urls: ["http://www.monfresh.com.au"]) }
+    context 'non-US URL' do
+      subject { build(:location, urls: ['http://www.monfresh.com.au']) }
       it { should be_valid }
     end
 
-    context "URL with capitalizations" do
-      subject { build(:location, urls: ["HTTP://WWW.monfresh.com.au"]) }
+    context 'URL with capitalizations' do
+      subject { build(:location, urls: ['HTTP://WWW.monfresh.com.au']) }
       it { should be_valid }
     end
 
-    context "with US phone containing dots" do
-      subject { build(:location,
-                        phones: [{ "number" => "123.456.7890" }]) }
+    context 'email with trailing whitespace' do
+      subject { build(:location, emails: ['moncef@blah.com ']) }
       it { should be_valid }
     end
+  end
 
-    context "email with trailing whitespace" do
-      subject { build(:location, emails: ["moncef@blah.com "]) }
-      it { should be_valid }
+  describe 'slug candidates' do
+    before(:each) { @loc = create(:location) }
+
+    context 'when address is present and name is already taken' do
+      it 'creates a new slug based on address street' do
+        new_loc = create(:nearby_loc)
+        new_loc.update_attributes!(name: 'VRS Services')
+        new_loc.reload.slug.should eq('vrs-services-250-myrtle-road')
+      end
+    end
+
+    context 'when mail_address is present and name is taken' do
+      it 'creates a new slug based on mail_address city' do
+        new_loc = create(:no_address)
+        new_loc.update_attributes!(name: 'VRS Services')
+        new_loc.reload.slug.should eq('vrs-services-la-honda')
+      end
+    end
+
+    context 'when name is not taken' do
+      it 'creates a new slug based on name' do
+        new_loc = create(:no_address)
+        new_loc.reload.slug.should eq('no-address')
+      end
+    end
+
+    context 'when name is not updated' do
+      it "doesn't update slug" do
+        @loc.update_attributes!(description: 'new description')
+        @loc.reload.slug.should eq('vrs-services')
+      end
     end
 
     context "without a description but is a Farmers' Market" do
-      subject { build(:location, description: nil, market_match: 1)}
+      subject { build(:location, description: nil, kind: 'farmers_markets') }
       it { should be_valid }
     end
   end

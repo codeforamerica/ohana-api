@@ -1,0 +1,4 @@
+test:
+  adapter: postgresql
+  database: ohana_api_smc_test
+  username: postgres
