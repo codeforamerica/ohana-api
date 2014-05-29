@@ -10,8 +10,7 @@ module Ohana
         {
           'organizations_url' => "#{ENV['API_BASE_URL']}organizations{/organization_id}",
           'locations_url' => "#{ENV['API_BASE_URL']}locations{/location_id}",
-          'general_search_url' => "#{ENV['API_BASE_URL']}search{?keyword,location,radius,language,category,org_name}",
-          'rate_limit_url' => "#{ENV['API_BASE_URL']}rate_limit"
+          'general_search_url' => "#{ENV['API_BASE_URL']}search{?keyword,location,radius,language,category,org_name}"
         }
       end
     end
@@ -605,75 +604,5 @@ module Ohana
         present locations.includes(tables), with: Entities::Location
       end
     end
-
-    ## Uncomment this endpoint if you want to enable rate limiting.
-    ## See lines 85-90 in config/application.rb
-    # resource 'rate_limit' do
-    #   # GET /rate_limit
-    #   desc 'Provides rate limit info', {
-    #     :notes =>
-    #     <<-NOTE
-    #       Rate Limiting
-    #       -------------
-
-    #       Requests that don't include an `X-Api-Token` header with a valid token
-    #       are limited to 60 requests per hour. You can get a valid token by
-    #       registering an app at http://ohanapi.herokuapp.com.
-
-    #       Requests that have a valid header and token get 5000 requests per hour.
-
-    #       You can check your rate limit via the `#{ENV['API_BASE_URL']}rate_limit` endpoint,
-    #       which won't affect your rate limit, or by examining the following
-    #       response headers:
-
-    #       `X-RateLimit-Limit` (The maximum number of requests permitted per hour.)
-
-    #       `X-RateLimit-Remaining` (The number of requests remaining in the current rate limit window.)
-
-    #       Once you go over the limit, you will receive a `403` response:
-
-    #           HTTP/1.1 403 Forbidden
-    #           Connection: close
-    #           Content-Type: application/json
-    #           Date: Thu, 12 Sep 2013 06:20:45 GMT
-    #           Status: 403 Forbidden
-    #           Transfer-Encoding: chunked
-
-    #           {
-    #             'description': 'Rate limit exceeded',
-    #             'hourly_rate_limit': 60,
-    #             'method': 'GET',
-    #             'request': 'http://localhost:8080/api/search',
-    #             'status': 403
-    #           }
-
-    #       **Staying within the rate limit**
-
-    #       If you are using a valid X-Api-Token, and you are exceeding
-    #       your rate limit, you can likely fix the issue by caching API responses
-    #       and using conditional requests.
-
-    #       **Conditional requests**
-
-    #       Most responses return an ETag header.
-    #       You can use the values of that headers to make subsequent requests
-    #       to those resources using the If-None-Match header.
-    #       If the resource has not changed, the server will return a
-    #       304 Not Modified and an empty body. Also note: making a conditional
-    #       request and receiving a 304 response does not count against your
-    #       Rate Limit, so we encourage you to use it whenever possible.
-    #     NOTE
-    #   }
-    #   get do
-    #     token = request.env['HTTP_X_API_TOKEN'].to_s
-    #     limit = (token.present? && User.where('api_applications.api_token' => token).exists?) ? 5000 : 60
-    #     {
-    #       'rate' => {
-    #         'limit' => limit,
-    #         'remaining' => limit - (REDIS.get('throttle:#{request.ip}:#{Time.now.strftime('%Y-%m-%dT%H')}')).to_i
-    #       }
-    #     }
-    #   end
-    # end
   end
 end
