@@ -6,6 +6,8 @@ FactoryGirl.define do
     description 'Provides jobs training'
     short_desc 'short description'
     accessibility [:tape_braille, :disabled_parking]
+    latitude 37.583939
+    longitude(-122.3715745)
     organization
     address
 
@@ -19,6 +21,8 @@ FactoryGirl.define do
     description 'great books about jobs'
     short_desc 'short description'
     accessibility [:elevator]
+    latitude 37.5808591
+    longitude(-122.343072)
     association :address, factory: :near
     languages %w(spanish Arabic)
     association :organization, factory: :nearby_org
@@ -36,6 +40,8 @@ FactoryGirl.define do
     name 'Belmont Farmers Market'
     description 'yummy food about jobs'
     short_desc 'short description'
+    latitude 37.3180168
+    longitude(-122.2743951)
     association :address, factory: :far_west
     organization
   end
@@ -44,6 +50,8 @@ FactoryGirl.define do
     name 'Belmont Farmers Market'
     description 'yummy food'
     short_desc 'short description'
+    latitude 37.6047797
+    longitude(-122.3984501)
     association :address, factory: :far
     languages %w(spanish Arabic)
     organization
@@ -63,6 +71,8 @@ FactoryGirl.define do
     name 'Soup Kitchen'
     description 'daily hot soups'
     short_desc 'short description'
+    latitude 37.3180168
+    longitude(-122.2743951)
     association :address, factory: :far_west
     association :organization, factory: :food_pantry
   end

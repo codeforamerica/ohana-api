@@ -5,8 +5,6 @@ rvm:
   - 2.1.1
 addons:
   postgresql: "9.3"
-services:
-  - redis-server
 before_script:
   - psql -c 'create database ohana_api_test;' -U postgres
   - psql -U postgres -q -d ohana_api_test -f db/structure.sql

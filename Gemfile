@@ -55,7 +55,6 @@ end
 
 # Geocoding
 gem 'geocoder'
-gem 'redis'
 
 # Format validation for URLs, phone numbers, zipcodes
 gem 'validates_formatting_of', '~> 0.8.1'
