@@ -31,9 +31,6 @@ then
   echo "Installing Postgres"
   heroku addons:add heroku-postgresql --app $herokuApp
 
-  echo "Installing Redis To Go"
-  heroku addons:add redistogo --app $herokuApp
-
   echo "Installing Mandrill by MailChimp"
   heroku addons:add mandrill --app $herokuApp
 

@@ -47,7 +47,6 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 * Ruby version 2.1.1
 * Rails version 4.0.4
 * Postgres
-* Redis
 * API framework: Grape
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
@@ -85,24 +84,6 @@ If that doesn't work, try this [tutorial](http://www.moncefbelyamani.com/how-to-
 **Other**
 
 See the Downloads page on postgresql.org for steps to install on other systems: [http://www.postgresql.org/download/](http://www.postgresql.org/download/)
-
-
-#### Redis
-**OS X**
-
-On OS X, the easiest way to install Redis is with Homebrew:
-
-    brew install redis
-
-Follow the Homebrew instructions if you want Redis to start automatically every time you restart your computer. Otherwise launch Redis manually in a separate Terminal tab or window:
-
-    redis-server
-
-[Redis installation instructions using MacPorts](https://github.com/codeforamerica/ohana-api/wiki/Installing-Redis-with-MacPorts-on-OS-X) are available on the wiki.
-
-**Other**
-
-See the Download page on Redis.io for steps to install on other systems: [http://redis.io/download](http://redis.io/download)
 
 ### Clone the app on your local machine:
 
