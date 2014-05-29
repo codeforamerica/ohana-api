@@ -58,4 +58,12 @@ FactoryGirl.define do
     latitude 37.568272
     longitude(-122.3250474)
   end
+
+  factory :soup_kitchen, class: Location do
+    name 'Soup Kitchen'
+    description 'daily hot soups'
+    short_desc 'short description'
+    association :address, factory: :far_west
+    association :organization, factory: :food_pantry
+  end
 end

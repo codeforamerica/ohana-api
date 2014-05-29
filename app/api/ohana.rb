@@ -495,13 +495,18 @@ module Ohana
 
             ### org_name
 
-            This parameter allows you to filter locations that belong to a
-            specific organization.
+            This parameter allows you to filter locations that belong to an
+            organization whose name matches all the terms passed in the
+            org_name parameter.
 
             Example:
             ```
-            #{ENV['API_BASE_URL']}search?org_name=San+Mateo+County+Human+Services+Agency
+            #{ENV['API_BASE_URL']}search?org_name=peninsula+service
             ```
+
+            Given 2 organization names, `Peninsula Family Service` and
+            `Peninsula Volunteers`, the search above will only return
+            locations that belong to `Peninsula Family Service`.
 
             ### location, radius
             Queries that include the `location` parameter filter the results to
