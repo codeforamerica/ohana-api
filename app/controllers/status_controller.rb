@@ -30,10 +30,5 @@ class StatusController < ApplicationController
     Location.text_search(keyword: 'food')
   end
 
-  DEPENDENCIES = [
-    'Mandrill',
-    'Postgres',
-    'Redis To Go',
-    'MemCachier'
-  ]
+  DEPENDENCIES = %w(Mandrill Postgres)
 end

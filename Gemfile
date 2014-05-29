@@ -48,9 +48,6 @@ group :development do
   gem 'better_errors', '>= 0.7.2'
   gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
   # gem 'debugger'
-
-  # Code quality and style
-  gem 'metric_fu'
 end
 
 # Geocoding
@@ -67,23 +64,13 @@ gem 'grape'
 gem 'grape-entity'
 gem 'kaminari'
 
-# Caching
-# gem 'garner'
-gem 'dalli'
-gem 'kgio'
-gem 'memcachier'
-
 # API Documentation
 gem 'grape-swagger'
 gem 'swagger-ui_rails'
 
 # Production Monitoring
 gem 'newrelic_rpm'
-gem 'newrelic-grape'
 gem 'rack-timeout'
-
-# Uncomment if you're using Rate Limiting
-# gem 'rack-throttle'
 
 # Authentication
 gem 'devise'

@@ -1,6 +1,3 @@
-# require 'garner/mixins/rack'
-require 'active_support/cache/dalli_store'
-
 module API
   class Root < Grape::API
     prefix 'api'
@@ -13,13 +10,6 @@ module API
     version 'v1', using: :header, vendor: 'ohanapi'
 
     helpers do
-
-      # Garner::Mixins::Rack
-
-      # Garner.configure do |config|
-      #   config.cache = ActiveSupport::Cache::DalliStore.new(ENV['MEMCACHIER_SERVERS'], { :compress => true })
-      # end
-
       def authenticate!
         error!('401 Unauthorized', 401) unless valid_api_token?
       end
