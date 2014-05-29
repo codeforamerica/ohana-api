@@ -65,7 +65,7 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
-    REDIS.keys.each { |key| REDIS.del key if key.include?('throttle') }
+    # REDIS.keys.each { |key| REDIS.del key if key.include?('throttle') }
     Warden.test_reset!
   end
 end

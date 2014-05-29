@@ -6,7 +6,7 @@ echo "===> Resetting the database..."
 rake db:reset
 
 echo "===> Done resetting the DB. Now populating it again..."
-pg_restore -c --no-owner -d ohana-api-smc_development data/ohana-api-smc_test.dump
+pg_restore -c --no-owner -d ohana_api_smc_development data/ohana_api_smc_test.dump
 
 echo "===> Done populating the DB. Now preparing the test database..."
 rake db:test:load

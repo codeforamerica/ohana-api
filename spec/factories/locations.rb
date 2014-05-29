@@ -7,6 +7,8 @@ FactoryGirl.define do
     short_desc 'short description'
     kind :other
     accessibility [:tape_braille, :disabled_parking]
+    latitude 37.583939
+    longitude(-122.3715745)
     organization
     address
 
@@ -22,6 +24,8 @@ FactoryGirl.define do
     kind :human_services
     importance 2
     accessibility [:elevator]
+    latitude 37.5808591
+    longitude(-122.343072)
     association :address, factory: :near
     languages %w(spanish Arabic)
     association :organization, factory: :nearby_org
@@ -45,6 +49,8 @@ FactoryGirl.define do
     products %w(Cheese Flowers Eggs Seafood Herbs)
     kind :farmers_markets
     importance 3
+    latitude 37.3180168
+    longitude(-122.2743951)
     association :address, factory: :far_west
     association :organization, factory: :hsa
   end
@@ -54,6 +60,8 @@ FactoryGirl.define do
     description 'yummy food'
     short_desc 'short description'
     kind :test
+    latitude 37.6047797
+    longitude(-122.3984501)
     association :address, factory: :far
     languages %w(spanish Arabic)
     organization
