@@ -10,9 +10,9 @@
 
 # Each entry sets a local environment variable and overrides ENV variables
 # in the Unix shell. For example, setting:
-# OHANA_API_ENDPOINT: http://ohana-api-demo.herokuapp.com/api
+# API_BASE_URL: http://ohana-api-demo.herokuapp.com/api
 # makes "http://ohana-api-demo.herokuapp.com/api" available as
-# ENV["OHANA_API_ENDPOINT"] in the app. See config/initializers/ohanapi.rb
+# ENV["API_BASE_URL"] in the app. See app/api/ohana.rb
 # for a usage example.
 
 # Add application configuration variables here, as shown below.
