@@ -111,6 +111,36 @@ describe Ohana::API do
       end
     end
 
+    context 'with invalid lat_lng parameter' do
+      before :each do
+        create(:location)
+        get 'api/search?lat_lng=37.6856578-122.4138119'
+      end
+
+      it 'returns a 400 status code' do
+        expect(response.status).to eq 400
+      end
+
+      it 'includes an error description' do
+        expect(json['error']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats'
+      end
+    end
+
+    context 'with invalid (non-numeric) lat_lng parameter' do
+      before :each do
+        create(:location)
+        get 'api/search?lat_lng=Apple,Pear'
+      end
+
+      it 'returns a 400 status code' do
+        expect(response.status).to eq 400
+      end
+
+      it 'includes an error description' do
+        expect(json['error']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats'
+      end
+    end
+
     context 'when keyword only matches one location' do
       it 'only returns 1 result' do
         create(:location)
@@ -126,6 +156,15 @@ describe Ohana::API do
         create(:nearby_loc)
         get 'api/search?keyword=blahab'
         json.length.should == 0
+      end
+    end
+
+    context 'lat_lng search' do
+      it 'returns one result' do
+        create(:location)
+        create(:farmers_market_loc)
+        get 'api/search?lat_lng=37.583939,-122.3715745'
+        expect(json.length).to eq 1 
       end
     end
 
