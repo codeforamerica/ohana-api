@@ -507,13 +507,14 @@ module Ohana
             `Peninsula Volunteers`, the search above will only return
             locations that belong to `Peninsula Family Service`.
 
-            ### location, radius
-            Queries that include the `location` parameter filter the results to
-            only include locations that are 5 miles (by default) from the
-            `location`.
+            ### location, geo, radius
+            Queries that include the `location` or `geo` parameter filter the
+            results to only include locations that are 5 miles (by default)
+            from the`location` or `geo`.
             To search within a radius smaller or greater than 5 miles, use the
             `radius` parameter. `radius` must be a Float between 0.1 and 50.
-            `location` can be an address (full or partial), or a 5-digit ZIP code.
+            `location` can be an address (full or partial), a 5-digit ZIP code.
+            `geo` must be a comma-delimited lat,long pair of floats.
             Results are sorted by distance.
 
             Examples:
@@ -521,6 +522,8 @@ module Ohana
             `#{ENV['API_BASE_URL']}search?location=94403`
 
             `#{ENV['API_BASE_URL']}search?location=san mateo&radius=10`
+
+            `#{ENV['API_BASE_URL']}search?geo=37.7756578,-122.4138115&radius=5`
 
             `#{ENV['API_BASE_URL']}search?keyword=emergency&location=94403`
 
@@ -584,6 +587,7 @@ module Ohana
       params do
         optional :keyword, type: String
         optional :location, type: String, desc: 'An address or 5-digit ZIP code'
+        optional :geo, type: String, desc: 'A set of geo coordinates in the form lat,lng'
         optional :radius, type: Float, desc: 'Distance in miles from the location parameter'
         optional :language, type: String, desc: 'Languages other than English spoken at the location'
         optional :category, type: String, desc: 'The service category based on the OpenEligibility taxonomy'
