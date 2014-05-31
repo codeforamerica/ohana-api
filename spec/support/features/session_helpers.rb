@@ -11,6 +11,15 @@ module Features
       click_button 'Sign in'
     end
 
+    def sign_up(name, email, password, confirmation)
+      visit '/users/sign_up'
+      fill_in 'user_name',                  with: name
+      fill_in 'user_email',                 with: email
+      fill_in 'user_password',              with: password
+      fill_in 'user_password_confirmation', with: confirmation
+      click_button 'Sign up'
+    end
+
     def create_api_app(name, main_url, callback_url)
       click_link 'Register new application'
       within('#new_api_application') do
