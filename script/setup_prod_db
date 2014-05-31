@@ -7,6 +7,3 @@ rake db:structure:load
 
 echo "===> Running the migrations..."
 rake db:migrate
-
-echo "===> Populating the DB..."
-rake setup_db

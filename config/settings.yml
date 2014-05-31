@@ -45,11 +45,12 @@ generic_domains:
   - hotmail.com
   - yahoo.com
 
-# If you want to validate the "service_areas" field against
-# a list of specific jurisdiction names (city name, county name, etc.),
-# then enter them below, one per line preceded by a dash and a space,
-# just like the generic_domains above. Make sure to preserve the 2-space
-# indentation. For example:
+# If your data contains a service_areas field that identifies which particular
+# areas of a city or county are eligible for the services provided by an
+# organization, and if you want to make sure that the service areas are always
+# spelled the same way, then enter them below, one per line preceded by a dash
+# and a space, just like the generic_domains above. Make sure to preserve the
+# 2-space indentation. For example:
 # valid_service_areas:
 #   - Alameda County
 #   - Oakland
