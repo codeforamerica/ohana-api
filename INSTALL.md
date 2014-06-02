@@ -23,6 +23,13 @@ you. This is the recommended method for Windows users.
 [postgres]: https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md
 [node]: https://github.com/codeforamerica/howto/blob/master/Node.js.md
 
+### PostgreSQL Accounts
+
+On Linux, PostgreSQL authentication can be [set to _Trust_](http://www.postgresql.org/docs/9.1/static/auth-methods.html#AUTH-TRUST) [in `pg_hba.conf`](https://wiki.postgresql.org/wiki/Client_Authentication) for ease of installation. Create a user that can create new databases, whose name matches the logged-in user account:
+
+    $ sudo -u postgres createuser --createdb --no-superuser --no-createrole `whoami`
+
+On Mac with Postgres.app, this setup is provided by default.
 
 ## Install Ohana API
 
