@@ -1,14 +1,19 @@
-before_install: gem update bundler
-bundler_args: --without assets:development:production
 language: ruby
+bundler_args: "--without assets:development:production --path=~/.bundle"
 rvm:
-  - 2.1.1
+- 2.1.1
+before_install:
+- 'echo ''gem: --no-document'' > ~/.gemrc'
+- gem install bundler bundle_cache
+- bundle_cache_install
 addons:
-  postgresql: "9.3"
+  postgresql: '9.3'
 before_script:
-  - psql -c 'create database ohana_api_test;' -U postgres
-  - psql -U postgres -q -d ohana_api_test -f db/structure.sql
-  - cp config/database.travis.yml config/database.yml
+- psql -c 'create database ohana_api_test;' -U postgres
+- psql -U postgres -q -d ohana_api_test -f db/structure.sql
+- cp config/database.travis.yml config/database.yml
+after_script:
+- bundle_cache
 notifications:
   campfire:
     rooms:
@@ -20,5 +25,9 @@ notifications:
     on_failure: always
   webhooks: http://cfa-project-monitor.herokuapp.com/projects/f4e235b6-734e-4d63-a19b-32426335c047/status
 env:
-  matrix:
-    secure: SyAQm64busWPLwPPdpebaH3QIaK7acP8j7eIj449kI+KYSkTEj5G+ir/Nu1z0XLGv50vmezdg8FsKBe32Bi5c5f1I5rRLsTI9K/lN10OYh6ZzERoTTsypjx+s9xQ1NRPzamMGEpcxG2iOU/n2KU3CPW4BPIp9dpmhUFZ3Obk71Q=
+  global:
+  - ADMIN_APP_TOKEN=testing123
+  - BUNDLE_ARCHIVE="ohana_api_bundle"
+  - AWS_S3_BUCKET="ohana-api-gems"
+  - RAILS_ENV=test
+  - secure: eXPEvgEP0SeuPOtySMSCxyVUBo15Ab3HLAjJlIwRjOOE7KwyDAaAjyd01P2/z3Cwxtki1FXyzY3GcZr4xQYN3S82FMNtp5TfTrqCIqNtqospL16Ui2Y4+et5wdsftWAcnegLZAeKn5rxWNExOVIFpSnHGU0Sel+kQ11El8NQwlk=
