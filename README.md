@@ -6,6 +6,14 @@ This is the API portion of the [Ohana API](http://ohanapi.org) project, an open 
 
 Before we started working on the Ohana API, the search interface that residents and social workers in San Mateo County had access to was the Peninsula Library System's [CIP portal](http://catalog.plsinfo.org:81/). As a demonstration of the kind of applications that can be built on top of the Ohana API, we developed a [better search interface](http://smc-connect.org) ([repo link](https://github.com/codeforamerica/human_services_finder)) that consumes the API via our [Ruby wrapper](https://github.com/codeforamerica/ohanakapa). We also built an [admin site](https://github.com/codeforamerica/ohana-api-admin) to allow organizations to update their own information.
 
+## Stack Overview
+
+* Ruby version 2.1.1
+* Rails version 4.0.4
+* Postgres
+* API framework: Grape
+* Testing Frameworks: RSpec, Factory Girl, Capybara
+
 ## Demo
 You can see a running version of the application at
 [http://ohana-api-demo.herokuapp.com/](http://ohana-api-demo.herokuapp.com/).
@@ -15,6 +23,20 @@ We are happy to announce that this project has been awarded a [grant from the Kn
 
 ## Data Schema
 If you would like to try out the current version of the project that uses Postgres, please read the Wiki article about [Populating the Postgres DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
+
+## API documentation
+[http://ohana-api-demo.herokuapp.com/api/docs](http://ohana-api-demo.herokuapp.com/api/docs)
+
+[Search documentation](http://ohana-api-demo.herokuapp.com/api/docs#!/search/GET_api_search_format_get_0)
+
+## Client libraries
+
+- Ruby: [Ohanakapa][ohanakapa] (our official wrapper)
+
+We would love to see libraries for other programming languages.
+If you've built one, let us know and we'll add it here.
+
+[ohanakapa]: https://github.com/codeforamerica/ohanakapa
 
 ## Taxonomy
 By default, this project uses the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/codeforamerica/ohana-api/blob/master/app/models/category.rb).
@@ -26,14 +48,6 @@ The easiest way to assign categories to a service is to use the [Ohana API Admin
 
 You can also try it from the Rails console, mimicking how the API would do it when it receives a [PUT request to update a service's categories](https://github.com/codeforamerica/ohana-api/blob/master/app/api/ohana.rb#L239-257).
 
-## API documentation
-[http://ohana-api-demo.herokuapp.com/api/docs](http://ohana-api-demo.herokuapp.com/api/docs)
-
-[Search documentation](http://ohana-api-demo.herokuapp.com/api/docs#!/search/GET_api_search_format_get_0)
-
-## Ruby wrapper
-[https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
-
 ## Apps that are using the Ohana API
 [SMC-Connect](http://www.smc-connect.org)
 [GitHub repo for SMC-Connect](https://github.com/codeforamerica/human_services_finder)
@@ -42,13 +56,6 @@ You can also try it from the Rails console, mimicking how the API would do it wh
 
 [Ohana SMS](https://github.com/marks/ohana-sms)
 
-## Stack Overview
-
-* Ruby version 2.1.1
-* Rails version 4.0.4
-* Postgres
-* API framework: Grape
-* Testing Frameworks: RSpec, Factory Girl, Capybara
 
 ## Deploying to Heroku
 See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account).
