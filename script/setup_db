@@ -2,13 +2,14 @@
 
 set -e
 
-echo "===> Creating ohana-api_development database..."
+echo "===> Creating ohana_api_development and ohana_api_test databases..."
 rake db:create
-echo "===> Loading the DB schema..."
+
+echo "===> Setting up the ohana_api_development database..."
 rake db:structure:load
 
-echo "===> Creating ohana-api_test database..."
+echo "===> Setting up the ohana_api_test database..."
 rake db:test:load
 
-echo "===> Populating the DB..."
+echo "===> Populating the ohana_api_development database..."
 rake setup_db
