@@ -15,6 +15,8 @@ module Entities
     expose :faxes, using: Fax::Entity, unless: ->(o, _) { o.faxes.blank? }
     expose :hours, unless: ->(o, _) { o.hours.blank? }
     expose :languages, unless: ->(o, _) { o.languages.blank? }
+    expose :latitude, unless: ->(o, _) { o.latitude.blank? }
+    expose :longitude, unless: ->(o, _) { o.longitude.blank? }
     expose :mail_address, using: MailAddress::Entity, unless: ->(o, _) { o.mail_address.blank? }
     expose :name, unless: ->(o, _) { o.name.blank? }
     expose :phones, using: Phone::Entity, unless: ->(o, _) { o.phones.blank? }
