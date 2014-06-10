@@ -25,6 +25,8 @@ module Entities
     expose :hours, unless: ->(o, _) { o.hours.blank? }
     expose :kind, format_with: :kind_text, unless: ->(o, _) { o.kind.blank? }
     expose :languages, unless: ->(o, _) { o.languages.blank? }
+    expose :latitude, unless: ->(o, _) { o.latitude.blank? }
+    expose :longitude, unless: ->(o, _) { o.longitude.blank? }
     expose :mail_address, using: MailAddress::Entity, unless: ->(o, _) { o.mail_address.blank? }
     expose :market_match, unless: ->(o, _) { o.kind != 'farmers_markets' }
     expose :name, unless: ->(o, _) { o.name.blank? }

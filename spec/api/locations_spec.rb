@@ -178,6 +178,8 @@ describe Ohana::API do
             'coordinates' => @location.coordinates,
             'description' => @location.description,
             'kind' => @location.kind.text,
+            'latitude' => @location.latitude,
+            'longitude' => @location.longitude,
             'name' => @location.name,
             'short_desc' => 'short description',
             'slug' => 'vrs-services',

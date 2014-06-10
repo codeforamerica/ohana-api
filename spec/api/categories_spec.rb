@@ -80,5 +80,112 @@ describe Ohana::API do
         expect(json.first['name']).to eq('Community Gardens')
       end
     end
+
+    describe 'order categories by oe_id' do
+      include Features::SessionHelpers
+
+      before :each do
+        @food = Category.create!(name: 'Food', oe_id: '101')
+        @food_child = @food.children.
+          create!(name: 'Community Gardens', oe_id: '101-01')
+        @dental = Category.create!(name: 'Dental', oe_id: '102')
+        @dental_child = @dental.children.
+          create!(name: 'Orthodontics', oe_id: '102-01')
+        create_service
+        cat_ids = []
+        [@food, @food_child, @dental, @dental_child].each do |cat|
+          cat_ids.push(cat.id)
+        end
+        @service.category_ids = cat_ids
+      end
+
+      it 'orders the categories by oe_id' do
+        get "api/locations/#{@location.id}"
+
+        path = "#{ENV['API_BASE_URL']}organizations"
+
+        service_formatted_time = @location.services.first.updated_at.
+          strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
+
+        location_formatted_time = @location.updated_at.
+          strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
+
+        locations_url = "#{path}/#{@location.organization.id}/locations"
+
+        represented = {
+          'id' => @location.id,
+          'accessibility' => @location.accessibility.map(&:text),
+          'address' => {
+            'id'     => @location.address.id,
+            'street' => @location.address.street,
+            'city'   => @location.address.city,
+            'state'  => @location.address.state,
+            'zip'    => @location.address.zip
+          },
+          'coordinates' => @location.coordinates,
+          'description' => @location.description,
+          'kind' => 'Other',
+          'latitude' => @location.latitude,
+          'longitude' => @location.longitude,
+          'name' => @location.name,
+          'short_desc' => 'short description',
+          'slug' => 'vrs-services',
+          'slugs' => ['vrs-services'],
+          'updated_at' => location_formatted_time,
+          'url' => "#{ENV['API_BASE_URL']}locations/#{@location.id}",
+          'services' => [{
+            'id' => @location.services.reload.first.id,
+            'description' => @location.services.first.description,
+            'keywords' => @location.services.first.keywords,
+            'categories' => [
+              {
+                'id'    => @food.id,
+                'depth' => 0,
+                'oe_id' => '101',
+                'name'  => 'Food',
+                'parent_id' => nil,
+                'slug' => 'food'
+              },
+              {
+                'id'    => @food_child.id,
+                'depth' => 1,
+                'oe_id' => '101-01',
+                'name'  => 'Community Gardens',
+                'parent_id' => @food.id,
+                'slug' => 'community-gardens'
+              },
+              {
+                'id'    => @dental.id,
+                'depth' => 0,
+                'oe_id' => '102',
+                'name'  => 'Dental',
+                'parent_id' => nil,
+                'slug' => 'dental'
+              },
+              {
+                'id'    => @dental_child.id,
+                'depth' => 1,
+                'oe_id' => '102-01',
+                'name'  => 'Orthodontics',
+                'parent_id' => @dental.id,
+                'slug' => 'orthodontics'
+              }
+            ],
+            'name' => @location.services.first.name,
+            'updated_at' => service_formatted_time
+          }],
+          'organization' => {
+            'id' => @location.organization.id,
+            'name' => 'Parent Agency',
+            'slug' => 'parent-agency',
+            'slugs' => ['parent-agency'],
+            '_slugs' => ['parent-agency'],
+            'url' => "#{path}/#{@location.organization.id}",
+            'locations_url' => locations_url
+          }
+        }
+        json.should == represented
+      end
+    end
   end
 end
