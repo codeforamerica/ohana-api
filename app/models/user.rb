@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  # This is required in production the users table was populated
+  # manually from the data that was exported out of MongoDB.
+  self.primary_key = :id
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
