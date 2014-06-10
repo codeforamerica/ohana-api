@@ -12,4 +12,8 @@ FactoryGirl.define do
   factory :hsa, class: Organization do
     name 'San Mateo County Human Services Agency'
   end
+
+  factory :food_pantry, class: Organization do
+    name 'Food Pantry'
+  end
 end

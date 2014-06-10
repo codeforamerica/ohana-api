@@ -332,11 +332,19 @@ describe Ohana::API do
       before(:each) do
         create(:nearby_loc)
         create(:location)
+        create(:soup_kitchen)
       end
-      it 'only returns locations whose org name matches the query' do
-        get 'api/search?org_name=Food+Stamps'
+
+      it 'returns results when org_name only contains one word that matches' do
+        get 'api/search?org_name=stamps'
         expect(headers['X-Total-Count']).to eq '1'
         json.first['name'].should == 'Library'
+      end
+
+      it 'only returns locations whose org name matches all terms' do
+        get 'api/search?org_name=Food+Pantry'
+        expect(headers['X-Total-Count']).to eq '1'
+        json.first['name'].should == 'Soup Kitchen'
       end
     end
 
