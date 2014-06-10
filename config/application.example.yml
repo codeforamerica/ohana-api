@@ -4,15 +4,14 @@
 
 # Read more about figaro here: https://github.com/laserlemon/figaro
 
-# First, rename this file to "application.yml". It should already be listed in
-# .gitignore, but if not, make sure to add it there to keep your sensitive info
-# (such as API keys and passwords) secret!
+# First, copy the contents of this file to a new file called "application.yml"
+# in the same "config" directory.
 
 # Each entry sets a local environment variable and overrides ENV variables
 # in the Unix shell. For example, setting:
-# OHANA_API_ENDPOINT: http://ohana-api-demo.herokuapp.com/api
+# API_BASE_URL: http://ohana-api-demo.herokuapp.com/api
 # makes "http://ohana-api-demo.herokuapp.com/api" available as
-# ENV["OHANA_API_ENDPOINT"] in the app. See config/initializers/ohanapi.rb
+# ENV["API_BASE_URL"] in the app. See app/api/ohana.rb
 # for a usage example.
 
 # Add application configuration variables here, as shown below.
