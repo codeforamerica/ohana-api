@@ -176,11 +176,13 @@ class Location < ActiveRecord::Base
   scope :has_keyword, ->(k) { keyword_search(k) if k.present? }
   scope :has_category, ->(c) { joins(services: :categories).where(categories: { name: c }) if c.present? }
 
-  scope :is_near, (lambda do |l, r|
-    result = Geocoder.search(l, bounds: Settings.bounds) if l.present?
-    coords = result.first.coordinates if result.present?
+  scope :is_near, (lambda do |loc, geo, r|
 
-    near(coords, current_radius(r)) if l.present?
+    result = Geocoder.search(loc, bounds: Settings.bounds) if loc.present?
+    coords = result.first.coordinates if result.present?
+    coords = geo.split(",").map{|f| Float(f)} if geo.present?
+
+    near(coords, current_radius(r)) if coords
   end)
 
   scope :belongs_to_org, (lambda do |org|
@@ -220,7 +222,7 @@ class Location < ActiveRecord::Base
             belongs_to_org(params[:org_name]).
             has_email(params[:email]).
             has_domain(params[:domain]).
-            is_near(params[:location], params[:radius]).
+            is_near(params[:location], params[:geo], params[:radius]).
             has_keyword(params[:keyword])
   end
 
