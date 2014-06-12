@@ -175,11 +175,20 @@ class Location < ActiveRecord::Base
   scope :has_keyword, ->(k) { keyword_search(k) if k.present? }
   scope :has_category, ->(c) { joins(services: :categories).where(categories: { name: c }) if c.present? }
 
-  scope :is_near, (lambda do |l, r|
-    result = Geocoder.search(l, bounds: Settings.bounds) if l.present?
-    coords = result.first.coordinates if result.present?
-
-    near(coords, current_radius(r)) if l.present?
+  scope :is_near, (lambda do |loc, lat_lng, r|
+    if loc.present?
+      result = Geocoder.search(loc, bounds: Settings.bounds)
+      coords = result.first.coordinates if result.present?
+      near(coords, current_radius(r)) 
+    elsif lat_lng.present?
+      begin
+        coords = lat_lng.split(",").map{ |f| Float(f) }
+      rescue ArgumentError
+        error_msg = 'lat_lng must be a comma-delimited lat,long pair of floats'
+        error!(error_msg, 400)
+      end
+      near(coords, current_radius(r)) 
+    end
   end)
 
   scope :belongs_to_org, (lambda do |org|
@@ -219,7 +228,7 @@ class Location < ActiveRecord::Base
             belongs_to_org(params[:org_name]).
             has_email(params[:email]).
             has_domain(params[:domain]).
-            is_near(params[:location], params[:radius]).
+            is_near(params[:location], params[:lat_lng], params[:radius]).
             has_keyword(params[:keyword])
   end
 
