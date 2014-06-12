@@ -93,7 +93,7 @@ GEM
       rails (>= 3, < 5)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
-    geocoder (1.2.0)
+    geocoder (1.2.1)
     grape (0.7.0)
       activesupport
       builder
