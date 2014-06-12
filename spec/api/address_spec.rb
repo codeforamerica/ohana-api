@@ -49,8 +49,8 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(404)
-      json['message'].
-        should include 'The requested resource could not be found.'
+      expect(json['message']).
+        to include 'The requested resource could not be found.'
     end
 
     it 'requires address street' do
@@ -60,7 +60,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include "Street can't be blank for Address"
+      expect(json['message']).to include "Street can't be blank for Address"
     end
 
     it 'requires address city' do
@@ -70,7 +70,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include "City can't be blank for Address"
+      expect(json['message']).to include "City can't be blank for Address"
     end
 
     it 'requires address state' do
@@ -80,7 +80,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include "State can't be blank for Address"
+      expect(json['message']).to include "State can't be blank for Address"
     end
 
     it 'requires address zip' do
@@ -90,7 +90,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include "Zip can't be blank for Address"
+      expect(json['message']).to include "Zip can't be blank for Address"
     end
 
     it 'validates length of state' do
@@ -111,7 +111,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include '901 is not a valid ZIP code'
+      expect(json['message']).to include '901 is not a valid ZIP code'
     end
 
     it "doesn't allow updating a address witout a valid token" do

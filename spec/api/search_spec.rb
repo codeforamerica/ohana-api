@@ -12,12 +12,12 @@ describe Ohana::API do
       end
 
       xit 'returns a 400 bad request status code' do
-        response.status.should == 400
+        expect(response.status).to eq(400)
       end
 
       xit 'includes an error description' do
-        json['description'].
-          should == 'Either keyword, location, or language is missing.'
+        expect(json['description']).
+          to eq('Either keyword, location, or language is missing.')
       end
     end
 
@@ -28,21 +28,21 @@ describe Ohana::API do
       end
 
       it 'returns a successful status code' do
-        response.should be_successful
+        expect(response).to be_successful
       end
 
       it 'is json' do
-        response.content_type.should == 'application/json'
+        expect(response.content_type).to eq('application/json')
       end
 
       it 'returns locations' do
-        json.first['name'].should == 'Belmont Farmers Market'
+        expect(json.first['name']).to eq('Belmont Farmers Market')
       end
 
       it 'is a paginated resource' do
         get '/api/search?keyword=market&per_page=1&page=2'
         expect(json.length).to eq(1)
-        json.first['name'].should == @locations.last.name
+        expect(json.first['name']).to eq(@locations.last.name)
       end
 
       it 'returns an X-Total-Count header' do
@@ -59,15 +59,15 @@ describe Ohana::API do
       end
 
       it 'returns a 400 status code' do
-        response.status.should == 400
+        expect(response.status).to eq(400)
       end
 
       it 'is json' do
-        response.content_type.should == 'application/json'
+        expect(response.content_type).to eq('application/json')
       end
 
       it 'includes an error description' do
-        json['error'].should == 'radius is invalid'
+        expect(json['error']).to eq('radius is invalid')
       end
     end
 
@@ -75,7 +75,7 @@ describe Ohana::API do
       it 'returns the farmers market name' do
         create(:farmers_market_loc)
         get 'api/search?location=la%20honda,%20ca&radius=0.05'
-        json.first['name'].should == 'Belmont Farmers Market'
+        expect(json.first['name']).to eq('Belmont Farmers Market')
       end
     end
 
@@ -83,7 +83,7 @@ describe Ohana::API do
       it 'returns the farmers market name' do
         create(:farmers_market_loc)
         get 'api/search?location=san%20gregorio,%20ca&radius=50'
-        json.first['name'].should == 'Belmont Farmers Market'
+        expect(json.first['name']).to eq('Belmont Farmers Market')
       end
     end
 
@@ -91,7 +91,7 @@ describe Ohana::API do
       it 'returns an empty response array' do
         create(:farmers_market_loc)
         get 'api/search?location=pescadero,%20ca&radius=5'
-        json.should == []
+        expect(json).to eq([])
       end
     end
 
@@ -146,7 +146,7 @@ describe Ohana::API do
         create(:location)
         create(:nearby_loc)
         get 'api/search?keyword=library'
-        json.length.should == 1
+        expect(json.length).to eq(1)
       end
     end
 
@@ -155,7 +155,7 @@ describe Ohana::API do
         create(:location)
         create(:nearby_loc)
         get 'api/search?keyword=blahab'
-        json.length.should == 0
+        expect(json.length).to eq(0)
       end
     end
 
@@ -164,7 +164,7 @@ describe Ohana::API do
         create(:location)
         create(:farmers_market_loc)
         get 'api/search?lat_lng=37.583939,-122.3715745'
-        expect(json.length).to eq 1 
+        expect(json.length).to eq 1
       end
     end
 
@@ -173,7 +173,7 @@ describe Ohana::API do
         create(:location)
         create(:nearby_loc)
         get 'api/search?keyword=library&language=arabic'
-        json.first['name'].should == 'Library'
+        expect(json.first['name']).to eq('Library')
       end
     end
 
@@ -181,26 +181,26 @@ describe Ohana::API do
       it "finds the plural occurrence in location's name field" do
         create(:location)
         get 'api/search?keyword=service'
-        json.first['name'].should == 'VRS Services'
+        expect(json.first['name']).to eq('VRS Services')
       end
 
       it "finds the plural occurrence in location's description field" do
         create(:location)
         get 'api/search?keyword=job'
-        json.first['description'].should == 'Provides jobs training'
+        expect(json.first['description']).to eq('Provides jobs training')
       end
 
       it 'finds the plural occurrence in organization name field' do
         create(:nearby_loc)
         get 'api/search?keyword=food%20stamp'
-        json.first['organization']['name'].should == 'Food Stamps'
+        expect(json.first['organization']['name']).to eq('Food Stamps')
       end
 
       it "finds the plural occurrence in service's keywords field" do
         create_service
         get 'api/search?keyword=pantry'
         keywords = json.first['services'].first['keywords']
-        keywords.should include 'food pantries'
+        expect(keywords).to include 'food pantries'
       end
     end
 
@@ -208,26 +208,26 @@ describe Ohana::API do
       it "finds the plural occurrence in location's name field" do
         create(:location)
         get 'api/search?keyword=services'
-        json.first['name'].should == 'VRS Services'
+        expect(json.first['name']).to eq('VRS Services')
       end
 
       it "finds the plural occurrence in location's description field" do
         create(:location)
         get 'api/search?keyword=jobs'
-        json.first['description'].should == 'Provides jobs training'
+        expect(json.first['description']).to eq('Provides jobs training')
       end
 
       it 'finds the plural occurrence in organization name field' do
         create(:nearby_loc)
         get 'api/search?keyword=food%20stamps'
-        json.first['organization']['name'].should == 'Food Stamps'
+        expect(json.first['organization']['name']).to eq('Food Stamps')
       end
 
       it "finds the plural occurrence in service's keywords field" do
         create_service
         get 'api/search?keyword=emergencies'
         keywords = json.first['services'].first['keywords']
-        keywords.should include 'emergency'
+        expect(keywords).to include 'emergency'
       end
     end
 
@@ -260,7 +260,7 @@ describe Ohana::API do
       it 'only returns locations whose category name matches the query' do
         get 'api/search?category=Jobs'
         expect(headers['X-Total-Count']).to eq '1'
-        json.first['name'].should == 'VRS Services'
+        expect(json.first['name']).to eq('VRS Services')
       end
 
       it 'only finds exact spelling matches for the category' do
@@ -306,13 +306,13 @@ describe Ohana::API do
       it 'returns results when org_name only contains one word that matches' do
         get 'api/search?org_name=stamps'
         expect(headers['X-Total-Count']).to eq '1'
-        json.first['name'].should == 'Library'
+        expect(json.first['name']).to eq('Library')
       end
 
       it 'only returns locations whose org name matches all terms' do
         get 'api/search?org_name=Food+Pantry'
         expect(headers['X-Total-Count']).to eq '1'
-        json.first['name'].should == 'Soup Kitchen'
+        expect(json.first['name']).to eq('Soup Kitchen')
       end
     end
 
@@ -324,7 +324,7 @@ describe Ohana::API do
       it 'only returns locations matching both parameters' do
         get 'api/search?keyword=books&location=Burlingame'
         expect(headers['X-Total-Count']).to eq '1'
-        json.first['name'].should == 'Library'
+        expect(json.first['name']).to eq('Library')
       end
     end
 
@@ -336,7 +336,7 @@ describe Ohana::API do
       it 'only returns locations matching all words' do
         get 'api/search?keyword=library%20books%20jobs'
         expect(headers['X-Total-Count']).to eq '1'
-        json.first['name'].should == 'Library'
+        expect(json.first['name']).to eq('Library')
       end
     end
 
@@ -457,8 +457,8 @@ describe Ohana::API do
       context 'sort when neither keyword nor location is not present' do
         xit 'returns a helpful message about search query requirements' do
           get 'api/search?sort=name'
-          json['description'].
-            should == 'Either keyword, location, or language is missing.'
+          expect(json['description']).
+            to eq('Either keyword, location, or language is missing.')
         end
       end
 
@@ -467,7 +467,7 @@ describe Ohana::API do
           create(:location)
           create(:nearby_loc)
           get 'api/search?location=1236%20Broadway,%20Burlingame,%20CA%2094010'
-          json.first['name'].should == 'VRS Services'
+          expect(json.first['name']).to eq('VRS Services')
         end
       end
 
@@ -478,7 +478,7 @@ describe Ohana::API do
           get :search, location: '94010', sort: 'name'
           expect(response.parsed_body['count']).to eq 2
           name = response.parsed_body['response'][0]['name']
-          name.should == 'Burlingame, Easton Branch'
+          expect(name).to eq('Burlingame, Easton Branch')
         end
       end
 
@@ -489,7 +489,7 @@ describe Ohana::API do
           get :search, location: '94010', sort: 'name', order: 'desc'
           expect(response.parsed_body['count']).to eq 2
           name = response.parsed_body['response'][0]['name']
-          name.should == 'Redwood City Main'
+          expect(name).to eq('Redwood City Main')
         end
       end
     end

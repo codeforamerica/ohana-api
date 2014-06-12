@@ -19,7 +19,7 @@ describe 'Version in Accept Header' do
     end
 
     it 'retrieves a content-type of json' do
-      headers['Content-Type'].should include 'application/json'
+      expect(headers['Content-Type']).to include 'application/json'
     end
   end
 

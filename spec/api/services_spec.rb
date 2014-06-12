@@ -20,8 +20,8 @@ describe Ohana::API do
         )
         @service.reload
         expect(response).to be_success
-        json.should_not include 'foo'
-        json['keywords'].should == ['test']
+        expect(json).not_to include 'foo'
+        expect(json['keywords']).to eq(['test'])
       end
 
       it 'updates search index when service changes' do
@@ -42,7 +42,7 @@ describe Ohana::API do
         )
         @service.reload
         expect(response.status).to eq(400)
-        json['message'].should include 'At least one service area'
+        expect(json['message']).to include 'At least one service area'
       end
 
       it 'ensures keywords is an array' do
@@ -99,7 +99,7 @@ describe Ohana::API do
           )
           @service.reload
           expect(response).to be_success
-          json['categories'].first['name'].should == 'Food'
+          expect(json['categories'].first['name']).to eq('Food')
         end
       end
 
@@ -112,7 +112,7 @@ describe Ohana::API do
           )
           @service.reload
           expect(response.status).to eq(404)
-          json['message'].should include 'could not be found'
+          expect(json['message']).to include 'could not be found'
         end
       end
     end

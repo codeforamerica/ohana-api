@@ -9,7 +9,7 @@ describe Ohana::API do
       it 'returns an empty array when no organizations exist' do
         get '/api/organizations'
         expect(response).to be_success
-        json.should == []
+        expect(json).to eq([])
       end
 
       it 'returns the correct number of existing organizations' do
@@ -35,13 +35,13 @@ describe Ohana::API do
           'url' => "#{path}/#{orgs.last.id}",
           'locations_url' => "#{path}/#{orgs.last.id}/locations"
         }]
-        json.should == represented
+        expect(json).to eq(represented)
       end
 
       it 'returns the correct info about the organizations' do
         create(:organization)
         get '/api/organizations'
-        json.first['name'].should == 'Parent Agency'
+        expect(json.first['name']).to eq('Parent Agency')
       end
     end
 
@@ -62,11 +62,11 @@ describe Ohana::API do
             'url' => "#{path}/#{@org.id}",
             'locations_url' => "#{path}/#{@org.id}/locations"
           }
-          json.should == represented
+          expect(json).to eq(represented)
         end
 
         it 'is json' do
-          response.content_type.should == 'application/json'
+          expect(response.content_type).to eq('application/json')
         end
 
         it 'returns a successful status code' do
@@ -74,7 +74,7 @@ describe Ohana::API do
         end
 
         it "returns the organization's name" do
-          json['name'].should == 'Parent Agency'
+          expect(json['name']).to eq('Parent Agency')
         end
       end
 
@@ -85,15 +85,15 @@ describe Ohana::API do
         end
 
         it 'returns a not found error' do
-          json['error'].should == 'Not Found'
+          expect(json['error']).to eq('Not Found')
         end
 
         it 'returns a 404 status code' do
-          response.status.should == 404
+          expect(response.status).to eq(404)
         end
 
         it 'is json' do
-          response.content_type.should == 'application/json'
+          expect(response.content_type).to eq('application/json')
         end
       end
     end
@@ -123,8 +123,8 @@ describe Ohana::API do
         )
         @org.reload
         expect(response).to be_success
-        json.should_not include 'foo'
-        json['name'].should == 'test'
+        expect(json).not_to include 'foo'
+        expect(json['name']).to eq('test')
       end
 
       it 'allows setting whitelisted attributes' do
@@ -135,7 +135,7 @@ describe Ohana::API do
         )
         @org.reload
         expect(response).to be_success
-        json['name'].should == 'test org'
+        expect(json['name']).to eq('test org')
       end
 
       it 'updates search index when org name changes' do

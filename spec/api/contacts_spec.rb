@@ -48,8 +48,8 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(404)
-      json['message'].
-        should include 'The requested resource could not be found.'
+      expect(json['message']).
+        to include 'The requested resource could not be found.'
     end
 
     it 'requires contact name' do
@@ -59,7 +59,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include "Name can't be blank"
+      expect(json['message']).to include "Name can't be blank"
     end
 
     it 'requires contact title' do
@@ -69,7 +69,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include "Title can't be blank"
+      expect(json['message']).to include "Title can't be blank"
     end
 
     it 'validates contact phone' do
@@ -79,7 +79,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include '703 is not a valid US phone number'
+      expect(json['message']).to include '703 is not a valid US phone number'
     end
 
     it 'validates contact fax' do
@@ -89,7 +89,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include '703 is not a valid US fax number'
+      expect(json['message']).to include '703 is not a valid US fax number'
     end
 
     it 'validates contact email' do
@@ -99,7 +99,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include '703 is not a valid email'
+      expect(json['message']).to include '703 is not a valid email'
     end
 
     it "doesn't allow updating a contact witout a valid token" do

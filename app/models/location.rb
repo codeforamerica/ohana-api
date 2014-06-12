@@ -179,15 +179,15 @@ class Location < ActiveRecord::Base
     if loc.present?
       result = Geocoder.search(loc, bounds: Settings.bounds)
       coords = result.first.coordinates if result.present?
-      near(coords, current_radius(r)) 
+      near(coords, current_radius(r))
     elsif lat_lng.present?
       begin
-        coords = lat_lng.split(",").map{ |f| Float(f) }
+        coords = lat_lng.split(',').map { |f| Float(f) }
       rescue ArgumentError
         error_msg = 'lat_lng must be a comma-delimited lat,long pair of floats'
         error!(error_msg, 400)
       end
-      near(coords, current_radius(r)) 
+      near(coords, current_radius(r))
     end
   end)
 

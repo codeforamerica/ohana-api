@@ -23,11 +23,11 @@ describe Ohana::API do
             'parent_id' => @food_child.parent_id,
             'slug' => 'emergency-food'
           }]
-          json.should == represented
+          expect(json).to eq(represented)
         end
 
         it 'is json' do
-          response.content_type.should == 'application/json'
+          expect(response.content_type).to eq('application/json')
         end
 
         it 'returns a successful status code' do
@@ -42,11 +42,11 @@ describe Ohana::API do
         end
 
         it 'returns an empty array' do
-          json.should == []
+          expect(json).to eq([])
         end
 
         it 'is json' do
-          response.content_type.should == 'application/json'
+          expect(response.content_type).to eq('application/json')
         end
 
         it 'returns a successful status code' do
@@ -71,7 +71,7 @@ describe Ohana::API do
           'parent_id' => nil,
           'slug' => 'emergency-food'
         }]
-        json.should == represented
+        expect(json).to eq(represented)
       end
 
       it 'is accessible by its old slug' do
@@ -180,7 +180,7 @@ describe Ohana::API do
             'locations_url' => locations_url
           }
         }
-        json.should == represented
+        expect(json).to eq(represented)
       end
     end
   end

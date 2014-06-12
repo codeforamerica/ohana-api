@@ -48,8 +48,8 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(404)
-      json['message'].
-        should include 'The requested resource could not be found.'
+      expect(json['message']).
+        to include 'The requested resource could not be found.'
     end
 
     it 'requires phone number' do
@@ -59,7 +59,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include "Number can't be blank"
+      expect(json['message']).to include "Number can't be blank"
     end
 
     it 'validates phone number' do
@@ -69,7 +69,7 @@ describe Ohana::API do
         'HTTP_X_API_TOKEN' => @token
       )
       expect(response.status).to eq(400)
-      json['message'].should include '703 is not a valid US phone number'
+      expect(json['message']).to include '703 is not a valid US phone number'
     end
 
     it "doesn't allow updating a phone witout a valid token" do

@@ -25,19 +25,19 @@ describe Ohana::API do
       it 'returns an X-Total-Count header' do
         expect(response.status).to eq 200
         expect(json.length).to eq(1)
-        headers['X-Total-Count'].should == '2'
+        expect(headers['X-Total-Count']).to eq('2')
       end
 
       it 'returns an X-Total-Pages header' do
         expect(response.status).to eq 200
         expect(json.length).to eq(1)
-        headers['X-Total-Pages'].should == '2'
+        expect(headers['X-Total-Pages']).to eq('2')
       end
 
       it 'returns pagination headers' do
         expect(headers['X-Current-Page']).to eq '1'
         expect(headers['X-Next-Page']).to eq '2'
-        headers['X-Previous-Page'].should be_nil
+        expect(headers['X-Previous-Page']).to be_nil
       end
     end
 
@@ -52,8 +52,8 @@ describe Ohana::API do
           '&per_page=1>; rel="prev"'
         )
         expect(headers['X-Current-Page']).to eq '2'
-        headers['X-Next-Page'].should be_nil
-        headers['X-Previous-Page'].should == '1'
+        expect(headers['X-Next-Page']).to be_nil
+        expect(headers['X-Previous-Page']).to eq('1')
       end
     end
 
@@ -89,10 +89,10 @@ describe Ohana::API do
           '<http://www.example.com/api/search?keyword=vrs&page=1' \
           '&per_page=30>; rel="last"'
         )
-        headers.keys.should_not include 'X-Current-Page'
-        headers.keys.should_not include 'X-Next-Page'
+        expect(headers.keys).not_to include 'X-Current-Page'
+        expect(headers.keys).not_to include 'X-Next-Page'
         expect(headers['X-Previous-Page']).to eq '1'
-        headers['X-Total-Pages'].should == '1'
+        expect(headers['X-Total-Pages']).to eq('1')
       end
     end
 
@@ -100,7 +100,7 @@ describe Ohana::API do
       it 'does not return a Link header' do
         create(:location)
         get 'api/search?keyword=parent'
-        headers.keys.should_not include 'Link'
+        expect(headers.keys).not_to include 'Link'
       end
     end
 
@@ -112,7 +112,7 @@ describe Ohana::API do
           '<http://www.example.com/api/search?keyword=foo&page=0' \
           '&per_page=30>; rel="last"'
         )
-        headers['X-Total-Count'].should == '0'
+        expect(headers['X-Total-Count']).to eq('0')
       end
     end
 
@@ -120,7 +120,7 @@ describe Ohana::API do
       it 'does not return a Link header' do
         loc = create(:location)
         get "api/locations/#{loc.id}"
-        headers.keys.should_not include 'Link'
+        expect(headers.keys).not_to include 'Link'
       end
     end
 
@@ -128,7 +128,7 @@ describe Ohana::API do
       it 'does not return a Link header' do
         create(:location)
         get 'api/locations'
-        headers.keys.should_not include 'Link'
+        expect(headers.keys).not_to include 'Link'
       end
     end
   end

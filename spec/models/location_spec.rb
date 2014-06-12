@@ -18,10 +18,14 @@ describe Location do
   # Instance methods
   it { should respond_to(:full_physical_address) }
 
-  its(:full_physical_address) do
-    should == "#{subject.address.street}, " \
-      "#{subject.address.city}, #{subject.address.state} " \
-      "#{subject.address.zip}"
+  describe '#full_physical_address' do
+    it 'joins all address elements into one string' do
+      combined = "#{subject.address.street}, " \
+        "#{subject.address.city}, #{subject.address.state} " \
+        "#{subject.address.zip}"
+
+      expect(subject.full_physical_address).to eq(combined)
+    end
   end
 
   # Attribute normalization
@@ -116,7 +120,7 @@ describe Location do
       it 'creates a new slug based on address street' do
         new_loc = create(:nearby_loc)
         new_loc.update_attributes!(name: 'VRS Services')
-        new_loc.reload.slug.should eq('vrs-services-250-myrtle-road')
+        expect(new_loc.reload.slug).to eq('vrs-services-250-myrtle-road')
       end
     end
 
@@ -124,21 +128,21 @@ describe Location do
       it 'creates a new slug based on mail_address city' do
         new_loc = create(:no_address)
         new_loc.update_attributes!(name: 'VRS Services')
-        new_loc.reload.slug.should eq('vrs-services-la-honda')
+        expect(new_loc.reload.slug).to eq('vrs-services-la-honda')
       end
     end
 
     context 'when name is not taken' do
       it 'creates a new slug based on name' do
         new_loc = create(:no_address)
-        new_loc.reload.slug.should eq('no-address')
+        expect(new_loc.reload.slug).to eq('no-address')
       end
     end
 
     context 'when name is not updated' do
       it "doesn't update slug" do
         @loc.update_attributes!(description: 'new description')
-        @loc.reload.slug.should eq('vrs-services')
+        expect(@loc.reload.slug).to eq('vrs-services')
       end
     end
   end

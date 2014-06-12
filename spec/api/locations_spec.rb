@@ -10,7 +10,7 @@ describe Ohana::API do
       it 'returns an empty array when no locations exist' do
         get '/api/locations'
         expect(response).to be_success
-        json.should == []
+        expect(json).to eq([])
       end
 
       it 'returns the correct number of existing locations' do
@@ -38,35 +38,35 @@ describe Ohana::API do
       it 'displays address when present' do
         create(:location)
         get '/api/locations'
-        json.first['address']['street'].should == '1800 Easton Drive'
+        expect(json.first['address']['street']).to eq('1800 Easton Drive')
       end
 
       it 'displays mail_address when present' do
         loc = create(:location)
         loc.create_mail_address!(attributes_for(:mail_address))
         get '/api/locations'
-        json.first['mail_address']['street'].should == '1 davis dr'
+        expect(json.first['mail_address']['street']).to eq('1 davis dr')
       end
 
       it 'displays contacts when present' do
         loc = create(:location)
         loc.contacts.create!(attributes_for(:contact))
         get '/api/locations'
-        json.first['contacts'].first['title'].should == 'CTO'
+        expect(json.first['contacts'].first['title']).to eq('CTO')
       end
 
       it 'displays faxes when present' do
         loc = create(:location)
         loc.faxes.create!(attributes_for(:fax))
         get '/api/locations'
-        json.first['faxes'].first['number'].should == '703-555-1212'
+        expect(json.first['faxes'].first['number']).to eq('703-555-1212')
       end
 
       it 'displays phones when present' do
         loc = create(:location)
         loc.phones.create!(attributes_for(:phone))
         get '/api/locations'
-        json.first['phones'].first['extension'].should == 'x2000'
+        expect(json.first['phones'].first['extension']).to eq('x2000')
       end
 
       context 'with nil fields' do
@@ -83,7 +83,7 @@ describe Ohana::API do
             hours languages mail_address phones transportation urls services
           )
           missing_keys.each do |key|
-            location_keys.should_not include(key)
+            expect(location_keys).not_to include(key)
           end
         end
 
@@ -93,7 +93,7 @@ describe Ohana::API do
           get 'api/locations'
           contact_keys = json.first['contacts'].first.keys
           %w(phone fax email).each do |key|
-            contact_keys.should_not include(key)
+            expect(contact_keys).not_to include(key)
           end
         end
 
@@ -101,7 +101,7 @@ describe Ohana::API do
           @loc.faxes.create!(attributes_for(:fax_with_no_dept))
           get 'api/locations'
           fax_keys = json.first['faxes'].first.keys
-          fax_keys.should_not include('department')
+          expect(fax_keys).not_to include('department')
         end
 
         it 'does not return nil fields within Phones' do
@@ -109,14 +109,14 @@ describe Ohana::API do
           get 'api/locations'
           phone_keys = json.first['phones'].first.keys
           %w(extension vanity_number).each do |key|
-            phone_keys.should_not include(key)
+            expect(phone_keys).not_to include(key)
           end
         end
 
         it 'does not return nil fields within Organization' do
           get 'api/locations'
           org_keys = json.first['organization'].keys
-          org_keys.should_not include('urls')
+          expect(org_keys).not_to include('urls')
         end
 
         it 'does not return nil fields within Services' do
@@ -125,7 +125,7 @@ describe Ohana::API do
           get 'api/locations'
           service_keys = json.first['services'].first.keys
           %w(audience eligibility fees).each do |key|
-            service_keys.should_not include(key)
+            expect(service_keys).not_to include(key)
           end
         end
       end
@@ -135,7 +135,7 @@ describe Ohana::API do
           create(:no_address)
           get 'api/locations'
           location_keys = json.first.keys
-          location_keys.should_not include('coordinates')
+          expect(location_keys).not_to include('coordinates')
         end
       end
     end
@@ -192,11 +192,11 @@ describe Ohana::API do
               'locations_url' => locations_url
             }
           }
-          json.should == represented
+          expect(json).to eq(represented)
         end
 
         it 'is json' do
-          response.content_type.should == 'application/json'
+          expect(response.content_type).to eq('application/json')
         end
 
         it 'returns a successful status code' do
@@ -204,7 +204,7 @@ describe Ohana::API do
         end
 
         it "returns the location's street" do
-          json['address']['street'].should == '1800 Easton Drive'
+          expect(json['address']['street']).to eq('1800 Easton Drive')
         end
       end
 
@@ -215,15 +215,15 @@ describe Ohana::API do
         end
 
         it 'returns a not found error' do
-          json['error'].should == 'Not Found'
+          expect(json['error']).to eq('Not Found')
         end
 
         it 'returns a 404 status code' do
-          response.status.should == 404
+          expect(response.status).to eq(404)
         end
 
         it 'is json' do
-          response.content_type.should == 'application/json'
+          expect(response.content_type).to eq('application/json')
         end
       end
 
@@ -237,7 +237,7 @@ describe Ohana::API do
           get "api/locations/#{@loc.id}"
           keys = json.keys
           %w(faxes fees email).each do |key|
-            keys.should_not include(key)
+            expect(keys).not_to include(key)
           end
         end
 
@@ -245,7 +245,7 @@ describe Ohana::API do
           get 'api/search?keyword=belmont'
           keys = json.first.keys
           %w(faxes fees email).each do |key|
-            keys.should_not include(key)
+            expect(keys).not_to include(key)
           end
         end
       end
@@ -265,7 +265,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response).to be_success
-        json.should_not include 'foo'
+        expect(json).not_to include 'foo'
       end
 
       it 'allows setting whitelisted attributes' do
@@ -276,7 +276,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response).to be_success
-        json['name'].should == 'New Name'
+        expect(json['name']).to eq('New Name')
       end
 
       it 'validates the accessibility attribute' do
@@ -287,8 +287,8 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].
-          should include 'Please enter a valid value for Accessibility'
+        expect(json['message']).
+          to include 'Please enter a valid value for Accessibility'
       end
 
       it 'validates phone number' do
@@ -299,7 +299,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include '703 is not a valid US phone number'
+        expect(json['message']).to include '703 is not a valid US phone number'
       end
 
       it 'validates fax number' do
@@ -310,7 +310,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include '703 is not a valid US fax number'
+        expect(json['message']).to include '703 is not a valid US fax number'
       end
 
       it 'allows empty array for faxes_attributes' do
@@ -375,7 +375,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "Description can't be blank"
+        expect(json['message']).to include "Description can't be blank"
       end
 
       # Enable this test if you would like to require a short description
@@ -388,7 +388,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "Short desc can't be blank"
+        expect(json['message']).to include "Short desc can't be blank"
       end
 
       # Enable this test if you want to limit the short description's length
@@ -404,7 +404,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include 'too long (maximum is 200 characters)'
+        expect(json['message']).to include 'too long (maximum is 200 characters)'
       end
 
       it 'requires location name' do
@@ -415,7 +415,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "Name can't be blank"
+        expect(json['message']).to include "Name can't be blank"
       end
 
       it 'validates location email' do
@@ -426,7 +426,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include '703 is not a valid email'
+        expect(json['message']).to include '703 is not a valid email'
       end
 
       it 'validates location URLs' do
@@ -437,7 +437,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include 'badurl is not a valid URL'
+        expect(json['message']).to include 'badurl is not a valid URL'
       end
 
       it 'validates location address state' do
@@ -450,8 +450,8 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].
-          should include 'Please enter a valid 2-letter state abbreviation'
+        expect(json['message']).
+          to include 'Please enter a valid 2-letter state abbreviation'
       end
 
       it 'validates location address zip' do
@@ -464,7 +464,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include '1234 is not a valid ZIP code'
+        expect(json['message']).to include '1234 is not a valid ZIP code'
       end
 
       it 'requires location address street' do
@@ -477,7 +477,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "street can't be blank"
+        expect(json['message']).to include "street can't be blank"
       end
 
       it 'requires location address state' do
@@ -490,7 +490,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "state can't be blank"
+        expect(json['message']).to include "state can't be blank"
       end
 
       it 'requires location address city' do
@@ -503,7 +503,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "city can't be blank"
+        expect(json['message']).to include "city can't be blank"
       end
 
       it 'requires location address zip' do
@@ -516,7 +516,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "zip can't be blank"
+        expect(json['message']).to include "zip can't be blank"
       end
 
       it 'validates location mail address state' do
@@ -543,7 +543,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include '1234 is not a valid ZIP code'
+        expect(json['message']).to include '1234 is not a valid ZIP code'
       end
 
       it 'requires location mail_address street' do
@@ -556,7 +556,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "street can't be blank"
+        expect(json['message']).to include "street can't be blank"
       end
 
       it 'requires location mail_address state' do
@@ -569,7 +569,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "state can't be blank"
+        expect(json['message']).to include "state can't be blank"
       end
 
       it 'requires location mail_address city' do
@@ -582,7 +582,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "city can't be blank"
+        expect(json['message']).to include "city can't be blank"
       end
 
       it 'requires location mail_address zip' do
@@ -595,7 +595,7 @@ describe Ohana::API do
         )
         @loc.reload
         expect(response.status).to eq(400)
-        json['message'].should include "zip can't be blank"
+        expect(json['message']).to include "zip can't be blank"
       end
 
       it 'rejects location with neither address nor mail address' do
@@ -654,7 +654,7 @@ describe Ohana::API do
           'HTTP_X_API_TOKEN' => @token
         )
         get '/api/search?keyword=changeme'
-        json.first['name'].should == 'changeme'
+        expect(json.first['name']).to eq('changeme')
       end
     end
 
@@ -707,7 +707,7 @@ describe Ohana::API do
           'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
         )
         expect(response.status).to eq(201)
-        json.should_not include 'foo'
+        expect(json).not_to include 'foo'
       end
     end
 
@@ -728,7 +728,7 @@ describe Ohana::API do
           'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
         )
         expect(response.status).to eq(201)
-        json.should_not include 'foo'
+        expect(json).not_to include 'foo'
       end
 
       it 'allows setting whitelisted attributes' do
@@ -748,7 +748,7 @@ describe Ohana::API do
           @service_attributes.merge(services_areas: ''),
           'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
         )
-        json['service_areas'].should == []
+        expect(json['service_areas']).to eq([])
       end
 
       it 'sets service_areas to empty array if nil' do
@@ -757,7 +757,7 @@ describe Ohana::API do
           @service_attributes.merge(services_areas: nil),
           'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
         )
-        json['service_areas'].should == []
+        expect(json['service_areas']).to eq([])
       end
     end
 

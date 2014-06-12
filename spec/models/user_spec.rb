@@ -61,14 +61,14 @@ describe User do
     upcased_email = @attr[:email].upcase
     User.create!(@attr.merge(email: upcased_email))
     user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
+    expect(user_with_duplicate_email).not_to be_valid
   end
 
   describe 'password validations' do
 
     it 'requires a matching password confirmation' do
-      User.new(@attr.merge(password_confirmation: 'invalid')).
-        should_not be_valid
+      expect(User.new(@attr.merge(password_confirmation: 'invalid'))).
+        not_to be_valid
     end
   end
 
@@ -79,7 +79,7 @@ describe User do
     end
 
     it 'should set the encrypted password attribute' do
-      @user.encrypted_password.should_not be_blank
+      expect(@user.encrypted_password).not_to be_blank
     end
   end
 end

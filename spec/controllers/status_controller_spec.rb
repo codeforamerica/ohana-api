@@ -15,7 +15,7 @@ describe StatusController do
         create(:loc_with_nil_fields)
         get 'check_status'
         body = JSON.parse(response.body)
-        body['status'].should == 'DB did not return location or category'
+        expect(body['status']).to eq('DB did not return location or category')
       end
     end
 
@@ -29,7 +29,7 @@ describe StatusController do
         )
         get 'check_status'
         body = JSON.parse(response.body)
-        body['status'].should == 'ok'
+        expect(body['status']).to eq('ok')
       end
     end
 
@@ -39,7 +39,7 @@ describe StatusController do
         create(:category)
         get 'check_status'
         body = JSON.parse(response.body)
-        body['status'].should == 'Search returned no results'
+        expect(body['status']).to eq('Search returned no results')
       end
     end
   end

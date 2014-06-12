@@ -17,7 +17,7 @@ describe Organization do
     context 'when name is already taken' do
       it 'creates a new slug' do
         new_org = Organization.create!(name: 'Parent Agency')
-        new_org.reload.slug.should_not eq('parent-agency')
+        expect(new_org.reload.slug).not_to eq('parent-agency')
       end
     end
 
@@ -27,14 +27,14 @@ describe Organization do
           name: 'Parent Agency',
           urls: ['http://monfresh.com']
         )
-        new_org.reload.slug.should eq('parent-agency-monfresh-com')
+        expect(new_org.reload.slug).to eq('parent-agency-monfresh-com')
       end
     end
 
     context 'when name is not updated' do
       it "doesn't update slug" do
         @org.update_attributes!(urls: ['http://monfresh.com'])
-        @org.reload.slug.should eq('parent-agency')
+        expect(@org.reload.slug).to eq('parent-agency')
       end
     end
   end
