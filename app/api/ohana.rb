@@ -26,7 +26,7 @@ module Ohana
       get do
         locations = Location.page(params[:page]).per(params[:per_page]).
                             order('created_at DESC')
-        set_link_header(locations)
+        generate_pagination_headers(locations)
         present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
       end
 
@@ -63,10 +63,6 @@ module Ohana
         authenticate!
         loc = Location.find(params[:id])
         params = request.params.except(:route_info)
-
-        if params[:emails].present?
-          params[:emails] = params[:emails].delete_if { |email| email.blank? }
-        end
 
         loc.update!(params)
         present loc, with: Entities::Location
@@ -109,7 +105,7 @@ module Ohana
               nearby = Location.none.page(params[:page]).per(params[:per_page])
             end
 
-            set_link_header(nearby)
+            generate_pagination_headers(nearby)
             present nearby.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
           end
         end
@@ -320,7 +316,7 @@ module Ohana
       end
       get do
         orgs = Organization.page(params[:page])
-        set_link_header(orgs)
+        generate_pagination_headers(orgs)
         present orgs, with: Organization::Entity
       end
 
@@ -383,7 +379,7 @@ module Ohana
           get do
             org = Organization.find(params[:organization_id])
             locations = org.locations.page(params[:page])
-            set_link_header(locations)
+            generate_pagination_headers(locations)
             present locations.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories), with: Entities::Location
           end
         end
@@ -599,7 +595,7 @@ module Ohana
 
         locations = Location.text_search(params).uniq.page(params[:page]).per(params[:per_page])
 
-        set_link_header(locations)
+        generate_pagination_headers(locations)
 
         present locations.includes(tables), with: Entities::Location
       end

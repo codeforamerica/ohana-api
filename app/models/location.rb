@@ -91,7 +91,7 @@ class Location < ActiveRecord::Base
   # has_many :schedules, dependent: :destroy
   # accepts_nested_attributes_for :schedules
 
-  normalize_attributes :description, :hours, :name,
+  normalize_attributes :description, :emails, :hours, :name,
                        :short_desc, :transportation, :urls
 
   # This is where you define all the fields that you want to be required
@@ -127,7 +127,6 @@ class Location < ActiveRecord::Base
 
   validates :emails, array: {
     format: { with: /.+@.+\..+/i,
-              allow_blank: true,
               message: '%{value} is not a valid email' } }
 
   validate :format_of_admin_email, if: proc { |l| l.admin_emails.is_a?(Array) }

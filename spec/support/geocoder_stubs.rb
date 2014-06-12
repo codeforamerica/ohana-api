@@ -1,7 +1,7 @@
-Geocoder.configure(:lookup => :test)
+Geocoder.configure(lookup: :test)
 
 Geocoder::Lookup::Test.add_stub(
-  "94403", [
+  '94403', [
     {
       'latitude'     => 37.5349925,
       'longitude'    => -122.3050823,
@@ -15,7 +15,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "la honda, ca", [
+  'la honda, ca', [
     {
       'latitude'     => 37.3190255,
       'longitude'    => -122.274227,
@@ -29,7 +29,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "san gregorio, ca", [
+  'san gregorio, ca', [
     {
       'latitude'     => 37.32716509999999,
       'longitude'    => -122.3866404,
@@ -43,7 +43,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "pescadero, ca", [
+  'pescadero, ca', [
     {
       'latitude'     => 37.2551636,
       'longitude'    => -122.3830152,
@@ -57,7 +57,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "Burlingame", [
+  'Burlingame', [
     {
       'latitude'     => 37.5778696,
       'longitude'    => -122.34809,
@@ -71,7 +71,7 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "1236 Broadway, Burlingame, CA 94010", [
+  '1236 Broadway, Burlingame, CA 94010', [
     {
       'latitude'     => 37.5857936,
       'longitude'    => -122.3653504,
@@ -85,11 +85,11 @@ Geocoder::Lookup::Test.add_stub(
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "00000", []
+  '00000', []
 )
 
 Geocoder::Lookup::Test.add_stub(
-  "94403ab", []
+  '94403ab', []
 )
 
 Geocoder::Lookup::Test.set_default_stub(

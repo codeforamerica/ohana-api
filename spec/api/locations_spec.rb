@@ -323,16 +323,6 @@ describe Ohana::API do
         expect(response.status).to eq(200)
       end
 
-      it 'strips out empty emails from array' do
-        put(
-          "api/locations/#{@loc.id}",
-          { emails: [''] },
-          'HTTP_X_API_TOKEN' => @token
-        )
-        @loc.reload
-        expect(response.status).to eq(200)
-      end
-
       it 'validates admin email' do
         put(
           "api/locations/#{@loc.id}",

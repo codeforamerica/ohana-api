@@ -3,7 +3,7 @@ module LinkHeader
   #
   # @param coll ActiveRecord::Relation
   # @return various pagination-related HTTP Headers
-  def set_link_header(coll)
+  def generate_pagination_headers(coll)
     params = request.params.except(:route_info, :method, :search_format)
 
     pages = pages(coll)

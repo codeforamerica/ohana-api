@@ -6,6 +6,7 @@ AllCops:
     - 'bin/*'
     - 'db/schema.rb'
     - 'db/migrate/*'
+    - 'config/initializers/generators.rb'
 
 # Allow dots at the end of lines when chaining methods
 # that span multiple lines
