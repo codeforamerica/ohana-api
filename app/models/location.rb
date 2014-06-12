@@ -132,17 +132,15 @@ class Location < ActiveRecord::Base
   validate :format_of_admin_email, if: proc { |l| l.admin_emails.is_a?(Array) }
 
   def format_of_admin_email
+    return unless admin_emails.present?
     regexp = /.+@.+\..+/i
-    if admin_emails.present? && admin_emails.find { |a| a.match(regexp).nil? }
-      errors[:base] << 'admin_emails must be an array of valid email addresses'
-    end
+    return unless admin_emails.find { |a| a.match(regexp).nil? }
+    errors[:base] << 'admin_emails must be an array of valid email addresses'
   end
 
   def full_physical_address
-    if address.present?
-      "#{address.street}, #{address.city}, #{address.state} " \
-      "#{address.zip}"
-    end
+    return unless address.present?
+    "#{address.street}, #{address.city}, #{address.state} #{address.zip}"
   end
 
   def coordinates

@@ -42,9 +42,8 @@ module LinkHeader
   def links(pages, params)
     pages.map do |k, v|
       new_params = params.merge(page: v)
-      unless new_params[:page].blank?
-        %(<#{url}?#{new_params.to_param}>; rel="#{k}")
-      end
+      next if new_params[:page].blank?
+      %(<#{url}?#{new_params.to_param}>; rel="#{k}")
     end
   end
 end

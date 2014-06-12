@@ -28,12 +28,12 @@ class Service < ActiveRecord::Base
   end)
 
   def service_area_format
+    return unless service_areas.present?
     valid_service_areas = Settings.valid_service_areas
-    if service_areas.present? && (service_areas - valid_service_areas).size != 0
-      errors[:base] << 'At least one service area is improperly formatted,
-        or is not an accepted city or county name. Please make sure all
-        words are capitalized.'
-    end
+    return unless (service_areas - valid_service_areas).size != 0
+    errors[:base] << 'At least one service area is improperly formatted,
+      or is not an accepted city or county name. Please make sure all
+      words are capitalized.'
   end
 
   include Grape::Entity::DSL
