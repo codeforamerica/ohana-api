@@ -4,11 +4,66 @@ describe Organization do
 
   subject { build(:organization) }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
+
+  it { is_expected.to allow_mass_assignment_of(:name) }
+  it { is_expected.to allow_mass_assignment_of(:urls) }
+
+  it { is_expected.to have_many :locations }
 
   it do
-    should validate_presence_of(:name).
+    is_expected.to validate_presence_of(:name).
       with_message("can't be blank for Organization")
+  end
+
+  it { is_expected.to serialize(:urls).as(Array) }
+
+  it { is_expected.to allow_value('http://monfresh.com').for(:urls) }
+
+  it do
+    is_expected.not_to allow_value('http://').
+    for(:urls).
+    with_message('http:// is not a valid URL')
+  end
+
+  it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:urls) }
+  it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
+  it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
+  it { is_expected.not_to allow_value('http://www.codeforamerica.org ').for(:urls) }
+  it { is_expected.not_to allow_value(' http://www.codeforamerica.org').for(:urls) }
+
+  describe 'auto_strip_attributes' do
+    it 'strips extra whitespace before validation' do
+      org = build(:org_with_extra_whitespace)
+      org.valid?
+      expect(org.name).to eq('Food Pantry')
+    end
+  end
+
+  it { is_expected.to respond_to(:url) }
+  describe '#url' do
+    it 'returns the URL to the organization' do
+      url = "#{ENV['API_BASE_URL']}organizations/#{subject.id}"
+
+      expect(subject.url).to eq(url)
+    end
+  end
+
+  it { is_expected.to respond_to(:locations_url) }
+  describe '#locations_url' do
+    it "returns the URL to the organization's locations" do
+      url = "#{ENV['API_BASE_URL']}organizations/#{subject.id}/locations"
+
+      expect(subject.locations_url).to eq(url)
+    end
+  end
+
+  it { is_expected.to respond_to(:domain_name) }
+  describe '#domain_name' do
+    it "returns the domain part of the organization's first URL" do
+      subject = build(:org_with_urls)
+      expect(subject.domain_name).to eq('monfresh.com')
+    end
   end
 
   describe 'slug candidates' do

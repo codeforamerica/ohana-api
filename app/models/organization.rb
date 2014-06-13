@@ -1,5 +1,26 @@
 class Organization < ActiveRecord::Base
+  default_scope { order('id ASC') }
+
   attr_accessible :name, :urls
+
+  has_many :locations, dependent: :destroy
+  # accepts_nested_attributes_for :locations
+
+  validates :name, presence: { message: "can't be blank for Organization" }
+
+  # Custom validation for values within arrays.
+  # For example, the urls field is an array that can contain multiple URLs.
+  # To be able to validate each URL in the array, we have to use a
+  # custom array validator. See app/validators/array_validator.rb
+  validates :urls, array: {
+    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
+              message: '%{value} is not a valid URL' } }
+
+  serialize :urls, Array
+
+  auto_strip_attributes :name, squish: true
+
+  paginates_per Rails.env.test? ? 1 : 30
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]
@@ -13,17 +34,6 @@ class Organization < ActiveRecord::Base
     ]
   end
 
-  has_many :locations, dependent: :destroy
-  # accepts_nested_attributes_for :locations
-
-  normalize_attributes :name
-
-  serialize :urls, Array
-
-  validates :name, presence: { message: "can't be blank for Organization" }
-
-  paginates_per Rails.env.test? ? 1 : 30
-
   def url
     "#{ENV['API_BASE_URL']}organizations/#{id}"
   end
@@ -35,8 +45,6 @@ class Organization < ActiveRecord::Base
   def domain_name
     URI.parse(urls.first).host.gsub(/^www\./, '') if urls.present?
   end
-
-  default_scope { order('id ASC') }
 
   include Grape::Entity::DSL
   entity do

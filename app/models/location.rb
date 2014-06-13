@@ -42,9 +42,7 @@ class Location < ActiveRecord::Base
             },
             unless: proc { |loc| loc.mail_address.present? }
 
-  validates :description,
-            :organization,
-            :name,
+  validates :description, :organization, :name,
             presence: { message: "can't be blank for Location" }
 
   ## Uncomment the line below if you want to require a short description.
@@ -69,11 +67,9 @@ class Location < ActiveRecord::Base
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
               message: '%{value} is not a valid URL' } }
 
-  validates :emails, array: {
-    format: { with: /.+@.+\..+/i,
+  validates :emails, :admin_emails, array: {
+    format: { with: /\A([^@\s]+)@((?:(?!-)[-a-z0-9]+(?<!-)\.)+[a-z]{2,})\z/i,
               message: '%{value} is not a valid email' } }
-
-  validate :format_of_admin_email, if: proc { |l| l.admin_emails.is_a?(Array) }
 
   # Only call Google's geocoding service if the address has changed
   # to avoid unnecessary requests that affect our rate limit.
@@ -113,8 +109,8 @@ class Location < ActiveRecord::Base
 
   serialize :urls, Array
 
-  normalize_attributes :description, :emails, :hours, :name,
-                       :short_desc, :transportation, :urls
+  auto_strip_attributes :description, :hours, :name, :short_desc,
+                        :transportation, squish: true
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]
@@ -137,13 +133,6 @@ class Location < ActiveRecord::Base
     mail_address.city if mail_address.present?
   end
 
-  def format_of_admin_email
-    return unless admin_emails.present?
-    regexp = /.+@.+\..+/i
-    return unless admin_emails.find { |a| a.match(regexp).nil? }
-    errors[:base] << 'admin_emails must be an array of valid email addresses'
-  end
-
   def full_physical_address
     return unless address.present?
     "#{address.street}, #{address.city}, #{address.state} #{address.zip}"
@@ -160,6 +149,10 @@ class Location < ActiveRecord::Base
 
   def needs_geocoding?
     address.changed? || latitude.nil? || longitude.nil? if address.present?
+  end
+
+  def url
+    "#{ENV['API_BASE_URL']}locations/#{id}"
   end
 
   ## POSTGRES FULL-TEXT SEARCH
@@ -247,9 +240,5 @@ class Location < ActiveRecord::Base
 
   def self.error!(message, status = 403)
     throw :error, message: message, status: status
-  end
-
-  def url
-    "#{ENV['API_BASE_URL']}locations/#{id}"
   end
 end

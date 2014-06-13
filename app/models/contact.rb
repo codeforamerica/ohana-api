@@ -8,7 +8,7 @@ class Contact < ActiveRecord::Base
   validates :phone, phone: true, allow_blank: true
   validates :fax, fax: true, allow_blank: true
 
-  normalize_attributes :name, :title, :email, :fax, :phone, :extension
+  auto_strip_attributes :email, :extension, :fax, :name, :phone, :title, squish: true
 
   include Grape::Entity::DSL
   entity do

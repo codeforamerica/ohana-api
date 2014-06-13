@@ -4,56 +4,59 @@ describe Contact do
 
   subject { build(:contact) }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
+
+  it { is_expected.to allow_mass_assignment_of(:email) }
+  it { is_expected.to allow_mass_assignment_of(:extension) }
+  it { is_expected.to allow_mass_assignment_of(:fax) }
+  it { is_expected.to allow_mass_assignment_of(:name) }
+  it { is_expected.to allow_mass_assignment_of(:phone) }
+  it { is_expected.to allow_mass_assignment_of(:title) }
+
+  it { is_expected.to belong_to(:location).touch(true) }
 
   it do
-    should validate_presence_of(:name).
+    is_expected.to validate_presence_of(:name).
       with_message("can't be blank for Contact")
   end
 
   it do
-    should validate_presence_of(:title).
+    is_expected.to validate_presence_of(:title).
       with_message("can't be blank for Contact")
   end
 
-  describe 'invalid data' do
-    before(:each) { @attrs = {} }
+  it { is_expected.to allow_value('moncef@blah.com').for(:email) }
+  it { is_expected.to allow_value('123.456.7890', '(123) 456-7890').for(:phone) }
+  it { is_expected.to allow_value('(123)456-7890').for(:fax) }
 
-    context 'email without period' do
-      subject { build(:contact, email: 'moncef@blahcom') }
-      it { should_not be_valid }
-    end
-
-    context 'email without @' do
-      subject { build(:contact, email: 'moncef.blahcom') }
-      it { should_not be_valid }
-    end
-
-    context 'phone number is less than 10 digits' do
-      subject { build(:contact, phone: '123456789') }
-      it { should_not be_valid }
-    end
-
-    context 'fax number is less than 10 digits' do
-      subject { build(:contact, fax: '123456789') }
-      it { should_not be_valid }
-    end
+  it do
+    is_expected.not_to allow_value('moncef@blahcom').
+    for(:email).
+    with_message('moncef@blahcom is not a valid email')
   end
 
-  describe 'valid data' do
-    context 'email with trailing whitespace' do
-      subject { build(:contact, email: 'moncef@blah.com ') }
-      it { should be_valid }
-    end
+  it do
+    is_expected.not_to allow_value('123456789').
+    for(:phone).
+    with_message('123456789 is not a valid US phone number')
+  end
 
-    context 'with US phone containing dots' do
-      subject { build(:contact, phone: '123.456.7890') }
-      it { should be_valid }
-    end
+  it do
+    is_expected.not_to allow_value('asdf').
+    for(:fax).
+    with_message('asdf is not a valid US fax number')
+  end
 
-    context 'with fax containing dashes and parens' do
-      subject { build(:contact, fax: '(123)456-7890') }
-      it { should be_valid }
+  describe 'auto_strip_attributes' do
+    it 'strips extra whitespace before validation' do
+      contact = build(:contact_with_extra_whitespace)
+      contact.valid?
+      expect(contact.email).to eq('foo@bar.com')
+      expect(contact.extension).to eq('x1234')
+      expect(contact.fax).to eq('123-456-7890')
+      expect(contact.name).to eq('Foo')
+      expect(contact.phone).to eq('123-456-7890')
+      expect(contact.title).to eq('Bar')
     end
   end
 end

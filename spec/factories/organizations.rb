@@ -3,6 +3,10 @@
 FactoryGirl.define do
   factory :organization do
     name 'Parent Agency'
+
+    factory :org_with_urls do
+      urls %w(http://monfresh.com http://cfa.org)
+    end
   end
 
   factory :nearby_org, class: Organization do
@@ -11,5 +15,9 @@ FactoryGirl.define do
 
   factory :food_pantry, class: Organization do
     name 'Food Pantry'
+  end
+
+  factory :org_with_extra_whitespace, class: Organization do
+    name 'Food   Pantry  '
   end
 end

@@ -10,8 +10,8 @@ class Phone < ActiveRecord::Base
             presence: { message: "can't be blank for Phone" },
             phone: { unless: ->(phone) { phone.number == '711' } }
 
-  normalize_attributes :department, :extension, :number, :number_type,
-                       :vanity_number
+  auto_strip_attributes :department, :extension, :number, :number_type,
+                        :vanity_number, squish: true
 
   include Grape::Entity::DSL
   entity do

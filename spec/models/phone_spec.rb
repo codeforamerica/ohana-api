@@ -1,54 +1,39 @@
 require 'spec_helper'
 
 describe Phone do
-
   subject { build(:phone) }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
 
-  it { should belong_to :location }
+  it { is_expected.to allow_mass_assignment_of(:department) }
+  it { is_expected.to allow_mass_assignment_of(:extension) }
+  it { is_expected.to allow_mass_assignment_of(:number) }
+  it { is_expected.to allow_mass_assignment_of(:number_type) }
+  it { is_expected.to allow_mass_assignment_of(:vanity_number) }
 
-  it { should allow_mass_assignment_of(:department) }
-  it { should allow_mass_assignment_of(:extension) }
-  it { should allow_mass_assignment_of(:number) }
-  it { should allow_mass_assignment_of(:number_type) }
-  it { should allow_mass_assignment_of(:vanity_number) }
-  it do
-    should normalize_attribute(:number).
-      from(' 703 555-1212  ').to('703 555-1212')
-  end
+  it { is_expected.to belong_to(:location).touch(true) }
 
   it do
-    should normalize_attribute(:extension).
-      from(' x5104  ').to('x5104')
-  end
-
-  it do
-    should normalize_attribute(:department).
-      from(' Intake  ').to('Intake')
-  end
-
-  it do
-    should normalize_attribute(:vanity_number).
-      from(' 800 YOU-NEED  ').to('800 YOU-NEED')
-  end
-
-  it do
-    should validate_presence_of(:number).
+    is_expected.to validate_presence_of(:number).
       with_message("can't be blank for Phone")
   end
 
-  it do
-    should allow_value('703-555-1212', '800.123.4567').for(:number)
-  end
+  it { is_expected.to allow_value('703-555-1212', '800.123.4567', '711').for(:number) }
 
   it do
-    should allow_value('711').for(:number)
-  end
-
-  it do
-    should_not allow_value('703-').
-      for(:number).
+    is_expected.not_to allow_value('703-').for(:number).
       with_message('703- is not a valid US phone number')
+  end
+
+  describe 'auto_strip_attributes' do
+    it 'strips extra whitespace before validation' do
+      phone = build(:phone_with_extra_whitespace)
+      phone.valid?
+      expect(phone.department).to eq('Information')
+      expect(phone.number).to eq('650 851-1210')
+      expect(phone.extension).to eq('x2000')
+      expect(phone.vanity_number).to eq('800-FLY-AWAY')
+      expect(phone.number_type).to eq('TTY')
+    end
   end
 end

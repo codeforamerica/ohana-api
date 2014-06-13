@@ -3,32 +3,31 @@ require 'spec_helper'
 describe Fax do
   subject { build(:fax) }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
 
-  it { should belong_to(:location) }
+  it { is_expected.to allow_mass_assignment_of(:number) }
+  it { is_expected.to allow_mass_assignment_of(:department) }
 
-  it { should allow_mass_assignment_of(:number) }
-  it { should allow_mass_assignment_of(:department) }
+  it { is_expected.to belong_to(:location).touch(true) }
 
   it do
-    should validate_presence_of(:number).
+    is_expected.to validate_presence_of(:number).
       with_message("can't be blank for Fax")
   end
 
-  it do
-    should normalize_attribute(:number).
-      from(' 800-555-1212  ').to('800-555-1212')
-  end
+  it { is_expected.to allow_value('703-555-1212', '800.123.4567').for(:number) }
 
   it do
-    should normalize_attribute(:department).
-      from(' Youth Development  ').to('Youth Development')
-  end
-
-  it { should allow_value('703-555-1212', '800.123.4567').for(:number) }
-
-  it do
-    should_not allow_value('703-').for(:number).
+    is_expected.not_to allow_value('703-').for(:number).
       with_message('703- is not a valid US fax number')
+  end
+
+  describe 'auto_strip_attributes' do
+    it 'strips extra whitespace before validation' do
+      fax = build(:fax_with_extra_whitespace)
+      fax.valid?
+      expect(fax.department).to eq('Department of Corrections')
+      expect(fax.number).to eq('800-222-3333')
+    end
   end
 end

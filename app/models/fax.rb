@@ -7,7 +7,7 @@ class Fax < ActiveRecord::Base
             presence: { message: "can't be blank for Fax" },
             fax: true
 
-  normalize_attributes :number, :department
+  auto_strip_attributes :number, :department, squish: true
 
   include Grape::Entity::DSL
   entity do
