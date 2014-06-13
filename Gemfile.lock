@@ -218,7 +218,7 @@ GEM
       sass (~> 3.2.0)
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0)
-    shoulda-matchers (2.6.0)
+    shoulda-matchers (2.6.1)
       activesupport (>= 3.0.0)
     simplecov (0.8.2)
       docile (~> 1.1.0)
