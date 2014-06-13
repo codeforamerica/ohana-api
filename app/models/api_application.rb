@@ -1,16 +1,14 @@
 class ApiApplication < ActiveRecord::Base
-  before_create :generate_api_token
+  attr_accessible :name, :main_url, :callback_url
 
   belongs_to :user
 
-  attr_accessible :name, :main_url, :callback_url
+  validates :name, :api_token, uniqueness: true
+  validates :name, :main_url, presence: true
+  validates :main_url, url: true
+  validates :callback_url, url: true, allow_blank: true
 
-  validates_uniqueness_of :name, :api_token
-  validates_presence_of :name, :main_url, :callback_url
-  validates_format_of :main_url, with: %r{\A(http)s?://\w},
-                                 message: 'Please include the protocol'
-  validates_format_of :callback_url, with: %r{\A(http)s?://\w},
-                                     message: 'Please include the protocol'
+  before_create :generate_api_token
 
   private
 

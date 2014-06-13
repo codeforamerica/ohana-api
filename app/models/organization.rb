@@ -20,7 +20,7 @@ class Organization < ActiveRecord::Base
 
   serialize :urls, Array
 
-  validates_presence_of :name, message: "can't be blank for Organization"
+  validates :name, presence: { message: "can't be blank for Organization" }
 
   paginates_per Rails.env.test? ? 1 : 30
 

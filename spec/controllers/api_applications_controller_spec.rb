@@ -10,8 +10,8 @@ describe ApiApplicationsController do
   # adjust the attributes here as well.
   let(:valid_attributes) do
     { name: 'test app',
-      main_url: 'http://localhost:8080',
-      callback_url: 'http://localhost:8080'
+      main_url: 'http://codeforamerica.org',
+      callback_url: 'https://github.com/codeforamerica'
     }
   end
 

@@ -6,7 +6,6 @@ describe ApiApplication do
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:main_url) }
-  it { should validate_presence_of(:callback_url) }
 
   it { should validate_uniqueness_of(:name) }
   it { should validate_uniqueness_of(:api_token) }
@@ -14,7 +13,7 @@ describe ApiApplication do
   it { should_not allow_mass_assignment_of(:api_token) }
 
   it do
-    should allow_value('http://localhost', 'https://localhost').
+    should allow_value('http://cfa.org', 'https://github.com').
       for(:main_url)
   end
 

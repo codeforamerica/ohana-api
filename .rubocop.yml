@@ -5,6 +5,7 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
+    - 'db/seeds.rb'
     - 'db/migrate/*'
     - 'config/initializers/generators.rb'
 
@@ -22,3 +23,6 @@ Documentation:
 MethodLength:
   CountComments: false
   Max: 15
+
+Rails/HasAndBelongsToMany:
+  Enabled: false

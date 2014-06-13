@@ -1,4 +1,12 @@
 class Category < ActiveRecord::Base
+  default_scope { order('oe_id ASC') }
+
+  attr_accessible :name, :oe_id
+
+  has_and_belongs_to_many :services, -> { uniq }
+
+  validates :name, :oe_id, presence: { message: "can't be blank for Category" }
+
   has_ancestry
 
   extend FriendlyId
@@ -12,14 +20,6 @@ class Category < ActiveRecord::Base
       [:name, :oe_id]
     ]
   end
-
-  attr_accessible :name, :oe_id
-
-  has_and_belongs_to_many :services, -> { uniq }
-
-  validates_presence_of :name, :oe_id, message: "can't be blank for Category"
-
-  default_scope { order('oe_id ASC') }
 
   include Grape::Entity::DSL
   entity do

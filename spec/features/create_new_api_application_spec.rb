@@ -24,7 +24,7 @@ feature 'Creating a new API Application' do
   end
 
   scenario 'with valid fields' do
-    create_api_app('my awesome app', 'http://localhost', 'http://callback')
+    create_api_app('my awesome app', 'http://codeforamerica.org', '')
     expect(page).to have_content 'Application was successfully created.'
     expect(page).to_not have_content 'API token is already taken'
     expect(page.text).to match(/API Token: \w+/)
@@ -34,19 +34,18 @@ feature 'Creating a new API Application' do
     create_api_app('', '', '')
     expect(page).to have_content "Name can't be blank"
     expect(page).to have_content "Main url can't be blank"
-    expect(page).to have_content "Callback url can't be blank"
     expect(page).to_not have_content 'API Token:'
   end
 
   scenario 'with invalid main url' do
     create_api_app('test app', 'ohana', 'http://callback')
-    expect(page).to have_content 'Please include the protocol'
+    expect(page).to have_content 'ohana is not a valid URL'
     expect(page).to_not have_content 'API Token:'
   end
 
   scenario 'with invalid callback url' do
     create_api_app('test app', 'http://localhost', 'callback')
-    expect(page).to have_content 'Please include the protocol'
+    expect(page).to have_content 'callback is not a valid URL'
     expect(page).to_not have_content 'API Token:'
   end
 end

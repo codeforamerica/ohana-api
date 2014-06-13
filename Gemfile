@@ -53,9 +53,6 @@ end
 # Geocoding
 gem 'geocoder'
 
-# Format validation for URLs, phone numbers, zipcodes
-gem 'validates_formatting_of', '~> 0.8.1'
-
 # CORS support
 gem 'rack-cors', require: 'rack/cors'
 

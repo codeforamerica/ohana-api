@@ -3,23 +3,12 @@ class Contact < ActiveRecord::Base
 
   belongs_to :location, touch: true
 
+  validates :name, :title, presence: { message: "can't be blank for Contact" }
+  validates :email, email: true, allow_blank: true
+  validates :phone, phone: true, allow_blank: true
+  validates :fax, fax: true, allow_blank: true
+
   normalize_attributes :name, :title, :email, :fax, :phone, :extension
-
-  validates_presence_of :name, :title, message: "can't be blank for Contact"
-
-  validates_formatting_of :email,
-                          with: /.+@.+\..+/i,
-                          allow_blank: true, message: '%{value} is not a valid email'
-
-  validates_formatting_of :phone,
-                          using: :us_phone,
-                          allow_blank: true,
-                          message: '%{value} is not a valid US phone number'
-
-  validates_formatting_of :fax,
-                          using: :us_phone,
-                          allow_blank: true,
-                          message: '%{value} is not a valid US fax number'
 
   include Grape::Entity::DSL
   entity do

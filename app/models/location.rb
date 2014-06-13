@@ -1,24 +1,87 @@
 class Location < ActiveRecord::Base
-  extend FriendlyId
-  friendly_id :slug_candidates, use: [:history]
+  attr_accessible :accessibility, :address, :admin_emails, :contacts,
+                  :description, :emails, :faxes, :hours, :languages,
+                  :latitude, :longitude, :mail_address, :name, :phones,
+                  :short_desc, :transportation, :urls, :address_attributes,
+                  :contacts_attributes, :faxes_attributes,
+                  :mail_address_attributes, :phones_attributes,
+                  :services_attributes, :organization_id
 
-  # Try building a slug based on the following fields in
-  # increasing order of specificity.
-  def slug_candidates
-    [
-      :name,
-      [:name, :address_street],
-      [:name, :mail_address_city]
-    ]
-  end
+  belongs_to :organization, touch: true
 
-  def address_street
-    address.street if address.present?
-  end
+  has_one :address, dependent: :destroy
+  accepts_nested_attributes_for :address, allow_destroy: true
 
-  def mail_address_city
-    mail_address.city if mail_address.present?
-  end
+  has_many :contacts, dependent: :destroy
+  accepts_nested_attributes_for :contacts
+
+  has_many :faxes, dependent: :destroy
+  accepts_nested_attributes_for :faxes
+
+  has_one :mail_address, dependent: :destroy
+  accepts_nested_attributes_for :mail_address, allow_destroy: true
+
+  has_many :phones, dependent: :destroy
+  accepts_nested_attributes_for :phones
+
+  has_many :services, dependent: :destroy
+  accepts_nested_attributes_for :services
+
+  # has_many :schedules, dependent: :destroy
+  # accepts_nested_attributes_for :schedules
+
+  validates :mail_address,
+            presence: {
+              message: 'A location must have at least one address type.'
+            },
+            unless: proc { |loc| loc.address.present? }
+
+  validates :address,
+            presence: {
+              message: 'A location must have at least one address type.'
+            },
+            unless: proc { |loc| loc.mail_address.present? }
+
+  validates :description,
+            :organization,
+            :name,
+            presence: { message: "can't be blank for Location" }
+
+  ## Uncomment the line below if you want to require a short description.
+  ## We recommend having a short description so that web clients can display
+  ## an overview within the search results. See smc-connect.org as an example.
+  # validates :short_desc, presence: { message: "can't be blank for Location" }
+
+  ## Uncomment the line below if you want to limit the
+  ## short description's length. If you want to display a short description
+  ## on a front-end client like smc-connect.org, we recommmend writing or
+  ## re-writing a description that's one to two sentences long, with a
+  ## maximum of 200 characters. This is just a recommendation though.
+  ## Feel free to modify the maximum below, and the way the description is
+  ## displayed in the ohana-web-search client to suit your needs.
+  # validates :short_desc, length: { maximum: 200 }
+
+  # Custom validation for values within arrays.
+  # For example, the urls field is an array that can contain multiple URLs.
+  # To be able to validate each URL in the array, we have to use a
+  # custom array validator. See app/validators/array_validator.rb
+  validates :urls, array: {
+    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
+              message: '%{value} is not a valid URL' } }
+
+  validates :emails, array: {
+    format: { with: /.+@.+\..+/i,
+              message: '%{value} is not a valid email' } }
+
+  validate :format_of_admin_email, if: proc { |l| l.admin_emails.is_a?(Array) }
+
+  # Only call Google's geocoding service if the address has changed
+  # to avoid unnecessary requests that affect our rate limit.
+  after_validation :geocode, if: :needs_geocoding?
+
+  after_validation :reset_coordinates, if: proc { |l| l.address.blank? }
+
+  geocoded_by :full_physical_address
 
   extend Enumerize
   serialize :accessibility, Array
@@ -50,86 +113,29 @@ class Location < ActiveRecord::Base
 
   serialize :urls, Array
 
-  attr_accessible :accessibility, :address, :admin_emails, :contacts,
-                  :description, :emails, :faxes, :hours, :languages,
-                  :latitude, :longitude, :mail_address, :name, :phones,
-                  :short_desc, :transportation, :urls, :address_attributes,
-                  :contacts_attributes, :faxes_attributes,
-                  :mail_address_attributes, :phones_attributes,
-                  :services_attributes, :organization_id
-
-  belongs_to :organization, touch: true
-
-  has_one :address, dependent: :destroy
-  validates_presence_of(
-    :address,
-    message: 'A location must have at least one address type.',
-    unless: proc { |loc| loc.mail_address.present? }
-  )
-  accepts_nested_attributes_for :address, allow_destroy: true
-
-  has_many :contacts, dependent: :destroy
-  accepts_nested_attributes_for :contacts
-
-  has_many :faxes, dependent: :destroy
-  accepts_nested_attributes_for :faxes
-
-  has_one :mail_address, dependent: :destroy
-  validates_presence_of(
-    :mail_address,
-    message: 'A location must have at least one address type.',
-    unless: proc { |loc| loc.address.present? }
-  )
-  accepts_nested_attributes_for :mail_address, allow_destroy: true
-
-  has_many :phones, dependent: :destroy
-  accepts_nested_attributes_for :phones
-
-  has_many :services, dependent: :destroy
-  accepts_nested_attributes_for :services
-
-  # has_many :schedules, dependent: :destroy
-  # accepts_nested_attributes_for :schedules
-
   normalize_attributes :description, :emails, :hours, :name,
                        :short_desc, :transportation, :urls
 
-  # This is where you define all the fields that you want to be required
-  # when uploading a dataset or creating a new entry via an admin interface.
-  # You can separate the required fields with a comma. For example:
-  # validates_presence_of :name, :hours, :phones
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:history]
 
-  validates_presence_of :description, :organization, :name,
-                        message: "can't be blank for Location"
+  # Try building a slug based on the following fields in
+  # increasing order of specificity.
+  def slug_candidates
+    [
+      :name,
+      [:name, :address_street],
+      [:name, :mail_address_city]
+    ]
+  end
 
-  ## Uncomment the line below if you want to require a short description.
-  ## We recommend having a short description so that web clients can display
-  ## an overview within the search results. See smc-connect.org as an example.
-  # validates_presence_of :short_desc
+  def address_street
+    address.street if address.present?
+  end
 
-  ## Uncomment the line below if you want to limit the
-  ## short description's length. If you want to display a short description
-  ## on a front-end client like smc-connect.org, we recommmend writing or
-  ## re-writing a description that's one to two sentences long, with a
-  ## maximum of 200 characters. This is just a recommendation though.
-  ## Feel free to modify the maximum below, and the way the description is
-  ## displayed in the ohana-web-search client to suit your needs.
-  # validates_length_of :short_desc, :maximum => 200
-
-  # These are custom validations for values within arrays and hashes.
-  # For example, the faxes field is an array that can contain multiple faxes.
-  # To be able to validate each fax number in the array, we have to use a
-  # custom array validator.
-  # Both custom validators are defined in app/validators/
-  validates :urls, array: {
-    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: '%{value} is not a valid URL' } }
-
-  validates :emails, array: {
-    format: { with: /.+@.+\..+/i,
-              message: '%{value} is not a valid email' } }
-
-  validate :format_of_admin_email, if: proc { |l| l.admin_emails.is_a?(Array) }
+  def mail_address_city
+    mail_address.city if mail_address.present?
+  end
 
   def format_of_admin_email
     return unless admin_emails.present?
@@ -147,22 +153,10 @@ class Location < ActiveRecord::Base
     [longitude, latitude] if longitude.present? && latitude.present?
   end
 
-  after_validation :reset_coordinates, if: :address_blank?
-
-  def address_blank?
-    address.blank?
-  end
-
   def reset_coordinates
     self.latitude = nil
     self.longitude = nil
   end
-
-  geocoded_by :full_physical_address           # can also be an IP address
-
-  # Only call Google's geocoding service if the address has changed
-  # to avoid unnecessary requests that affect our rate limit.
-  after_validation :geocode, if: :needs_geocoding?
 
   def needs_geocoding?
     address.changed? || latitude.nil? || longitude.nil? if address.present?
