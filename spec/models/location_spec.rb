@@ -4,20 +4,118 @@ describe Location do
 
   subject { build(:location) }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
 
   # Associations
-  it { should belong_to :organization }
-  it { should have_one :address }
-  it { should have_many :contacts }
-  it { should have_many :faxes }
-  it { should have_one :mail_address }
-  it { should have_many :phones }
-  it { should have_many :services }
+  it { is_expected.to belong_to(:organization).touch(true) }
+  it { is_expected.to have_one(:address).dependent(:destroy) }
+  it { is_expected.to have_many(:contacts).dependent(:destroy) }
+  it { is_expected.to have_many(:faxes).dependent(:destroy) }
+  it { is_expected.to have_one(:mail_address).dependent(:destroy) }
+  it { is_expected.to have_many(:phones).dependent(:destroy) }
+  it { is_expected.to have_many(:services).dependent(:destroy) }
+
+  it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
+  it { is_expected.to accept_nested_attributes_for(:contacts) }
+  it { is_expected.to accept_nested_attributes_for(:faxes) }
+  it { is_expected.to accept_nested_attributes_for(:mail_address).allow_destroy(true) }
+  it { is_expected.to accept_nested_attributes_for(:phones) }
+  it { is_expected.to accept_nested_attributes_for(:services) }
+
+  it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Location") }
+  it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Location") }
+  it { is_expected.to validate_presence_of(:organization).with_message("can't be blank for Location") }
+
+  # Validations
+  it { is_expected.to allow_value('http://monfresh.com').for(:urls) }
+
+  it do
+    is_expected.not_to allow_value('http://').
+    for(:urls).
+    with_message('http:// is not a valid URL')
+  end
+
+  it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:urls) }
+  it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
+  it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
+  it { is_expected.not_to allow_value('http://www.codeforamerica.org ').for(:urls) }
+  it { is_expected.not_to allow_value(' http://www.codeforamerica.org').for(:urls) }
+
+  it { is_expected.to allow_value('moncef@blah.com').for(:emails) }
+
+  it do
+    is_expected.not_to allow_value('moncef@blahcom').
+    for(:emails).
+    with_message('moncef@blahcom is not a valid email')
+  end
+
+  it { is_expected.not_to allow_value('moncef.blahcom').for(:emails) }
+  it { is_expected.not_to allow_value(' foo@bar.com').for(:emails) }
+  it { is_expected.not_to allow_value('foo@bar.com ').for(:emails) }
+  it { is_expected.not_to allow_value(' foo @bar.com').for(:emails) }
+
+  it { is_expected.to allow_value('moncef@blah.com').for(:admin_emails) }
+
+  it do
+    is_expected.not_to allow_value('moncef@blahcom').
+    for(:admin_emails).
+    with_message('moncef@blahcom is not a valid email')
+  end
+
+  it { is_expected.not_to allow_value('moncef.blahcom').for(:admin_emails) }
+  it { is_expected.not_to allow_value(' foo@bar.com').for(:admin_emails) }
+  it { is_expected.not_to allow_value('foo@bar.com ').for(:admin_emails) }
+  it { is_expected.not_to allow_value(' foo @bar.com').for(:admin_emails) }
+
+  it do
+    is_expected.to enumerize(:accessibility).
+    in(
+      :cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp, :restroom,
+      :tape_braille, :tty, :wheelchair, :wheelchair_van
+    )
+  end
+
+  it { is_expected.to serialize(:admin_emails).as(Array) }
+  it { is_expected.to serialize(:emails).as(Array) }
+  it { is_expected.to serialize(:languages).as(Array) }
+  it { is_expected.to serialize(:urls).as(Array) }
+
+  describe 'invalidations' do
+    context 'without an address' do
+      subject { build(:location, address: nil) }
+      it { is_expected.not_to be_valid }
+    end
+  end
+
+  describe 'auto_strip_attributes' do
+    it 'strips extra whitespace before validation' do
+      loc = build(:loc_with_extra_whitespace)
+      loc.valid?
+      expect(loc.description).to eq('Provides job training')
+      expect(loc.hours).to eq('Monday-Friday 10am-3pm')
+      expect(loc.name).to eq('VRS Services')
+      expect(loc.short_desc).to eq('Provides job training.')
+      expect(loc.transportation).to eq('BART stop 1 block away.')
+    end
+  end
 
   # Instance methods
-  it { should respond_to(:full_physical_address) }
+  it { is_expected.to respond_to(:address_street) }
+  describe '#address_street' do
+    it 'returns address.street' do
+      expect(subject.address_street).to eq(subject.address.street)
+    end
+  end
 
+  it { is_expected.to respond_to(:mail_address_city) }
+  describe '#mail_address_city' do
+    it 'returns mail_address.city' do
+      loc = build(:no_address)
+      expect(loc.mail_address_city).to eq(loc.mail_address.city)
+    end
+  end
+
+  it { is_expected.to respond_to(:full_physical_address) }
   describe '#full_physical_address' do
     it 'joins all address elements into one string' do
       combined = "#{subject.address.street}, " \
@@ -28,88 +126,19 @@ describe Location do
     end
   end
 
-  # Attribute normalization
-  it do
-    should normalize_attribute(:urls).from(' http://www.codeforamerica.org  ').
-      to('http://www.codeforamerica.org')
-  end
-
-  describe 'invalidations' do
-    context 'without a name' do
-      subject { build(:location, name: nil) }
-      it { should_not be_valid }
-    end
-
-    context 'with an empty name' do
-      subject { build(:location, name: '') }
-      it { should_not be_valid }
-    end
-
-    context 'without a description' do
-      subject { build(:location, description: nil) }
-      it { should_not be_valid }
-    end
-
-    context 'with URL containing 3 slashes' do
-      subject { build(:location, urls: ['http:///codeforamerica.org']) }
-      it { should_not be_valid }
-    end
-
-    context 'with URL missing a period' do
-      subject { build(:location, urls: ['http://codeforamericaorg']) }
-      it { should_not be_valid }
-    end
-
-    context 'URL without protocol' do
-      subject { build(:location, urls: ['www.codeforamerica.org']) }
-      it { should_not be_valid }
-    end
-
-    context 'URL with trailing whitespace' do
-      subject { build(:location, urls: ['http://www.codeforamerica.org ']) }
-      it { should_not be_valid }
-    end
-
-    context 'without an address' do
-      subject { build(:location, address: nil) }
-      it { should_not be_valid }
-    end
-
-    context 'email without period' do
-      subject { build(:location, emails: ['moncef@blahcom']) }
-      it { should_not be_valid }
-    end
-
-    context 'email without @' do
-      subject { build(:location, emails: ['moncef.blahcom']) }
-      it { should_not be_valid }
-    end
-
-    context 'admin email without @' do
-      subject { build(:location, admin_emails: ['moncef.blahcom']) }
-      it { should_not be_valid }
+  it { is_expected.to respond_to(:coordinates) }
+  describe '#coordinates' do
+    it 'returns [lon, lat]' do
+      coords = [subject.longitude, subject.latitude]
+      expect(subject.coordinates).to eq(coords)
     end
   end
 
-  describe 'valid data' do
-    context 'URL with wwww' do
-      subject { build(:location, urls: ['http://wwww.codeforamerica.org']) }
-      it { should be_valid }
-    end
-
-    context 'non-US URL' do
-      subject { build(:location, urls: ['http://www.monfresh.com.au']) }
-      it { should be_valid }
-    end
-
-    context 'URL with capitalizations' do
-      subject { build(:location, urls: ['HTTP://WWW.monfresh.com.au']) }
-      it { should be_valid }
-    end
-
-    context 'email with trailing whitespace' do
-      subject { build(:location, emails: ['moncef@blah.com ']) }
-      it { should be_valid }
+  it { is_expected.to respond_to(:url) }
+  describe '#url' do
+    it 'returns the URL to the location' do
+      url = "#{ENV['API_BASE_URL']}locations/#{subject.id}"
+      expect(subject.url).to eq(url)
     end
   end
 

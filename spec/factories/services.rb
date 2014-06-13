@@ -11,4 +11,16 @@ FactoryGirl.define do
     keywords %w(health yoga)
     fees nil
   end
+
+  factory :service_with_extra_whitespace, class: Service do
+    audience 'Low-income seniors '
+    description ' SNAP market'
+    eligibility ' seniors '
+    fees 'none '
+    how_to_apply '  in  person'
+    keywords ['health ', ' yoga']
+    name 'Benefits '
+    short_desc 'processes applications '
+    wait '2 days '
+  end
 end

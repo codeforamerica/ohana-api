@@ -332,7 +332,7 @@ describe Ohana::API do
         @loc.reload
         expect(response.status).to eq(400)
         expect(json['message']).
-          to include 'admin_emails must be an array of valid email addresses'
+          to include 'moncef-at-ohanapi.org is not a valid email'
       end
 
       it 'validates admin_emails is an array' do

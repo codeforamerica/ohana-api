@@ -28,4 +28,11 @@ FactoryGirl.define do
     state 'CA'
     zip '94020'
   end
+
+  factory :address_with_extra_whitespace, class: Address do
+    street '8875     La Honda Road'
+    city 'La Honda  '
+    state ' CA '
+    zip ' 94020'
+  end
 end

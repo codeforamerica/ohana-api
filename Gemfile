@@ -27,7 +27,7 @@ group :production, :staging do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 2.14.2'
+  gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails', '>= 4.2.0'
 end
 
@@ -72,7 +72,7 @@ gem 'rack-timeout'
 # Authentication
 gem 'devise'
 
-gem 'attribute_normalizer'
+gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
 
 # App config and ENV variables for heroku

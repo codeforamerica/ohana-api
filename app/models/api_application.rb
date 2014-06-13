@@ -8,6 +8,8 @@ class ApiApplication < ActiveRecord::Base
   validates :main_url, url: true
   validates :callback_url, url: true, allow_blank: true
 
+  auto_strip_attributes :name, squish: true
+
   before_create :generate_api_token
 
   private

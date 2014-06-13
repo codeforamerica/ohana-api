@@ -44,7 +44,7 @@ describe Ohana::API do
 
     it 'requires valid location id' do
       patch(
-        'api/locations/2/mail_address',
+        'api/locations/234/mail_address',
         @attrs,
         'HTTP_X_API_TOKEN' => @token
       )

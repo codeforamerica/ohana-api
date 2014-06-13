@@ -12,4 +12,12 @@ FactoryGirl.define do
     number '650 851-1210'
     department 'Information'
   end
+
+  factory :phone_with_extra_whitespace, class: Phone do
+    number '650  851-1210 '
+    department ' Information '
+    extension 'x2000 '
+    vanity_number ' 800-FLY-AWAY '
+    number_type ' TTY '
+  end
 end

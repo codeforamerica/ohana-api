@@ -18,7 +18,7 @@ class MailAddress < ActiveRecord::Base
 
   validates :zip, zip: true
 
-  normalize_attributes :street, :city, :state, :zip
+  auto_strip_attributes :attention, :street, :city, :state, :zip, squish: true
 
   include Grape::Entity::DSL
   entity do

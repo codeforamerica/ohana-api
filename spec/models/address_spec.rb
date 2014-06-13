@@ -2,60 +2,52 @@ require 'spec_helper'
 
 describe Address do
 
-  subject { build(:mail_address) }
+  subject { build(:address) }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
 
-  it { should belong_to :location }
+  it { is_expected.to allow_mass_assignment_of(:street) }
+  it { is_expected.to allow_mass_assignment_of(:city) }
+  it { is_expected.to allow_mass_assignment_of(:state) }
+  it { is_expected.to allow_mass_assignment_of(:zip) }
 
-  describe 'invalid data' do
-    before(:each) do
-      @attrs = { street: '123', city: 'belmont', state: 'CA', zip: '90210' }
-    end
+  it { is_expected.to belong_to(:location).touch(true) }
 
-    context 'without a street address' do
-      subject { build(:mail_address, @attrs.merge(street: nil)) }
-      it { should_not be_valid }
-    end
+  it { is_expected.to validate_presence_of(:street).with_message("can't be blank for Address") }
+  it { is_expected.to validate_presence_of(:city).with_message("can't be blank for Address") }
+  it { is_expected.to validate_presence_of(:state).with_message("can't be blank for Address") }
+  it { is_expected.to validate_presence_of(:zip).with_message("can't be blank for Address") }
 
-    context 'without a city' do
-      subject { build(:mail_address, @attrs.merge(city: nil)) }
-      it { should_not be_valid }
-    end
+  it do
+    is_expected.to ensure_length_of(:state).
+      is_at_least(2).
+      is_at_most(2).
+      with_short_message('Please enter a valid 2-letter state abbreviation').
+      with_long_message('Please enter a valid 2-letter state abbreviation')
+  end
 
-    context 'without a state less than 2 characters' do
-      subject { build(:mail_address, @attrs.merge(state: 'C')) }
-      it { should_not be_valid }
-    end
+  it { is_expected.to allow_value('90210-1234', '22045').for(:zip) }
 
-    context 'without a zipcode' do
-      subject { build(:mail_address, @attrs.merge(zip: nil)) }
-      it { should_not be_valid }
-    end
+  it do
+    is_expected.not_to allow_value('asdf').
+    for(:zip).
+    with_message('asdf is not a valid ZIP code')
+  end
 
-    context 'with a zipcode less than 5 characters' do
-      subject { build(:mail_address, @attrs.merge(zip: '1234')) }
-      it { should_not be_valid }
-    end
+  it { is_expected.not_to allow_value('1234').for(:zip) }
+  it { is_expected.not_to allow_value('123456').for(:zip) }
+  it { is_expected.not_to allow_value('12346-689').for(:zip) }
+  it { is_expected.not_to allow_value('90210-90210').for(:zip) }
+  it { is_expected.not_to allow_value('90 210').for(:zip) }
 
-    context 'with a zipcode that has 6 consecutive digits' do
-      subject { build(:mail_address, @attrs.merge(zip: '123456')) }
-      it { should_not be_valid }
-    end
-
-    context 'with a zipcode that has too few digits after the dash' do
-      subject { build(:mail_address, @attrs.merge(zip: '12346-689')) }
-      it { should_not be_valid }
-    end
-
-    context 'with a zipcode greater than 10 characters' do
-      subject { build(:mail_address, @attrs.merge(zip: '90210-90210')) }
-      it { should_not be_valid }
-    end
-
-    context 'with a 5 + 4 zipcode' do
-      subject { build(:mail_address, @attrs.merge(zip: '90210-1234')) }
-      it { should be_valid }
+  describe 'auto_strip_attributes' do
+    it 'strips extra whitespace before validation' do
+      address = build(:address_with_extra_whitespace)
+      address.valid?
+      expect(address.street).to eq('8875 La Honda Road')
+      expect(address.city).to eq('La Honda')
+      expect(address.state).to eq('CA')
+      expect(address.zip).to eq('94020')
     end
   end
 end
