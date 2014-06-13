@@ -74,15 +74,7 @@ First, run this command to make sure your local test database is up to date:
 
 Then run tests locally with this simple command:
 
-    rspec
-
-For faster tests (optional):
-
-    gem install zeus
-    zeus start # in a separate Terminal window or tab
-    zeus rspec spec
-
-Read more about [Zeus](https://github.com/burke/zeus).
+    rake test
 
 To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
