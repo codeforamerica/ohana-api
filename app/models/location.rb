@@ -7,7 +7,7 @@ class Location < ActiveRecord::Base
                   :mail_address_attributes, :phones_attributes,
                   :services_attributes, :organization_id
 
-  belongs_to :organization, touch: true
+  belongs_to :organization
 
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, allow_destroy: true
@@ -83,16 +83,11 @@ class Location < ActiveRecord::Base
   serialize :accessibility, Array
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
-  enumerize(
-    :accessibility,
-    in: [
-      :cd, :deaf_interpreter, :disabled_parking,
-      :elevator, :ramp, :restroom, :tape_braille, :tty, :wheelchair,
-      :wheelchair_van
-    ],
-    multiple: true,
-    scope: true
-  )
+  enumerize :accessibility,
+            in: [:cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp,
+                 :restroom, :tape_braille, :tty, :wheelchair, :wheelchair_van],
+            multiple: true,
+            scope: true
 
   # List of admin emails that should have access to edit a location's info.
   # Admin emails can be added to a location via the Admin GUI:
@@ -151,94 +146,6 @@ class Location < ActiveRecord::Base
     address.changed? || latitude.nil? || longitude.nil? if address.present?
   end
 
-  def url
-    "#{ENV['API_BASE_URL']}locations/#{id}"
-  end
-
-  ## POSTGRES FULL-TEXT SEARCH
-  scope :has_language, ->(l) { where('languages @@ :q', q: l) if l.present? }
-  scope :has_keyword, ->(k) { keyword_search(k) if k.present? }
-  scope :has_category, ->(c) { joins(services: :categories).where(categories: { name: c }) if c.present? }
-
-  scope :is_near, (lambda do |loc, lat_lng, r|
-    if loc.present?
-      result = Geocoder.search(loc, bounds: Settings.bounds)
-      coords = result.first.coordinates if result.present?
-      near(coords, current_radius(r))
-    elsif lat_lng.present?
-      begin
-        coords = lat_lng.split(',').map { |f| Float(f) }
-      rescue ArgumentError
-        error_msg = 'lat_lng must be a comma-delimited lat,long pair of floats'
-        error!(error_msg, 400)
-      end
-      near(coords, current_radius(r))
-    end
-  end)
-
-  scope :belongs_to_org, (lambda do |org|
-    if org.present?
-      joins(:organization).where('organizations.name @@ :q', q: org)
-    end
-  end)
-
-  scope :has_email, ->(e) { where('admin_emails @@ :q or emails @@ :q', q: e) if e.present? }
-
-  scope :has_domain, (lambda do |domain|
-    domain = domain.split('@').last if domain.present?
-
-    if domain.present? && Settings.generic_domains.include?(domain)
-      Location.none
-    elsif domain.present?
-      where('urls ilike :q or emails ilike :q', q: "%#{domain}%")
-    end
-  end)
-
-  include PgSearch
-
-  pg_search_scope :keyword_search,
-                  against: :tsv_body,
-                  using: {
-                    tsearch: {
-                      dictionary: 'english',
-                      any_word: false,
-                      prefix: true,
-                      tsvector_column: 'tsv_body'
-                    }
-                  }
-
-  def self.text_search(params = {})
-    Location.has_language(params[:language]).
-            has_category(params[:category]).
-            belongs_to_org(params[:org_name]).
-            has_email(params[:email]).
-            has_domain(params[:domain]).
-            is_near(params[:location], params[:lat_lng], params[:radius]).
-            has_keyword(params[:keyword])
-  end
-
-  def self.current_radius(radius)
-    if radius.present?
-      begin
-        radius = Float radius.to_s
-        # radius must be between 0.1 miles and 50 miles
-        [[0.1, radius].max, 50].min
-      rescue ArgumentError
-        message = {
-          'error' => 'bad request',
-          'description' => 'radius must be a number.'
-        }
-        error!(message, 400)
-      end
-    else
-      5
-    end
-  end
-
-  # Kaminari setting for maximum number or results to return per page.
-  max_paginates_per 100
-
-  def self.error!(message, status = 403)
-    throw :error, message: message, status: status
-  end
+  # See app/models/concerns/search.rb
+  include Search
 end

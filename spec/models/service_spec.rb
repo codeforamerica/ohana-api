@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Service do
   subject { build(:service) }
@@ -20,7 +20,7 @@ describe Service do
 
   it { is_expected.to belong_to(:location).touch(true) }
 
-  it { is_expected.to have_and_belong_to_many(:categories) }
+  it { is_expected.to have_and_belong_to_many(:categories).order('oe_id asc') }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
   it { is_expected.to serialize(:keywords).as(Array) }

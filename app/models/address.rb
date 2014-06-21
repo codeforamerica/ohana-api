@@ -19,13 +19,4 @@ class Address < ActiveRecord::Base
   validates :zip, zip: true
 
   auto_strip_attributes :street, :city, :state, :zip, squish: true
-
-  include Grape::Entity::DSL
-  entity do
-    expose :id
-    expose :street
-    expose :city
-    expose :state
-    expose :zip
-  end
 end

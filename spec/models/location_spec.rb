@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Location do
 
@@ -7,7 +7,7 @@ describe Location do
   it { is_expected.to be_valid }
 
   # Associations
-  it { is_expected.to belong_to(:organization).touch(true) }
+  it { is_expected.to belong_to(:organization) }
   it { is_expected.to have_one(:address).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
   it { is_expected.to have_many(:faxes).dependent(:destroy) }
@@ -134,14 +134,6 @@ describe Location do
     end
   end
 
-  it { is_expected.to respond_to(:url) }
-  describe '#url' do
-    it 'returns the URL to the location' do
-      url = "#{ENV['API_BASE_URL']}locations/#{subject.id}"
-      expect(subject.url).to eq(url)
-    end
-  end
-
   describe 'slug candidates' do
     before(:each) { @loc = create(:location) }
 
@@ -173,6 +165,36 @@ describe Location do
         @loc.update_attributes!(description: 'new description')
         expect(@loc.reload.slug).to eq('vrs-services')
       end
+    end
+  end
+
+  describe 'geolocation methods' do
+    before(:each) { @loc = create(:location) }
+
+    it "doesn't geocode when address hasn't changed" do
+      @loc.update(name: 'new name')
+      expect(@loc).not_to receive(:geocode)
+      @loc.save!
+    end
+
+    it 'geocodes when address has changed' do
+      address = {
+        street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
+      }
+      coords = @loc.coordinates
+
+      @loc.update!(address_attributes: address)
+      @loc.reload
+      expect(@loc.coordinates).to_not eq(coords)
+    end
+
+    it 'resets coordinates when address is removed' do
+      mail_address = {
+        street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
+      }
+      @loc.update!(mail_address_attributes: mail_address, address: nil)
+
+      expect(@loc.coordinates).to be_nil
     end
   end
 end

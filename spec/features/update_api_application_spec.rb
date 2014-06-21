@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Update an existing API Application' do
   # The 'visit_app' and 'update_api_app' methods are defined in

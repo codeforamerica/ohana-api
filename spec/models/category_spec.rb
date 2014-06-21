@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Category do
   subject { build(:category) }
@@ -26,10 +26,18 @@ describe Category do
     before(:each) { @category = create(:category) }
 
     context 'when name is already taken' do
+      before(:each) do
+        @new_category = create(:health)
+        @new_category.update_attributes!(name: 'Food')
+      end
+
       it 'creates a new slug based on oe_id' do
-        new_category = create(:health)
-        new_category.update_attributes!(name: 'Food')
-        expect(new_category.reload.slug).to eq('food-102')
+        expect(@new_category.reload.slug).to eq('food-102')
+      end
+
+      it 'is accessible by its old slug' do
+        category = Category.find('health')
+        expect(category.id).to eq(@new_category.id)
       end
     end
 

@@ -1,6 +1,4 @@
 class Category < ActiveRecord::Base
-  default_scope { order('oe_id ASC') }
-
   attr_accessible :name, :oe_id
 
   has_and_belongs_to_many :services, -> { uniq }
@@ -19,15 +17,5 @@ class Category < ActiveRecord::Base
       :name,
       [:name, :oe_id]
     ]
-  end
-
-  include Grape::Entity::DSL
-  entity do
-    expose :id
-    expose :depth
-    expose :oe_id
-    expose :name
-    expose :parent_id
-    expose :slug
   end
 end

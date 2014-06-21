@@ -22,6 +22,40 @@ gem 'haml-rails', '~> 0.5.3'
 # Server for deployment
 gem 'passenger'
 
+# Geocoding
+gem 'geocoder'
+
+# CORS support
+gem 'rack-cors', require: 'rack/cors'
+
+# API Design
+gem 'kaminari'
+gem 'active_model_serializers', '~> 0.8.0'
+
+# API Documentation
+gem 'swagger-ui_rails'
+
+# Production Monitoring
+gem 'newrelic_rpm'
+gem 'rack-timeout'
+
+# Authentication
+gem 'devise'
+
+gem 'auto_strip_attributes', '~> 2.0'
+gem 'enumerize'
+
+# App config and ENV variables for heroku
+gem 'figaro'
+
+# Search
+gem 'pg_search'
+
+# Nested categories for OpenEligibility
+gem 'ancestry'
+
+gem 'friendly_id', '~> 5.0.3'
+
 group :production, :staging do
   gem 'rails_12factor' # Heroku recommended
 end
@@ -49,42 +83,3 @@ group :development do
   gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
   # gem 'debugger'
 end
-
-# Geocoding
-gem 'geocoder'
-
-# CORS support
-gem 'rack-cors', require: 'rack/cors'
-
-# API Design
-gem 'grape'
-gem 'grape-entity'
-gem 'kaminari'
-
-# API Documentation
-gem 'grape-swagger'
-gem 'swagger-ui_rails'
-
-# Production Monitoring
-gem 'newrelic_rpm'
-gem 'rack-timeout'
-
-# Authentication
-gem 'devise'
-
-gem 'auto_strip_attributes', '~> 2.0'
-gem 'enumerize'
-
-# App config and ENV variables for heroku
-gem 'figaro'
-
-# Search
-gem 'pg_search'
-
-# Nested categories for OpenEligibility
-gem 'ancestry'
-
-gem 'friendly_id', '~> 5.0.3'
-
-# Customizable Settings
-gem 'rails_config'

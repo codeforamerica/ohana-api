@@ -1,0 +1,27 @@
+module Api
+  module V1
+    class PhonesController < ApplicationController
+      include TokenValidator
+
+      before_action :validate_token!, only: [:update, :destroy, :create]
+
+      def update
+        phone = Phone.find(params[:id])
+        phone.update!(params)
+        render json: phone, status: 200
+      end
+
+      def create
+        location = Location.find(params[:location_id])
+        phone = location.phones.create!(params)
+        render json: phone, status: 201
+      end
+
+      def destroy
+        phone = Phone.find(params[:id])
+        phone.destroy
+        head 204
+      end
+    end
+  end
+end

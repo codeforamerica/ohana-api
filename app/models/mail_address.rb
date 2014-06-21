@@ -19,14 +19,4 @@ class MailAddress < ActiveRecord::Base
   validates :zip, zip: true
 
   auto_strip_attributes :attention, :street, :city, :state, :zip, squish: true
-
-  include Grape::Entity::DSL
-  entity do
-    expose :id
-    expose :attention
-    expose :street
-    expose :city
-    expose :state
-    expose :zip
-  end
 end

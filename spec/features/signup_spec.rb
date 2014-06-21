@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Signing up' do
   scenario 'with all required fields present and valid' do

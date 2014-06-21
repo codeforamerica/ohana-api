@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Creating a new API Application' do
   # The create_api_app' methods is defined in

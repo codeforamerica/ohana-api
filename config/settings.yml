@@ -57,3 +57,30 @@ generic_domains:
 #
 # This setting is used in 'app/models/service.rb'.
 valid_service_areas:
+
+api_subdomain:
+base_domain: lvh.me:8080
+api_path: api
+
+docs_subdomain:
+
+default_per_page: 30
+max_per_page: 50
+
+###########################################
+#
+# SETTINGS FOR TESTS. PLEASE DO NOT MODIFY.
+#
+###########################################
+test:
+  api_subdomain: api
+  base_domain: example.com
+  api_path:
+
+  docs_subdomain: developer
+
+  valid_service_areas:
+  - Belmont
+  - Atherton
+
+  bounds: [[37.1074, -122.521], [37.7084, -122.085]]

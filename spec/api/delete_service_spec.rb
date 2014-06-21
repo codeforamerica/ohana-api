@@ -1,0 +1,47 @@
+require 'rails_helper'
+
+describe 'DELETE /locations/:location_id/services/:id' do
+  before :each do
+    create_service
+    @service_id = @service.id
+    @id = @location.id
+    delete(
+      api_endpoint(path: "/locations/#{@id}/services/#{@service_id}"),
+      {},
+      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+    )
+  end
+
+  it 'returns a 204 status' do
+    expect(response).to have_http_status(204)
+  end
+
+  it 'deletes the service' do
+    expect(@location.reload.services.count).to eq(0)
+    expect(Service.count).to eq(0)
+  end
+
+  it 'updates the search index' do
+    get api_endpoint(path: '/search?keyword=yoga')
+    expect(json.size).to eq(0)
+  end
+end
+
+describe 'with an invalid token' do
+  before :each do
+    create_service
+    @service_id = @service.id
+    @id = @location.id
+    delete(
+      api_endpoint(path: "/locations/#{@id}/services/#{@service_id}"),
+      {},
+      'HTTP_X_API_TOKEN' => 'foo'
+    )
+  end
+
+  it "doesn't allow deleting a location without a valid token" do
+    expect(response.status).to eq(401)
+    expect(json['message']).
+      to eq('This action requires a valid X-API-Token header.')
+  end
+end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Visit home page after signing in' do
   # The 'login_as' method is a Warden test helper that

@@ -8,11 +8,4 @@ class Fax < ActiveRecord::Base
             fax: true
 
   auto_strip_attributes :number, :department, squish: true
-
-  include Grape::Entity::DSL
-  entity do
-    expose :id
-    expose :number, unless: ->(o, _) { o.number.blank? }
-    expose :department, unless: ->(o, _) { o.department.blank? }
-  end
 end

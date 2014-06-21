@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Signing in' do
   # The 'sign_in' method is defined in spec/support/features/session_helpers.rb

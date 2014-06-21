@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Organization do
 
@@ -37,24 +37,6 @@ describe Organization do
       org = build(:org_with_extra_whitespace)
       org.valid?
       expect(org.name).to eq('Food Pantry')
-    end
-  end
-
-  it { is_expected.to respond_to(:url) }
-  describe '#url' do
-    it 'returns the URL to the organization' do
-      url = "#{ENV['API_BASE_URL']}organizations/#{subject.id}"
-
-      expect(subject.url).to eq(url)
-    end
-  end
-
-  it { is_expected.to respond_to(:locations_url) }
-  describe '#locations_url' do
-    it "returns the URL to the organization's locations" do
-      url = "#{ENV['API_BASE_URL']}organizations/#{subject.id}/locations"
-
-      expect(subject.locations_url).to eq(url)
     end
   end
 
