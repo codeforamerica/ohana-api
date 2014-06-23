@@ -47,6 +47,4 @@ OhanaApi::Application.routes.draw do
   root to: 'home#index'
 
   get '.well-known/status' => 'status#check_status'
-
-  # default_url_options host: ENV['API_BASE_HOST']
 end
