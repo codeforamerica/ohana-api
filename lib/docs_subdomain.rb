@@ -1,7 +1,7 @@
 class DocsSubdomain
   def self.matches?(request)
-    if SETTINGS[:docs_subdomain].present?
-      request.subdomain == SETTINGS[:docs_subdomain]
+    if ENV['DEV_SUBDOMAIN'].present?
+      request.subdomain == ENV['DEV_SUBDOMAIN']
     else
       request.subdomain.blank? || request.subdomain == 'www'
     end

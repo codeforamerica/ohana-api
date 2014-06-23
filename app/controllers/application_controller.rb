@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
       {
         'status'  => 404,
         'message' => 'The requested resource could not be found.',
-        'documentation_url' => docs_endpoint
+        'documentation_url' => docs_url
       }
     render json: hash, status: 404
   end
@@ -83,14 +83,6 @@ class ApplicationController < ActionController::Base
       description: 'lat_lng must be a comma-delimited lat,long pair of floats.'
     }
     render json: message, status: 400
-  end
-
-  def docs_endpoint
-    subdomain = SETTINGS[:docs_subdomain]
-    subdomain += '.' unless subdomain.blank?
-    domain = SETTINGS[:base_domain]
-
-    "http://#{subdomain}#{domain}/docs"
   end
 
   protected

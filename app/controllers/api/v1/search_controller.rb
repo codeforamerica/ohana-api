@@ -23,7 +23,7 @@ module Api
       def nearby
         location = Location.find(params[:location_id])
         if params[:radius].present?
-          radius = Location.current_radius(params[:radius])
+          radius = Location.validated_radius(params[:radius])
         else
           radius = 0.5
         end

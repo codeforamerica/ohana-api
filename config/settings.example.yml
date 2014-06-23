@@ -58,9 +58,16 @@ generic_domains:
 # This setting is used in 'app/models/service.rb'.
 valid_service_areas:
 
-api_subdomain: www
+# When using the default Heroku setup (http://app-name.herokuapp.com),
+# set this to "2". Once you're ready to deploy to production, you will
+# most likely want to set up a custom domain name, like "smc-connect.org".
+# Once you do that, you will need to set the tld_length to the number
+# of dots in your top-level domain name, which will most likely be "1", but
+# if you are using ".co.uk" for example, then you should set it to "2".
+#
+# This setting is used in config/environments/production.rb.
+tld_length: 2
 
-api_path: api
 
 ###########################################
 #
@@ -68,9 +75,6 @@ api_path: api
 #
 ###########################################
 test:
-  api_subdomain: api
-  api_path:
-
   valid_service_areas:
   - Belmont
   - Atherton

@@ -7,19 +7,19 @@ class OrganizationSerializer < ActiveModel::Serializer
   end
 
   def url
-    "http://#{prefix}/organizations/#{slug}"
+    "#{url_prefix}/organizations/#{slug}"
   end
 
   def locations_url
-    "http://#{prefix}/organizations/#{slug}/locations"
+    "#{url}/locations"
   end
 
-  def prefix
-    subdomain = SETTINGS[:api_subdomain] || ''
+  def url_prefix
+    subdomain = ENV['API_SUBDOMAIN'] || ''
     subdomain += '.' unless subdomain.blank?
-    domain = SETTINGS[:base_domain]
-    path = SETTINGS[:api_path]
+    domain = ENV['BASE_DOMAIN']
+    path = ENV['API_PATH']
     domain += '/' unless path.blank?
-    "#{subdomain}#{domain}#{path}"
+    "http://#{subdomain}#{domain}#{path}"
   end
 end

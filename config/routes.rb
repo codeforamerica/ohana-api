@@ -13,15 +13,10 @@ OhanaApi::Application.routes.draw do
   resources :api_applications, except: :show
   get 'api_applications/:id' => 'api_applications#edit'
 
-  root to: 'home#index'
-
-  constraints(DocsSubdomain) do
-    get 'docs' => 'api_docs#index'
-  end
-
   constraints(ApiSubdomain) do
-    namespace :api, path: SETTINGS[:api_path], defaults: { format: 'json' } do
+    namespace :api, path: ENV['API_PATH'], defaults: { format: 'json' } do
       scope module: :v1, constraints: ApiConstraints.new(version: 1) do
+        get '/' => 'root#index'
         resources :locations do
           resources :address, only: [:update, :create, :destroy]
           resources :mail_address, only: [:update, :create, :destroy]
@@ -37,13 +32,19 @@ OhanaApi::Application.routes.draw do
         get 'categories/:category_id/children' => 'categories#children'
         get 'locations/:location_id/nearby' => 'search#nearby'
 
-        match '*unmatched_route' => 'errors#raise_not_found!', via: [:patch, :get, :post, :put, :delete]
+        match '*unmatched_route' => 'errors#raise_not_found!', via: [:get, :delete, :patch, :post, :put]
 
         # CORS support
         match '*foo' => 'cors#render_204', via: [:options]
       end
     end
   end
+
+  constraints(DocsSubdomain) do
+    get 'docs' => 'api_docs#index'
+  end
+
+  root to: 'home#index'
 
   get '.well-known/status' => 'status#check_status'
 
