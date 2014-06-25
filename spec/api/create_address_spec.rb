@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'POST /api/locations/:location/address' do
+describe 'POST /locations/:location_id/address' do
   context 'when location does not already have an address' do
     before(:each) do
       @loc = create(:no_address)

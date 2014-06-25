@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'POST /api/locations/:location/mail_address' do
+describe 'POST /locations/:location_id/mail_address' do
   context 'when location does not already have an mail_address' do
     before(:each) do
       @loc = create(:nearby_loc)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'DELETE /api/locations/:location/address' do
+describe 'DELETE /locations/:location/address/:id' do
   before(:each) do
     @loc = create(:location)
     @address = @loc.address

@@ -24,6 +24,25 @@ describe 'PATCH /locations/:id)' do
     expect(json['name']).to eq('New Name')
   end
 
+  xit 'allows empty array for serialized array fields' do
+    @loc.update!(emails: %w(moncef@cfa.org))
+    patch(
+      api_endpoint(path: "/locations/#{@loc.id}"),
+      { emails: [] },
+      'HTTP_X_API_TOKEN' => @token
+    )
+    expect(json['emails']).to eq([])
+  end
+
+  xit 'does not allow empty array for String fields' do
+    patch(
+      api_endpoint(path: "/locations/#{@loc.id}"),
+      { name: [] },
+      'HTTP_X_API_TOKEN' => @token
+    )
+    expect(json['name']).to eq('VRS Services')
+  end
+
   it 'returns a Location header with the URL to the updated location' do
     patch(
       api_endpoint(path: "/locations/#{@loc.id}"),

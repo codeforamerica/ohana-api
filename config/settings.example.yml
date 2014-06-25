@@ -1,3 +1,5 @@
+# Note that changes to this file require a server restart to take effect.
+
 # Google provides a "bounds" option to restrict the address search to
 # a particular area. This allows Google to disambiguate between two
 # cities with the same name. For example, there is a city in San Mateo

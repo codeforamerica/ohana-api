@@ -6,6 +6,8 @@
 # making code changes and having to push them to apply the new setting.
 # Read more about figaro here: https://github.com/laserlemon/figaro
 
+# Note that changes to this file require a server restart to take effect.
+
 # First, copy the contents of this file to a new file called "application.yml"
 # in the same "config" directory.
 

@@ -32,9 +32,6 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'kaminari'
 gem 'active_model_serializers', '~> 0.8.0'
 
-# API Documentation
-gem 'swagger-ui_rails'
-
 # Production Monitoring
 gem 'newrelic_rpm'
 gem 'rack-timeout'

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Visit api/docs' do
+describe 'Visit /docs' do
 
   it 'displays an Overview' do
     visit docs_endpoint(path: '/docs')
