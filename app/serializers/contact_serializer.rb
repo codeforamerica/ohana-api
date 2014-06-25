@@ -1,8 +1,3 @@
 class ContactSerializer < ActiveModel::Serializer
-  attributes :id, :name, :title, :phone, :email, :fax
-
-  def attributes
-    hash = super
-    hash.delete_if { |_, v| v.blank? }
-  end
+  attributes :email, :extension, :fax, :id, :name, :phone, :title
 end

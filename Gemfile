@@ -57,29 +57,26 @@ gem 'ancestry'
 gem 'friendly_id', '~> 5.0.3'
 
 group :production, :staging do
-  gem 'rails_12factor' # Heroku recommended
+  # Heroku recommended
+  gem 'rails_12factor'
 end
 
 group :test, :development do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails', '>= 4.2.0'
+  gem 'bullet'
 end
 
 group :test do
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'capybara'
-  # gem 'minitest'
   gem 'shoulda-matchers'
-  # Test coverage
   gem 'coveralls', require: false
   gem 'rubocop'
 end
 
 group :development do
-  # Debugging
-  # gem 'bullet'
   gem 'quiet_assets', '>= 1.0.2'
   gem 'better_errors', '>= 0.7.2'
   gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
-  # gem 'debugger'
 end

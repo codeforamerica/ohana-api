@@ -38,10 +38,10 @@ OhanaApi::Application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Bullet gem config
-  # config.after_initialize do
-  #   Bullet.enable = true
-  #   Bullet.alert = true
-  #   Bullet.bullet_logger = true
-  #   Bullet.rails_logger = true
-  # end
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger = true
+  end
 end

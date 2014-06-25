@@ -7,7 +7,7 @@ module Api
       end
 
       def children
-        children = Category.find(params[:category_id]).children
+        children = Category.find_by_oe_id(params[:oe_id]).children
         render json: children, status: 200
       end
     end

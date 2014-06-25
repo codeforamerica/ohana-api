@@ -4,19 +4,12 @@ module Api
       include PaginationHeaders
       include TokenValidator
 
-      TABLES = [
-        :organization, :address, :mail_address, :contacts, :phones,
-        :faxes, services: :categories
-      ]
-
       def index
-        TABLES.delete(:organization) if params[:org_name].present?
-        TABLES.push(:services).delete(services: :categories) if params[:category].present?
-
         locations = Location.text_search(params).uniq.page(params[:page]).
-                            per(params[:per_page]).includes(TABLES)
+                            per(params[:per_page]).
+                            includes(:organization, :address, :phones)
 
-        render json: locations, status: 200
+        render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
       end
 
@@ -31,7 +24,7 @@ module Api
         if location.latitude.present? && location.longitude.present?
           nearby = location.nearbys(radius).
                             page(params[:page]).per(params[:per_page]).
-                            includes(TABLES)
+                            includes(:organization, :address, :phones)
         else
           nearby = Location.none.page(params[:page]).per(params[:per_page])
         end

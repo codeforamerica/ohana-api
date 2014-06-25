@@ -5,6 +5,12 @@ module Api
 
       before_action :validate_token!, only: [:update, :destroy, :create, :update_categories]
 
+      def index
+        location = Location.find(params[:location_id])
+        services = location.services
+        render json: services, status: 200
+      end
+
       def update
         service = Service.find(params[:id])
         service.update!(params)
@@ -24,27 +30,18 @@ module Api
       end
 
       def update_categories
-        s = Service.find(params[:services_id])
+        service = Service.find(params[:service_id])
+        service.category_ids = cat_ids(params[:oe_ids])
+        service.save!
 
-        # Create an array of category ids from the category slugs
-        # that were passed in. The slugs are 'URL friendly' versions
-        # of the Open Eligibility (http://openeligibility.org) category
-        # names.
-        # For example, 'Prevent & Treat' becomes 'prevent-and-treat'.
-        # If you want to see all 327 slugs, run this command from the
-        # Rails console:
-        # Category.all.map(&:slug)
-        cat_ids = []
-        params[:category_slugs].each do |cat_slug|
-          cat = Category.find(cat_slug)
-          cat_ids.push(cat.id)
-        end
+        render json: service, status: 200
+      end
 
-        # Set the service's category_ids to this new array of ids
-        s.category_ids = cat_ids
-        s.save
+      private
 
-        render json: s, status: 200
+      def cat_ids(oe_ids)
+        return [] unless oe_ids.present?
+        Category.where(oe_id: oe_ids).pluck(:id)
       end
     end
   end

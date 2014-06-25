@@ -58,9 +58,12 @@ describe 'GET /organizations' do
       expect(json['name']).to eq(@org.name)
     end
 
-    it 'returns the locations_url attribute' do
-      expect(json.first['locations_url']).
-        to eq("#{api_endpoint}/organizations/#{@org.slug}/locations")
+    it 'includes the correct locations_url attribute' do
+      locations_url = json.first['locations_url']
+
+      get locations_url
+      json = JSON.parse(response.body)
+      expect(json.first['organization']['name']).to eq(@org.name)
     end
 
     context 'with nil fields' do
@@ -68,9 +71,9 @@ describe 'GET /organizations' do
         @loc = create(:loc_with_nil_fields)
       end
 
-      it 'does not return nil fields within Organization' do
+      it 'returns nil fields within Organization' do
         get api_endpoint(path: '/organizations')
-        expect(json.first.keys).not_to include('urls')
+        expect(json.first.keys).to include('urls')
       end
     end
   end

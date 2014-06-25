@@ -23,19 +23,4 @@ class LocationSerializer < ActiveModel::Serializer
   def accessibility
     object.accessibility.map(&:text)
   end
-
-  def attributes
-    hash = super
-    hash.delete_if { |_, v| v.blank? }
-  end
-
-  def include_associations!
-    include! :address unless object.address.blank?
-    include! :contacts unless object.contacts.blank?
-    include! :faxes unless object.faxes.blank?
-    include! :mail_address unless object.mail_address.blank?
-    include! :phones unless object.phones.blank?
-    include! :services unless object.services.blank?
-    include! :organization
-  end
 end

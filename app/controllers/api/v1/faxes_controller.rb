@@ -5,6 +5,12 @@ module Api
 
       before_action :validate_token!, only: [:update, :destroy, :create]
 
+      def index
+        location = Location.find(params[:location_id])
+        faxes = location.faxes
+        render json: faxes, status: 200
+      end
+
       def update
         fax = Fax.find(params[:id])
         fax.update!(params)

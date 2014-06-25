@@ -35,10 +35,74 @@ describe 'GET /locations' do
   describe 'serializations' do
     before(:each) do
       @location = create(:location)
+      get api_endpoint(path: '/locations')
     end
 
-    it 'displays address when present' do
-      get api_endpoint(path: '/locations')
+    it 'includes the location id' do
+      expect(json.first['id']).to eq(@location.id)
+    end
+
+    it 'does not include the accessibility attribute' do
+      expect(json.first.keys).to_not include('accessibility')
+    end
+
+    it 'includes the coordinates attribute' do
+      expect(json.first['coordinates']).to eq(@location.coordinates)
+    end
+
+    it 'includes the description attribute' do
+      expect(json.first['description']).to eq(@location.description)
+    end
+
+    it 'includes the latitude attribute' do
+      expect(json.first['latitude']).to eq(@location.latitude)
+    end
+
+    it 'includes the longitude attribute' do
+      expect(json.first['longitude']).to eq(@location.longitude)
+    end
+
+    it 'includes the name attribute' do
+      expect(json.first['name']).to eq(@location.name)
+    end
+
+    it 'includes the short_desc attribute' do
+      expect(json.first['short_desc']).to eq(@location.short_desc)
+    end
+
+    it 'includes the slug attribute' do
+      expect(json.first['slug']).to eq(@location.slug)
+    end
+
+    it 'includes the updated_at attribute' do
+      expect(json.first.keys).to include('updated_at')
+    end
+
+    it 'does not include the admin_emails attribute' do
+      expect(json.first.keys).to_not include('admin_emails')
+    end
+
+    it 'does not include the emails attribute' do
+      expect(json.first.keys).to_not include('emails')
+    end
+
+    it 'does not include the hours attribute' do
+      expect(json.first.keys).to_not include('hours')
+    end
+
+    it 'does not include the languages attribute' do
+      expect(json.first.keys).to_not include('languages')
+    end
+
+    it 'does not include the transportation attribute' do
+      expect(json.first.keys).to_not include('transportation')
+    end
+
+    it 'does not include the urls attribute' do
+      expect(json.first.keys).to_not include('urls')
+    end
+
+    it 'includes the address association' do
       serialized_address =
         {
           'id'     => @location.address.id,
@@ -50,7 +114,63 @@ describe 'GET /locations' do
       expect(json.first['address']).to eq(serialized_address)
     end
 
-    it 'displays mail_address when present' do
+    it 'does not include the mail_address association' do
+      expect(json.first.keys).to_not include('mail_address')
+    end
+
+    it 'does not include the contacts association' do
+      expect(json.first.keys).to_not include('contacts')
+    end
+
+    it 'does not include the services association' do
+      expect(json.first.keys).to_not include('services')
+    end
+
+    it 'includes the phones association' do
+      @location.phones.create!(attributes_for(:phone))
+      get api_endpoint(path: '/locations')
+
+      serialized_phones =
+        [{
+          'id'            => @location.phones.first.id,
+          'number'        => @location.phones.first.number,
+          'department'    => @location.phones.first.department,
+          'extension'     => @location.phones.first.extension,
+          'vanity_number' => @location.phones.first.vanity_number,
+          'number_type'   => nil
+        }]
+
+      expect(json.first['phones']).to eq(serialized_phones)
+    end
+
+    it 'includes the organization association' do
+      expect(json.first.keys).to include('organization')
+    end
+
+    it 'includes the correct url attribute' do
+      loc_url = json.first['url']
+
+      get loc_url
+      json = JSON.parse(response.body)
+      expect(json['name']).to eq(@location.name)
+    end
+
+    it 'includes the contacts_url attribute' do
+      expect(json.first['contacts_url']).
+        to eq("#{api_endpoint}/locations/#{@location.slug}/contacts")
+    end
+
+    it 'includes the faxes_url attribute' do
+      expect(json.first['faxes_url']).
+        to eq("#{api_endpoint}/locations/#{@location.slug}/faxes")
+    end
+
+    it 'includes the services_url attribute' do
+      expect(json.first['services_url']).
+        to eq("#{api_endpoint}/locations/#{@location.slug}/services")
+    end
+
+    xit 'displays mail_address when present' do
       @location.create_mail_address!(attributes_for(:mail_address))
       get api_endpoint(path: '/locations')
 
@@ -66,7 +186,7 @@ describe 'GET /locations' do
       expect(json.first['mail_address']).to eq(serialized_mail_address)
     end
 
-    it 'displays contacts when present' do
+    xit 'displays contacts when present' do
       @location.contacts.create!(attributes_for(:contact))
       get api_endpoint(path: '/locations')
 
@@ -74,12 +194,16 @@ describe 'GET /locations' do
         [{
           'id'    => @location.contacts.first.id,
           'name'  => @location.contacts.first.name,
-          'title' => @location.contacts.first.title
+          'title' => @location.contacts.first.title,
+          'phone' => nil,
+          'email' => nil,
+          'extension' => nil,
+          'fax'   => nil
         }]
       expect(json.first['contacts']).to eq(serialized_contacts)
     end
 
-    it 'displays faxes when present' do
+    xit 'displays faxes when present' do
       @location.faxes.create!(attributes_for(:fax))
       get api_endpoint(path: '/locations')
 
@@ -92,36 +216,6 @@ describe 'GET /locations' do
 
       expect(json.first['faxes']).to eq(serialized_faxes)
     end
-
-    it 'displays phones when present' do
-      @location.phones.create!(attributes_for(:phone))
-      get api_endpoint(path: '/locations')
-
-      serialized_phones =
-        [{
-          'id'            => @location.phones.first.id,
-          'number'        => @location.phones.first.number,
-          'department'    => @location.phones.first.department,
-          'extension'     => @location.phones.first.extension,
-          'vanity_number' => @location.phones.first.vanity_number
-        }]
-
-      expect(json.first['phones']).to eq(serialized_phones)
-    end
-
-    it 'includes the organization association' do
-      get api_endpoint(path: '/locations')
-      expect(json.first.keys).to include('organization')
-    end
-
-    it 'includes the correct url attribute' do
-      get api_endpoint(path: '/locations')
-      loc_url = json.first['url']
-
-      get loc_url
-      json = JSON.parse(response.body)
-      expect(json['name']).to eq(@location.name)
-    end
   end
 
   context 'with nil fields' do
@@ -130,67 +224,64 @@ describe 'GET /locations' do
       @loc = create(:loc_with_nil_fields)
     end
 
-    it 'does not return nil fields within Location' do
+    it 'returns nil fields within Location' do
       get api_endpoint(path: '/locations')
       location_keys = json.first.keys
-      missing_keys = %w(
-        accessibility admin_emails contacts emails faxes
-        hours languages mail_address phones transportation urls services
-      )
-      missing_keys.each do |key|
-        expect(location_keys).not_to include(key)
+      nil_fields = %w(address coordinates phones)
+      nil_fields.each do |key|
+        expect(location_keys).to include(key)
       end
     end
 
-    it 'does not return nil fields within Contacts' do
+    xit 'returns nil fields within Contacts' do
       attrs = attributes_for(:contact)
       @loc.contacts.create!(attrs)
       get api_endpoint(path: '/locations')
       contact_keys = json.first['contacts'].first.keys
       %w(phone fax email).each do |key|
-        expect(contact_keys).not_to include(key)
+        expect(contact_keys).to include(key)
       end
     end
 
-    it 'does not return nil fields within Faxes' do
+    xit 'returns nil fields within Faxes' do
       @loc.faxes.create!(attributes_for(:fax_with_no_dept))
       get api_endpoint(path: '/locations')
       fax_keys = json.first['faxes'].first.keys
-      expect(fax_keys).not_to include('department')
+      expect(fax_keys).to include('department')
     end
 
-    it 'does not return nil fields within Phones' do
+    it 'returns nil fields within Phones' do
       @loc.phones.create!(attributes_for(:phone_with_missing_fields))
       get api_endpoint(path: '/locations')
       phone_keys = json.first['phones'].first.keys
       %w(extension vanity_number).each do |key|
-        expect(phone_keys).not_to include(key)
+        expect(phone_keys).to include(key)
       end
     end
 
-    it 'does not return nil fields within Organization' do
+    it 'returns nil fields within Organization' do
       get api_endpoint(path: '/locations')
       org_keys = json.first['organization'].keys
-      expect(org_keys).not_to include('urls')
+      expect(org_keys).to include('urls')
     end
 
-    it 'does not return nil fields within Services' do
+    xit 'returns nil fields within Services' do
       attrs = attributes_for(:service)
       @loc.services.create!(attrs)
       get api_endpoint(path: '/locations')
       service_keys = json.first['services'].first.keys
       %w(audience eligibility fees).each do |key|
-        expect(service_keys).not_to include(key)
+        expect(service_keys).to include(key)
       end
     end
   end
 
   context 'when location has no physical address' do
-    it 'does not return nil coordinates' do
+    it 'returns nil coordinates' do
       create(:no_address)
       get api_endpoint(path: '/locations')
       location_keys = json.first.keys
-      expect(location_keys).not_to include('coordinates')
+      expect(location_keys).to include('coordinates')
     end
   end
 end

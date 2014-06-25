@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'GET /organizations/:id' do
   context 'with valid id' do
     before :each do
-      @org = create(:organization)
+      @org = create(:location).organization
       get api_endpoint(path: "/organizations/#{@org.id}")
     end
 
@@ -19,13 +19,18 @@ describe 'GET /organizations/:id' do
       expect(json['slug']).to eq(@org.slug)
     end
 
-    it 'includes the url attribute' do
-      expect(json['url']).to eq("#{api_endpoint}/organizations/#{@org.slug}")
+    it 'includes the correct url attribute' do
+      org_url = json['url']
+      get org_url
+      json = JSON.parse(response.body)
+      expect(json['name']).to eq(@org.name)
     end
 
-    it 'returns the locations_url attribute' do
-      expect(json['locations_url']).
-        to eq("#{api_endpoint}/organizations/#{@org.slug}/locations")
+    it 'includes the correct locations_url attribute' do
+      locations_url = json['locations_url']
+      get locations_url
+      json = JSON.parse(response.body)
+      expect(json.first['organization']['name']).to eq(@org.name)
     end
 
     it 'is json' do
@@ -65,9 +70,9 @@ describe 'GET /organizations/:id' do
       @org = create(:organization)
     end
 
-    it 'does not return nil fields when visiting one organization' do
+    it 'returns nil fields when visiting one organization' do
       get api_endpoint(path: "/organizations/#{@org.id}")
-      expect(json.keys).not_to include('urls')
+      expect(json.keys).to include('urls')
     end
   end
 end

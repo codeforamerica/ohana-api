@@ -195,8 +195,7 @@ describe "GET 'search'" do
     it "finds the plural occurrence in service's keywords field" do
       create_service
       get api_endpoint(path: '/search?keyword=pantry')
-      keywords = json.first['services'].first['keywords']
-      expect(keywords).to include 'food pantries'
+      expect(json.first['name']).to eq('VRS Services')
     end
   end
 
@@ -222,8 +221,7 @@ describe "GET 'search'" do
     it "finds the plural occurrence in service's keywords field" do
       create_service
       get api_endpoint(path: '/search?keyword=emergencies')
-      keywords = json.first['services'].first['keywords']
-      expect(keywords).to include 'emergency'
+      expect(json.first['name']).to eq('VRS Services')
     end
   end
 
@@ -262,12 +260,6 @@ describe "GET 'search'" do
     it 'only finds exact spelling matches for the category' do
       get api_endpoint(path: '/search?category=jobs')
       expect(headers['X-Total-Count']).to eq '0'
-    end
-
-    it 'includes the depth attribute' do
-      get api_endpoint(path: '/search?category=Jobs')
-      expect(json.first['services'].first['categories'].first['depth']).
-        to eq 0
     end
   end
 
@@ -469,12 +461,12 @@ describe "GET 'search'" do
   end
 
   context 'when location has missing fields' do
-    it 'does not include attributes with nil or empty values' do
+    it 'includes attributes with nil or empty values' do
       create(:loc_with_nil_fields)
       get api_endpoint(path: '/search?keyword=belmont')
       keys = json.first.keys
-      %w(faxes fees email).each do |key|
-        expect(keys).not_to include(key)
+      %w(phones address).each do |key|
+        expect(keys).to include(key)
       end
     end
   end

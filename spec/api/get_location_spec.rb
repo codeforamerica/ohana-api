@@ -72,11 +72,21 @@ describe 'GET /locations/:id' do
 
       serialized_services =
         [{
-          'id' => @location.services.reload.first.id,
-          'description' => @location.services.first.description,
-          'keywords' => @location.services.first.keywords,
-          'name' => @location.services.first.name,
-          'updated_at' => service_formatted_time
+          'id'              => @location.services.reload.first.id,
+          'audience'        => nil,
+          'description'     => @location.services.first.description,
+          'eligibility'     => nil,
+          'fees'            => nil,
+          'funding_sources' => [],
+          'how_to_apply'    => nil,
+          'keywords'        => @location.services.first.keywords,
+          'name'            => @location.services.first.name,
+          'service_areas'   => [],
+          'short_desc'      => nil,
+          'urls'            => [],
+          'wait'            => nil,
+          'updated_at'      => service_formatted_time,
+          'categories'      => []
         }]
 
       expect(json['services']).to eq(serialized_services)
@@ -88,11 +98,12 @@ describe 'GET /locations/:id' do
 
       serialized_organization =
         {
-          'id' => @location.organization.id,
-          'name' => 'Parent Agency',
-          'slug' => 'parent-agency',
-          'url' => "#{path}/#{@location.organization.slug}",
-          'locations_url' => locations_url
+          'id'            => @location.organization.id,
+          'locations_url' => locations_url,
+          'name'          => 'Parent Agency',
+          'slug'          => 'parent-agency',
+          'url'           => "#{path}/#{@location.organization.slug}",
+          'urls'          => []
         }
 
       expect(json['organization']).to eq(serialized_organization)
@@ -120,9 +131,13 @@ describe 'GET /locations/:id' do
       expect(json['contacts']).
         to eq(
         [{
-          'id'    => @location.contacts.first.id,
-          'name'  => @location.contacts.first.name,
-          'title' => @location.contacts.first.title
+          'id'        => @location.contacts.first.id,
+          'email'     => nil,
+          'extension' => nil,
+          'fax'       => nil,
+          'name'      => @location.contacts.first.name,
+          'phone'     => nil,
+          'title'     => @location.contacts.first.title
         }]
       )
     end
@@ -134,8 +149,8 @@ describe 'GET /locations/:id' do
         to eq(
         [{
           'id'    => @location.faxes.first.id,
-          'number'  => @location.faxes.first.number,
-          'department' => @location.faxes.first.department
+          'department' => @location.faxes.first.department,
+          'number'  => @location.faxes.first.number
         }]
       )
     end
@@ -146,10 +161,11 @@ describe 'GET /locations/:id' do
       expect(json['phones']).
         to eq(
         [{
-          'id'    => @location.phones.first.id,
-          'number'  => @location.phones.first.number,
-          'department' => @location.phones.first.department,
-          'extension' => @location.phones.first.extension,
+          'id'            => @location.phones.first.id,
+          'department'    => @location.phones.first.department,
+          'extension'     => @location.phones.first.extension,
+          'number'        => @location.phones.first.number,
+          'number_type'   => nil,
           'vanity_number' => @location.phones.first.vanity_number
         }]
       )
@@ -194,11 +210,11 @@ describe 'GET /locations/:id' do
       @loc = create(:loc_with_nil_fields)
     end
 
-    it 'does not return nil fields when visiting one location' do
+    it 'returns nil fields when visiting one location' do
       get api_endpoint(path: "/locations/#{@loc.id}")
       keys = json.keys
-      %w(faxes fees email).each do |key|
-        expect(keys).not_to include(key)
+      %w(faxes admin_emails emails accessibility hours).each do |key|
+        expect(keys).to include(key)
       end
     end
   end

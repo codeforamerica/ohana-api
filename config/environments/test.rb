@@ -38,4 +38,13 @@ OhanaApi::Application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Bullet gem config
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.raise = true
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'Address', association: :location
+    Bullet.add_whitelist type: :n_plus_one_query, class_name: 'MailAddress', association: :location
+  end
 end

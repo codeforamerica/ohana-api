@@ -7,11 +7,11 @@ module Api
       before_action :validate_token!, only: [:update, :destroy, :create]
 
       def index
-        locations = Location.includes(:organization, :address, :mail_address, :contacts, :phones, :faxes, services: :categories).
+        locations = Location.includes(:organization, :address, :phones).
                             page(params[:page]).per(params[:per_page]).
                             order('created_at DESC')
 
-        render json: locations, status: 200
+        render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
       end
 

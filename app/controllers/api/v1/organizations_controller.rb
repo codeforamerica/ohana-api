@@ -33,6 +33,15 @@ module Api
         org.destroy
         head 204
       end
+
+      def locations
+        org = Organization.find(params[:organization_id])
+        locations = org.locations.
+                       includes(:organization, :address, :phones).
+                       page(params[:page]).per(params[:per_page])
+        render json: locations, each_serializer: LocationsSerializer, status: 200
+        generate_pagination_headers(locations)
+      end
     end
   end
 end

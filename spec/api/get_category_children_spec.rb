@@ -6,7 +6,7 @@ describe 'GET /categories/:category_id/children' do
       @food = Category.create!(name: 'Food', oe_id: '101')
       @food_child = @food.children.
         create!(name: 'Emergency Food', oe_id: '101-01')
-      get api_endpoint(path: "/categories/#{@food.id}/children")
+      get api_endpoint(path: "/categories/#{@food.oe_id}/children")
     end
 
     it 'returns a 200 status' do
@@ -41,7 +41,7 @@ describe 'GET /categories/:category_id/children' do
   context "when category doesn't have children" do
     before :each do
       @food = Category.create!(name: 'Food', oe_id: '101')
-      get api_endpoint(path: "/categories/#{@food.id}/children")
+      get api_endpoint(path: "/categories/#{@food.oe_id}/children")
     end
 
     it 'returns an empty array' do

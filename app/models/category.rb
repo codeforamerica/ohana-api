@@ -6,16 +6,4 @@ class Category < ActiveRecord::Base
   validates :name, :oe_id, presence: { message: "can't be blank for Category" }
 
   has_ancestry
-
-  extend FriendlyId
-  friendly_id :slug_candidates, use: [:history]
-
-  # Try building a slug based on the following fields in
-  # increasing order of specificity.
-  def slug_candidates
-    [
-      :name,
-      [:name, :oe_id]
-    ]
-  end
 end

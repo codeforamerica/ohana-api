@@ -1,10 +1,5 @@
 class OrganizationSerializer < ActiveModel::Serializer
-  attributes :id, :name, :slug, :url, :locations_url
-
-  def attributes
-    hash = super
-    hash.delete_if { |_, v| v.blank? }
-  end
+  attributes :id, :name, :slug, :urls, :url, :locations_url
 
   def url
     "#{url_prefix}/organizations/#{slug}"

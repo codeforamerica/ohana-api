@@ -24,7 +24,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
-  config.include Warden::Test::Helpers
   config.include Requests::RequestHelpers, type: :request
   config.include Api::UrlHelpers, type: :feature
   config.include Api::UrlHelpers, type: :request
@@ -40,11 +39,14 @@ RSpec.configure do |config|
     end
   end
 
-  # Warden.test_mode!
+  config.before(:each) do
+    Bullet.start_request if Bullet.enable?
+  end
 
-  # config.after(:each) do
-  #   Warden.test_reset!
-  # end
+  config.after(:each) do
+    Bullet.perform_out_of_channel_notifications if Bullet.enable? && Bullet.notification?
+    Bullet.end_request if Bullet.enable?
+  end
 
   # rspec-rails 3+ will no longer automatically infer an example group's spec
   # type from the file location. You can explicitly opt-in to this feature by
