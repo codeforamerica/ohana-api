@@ -78,8 +78,8 @@ describe 'GET /locations' do
       expect(json.first.keys).to include('updated_at')
     end
 
-    it 'does not include the admin_emails attribute' do
-      expect(json.first.keys).to_not include('admin_emails')
+    it 'includes the admin_emails attribute' do
+      expect(json.first.keys).to include('admin_emails')
     end
 
     it 'does not include the emails attribute' do
@@ -98,8 +98,8 @@ describe 'GET /locations' do
       expect(json.first.keys).to_not include('transportation')
     end
 
-    it 'does not include the urls attribute' do
-      expect(json.first.keys).to_not include('urls')
+    it 'includes the urls attribute' do
+      expect(json.first.keys).to include('urls')
     end
 
     it 'includes the address association' do
