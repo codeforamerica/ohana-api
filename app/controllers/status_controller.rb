@@ -1,34 +1,25 @@
 class StatusController < ApplicationController
-  respond_to :json
-
   def check_status
-    if test_location.nil? || test_category.nil?
-      status = 'DB did not return location or category'
-    elsif test_search.count == 0
-      status = 'Search returned no results'
-    else
-      status = 'ok'
-    end
+    response_hash = {}
+    response_hash[:dependencies] = %w(Mandrill Postgres)
+    response_hash[:status] = everything_ok? ? 'ok' : 'NOT OK'
+    response_hash[:updated] = Time.now.to_i
 
-    render json:
-      {
-        'status' => status,
-        'updated' => Time.now.to_i,
-        'dependencies' => DEPENDENCIES
-      }
+    render json: response_hash
   end
 
-  def test_location
-    Location.first
+  private
+
+  def everything_ok?
+    # Check that database contains items and that search returns results
+    database_okay? && search_okay?
   end
 
-  def test_category
-    Category.first
+  def database_okay?
+    Location.first.present?
   end
 
-  def test_search
-    Location.text_search(keyword: 'food')
+  def search_okay?
+    Location.text_search(keyword: 'food').present?
   end
-
-  DEPENDENCIES = %w(Mandrill Postgres)
 end

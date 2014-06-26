@@ -7,7 +7,7 @@
 class ArrayValidator < ActiveModel::EachValidator
   def initialize(options)
     super
-    @validators = options.map do |(key, args)|
+    @validators = options.except(:class).map do |(key, args)|
       create_validator(key, args)
     end
   end
