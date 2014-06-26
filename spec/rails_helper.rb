@@ -44,9 +44,26 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    Bullet.perform_out_of_channel_notifications if Bullet.enable? && Bullet.notification?
     Bullet.end_request if Bullet.enable?
   end
+
+  # config.before(:suite) do
+  #   DatabaseCleaner.clean_with(:truncation)
+  # end
+
+  # config.before(:each) do
+  #   DatabaseCleaner.strategy = :transaction
+  # end
+
+  # config.before(:each) do
+  #   DatabaseCleaner.start
+  #   Bullet.start_request if Bullet.enable?
+  # end
+
+  # config.after(:each) do
+  #   DatabaseCleaner.clean
+  #   Bullet.end_request if Bullet.enable?
+  # end
 
   # rspec-rails 3+ will no longer automatically infer an example group's spec
   # type from the file location. You can explicitly opt-in to this feature by
@@ -66,21 +83,4 @@ RSpec.configure do |config|
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
   # config.infer_base_class_for_anonymous_controllers = false
-
-  # config.before(:suite) do
-  #   DatabaseCleaner.clean_with(:truncation)
-  # end
-
-  # config.before(:each) do
-  #   DatabaseCleaner.strategy = :transaction
-  # end
-
-  # config.before(:each) do
-  #   DatabaseCleaner.start
-  # end
-
-  # config.after(:each) do
-  #   DatabaseCleaner.clean
-  #   # Warden.test_reset!
-  # end
 end
