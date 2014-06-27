@@ -23,6 +23,15 @@ describe 'Create a location (POST /locations/)' do
     expect(json['name']).to eq(@required_attributes[:name])
   end
 
+  it 'returns a limited payload after creation' do
+    post(
+      api_endpoint(path: '/locations/'),
+      @required_attributes,
+      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+    )
+    expect(json.keys).to eq(%w(id name slug))
+  end
+
   it 'returns a Location header with the URL to the new location' do
     post(
       api_endpoint(path: '/locations/'),

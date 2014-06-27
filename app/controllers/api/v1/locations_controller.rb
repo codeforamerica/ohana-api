@@ -28,7 +28,11 @@ module Api
 
       def create
         location = Location.create!(params)
-        response_hash = { id: location.id, name: location.name }
+        response_hash = {
+          id: location.id,
+          name: location.name,
+          slug: location.slug
+        }
         render json: response_hash, status: 201, location: [:api, location]
       end
 
