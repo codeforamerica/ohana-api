@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 describe 'CORS Preflight Request via OPTIONS HTTP method' do
-  xcontext 'when ORIGIN is specified and resource is allowed' do
+  context 'when ORIGIN is specified and resource is allowed' do
     before :each do
-      create(:organization)
       options api_endpoint(path: '/organizations'), {},
               'HTTP_ORIGIN' => 'http://cors.example.com',
               'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'Origin, Accept, Content-Type',
-              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
               'REQUEST_METHOD' => 'OPTIONS'
     end
 
@@ -16,7 +14,8 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     end
 
     it 'sets Access-Control-Allow-Origin header to the Origin in the request' do
-      expect(headers['Access-Control-Allow-Origin']).to eq('http://ohanapi.org')
+      expect(headers['Access-Control-Allow-Origin']).
+        to eq('http://cors.example.com')
     end
 
     it 'sets Access-Control-Allow-Methods to the whitelisted methods' do
@@ -35,6 +34,65 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
 
     it 'returns an empty Access-Control-Expose-Headers header' do
       expect(headers['Access-Control-Expose-Headers']).to eq('')
+    end
+
+    it 'allows access to the locations endpoint' do
+      options api_endpoint(path: '/locations'), {},
+              'HTTP_ORIGIN' => 'http://cors.example.com'
+
+      expect(headers['Access-Control-Allow-Origin']).
+        to eq('http://cors.example.com')
+    end
+
+    it 'allows access to the locations endpoint with a trailing slash' do
+      options api_endpoint(path: '/locations/'), {},
+              'HTTP_ORIGIN' => 'http://cors.example.com'
+
+      expect(headers['Access-Control-Allow-Origin']).
+        to eq('http://cors.example.com')
+    end
+
+    it 'allows access to the organizations endpoint with a trailing slash' do
+      options api_endpoint(path: '/organizations/'), {},
+              'HTTP_ORIGIN' => 'http://cors.example.com'
+
+      expect(headers['Access-Control-Allow-Origin']).
+        to eq('http://cors.example.com')
+    end
+
+    it 'allows access to a specific location' do
+      options api_endpoint(path: '/locations/1'), {},
+              'HTTP_ORIGIN' => 'http://cors.example.com'
+
+      expect(headers['Access-Control-Allow-Origin']).
+        to eq('http://cors.example.com')
+    end
+
+    it 'allows access to a specific organization' do
+      options api_endpoint(path: '/organizations/1'), {},
+              'HTTP_ORIGIN' => 'http://cors.example.com'
+
+      expect(headers['Access-Control-Allow-Origin']).
+        to eq('http://cors.example.com')
+    end
+
+    it 'allows access to the search endpoint' do
+      options api_endpoint(path: '/search?keyword=food'), {},
+              'HTTP_ORIGIN' => 'http://cors.example.com'
+
+      expect(headers['Access-Control-Allow-Origin']).
+        to eq('http://cors.example.com')
+    end
+
+    it 'does not allow access to non-whitelisted endpoints' do
+      options api_endpoint(path: '/foo'), {},
+              'HTTP_ORIGIN' => 'http://cors.example.com'
+
+      expect(headers.keys).not_to include('Access-Control-Allow-Origin')
+    end
+
+    it 'returns a 204 status with no content' do
+      expect(response).to have_http_status(204)
     end
   end
 
@@ -56,9 +114,8 @@ end
 describe 'CORS REQUESTS - POST and GET' do
   context 'when ORIGIN is specified' do
     before :each do
-      loc = create(:location)
-      post api_endpoint(path: "/locations/#{loc.id}/contacts"),
-           { name: 'foo', title: 'cfo' },
+      post api_endpoint(path: '/organizations'),
+           { name: 'foo' },
            'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN'],
            'HTTP_ACCEPT' => 'application/vnd.ohanapi+json; version=1',
            'HTTP_ORIGIN' => 'http://ohanapi.org', 'HTTP_USER_AGENT' => 'Rspec'
@@ -93,9 +150,8 @@ describe 'CORS REQUESTS - POST and GET' do
 
   context 'when ORIGIN is not specified' do
     it 'does not include CORS headers when ORIGIN is not specified' do
-      loc = create(:location)
-      post api_endpoint(path: "/locations/#{loc.id}/contacts"),
-           { name: 'foo', title: 'cfo' },
+      post api_endpoint(path: '/organizations'),
+           { name: 'foo' },
            'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN'],
            'HTTP_ACCEPT' => 'application/vnd.ohanapi+json; version=1',
            'HTTP_USER_AGENT' => 'Rspec'
