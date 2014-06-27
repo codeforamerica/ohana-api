@@ -54,9 +54,11 @@ _Note: Installation and preparation can take several minutes to complete!_
 Inside the `config` folder, you will find a file named `application.example.yml`.
 Copy its contents to a new file called `application.yml`.
 
-Inside the `config` folder, you will also find a file called `settings.yml`.
-In that file, there are 3 variables you can customize. Please read through the
-instructions in that file carefully.
+Inside the `config` folder, you will also find a file called
+`settings.example.yml`. Copy its contents to a new file called `settings.yml`,
+overwriting the one that already exists.
+
+Please read through the instructions in both files carefully.
 
 ### Run the app
 
@@ -65,10 +67,9 @@ Start the app locally on port 8080:
     rails s -p 8080
 
 If for some reason, you can't run on port 8080, make sure you update
-`API_BASE_URL` and `API_BASE_HOST` in `config/application.yml` if you change
-the port number. You'll also need to update the port number in
-`OHANA_API_ENDPOINT` in your local [Admin Interface][admin] if it's pointing to
-your local API.
+`BASE_DOMAIN` in `config/application.yml` if you change the port number.
+You'll also need to update the port number in `OHANA_API_ENDPOINT` in your
+local [Admin Interface][admin] if it's pointing to your local API.
 
 [admin]: https://github.com/codeforamerica/ohana-api-admin
 
