@@ -20,7 +20,9 @@ describe Service do
 
   it { is_expected.to belong_to(:location).touch(true) }
 
-  it { is_expected.to have_and_belong_to_many(:categories).order('oe_id asc') }
+  # This is no longer working in Rails 4.1.2. I opened an issue:
+  # https://github.com/thoughtbot/shoulda-matchers/issues/549
+  xit { is_expected.to have_and_belong_to_many(:categories).order('oe_id asc') }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
   it { is_expected.to serialize(:keywords).as(Array) }
