@@ -23,12 +23,13 @@ module Api
       def update
         location = Location.find(params[:id])
         location.update!(params)
-        render json: location, status: 200, location: [:api, location]
+        render json: location, status: 200
       end
 
       def create
         location = Location.create!(params)
-        render json: location, status: 201, location: [:api, location]
+        response_hash = { id: location.id, name: location.name }
+        render json: response_hash, status: 201, location: [:api, location]
       end
 
       def destroy

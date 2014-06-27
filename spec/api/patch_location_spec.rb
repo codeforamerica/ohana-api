@@ -24,32 +24,36 @@ describe 'PATCH /locations/:id)' do
     expect(json['name']).to eq('New Name')
   end
 
-  xit 'allows empty array for serialized array fields' do
+  it 'sets urls to empty array if value is empty array' do
+    @loc.update!(urls: %w(http://cfa.org))
+    patch(
+      api_endpoint(path: "/locations/#{@loc.id}"),
+      { urls: [] }.to_json,
+      'HTTP_X_API_TOKEN' => @token,
+      'Content-Type' => 'application/json'
+    )
+    expect(json['urls']).to eq([])
+  end
+
+  it 'sets urls to empty array if value is nil' do
+    @loc.update!(urls: %w(http://cfa.org))
+    patch(
+      api_endpoint(path: "/locations/#{@loc.id}"),
+      { urls: nil },
+      'HTTP_X_API_TOKEN' => @token
+    )
+    expect(json['urls']).to eq([])
+  end
+
+  it 'returns 422 if emails is set to empty string' do
     @loc.update!(emails: %w(moncef@cfa.org))
-    patch(
-      api_endpoint(path: "/locations/#{@loc.id}"),
-      { emails: [] },
-      'HTTP_X_API_TOKEN' => @token
-    )
-    expect(json['emails']).to eq([])
-  end
-
-  xit 'does not allow empty array for String fields' do
-    patch(
-      api_endpoint(path: "/locations/#{@loc.id}"),
-      { name: [] },
-      'HTTP_X_API_TOKEN' => @token
-    )
-    expect(json['name']).to eq('VRS Services')
-  end
-
-  it 'returns a Location header with the URL to the updated location' do
-    patch(
-      api_endpoint(path: "/locations/#{@loc.id}"),
-      { name: 'New Name' },
-      'HTTP_X_API_TOKEN' => @token
-    )
-    expect(headers['Location']).to eq("#{api_endpoint}/locations/#{@loc.reload.slug}")
+    patch api_endpoint(path: "/locations/#{@loc.id}"),
+          { emails: '' },
+          'HTTP_X_API_TOKEN' => @token
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['errors'].first['emails'].first).
+      to eq(' is not a valid email')
   end
 
   it 'returns 422 when attribute is invalid' do

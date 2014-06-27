@@ -20,7 +20,7 @@ module Api
       def update
         org = Organization.find(params[:id])
         org.update!(params)
-        render json: org, status: 200, location: [:api, org]
+        render json: org, status: 200
       end
 
       def create
@@ -37,7 +37,7 @@ module Api
       def locations
         org = Organization.find(params[:organization_id])
         locations = org.locations.
-                       includes(:organization, :address, :phones).
+                       includes(:address, :phones).
                        page(params[:page]).per(params[:per_page])
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)

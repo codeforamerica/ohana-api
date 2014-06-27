@@ -25,16 +25,6 @@ describe 'PATCH /organizations/:id' do
     expect(json['name']).to eq('New Name')
   end
 
-  it 'returns a Location header with the URL to the updated organization' do
-    patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { name: 'New Name' },
-      'HTTP_X_API_TOKEN' => @token
-    )
-    expect(headers['Location']).
-      to eq("#{api_endpoint}/organizations/#{@org.reload.slug}")
-  end
-
   it 'returns 422 when attribute is invalid' do
     patch(
       api_endpoint(path: "/organizations/#{@org.id}"),
