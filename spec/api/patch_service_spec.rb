@@ -58,13 +58,13 @@ describe 'PATCH /locations/:location_id/services/:id' do
   it 'returns 422 when attribute is invalid' do
     patch(
       api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
-      @attrs.merge!(keywords: 'food'),
+      @attrs.merge!(service_areas: ['Belmont, CA']),
       'HTTP_X_API_TOKEN' => @token
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).
-      to eq('Attribute was supposed to be an Array, but was a String: "food".')
+    expect(json['errors'].first['service_areas'].first).
+      to include('At least one service area is improperly formatted')
   end
 
   it "doesn't allow updating a service without a valid token" do
