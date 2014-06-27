@@ -26,7 +26,7 @@
 # The app is set to search within the continental US by default.
 # Make sure to change the coordinates to match your preferred search area.
 #
-# This setting is used in 'app/models/location.rb'.
+# This setting is used in 'app/models/concerns/search.rb'.
 bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 
 ####################################################
@@ -53,7 +53,7 @@ bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 # have a generic "@smcgov.org" email, even though they work in different
 # departments, and should only be able to access their specific locations.
 #
-# This setting is used in 'app/models/location.rb'.
+# This setting is used in 'app/models/concerns/search.rb'.
 generic_domains:
   - gmail.com
   - aol.com
