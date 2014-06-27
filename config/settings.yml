@@ -1,3 +1,14 @@
+# First, copy the contents of this file to a new file called "settings.yml",
+# overwriting the one that's already in the "config" directory.
+
+# Note that changes to this file require a server restart to take effect.
+
+###############################
+#
+# GEOGRAPHICAL BOUNDS SETTINGS
+#
+###############################
+#
 # Google provides a "bounds" option to restrict the address search to
 # a particular area. This allows Google to disambiguate between two
 # cities with the same name. For example, there is a city in San Mateo
@@ -18,7 +29,12 @@
 # This setting is used in 'app/models/location.rb'.
 bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 
-
+####################################################
+#
+# GENERIC EMAIL DOMAIN SETTINGS FOR ADMIN INTERFACE
+#
+####################################################
+#
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
 # to retrieve locations that match a particular domain name. This means that
@@ -45,6 +61,12 @@ generic_domains:
   - hotmail.com
   - yahoo.com
 
+#########################
+#
+# SERVICE AREAS SETTINGS
+#
+#########################
+#
 # If your data contains a service_areas field that identifies which particular
 # areas of a city or county are eligible for the services provided by an
 # organization, and if you want to make sure that the service areas are always
@@ -57,7 +79,16 @@ generic_domains:
 #
 # This setting is used in 'app/models/service.rb'.
 valid_service_areas:
+  - Belmont
+  - Atherton
+  - San Mateo County
 
+############################
+#
+# HEROKU SUBDOMAIN SETTINGS
+#
+############################
+#
 # When using the default Heroku setup (http://app-name.herokuapp.com),
 # set this to "2". Once you're ready to deploy to production, you will
 # most likely want to set up a custom domain name, like "smc-connect.org".
@@ -67,7 +98,6 @@ valid_service_areas:
 #
 # This setting is used in config/environments/production.rb.
 tld_length: 2
-
 
 ###########################################
 #
