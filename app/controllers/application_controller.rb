@@ -1,3 +1,5 @@
+require 'exceptions'
+
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -12,6 +14,18 @@ class ApplicationController < ActionController::Base
   # https://github.com/rails/rails/issues/4127#issuecomment-10247450
   rescue_from ActionView::MissingTemplate, with: :missing_template
 
+  unless Rails.application.config.consider_all_requests_local
+    # rescue_from StandardError, :with => :render_error
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+    rescue_from ActionController::RoutingError, with: :render_not_found
+    rescue_from ActiveRecord::RecordInvalid, with: :render_invalid_record
+    rescue_from ActiveRecord::SerializationTypeMismatch, with: :render_invalid_type
+    rescue_from Exceptions::InvalidRadius, with: :render_invalid_radius
+    rescue_from Exceptions::InvalidLatLon, with: :render_invalid_lat_lon
+  end
+
+  private
+
   def missing_template(exception)
     if exception.is_a?(ActionView::MissingTemplate) &&
       !Collector.new(collect_mimes_from_class_level).negotiate_format(request)
@@ -20,6 +34,55 @@ class ApplicationController < ActionController::Base
       logger.error(exception)
       render_500
     end
+  end
+
+  def render_not_found
+    hash =
+      {
+        'status'  => 404,
+        'message' => 'The requested resource could not be found.',
+        'documentation_url' => docs_url
+      }
+    render json: hash, status: 404
+  end
+
+  def render_invalid_record(exception)
+    hash =
+      {
+        'status'  => 422,
+        'message' => 'Validation failed for resource.',
+        'errors' => [exception.record.errors]
+      }
+    render json: hash, status: 422
+  end
+
+  def render_invalid_type(exception)
+    value = exception.message.split('-- ').last
+    hash =
+      {
+        'status'  => 422,
+        'message' => 'Validation failed for resource.',
+        'error' => "Attribute was supposed to be an Array, but was a String: #{value}."
+      }
+    render json: hash, status: 422
+  end
+
+  def render_invalid_radius
+    message = {
+      status: 400,
+      error: 'Argument Error',
+      description: 'Radius must be a Float between 0.1 and 50.'
+    }
+    render json: message, status: 400
+  end
+
+  def render_invalid_lat_lon
+    message = {
+      status: 400,
+      error: 'Argument Error',
+      description: 'lat_lng must be a comma-delimited lat,long pair of floats.'
+    }
+    render json: message, status: 400
   end
 
   protected

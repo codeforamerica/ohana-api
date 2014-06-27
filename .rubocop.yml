@@ -24,5 +24,9 @@ MethodLength:
   CountComments: false
   Max: 15
 
+Style/ClassLength:
+  CountComments: false
+  Max: 100
+
 Rails/HasAndBelongsToMany:
   Enabled: false

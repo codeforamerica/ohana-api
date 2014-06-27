@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 # Uses the nifty shoulda-matchers
 # https://github.com/thoughtbot/shoulda-matchers
 describe ApiApplication do

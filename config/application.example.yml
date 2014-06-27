@@ -1,25 +1,67 @@
-# This file is used by the "figaro" gem to allow you to store and use
-# environment variables in the app without having to set them via the
-# command line each time you run the app in development.
-
-# Read more about figaro here: https://github.com/laserlemon/figaro
-
 # First, copy the contents of this file to a new file called "application.yml"
 # in the same "config" directory.
 
+# This file is used by the "figaro" gem to allow you to store and use
+# environment variables in the app without having to set them via the
+# command line each time you run the app in development. Another advantage
+# is that you can make changes in a production environment (such as Heroku)
+# by simply changing the value of the environment variable, as opposed to
+# making code changes and having to push them to apply the new setting.
+# Read more about figaro here: https://github.com/laserlemon/figaro
+
+# Note that changes to this file require a server restart to take effect.
+
 # Each entry sets a local environment variable and overrides ENV variables
-# in the Unix shell. For example, setting:
-# API_BASE_URL: http://ohana-api-demo.herokuapp.com/api
-# makes "http://ohana-api-demo.herokuapp.com/api" available as
-# ENV["API_BASE_URL"] in the app. See app/api/ohana.rb
-# for a usage example.
+# in the Unix shell. For example, setting API_PATH: api makes "api" available
+# as ENV['API_PATH'] in the app. See app/config/routes.rb for a usage example.
 
-# Add application configuration variables here, as shown below.
+# In development, "BASE_DOMAIN" should be set to lvh.me, plus the port you're
+# using to run the app. If you're running the app on a different port, change
+# the port value below to match your port.
+# In production, you should set BASE_DOMAIN to your production domain name.
+# For example, on Heroku, you can set the ENV var like this:
+# heroku config:set BASE_DOMAIN=mydomain.com -a your_heroku_app_name
+BASE_DOMAIN: lvh.me:8080
 
-# If you're running the app on a different port on your development
-# machine, change the port values below to match your port.
-API_BASE_URL: http://localhost:8080/api/
-API_BASE_HOST: http://localhost:8080/
+# If you'd like to run the API on its own subdomain, set API_SUBDOMAIN to your
+# desired subdomain name. We recommend "api". Then make sure to delete "api"
+# from "API_PATH". That way, you'll have a URL like http://api.yourdomain.org
+# instead of http://api.yourdomain.org/api.
+#
+# Note that an API subdomain won't work on Heroku unless you're using a custom
+# domain name. Heroku doesn't support sub-subdomains when using their default
+# setup, which gives you a URL such as http://ohana-api-demo.herokuapp.com.
+# In development, you can test it by adding the subdomain to 'lvh.me:8080'.
+# For example: http://api.lvh.me:8080.
+API_SUBDOMAIN:
+
+
+# The API_PATH setting is related to the API_SUBDOMAIN setting. If you're not
+# using a separate subdomain for the API, then define the path for the API,
+# which is set to "api" by default. If you do decide to use an API_SUBDOMAIN,
+# make sure to set API_PATH to blank.
+API_PATH: api
+
+# If you'd like to run the developer portal on its own subdomain,
+# set DEV_SUBDOMAIN to your desired subdomain name, such as "developer".
+#
+# Note that the DEV_SUBDOMAIN won't work on Heroku unless you're using a custom
+# domain name. Heroku doesn't support sub-subdomains when using their default
+# setup, which gives you a URL such as http://ohana-api-demo.herokuapp.com.
+# In development, you can test it by adding the subdomain to 'lvh.me:8080'.
+# For example: http://developer.lvh.me:8080.
+DEV_SUBDOMAIN:
+
+# This setting controls how many results you want to the API to return
+# per page by default. Note that clients can set this dynamically via
+# the "per_page" parameter, but if "per_page" is not specified, then the
+# setting below will dictate how many results are returned.
+DEFAULT_PER_PAGE: 30
+
+# This setting controls the maximum amount of results you want to the API to
+# return per page. If a client sets the "per_page" parameter to a value higher
+# than MAX_PER_PAGE, the API will limit results per page to MAX_PER_PAGE.
+MAX_PER_PAGE: 50
 
 # The value of ADMIN_APP_TOKEN here should match the value of
 # OHANA_API_TOKEN in the Admin app:

@@ -20,8 +20,6 @@ class Organization < ActiveRecord::Base
 
   auto_strip_attributes :name, squish: true
 
-  paginates_per Rails.env.test? ? 1 : 30
-
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]
 
@@ -34,24 +32,15 @@ class Organization < ActiveRecord::Base
     ]
   end
 
-  def url
-    "#{ENV['API_BASE_URL']}organizations/#{id}"
-  end
-
-  def locations_url
-    "#{ENV['API_BASE_URL']}organizations/#{id}/locations"
-  end
-
   def domain_name
     URI.parse(urls.first).host.gsub(/^www\./, '') if urls.present?
   end
 
-  include Grape::Entity::DSL
-  entity do
-    expose :id
-    expose :name
-    expose :slug
-    expose :url
-    expose :locations_url
+  after_save :touch_locations
+
+  private
+
+  def touch_locations
+    locations.find_each(&:touch)
   end
 end

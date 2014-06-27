@@ -43,11 +43,5 @@ module Features
       visit('/api_applications')
       click_link "#{name} (#{main_url})"
     end
-
-    def create_service
-      @location = create(:location)
-      @service = @location.services.create!(attributes_for(:service))
-      @location.reload
-    end
   end
 end

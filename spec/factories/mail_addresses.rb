@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :mail_address do
+    attention 'Monfresh'
     street '1 davis dr'
     city 'Belmont'
     state 'CA'

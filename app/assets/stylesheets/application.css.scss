@@ -10,7 +10,6 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require swagger-ui
  *= require_tree .
  *= require_self
  */
@@ -25,8 +24,4 @@
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
   -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
   box-shadow: 0 1px 2px rgba(0,0,0,.15);
-}
-
-.swagger-ui-wrap {
-  margin-left: 0 !important;
 }

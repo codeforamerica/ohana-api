@@ -9,14 +9,4 @@ class Contact < ActiveRecord::Base
   validates :fax, fax: true, allow_blank: true
 
   auto_strip_attributes :email, :extension, :fax, :name, :phone, :title, squish: true
-
-  include Grape::Entity::DSL
-  entity do
-    expose :id
-    expose :name, unless: ->(o, _) { o.name.blank? }
-    expose :title, unless: ->(o, _) { o.title.blank? }
-    expose :phone, unless: ->(o, _) { o.phone.blank? }
-    expose :email, unless: ->(o, _) { o.email.blank? }
-    expose :fax, unless: ->(o, _) { o.fax.blank? }
-  end
 end
