@@ -4,8 +4,6 @@ module Api
       include TokenValidator
       include PaginationHeaders
 
-      before_action :validate_token!, only: [:update, :destroy, :create]
-
       def index
         locations = Location.includes(:organization, :address, :phones).
                             page(params[:page]).per(params[:per_page]).

@@ -3,8 +3,6 @@ module Api
     class PhonesController < ApplicationController
       include TokenValidator
 
-      before_action :validate_token!, only: [:update, :destroy, :create]
-
       def index
         location = Location.find(params[:location_id])
         phones = location.phones

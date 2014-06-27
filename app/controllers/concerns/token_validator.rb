@@ -1,4 +1,10 @@
 module TokenValidator
+  extend ActiveSupport::Concern
+
+  included do
+    before_action :validate_token!, only: [:update, :destroy, :create]
+  end
+
   def validate_token!
     render_401 unless valid_api_token?
   end

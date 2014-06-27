@@ -4,8 +4,6 @@ module Api
       include TokenValidator
       include PaginationHeaders
 
-      before_action :validate_token!, only: [:update, :destroy, :create]
-
       def index
         orgs = Organization.page(params[:page]).per(params[:per_page])
         render json: orgs, status: 200

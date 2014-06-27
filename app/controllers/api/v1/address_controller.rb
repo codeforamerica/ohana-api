@@ -3,8 +3,6 @@ module Api
     class AddressController < ApplicationController
       include TokenValidator
 
-      before_action :validate_token!, only: [:update, :destroy, :create]
-
       def update
         address = Address.find(params[:id])
         address.update!(params)
