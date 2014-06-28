@@ -3,13 +3,10 @@
 set -e
 
 echo "===> Creating ohana_api_development and ohana_api_test databases..."
-rake db:create
+bin/rake db:create:all
 
 echo "===> Setting up the ohana_api_development database..."
-rake db:structure:load
-
-echo "===> Setting up the ohana_api_test database..."
-rake db:test:load
+bin/rake db:structure:load
 
 echo "===> Populating the ohana_api_development database..."
-rake setup_db
+bin/rake setup_db

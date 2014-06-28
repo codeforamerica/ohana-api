@@ -125,7 +125,7 @@ original JSON file, not `invalid_records.json`) into a new `.json` file.
 4. Delete `invalid_records.json`. The script appends to it, so you want to
 delete it before running the script to start fresh each time.
 
-5. Run `rake load_data`
+5. Run `bin/rake load_data`
 
 6. If the script outputs `Some locations failed to load.`, repeat steps 1 - 5
 until your data is clean.
