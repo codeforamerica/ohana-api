@@ -67,7 +67,7 @@ end
 group :test do
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'capybara'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', require: false
   gem 'coveralls', require: false
   gem 'rubocop'
 end
@@ -76,4 +76,7 @@ group :development do
   gem 'quiet_assets', '>= 1.0.2'
   gem 'better_errors', '>= 0.7.2'
   gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'listen', '~> 1.0'
 end
