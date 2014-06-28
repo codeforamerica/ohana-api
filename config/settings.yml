@@ -79,9 +79,6 @@ generic_domains:
 #
 # This setting is used in 'app/models/service.rb'.
 valid_service_areas:
-  - Belmont
-  - Atherton
-  - San Mateo County
 
 ############################
 #
