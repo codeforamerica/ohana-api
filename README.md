@@ -67,13 +67,9 @@ Follow the instructions in [INSTALL.md][install].
 
 ## Running the tests
 
-First, run this command to make sure your local test database is up to date:
+Run tests locally with this simple command:
 
     script/test
-
-Then run tests locally with this simple command:
-
-    rake test
 
 To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
 
