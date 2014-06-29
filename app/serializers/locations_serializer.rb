@@ -8,27 +8,18 @@ class LocationsSerializer < ActiveModel::Serializer
   has_many :phones
 
   def contacts_url
-    "#{url}/contacts"
+    api_location_contacts_url(object)
   end
 
   def faxes_url
-    "#{url}/faxes"
+    api_location_faxes_url(object)
   end
 
   def services_url
-    "#{url}/services"
+    api_location_services_url(object)
   end
 
   def url
-    "#{url_prefix}/locations/#{slug}"
-  end
-
-  def url_prefix
-    subdomain = ENV['API_SUBDOMAIN'] || ''
-    subdomain += '.' unless subdomain.blank?
-    domain = ENV['BASE_DOMAIN']
-    path = ENV['API_PATH']
-    domain += '/' unless path.blank?
-    "http://#{subdomain}#{domain}#{path}"
+    api_location_url(object)
   end
 end

@@ -4,32 +4,28 @@ describe 'PATCH /organizations/:id' do
   before(:each) do
     loc_with_org = create(:location)
     @org = loc_with_org.organization
-    @token = ENV['ADMIN_APP_TOKEN']
   end
 
   it 'returns 200 when validations pass' do
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { name: 'New Name' },
-      'HTTP_X_API_TOKEN' => @token
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      name: 'New Name'
     )
     expect(response).to have_http_status(200)
   end
 
   it 'returns the updated organization when validations pass' do
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { name: 'New Name' },
-      'HTTP_X_API_TOKEN' => @token
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      name: 'New Name'
     )
     expect(json['name']).to eq('New Name')
   end
 
   it 'returns 422 when attribute is invalid' do
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { urls: ['monfresh.com'] },
-      'HTTP_X_API_TOKEN' => @token
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      urls: ['monfresh.com']
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
@@ -39,9 +35,8 @@ describe 'PATCH /organizations/:id' do
 
   it 'returns 422 when value is String instead of Array' do
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { urls: 'http://monfresh.com' },
-      'HTTP_X_API_TOKEN' => @token
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      urls: 'http://monfresh.com'
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
@@ -51,9 +46,8 @@ describe 'PATCH /organizations/:id' do
 
   it 'returns 422 when required attribute is missing' do
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { name: nil },
-      'HTTP_X_API_TOKEN' => @token
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      name: nil
     )
     expect(response.status).to eq(422)
     expect(json['errors'].first).
@@ -62,22 +56,21 @@ describe 'PATCH /organizations/:id' do
 
   it 'returns 404 when id is missing' do
     patch(
-      api_endpoint(path: '/organizations/'),
-      { description: '' },
-      'HTTP_X_API_TOKEN' => @token
+      api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
+      description: ''
     )
     expect(response.status).to eq(404)
     expect(json['message']).to eq('The requested resource could not be found.')
-    expect(json['documentation_url']).to eq("#{docs_endpoint}")
+    expect(json['documentation_url']).
+      to eq(docs_url(subdomain: ENV['API_SUBDOMAIN']))
   end
 
   it 'updates the search index when organization changes' do
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { name: 'Code for America' },
-      'HTTP_X_API_TOKEN' => @token
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      name: 'Code for America'
     )
-    get api_endpoint(path: '/search?keyword=america')
+    get api_search_index_url(keyword: 'america', subdomain: ENV['API_SUBDOMAIN'])
     expect(json.first['organization']['name']).to eq('Code for America')
   end
 end
@@ -86,7 +79,7 @@ describe 'Update a organization without a valid token' do
   it "doesn't allow updating an organization without a valid token" do
     @org = create(:organization)
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
       { name: 'new name' },
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
@@ -99,16 +92,14 @@ end
 describe "Update an organization's slug" do
   before(:each) do
     @org = create(:organization)
-    @token = ENV['ADMIN_APP_TOKEN']
   end
 
   it 'is accessible by its old slug' do
     patch(
-      api_endpoint(path: "/organizations/#{@org.id}"),
-      { name: 'new name' },
-      'HTTP_X_API_TOKEN' => @token
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      name: 'new name'
     )
-    get api_endpoint(path: '/organizations/parent-agency')
+    get api_organization_url('parent-agency', subdomain: ENV['API_SUBDOMAIN'])
     json = JSON.parse(response.body)
     expect(json['name']).to eq('new name')
   end

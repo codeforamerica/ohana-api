@@ -12,12 +12,7 @@ class LocationSerializer < ActiveModel::Serializer
   has_one :organization
 
   def url
-    subdomain = ENV['API_SUBDOMAIN'] || ''
-    subdomain += '.' unless subdomain.blank?
-    domain = ENV['BASE_DOMAIN']
-    path = ENV['API_PATH']
-    domain += '/' unless path.blank?
-    "http://#{subdomain}#{domain}#{path}/locations/#{slug}"
+    api_location_url(object)
   end
 
   def accessibility

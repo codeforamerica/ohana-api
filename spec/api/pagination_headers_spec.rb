@@ -2,13 +2,14 @@ require 'rails_helper'
 
 describe 'Pagination Headers' do
   before(:each) do
-    @prefix = api_endpoint
+    @prefix = api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])
   end
 
   context 'when on page 1 of 2' do
     before(:each) do
       create_list(:location, 2)
-      get api_endpoint(path: '/search?keyword=parent&per_page=1')
+      get api_search_index_url(
+        keyword: 'parent', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns a 200 status' do
@@ -17,9 +18,9 @@ describe 'Pagination Headers' do
 
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
-        "<#{@prefix}/search?keyword=parent&page=2" \
+        "<#{@prefix}?keyword=parent&page=2" \
         "&per_page=1>; rel=\"last\", " \
-        "<#{@prefix}/search?keyword=parent&page=2" \
+        "<#{@prefix}?keyword=parent&page=2" \
         "&per_page=1>; rel=\"next\""
       )
     end
@@ -46,14 +47,15 @@ describe 'Pagination Headers' do
   context 'when on page 2 of 2' do
     before(:each) do
       create_list(:location, 2)
-      get api_endpoint(path: '/search?keyword=parent&page=2&per_page=1')
+      get api_search_index_url(
+        keyword: 'parent', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
-        "<#{@prefix}/search?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=parent&page=1" \
         "&per_page=1>; rel=\"first\", " \
-        "<#{@prefix}/search?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=parent&page=1" \
         "&per_page=1>; rel=\"prev\""
       )
     end
@@ -68,18 +70,19 @@ describe 'Pagination Headers' do
   context 'when on page 2 of 3' do
     before(:each) do
       original_create_list(:location, 3)
-      get api_endpoint(path: '/search?keyword=parent&page=2&per_page=1')
+      get api_search_index_url(
+        keyword: 'parent', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
-        "<#{@prefix}/search?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=parent&page=1" \
         "&per_page=1>; rel=\"first\", " \
-        "<#{@prefix}/search?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=parent&page=1" \
         "&per_page=1>; rel=\"prev\", " \
-        "<#{@prefix}/search?keyword=parent&page=3" \
+        "<#{@prefix}?keyword=parent&page=3" \
         "&per_page=1>; rel=\"last\", " \
-        "<#{@prefix}/search?keyword=parent&page=3" \
+        "<#{@prefix}?keyword=parent&page=3" \
         "&per_page=1>; rel=\"next\""
       )
     end
@@ -94,14 +97,15 @@ describe 'Pagination Headers' do
   context 'when on page higher than max' do
     before(:each) do
       original_create_list(:location, 3)
-      get api_endpoint(path: '/search?keyword=vrs&page=3')
+      get api_search_index_url(
+        keyword: 'vrs', page: 3, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'sets previous page to last page with results' do
       expect(headers['Link']).to eq(
-        "<#{@prefix}/search?keyword=vrs&page=1>; rel=\"first\", " \
-        "<#{@prefix}/search?keyword=vrs&page=1>; rel=\"prev\", " \
-        "<#{@prefix}/search?keyword=vrs&page=1>; rel=\"last\""
+        "<#{@prefix}?keyword=vrs&page=1>; rel=\"first\", " \
+        "<#{@prefix}?keyword=vrs&page=1>; rel=\"prev\", " \
+        "<#{@prefix}?keyword=vrs&page=1>; rel=\"last\""
       )
     end
 
@@ -116,7 +120,8 @@ describe 'Pagination Headers' do
   context 'when there is only one page of search results' do
     it 'does not return a Link header' do
       create(:location)
-      get api_endpoint(path: '/search?keyword=parent')
+      get api_search_index_url(
+        keyword: 'parent', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers.keys).not_to include 'Link'
     end
   end
@@ -124,9 +129,9 @@ describe 'Pagination Headers' do
   context 'when there are no search results' do
     it 'returns one rel=last link with page=0' do
       create(:location)
-      get api_endpoint(path: '/search?keyword=foo')
+      get api_search_index_url(keyword: 'foo', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['Link']).
-        to eq("<#{@prefix}/search?keyword=foo&page=0>; rel=\"last\"")
+        to eq("<#{@prefix}?keyword=foo&page=0>; rel=\"last\"")
       expect(headers['X-Total-Count']).to eq('0')
     end
   end
@@ -134,7 +139,7 @@ describe 'Pagination Headers' do
   context 'when visiting a location' do
     it 'does not return a Link header' do
       loc = create(:location)
-      get api_endpoint(path: "/locations/#{loc.id}")
+      get api_location_url(loc, subdomain: ENV['API_SUBDOMAIN'])
       expect(headers.keys).not_to include 'Link'
     end
   end
@@ -142,7 +147,7 @@ describe 'Pagination Headers' do
   context 'when there is only one location' do
     it 'does not return a Link header' do
       create(:location)
-      get api_endpoint(path: '/locations')
+      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
       expect(headers.keys).not_to include 'Link'
     end
   end

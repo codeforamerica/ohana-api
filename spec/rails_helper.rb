@@ -24,8 +24,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
   config.include Requests::RequestHelpers, type: :request
-  config.include Api::UrlHelpers, type: :feature
-  config.include Api::UrlHelpers, type: :request
+  config.include DefaultHeaders, type: :request
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

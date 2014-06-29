@@ -4,7 +4,7 @@ describe 'GET /categories' do
   before :each do
     @food = Category.create!(name: 'Food', oe_id: '101')
     @emergency = Category.create!(name: 'Emergency', oe_id: '103')
-    get api_endpoint(path: '/categories')
+    get api_categories_url(subdomain: ENV['API_SUBDOMAIN'])
   end
 
   it 'displays all categories' do

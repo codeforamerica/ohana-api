@@ -28,7 +28,7 @@ describe 'GET /organizations/:organization_id/locations' do
       @location.services.create!(attributes_for(:service))
       @location.create_mail_address!(attributes_for(:mail_address))
 
-      get api_endpoint(path: "/organizations/#{@org.id}/locations")
+      get api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns a 200 status' do
@@ -82,27 +82,27 @@ describe 'GET /organizations/:organization_id/locations' do
 
     it 'includes the location url attribute in the serialization' do
       expect(json.first['url']).
-        to eq("#{api_endpoint}/locations/#{@location.slug}")
+        to eq(api_location_url(@location, subdomain: ENV['API_SUBDOMAIN']))
     end
 
     it 'includes the contacts_url attribute in the serialization' do
       expect(json.first['contacts_url']).
-        to eq("#{api_endpoint}/locations/#{@location.slug}/contacts")
+        to eq(api_location_contacts_url(@location))
     end
 
     it 'includes the faxes_url attribute in the serialization' do
       expect(json.first['faxes_url']).
-        to eq("#{api_endpoint}/locations/#{@location.slug}/faxes")
+        to eq(api_location_faxes_url(@location))
     end
 
     xit 'includes the phones_url attribute in the serialization' do
       expect(json.first['phones_url']).
-        to eq("#{api_endpoint}/locations/#{@location.slug}/phones")
+        to eq(api_location_phones_url(@location))
     end
 
     it 'includes the services_url attribute in the serialization' do
       expect(json.first['services_url']).
-        to eq("#{api_endpoint}/locations/#{@location.slug}/services")
+        to eq(api_location_services_url(@location))
     end
 
     it "doesn't include the location accessibility attribute" do
@@ -161,7 +161,7 @@ describe 'GET /organizations/:organization_id/locations' do
   context "when organization doesn't have locations" do
     before :each do
       org = create(:organization)
-      get api_endpoint(path: "/organizations/#{org.id}/locations")
+      get api_organization_locations_url(org, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns an empty array' do

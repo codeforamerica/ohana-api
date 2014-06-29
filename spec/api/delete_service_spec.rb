@@ -3,12 +3,9 @@ require 'rails_helper'
 describe 'DELETE /locations/:location_id/services/:id' do
   before :each do
     create_service
-    @service_id = @service.id
-    @id = @location.id
     delete(
-      api_endpoint(path: "/locations/#{@id}/services/#{@service_id}"),
-      {},
-      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      {}
     )
   end
 
@@ -22,7 +19,7 @@ describe 'DELETE /locations/:location_id/services/:id' do
   end
 
   it 'updates the search index' do
-    get api_endpoint(path: '/search?keyword=yoga')
+    get api_search_index_url(keyword: 'yoga', subdomain: ENV['API_SUBDOMAIN'])
     expect(json.size).to eq(0)
   end
 end
@@ -30,10 +27,8 @@ end
 describe 'with an invalid token' do
   before :each do
     create_service
-    @service_id = @service.id
-    @id = @location.id
     delete(
-      api_endpoint(path: "/locations/#{@id}/services/#{@service_id}"),
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
       {},
       'HTTP_X_API_TOKEN' => 'foo'
     )

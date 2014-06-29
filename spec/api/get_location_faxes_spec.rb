@@ -6,7 +6,7 @@ describe 'GET /locations/:location_id/faxes' do
       loc = create(:location)
       @first_fax = loc.faxes.
         create!(attributes_for(:fax))
-      get api_endpoint(path: "/locations/#{loc.id}/faxes")
+      get api_location_faxes_url(loc, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns a 200 status' do
@@ -29,7 +29,7 @@ describe 'GET /locations/:location_id/faxes' do
   context "when location doesn't have faxes" do
     before :each do
       loc = create(:location)
-      get api_endpoint(path: "/locations/#{loc.id}/faxes")
+      get api_location_faxes_url(loc, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns an empty array' do

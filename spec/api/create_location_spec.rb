@@ -15,9 +15,8 @@ describe 'Create a location (POST /locations/)' do
 
   it 'creates a location with valid attributes' do
     post(
-      api_endpoint(path: '/locations/'),
-      @required_attributes,
-      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
+      @required_attributes
     )
     expect(response.status).to eq(201)
     expect(json['name']).to eq(@required_attributes[:name])
@@ -25,27 +24,25 @@ describe 'Create a location (POST /locations/)' do
 
   it 'returns a limited payload after creation' do
     post(
-      api_endpoint(path: '/locations/'),
-      @required_attributes,
-      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
+      @required_attributes
     )
     expect(json.keys).to eq(%w(id name slug))
   end
 
   it 'returns a Location header with the URL to the new location' do
     post(
-      api_endpoint(path: '/locations/'),
-      @required_attributes,
-      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
+      @required_attributes
     )
-    expect(headers['Location']).to eq("#{api_endpoint}/locations/new-location")
+    expect(headers['Location']).
+      to eq(api_location_url('new-location', subdomain: ENV['API_SUBDOMAIN']))
   end
 
   it "doesn't create a location with invalid attributes" do
     post(
-      api_endpoint(path: '/locations/'),
-      { name: nil },
-      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
+      name: nil
     )
     expect(response.status).to eq(422)
     expect(json['errors'].first['name']).to eq(["can't be blank for Location"])
@@ -53,7 +50,7 @@ describe 'Create a location (POST /locations/)' do
 
   it "doesn't allow creating a location without a valid token" do
     post(
-      api_endpoint(path: '/locations/'),
+      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
       @required_attributes,
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )

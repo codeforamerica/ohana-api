@@ -4,15 +4,13 @@ describe 'POST /locations/:location_id/mail_address' do
   context 'when location does not already have an mail_address' do
     before(:each) do
       @loc = create(:nearby_loc)
-      @token = ENV['ADMIN_APP_TOKEN']
       @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
     end
 
     it 'creates an mail_address with valid attributes' do
       post(
-        api_endpoint(path: "/locations/#{@loc.id}/mail_address"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
       expect(response).to have_http_status(201)
       expect(json['street']).to eq(@attrs[:street])
@@ -20,19 +18,17 @@ describe 'POST /locations/:location_id/mail_address' do
 
     it 'creates the mail_address for the right location' do
       post(
-        api_endpoint(path: "/locations/#{@loc.id}/mail_address"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
-      get api_endpoint(path: "/locations/#{@loc.id}")
+      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['mail_address']['street']).to eq(@attrs[:street])
     end
 
     it "doesn't create an mail_address with invalid attributes" do
       post(
-        api_endpoint(path: "/locations/#{@loc.id}/mail_address"),
-        { street: nil },
-        'HTTP_X_API_TOKEN' => @token
+        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        street: nil
       )
       expect(response).to have_http_status(422)
       expect(json['errors'].first['street']).
@@ -41,7 +37,7 @@ describe 'POST /locations/:location_id/mail_address' do
 
     it "doesn't allow creating a mail_address without a valid token" do
       post(
-        api_endpoint(path: "/locations/#{@loc.id}/mail_address"),
+        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
         @attrs,
         'HTTP_X_API_TOKEN' => 'invalid_token'
       )
@@ -53,13 +49,11 @@ describe 'POST /locations/:location_id/mail_address' do
     before(:each) do
       @loc = create(:no_address)
       @mail_address = @loc.mail_address
-      @token = ENV['ADMIN_APP_TOKEN']
       @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
 
       post(
-        api_endpoint(path: "/locations/#{@loc.id}/mail_address"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
     end
 
@@ -68,7 +62,7 @@ describe 'POST /locations/:location_id/mail_address' do
     end
 
     it "doesn't change the location's current mail_address" do
-      get api_endpoint(path: "/locations/#{@loc.id}")
+      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['mail_address']['street']).to eq 'P.O Box 123'
     end
   end

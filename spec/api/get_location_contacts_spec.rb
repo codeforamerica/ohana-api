@@ -6,7 +6,7 @@ describe 'GET /locations/:location_id/contacts' do
       loc = create(:location)
       @first_contact = loc.contacts.
         create!(attributes_for(:contact_with_extra_whitespace))
-      get api_endpoint(path: "/locations/#{loc.id}/contacts")
+      get api_location_contacts_url(loc, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns a 200 status' do
@@ -45,7 +45,7 @@ describe 'GET /locations/:location_id/contacts' do
   context "when location doesn't have contacts" do
     before :each do
       loc = create(:location)
-      get api_endpoint(path: "/locations/#{loc.id}/contacts")
+      get api_location_contacts_url(loc, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns an empty array' do

@@ -28,15 +28,15 @@ Rails.application.routes.draw do
         resources :search, only: :index
         resources :categories, only: :index
         resources :organizations
-        put 'services/:service_id/categories' => 'services#update_categories'
-        get 'categories/:oe_id/children' => 'categories#children'
-        get 'locations/:location_id/nearby' => 'search#nearby'
-        get 'organizations/:organization_id/locations' => 'organizations#locations'
+        put 'services/:service_id/categories', to: 'services#update_categories', as: :service_categories
+        get 'categories/:oe_id/children', to: 'categories#children', as: :category_children
+        get 'locations/:location_id/nearby', to: 'search#nearby', as: :location_nearby
+        get 'organizations/:organization_id/locations', to: 'organizations#locations', as: :organization_locations
 
         match '*unmatched_route' => 'errors#raise_not_found!', via: [:get, :delete, :patch, :post, :put]
 
         # CORS support
-        match '*foo' => 'cors#render_204', via: [:options]
+        match '*unmatched_route' => 'cors#render_204', via: [:options]
       end
     end
   end

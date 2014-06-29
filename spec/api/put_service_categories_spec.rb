@@ -3,16 +3,14 @@ require 'rails_helper'
 describe 'PUT /services/:service_id/categories' do
   before(:each) do
     create_service
-    @token = ENV['ADMIN_APP_TOKEN']
     @food = Category.create!(name: 'Food', oe_id: '101')
   end
 
   context 'when the passed in oe_id exists' do
     it "updates a service's categories" do
       put(
-        api_endpoint(path: "/services/#{@service.id}/categories"),
-        { oe_ids: ['101'] },
-        'HTTP_X_API_TOKEN' => @token
+        api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
+        oe_ids: ['101']
       )
       expect(response).to be_success
       expect(json['categories'].first['name']).to eq('Food')
@@ -22,9 +20,8 @@ describe 'PUT /services/:service_id/categories' do
   context "when the passed in oe_id doesn't exist" do
     it 'ignores it' do
       put(
-        api_endpoint(path: "/services/#{@service.id}/categories"),
-        { oe_ids: ['102'] },
-        'HTTP_X_API_TOKEN' => @token
+        api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
+        oe_ids: ['102']
       )
       expect(response.status).to eq(200)
       expect(json['categories']).to eq([])
@@ -34,7 +31,7 @@ describe 'PUT /services/:service_id/categories' do
   context 'without a valid token' do
     it 'returns a 401 error' do
       put(
-        api_endpoint(path: "/services/#{@service.id}/categories"),
+        api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
         { oe_ids: ['101'] },
         'HTTP_X_API_TOKEN' => 'foo'
       )

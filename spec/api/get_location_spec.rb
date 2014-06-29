@@ -4,7 +4,7 @@ describe 'GET /locations/:id' do
   context 'with valid id' do
     before :each do
       create_service
-      get api_endpoint(path: "/locations/#{@location.id}")
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'includes the location id' do
@@ -51,7 +51,7 @@ describe 'GET /locations/:id' do
     end
 
     it 'includes the url attribute' do
-      expect(json['url']).to eq("#{api_endpoint}/locations/#{@location.slug}")
+      expect(json['url']).to eq(api_location_url(@location))
     end
 
     it 'includes the serialized address association' do
@@ -93,8 +93,8 @@ describe 'GET /locations/:id' do
     end
 
     it 'includes the serialized organization association' do
-      path = "#{api_endpoint}/organizations"
-      locations_url = "#{path}/#{@location.organization.slug}/locations"
+      org = @location.organization
+      locations_url = api_organization_locations_url(org)
 
       serialized_organization =
         {
@@ -102,7 +102,7 @@ describe 'GET /locations/:id' do
           'locations_url' => locations_url,
           'name'          => 'Parent Agency',
           'slug'          => 'parent-agency',
-          'url'           => "#{path}/#{@location.organization.slug}",
+          'url'           => api_organization_url(org),
           'urls'          => []
         }
 
@@ -111,7 +111,7 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized mail_address association' do
       @location.create_mail_address!(attributes_for(:mail_address))
-      get api_endpoint(path: "/locations/#{@location.id}")
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
 
       serialized_mail_address =
         {
@@ -127,7 +127,7 @@ describe 'GET /locations/:id' do
 
     it 'displays contacts when present' do
       @location.contacts.create!(attributes_for(:contact))
-      get api_endpoint(path: "/locations/#{@location.id}")
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['contacts']).
         to eq(
         [{
@@ -144,7 +144,7 @@ describe 'GET /locations/:id' do
 
     it 'displays faxes when present' do
       @location.faxes.create!(attributes_for(:fax))
-      get api_endpoint(path: "/locations/#{@location.id}")
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['faxes']).
         to eq(
         [{
@@ -157,7 +157,7 @@ describe 'GET /locations/:id' do
 
     it 'displays phones when present' do
       @location.phones.create!(attributes_for(:phone))
-      get api_endpoint(path: "/locations/#{@location.id}")
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['phones']).
         to eq(
         [{
@@ -183,7 +183,7 @@ describe 'GET /locations/:id' do
   context 'with invalid id' do
 
     before :each do
-      get api_endpoint(path: '/locations/1')
+      get api_location_url(1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns a status key equal to 404' do
@@ -211,7 +211,7 @@ describe 'GET /locations/:id' do
     end
 
     it 'returns nil fields when visiting one location' do
-      get api_endpoint(path: "/locations/#{@loc.id}")
+      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
       keys = json.keys
       %w(faxes admin_emails emails accessibility hours).each do |key|
         expect(keys).to include(key)

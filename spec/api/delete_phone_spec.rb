@@ -4,14 +4,12 @@ describe 'DELETE /locations/:location_id/phones/:id' do
   before(:each) do
     @loc = create(:location)
     @phone = @loc.phones.create!(attributes_for(:phone))
-    @token = ENV['ADMIN_APP_TOKEN']
   end
 
   it 'deletes the phone' do
     delete(
-      api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
-      {},
-      'HTTP_X_API_TOKEN' => @token
+      api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
+      {}
     )
     expect(@loc.reload.phones.count).to eq(0)
     expect(Phone.count).to eq(0)
@@ -19,16 +17,15 @@ describe 'DELETE /locations/:location_id/phones/:id' do
 
   it 'returns a 204 status' do
     delete(
-      api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
-      {},
-      'HTTP_X_API_TOKEN' => @token
+      api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
+      {}
     )
     expect(response).to have_http_status(204)
   end
 
   it "doesn't allow deleting a phone without a valid token" do
     delete(
-      api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
+      api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
       {},
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )

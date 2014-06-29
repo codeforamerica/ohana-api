@@ -3,52 +3,46 @@ require 'rails_helper'
 describe 'PATCH /locations/:location_id/services/:id' do
   before(:each) do
     create_service
-    @token = ENV['ADMIN_APP_TOKEN']
     @attrs = { name: 'New Service', description: 'Hot Meals' }
   end
 
   it 'returns 200 when validations pass' do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
-      @attrs,
-      'HTTP_X_API_TOKEN' => @token
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs
     )
     expect(response).to have_http_status(200)
   end
 
   it 'returns the updated service when validations pass' do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
-      @attrs,
-      'HTTP_X_API_TOKEN' => @token
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs
     )
     expect(json['name']).to eq 'New Service'
   end
 
   it "updates the location's service" do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
-      @attrs,
-      'HTTP_X_API_TOKEN' => @token
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs
     )
-    get api_endpoint(path: "/locations/#{@location.id}")
+    get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
     expect(json['services'].first['description']).to eq 'Hot Meals'
   end
 
   it "doesn't add a new service" do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
-      @attrs,
-      'HTTP_X_API_TOKEN' => @token
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs
     )
     expect(Service.count).to eq(1)
   end
 
   it 'requires a valid service id' do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/123"),
-      @attrs,
-      'HTTP_X_API_TOKEN' => @token
+      api_location_service_url(@location, 123, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs
     )
     expect(response.status).to eq(404)
     expect(json['message']).
@@ -57,9 +51,8 @@ describe 'PATCH /locations/:location_id/services/:id' do
 
   it 'returns 422 when attribute is invalid' do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
-      @attrs.merge!(service_areas: ['Belmont, CA']),
-      'HTTP_X_API_TOKEN' => @token
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs.merge!(service_areas: ['Belmont, CA'])
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
@@ -69,7 +62,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
 
   it "doesn't allow updating a service without a valid token" do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
       @attrs,
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
@@ -78,11 +71,10 @@ describe 'PATCH /locations/:location_id/services/:id' do
 
   it 'updates search index when service changes' do
     patch(
-      api_endpoint(path: "/locations/#{@location.id}/services/#{@service.id}"),
-      { description: 'fresh tunes for the soul' },
-      'HTTP_X_API_TOKEN' => @token
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      description: 'fresh tunes for the soul'
     )
-    get api_endpoint(path: '/search?keyword=yoga')
+    get api_search_index_url(keyword: 'yoga', subdomain: ENV['API_SUBDOMAIN'])
     expect(headers['X-Total-Count']).to eq '0'
   end
 end

@@ -12,9 +12,8 @@ describe 'POST /locations/:location_id/services' do
 
   it 'creates a service with valid attributes' do
     post(
-      api_endpoint(path: "/locations/#{@loc.id}/services"),
-      @service_attributes,
-      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+      api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      @service_attributes
     )
     expect(response.status).to eq(201)
     expect(json['fees']).to eq(@service_attributes[:fees])
@@ -22,9 +21,8 @@ describe 'POST /locations/:location_id/services' do
 
   it "doesn't create a service with invalid attributes" do
     post(
-      api_endpoint(path: "/locations/#{@loc.id}/services"),
-      { urls: ['belmont'] },
-      'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+      api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      urls: ['belmont']
     )
     expect(response.status).to eq(422)
     expect(json['errors'].first['urls']).to eq(['belmont is not a valid URL'])
@@ -32,7 +30,7 @@ describe 'POST /locations/:location_id/services' do
 
   it "doesn't allow creating a service without a valid token" do
     post(
-      api_endpoint(path: "/locations/#{@loc.id}/services"),
+      api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
       @service_attributes,
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )

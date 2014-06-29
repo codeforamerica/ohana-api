@@ -4,53 +4,47 @@ describe 'PATCH phone' do
   before(:each) do
     @loc = create(:location)
     @phone = @loc.phones.create!(attributes_for(:phone))
-    @token = ENV['ADMIN_APP_TOKEN']
     @attrs = { number: '123-456-7890', department: 'Director' }
   end
 
   describe 'PATCH /locations/:location_id/phones/:id' do
     it 'returns 200 when validations pass' do
       patch(
-        api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
       expect(response).to have_http_status(200)
     end
 
     it 'returns the updated phone when validations pass' do
       patch(
-        api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
       expect(json['department']).to eq 'Director'
     end
 
     it "updates the location's phone" do
       patch(
-        api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
-      get api_endpoint(path: "/locations/#{@loc.id}")
+      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['phones'].first['number']).to eq '123-456-7890'
     end
 
     it "doesn't add a new phone" do
       patch(
-        api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
       expect(Phone.count).to eq(1)
     end
 
     it 'requires a valid phone id' do
       patch(
-        api_endpoint(path: "/locations/#{@loc.id}/phones/123"),
-        @attrs,
-        'HTTP_X_API_TOKEN' => @token
+        api_location_phone_url(@loc, 123, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
       )
       expect(response.status).to eq(404)
       expect(json['message']).
@@ -59,9 +53,8 @@ describe 'PATCH phone' do
 
     it 'returns 422 when attribute is invalid' do
       patch(
-        api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
-        @attrs.merge!(number: '703'),
-        'HTTP_X_API_TOKEN' => @token
+        api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs.merge!(number: '703')
       )
       expect(response.status).to eq(422)
       expect(json['message']).to eq('Validation failed for resource.')
@@ -71,7 +64,7 @@ describe 'PATCH phone' do
 
     it "doesn't allow updating a phone without a valid token" do
       patch(
-        api_endpoint(path: "/locations/#{@loc.id}/phones/#{@phone.id}"),
+        api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
         @attrs,
         'HTTP_X_API_TOKEN' => 'invalid_token'
       )
