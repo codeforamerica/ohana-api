@@ -34,25 +34,22 @@ feature 'Signing in' do
   context 'with correct credentials' do
     before :each do
       valid_admin = create(:admin)
-      visit '/admin/sign_in'
-      within('#new_admin') do
-        fill_in 'admin_email',    with: valid_admin.email
-        fill_in 'admin_password', with: valid_admin.password
-      end
-      click_button 'Sign in'
+      sign_in_admin(valid_admin.email, valid_admin.password)
     end
 
-    it 'sets the current path to the admin root page' do
-      expect(current_path).to eq(admin_dashboard_path)
+    it 'sets the current path to the admin locations path' do
+      expect(current_path).to eq(admin_locations_path)
     end
 
-    xit "displays the admin's locations" do
+    it "displays the admin's locations" do
+      create(:location_for_org_admin)
+      visit '/admin/locations'
       expect(page).to have_content 'Below you should see a list'
-      expect(page).to have_content 'Samaritan House locations'
+      expect(page).to have_content 'Parent Agency locations'
     end
 
     it 'greets the admin by their name' do
-      expect(page).to have_content 'Welcome back, Test Admin!'
+      expect(page).to have_content 'Welcome back, Org Admin!'
     end
 
     it 'displays a success message' do
@@ -61,13 +58,13 @@ feature 'Signing in' do
   end
 
   scenario 'with invalid credentials' do
-    sign_in('hello@example.com', 'wrongpassword')
+    sign_in_admin('hello@example.com', 'wrongpassword')
     expect(page).to have_content 'Invalid email or password'
   end
 
-  scenario 'with an unconfirmed user' do
-    unconfirmed_user = create(:unconfirmed_user)
-    sign_in(unconfirmed_user.email, unconfirmed_user.password)
+  scenario 'with an unconfirmed admin' do
+    unconfirmed_admin = create(:unconfirmed_admin)
+    sign_in_admin(unconfirmed_admin.email, unconfirmed_admin.password)
     expect(page)
       .to have_content 'You have to confirm your account before continuing.'
   end

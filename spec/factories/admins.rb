@@ -1,11 +1,22 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :admin do
-    name 'Test Admin'
-    email 'admin@example.com'
+    name 'Org Admin'
+    email 'moncef@samaritanhouse.com'
     password 'ohanatest'
     password_confirmation 'ohanatest'
     confirmed_at Time.now
+
+    factory :super_admin do
+      name 'Super Admin'
+      super_admin true
+    end
+  end
+
+  factory :unconfirmed_admin, class: :admin do
+    name 'Unconfirmed admin'
+    email 'invalid@example.com'
+    password 'ohanatest'
+    password_confirmation 'ohanatest'
   end
 end

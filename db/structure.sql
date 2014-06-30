@@ -126,7 +126,8 @@ CREATE TABLE admins (
     confirmation_sent_at timestamp without time zone,
     unconfirmed_email character varying(255),
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    super_admin boolean DEFAULT false
 );
 
 
@@ -1073,4 +1074,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140508194831');
 INSERT INTO schema_migrations (version) VALUES ('20140522153640');
 
 INSERT INTO schema_migrations (version) VALUES ('20140629181523');
+
+INSERT INTO schema_migrations (version) VALUES ('20140630171418');
 

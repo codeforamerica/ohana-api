@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'dashboard#index', as: :dashboard
+    resources :locations, except: :show
+    get 'locations/:id', to: 'admin/locations#edit'
   end
   devise_for :admins, path: 'admin', controllers: { registrations: 'admin/registrations' }
 

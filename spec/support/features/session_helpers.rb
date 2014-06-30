@@ -7,6 +7,11 @@ module Features
       login_as(@admin, scope: :admin)
     end
 
+    def login_super_admin
+      @super_admin = FactoryGirl.create(:super_admin)
+      login_as(@super_admin, scope: :admin)
+    end
+
     def login_user
       user = FactoryGirl.create(:user)
       login_as(user, scope: :user)
@@ -17,6 +22,15 @@ module Features
       within('#new_user') do
         fill_in 'Email',    with: email
         fill_in 'Password', with: password
+      end
+      click_button 'Sign in'
+    end
+
+    def sign_in_admin(email, password)
+      visit '/admin/sign_in'
+      within('#new_admin') do
+        fill_in 'admin_email',    with: email
+        fill_in 'admin_password', with: password
       end
       click_button 'Sign in'
     end
