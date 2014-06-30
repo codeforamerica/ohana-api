@@ -2,6 +2,16 @@ module Features
   # Helper methods you can use in specs to perform common and
   # repetitive actions.
   module SessionHelpers
+    def login_admin
+      @admin = FactoryGirl.create(:admin)
+      login_as(@admin, scope: :admin)
+    end
+
+    def login_user
+      user = FactoryGirl.create(:user)
+      login_as(user, scope: :user)
+    end
+
     def sign_in(email, password)
       visit '/users/sign_in'
       within('#new_user') do
@@ -17,6 +27,15 @@ module Features
       fill_in 'user_email',                 with: email
       fill_in 'user_password',              with: password
       fill_in 'user_password_confirmation', with: confirmation
+      click_button 'Sign up'
+    end
+
+    def sign_up_admin(name, email, password, confirmation)
+      visit '/admin/sign_up'
+      fill_in 'admin_name',                  with: name
+      fill_in 'admin_email',                 with: email
+      fill_in 'admin_password',              with: password
+      fill_in 'admin_password_confirmation', with: confirmation
       click_button 'Sign up'
     end
 

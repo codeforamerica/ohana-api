@@ -10,6 +10,11 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  namespace :admin do
+    root to: 'dashboard#index', as: :dashboard
+  end
+  devise_for :admins, path: 'admin', controllers: { registrations: 'admin/registrations' }
+
   resources :api_applications, except: :show
   get 'api_applications/:id' => 'api_applications#edit'
 

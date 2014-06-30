@@ -25,3 +25,11 @@
   -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
   box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
+
+// creates styles for text in the navbar that is not a link
+.navbar .nav > li > span
+{
+  padding: 10px 15px 10px;
+  color:#DE9292;
+  display:block;
+}

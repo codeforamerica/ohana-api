@@ -1,0 +1,9 @@
+- if admin_signed_in?
+  %p
+    Welcome back, #{@admin.name}!
+- else
+  %p
+    = t("titles.welcome", :brand => t("titles.brand"))
+  %p
+    To get started, please #{link_to "sign in", new_admin_session_path}, or #{link_to "sign up", new_admin_registration_path} for an account. When you sign up, please make sure to use your work email address.
+

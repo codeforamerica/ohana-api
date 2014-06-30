@@ -22,6 +22,32 @@ feature 'Visit home page after signing in' do
     Warden.test_reset!
   end
 
+  it 'includes a link to the Docs page in the navigation' do
+    within '.navbar' do
+      expect(page).to have_link 'Docs', href: docs_path
+    end
+  end
+
+  it 'includes a link to the Home page in the navigation' do
+    within '.navbar' do
+      expect(page).to have_link 'Home', href: root_path
+    end
+  end
+
+  it 'includes a link to sign out in the navigation' do
+    within '.navbar' do
+      expect(page).
+        to have_link 'Sign out', href: destroy_user_session_path
+    end
+  end
+
+  it 'includes a link to the Edit Account page in the navigation' do
+    within '.navbar' do
+      expect(page).
+        to have_link 'Edit account', href: edit_user_registration_path
+    end
+  end
+
   scenario "click 'create a new application' link" do
     click_link 'Create a new application'
     expect(page).to have_content 'Register a new application'

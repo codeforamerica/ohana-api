@@ -24,6 +24,18 @@ class ApplicationController < ActionController::Base
     rescue_from Exceptions::InvalidLatLon, with: :render_invalid_lat_lon
   end
 
+  def after_sign_in_path_for(resource)
+    return root_url if resource.is_a?(User)
+    return admin_dashboard_path if resource.is_a?(Admin)
+  end
+
+  def after_sign_out_path_for(resource)
+    return root_path if resource == :user
+    return admin_dashboard_path if resource == :admin
+  end
+
+  layout :layout_by_resource
+
   private
 
   def missing_template(exception)
@@ -89,5 +101,15 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
+  end
+
+  def layout_by_resource
+    if devise_controller? && resource_name == :user
+      'application'
+    elsif devise_controller? && resource_name == :admin
+      'admin'
+    else
+      'application'
+    end
   end
 end
