@@ -1,9 +1,17 @@
 require 'rails_helper'
 
 describe 'PATCH /organizations/:id' do
-  before(:each) do
+  before(:all) do
     loc_with_org = create(:location)
     @org = loc_with_org.organization
+  end
+
+  before(:each) do
+    @org.reload
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'returns 200 when validations pass' do
@@ -73,11 +81,8 @@ describe 'PATCH /organizations/:id' do
     get api_search_index_url(keyword: 'america', subdomain: ENV['API_SUBDOMAIN'])
     expect(json.first['organization']['name']).to eq('Code for America')
   end
-end
 
-describe 'Update a organization without a valid token' do
   it "doesn't allow updating an organization without a valid token" do
-    @org = create(:organization)
     patch(
       api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
       { name: 'new name' },
@@ -86,12 +91,6 @@ describe 'Update a organization without a valid token' do
     expect(response.status).to eq(401)
     expect(json['message']).
       to eq('This action requires a valid X-API-Token header.')
-  end
-end
-
-describe "Update an organization's slug" do
-  before(:each) do
-    @org = create(:organization)
   end
 
   it 'is accessible by its old slug' do

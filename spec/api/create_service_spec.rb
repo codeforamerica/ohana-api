@@ -1,13 +1,20 @@
 require 'rails_helper'
 
 describe 'POST /locations/:location_id/services' do
-  before(:each) do
+  before(:all) do
     @loc = create(:location)
+  end
+
+  before(:each) do
     @service_attributes = {
       fees: 'new fees',
       audience: 'new audience',
       keywords: %w(food youth)
     }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'creates a service with valid attributes' do

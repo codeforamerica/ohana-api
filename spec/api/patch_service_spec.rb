@@ -1,9 +1,16 @@
 require 'rails_helper'
 
 describe 'PATCH /locations/:location_id/services/:id' do
-  before(:each) do
+  before(:all) do
     create_service
+  end
+
+  before(:each) do
     @attrs = { name: 'New Service', description: 'Hot Meals' }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'returns 200 when validations pass' do

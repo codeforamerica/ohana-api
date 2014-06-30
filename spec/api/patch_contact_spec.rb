@@ -1,10 +1,17 @@
 require 'rails_helper'
 
 describe 'PATCH contact' do
-  before(:each) do
+  before(:all) do
     @loc = create(:location)
     @contact = @loc.contacts.create!(attributes_for(:contact))
+  end
+
+  before(:each) do
     @attrs = { name: 'Moncef', title: 'Consultant', email: 'bar@foo.com' }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   describe 'PATCH /locations/:location_id/contacts/:id' do

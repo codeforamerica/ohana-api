@@ -9,9 +9,13 @@ describe 'GET /organizations' do
   end
 
   context 'when more than one location exists' do
-    before(:each) do
+    before(:all) do
       create(:organization)
       create(:food_pantry)
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns the correct number of existing organizations' do
@@ -32,10 +36,18 @@ describe 'GET /organizations' do
   end
 
   describe 'serializations' do
-    before(:each) do
+    before(:all) do
       location = create(:location)
       @org = location.organization
+    end
+
+    before(:each) do
+      @org.reload
       get api_organizations_url(subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns the org id' do

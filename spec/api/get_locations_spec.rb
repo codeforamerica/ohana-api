@@ -9,9 +9,13 @@ describe 'GET /locations' do
   end
 
   context 'when more than one location exists' do
-    before(:each) do
+    before(:all) do
       create(:location)
       create(:nearby_loc)
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns the correct number of existing locations' do
@@ -33,9 +37,16 @@ describe 'GET /locations' do
   end
 
   describe 'serializations' do
-    before(:each) do
+    before(:all) do
       @location = create(:location)
+    end
+
+    before(:each) do
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'includes the location id' do
@@ -220,8 +231,12 @@ describe 'GET /locations' do
 
   context 'with nil fields' do
 
-    before(:each) do
+    before(:all) do
       @loc = create(:loc_with_nil_fields)
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns nil fields within Location' do

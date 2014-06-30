@@ -1,10 +1,14 @@
 require 'rails_helper'
 
 describe "GET 'nearby'" do
-  before :each do
+  before :all do
     @loc = create(:location)
     create(:nearby_loc)
     create(:far_loc)
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'is paginated' do

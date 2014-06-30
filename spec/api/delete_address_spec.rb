@@ -1,9 +1,17 @@
 require 'rails_helper'
 
 describe 'DELETE /locations/:location/address/:id' do
-  before(:each) do
+  before(:all) do
     @loc = create(:location)
+  end
+
+  before(:each) do
+    @loc.reload
     @address = @loc.address
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'deletes the address' do

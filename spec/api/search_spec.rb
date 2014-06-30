@@ -18,9 +18,16 @@ describe "GET 'search'" do
   end
 
   context 'with valid keyword only' do
-    before :each do
+    before :all do
       @locations = create_list(:farmers_market_loc, 2)
+    end
+
+    before :each do
       get api_search_index_url(keyword: 'market', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns a successful status code' do
@@ -48,110 +55,176 @@ describe "GET 'search'" do
     end
   end
 
-  context 'with invalid radius' do
-    before :each do
+  describe 'specs that depend on :farmers_market_loc factory' do
+    before(:all) do
+      create(:farmers_market_loc)
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
+    end
+
+    context 'with radius too small but within range' do
+      it 'returns the farmers market name' do
+        get api_search_index_url(location: 'la honda, ca', radius: 0.05, subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.first['name']).to eq('Belmont Farmers Market')
+      end
+    end
+
+    context 'with radius too big but within range' do
+      it 'returns the farmers market name' do
+        get api_search_index_url(location: 'san gregorio, ca', radius: 50, subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.first['name']).to eq('Belmont Farmers Market')
+      end
+    end
+
+    context 'with radius not within range' do
+      it 'returns an empty response array' do
+        get api_search_index_url(location: 'pescadero, ca', radius: 5, subdomain: ENV['API_SUBDOMAIN'])
+        expect(json).to eq([])
+      end
+    end
+
+    context 'with invalid zip' do
+      it 'returns no results' do
+        get api_search_index_url(location: '00000', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.length).to eq 0
+      end
+    end
+
+    context 'with invalid location' do
+      it 'returns no results' do
+        get api_search_index_url(location: '94403ab', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.length).to eq 0
+      end
+    end
+  end
+
+  describe 'specs that depend on :location factory' do
+    before(:all) do
       create(:location)
-      get api_search_index_url(location: '94403', radius: 'ads', subdomain: ENV['API_SUBDOMAIN'])
     end
 
-    it 'returns a 400 status code' do
-      expect(response.status).to eq(400)
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
-    it 'is json' do
-      expect(response.content_type).to eq('application/json')
+    context 'with invalid radius' do
+      before :each do
+        get api_search_index_url(location: '94403', radius: 'ads', subdomain: ENV['API_SUBDOMAIN'])
+      end
+
+      it 'returns a 400 status code' do
+        expect(response.status).to eq(400)
+      end
+
+      it 'is json' do
+        expect(response.content_type).to eq('application/json')
+      end
+
+      it 'includes an error description' do
+        expect(json['description']).to eq('Radius must be a Float between 0.1 and 50.')
+      end
     end
 
-    it 'includes an error description' do
-      expect(json['description']).to eq('Radius must be a Float between 0.1 and 50.')
-    end
-  end
+    context 'with invalid lat_lng parameter' do
+      before :each do
+        get api_search_index_url(lat_lng: '37.6856578-122.4138119', subdomain: ENV['API_SUBDOMAIN'])
+      end
 
-  context 'with radius too small but within range' do
-    it 'returns the farmers market name' do
-      create(:farmers_market_loc)
-      get api_search_index_url(location: 'la honda, ca', radius: 0.05, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.first['name']).to eq('Belmont Farmers Market')
-    end
-  end
+      it 'returns a 400 status code' do
+        expect(response.status).to eq 400
+      end
 
-  context 'with radius too big but within range' do
-    it 'returns the farmers market name' do
-      create(:farmers_market_loc)
-      get api_search_index_url(location: 'san gregorio, ca', radius: 50, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.first['name']).to eq('Belmont Farmers Market')
-    end
-  end
-
-  context 'with radius not within range' do
-    it 'returns an empty response array' do
-      create(:farmers_market_loc)
-      get api_search_index_url(location: 'pescadero, ca', radius: 5, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json).to eq([])
-    end
-  end
-
-  context 'with invalid zip' do
-    it 'returns no results' do
-      create(:farmers_market_loc)
-      get api_search_index_url(location: '00000', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.length).to eq 0
-    end
-  end
-
-  context 'with invalid location' do
-    it 'returns no results' do
-      create(:farmers_market_loc)
-      get api_search_index_url(location: '94403ab', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.length).to eq 0
-    end
-  end
-
-  context 'with invalid lat_lng parameter' do
-    before :each do
-      create(:location)
-      get api_search_index_url(lat_lng: '37.6856578-122.4138119', subdomain: ENV['API_SUBDOMAIN'])
+      it 'includes an error description' do
+        expect(json['description']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
+      end
     end
 
-    it 'returns a 400 status code' do
-      expect(response.status).to eq 400
+    context 'with invalid (non-numeric) lat_lng parameter' do
+      before :each do
+        get api_search_index_url(lat_lng: 'Apple,Pear', subdomain: ENV['API_SUBDOMAIN'])
+      end
+
+      it 'returns a 400 status code' do
+        expect(response.status).to eq 400
+      end
+
+      it 'includes an error description' do
+        expect(json['description']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
+      end
     end
 
-    it 'includes an error description' do
-      expect(json['description']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
-    end
-  end
+    context 'with plural version of keyword' do
+      it "finds the plural occurrence in location's name field" do
+        get api_search_index_url(keyword: 'services', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.first['name']).to eq('VRS Services')
+      end
 
-  context 'with invalid (non-numeric) lat_lng parameter' do
-    before :each do
-      create(:location)
-      get api_search_index_url(lat_lng: 'Apple,Pear', subdomain: ENV['API_SUBDOMAIN'])
-    end
-
-    it 'returns a 400 status code' do
-      expect(response.status).to eq 400
+      it "finds the plural occurrence in location's description field" do
+        get api_search_index_url(keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.first['description']).to eq('Provides jobs training')
+      end
     end
 
-    it 'includes an error description' do
-      expect(json['description']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
+    context 'with singular version of keyword' do
+      it "finds the plural occurrence in location's name field" do
+        get api_search_index_url(keyword: 'service', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.first['name']).to eq('VRS Services')
+      end
+
+      it "finds the plural occurrence in location's description field" do
+        get api_search_index_url(keyword: 'job', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.first['description']).to eq('Provides jobs training')
+      end
     end
   end
 
-  context 'when keyword only matches one location' do
-    it 'only returns 1 result' do
+  describe 'specs that depend on :location and :nearby_loc' do
+    before(:all) do
       create(:location)
       create(:nearby_loc)
-      get api_search_index_url(keyword: 'library', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.length).to eq(1)
     end
-  end
 
-  context "when keyword doesn't match anything" do
-    it 'returns no results' do
-      create(:location)
-      create(:nearby_loc)
-      get api_search_index_url(keyword: 'blahab', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.length).to eq(0)
+    after(:all) do
+      Organization.find_each(&:destroy)
+    end
+
+    context 'when keyword only matches one location' do
+      it 'only returns 1 result' do
+        get api_search_index_url(keyword: 'library', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.length).to eq(1)
+      end
+    end
+
+    context "when keyword doesn't match anything" do
+      it 'returns no results' do
+        get api_search_index_url(keyword: 'blahab', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.length).to eq(0)
+      end
+    end
+
+    context 'with language parameter' do
+      it 'finds organizations that match the language' do
+        get api_search_index_url(keyword: 'library', language: 'arabic', subdomain: ENV['API_SUBDOMAIN'])
+        expect(json.first['name']).to eq('Library')
+      end
+    end
+
+    context 'with keyword and location parameters' do
+      it 'only returns locations matching both parameters' do
+        get api_search_index_url(keyword: 'books', location: 'Burlingame', subdomain: ENV['API_SUBDOMAIN'])
+        expect(headers['X-Total-Count']).to eq '1'
+        expect(json.first['name']).to eq('Library')
+      end
+    end
+
+    context 'when keyword parameter has multiple words' do
+      it 'only returns locations matching all words' do
+        get api_search_index_url(keyword: 'library books jobs', subdomain: ENV['API_SUBDOMAIN'])
+        expect(headers['X-Total-Count']).to eq '1'
+        expect(json.first['name']).to eq('Library')
+      end
     end
   end
 
@@ -164,28 +237,7 @@ describe "GET 'search'" do
     end
   end
 
-  context 'with language parameter' do
-    it 'finds organizations that match the language' do
-      create(:location)
-      create(:nearby_loc)
-      get api_search_index_url(keyword: 'library', language: 'arabic', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.first['name']).to eq('Library')
-    end
-  end
-
   context 'with singular version of keyword' do
-    it "finds the plural occurrence in location's name field" do
-      create(:location)
-      get api_search_index_url(keyword: 'service', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.first['name']).to eq('VRS Services')
-    end
-
-    it "finds the plural occurrence in location's description field" do
-      create(:location)
-      get api_search_index_url(keyword: 'job', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.first['description']).to eq('Provides jobs training')
-    end
-
     it 'finds the plural occurrence in organization name field' do
       create(:nearby_loc)
       get api_search_index_url(keyword: 'food stamp', subdomain: ENV['API_SUBDOMAIN'])
@@ -200,18 +252,6 @@ describe "GET 'search'" do
   end
 
   context 'with plural version of keyword' do
-    it "finds the plural occurrence in location's name field" do
-      create(:location)
-      get api_search_index_url(keyword: 'services', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.first['name']).to eq('VRS Services')
-    end
-
-    it "finds the plural occurrence in location's description field" do
-      create(:location)
-      get api_search_index_url(keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(json.first['description']).to eq('Provides jobs training')
-    end
-
     it 'finds the plural occurrence in organization name field' do
       create(:nearby_loc)
       get api_search_index_url(keyword: 'food stamps', subdomain: ENV['API_SUBDOMAIN'])
@@ -301,30 +341,6 @@ describe "GET 'search'" do
       get api_search_index_url(org_name: 'Food+Pantry', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq('Soup Kitchen')
-    end
-  end
-
-  context 'with keyword and location parameters' do
-    before(:each) do
-      create(:nearby_loc)
-      create(:location)
-    end
-    it 'only returns locations matching both parameters' do
-      get api_search_index_url(keyword: 'books', location: 'Burlingame', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '1'
-      expect(json.first['name']).to eq('Library')
-    end
-  end
-
-  context 'when keyword parameter has multiple words' do
-    before(:each) do
-      create(:nearby_loc)
-      create(:location)
-    end
-    it 'only returns locations matching all words' do
-      get api_search_index_url(keyword: 'library books jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '1'
-      expect(json.first['name']).to eq('Library')
     end
   end
 

@@ -2,9 +2,16 @@ require 'rails_helper'
 
 describe 'GET /organizations/:id' do
   context 'with valid id' do
-    before :each do
+    before :all do
       @org = create(:location).organization
+    end
+
+    before :each do
       get api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'includes the organization id' do

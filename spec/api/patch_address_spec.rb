@@ -1,10 +1,17 @@
 require 'rails_helper'
 
 describe 'PATCH address' do
-  before(:each) do
+  before(:all) do
     @loc = create(:location)
+  end
+
+  before(:each) do
     @address = @loc.address
     @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   describe 'PATCH /locations/:location_id/address/:id' do

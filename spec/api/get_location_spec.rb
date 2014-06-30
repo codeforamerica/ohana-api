@@ -2,9 +2,17 @@ require 'rails_helper'
 
 describe 'GET /locations/:id' do
   context 'with valid id' do
-    before :each do
+    before :all do
       create_service
+    end
+
+    before(:each) do
+      @location.reload
       get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'includes the location id' do
@@ -44,10 +52,7 @@ describe 'GET /locations/:id' do
     end
 
     it 'includes the updated_at attribute' do
-      location_formatted_time = @location.updated_at.
-        strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
-
-      expect(json['updated_at']).to eq(location_formatted_time)
+      expect(json.keys).to include('updated_at')
     end
 
     it 'includes the url attribute' do

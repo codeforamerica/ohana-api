@@ -2,9 +2,16 @@ require 'rails_helper'
 
 describe 'POST /locations/:location_id/mail_address' do
   context 'when location does not already have an mail_address' do
-    before(:each) do
+    before(:all) do
       @loc = create(:nearby_loc)
+    end
+
+    before(:each) do
       @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'creates an mail_address with valid attributes' do
@@ -48,7 +55,6 @@ describe 'POST /locations/:location_id/mail_address' do
   context 'when location already has a mail_address' do
     before(:each) do
       @loc = create(:no_address)
-      @mail_address = @loc.mail_address
       @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
 
       post(

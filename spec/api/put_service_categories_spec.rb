@@ -1,9 +1,14 @@
 require 'rails_helper'
 
 describe 'PUT /services/:service_id/categories' do
-  before(:each) do
+  before(:all) do
     create_service
     @food = Category.create!(name: 'Food', oe_id: '101')
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
+    Category.find_each(&:destroy)
   end
 
   context 'when the passed in oe_id exists' do

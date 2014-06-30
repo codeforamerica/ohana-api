@@ -2,11 +2,18 @@ require 'rails_helper'
 
 describe 'GET /locations/:location_id/services' do
   context 'when location has services' do
-    before :each do
-      loc = create(:location)
-      @first_service = loc.services.
+    before :all do
+      @loc = create(:location)
+      @first_service = @loc.services.
         create!(attributes_for(:service_with_extra_whitespace))
-      get api_location_services_url(loc, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    before :each do
+      get api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns a 200 status' do
