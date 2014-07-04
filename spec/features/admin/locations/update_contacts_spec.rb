@@ -92,6 +92,10 @@ feature 'Update contacts' do
     visit '/admin/locations/vrs-services'
   end
 
+  after(:all) do
+    Organization.find_each(&:destroy)
+  end
+
   scenario 'with an empty name' do
     update_contact(name: '')
     click_button 'Save changes'
