@@ -1,0 +1,7 @@
+%div.inst-box
+  %header
+    = f.label :transportation, 'Transportation Options'
+    %span.desc
+      What public transportation options are nearby? (Bus stops, train stations, etc.)
+  %p
+    = f.text_area :transportation, class: 'span9', maxlength: 255

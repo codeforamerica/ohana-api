@@ -1,0 +1,12 @@
+%div.inst-box
+  %header
+    %strong
+      Contacts
+    %p.desc
+      Who are the main points of contact at the location?
+  = field_set_tag nil, id: 'contacts' do
+    = f.fields_for :contacts do |builder|
+      = render 'admin/locations/forms/contact_fields', f: builder
+      = link_to "Delete this contact permanently", '#', class: "btn btn-danger delete_association"
+      %p
+    = link_to_add_fields 'Add a contact', f, :contacts

@@ -7,6 +7,10 @@ module Features
       login_as(@admin, scope: :admin)
     end
 
+    def login_as_admin(admin)
+      login_as(admin, scope: :admin)
+    end
+
     def login_super_admin
       @super_admin = FactoryGirl.create(:super_admin)
       login_as(@super_admin, scope: :admin)

@@ -67,6 +67,7 @@ end
 group :test do
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'capybara'
+  gem 'poltergeist'
   gem 'shoulda-matchers', require: false
   gem 'coveralls', require: false
   gem 'rubocop'

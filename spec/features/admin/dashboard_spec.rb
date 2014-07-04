@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 feature 'Admin Home page' do
-  include Warden::Test::Helpers
-
   context 'when not signed in' do
     before :each do
       visit '/admin'
@@ -55,13 +53,8 @@ feature 'Admin Home page' do
 
   context 'when signed in' do
     before :each do
-      Warden.test_mode!
       login_admin
       visit '/admin'
-    end
-
-    after :each do
-      Warden.test_reset!
     end
 
     it 'greets the admin by their name' do

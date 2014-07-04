@@ -2,6 +2,7 @@ module Api
   module V1
     class SearchController < ApplicationController
       include PaginationHeaders
+      include CustomErrors
 
       def index
         locations = Location.text_search(params).uniq.page(params[:page]).

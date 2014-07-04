@@ -19,4 +19,12 @@ FactoryGirl.define do
     password 'ohanatest'
     password_confirmation 'ohanatest'
   end
+
+  factory :admin_with_generic_email, class: :admin do
+    name 'Generic User'
+    email 'moncef@gmail.com'
+    password 'ohanatest'
+    password_confirmation 'ohanatest'
+    confirmed_at Time.now
+  end
 end

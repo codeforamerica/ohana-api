@@ -15,15 +15,14 @@
  */
 
 .content {
-  background-color: #eee;
+  background-color: #fff;
   padding: 20px;
   margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
   -webkit-border-radius: 0 0 6px 6px;
   -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  font-size: 16px;
+  line-height: 1.428;
 }
 
 // creates styles for text in the navbar that is not a link
@@ -32,4 +31,146 @@
   padding: 10px 15px 10px;
   color:#DE9292;
   display:block;
+}
+
+.content-box
+{
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+
+  border:1px solid #DE9292;
+  margin-bottom:10px;
+  padding:20px;
+
+  h1
+  {
+    color:#DE9292;
+    font-size:14px;
+    margin:0;
+    padding:0;
+    text-transform: uppercase;
+  }
+}
+
+.inst-box
+{
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+
+  border:1px solid #C8D4E8;
+  margin-bottom:20px;
+  header
+  {
+  background:#cbe0f3;
+  margin-bottom:10px;
+  padding:10px;
+
+    .desc
+    {
+      font-size:14px;
+      display:inline;
+
+      em
+      {
+        color:#b5121b;
+      }
+    }
+    label {font-weight: bold; font-size:16px;}
+  }
+  input
+  {
+    margin:0px 10px 20px 0px;
+  }
+
+  p
+  {
+    padding:10px;
+  }
+  fieldset
+  {
+    padding:10px;
+  }
+}
+
+#categories, #accessibility
+{
+  ul {list-style-type: none; margin-left:15px;}
+  li {vertical-align:middle;}
+  input {height:20px;width:20px;margin-right:5px;margin-bottom:0px;display:inline-block;}
+  label {display:inline-block;vertical-align:middle;width:220px;margin-top:7px;}
+}
+
+// margin added to accommodate for floating footer
+// This needs to be added to the last form element before the save button
+.edit_location
+{
+  margin-bottom: 60px;
+}
+
+.danger-zone
+{
+  border:1px solid #DE9292;
+  margin-bottom:20px;
+  color:white;
+
+  header
+  {
+    background:#df3e3e;
+    margin-bottom:10px;
+    padding:10px;
+  }
+
+  p
+  {
+    padding:10px;
+    color: #000000;
+  }
+
+  h4
+  {
+    font-weight: bold;
+    color: #000000;
+    padding:10px 0 0 10px;
+  }
+}
+
+a.boxed-action,a.boxed-action:link,a.boxed-action:visited
+{
+  display:inline-block;
+  color: #df3e3e;
+  border:1px solid #C8E8CA;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #fcfcfc;
+  text-decoration:none;
+}
+
+a.boxed-action:hover, a.boxed-action:active
+{
+  background-color: #df3e3e;
+  color: #fff;
+}
+
+.save-box
+{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  text-align:center;
+
+  input
+  {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+  p
+  {
+    display:inline-block;
+    margin-top:20px;
+    margin-right:20px;
+    margin-bottom:0px;
+  }
 }

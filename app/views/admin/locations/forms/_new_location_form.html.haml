@@ -1,0 +1,23 @@
+- if @location.errors.any?
+  .alert.alert-danger
+    %h2= "#{pluralize(@location.errors.count, "error")} prohibited this location from being saved:"
+    %ul
+      - @location.errors.full_messages.each do |msg|
+        %li= msg
+
+= render 'admin/locations/forms/location_name', f: f
+= render 'admin/locations/forms/admin_emails', f: f
+= render 'admin/locations/forms/description', f: f
+= render 'admin/locations/forms/short_desc', f: f
+= render 'admin/locations/forms/address', f: f
+= render 'admin/locations/forms/mail_address', f: f
+= render 'admin/locations/forms/contacts', f: f
+= render 'admin/locations/forms/urls', f: f, location_url: @location_url
+= f.hidden_field :organization_id, value: @org.id
+
+%div.save-box.navbar-inner
+  %p
+    = 'Creating location for'
+    %strong
+      = @org.name
+  = f.submit 'Create location', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }

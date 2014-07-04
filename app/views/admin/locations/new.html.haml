@@ -1,0 +1,5 @@
+%div.content-box
+  %h1 Create a new location
+
+= form_for [:admin, @location], url: admin_locations_path, :html => {:method => :post} do |f|
+  = render 'admin/locations/forms/new_location_form', f: f

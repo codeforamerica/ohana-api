@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 feature 'Locations page' do
-  include Warden::Test::Helpers
-
   context 'when not signed in' do
     before :each do
       visit '/admin/locations'
@@ -44,13 +42,8 @@ feature 'Locations page' do
 
   context 'when signed in' do
     before :each do
-      Warden.test_mode!
       login_admin
       visit '/admin/locations'
-    end
-
-    after :each do
-      Warden.test_reset!
     end
 
     it 'displays instructions for editing locations' do
@@ -111,13 +104,8 @@ feature 'Locations page' do
 
   context 'when signed in as super admin' do
     before :each do
-      Warden.test_mode!
       login_super_admin
       visit '/admin/locations'
-    end
-
-    after :each do
-      Warden.test_reset!
     end
 
     it 'displays instructions for editing locations' do

@@ -28,5 +28,8 @@ Style/ClassLength:
   CountComments: false
   Max: 100
 
+Style/GuardClause:
+  MinBodyLength: 3
+
 Rails/HasAndBelongsToMany:
   Enabled: false

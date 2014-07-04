@@ -8,6 +8,11 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'shoulda/matchers'
 
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+Rails.logger.level = 4
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -23,31 +28,9 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
+  config.include Features::FormHelpers, type: :feature
   config.include Requests::RequestHelpers, type: :request
   config.include DefaultHeaders, type: :request
-
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-    Bullet.start_request if Bullet.enable?
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-    Bullet.end_request if Bullet.enable?
-  end
-
-  # config.after(:all) do
-  #   DatabaseCleaner.clean_with(:truncation)
-  #   Bullet.end_request if Bullet.enable?
-  # end
 
   # rspec-rails 3+ will no longer automatically infer an example group's spec
   # type from the file location. You can explicitly opt-in to this feature by
@@ -60,11 +43,6 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  # config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
   # require 'active_record_spec_helper'
-
-  # If true, the base class of anonymous controllers will be inferred
-  # automatically. This will be the default behavior in future versions of
-  # rspec-rails.
-  # config.infer_base_class_for_anonymous_controllers = false
 end

@@ -3,6 +3,7 @@ module Api
     class LocationsController < ApplicationController
       include TokenValidator
       include PaginationHeaders
+      include CustomErrors
 
       def index
         locations = Location.includes(:organization, :address, :phones).

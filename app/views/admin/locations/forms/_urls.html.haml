@@ -1,0 +1,19 @@
+%div.inst-box
+  %header
+    %strong
+      Websites
+    %p.desc
+      What websites are associated with the location?
+      %em
+        Must include "http://" or "https://"
+  = field_set_tag nil, id: 'urls' do
+    - if f.object.new_record?
+      = url_field_tag "location[urls][]", @location_url, class: 'span9'
+    - elsif @location.urls.present?
+      - @location.urls.each_with_index do |url, i|
+        = url_field_tag 'location[urls][]', url, class: 'span9', id: "location_urls_#{i}"
+        %br
+        = link_to "Delete this website permanently", '#', class: "btn btn-danger delete_attribute"
+        %p
+    = link_to_add_array_fields 'Add a website', :url
+

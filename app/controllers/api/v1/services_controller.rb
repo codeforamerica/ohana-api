@@ -2,6 +2,7 @@ module Api
   module V1
     class ServicesController < ApplicationController
       include TokenValidator
+      include CustomErrors
 
       before_action :validate_token!, only: [:update, :destroy, :create, :update_categories]
 
