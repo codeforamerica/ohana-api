@@ -10,10 +10,10 @@ module Search
       if loc.present?
         result = Geocoder.search(loc, bounds: SETTINGS[:bounds])
         coords = result.first.coordinates if result.present?
-        near(coords, validated_radius(r))
+        near(coords, validated_radius(r, 5))
       elsif lat_lng.present?
         coords = validated_coordinates(lat_lng)
-        near(coords, validated_radius(r))
+        near(coords, validated_radius(r, 5))
       end
     end)
 
@@ -62,8 +62,8 @@ module Search
               has_keyword(params[:keyword])
     end
 
-    def validated_radius(radius)
-      return 5 unless radius.present?
+    def validated_radius(radius, custom_radius)
+      return custom_radius unless radius.present?
       if radius.to_f == 0.0
         fail Exceptions::InvalidRadius
       else

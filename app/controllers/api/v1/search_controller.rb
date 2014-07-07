@@ -15,19 +15,16 @@ module Api
 
       def nearby
         location = Location.find(params[:location_id])
-        if params[:radius].present?
-          radius = Location.validated_radius(params[:radius])
-        else
-          radius = 0.5
-        end
+        radius = Location.validated_radius(params[:radius], 0.5)
 
-        if location.latitude.present? && location.longitude.present?
-          nearby = location.nearbys(radius).
-                            page(params[:page]).per(params[:per_page]).
-                            includes(:organization, :address, :phones)
-        else
-          nearby = Location.none.page(params[:page]).per(params[:per_page])
-        end
+        nearby =
+          if location.coordinates.present?
+            location.nearbys(radius).
+                    page(params[:page]).per(params[:per_page]).
+                    includes(:organization, :address, :phones)
+          else
+            Location.none.page(params[:page]).per(params[:per_page])
+          end
 
         render json: nearby, status: 200
         generate_pagination_headers(nearby)

@@ -112,9 +112,9 @@ class Location < ActiveRecord::Base
   before_save :compact_array_fields
 
   def compact_array_fields
-    admin_emails.reject!(&:blank?) if admin_emails.is_a?(Array)
-    emails.reject!(&:blank?) if emails.is_a?(Array)
-    urls.reject!(&:blank?) if urls.is_a?(Array)
+    %w(admin_emails emails urls).each do |name|
+      send("#{name}=", send(name).reject(&:blank?)) if send(name).is_a?(Array)
+    end
   end
 
   extend FriendlyId

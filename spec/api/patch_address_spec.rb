@@ -50,7 +50,7 @@ describe 'PATCH address' do
 
     it 'requires a valid address id' do
       patch(
-        api_location_address_url(@loc, 123, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, 1234, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
       expect(response.status).to eq(404)

@@ -7,7 +7,7 @@ class Admin
     end
 
     def allowed_to_access_location?(location)
-      return true if location_admins_match_admin_email?(location) || admin.super_admin?
+      return true if location_admin_emails_match_admin_email?(location) || admin.super_admin?
       if admin_has_generic_email?
         location_emails_match_admin_email?(location)
       else
@@ -19,24 +19,18 @@ class Admin
       admin.email.split('@').last
     end
 
-    def location_urls_match_domain?(location)
-      return false unless location.urls.present?
-      location.urls.select { |url| url.include?(domain) }.length > 0
+    %w(urls emails).each do |name|
+      define_method "location_#{name}_match_domain?" do |location|
+        return false unless location.send(name).present?
+        location.send(name).select { |attr| attr.include?(domain) }.present?
+      end
     end
 
-    def location_emails_match_domain?(location)
-      return false unless location.emails.present?
-      location.emails.select { |email| email.include?(domain) }.length > 0
-    end
-
-    def location_emails_match_admin_email?(location)
-      return false unless location.emails.present?
-      location.emails.include?(admin.email)
-    end
-
-    def location_admins_match_admin_email?(location)
-      return false unless location.admin_emails.present?
-      location.admin_emails.include?(admin.email)
+    %w(admin_emails emails).each do |name|
+      define_method "location_#{name}_match_admin_email?" do |location|
+        return false unless location.send(name).present?
+        location.send(name).include?(admin.email)
+      end
     end
 
     def admin_has_generic_email?
