@@ -5,7 +5,7 @@ jQuery ->
     event.preventDefault()
 
   $('.edit_location').on 'click', '.delete_attribute', (event) ->
-    $(this).closest('fieldset').find("input").val('')
+    $(this).closest('fieldset').find('input').val('')
     $(this).closest('fieldset').hide()
     event.preventDefault()
 
@@ -18,7 +18,7 @@ jQuery ->
   $('.edit_location').on 'click', '.add_array_fields', (event) ->
     time = new Date().getTime()
     $(this).before($(this).data('fields'))
-    inputs = $(this).parent().find('input[type=text]')
+    inputs = $(this).parent().find('input')
     inputs[inputs.length - 1].setAttribute('id', time)
     event.preventDefault()
 

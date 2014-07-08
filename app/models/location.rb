@@ -25,7 +25,8 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :mail_address, allow_destroy: true
 
   has_many :phones, dependent: :destroy
-  accepts_nested_attributes_for :phones, allow_destroy: true
+  accepts_nested_attributes_for :phones,
+                                allow_destroy: true, reject_if: :all_blank
 
   has_many :services, dependent: :destroy
   accepts_nested_attributes_for :services, allow_destroy: true

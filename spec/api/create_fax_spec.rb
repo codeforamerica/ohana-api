@@ -1,16 +1,9 @@
 require 'rails_helper'
 
 describe 'POST /locations/:location_id/faxes' do
-  before(:all) do
-    @loc = create(:location)
-  end
-
   before(:each) do
+    @loc = create(:location)
     @fax_attributes = { number: '123-456-7890' }
-  end
-
-  after(:all) do
-    Organization.find_each(&:destroy)
   end
 
   it 'creates a fax with valid attributes' do

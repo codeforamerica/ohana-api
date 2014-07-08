@@ -1,6 +1,6 @@
 = field_set_tag do
-  = f.label :name, 'Number'
-  = f.text_field :number, maxlength: 12, class: 'span2', autocomplete: true
+  = f.label :number, 'Number'
+  = f.phone_field :number, maxlength: 12, class: 'span2', autocomplete: true
   %br
   = f.label :department, 'Department'
   = f.text_field :department, maxlength: 50, class: 'span4'

@@ -7,7 +7,7 @@ feature 'Update faxes' do
     visit '/admin/locations/vrs-services'
   end
 
-  scenario 'when no faxes exist'  do
+  scenario 'when no faxes exist' do
     within('.faxes') do
       expect(page).
         to have_no_xpath('.//input[contains(@name, "[number]")]')
@@ -58,7 +58,7 @@ feature 'Update faxes' do
       number: '123-456-7890',
       department: 'Director of Development'
     )
-    click_link 'Add a fax'
+    click_link 'Add a fax number'
     within('.faxes') do
       all_faxes = all(:xpath, './/input[contains(@name, "[department]")]')
       fill_in all_faxes[-1][:id], with: 'Department'

@@ -32,6 +32,21 @@ module Features
       click_button 'Save changes'
     end
 
+    def add_mailing_address(options = {})
+      click_link 'Add a mailing address'
+      update_mailing_address(options)
+      click_button 'Save changes'
+    end
+
+    def update_mailing_address(options = {})
+      fill_in 'location_mail_address_attributes_attention', with: options[:attention]
+      fill_in 'location_mail_address_attributes_street', with: options[:street]
+      fill_in 'location_mail_address_attributes_city', with: options[:city]
+      fill_in 'location_mail_address_attributes_state', with: options[:state]
+      fill_in 'location_mail_address_attributes_zip', with: options[:zip]
+      click_button 'Save changes'
+    end
+
     def remove_street_address
       click_link 'Delete this address permanently'
       click_button 'Save changes'
@@ -63,6 +78,21 @@ module Features
       click_button 'Save changes'
     end
 
+    def add_two_emails
+      click_link 'Add a general email'
+      fill_in 'location[emails][]', with: 'foo@ruby.com'
+      click_link 'Add a general email'
+      emails = all(:xpath, "//input[@name='location[emails][]']")
+      fill_in emails[-1][:id], with: 'ruby@foo.com'
+      click_button 'Save changes'
+    end
+
+    def delete_all_emails
+      find_link('Delete this email permanently', match: :first).click
+      find_link('Delete this email permanently', match: :first).click
+      click_button 'Save changes'
+    end
+
     def add_fax(options = {})
       click_link 'Add a fax number'
       update_fax(options)
@@ -80,6 +110,27 @@ module Features
       click_button 'Save changes'
     end
 
+    def add_phone(options = {})
+      click_link 'Add a phone number'
+      update_phone(options)
+    end
+
+    def update_phone(options = {})
+      within('.phones') do
+        fill_in find(:xpath, './/input[contains(@name, "[number]")]')[:id], with: options[:number]
+        select_field = find(:xpath, './/select[contains(@name, "[number_type]")]')[:id]
+        select(options[:number_type], from: select_field)
+        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
+        fill_in find(:xpath, './/input[contains(@name, "[extension]")]')[:id], with: options[:extension]
+        fill_in find(:xpath, './/input[contains(@name, "[vanity_number]")]')[:id], with: options[:vanity_number]
+      end
+    end
+
+    def delete_phone
+      click_link 'Delete this phone permanently'
+      click_button 'Save changes'
+    end
+
     def add_two_admins
       click_link 'Add an admin email'
       fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
@@ -92,6 +143,21 @@ module Features
     def delete_all_admins
       find_link('Delete this admin permanently', match: :first).click
       find_link('Delete this admin permanently', match: :first).click
+      click_button 'Save changes'
+    end
+
+    def add_two_urls
+      click_link 'Add a website'
+      fill_in 'location[urls][]', with: 'http://ruby.com'
+      click_link 'Add a website'
+      urls = all(:xpath, "//input[@name='location[urls][]']")
+      fill_in urls[-1][:id], with: 'http://monfresh.com'
+      click_button 'Save changes'
+    end
+
+    def delete_all_urls
+      find_link('Delete this website permanently', match: :first).click
+      find_link('Delete this website permanently', match: :first).click
       click_button 'Save changes'
     end
   end

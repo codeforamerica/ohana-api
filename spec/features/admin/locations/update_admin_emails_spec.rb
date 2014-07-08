@@ -14,19 +14,16 @@ feature 'Update admin_emails' do
 
   scenario 'by adding 2 new admins', :js do
     add_two_admins
-    visit '/admin/locations/vrs-services'
     total_admins = page.
       all(:xpath, "//input[@name='location[admin_emails][]']")
     expect(total_admins.length).to eq 2
     delete_all_admins
-    visit '/admin/locations/vrs-services'
     expect(page).to have_no_xpath("//input[@name='location[admin_emails][]']")
   end
 
   scenario 'with empty admin', :js do
     click_link 'Add an admin'
     click_button 'Save changes'
-    visit '/admin/locations/vrs-services'
     expect(page).to have_no_xpath("//input[@name='location[admin_emails][]']")
   end
 
@@ -35,7 +32,6 @@ feature 'Update admin_emails' do
     fill_in 'location[admin_emails][]', with: 'moncef@samaritanhouse.com'
     click_link 'Add an admin'
     click_button 'Save changes'
-    visit '/admin/locations/vrs-services'
     total_admins = all(:xpath, "//input[@name='location[admin_emails][]']")
     expect(total_admins.length).to eq 1
   end
