@@ -1,3 +1,17 @@
-= f.label :attention, 'Attention'
-= f.text_field :attention, maxlength: 255, class: 'span5'
-= render 'admin/locations/forms/address_fields', f: f
+= field_set_tag do
+  = f.label :attention, 'Attention'
+  = f.text_field :attention, maxlength: 255, class: 'span5'
+  = f.label :street, 'Street'
+  = f.text_field :street
+  %br
+  = f.label :city, 'City'
+  = f.text_field :city, maxlength: 255
+  %br
+  = f.label :state, 'State (2-letter abbreviation)'
+  = f.text_field :state, maxlength: 2, class: 'span1'
+  %br
+  = f.label :zip, 'ZIP Code'
+  = f.text_field :zip, maxlength: 5, class: 'span2'
+  = f.hidden_field :_destroy
+  %br
+  = link_to 'Delete this mailing address permanently', '#', class: 'btn btn-danger delete_association'

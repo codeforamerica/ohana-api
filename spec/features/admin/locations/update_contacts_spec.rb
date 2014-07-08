@@ -2,16 +2,16 @@ require 'rails_helper'
 
 feature 'Update contacts' do
   background do
-    create(:location)
+    @location = create(:location)
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
 
   scenario 'when no contacts exist'  do
-    within('#contacts') do
-      expect(page).
-        to have_no_xpath('.//input[contains(@name, "[name]")]')
-    end
+    expect(page).
+      to have_no_xpath('//input[@id="location_contacts_attributes_0_name"]')
+
+    expect(page).to_not have_link 'Delete this contact permanently'
   end
 
   scenario 'by adding a new contact', :js do
@@ -45,7 +45,7 @@ feature 'Update contacts' do
 
     delete_contact
     visit '/admin/locations/vrs-services'
-    within('#contacts') do
+    within('.contacts') do
       expect(page).
         to have_no_xpath('.//input[contains(@name, "[name]")]')
     end
@@ -60,7 +60,7 @@ feature 'Update contacts' do
     click_button 'Save changes'
     visit '/admin/locations/vrs-services'
 
-    within('#contacts') do
+    within('.contacts') do
       total_contacts = all(:xpath, './/input[contains(@name, "[name]")]')
       expect(total_contacts.length).to eq 1
     end
@@ -72,12 +72,30 @@ feature 'Update contacts' do
       title: 'Director of Development and Operations'
     )
     click_link 'Add a contact'
-    within('#contacts') do
+    within('.contacts') do
       all_phones = all(:xpath, './/input[contains(@name, "[phone]")]')
       fill_in all_phones[-1][:id], with: '202-555-1212'
     end
     click_button 'Save changes'
     expect(page).to have_content "name can't be blank for Contact"
+  end
+
+  scenario 'delete second contact', :js do
+    @location.contacts.create!(name: 'foo', title: 'bar')
+    new_loc = create(:nearby_loc)
+    new_loc.contacts.create!(name: 'bar', title: 'foo')
+    new_loc.contacts.create!(name: 'baz', title: 'boo')
+
+    visit '/admin/locations/library'
+
+    find(:xpath, "(//a[text()='Delete this contact permanently'])[2]").click
+    click_button 'Save changes'
+
+    expect(find_field('location_contacts_attributes_0_name').value).
+      to eq 'bar'
+
+    expect(page).
+      to have_no_xpath('//input[@id="location_contacts_attributes_1_name"]')
   end
 end
 

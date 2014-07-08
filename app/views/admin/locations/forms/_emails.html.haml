@@ -1,15 +1,14 @@
-%div.inst-box
+%div.inst-box.emails
   %header
     %strong
       Emails (general info)
     %p.desc
       %em
         If the email belongs to a contact, please move it to the existing contact, or create a new contact.
-  = field_set_tag nil, id: 'emails' do
-    - if @location.emails.present?
-      - @location.emails.each_with_index do |email, i|
+  - if @location.emails.present?
+    - @location.emails.each_with_index do |email, i|
+      = field_set_tag do
         = email_field_tag 'location[emails][]', email, class: 'span6', id: "location_emails_#{i}"
         %br
         = link_to "Delete this email permanently", '#', class: "btn btn-danger delete_attribute"
-        %p
-    = link_to_add_array_fields 'Add a general email', :email
+  = link_to_add_array_fields 'Add a general email', :email

@@ -48,7 +48,7 @@ module Features
     end
 
     def update_contact(options = {})
-      within('#contacts') do
+      within('.contacts') do
         fill_in find(:xpath, './/input[contains(@name, "[name]")]')[:id], with: options[:name]
         fill_in find(:xpath, './/input[contains(@name, "[title]")]')[:id], with: options[:title]
         fill_in find(:xpath, './/input[contains(@name, "[email]")]')[:id], with: options[:email]
@@ -60,6 +60,38 @@ module Features
 
     def delete_contact
       click_link 'Delete this contact permanently'
+      click_button 'Save changes'
+    end
+
+    def add_fax(options = {})
+      click_link 'Add a fax number'
+      update_fax(options)
+    end
+
+    def update_fax(options = {})
+      within('.faxes') do
+        fill_in find(:xpath, './/input[contains(@name, "[number]")]')[:id], with: options[:number]
+        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
+      end
+    end
+
+    def delete_fax
+      click_link 'Delete this fax permanently'
+      click_button 'Save changes'
+    end
+
+    def add_two_admins
+      click_link 'Add an admin email'
+      fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
+      click_link 'Add an admin email'
+      admins = all(:xpath, "//input[contains(@name, '[admin_emails]')]")
+      fill_in admins[-1][:id], with: 'moncef@otherlocation.com'
+      click_button 'Save changes'
+    end
+
+    def delete_all_admins
+      find_link('Delete this admin permanently', match: :first).click
+      find_link('Delete this admin permanently', match: :first).click
       click_button 'Save changes'
     end
   end

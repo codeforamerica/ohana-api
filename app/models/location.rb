@@ -18,7 +18,8 @@ class Location < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   has_many :faxes, dependent: :destroy
-  accepts_nested_attributes_for :faxes, allow_destroy: true
+  accepts_nested_attributes_for :faxes,
+                                allow_destroy: true, reject_if: :all_blank
 
   has_one :mail_address, dependent: :destroy
   accepts_nested_attributes_for :mail_address, allow_destroy: true

@@ -86,12 +86,17 @@
 
   p
   {
-    padding:10px;
+    padding:0px 0px 10px 10px;
   }
   fieldset
   {
-    padding:10px;
+    padding:10px 0px 10px 10px;
   }
+}
+
+.add_fields, .add_array_fields
+{
+  margin: 10px 0px 15px 10px;
 }
 
 #categories, #accessibility

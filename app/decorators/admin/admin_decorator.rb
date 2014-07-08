@@ -21,14 +21,12 @@ class Admin
 
     %w(urls emails).each do |name|
       define_method "location_#{name}_match_domain?" do |location|
-        return false unless location.send(name).present?
         location.send(name).select { |attr| attr.include?(domain) }.present?
       end
     end
 
     %w(admin_emails emails).each do |name|
       define_method "location_#{name}_match_admin_email?" do |location|
-        return false unless location.send(name).present?
         location.send(name).include?(admin.email)
       end
     end

@@ -1,4 +1,4 @@
-%div.inst-box
+%div.inst-box.phones
   %header
     %strong
       Phone Numbers
@@ -7,9 +7,6 @@
         10 digits only please, in this format: 650-802-7922.
         %br
         If the phone number belongs to a contact, please move it to the existing contact, or create a new contact.
-  = field_set_tag nil, id: 'phones' do
-    = f.fields_for :phones do |builder|
-      = render 'admin/locations/forms/phone_fields', f: builder
-      = link_to "Delete this phone permanently", '#', class: "btn btn-danger delete_association"
-      %p
-    = link_to_add_fields 'Add a phone number', f, :phones
+  = f.fields_for :phones do |builder|
+    = render 'admin/locations/forms/phone_fields', f: builder
+  = link_to_add_fields 'Add a phone number', f, :phones

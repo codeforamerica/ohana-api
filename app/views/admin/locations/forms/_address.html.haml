@@ -1,12 +1,10 @@
-%div.inst-box
+%div.inst-box.address
   %header
     %strong
       Street Address
     %span.desc
       The physical location.
-  = field_set_tag nil, id: 'address' do
-    = f.fields_for :address do |builder|
-      = render 'admin/locations/forms/address_fields', f: builder
-      = link_to 'Delete this address permanently', '#', class: 'btn btn-danger delete_association'
-    - unless @location.address.present?
-      = link_to_add_fields 'Add a street address', f, :address
+  = f.fields_for :address do |builder|
+    = render 'admin/locations/forms/address_fields', f: builder
+  - unless @location.address.present?
+    = link_to_add_fields 'Add a street address', f, :address

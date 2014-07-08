@@ -1,2 +1,4 @@
-= url_field_tag 'location[urls][]', '', class: 'span9'
-%br
+= field_set_tag do
+  = url_field_tag 'location[urls][]', '', class: 'span9'
+  %br
+  = link_to "Delete this website permanently", '#', class: "btn btn-danger delete_attribute"

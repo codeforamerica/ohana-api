@@ -1,2 +1,4 @@
-= email_field_tag 'location[emails][]', '', class: 'span5'
-%br
+= field_set_tag do
+  = email_field_tag 'location[emails][]', '', class: 'span5'
+  %br
+  = link_to "Delete this email permanently", '#', class: "btn btn-danger delete_attribute"
