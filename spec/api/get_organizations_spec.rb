@@ -24,9 +24,9 @@ describe 'GET /organizations' do
       expect(json.length).to eq(2)
     end
 
-    it 'sorts results by id ascending' do
+    it 'sorts results by id descending' do
       get api_organizations_url(subdomain: ENV['API_SUBDOMAIN'])
-      expect(json[1]['name']).to eq('Food Pantry')
+      expect(json.first['name']).to eq('Food Pantry')
     end
 
     it 'responds to pagination parameters' do

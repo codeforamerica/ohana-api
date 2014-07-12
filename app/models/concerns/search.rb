@@ -23,15 +23,24 @@ module Search
       end
     end)
 
-    scope :has_email, ->(e) { where('admin_emails @@ :q or emails @@ :q', q: e) if e.present? }
+    scope :has_email, (lambda do |email|
+      if email.present?
+        return Location.none unless email.include?('@')
 
-    scope :has_domain, (lambda do |domain|
-      domain = domain.split('@').last if domain.present?
+        domain = email.split('@').last
 
-      if domain.present? && SETTINGS[:generic_domains].include?(domain)
-        Location.none
-      elsif domain.present?
-        where('urls ilike :q or emails ilike :q', q: "%#{domain}%")
+        locations = Location.arel_table
+
+        if SETTINGS[:generic_domains].include?(domain)
+          # where('admin_emails @@ :q or emails @@ :q', q: email)
+          Location.where(locations[:admin_emails].matches("%#{email}%").
+                  or(locations[:emails].matches("%#{email}%")))
+        else
+          # where('urls ilike :q or emails ilike :q or admin_emails @@ :p', q: "%#{domain}%", p: email)
+          Location.where(locations[:admin_emails].matches("%#{email}%").
+                  or(locations[:urls].matches("%#{domain}%")).
+                  or(locations[:emails].matches("%#{domain}%")))
+        end
       end
     end)
 
@@ -57,7 +66,6 @@ module Search
               has_category(params[:category]).
               belongs_to_org(params[:org_name]).
               has_email(params[:email]).
-              has_domain(params[:domain]).
               is_near(params[:location], params[:lat_lng], params[:radius]).
               has_keyword(params[:keyword])
     end

@@ -5,24 +5,8 @@ class Admin
 
     def index
       @admin_decorator = AdminDecorator.new(current_admin)
-      if current_admin.super_admin?
-        @locations = Location.page(params[:page]).per(params[:per_page]).
-                             order('created_at DESC')
-      else
-        @locations = @admin_decorator.locations
-        @org = @locations.includes(:organization).first.organization if @locations.present?
-      end
-    end
-
-    def new
-      @location = Location.new
-      @org = current_admin.org
-      if @org.present?
-        @location_url = @org.locations.map(&:urls).uniq.first
-      else
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      @locations = Kaminari.paginate_array(@admin_decorator.locations).
+                           page(params[:page]).per(params[:per_page])
     end
 
     def edit
@@ -53,18 +37,29 @@ class Admin
       end
     end
 
+    def new
+      @location = Location.new
+      @admin_decorator = AdminDecorator.new(current_admin)
+      @orgs = @admin_decorator.orgs
+
+      unless @orgs.present?
+        redirect_to admin_dashboard_path,
+                    alert: "Sorry, you don't have access to that page."
+      end
+    end
+
     def create
       @location = Location.new(params[:location])
+      @admin_decorator = AdminDecorator.new(current_admin)
+      @orgs = @admin_decorator.orgs
 
       respond_to do |format|
         if @location.save
-          @org = @location.organization
           format.html do
             redirect_to admin_locations_url,
                         notice: 'Location was successfully created.'
           end
         else
-          @org = current_admin.org
           format.html { render :new }
         end
       end

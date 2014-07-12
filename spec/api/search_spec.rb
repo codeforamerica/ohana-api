@@ -344,115 +344,125 @@ describe "GET 'search'" do
     end
   end
 
-  context 'with domain parameter' do
+  context 'when email parameter contains custom domain' do
     it "finds domain name when url contains 'www'" do
       create(:location, urls: ['http://www.smchsa.org'])
       create(:location, emails: ['info@cfa.org'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=smchsa.org"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds naked domain name' do
       create(:location, urls: ['http://smchsa.com'])
       create(:location, emails: ['hello@cfa.com'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=smchsa.com"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.com"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds long domain name in both url and email' do
       create(:location, urls: ['http://smchsa.org'])
       create(:location, emails: ['info@smchsa.org'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=smchsa.org"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '2'
     end
 
     it 'finds domain name when URL contains path' do
       create(:location, urls: ['http://www.smchealth.org/mcah'])
       create(:location, emails: ['org@mcah.org'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=smchealth.org"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchealth.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains multiple paths' do
       create(:location, urls: ['http://www.smchsa.org/portal/site/planning'])
       create(:location, emails: ['sanmateo@ca.us'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=smchsa.org"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains a dash' do
       create(:location, urls: ['http://www.childsup-connect.ca.gov'])
       create(:location, emails: ['gov@childsup-connect.gov'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=childsup-connect.ca.gov"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@childsup-connect.ca.gov"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains a number' do
       create(:location, urls: ['http://www.prenatalto3.org'])
       create(:location, emails: ['info@rwc2020.org'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=prenatalto3.org"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@prenatalto3.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
-    it "doesn't return results for gmail domain" do
-      create(:location, emails: ['info@gmail.com'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=gmail.com"
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-
-    it "doesn't return results for aol domain" do
-      create(:location, emails: ['info@aol.com'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=aol.com"
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-
-    it "doesn't return results for hotmail domain" do
-      create(:location, emails: ['info@hotmail.com'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=hotmail.com"
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-
-    it "doesn't return results for yahoo domain" do
-      create(:location, emails: ['info@yahoo.com'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=yahoo.com"
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-
-    it "doesn't return results for sbcglobal domain" do
-      create(:location, emails: ['info@sbcglobal.net'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=sbcglobal.net"
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-
-    it 'extracts domain name from parameter' do
-      create(:location, emails: ['info@sbcglobal.net'])
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?domain=info@sbcglobal.net"
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-  end
-
-  context 'when email parameter only contains domain name' do
-    it "doesn't return results" do
-      create(:location, emails: ['info@gmail.com'])
-      get api_search_index_url(email: 'gmail.com', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-  end
-
-  context 'when email parameter contains full email address' do
     it 'returns locations where either emails or admins fields match' do
       create(:location, emails: ['moncef@smcgov.org'])
       create(:location_with_admin)
       get api_search_index_url(email: 'moncef@smcgov.org', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '2'
     end
-  end
 
-  context 'when email parameter contains full email address' do
-    it 'only returns locations where admin email is exact match' do
+    it 'does not return locations if email prefix is the only match' do
       create(:location, emails: ['moncef@smcgov.org'])
       create(:location_with_admin)
       get api_search_index_url(email: 'moncef@gmail.com', subdomain: ENV['API_SUBDOMAIN'])
+      expect(headers['X-Total-Count']).to eq '0'
+    end
+  end
+
+  context 'when email parameter contains generic domain' do
+    it "doesn't return results for gmail domain" do
+      create(:location, emails: ['info@gmail.com'])
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@gmail.com"
+      expect(headers['X-Total-Count']).to eq '0'
+    end
+
+    it "doesn't return results for aol domain" do
+      create(:location, emails: ['info@aol.com'])
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@aol.com"
+      expect(headers['X-Total-Count']).to eq '0'
+    end
+
+    it "doesn't return results for hotmail domain" do
+      create(:location, emails: ['info@hotmail.com'])
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@hotmail.com"
+      expect(headers['X-Total-Count']).to eq '0'
+    end
+
+    it "doesn't return results for yahoo domain" do
+      create(:location, emails: ['info@yahoo.com'])
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@yahoo.com"
+      expect(headers['X-Total-Count']).to eq '0'
+    end
+
+    it "doesn't return results for sbcglobal domain" do
+      create(:location, emails: ['info@sbcglobal.net'])
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@sbcglobal.net"
+      expect(headers['X-Total-Count']).to eq '0'
+    end
+
+    it 'does not return locations if domain is the only match' do
+      create(:location, emails: ['moncef@gmail.com'], admin_emails: ['moncef@gmail.com'])
+      get api_search_index_url(email: 'foo@gmail.com', subdomain: ENV['API_SUBDOMAIN'])
+      expect(headers['X-Total-Count']).to eq '0'
+    end
+
+    it 'returns results if admin email matches parameter' do
+      create(:location, admin_emails: ['info@sbcglobal.net'])
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=info@sbcglobal.net"
+      expect(headers['X-Total-Count']).to eq '1'
+    end
+
+    it 'returns results if emails match parameter' do
+      create(:location, emails: ['info@sbcglobal.net'])
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=info@sbcglobal.net"
+      expect(headers['X-Total-Count']).to eq '1'
+    end
+  end
+
+  context 'when email parameter only contains generic domain name' do
+    it "doesn't return results" do
+      create(:location, emails: ['info@gmail.com'])
+      get api_search_index_url(email: 'gmail.com', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '0'
     end
   end

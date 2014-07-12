@@ -9,9 +9,9 @@ class Admin
       link_to(name, '#', class: 'add_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') })
     end
 
-    def link_to_add_array_fields(name, field)
+    def link_to_add_array_fields(name, model, field)
       id = ''.object_id
-      fields = render("admin/locations/forms/#{field}_fields")
+      fields = render("admin/#{model}/forms/#{field}_fields")
       link_to(name, '#', class: 'add_array_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') })
     end
   end

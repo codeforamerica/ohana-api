@@ -44,7 +44,6 @@ module Features
       fill_in 'location_mail_address_attributes_city', with: options[:city]
       fill_in 'location_mail_address_attributes_state', with: options[:state]
       fill_in 'location_mail_address_attributes_zip', with: options[:zip]
-      click_button 'Save changes'
     end
 
     def remove_street_address
@@ -148,9 +147,9 @@ module Features
 
     def add_two_urls
       click_link 'Add a website'
-      fill_in 'location[urls][]', with: 'http://ruby.com'
+      fill_in find(:xpath, "//input[@type='url']")[:id], with: 'http://ruby.com'
       click_link 'Add a website'
-      urls = all(:xpath, "//input[@name='location[urls][]']")
+      urls = all(:xpath, "//input[@type='url']")
       fill_in urls[-1][:id], with: 'http://monfresh.com'
       click_button 'Save changes'
     end
@@ -159,6 +158,17 @@ module Features
       find_link('Delete this website permanently', match: :first).click
       find_link('Delete this website permanently', match: :first).click
       click_button 'Save changes'
+    end
+
+    def fill_in_all_required_fields
+      select 'Parent Agency', from: 'location_organization_id'
+      fill_in 'location_name', with: 'New Parent Agency location'
+      fill_in 'location_description', with: 'new description'
+      click_link 'Add a street address'
+      fill_in 'location_address_attributes_street', with: '123 Main St.'
+      fill_in 'location_address_attributes_city', with: 'Belmont'
+      fill_in 'location_address_attributes_state', with: 'CA'
+      fill_in 'location_address_attributes_zip', with: '12345'
     end
   end
 end

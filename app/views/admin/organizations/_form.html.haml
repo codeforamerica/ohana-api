@@ -1,0 +1,28 @@
+- if @organization.errors.any?
+  .alert.alert-danger
+    %h2= "#{pluralize(@organization.errors.count, "error")} prohibited this organization from being saved:"
+    %ul
+      - @organization.errors.full_messages.each do |msg|
+        %li= msg
+
+= render 'admin/organizations/forms/name', f: f
+= render 'admin/organizations/forms/urls', f: f
+
+%div.danger-zone
+  %header
+    %strong
+      Danger Zone
+  %h4
+    Delete this organization
+  %p
+    Once you delete an organization, there is no going back. Please be certain.
+  %p
+    = link_to 'Permanently delete this organization', { action: :confirm_delete_organization, org_id: @organization.id, org_name: @organization.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
+%div#modal-window.modal.hide.fade{'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog'}
+
+%div.save-box.navbar-inner
+  %p
+    = 'Editing'
+    %strong
+      = "#{@organization.name}"
+  = f.submit 'Save changes & apply edits to database', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

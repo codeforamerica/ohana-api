@@ -13,8 +13,11 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#index', as: :dashboard
     resources :locations, except: :show
+    resources :organizations, except: :show
+    get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
     get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
     get 'locations/:id', to: 'locations#edit'
+    get 'organizations/:id', to: 'organizations#edit'
   end
   devise_for :admins, path: 'admin', controllers: { registrations: 'admin/registrations' }
 

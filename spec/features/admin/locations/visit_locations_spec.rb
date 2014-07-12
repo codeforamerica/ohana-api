@@ -59,10 +59,6 @@ feature 'Locations page' do
       expect(page).to have_link 'Samaritan House'
     end
 
-    it 'greets the admin by their name' do
-      expect(page).to have_content 'Welcome back, Org Admin!'
-    end
-
     it 'does not include a link to the sign up page in the navigation' do
       within '.navbar' do
         expect(page).not_to have_link 'Sign up'
@@ -119,10 +115,6 @@ feature 'Locations page' do
       expect(page).to have_link 'VRS Services'
       expect(page).to have_link 'Samaritan House'
       expect(page).not_to have_content 'Parent Agency locations'
-    end
-
-    it 'greets the admin by their name' do
-      expect(page).to have_content 'Welcome back, Super Admin!'
     end
   end
 end

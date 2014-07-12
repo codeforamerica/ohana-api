@@ -6,42 +6,30 @@ class Admin
       @admin = admin
     end
 
-    def allowed_to_access_location?(location)
-      return true if location_admin_emails_match_admin_email?(location) || admin.super_admin?
-      if admin_has_generic_email?
-        location_emails_match_admin_email?(location)
-      else
-        location_emails_match_domain?(location) || location_urls_match_domain?(location)
-      end
-    end
-
-    def domain
-      admin.email.split('@').last
-    end
-
-    %w(urls emails).each do |name|
-      define_method "location_#{name}_match_domain?" do |location|
-        location.send(name).select { |attr| attr.include?(domain) }.present?
-      end
-    end
-
-    %w(admin_emails emails).each do |name|
-      define_method "location_#{name}_match_admin_email?" do |location|
-        location.send(name).include?(admin.email)
-      end
-    end
-
-    def admin_has_generic_email?
-      generic_domains = SETTINGS[:generic_domains]
-      generic_domains.include?(domain)
-    end
-
     def locations
-      if admin_has_generic_email?
-        Location.text_search(email: admin.email)
+      if admin.super_admin?
+        Location.pluck(:id, :name, :slug)
       else
-        Location.text_search(domain: domain)
+        Location.text_search(email: admin.email).pluck(:id, :name, :slug)
       end
+    end
+
+    def orgs
+      if admin.super_admin?
+        Organization.pluck(:id, :name, :slug)
+      else
+        Organization.joins(:locations).
+          where('locations.id IN (?)', locations.map(&:first).flatten).
+          uniq.pluck(:id, :name, :slug)
+      end
+    end
+
+    def allowed_to_access_location?(location)
+      locations.flatten.include?(location.id)
+    end
+
+    def allowed_to_access_organization?(org)
+      orgs.flatten.include?(org.id)
     end
   end
 end

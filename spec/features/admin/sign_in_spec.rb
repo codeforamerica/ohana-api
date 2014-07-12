@@ -37,19 +37,8 @@ feature 'Signing in' do
       sign_in_admin(valid_admin.email, valid_admin.password)
     end
 
-    it 'sets the current path to the admin locations path' do
-      expect(current_path).to eq(admin_locations_path)
-    end
-
-    it "displays the admin's locations" do
-      create(:location_for_org_admin)
-      visit '/admin/locations'
-      expect(page).to have_content 'Below you should see a list'
-      expect(page).to have_content 'Parent Agency locations'
-    end
-
-    it 'greets the admin by their name' do
-      expect(page).to have_content 'Welcome back, Org Admin!'
+    it 'sets the current path to the admin root path' do
+      expect(current_path).to eq(admin_dashboard_path)
     end
 
     it 'displays a success message' do

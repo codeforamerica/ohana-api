@@ -5,6 +5,12 @@
       - @location.errors.full_messages.each do |msg|
         %li= msg
 
+%div.inst-box
+  %header
+    = f.label :organization_id, 'Choose an organization to create this location for.'
+  %p
+    = f.select :organization_id, @orgs.collect { |org| [org.second, org.first] }, include_blank: true
+
 = render 'admin/locations/forms/location_name', f: f
 = render 'admin/locations/forms/admin_emails', f: f
 = render 'admin/locations/forms/description', f: f
@@ -12,12 +18,12 @@
 = render 'admin/locations/forms/address', f: f
 = render 'admin/locations/forms/mail_address', f: f
 = render 'admin/locations/forms/contacts', f: f
-= render 'admin/locations/forms/urls', f: f, location_url: @location_url
-= f.hidden_field :organization_id, value: @org.id
+= render 'admin/locations/forms/phones', f: f
+= render 'admin/locations/forms/faxes', f: f
+= render 'admin/locations/forms/emails', f: f
+= render 'admin/locations/forms/text_hours', f: f
+= render 'admin/locations/forms/transportation', f: f
+= render 'admin/locations/forms/urls', f: f
+= render 'admin/locations/forms/accessibility', f: f
 
-%div.save-box.navbar-inner
-  %p
-    = 'Creating location for'
-    %strong
-      = @org.name
-  = f.submit 'Create location', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }
+= f.submit 'Create location', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }

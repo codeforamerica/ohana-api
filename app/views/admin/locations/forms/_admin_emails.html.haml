@@ -1,14 +1,16 @@
-- if @admin_decorator.allowed_to_access_location?(@location)
-  %div.inst-box.admin_emails
-    %header
-      %strong
-        Add an admin to this location
-      %p.desc
-        Which email addresses should be allowed to update and delete this location?
-    - if @location.admin_emails.present?
-      - @location.admin_emails.each_with_index do |admin, i|
-        = field_set_tag do
-          = text_field_tag 'location[admin_emails][]', admin, class: 'span4', id: "location_admin_emails_#{i}"
-          %br
-          = link_to "Delete this admin permanently", '#', class: "btn btn-danger delete_attribute"
-    = link_to_add_array_fields 'Add an admin email', :admin_email
+%div.inst-box.admin_emails
+  %header
+    %strong
+      Add an admin to this location
+    %p.desc
+      Which email addresses should be allowed to update and delete this location?
+
+  - if f.object.new_record? && !current_admin.super_admin?
+    = render 'admin/locations/forms/admin_email_fields_for_new_location'
+  - elsif @location.admin_emails.present?
+    - @location.admin_emails.each_with_index do |admin, i|
+      = field_set_tag do
+        = text_field_tag 'location[admin_emails][]', admin, class: 'span4', id: "location_admin_emails_#{i}"
+        %br
+        = link_to "Delete this admin permanently", '#', class: "btn btn-danger delete_attribute"
+  = link_to_add_array_fields 'Add an admin email', :locations, :admin_email
