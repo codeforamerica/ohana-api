@@ -61,7 +61,10 @@ generic_domains:
   - hotmail.com
   - yahoo.com
 
-# The email that admin interface users should send questions/issues to.
+# The email address that admin interface users should send questions/issues to.
+# This link appears when an admin views their locations and organizations.
+# See app/views/admin/locations/index.html.haml and
+# app/views/admin/organizations/index.html.haml.
 admin_support_email:
 
 #########################
