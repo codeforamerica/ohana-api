@@ -23,7 +23,8 @@ class Organization < ActiveRecord::Base
   before_save :compact_urls
 
   def compact_urls
-    send('urls=', send('urls').reject(&:blank?)) if send('urls').is_a?(Array)
+    return unless send('urls').is_a?(Array)
+    send('urls=', send('urls').reject(&:blank?).map(&:squish))
   end
 
   extend FriendlyId

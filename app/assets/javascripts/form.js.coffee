@@ -21,9 +21,3 @@ jQuery ->
     inputs = $(this).parent().find('input')
     inputs[inputs.length - 1].setAttribute('id', time)
     event.preventDefault()
-
-  $('.new_entry').on 'click', '.add_fields', (event) ->
-    time = new Date().getTime()
-    regexp = new RegExp($(this).data('id'), 'g')
-    $(this).before($(this).data('fields').replace(regexp, time))
-    event.preventDefault()

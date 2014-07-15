@@ -51,6 +51,7 @@
     padding:0;
     text-transform: uppercase;
   }
+  p { padding-top: 10px; }
 }
 
 .inst-box
@@ -79,9 +80,9 @@
     }
     label {font-weight: bold; font-size:16px;}
   }
-  input
+  input, textarea
   {
-    margin:0px 10px 20px 0px;
+    margin:0px 0px 20px 0px;
   }
 
   p
@@ -99,12 +100,20 @@
   margin: 10px 0px 15px 10px;
 }
 
-#categories, #accessibility
+#accessibility
 {
   ul {list-style-type: none; margin-left:15px;}
   li {vertical-align:middle;}
-  input {height:20px;width:20px;margin-right:5px;margin-bottom:0px;display:inline-block;}
+  input {height:20px;width:20px;margin-right:5px;margin-bottom:0px;margin-top:3px;display:inline-block;}
   label {display:inline-block;vertical-align:middle;width:220px;margin-top:7px;}
+}
+
+#categories
+{
+  ul {list-style-type: none; margin-left:15px;}
+  li {vertical-align:middle;}
+  input {height:20px;width:20px;margin:5px 5px 5px 0px;display:inline-block;}
+  label {display:inline-block;vertical-align:middle;width:220px;}
 }
 
 // margin added to accommodate for floating footer

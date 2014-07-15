@@ -9,7 +9,9 @@ describe 'POST /locations/:location_id/services' do
     @service_attributes = {
       fees: 'new fees',
       audience: 'new audience',
-      keywords: %w(food youth)
+      keywords: %w(food youth),
+      name: 'test service',
+      description: 'test description'
     }
   end
 

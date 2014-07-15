@@ -111,11 +111,12 @@ class Location < ActiveRecord::Base
   auto_strip_attributes :description, :hours, :name, :short_desc,
                         :transportation, squish: true
 
-  before_save :compact_array_fields
+  before_save :compact_and_squish_array_fields
 
-  def compact_array_fields
+  def compact_and_squish_array_fields
     %w(admin_emails emails urls).each do |name|
-      send("#{name}=", send(name).reject(&:blank?)) if send(name).is_a?(Array)
+      return unless send(name).is_a?(Array)
+      send("#{name}=", send(name).reject(&:blank?).map(&:squish))
     end
   end
 

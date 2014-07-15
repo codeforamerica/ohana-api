@@ -21,6 +21,16 @@
 = render 'admin/locations/forms/urls', f: f
 = render 'admin/locations/forms/accessibility', f: f
 
+%div.content-box
+  %h2= 'Services'
+  = 'Click a Service below to view and update it:'
+  %p
+  - @location.services.each_with_index do |service, i|
+    = link_to service.name || "Service ##{i+1}", edit_admin_location_service_path(@location, service)
+    %br
+  %p
+    = link_to 'Add a new service', new_admin_location_service_path(@location), class: 'btn btn-primary'
+
 %div.danger-zone
   %header
     %strong

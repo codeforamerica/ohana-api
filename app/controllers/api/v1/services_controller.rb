@@ -14,7 +14,8 @@ module Api
 
       def update
         service = Service.find(params[:id])
-        service.update!(params)
+        location = Location.find(params[:location_id])
+        service.update!(params.merge(location_id: location.id))
         render json: service, status: 200
       end
 

@@ -41,7 +41,7 @@ describe 'GET /locations/:location_id/services' do
     end
 
     it 'includes the funding_sources attribute in the serialization' do
-      expect(json.first['funding_sources']).to eq([])
+      expect(json.first['funding_sources']).to eq(['County'])
     end
 
     it 'includes the keywords attribute in the serialization' do
@@ -57,7 +57,7 @@ describe 'GET /locations/:location_id/services' do
     end
 
     it 'includes the service_areas attribute in the serialization' do
-      expect(json.first['service_areas']).to eq([])
+      expect(json.first['service_areas']).to eq(['Belmont'])
     end
 
     it 'includes the short_desc attribute in the serialization' do
@@ -65,7 +65,7 @@ describe 'GET /locations/:location_id/services' do
     end
 
     it 'includes the urls attribute in the serialization' do
-      expect(json.first['urls']).to eq([])
+      expect(json.first['urls']).to eq(['http://www.monfresh.com'])
     end
 
     it 'includes the wait attribute in the serialization' do

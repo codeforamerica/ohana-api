@@ -170,5 +170,37 @@ module Features
       fill_in 'location_address_attributes_state', with: 'CA'
       fill_in 'location_address_attributes_zip', with: '12345'
     end
+
+    def add_two_keywords
+      click_link 'Add a keyword'
+      fill_in 'service[keywords][]', with: 'homeless'
+      click_link 'Add a keyword'
+      keywords = page.
+        all(:xpath, "//input[@name='service[keywords][]']")
+      fill_in keywords[-1][:id], with: 'CalFresh'
+      click_button 'Save changes'
+    end
+
+    def delete_all_keywords
+      find_link('Delete this keyword permanently', match: :first).click
+      find_link('Delete this keyword permanently', match: :first).click
+      click_button 'Save changes'
+    end
+
+    def add_two_service_areas
+      click_link 'Add a service area'
+      fill_in 'service[service_areas][]', with: 'Belmont'
+      click_link 'Add a service area'
+      service_areas = page.
+        all(:xpath, "//input[@name='service[service_areas][]']")
+      fill_in service_areas[-1][:id], with: 'Atherton'
+      click_button 'Save changes'
+    end
+
+    def delete_all_service_areas
+      find_link('Delete this service area permanently', match: :first).click
+      find_link('Delete this service area permanently', match: :first).click
+      click_button 'Save changes'
+    end
   end
 end

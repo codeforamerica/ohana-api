@@ -14,5 +14,24 @@ class Admin
       fields = render("admin/#{model}/forms/#{field}_fields")
       link_to(name, '#', class: 'add_array_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') })
     end
+
+    def nested_categories(categories)
+      cats = []
+      categories.each do |array|
+        cats.push([array.first, array.second])
+      end
+
+      cats.map do |category, sub_categories|
+        class_name = category.depth == 0 ? 'depth0' : "hide depth#{category.depth}"
+
+        content_tag(:ul) do
+          concat(content_tag(:li, class: class_name) do
+            concat(check_box_tag 'service[category_ids][]', category.id, @oe_ids.include?(category.oe_id), id: "category_#{category.oe_id}")
+            concat(label_tag dom_id(category), category.name)
+            concat(nested_categories(sub_categories))
+          end)
+        end
+      end.join.html_safe
+    end
   end
 end

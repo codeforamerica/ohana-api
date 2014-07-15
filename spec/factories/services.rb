@@ -1,8 +1,9 @@
 FactoryGirl.define do
   factory :service do
-    name 'Burlingame, Easton Branch'
+    name 'Literacy Program'
     description 'yoga classes'
     keywords ['library', 'food pantries', 'stood famps', 'emergency']
+    location
   end
 
   factory :service_with_nil_fields, class: Service do
@@ -10,6 +11,7 @@ FactoryGirl.define do
     description 'SNAP market'
     keywords %w(health yoga)
     fees nil
+    location
   end
 
   factory :service_with_extra_whitespace, class: Service do
@@ -17,10 +19,14 @@ FactoryGirl.define do
     description ' SNAP market'
     eligibility ' seniors '
     fees 'none '
+    funding_sources ['County ']
     how_to_apply '  in  person'
     keywords ['health ', ' yoga']
     name 'Benefits '
     short_desc 'processes applications '
+    service_areas ['Belmont ']
+    urls [' http://www.monfresh.com ']
     wait '2 days '
+    location
   end
 end
