@@ -2,11 +2,23 @@ require 'rails_helper'
 
 feature 'Signing in' do
   # The 'sign_in' method is defined in spec/support/features/session_helpers.rb
-  scenario 'with correct credentials' do
-    valid_user = FactoryGirl.create(:user)
-    sign_in(valid_user.email, valid_user.password)
-    expect(page).to have_content 'Welcome back Test User'
-    expect(page).to have_content 'Signed in successfully'
+  context 'with correct credentials' do
+    before :each do
+      valid_user = FactoryGirl.create(:user)
+      sign_in(valid_user.email, valid_user.password)
+    end
+
+    it 'redirects to developer portal home page' do
+      expect(current_path).to eq(root_path)
+    end
+
+    it 'greets the admin by their name' do
+      expect(page).to have_content 'Welcome back Test User'
+    end
+
+    it 'displays a success message' do
+      expect(page).to have_content 'Signed in successfully'
+    end
   end
 
   scenario 'with invalid credentials' do

@@ -1,9 +1,17 @@
 require 'rails_helper'
 
 describe 'DELETE /locations/:location_id/mail_address/:id' do
-  before(:each) do
+  before(:all) do
     @loc = create(:no_address)
+  end
+
+  before(:each) do
+    @loc.reload
     @mail_address = @loc.mail_address
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'deletes the mail_address' do
@@ -46,7 +54,7 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
 
   it "doesn't delete the mail_address if the location & mail_address IDs don't match" do
     delete(
-      api_location_mail_address_url(123, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_mail_address_url(1234, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
       {}
     )
     expect(response).to have_http_status(404)

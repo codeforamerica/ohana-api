@@ -1,0 +1,18 @@
+%p
+  Below you should see a list of locations that you are allowed to administer based on your email address.
+  If there are any locations missing, please #{mail_to "#{SETTINGS[:admin_support_email]}", "let us know"}.
+%p
+  To start updating, click on one of the links, which will take you to the details page
+  for the location.
+- if current_admin.super_admin?
+  %p As a super admin, you have access to all locations in the database. Please make updates responsibly.
+
+%p
+  - @locations.each do |location|
+    %ul
+      = link_to location.second, edit_admin_location_path(location.third)
+  = paginate @locations
+
+- if @locations.present?
+  %p
+    = link_to 'Add a new location', new_admin_location_path, class: 'btn btn-primary'

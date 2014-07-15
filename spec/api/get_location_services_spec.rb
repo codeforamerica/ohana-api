@@ -2,11 +2,18 @@ require 'rails_helper'
 
 describe 'GET /locations/:location_id/services' do
   context 'when location has services' do
-    before :each do
-      loc = create(:location)
-      @first_service = loc.services.
+    before :all do
+      @loc = create(:location)
+      @first_service = @loc.services.
         create!(attributes_for(:service_with_extra_whitespace))
-      get api_location_services_url(loc, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    before :each do
+      get api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns a 200 status' do
@@ -34,7 +41,7 @@ describe 'GET /locations/:location_id/services' do
     end
 
     it 'includes the funding_sources attribute in the serialization' do
-      expect(json.first['funding_sources']).to eq([])
+      expect(json.first['funding_sources']).to eq(['County'])
     end
 
     it 'includes the keywords attribute in the serialization' do
@@ -50,7 +57,7 @@ describe 'GET /locations/:location_id/services' do
     end
 
     it 'includes the service_areas attribute in the serialization' do
-      expect(json.first['service_areas']).to eq([])
+      expect(json.first['service_areas']).to eq(['Belmont'])
     end
 
     it 'includes the short_desc attribute in the serialization' do
@@ -58,7 +65,7 @@ describe 'GET /locations/:location_id/services' do
     end
 
     it 'includes the urls attribute in the serialization' do
-      expect(json.first['urls']).to eq([])
+      expect(json.first['urls']).to eq(['http://www.monfresh.com'])
     end
 
     it 'includes the wait attribute in the serialization' do

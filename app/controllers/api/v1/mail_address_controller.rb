@@ -2,6 +2,7 @@ module Api
   module V1
     class MailAddressController < ApplicationController
       include TokenValidator
+      include CustomErrors
 
       def update
         mail_address = MailAddress.find(params[:id])

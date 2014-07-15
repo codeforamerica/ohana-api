@@ -1,5 +1,3 @@
-require 'exceptions'
-
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -15,14 +13,20 @@ class ApplicationController < ActionController::Base
   rescue_from ActionView::MissingTemplate, with: :missing_template
 
   unless Rails.application.config.consider_all_requests_local
-    # rescue_from StandardError, :with => :render_error
-    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
     rescue_from ActionController::RoutingError, with: :render_not_found
-    rescue_from ActiveRecord::RecordInvalid, with: :render_invalid_record
-    rescue_from ActiveRecord::SerializationTypeMismatch, with: :render_invalid_type
-    rescue_from Exceptions::InvalidRadius, with: :render_invalid_radius
-    rescue_from Exceptions::InvalidLatLon, with: :render_invalid_lat_lon
   end
+
+  def after_sign_in_path_for(resource)
+    return root_url if resource.is_a?(User)
+    return admin_dashboard_path if resource.is_a?(Admin)
+  end
+
+  def after_sign_out_path_for(resource)
+    return root_path if resource == :user
+    return admin_dashboard_path if resource == :admin
+  end
+
+  layout :layout_by_resource
 
   private
 
@@ -46,48 +50,19 @@ class ApplicationController < ActionController::Base
     render json: hash, status: 404
   end
 
-  def render_invalid_record(exception)
-    hash =
-      {
-        'status'  => 422,
-        'message' => 'Validation failed for resource.',
-        'errors' => [exception.record.errors]
-      }
-    render json: hash, status: 422
-  end
-
-  def render_invalid_type(exception)
-    value = exception.message.split('-- ').last
-    hash =
-      {
-        'status'  => 422,
-        'message' => 'Validation failed for resource.',
-        'error' => "Attribute was supposed to be an Array, but was a String: #{value}."
-      }
-    render json: hash, status: 422
-  end
-
-  def render_invalid_radius
-    message = {
-      status: 400,
-      error: 'Argument Error',
-      description: 'Radius must be a Float between 0.1 and 50.'
-    }
-    render json: message, status: 400
-  end
-
-  def render_invalid_lat_lon
-    message = {
-      status: 400,
-      error: 'Argument Error',
-      description: 'lat_lng must be a comma-delimited lat,long pair of floats.'
-    }
-    render json: message, status: 400
-  end
-
   protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
+  end
+
+  def layout_by_resource
+    if devise_controller? && resource_name == :user
+      'application'
+    elsif devise_controller? && resource_name == :admin
+      'admin'
+    else
+      'application'
+    end
   end
 end

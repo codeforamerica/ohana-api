@@ -75,9 +75,9 @@ local [Admin Interface][admin] if it's pointing to your local API.
 
 ### Verify the app is returning JSON
 
-[http://localhost:8080/api/locations](http://localhost:8080/api/locations)
+[http://lvh.me:8080/api/locations](http://lvh.me:8080/api/locations)
 
-[http://localhost:8080/api/search?keyword=food](http://localhost:8080/api/search?keyword=food)
+[http://lvh.me:8080/api/search?keyword=food](http://lvh.me:8080/api/search?keyword=food)
 
 We recommend the [JSONView][jsonview] Google Chrome extension for formatting
 the JSON response so it is easier to read in the browser.
@@ -151,11 +151,17 @@ To reset your local database and populate it again with your clean data:
 script/import
 ```
 
-### User authentication (for the developer portal)
+### User and Admin authentication (for the developer portal and admin interface)
 
-The app automatically sets up users you can [sign in][sign_in] with.
+The app automatically sets up users and admins you can sign in with.
 Their username and password are stored in [db/seeds.rb][seeds].
 
-[sign_in]: http://localhost:8080/users/sign_in
 [seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb
 
+To set an admin as a Super Admin:
+
+    psql ohana_api_development
+    UPDATE "admins" SET super_admin = true WHERE id = 3;
+    \q
+
+To access the admin interface, visit [http://lvh.me:8080/admin/](http://lvh.me:8080/admin/).

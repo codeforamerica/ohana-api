@@ -10,10 +10,10 @@ module Search
       if loc.present?
         result = Geocoder.search(loc, bounds: SETTINGS[:bounds])
         coords = result.first.coordinates if result.present?
-        near(coords, validated_radius(r))
+        near(coords, validated_radius(r, 5))
       elsif lat_lng.present?
         coords = validated_coordinates(lat_lng)
-        near(coords, validated_radius(r))
+        near(coords, validated_radius(r, 5))
       end
     end)
 
@@ -23,15 +23,24 @@ module Search
       end
     end)
 
-    scope :has_email, ->(e) { where('admin_emails @@ :q or emails @@ :q', q: e) if e.present? }
+    scope :has_email, (lambda do |email|
+      if email.present?
+        return Location.none unless email.include?('@')
 
-    scope :has_domain, (lambda do |domain|
-      domain = domain.split('@').last if domain.present?
+        domain = email.split('@').last
 
-      if domain.present? && SETTINGS[:generic_domains].include?(domain)
-        Location.none
-      elsif domain.present?
-        where('urls ilike :q or emails ilike :q', q: "%#{domain}%")
+        locations = Location.arel_table
+
+        if SETTINGS[:generic_domains].include?(domain)
+          # where('admin_emails @@ :q or emails @@ :q', q: email)
+          Location.where(locations[:admin_emails].matches("%#{email}%").
+                  or(locations[:emails].matches("%#{email}%")))
+        else
+          # where('urls ilike :q or emails ilike :q or admin_emails @@ :p', q: "%#{domain}%", p: email)
+          Location.where(locations[:admin_emails].matches("%#{email}%").
+                  or(locations[:urls].matches("%#{domain}%")).
+                  or(locations[:emails].matches("%#{domain}%")))
+        end
       end
     end)
 
@@ -57,13 +66,12 @@ module Search
               has_category(params[:category]).
               belongs_to_org(params[:org_name]).
               has_email(params[:email]).
-              has_domain(params[:domain]).
               is_near(params[:location], params[:lat_lng], params[:radius]).
               has_keyword(params[:keyword])
     end
 
-    def validated_radius(radius)
-      return 5 unless radius.present?
+    def validated_radius(radius, custom_radius)
+      return custom_radius unless radius.present?
       if radius.to_f == 0.0
         fail Exceptions::InvalidRadius
       else

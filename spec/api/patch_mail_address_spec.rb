@@ -3,8 +3,15 @@ require 'rails_helper'
 describe 'PATCH mail_address' do
   before(:each) do
     @loc = create(:no_address)
+  end
+
+  before(:each) do
     @mail_address = @loc.mail_address
     @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   describe 'PATCH /locations/:location/mail_address' do

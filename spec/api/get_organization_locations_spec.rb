@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'GET /organizations/:organization_id/locations' do
   context 'when organization has locations' do
-    before :each do
+    before :all do
       @org = create(:organization)
       attrs = {
         accessibility: %w(restroom),
@@ -29,6 +29,10 @@ describe 'GET /organizations/:organization_id/locations' do
       @location.create_mail_address!(attributes_for(:mail_address))
 
       get api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns a 200 status' do

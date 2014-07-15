@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'Creating a new API Application' do
-  include Warden::Test::Helpers
   # The 'create_api_app' method is defined in
   # spec/support/features/session_helpers.rb
 
@@ -15,14 +14,9 @@ feature 'Creating a new API Application' do
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
   background do
-    Warden.test_mode!
     user = FactoryGirl.create(:user)
     login_as(user, scope: :user)
     visit '/api_applications'
-  end
-
-  after(:each) do
-    Warden.test_reset!
   end
 
   scenario 'visit apps with no apps created' do

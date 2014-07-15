@@ -1,12 +1,16 @@
 require 'rails_helper'
 
 describe 'DELETE /locations/:id' do
-  before :each do
+  before :all do
     create_service
-    delete(
-      api_location_url(@location, subdomain: ENV['API_SUBDOMAIN']),
-      {}
-    )
+  end
+
+  before :each do
+    delete api_location_url(@location, subdomain: ENV['API_SUBDOMAIN']), {}
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'deletes the location' do

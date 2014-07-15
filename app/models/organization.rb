@@ -1,5 +1,5 @@
 class Organization < ActiveRecord::Base
-  default_scope { order('id ASC') }
+  default_scope { order('id DESC') }
 
   attr_accessible :name, :urls
 
@@ -14,11 +14,18 @@ class Organization < ActiveRecord::Base
   # custom array validator. See app/validators/array_validator.rb
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: '%{value} is not a valid URL' } }
+              message: '%{value} is not a valid URL', allow_blank: true } }
 
   serialize :urls, Array
 
   auto_strip_attributes :name, squish: true
+
+  before_save :compact_urls
+
+  def compact_urls
+    return unless send('urls').is_a?(Array)
+    send('urls=', send('urls').reject(&:blank?).map(&:squish))
+  end
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]

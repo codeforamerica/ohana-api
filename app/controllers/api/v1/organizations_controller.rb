@@ -3,6 +3,7 @@ module Api
     class OrganizationsController < ApplicationController
       include TokenValidator
       include PaginationHeaders
+      include CustomErrors
 
       def index
         orgs = Organization.page(params[:page]).per(params[:per_page])

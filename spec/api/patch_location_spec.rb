@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 describe 'PATCH /locations/:id)' do
-  before(:each) do
+  before(:all) do
     @loc = create(:location)
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'returns 200 when validations pass' do
@@ -32,8 +36,7 @@ describe 'PATCH /locations/:id)' do
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), emails: ''
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['errors'].first['emails'].first).
-      to eq(' is not a valid email')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
   end
 
   it 'returns 422 when attribute is invalid' do
@@ -88,11 +91,8 @@ describe 'PATCH /locations/:id)' do
     get api_location_url('vrs-services', subdomain: ENV['API_SUBDOMAIN'])
     expect(json['name']).to eq('new name')
   end
-end
 
-describe 'Update a location without a valid token' do
   it "doesn't allow updating a location without a valid token" do
-    @loc = create(:location)
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
           { name: 'new name' },
           'HTTP_X_API_TOKEN' => 'invalid_token'

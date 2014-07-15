@@ -1,9 +1,16 @@
 require 'rails_helper'
 
 describe 'Create an organization (POST /organizations/)' do
-  before(:each) do
+  before(:all) do
     create(:organization)
+  end
+
+  before(:each) do
     @org_attributes = { name: 'new org', urls: %w(http://monfresh.com) }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'creates an organization with valid attributes' do

@@ -2,6 +2,7 @@ module Api
   module V1
     class PhonesController < ApplicationController
       include TokenValidator
+      include CustomErrors
 
       def index
         location = Location.find(params[:location_id])

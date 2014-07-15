@@ -1,16 +1,23 @@
 require 'rails_helper'
 
 describe 'Create a location (POST /locations/)' do
+  before(:all) do
+    @org = create(:organization)
+  end
+
   before(:each) do
-    org = create(:organization)
     @required_attributes = {
       name: 'new location',
       description: 'description',
       short_desc: 'short_desc',
       address_attributes: {
         street: 'main', city: 'utopia', state: 'CA', zip: '12345' },
-      organization_id: org.id
+      organization_id: @org.id
     }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'creates a location with valid attributes' do

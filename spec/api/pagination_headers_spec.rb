@@ -6,10 +6,17 @@ describe 'Pagination Headers' do
   end
 
   context 'when on page 1 of 2' do
-    before(:each) do
+    before(:all) do
       create_list(:location, 2)
+    end
+
+    before(:each) do
       get api_search_index_url(
         keyword: 'parent', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns a 200 status' do
@@ -45,10 +52,17 @@ describe 'Pagination Headers' do
   end
 
   context 'when on page 2 of 2' do
-    before(:each) do
+    before(:all) do
       create_list(:location, 2)
+    end
+
+    before(:each) do
       get api_search_index_url(
         keyword: 'parent', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns a Link header' do
@@ -68,10 +82,17 @@ describe 'Pagination Headers' do
   end
 
   context 'when on page 2 of 3' do
-    before(:each) do
+    before(:all) do
       original_create_list(:location, 3)
+    end
+
+    before(:each) do
       get api_search_index_url(
         keyword: 'parent', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'returns a Link header' do
@@ -95,10 +116,17 @@ describe 'Pagination Headers' do
   end
 
   context 'when on page higher than max' do
-    before(:each) do
+    before(:all) do
       original_create_list(:location, 3)
+    end
+
+    before(:each) do
       get api_search_index_url(
         keyword: 'vrs', page: 3, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    after(:all) do
+      Organization.find_each(&:destroy)
     end
 
     it 'sets previous page to last page with results' do

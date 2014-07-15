@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'Visit home page after signing in' do
-  include Warden::Test::Helpers
   # The 'login_as' method is a Warden test helper that
   # allows you to simulate a user login without having
   # to fill in the sign in form every time. Since we're
@@ -12,14 +11,35 @@ feature 'Visit home page after signing in' do
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
   background do
-    Warden.test_mode!
     user = FactoryGirl.create(:user)
     login_as(user, scope: :user)
     visit '/'
   end
 
-  after(:each) do
-    Warden.test_reset!
+  it 'includes a link to the Docs page in the navigation' do
+    within '.navbar' do
+      expect(page).to have_link 'Docs', href: docs_path
+    end
+  end
+
+  it 'includes a link to the Home page in the navigation' do
+    within '.navbar' do
+      expect(page).to have_link 'Home', href: root_path
+    end
+  end
+
+  it 'includes a link to sign out in the navigation' do
+    within '.navbar' do
+      expect(page).
+        to have_link 'Sign out', href: destroy_user_session_path
+    end
+  end
+
+  it 'includes a link to the Edit Account page in the navigation' do
+    within '.navbar' do
+      expect(page).
+        to have_link 'Edit account', href: edit_user_registration_path
+    end
   end
 
   scenario "click 'create a new application' link" do

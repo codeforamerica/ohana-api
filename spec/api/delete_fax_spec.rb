@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 describe 'DELETE /locations/:location_id/faxes/:id' do
-  before(:each) do
+  before(:all) do
     @loc = create(:location)
     @fax = @loc.faxes.create!(attributes_for(:fax))
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   it 'deletes the fax' do

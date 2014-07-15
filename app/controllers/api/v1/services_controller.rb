@@ -2,6 +2,7 @@ module Api
   module V1
     class ServicesController < ApplicationController
       include TokenValidator
+      include CustomErrors
 
       before_action :validate_token!, only: [:update, :destroy, :create, :update_categories]
 
@@ -13,7 +14,8 @@ module Api
 
       def update
         service = Service.find(params[:id])
-        service.update!(params)
+        location = Location.find(params[:location_id])
+        service.update!(params.merge(location_id: location.id))
         render json: service, status: 200
       end
 

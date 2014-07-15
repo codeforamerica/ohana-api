@@ -1,10 +1,17 @@
 require 'rails_helper'
 
 describe 'GET /categories' do
-  before :each do
+  before :all do
     @food = Category.create!(name: 'Food', oe_id: '101')
     @emergency = Category.create!(name: 'Emergency', oe_id: '103')
+  end
+
+  before :each do
     get api_categories_url(subdomain: ENV['API_SUBDOMAIN'])
+  end
+
+  after(:all) do
+    Category.find_each(&:destroy)
   end
 
   it 'displays all categories' do

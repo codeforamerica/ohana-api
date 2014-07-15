@@ -20,6 +20,10 @@ describe Service do
 
   it { is_expected.to belong_to(:location).touch(true) }
 
+  it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
+  it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
+  it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
+
   # This is no longer working in Rails 4.1.2. I opened an issue:
   # https://github.com/thoughtbot/shoulda-matchers/issues/549
   xit { is_expected.to have_and_belong_to_many(:categories).order('oe_id asc') }
@@ -53,16 +57,6 @@ describe Service do
     )
   end
 
-  it do
-    is_expected.not_to allow_value(['Belmont ']).
-    for(:service_areas).
-    with_message(
-      'At least one service area is improperly formatted, ' \
-      'or is not an accepted city or county name. Please make sure all ' \
-      'words are capitalized.'
-    )
-  end
-
   it { is_expected.to allow_value(%w(Belmont Atherton)).for(:service_areas) }
 
   describe 'auto_strip_attributes' do
@@ -73,10 +67,13 @@ describe Service do
       expect(service.description).to eq('SNAP market')
       expect(service.eligibility).to eq('seniors')
       expect(service.fees).to eq('none')
+      expect(service.funding_sources).to eq(['County'])
       expect(service.how_to_apply).to eq('in person')
       expect(service.keywords).to eq(%w(health yoga))
       expect(service.name).to eq('Benefits')
       expect(service.short_desc).to eq('processes applications')
+      expect(service.service_areas).to eq(['Belmont'])
+      expect(service.urls).to eq(['http://www.monfresh.com'])
       expect(service.wait).to eq('2 days')
     end
   end

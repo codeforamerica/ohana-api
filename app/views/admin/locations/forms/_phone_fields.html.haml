@@ -1,0 +1,19 @@
+= field_set_tag do
+  = f.label :number, 'Number'
+  = f.telephone_field :number, maxlength: 12, class: 'span2'
+  %br
+  = f.label :vanity_number, 'Vanity Number (for example: 650-123-HELP)'
+  = f.telephone_field :vanity_number, maxlength: 12, class: 'span2'
+  %br
+  = f.label :number_type, 'Number Type (to identify TTY numbers)'
+  = f.select :number_type, [["TTY", "TTY"]], include_blank: true
+  %br
+  = f.label :extension, 'Extension'
+  = f.text_field :extension, maxlength: 8, class: 'span2'
+  %br
+  = f.label :department, 'Department'
+  = f.text_field :department, maxlength: 50, class: 'span4'
+
+  = f.hidden_field :_destroy
+  %br
+  = link_to 'Delete this phone permanently', '#', class: 'btn btn-danger delete_association'

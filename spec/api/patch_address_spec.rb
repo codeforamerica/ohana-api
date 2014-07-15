@@ -1,10 +1,17 @@
 require 'rails_helper'
 
 describe 'PATCH address' do
-  before(:each) do
+  before(:all) do
     @loc = create(:location)
+  end
+
+  before(:each) do
     @address = @loc.address
     @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
+  end
+
+  after(:all) do
+    Organization.find_each(&:destroy)
   end
 
   describe 'PATCH /locations/:location_id/address/:id' do
@@ -43,7 +50,7 @@ describe 'PATCH address' do
 
     it 'requires a valid address id' do
       patch(
-        api_location_address_url(@loc, 123, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, 1234, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
       expect(response.status).to eq(404)

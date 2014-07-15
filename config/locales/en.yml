@@ -34,6 +34,11 @@ en:
         wheelchair: "Wheelchair"
         wheelchair_van: "Wheelchair-accessible van"
 
+  titles:
+    brand: "Ohana API"
+    main: "%{brand} Admin"
+    welcome: "Welcome to %{brand} Admin!"
+
 
 
 

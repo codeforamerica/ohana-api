@@ -15,6 +15,11 @@ FactoryGirl.define do
       admin_emails ['moncef@smcgov.org']
     end
 
+    factory :location_for_org_admin do
+      name 'Samaritan House'
+      urls ['http://samaritanhouse.com']
+    end
+
     factory :loc_with_extra_whitespace do
       description ' Provides job training'
       hours ' Monday-Friday 10am-3pm '

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'Update an existing API Application' do
-  include Warden::Test::Helpers
   # The 'visit_app' and 'update_api_app' methods are defined in
   # spec/support/features/session_helpers.rb
 
@@ -15,16 +14,11 @@ feature 'Update an existing API Application' do
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
   background do
-    Warden.test_mode!
     user = FactoryGirl.create(:user_with_app)
     login_as(user, scope: :user)
     name = user.api_applications.first.name
     main_url = user.api_applications.first.main_url
     visit_app(name, main_url)
-  end
-
-  after(:each) do
-    Warden.test_reset!
   end
 
   scenario 'with valid fields' do

@@ -2,6 +2,7 @@ module Api
   module V1
     class AddressController < ApplicationController
       include TokenValidator
+      include CustomErrors
 
       def update
         address = Address.find(params[:id])

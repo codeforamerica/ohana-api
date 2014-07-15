@@ -1,12 +1,18 @@
 class Service < ActiveRecord::Base
   attr_accessible :audience, :description, :eligibility, :fees,
-                  :funding_sources, :keywords, :how_to_apply, :name,
-                  :service_areas, :short_desc, :urls, :wait
+                  :funding_sources, :how_to_apply, :keywords, :name,
+                  :service_areas, :short_desc, :urls, :wait, :category_ids,
+                  :location_id
 
   belongs_to :location, touch: true
+
   has_and_belongs_to_many :categories, -> { order('oe_id asc').uniq }
+
   # has_many :schedules
   # accepts_nested_attributes_for :schedules
+
+  validates :name, :description, :location,
+            presence: { message: "can't be blank for Service" }
 
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
@@ -19,7 +25,7 @@ class Service < ActiveRecord::Base
   auto_strip_attributes :audience, :description, :eligibility, :fees,
                         :how_to_apply, :name, :short_desc, :wait, squish: true
 
-  before_validation :strip_whitespace_from_each_keyword
+  before_validation :compact_and_squish_array_fields
 
   serialize :funding_sources, Array
   serialize :keywords, Array
@@ -36,8 +42,10 @@ class Service < ActiveRecord::Base
     errors.add(:service_areas, error_message)
   end
 
-  def strip_whitespace_from_each_keyword
-    return unless keywords.is_a?(Array)
-    self.keywords = keywords.map(&:squish)
+  def compact_and_squish_array_fields
+    %w(funding_sources keywords service_areas urls).each do |name|
+      return unless send(name).is_a?(Array)
+      send("#{name}=", send(name).reject(&:blank?).map(&:squish))
+    end
   end
 end
