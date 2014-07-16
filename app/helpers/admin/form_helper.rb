@@ -27,7 +27,7 @@ class Admin
         content_tag(:ul) do
           concat(content_tag(:li, class: class_name) do
             concat(check_box_tag 'service[category_ids][]', category.id, @oe_ids.include?(category.oe_id), id: "category_#{category.oe_id}")
-            concat(label_tag dom_id(category), category.name)
+            concat(label_tag "category_#{category.oe_id}", category.name)
             concat(nested_categories(sub_categories))
           end)
         end
