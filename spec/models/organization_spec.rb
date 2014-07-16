@@ -29,14 +29,13 @@ describe Organization do
   it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:urls) }
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
-  it { is_expected.not_to allow_value('http://www.codeforamerica.org ').for(:urls) }
-  it { is_expected.not_to allow_value(' http://www.codeforamerica.org').for(:urls) }
 
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       org = build(:org_with_extra_whitespace)
       org.valid?
       expect(org.name).to eq('Food Pantry')
+      expect(org.urls).to eq(['http://cfa.org'])
     end
   end
 

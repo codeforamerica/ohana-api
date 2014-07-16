@@ -38,8 +38,6 @@ describe Location do
   it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:urls) }
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
-  it { is_expected.not_to allow_value('http://www.codeforamerica.org ').for(:urls) }
-  it { is_expected.not_to allow_value(' http://www.codeforamerica.org').for(:urls) }
 
   it { is_expected.to allow_value('moncef@blah.com').for(:emails) }
 
@@ -50,8 +48,6 @@ describe Location do
   end
 
   it { is_expected.not_to allow_value('moncef.blahcom').for(:emails) }
-  it { is_expected.not_to allow_value(' foo@bar.com').for(:emails) }
-  it { is_expected.not_to allow_value('foo@bar.com ').for(:emails) }
   it { is_expected.not_to allow_value(' foo @bar.com').for(:emails) }
 
   it { is_expected.to allow_value('moncef@blah.com').for(:admin_emails) }
@@ -63,8 +59,6 @@ describe Location do
   end
 
   it { is_expected.not_to allow_value('moncef.blahcom').for(:admin_emails) }
-  it { is_expected.not_to allow_value(' foo@bar.com').for(:admin_emails) }
-  it { is_expected.not_to allow_value('foo@bar.com ').for(:admin_emails) }
   it { is_expected.not_to allow_value(' foo @bar.com').for(:admin_emails) }
 
   it do
@@ -96,6 +90,9 @@ describe Location do
       expect(loc.name).to eq('VRS Services')
       expect(loc.short_desc).to eq('Provides job training.')
       expect(loc.transportation).to eq('BART stop 1 block away.')
+      expect(loc.urls).to eq(['http://samaritanhouse.com'])
+      expect(loc.admin_emails).to eq(['foo@bar.com'])
+      expect(loc.emails).to eq(['bar@foo.com'])
     end
   end
 

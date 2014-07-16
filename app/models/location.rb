@@ -109,16 +109,10 @@ class Location < ActiveRecord::Base
   serialize :urls, Array
 
   auto_strip_attributes :description, :hours, :name, :short_desc,
-                        :transportation, squish: true
+                        :transportation
 
-  before_save :compact_and_squish_array_fields
-
-  def compact_and_squish_array_fields
-    %w(admin_emails emails urls).each do |name|
-      return unless send(name).is_a?(Array)
-      send("#{name}=", send(name).reject(&:blank?).map(&:squish))
-    end
-  end
+  auto_strip_attributes :admin_emails, :emails, :urls,
+                        reject_blank: true, nullify: false
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]

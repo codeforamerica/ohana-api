@@ -39,6 +39,20 @@ describe 'PATCH /locations/:id)' do
     expect(json['error']).to include('Attribute was supposed to be an Array')
   end
 
+  it 'returns 422 if admin_emails is set to empty string' do
+    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), admin_emails: ''
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
+  end
+
+  it 'returns 422 if urls is set to empty string' do
+    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), urls: ''
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
+  end
+
   it 'returns 422 when attribute is invalid' do
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
           admin_emails: ['moncef-at-ohanapi.org']

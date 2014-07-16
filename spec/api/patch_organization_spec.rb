@@ -52,6 +52,16 @@ describe 'PATCH /organizations/:id' do
       to eq('Attribute was supposed to be an Array, but was a String: "http://monfresh.com".')
   end
 
+  it 'returns 422 when urls is empty String' do
+    patch(
+      api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      urls: ''
+    )
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
+  end
+
   it 'returns 422 when required attribute is missing' do
     patch(
       api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),

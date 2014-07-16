@@ -67,6 +67,46 @@ describe 'PATCH /locations/:location_id/services/:id' do
       to include('At least one service area is improperly formatted')
   end
 
+  it 'returns 422 when service_areas is empty String' do
+    patch(
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs.merge!(service_areas: '')
+    )
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
+  end
+
+  it 'returns 422 when funding_sources is empty String' do
+    patch(
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs.merge!(funding_sources: '')
+    )
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
+  end
+
+  it 'returns 422 when keywords is empty String' do
+    patch(
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs.merge!(keywords: '')
+    )
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
+  end
+
+  it 'returns 422 when urls is empty String' do
+    patch(
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs.merge!(urls: '')
+    )
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['errors'].first['urls'].first).to eq(' is not a valid URL')
+  end
+
   it "doesn't allow updating a service without a valid token" do
     patch(
       api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),

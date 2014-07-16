@@ -18,14 +18,8 @@ class Organization < ActiveRecord::Base
 
   serialize :urls, Array
 
-  auto_strip_attributes :name, squish: true
-
-  before_save :compact_urls
-
-  def compact_urls
-    return unless send('urls').is_a?(Array)
-    send('urls=', send('urls').reject(&:blank?).map(&:squish))
-  end
+  auto_strip_attributes :name
+  auto_strip_attributes :urls, reject_blank: true, nullify: false
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]

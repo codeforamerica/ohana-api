@@ -19,5 +19,6 @@ FactoryGirl.define do
 
   factory :org_with_extra_whitespace, class: Organization do
     name 'Food   Pantry  '
+    urls [' http://cfa.org']
   end
 end

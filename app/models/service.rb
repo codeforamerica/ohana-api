@@ -23,9 +23,10 @@ class Service < ActiveRecord::Base
   end)
 
   auto_strip_attributes :audience, :description, :eligibility, :fees,
-                        :how_to_apply, :name, :short_desc, :wait, squish: true
+                        :how_to_apply, :name, :short_desc, :wait
 
-  before_validation :compact_and_squish_array_fields
+  auto_strip_attributes :funding_sources, :keywords, :service_areas, :urls,
+                        reject_blank: true, nullify: false
 
   serialize :funding_sources, Array
   serialize :keywords, Array
@@ -40,12 +41,5 @@ class Service < ActiveRecord::Base
       'or is not an accepted city or county name. Please make sure all ' \
       'words are capitalized.'
     errors.add(:service_areas, error_message)
-  end
-
-  def compact_and_squish_array_fields
-    %w(funding_sources keywords service_areas urls).each do |name|
-      return unless send(name).is_a?(Array)
-      send("#{name}=", send(name).reject(&:blank?).map(&:squish))
-    end
   end
 end
