@@ -342,6 +342,12 @@ describe "GET 'search'" do
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq('Soup Kitchen')
     end
+
+    it 'allows searching for both org_name and location' do
+      get api_search_index_url(org_name: 'stamps', location: '1236 Broadway, Burlingame, CA 94010', subdomain: ENV['API_SUBDOMAIN'])
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq('Library')
+    end
   end
 
   context 'when email parameter contains custom domain' do
