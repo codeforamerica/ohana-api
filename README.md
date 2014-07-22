@@ -31,7 +31,7 @@ We are happy to announce that this project has been awarded a [grant from the Kn
 If you would like to try out the current version of the project, please read the Wiki article about [Populating the Postgres DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
 
 ## API documentation
-[http://ohanapi.herokuapp.com/api/docs](http://ohana-api-demo.herokuapp.com/api/docs)
+[http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
 
 [Search documentation](http://ohanapi.herokuapp.com/api/docs#!/search/GET_api_search_format_get_0)
 
