@@ -2,9 +2,9 @@ module Search
   extend ActiveSupport::Concern
 
   included do
-    scope :has_language, ->(l) { where('languages @@ :q', q: l) if l.present? }
-    scope :has_keyword, ->(k) { keyword_search(k) if k.present? }
-    scope :has_category, ->(c) { joins(services: :categories).where(categories: { name: c }) if c.present? }
+    scope :language, ->(language) { where('languages @@ :q', q: language) }
+    scope :keyword, ->(keyword) { keyword_search(keyword) }
+    scope :category, ->(category) { joins(services: :categories).where(categories: { name: category }) }
 
     scope :is_near, (lambda do |loc, lat_lng, r|
       if loc.present?
@@ -17,30 +17,26 @@ module Search
       end
     end)
 
-    scope :belongs_to_org, (lambda do |org|
-      if org.present?
-        joins(:organization).where('organizations.name @@ :q', q: org)
-      end
+    scope :org_name, (lambda do |org|
+      joins(:organization).where('organizations.name @@ :q', q: org)
     end)
 
-    scope :has_email, (lambda do |email|
-      if email.present?
-        return Location.none unless email.include?('@')
+    scope :email, (lambda do |email|
+      return Location.none unless email.include?('@')
 
-        domain = email.split('@').last
+      domain = email.split('@').last
 
-        locations = Location.arel_table
+      locations = Location.arel_table
 
-        if SETTINGS[:generic_domains].include?(domain)
-          # where('admin_emails @@ :q or emails @@ :q', q: email)
-          Location.where(locations[:admin_emails].matches("%#{email}%").
-                  or(locations[:emails].matches("%#{email}%")))
-        else
-          # where('urls ilike :q or emails ilike :q or admin_emails @@ :p', q: "%#{domain}%", p: email)
-          Location.where(locations[:admin_emails].matches("%#{email}%").
-                  or(locations[:urls].matches("%#{domain}%")).
-                  or(locations[:emails].matches("%#{domain}%")))
-        end
+      if SETTINGS[:generic_domains].include?(domain)
+        # where('admin_emails @@ :q or emails @@ :q', q: email)
+        Location.where(locations[:admin_emails].matches("%#{email}%").
+                or(locations[:emails].matches("%#{email}%")))
+      else
+        # where('urls ilike :q or emails ilike :q or admin_emails @@ :p', q: "%#{domain}%", p: email)
+        Location.where(locations[:admin_emails].matches("%#{email}%").
+                or(locations[:urls].matches("%#{domain}%")).
+                or(locations[:emails].matches("%#{domain}%")))
       end
     end)
 
@@ -62,12 +58,14 @@ module Search
     require 'exceptions'
 
     def text_search(params = {})
-      Location.has_language(params[:language]).
-              has_category(params[:category]).
-              belongs_to_org(params[:org_name]).
-              has_email(params[:email]).
-              is_near(params[:location], params[:lat_lng], params[:radius]).
-              has_keyword(params[:keyword])
+      allowed_params(params).reduce(self) do |relation, (scope_name, value)|
+        relation.public_send(scope_name, value) if value.present?
+      end
+    end
+
+    def search(params = {})
+      text_search(params).
+        is_near(params[:location], params[:lat_lng], params[:radius])
     end
 
     def validated_radius(radius, custom_radius)
@@ -84,6 +82,10 @@ module Search
       lat, lng = lat_lng.split(',')
       fail Exceptions::InvalidLatLon if lat.to_f == 0.0 || lng.to_f == 0.0
       [Float(lat), Float(lng)]
+    end
+
+    def allowed_params(params)
+      params.slice(:language, :category, :org_name, :email, :keyword)
     end
   end
 end

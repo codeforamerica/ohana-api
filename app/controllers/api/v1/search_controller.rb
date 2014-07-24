@@ -5,14 +5,7 @@ module Api
       include CustomErrors
 
       def index
-        tables =
-          if params[:org_name].present? && params[:location].present?
-            [:address, :phones]
-          else
-            [:organization, :address, :phones]
-          end
-
-        locations = Location.text_search(params).uniq.page(params[:page]).
+        locations = Location.search(params).uniq.page(params[:page]).
                             per(params[:per_page]).
                             includes(tables)
 
@@ -35,6 +28,16 @@ module Api
 
         render json: nearby, status: 200
         generate_pagination_headers(nearby)
+      end
+
+      private
+
+      def tables
+        if params[:org_name].present? && params[:location].present?
+          [:address, :phones]
+        else
+          [:organization, :address, :phones]
+        end
       end
     end
   end
