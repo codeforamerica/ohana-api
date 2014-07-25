@@ -5,7 +5,7 @@ module Api
       include CustomErrors
 
       def index
-        locations = Location.search(params).uniq.page(params[:page]).
+        locations = Location.search(params).page(params[:page]).
                             per(params[:per_page]).
                             includes(tables)
 

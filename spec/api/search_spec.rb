@@ -348,6 +348,12 @@ describe "GET 'search'" do
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq('Library')
     end
+
+    it 'allows searching for blank org_name and location' do
+      get api_search_index_url(org_name: '', location: '', subdomain: ENV['API_SUBDOMAIN'])
+      expect(response.status).to eq 200
+      expect(json.length).to eq(3)
+    end
   end
 
   context 'when email parameter contains custom domain' do

@@ -59,13 +59,14 @@ module Search
 
     def text_search(params = {})
       allowed_params(params).reduce(self) do |relation, (scope_name, value)|
-        relation.public_send(scope_name, value) if value.present?
+        value.present? ? relation.public_send(scope_name, value) : relation.all
       end
     end
 
     def search(params = {})
       text_search(params).
-        is_near(params[:location], params[:lat_lng], params[:radius])
+        is_near(params[:location], params[:lat_lng], params[:radius]).
+        uniq
     end
 
     def validated_radius(radius, custom_radius)
