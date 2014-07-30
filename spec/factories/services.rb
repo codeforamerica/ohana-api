@@ -19,13 +19,13 @@ FactoryGirl.define do
     description ' SNAP market'
     eligibility ' seniors '
     fees 'none '
-    funding_sources ['County ']
+    funding_sources ['County ', 'County']
     how_to_apply '  in  person'
-    keywords ['health ', ' yoga']
+    keywords ['health ', ' yoga', 'yoga']
     name 'Benefits '
     short_desc 'processes applications '
-    service_areas ['Belmont ']
-    urls [' http://www.monfresh.com ']
+    service_areas ['Belmont ', 'Belmont']
+    urls [' http://www.monfresh.com ', 'http://www.monfresh.com']
     wait '2 days '
     location
   end

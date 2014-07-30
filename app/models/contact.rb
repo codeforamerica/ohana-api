@@ -1,4 +1,6 @@
 class Contact < ActiveRecord::Base
+  default_scope { order('id ASC') }
+
   attr_accessible :email, :extension, :fax, :name, :phone, :title
 
   belongs_to :location, touch: true
