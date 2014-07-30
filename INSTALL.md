@@ -75,9 +75,9 @@ local [Admin Interface][admin] if it's pointing to your local API.
 
 ### Verify the app is returning JSON
 
-[http://lvh.me:8080/api/locations](http://lvh.me:8080/api/locations)
+[http://localhost:8080/api/locations](http://localhost:8080/api/locations)
 
-[http://lvh.me:8080/api/search?keyword=food](http://lvh.me:8080/api/search?keyword=food)
+[http://localhost:8080/api/search?keyword=food](http://localhost:8080/api/search?keyword=food)
 
 We recommend the [JSONView][jsonview] Google Chrome extension for formatting
 the JSON response so it is easier to read in the browser.
@@ -164,4 +164,4 @@ To set an admin as a Super Admin:
     UPDATE "admins" SET super_admin = true WHERE id = 3;
     \q
 
-To access the admin interface, visit [http://lvh.me:8080/admin/](http://lvh.me:8080/admin/).
+To access the admin interface, visit [http://localhost:8080/admin/](http://localhost:8080/admin/).

@@ -15,14 +15,6 @@
 # in the Unix shell. For example, setting API_PATH: api makes "api" available
 # as ENV['API_PATH'] in the app. See app/config/routes.rb for a usage example.
 
-# In development, "BASE_DOMAIN" should be set to lvh.me, plus the port you're
-# using to run the app. If you're running the app on a different port, change
-# the port value below to match your port.
-# In production, you should set BASE_DOMAIN to your production domain name.
-# For example, on Heroku, you can set the ENV var like this:
-# heroku config:set BASE_DOMAIN=mydomain.com -a your_heroku_app_name
-BASE_DOMAIN: lvh.me:8080
-
 # If you'd like to run the API on its own subdomain, set API_SUBDOMAIN to your
 # desired subdomain name. We recommend "api". Then make sure to delete "api"
 # from "API_PATH". That way, you'll have a URL like http://api.yourdomain.org
@@ -34,7 +26,6 @@ BASE_DOMAIN: lvh.me:8080
 # In development, you can test it by adding the subdomain to 'lvh.me:8080'.
 # For example: http://api.lvh.me:8080.
 API_SUBDOMAIN:
-
 
 # The API_PATH setting is related to the API_SUBDOMAIN setting. If you're not
 # using a separate subdomain for the API, then define the path for the API,
@@ -69,4 +60,3 @@ MAX_PER_PAGE: 50
 # In production, you should set this token to a long random string
 # that you can generate from the command line with "rake secret".
 ADMIN_APP_TOKEN: changeme
-
