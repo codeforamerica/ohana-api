@@ -60,6 +60,7 @@ generic_domains:
   - sbcglobal.net
   - hotmail.com
   - yahoo.com
+  - comcast.net
 
 # The email address that admin interface users should send questions/issues to.
 # This link appears when an admin views their locations and organizations.
