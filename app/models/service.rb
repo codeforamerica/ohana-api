@@ -12,11 +12,12 @@ class Service < ActiveRecord::Base
   # accepts_nested_attributes_for :schedules
 
   validates :name, :description, :location,
-            presence: { message: "can't be blank for Service" }
+            presence: { message: I18n.t('errors.messages.blank_for_service') }
 
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: '%{value} is not a valid URL' } }
+              message: "%{value} #{I18n.t('errors.messages.invalid_url')}",
+              allow_blank: true } }
 
   validate :service_area_format, if: (proc do |s|
     s.service_areas.is_a?(Array) && SETTINGS[:valid_service_areas].present?

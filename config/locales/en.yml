@@ -34,11 +34,26 @@ en:
         wheelchair: "Wheelchair"
         wheelchair_van: "Wheelchair-accessible van"
 
+  errors:
+    messages:
+      blank_for_address: "can't be blank for Address"
+      blank_for_category: "can't be blank for Category"
+      blank_for_contact: "can't be blank for Contact"
+      blank_for_fax: "can't be blank for Fax"
+      blank_for_location: "can't be blank for Location"
+      blank_for_mail_address: "can't be blank for Mail Address"
+      blank_for_org: "can't be blank for Organization"
+      blank_for_phone: "can't be blank for Phone"
+      blank_for_service: "can't be blank for Service"
+      invalid_email: 'is not a valid email'
+      invalid_fax: 'is not a valid US fax number'
+      invalid_phone: 'is not a valid US phone number'
+      invalid_state: 'Please enter a valid 2-letter state abbreviation'
+      invalid_url: 'is not a valid URL'
+      invalid_zip: 'is not a valid ZIP code'
+      no_address: 'A location must have at least one address type.'
+
   titles:
     brand: "Ohana API"
     main: "%{brand} Admin"
     welcome: "Welcome to %{brand} Admin!"
-
-
-
-

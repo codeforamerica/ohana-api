@@ -7,13 +7,13 @@ class MailAddress < ActiveRecord::Base
             :city,
             :state,
             :zip,
-            presence: { message: "can't be blank for Mail Address" }
+            presence: { message: I18n.t('errors.messages.blank_for_mail_address') }
 
   validates :state,
             length: {
               maximum: 2,
               minimum: 2,
-              message: 'Please enter a valid 2-letter state abbreviation'
+              message: I18n.t('errors.messages.invalid_state')
             }
 
   validates :zip, zip: true

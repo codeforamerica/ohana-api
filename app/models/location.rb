@@ -36,23 +36,23 @@ class Location < ActiveRecord::Base
 
   validates :mail_address,
             presence: {
-              message: 'A location must have at least one address type.'
+              message: I18n.t('errors.messages.no_address')
             },
             unless: proc { |loc| loc.address.present? }
 
   validates :address,
             presence: {
-              message: 'A location must have at least one address type.'
+              message: I18n.t('errors.messages.no_address')
             },
             unless: proc { |loc| loc.mail_address.present? }
 
   validates :description, :organization, :name,
-            presence: { message: "can't be blank for Location" }
+            presence: { message: I18n.t('errors.messages.blank_for_location') }
 
   ## Uncomment the line below if you want to require a short description.
   ## We recommend having a short description so that web clients can display
   ## an overview within the search results. See smc-connect.org as an example.
-  # validates :short_desc, presence: { message: "can't be blank for Location" }
+  # validates :short_desc, presence: { message: I18n.t('errors.messages.blank_for_location') }
 
   ## Uncomment the line below if you want to limit the
   ## short description's length. If you want to display a short description
@@ -69,11 +69,13 @@ class Location < ActiveRecord::Base
   # custom array validator. See app/validators/array_validator.rb
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: '%{value} is not a valid URL', allow_blank: true } }
+              message: "%{value} #{I18n.t('errors.messages.invalid_url')}",
+              allow_blank: true } }
 
   validates :emails, :admin_emails, array: {
     format: { with: /\A([^@\s]+)@((?:(?!-)[-a-z0-9]+(?<!-)\.)+[a-z]{2,})\z/i,
-              message: '%{value} is not a valid email', allow_blank: true } }
+              message: "%{value} #{I18n.t('errors.messages.invalid_email')}",
+              allow_blank: true } }
 
   # Only call Google's geocoding service if the address has changed
   # to avoid unnecessary requests that affect our rate limit.
