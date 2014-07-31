@@ -1,22 +1,6 @@
 require 'rails_helper'
 
 describe "GET 'search'" do
-  context 'when none of the required parameters are present' do
-    before :each do
-      create(:location)
-      get api_search_index_url(zoo: 'far', subdomain: ENV['API_SUBDOMAIN'])
-    end
-
-    xit 'returns a 400 bad request status code' do
-      expect(response.status).to eq(400)
-    end
-
-    xit 'includes an error description' do
-      expect(json['description']).
-        to eq('Either keyword, location, or language is missing.')
-    end
-  end
-
   context 'with valid keyword only' do
     before :all do
       @locations = create_list(:farmers_market_loc, 2)
@@ -274,6 +258,7 @@ describe "GET 'search'" do
       @service.category_ids = [cat.id]
       @service.save
     end
+
     it 'boosts location whose services category name matches the query' do
       get api_search_index_url(keyword: 'food', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '3'
@@ -480,14 +465,6 @@ describe "GET 'search'" do
   end
 
   describe 'sorting search results' do
-    context 'sort when neither keyword nor location is not present' do
-      xit 'returns a helpful message about search query requirements' do
-        get api_search_index_url(sort: 'name', subdomain: ENV['API_SUBDOMAIN'])
-        expect(json['description']).
-          to eq('Either keyword, location, or language is missing.')
-      end
-    end
-
     context 'sort when only location is present' do
       it 'sorts by distance by default' do
         create(:location)

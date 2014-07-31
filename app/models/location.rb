@@ -94,8 +94,7 @@ class Location < ActiveRecord::Base
             scope: true
 
   # List of admin emails that should have access to edit a location's info.
-  # Admin emails can be added to a location via the Admin GUI:
-  # https://github.com/codeforamerica/ohana-api-admin
+  # Admin emails can be added to a location via the Admin interface.
   serialize :admin_emails, Array
 
   serialize :emails, Array
