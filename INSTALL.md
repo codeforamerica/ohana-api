@@ -66,13 +66,6 @@ Start the app locally on port 8080:
 
     rails s -p 8080
 
-If for some reason, you can't run on port 8080, make sure you update
-`BASE_DOMAIN` in `config/application.yml` if you change the port number.
-You'll also need to update the port number in `OHANA_API_ENDPOINT` in your
-local [Admin Interface][admin] if it's pointing to your local API.
-
-[admin]: https://github.com/codeforamerica/ohana-api-admin
-
 ### Verify the app is returning JSON
 
 [http://localhost:8080/api/locations](http://localhost:8080/api/locations)

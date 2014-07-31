@@ -8,9 +8,6 @@ then
 
   echo "Getting ready to set environment variables for $herokuApp"
 
-  echo "Setting BASE_DOMAIN"
-  heroku config:set BASE_DOMAIN=$herokuApp.herokuapp.com --app $herokuApp
-
   echo "Setting API_PATH"
   heroku config:set API_PATH=api --app $herokuApp
 
