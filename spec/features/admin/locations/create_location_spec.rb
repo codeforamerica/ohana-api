@@ -27,6 +27,7 @@ feature 'Create a new location' do
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
     expect(page).to have_content 'A location must have at least one address type'
+    expect(page).to have_css('.field_with_errors')
   end
 
   scenario 'with valid mailing address', :js do

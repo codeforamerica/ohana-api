@@ -43,4 +43,5 @@ class Service < ActiveRecord::Base
       'words are capitalized.'
     errors.add(:service_areas, error_message)
   end
+
 end
