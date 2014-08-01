@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140425033933) do
+ActiveRecord::Schema.define(version: 20140801162236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,31 @@ ActiveRecord::Schema.define(version: 20140425033933) do
   end
 
   add_index "addresses", ["location_id"], name: "index_addresses_on_location_id", using: :btree
+
+  create_table "admins", force: true do |t|
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "name",                   default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "super_admin",            default: false
+  end
+
+  add_index "admins", ["confirmation_token"], name: "index_admins_on_confirmation_token", unique: true, using: :btree
+  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
+  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "api_applications", force: true do |t|
     t.integer  "user_id"
@@ -113,11 +138,15 @@ ActiveRecord::Schema.define(version: 20140425033933) do
     t.text     "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.tsvector "tsv_body"
+    t.text     "last_changes"
+    t.integer  "last_changed_id"
   end
 
   add_index "locations", ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude", using: :btree
   add_index "locations", ["organization_id"], name: "index_locations_on_organization_id", using: :btree
   add_index "locations", ["slug"], name: "index_locations_on_slug", unique: true, using: :btree
+  add_index "locations", ["tsv_body"], name: "index_locations_on_tsv_body", using: :gin
 
   create_table "mail_addresses", force: true do |t|
     t.integer  "location_id"
@@ -138,6 +167,8 @@ ActiveRecord::Schema.define(version: 20140425033933) do
     t.text     "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "last_changes"
+    t.integer  "last_changed_id"
   end
 
   add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
@@ -150,6 +181,7 @@ ActiveRecord::Schema.define(version: 20140425033933) do
     t.text     "vanity_number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "number_type"
   end
 
   add_index "phones", ["location_id"], name: "index_phones_on_location_id", using: :btree
@@ -170,6 +202,8 @@ ActiveRecord::Schema.define(version: 20140425033933) do
     t.text     "keywords"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "last_changes"
+    t.integer  "last_changed_id"
   end
 
   add_index "services", ["location_id"], name: "index_services_on_location_id", using: :btree

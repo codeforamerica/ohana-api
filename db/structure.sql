@@ -353,7 +353,9 @@ CREATE TABLE locations (
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    tsv_body tsvector
+    tsv_body tsvector,
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -422,7 +424,9 @@ CREATE TABLE organizations (
     urls text,
     slug text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -510,7 +514,9 @@ CREATE TABLE services (
     service_areas text,
     keywords text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -1076,4 +1082,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140522153640');
 INSERT INTO schema_migrations (version) VALUES ('20140629181523');
 
 INSERT INTO schema_migrations (version) VALUES ('20140630171418');
+
+INSERT INTO schema_migrations (version) VALUES ('20140801162236');
 

@@ -17,6 +17,7 @@ class Admin
 
     def update
       @service = Service.find(params[:id])
+      @service.current_admin = current_admin
       @location = Location.find(params[:location_id])
 
       respond_to do |format|

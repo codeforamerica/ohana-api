@@ -22,6 +22,7 @@ class Admin
 
     def update
       @location = Location.find(params[:id])
+      @location.current_admin = current_admin
       @org = @location.organization
       @admin_decorator = AdminDecorator.new(current_admin)
 
