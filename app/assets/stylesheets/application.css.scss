@@ -14,6 +14,12 @@
  *= require_self
  */
 
+
+.add_fields, .add_array_fields
+{
+  margin: 10px 0px 15px 10px;
+}
+
 .content {
   background-color: #fff;
   padding: 20px;
@@ -25,14 +31,7 @@
   line-height: 1.428;
 }
 
-// creates styles for text in the navbar that is not a link
-.navbar .nav > li > span
-{
-  padding: 10px 15px 10px;
-  color:#DE9292;
-  display:block;
-}
-
+// Creates a red border for any form entries which cannot be blank
 .content-box
 {
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
@@ -54,6 +53,16 @@
   p { padding-top: 10px; }
 }
 
+.field_with_errors
+{
+
+  input
+  {
+    border-color:red;
+    border-width: 2px;
+  }
+}
+
 .inst-box
 {
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
@@ -67,6 +76,11 @@
   background:#cbe0f3;
   margin-bottom:10px;
   padding:10px;
+    
+    .contacts
+    {
+      color: purple;
+    }
 
     .desc
     {
@@ -95,9 +109,34 @@
   }
 }
 
-.add_fields, .add_array_fields
+// creates styles for text in the navbar that is not a link
+.navbar .nav > li > span
 {
-  margin: 10px 0px 15px 10px;
+  padding: 10px 15px 10px;
+  color:#DE9292;
+  display:block;
+}
+
+.save-box
+{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  text-align:center;
+
+  input
+  {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+  p
+  {
+    display:inline-block;
+    margin-top:20px;
+    margin-right:20px;
+    margin-bottom:0px;
+  }
 }
 
 #accessibility
@@ -114,13 +153,6 @@
   li {vertical-align:middle;}
   input {height:20px;width:20px;margin:5px 5px 5px 0px;display:inline-block;}
   label {display:inline-block;vertical-align:middle;width:220px;}
-}
-
-// margin added to accommodate for floating footer
-// This needs to be added to the last form element before the save button
-.edit_entry, .new_entry
-{
-  margin-bottom: 60px;
 }
 
 .danger-zone
@@ -150,6 +182,13 @@
   }
 }
 
+// margin added to accommodate for floating footer
+// This needs to be added to the last form element before the save button
+.edit_entry, .new_entry
+{
+  margin-bottom: 60px;
+}
+
 a.boxed-action,a.boxed-action:link,a.boxed-action:visited
 {
   display:inline-block;
@@ -167,24 +206,4 @@ a.boxed-action:hover, a.boxed-action:active
   color: #fff;
 }
 
-.save-box
-{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  text-align:center;
 
-  input
-  {
-    margin-top:20px;
-    margin-bottom:20px;
-  }
-  p
-  {
-    display:inline-block;
-    margin-top:20px;
-    margin-right:20px;
-    margin-bottom:0px;
-  }
-}
