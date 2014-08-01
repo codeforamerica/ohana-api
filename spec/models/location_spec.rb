@@ -76,6 +76,24 @@ describe Location do
 
   it_behaves_like TrackChanges, :description
 
+  describe "setting children's current_admin" do
+    subject { create(:location) }
+
+    it "sets the contacts' current_admin" do
+      contact = subject.contacts.build
+      admin = build(:admin)
+      subject.current_admin = admin
+      expect(contact.current_admin).to be_equal(admin)
+    end
+
+    it "sets the address's current_admin" do
+      address = subject.build_address
+      admin = build(:admin)
+      subject.current_admin = admin
+      expect(address.current_admin).to be_equal(admin)
+    end
+  end
+
   describe 'invalidations' do
     context 'without an address' do
       subject { build(:location, address: nil) }
