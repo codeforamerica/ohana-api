@@ -3,7 +3,7 @@
   = f.phone_field :number, maxlength: 12, class: 'span2', autocomplete: true
   %br
   = f.label :department, 'Department'
-  = f.text_field :department, maxlength: 50, class: 'span4'
+  = f.text_field :department, maxlength: 50, title: "Type the department name for the fax number provided. Max length of 50 characters." class: 'span4'
 
   = f.hidden_field :_destroy
   %br
