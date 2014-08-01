@@ -1,0 +1,9 @@
+%p= "The latest changes to this #{model.class.model_name.human.downcase} were:"
+%ul
+  - model.last_changes.each do |field, values|
+    %li= display_change(model, field, values)
+%p
+  These changes were made
+  - if model.last_changed.present?
+    = "by #{model.last_changed.name}"
+  = "at #{model.updated_at.to_s(:long_ordinal)}."

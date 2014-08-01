@@ -33,5 +33,25 @@ class Admin
         end
       end.join.html_safe
     end
+
+    def attr_name(model, attr)
+      model.class.human_attribute_name(attr)
+    end
+
+    def display_value(value)
+      return "none" if value.blank?
+
+      case value
+        when String then value.inspect
+        when Array then "(#{value.map { |v| display_value(v) }.join(", ")})"
+        else value.to_s
+      end
+    end
+
+    def display_change(model, attr, values)
+      attr_name(model, attr) +
+      " was changed from " +
+      "#{display_value(values[0])} to #{display_value(values[1])}."
+    end
   end
 end

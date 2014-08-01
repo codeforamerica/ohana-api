@@ -5,6 +5,12 @@
       - @location.errors.full_messages.each do |msg|
         %li= msg
 
+- if f.object.last_changes.present?
+  .inst-box
+    %header
+      %strong Latest changes
+    = render "admin/application/changes", :model => f.object
+
 = render 'admin/locations/forms/location_name', f: f
 - if @admin_decorator.allowed_to_access_location?(@location)
   = render 'admin/locations/forms/admin_emails', f: f
