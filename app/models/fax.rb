@@ -10,4 +10,6 @@ class Fax < ActiveRecord::Base
             fax: true
 
   auto_strip_attributes :number, :department, squish: true
+
+  include TrackChanges
 end

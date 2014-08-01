@@ -19,4 +19,6 @@ class MailAddress < ActiveRecord::Base
   validates :zip, zip: true
 
   auto_strip_attributes :attention, :street, :city, :state, :zip, squish: true
+
+  include TrackChanges
 end

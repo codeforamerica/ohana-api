@@ -30,6 +30,8 @@ describe Organization do
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
 
+  it_behaves_like TrackChanges, :name
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       org = build(:org_with_extra_whitespace)
@@ -72,33 +74,6 @@ describe Organization do
         @org.update_attributes!(urls: ['http://monfresh.com'])
         expect(@org.reload.slug).to eq('parent-agency')
       end
-    end
-  end
-
-  describe 'track changes' do
-    subject { create(:organization) }
-
-    it 'starts with no last_changes' do
-      expect(subject.last_changed).to be_blank
-      expect(subject.last_changes).to be_blank
-    end
-
-    it 'adds last changes on update' do
-      old_name = subject.name
-      admin = create(:admin)
-      subject.name = 'new name'
-      subject.current_admin = admin
-      subject.save
-      expect(subject.last_changed).to be_equal(admin)
-      expect(subject.last_changes['name']).to be_eql([old_name, 'new name'])
-    end
-
-    it 'does not update last_changes if there are no changes' do
-      subject.update(name: 'new name')
-      expect(subject.last_changes).to_not be_blank
-      last_changes = subject.last_changes
-      subject.save
-      expect(subject.last_changes).to be_eql(last_changes)
     end
   end
 end

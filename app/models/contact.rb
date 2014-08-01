@@ -13,4 +13,6 @@ class Contact < ActiveRecord::Base
   validates :fax, fax: true, allow_blank: true
 
   auto_strip_attributes :email, :extension, :fax, :name, :phone, :title, squish: true
+
+  include TrackChanges
 end

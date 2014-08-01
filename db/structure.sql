@@ -81,7 +81,9 @@ CREATE TABLE addresses (
     state text,
     zip text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -243,7 +245,9 @@ CREATE TABLE contacts (
     phone text,
     extension text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -276,7 +280,9 @@ CREATE TABLE faxes (
     number text,
     department text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -391,7 +397,9 @@ CREATE TABLE mail_addresses (
     state text,
     zip text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -462,7 +470,9 @@ CREATE TABLE phones (
     vanity_number text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    number_type character varying(255)
+    number_type character varying(255),
+    last_changes text,
+    last_changed_id integer
 );
 
 
@@ -1084,4 +1094,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140629181523');
 INSERT INTO schema_migrations (version) VALUES ('20140630171418');
 
 INSERT INTO schema_migrations (version) VALUES ('20140801162236');
+
+INSERT INTO schema_migrations (version) VALUES ('20140801185705');
 

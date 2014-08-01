@@ -74,6 +74,8 @@ describe Location do
   it { is_expected.to serialize(:languages).as(Array) }
   it { is_expected.to serialize(:urls).as(Array) }
 
+  it_behaves_like TrackChanges, :description
+
   describe 'invalidations' do
     context 'without an address' do
       subject { build(:location, address: nil) }
@@ -192,33 +194,6 @@ describe Location do
       @loc.update!(mail_address_attributes: mail_address, address: nil)
 
       expect(@loc.coordinates).to be_nil
-    end
-  end
-
-  describe 'track changes' do
-    subject { create(:location) }
-
-    it 'starts with no last_changes' do
-      expect(subject.last_changed).to be_blank
-      expect(subject.last_changes).to be_blank
-    end
-
-    it 'adds last changes on update' do
-      old_name = subject.name
-      admin = create(:admin)
-      subject.name = 'new name'
-      subject.current_admin = admin
-      subject.save
-      expect(subject.last_changed).to be_equal(admin)
-      expect(subject.last_changes['name']).to be_eql([old_name, 'new name'])
-    end
-
-    it 'does not update last_changes if there are no changes' do
-      subject.update(name: 'new name')
-      expect(subject.last_changes).to_not be_blank
-      last_changes = subject.last_changes
-      subject.save
-      expect(subject.last_changes).to be_eql(last_changes)
     end
   end
 end

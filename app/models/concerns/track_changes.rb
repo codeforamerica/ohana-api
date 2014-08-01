@@ -11,7 +11,7 @@ module TrackChanges
 
   def track_changes
     changes = self.changes.reject do |key, value|
-      %w(updated_at last_changed_id).include?(key) || value.all?(&:blank?)
+      %w(updated_at last_changed_id).include?(key) || value.all?(&:blank?) || value.all? { |x| x == value[0] }
     end
 
     return if changes.blank?
