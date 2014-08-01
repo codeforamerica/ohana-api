@@ -8,7 +8,7 @@
   - if @service.keywords.present?
     - @service.keywords.each_with_index do |keyword, i|
       = field_set_tag do
-        = text_field_tag 'service[keywords][]', keyword, class: 'span4', id: "service_keywords_#{i}"
+        = text_field_tag 'service[keywords][]', keyword, class: 'span4', id: "service_keywords_#{i}", title: "Type any relevant keywords or search terms related to services offered at this location/organization"
         %br
         = link_to 'Delete this keyword permanently', '#', class: 'btn btn-danger delete_attribute'
   = link_to_add_array_fields 'Add a keyword', :services, :keyword
