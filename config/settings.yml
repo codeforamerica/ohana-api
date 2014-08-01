@@ -69,7 +69,7 @@ generic_domains:
 admin_support_email: ohanapi@codeforamerica.org
 
 # The email address that confirmation emails are sent from after user signup.
-confirmation_email:
+confirmation_email: ohanapi@codeforamerica.org
 #########################
 #
 # SERVICE AREAS SETTINGS
