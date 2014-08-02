@@ -29,11 +29,11 @@
 # This setting is used in 'app/models/concerns/search.rb'.
 bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 
-###############################
+####################################################
 #
-# SETTINGS FOR ADMIN INTERFACE
+# GENERIC EMAIL DOMAIN SETTINGS FOR ADMIN INTERFACE
 #
-###############################
+####################################################
 #
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
@@ -66,7 +66,7 @@ generic_domains:
 # This link appears when an admin views their locations and organizations.
 # See app/views/admin/locations/index.html.haml and
 # app/views/admin/organizations/index.html.haml.
-admin_support_email:
+admin_support_email: ohanapi@codeforamerica.org
 
 #########################
 #
