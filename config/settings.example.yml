@@ -70,6 +70,7 @@ admin_support_email:
 
 # The email address that confirmation emails are sent from after user signup.
 confirmation_email:
+
 #########################
 #
 # SERVICE AREAS SETTINGS
@@ -116,4 +117,5 @@ test:
   - Atherton
 
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+
   confirmation_email: registration@ohanapi.org

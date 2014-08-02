@@ -29,11 +29,11 @@
 # This setting is used in 'app/models/concerns/search.rb'.
 bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 
-####################################################
+###############################
 #
-# GENERIC EMAIL DOMAIN SETTINGS FOR ADMIN INTERFACE
+# SETTINGS FOR ADMIN INTERFACE
 #
-####################################################
+###############################
 #
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
@@ -70,6 +70,7 @@ admin_support_email: ohanapi@codeforamerica.org
 
 # The email address that confirmation emails are sent from after user signup.
 confirmation_email: ohanapi@codeforamerica.org
+
 #########################
 #
 # SERVICE AREAS SETTINGS
@@ -116,4 +117,5 @@ test:
   - Atherton
 
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+
   confirmation_email: registration@ohanapi.org
