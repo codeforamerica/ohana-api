@@ -1,5 +1,6 @@
-bundler_args: --without assets:development:production
 language: ruby
+cache: bundler
+bundler_args: --deployment
 rvm:
   - 2.1.1
 addons:
@@ -8,7 +9,6 @@ before_script:
   - psql -c 'create database ohana_api_test;' -U postgres
   - psql -U postgres -q -d ohana_api_test -f db/structure.sql
   - cp config/database.travis.yml config/database.yml
-install: "bin/wad"
 script: "bundle exec rake"
 notifications:
   campfire:
