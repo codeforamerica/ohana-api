@@ -13,4 +13,6 @@
         = text_field_tag 'location[admin_emails][]', admin, class: 'span4', id: "location_admin_emails_#{i}"
         %br
         = link_to "Delete this admin permanently", '#', class: "btn btn-danger delete_attribute"
-  = link_to_add_array_fields 'Add an admin email', :locations, :admin_email
+      %hr
+
+  = link_to_add_array_fields 'Add a new admin email', :locations, :admin_email

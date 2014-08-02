@@ -9,4 +9,5 @@
         If the fax number belongs to a contact, please move it to the existing contact, or create a new contact.
   = f.fields_for :faxes do |builder|
     = render 'admin/locations/forms/fax_fields', f: builder
-  = link_to_add_fields 'Add a fax number', f, :faxes
+    %hr
+  = link_to_add_fields 'Add a new fax number', f, :faxes

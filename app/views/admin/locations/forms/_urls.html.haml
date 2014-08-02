@@ -12,5 +12,6 @@
         = url_field_tag 'location[urls][]', url, class: 'span9', id: "location_urls_#{i}"
         %br
         = link_to "Delete this website permanently", '#', class: "btn btn-danger delete_attribute"
-  = link_to_add_array_fields 'Add a website', :locations, :url
+      %hr
+  = link_to_add_array_fields 'Add a new website', :locations, :url
 
