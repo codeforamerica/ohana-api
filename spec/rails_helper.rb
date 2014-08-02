@@ -39,6 +39,7 @@ RSpec.configure do |config|
   config.include Features::FormHelpers, type: :feature
   config.include Requests::RequestHelpers, type: :request
   config.include DefaultHeaders, type: :request
+  config.include MailerMacros
 
   # rspec-rails 3+ will no longer automatically infer an example group's spec
   # type from the file location. You can explicitly opt-in to this feature by

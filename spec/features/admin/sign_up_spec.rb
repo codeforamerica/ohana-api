@@ -7,6 +7,12 @@ feature 'Signing up' do
     expect(current_path).to eq(admin_dashboard_path)
   end
 
+  scenario 'with custom confirmation email address' do
+    sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
+    expect(first_email.from.first).to eq('registration@ohanapi.org')
+    reset_email
+  end
+
   scenario 'with name missing' do
     sign_up_admin('', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(page).to have_content "Name can't be blank"
