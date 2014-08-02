@@ -56,7 +56,9 @@ Copy its contents to a new file called `application.yml`.
 
 Inside the `config` folder, you will also find a file called
 `settings.example.yml`. Copy its contents to a new file called `settings.yml`,
-overwriting the one that already exists.
+overwriting the one that already exists. If you are planning on contributing
+code to this project, please make sure to not include your `settings.yml` in
+your pull requests.
 
 Please read through the instructions in both files carefully.
 
