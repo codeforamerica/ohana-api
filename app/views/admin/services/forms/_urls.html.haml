@@ -9,7 +9,7 @@
   - if @service.urls.present?
     - @service.urls.each_with_index do |url, i|
       = field_set_tag do
-        = url_field_tag 'service[urls][]', url, class: 'span9', id: "service_urls_#{i}", title: "Type the URL associated with this service"
+        = url_field_tag 'service[urls][]', url, class: 'span9', id: "service_urls_#{i}", title: 'Type the URL associated with this service'
         %br
         = link_to "Delete this website permanently", '#', class: "btn btn-danger delete_attribute"
   = link_to_add_array_fields 'Add a website', :services, :url

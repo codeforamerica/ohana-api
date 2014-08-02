@@ -1,15 +1,15 @@
 = field_set_tag do
   = f.label :street, 'Street'
-  = f.text_field :street, title: "Type street address here"
+  = f.text_field :street, title: 'Type street address here'
   %br
   = f.label :city, 'City'
-  = f.text_field :city, maxlength: 255, title: "Type city name here. Max length of 255 characters."
+  = f.text_field :city, maxlength: 255, title: 'Type city name here. Max length of 255 characters.'
   %br
   = f.label :state, 'State (2-letter abbreviation)'
-  = f.text_field :state, maxlength: 2, title: "Type two letter abbreviation for state here", class: 'span1'
+  = f.text_field :state, maxlength: 2, title: 'Type two letter abbreviation for state here', class: 'span1'
   %br
   = f.label :zip, 'ZIP Code'
-  = f.text_field :zip, maxlength: 5, title: "Type five digit zip code here", class: 'span2'
+  = f.text_field :zip, maxlength: 5, title: 'Type five digit zip code here', class: 'span2'
   = f.hidden_field :_destroy
   %br
   = link_to 'Delete this address permanently', '#', class: 'btn btn-danger delete_association'
