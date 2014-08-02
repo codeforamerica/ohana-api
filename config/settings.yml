@@ -68,6 +68,8 @@ generic_domains:
 # app/views/admin/organizations/index.html.haml.
 admin_support_email: ohanapi@codeforamerica.org
 
+# The email address that confirmation emails are sent from after user signup.
+confirmation_email: ohanapi@codeforamerica.org
 #########################
 #
 # SERVICE AREAS SETTINGS
@@ -114,3 +116,4 @@ test:
   - Atherton
 
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+  confirmation_email: registration@ohanapi.org
