@@ -59,7 +59,7 @@ first, then implement the feature or bug fix to make the test pass.
 
 6. **Test to pass:** Run `script/test` to run the test suite, in addition to style checkers. If your specs fail and/or style offenses are reported, return to **step 5**.
 
-7. **Commit changes:** Add, commit, and push your changes.
+7. **Commit changes:** Add, commit, and push your changes. Please do not commit your `settings.yml`.
 
 8. **Pull request:** [Submit a pull request][pr] to send your changes to this
 repository for review.
