@@ -9,7 +9,7 @@
   - if @organization.urls.present?
     - @organization.urls.each_with_index do |url, i|
       = field_set_tag do
-        = url_field_tag 'organization[urls][]', url, class: 'span9', id: "organization_urls_#{i}"
+        = url_field_tag 'organization[urls][]', url, class: 'span9', id: "organization_urls_#{i}", title: 'Type this organization\'s URL here'
         %br
         = link_to 'Delete this website permanently', '#', class: 'btn btn-danger delete_attribute'
   = link_to_add_array_fields 'Add a website', :organizations, :url

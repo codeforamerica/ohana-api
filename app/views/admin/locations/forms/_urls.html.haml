@@ -9,7 +9,7 @@
   - if @location.urls.present?
     - @location.urls.each_with_index do |url, i|
       = field_set_tag do
-        = url_field_tag 'location[urls][]', url, class: 'span9', id: "location_urls_#{i}"
+        = url_field_tag 'location[urls][]', url, class: 'span9', id: "location_urls_#{i}", title: 'Type the url associated with this location'
         %br
         = link_to "Delete this website permanently", '#', class: "btn btn-danger delete_attribute"
   = link_to_add_array_fields 'Add a website', :locations, :url
