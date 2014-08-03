@@ -58,7 +58,7 @@ feature 'Create a new location' do
     fill_in_all_required_fields
     add_phone(
       number: '123-456-7890',
-      number_type: 'TTY',
+      number_type: 'TTY number',
       department: 'Director of Development',
       extension: 'x1234',
       vanity_number: '123-ABC-DEFG'

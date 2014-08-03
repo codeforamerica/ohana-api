@@ -118,7 +118,7 @@ module Features
       within('.phones') do
         fill_in find(:xpath, './/input[contains(@name, "[number]")]')[:id], with: options[:number]
         select_field = find(:xpath, './/select[contains(@name, "[number_type]")]')[:id]
-        select(options[:number_type], from: select_field)
+        select(options[:number_type], from: select_field) if options[:number_type]
         fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
         fill_in find(:xpath, './/input[contains(@name, "[extension]")]')[:id], with: options[:extension]
         fill_in find(:xpath, './/input[contains(@name, "[vanity_number]")]')[:id], with: options[:vanity_number]
