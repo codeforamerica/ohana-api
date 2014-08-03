@@ -40,6 +40,8 @@ describe Address do
   it { is_expected.not_to allow_value('90210-90210').for(:zip) }
   it { is_expected.not_to allow_value('90 210').for(:zip) }
 
+  it_behaves_like TrackChanges, :street
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       address = build(:address_with_extra_whitespace)

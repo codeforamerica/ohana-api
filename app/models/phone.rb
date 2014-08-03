@@ -12,4 +12,6 @@ class Phone < ActiveRecord::Base
 
   auto_strip_attributes :department, :extension, :number, :number_type,
                         :vanity_number, squish: true
+
+  include TrackChanges
 end

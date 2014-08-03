@@ -47,6 +47,8 @@ describe Contact do
     with_message('asdf is not a valid US fax number')
   end
 
+  it_behaves_like TrackChanges, :title
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       contact = build(:contact_with_extra_whitespace)

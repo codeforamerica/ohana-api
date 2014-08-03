@@ -1,3 +1,6 @@
+- if f.object.last_changes.present?
+  .changes.text-info= render "admin/application/changes", model: f.object
+
 = field_set_tag do
   = f.label :number, 'Number'
   = f.telephone_field :number, maxlength: 12, class: 'span2'

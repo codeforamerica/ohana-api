@@ -57,6 +57,8 @@ describe Service do
 
   it { is_expected.to allow_value(%w(Belmont Atherton)).for(:service_areas) }
 
+  it_behaves_like TrackChanges, :description
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       service = build(:service_with_extra_whitespace)

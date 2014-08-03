@@ -22,6 +22,8 @@ describe Fax do
       with_message('703- is not a valid US fax number')
   end
 
+  it_behaves_like TrackChanges, :department
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       fax = build(:fax_with_extra_whitespace)

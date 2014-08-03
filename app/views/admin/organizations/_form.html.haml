@@ -5,6 +5,12 @@
       - @organization.errors.full_messages.each do |msg|
         %li= msg
 
+- if f.object.last_changes.present?
+  .inst-box
+    %header
+      %strong Latest changes
+    = render "admin/application/changes", :model => f.object
+
 = render 'admin/organizations/forms/name', f: f
 = render 'admin/organizations/forms/urls', f: f
 

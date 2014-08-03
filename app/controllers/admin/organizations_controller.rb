@@ -20,6 +20,7 @@ class Admin
 
     def update
       @organization = Organization.find(params[:id])
+      @organization.current_admin = current_admin
 
       respond_to do |format|
         if @organization.update(params[:organization])

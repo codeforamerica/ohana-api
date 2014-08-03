@@ -156,4 +156,5 @@ class Location < ActiveRecord::Base
 
   # See app/models/concerns/search.rb
   include Search
+  include TrackChanges
 end

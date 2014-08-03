@@ -25,6 +25,8 @@ describe Phone do
       with_message('703- is not a valid US phone number')
   end
 
+  it_behaves_like TrackChanges, :department
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       phone = build(:phone_with_extra_whitespace)

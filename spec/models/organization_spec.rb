@@ -30,6 +30,8 @@ describe Organization do
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
 
+  it_behaves_like TrackChanges, :name
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       org = build(:org_with_extra_whitespace)
