@@ -81,4 +81,5 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'listen', '~> 1.0'
+  gem 'pry-rails'
 end

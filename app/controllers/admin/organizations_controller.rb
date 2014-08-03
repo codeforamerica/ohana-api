@@ -44,7 +44,6 @@ class Admin
 
     def create
       @organization = Organization.new(params[:organization])
-
       respond_to do |format|
         if @organization.save
           format.html do
