@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
     resources :organizations, except: :show
 
+    get 'organizations/populate_autocomplete', to: 'organizations#populate_autocomplete'
     get 'locations/:location_id/services/confirm_delete_service', to: 'services#confirm_delete_service', as: :confirm_delete_service
     get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
     get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location

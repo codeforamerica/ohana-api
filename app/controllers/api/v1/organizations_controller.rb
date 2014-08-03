@@ -41,6 +41,11 @@ module Api
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
       end
+
+      def populate_autocomplete
+        @categories = Organization.order(:name).where("name like ?", "%#{params[:term]}%")
+        render json: @organizations.map(&:name)
+      end
     end
   end
 end
