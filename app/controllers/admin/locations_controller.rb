@@ -49,8 +49,8 @@ class Admin
     end
 
     def create
-      organization_id = Organization.find_by(name: params[:location][:organization_id]).id
       @location = Location.new(params[:location])
+      organization_id = Organization.find_by(name: params[:location][:organization_id]).id unless params[:location][:organization_id] == ''
       @location.organization_id = organization_id
       @admin_decorator = AdminDecorator.new(current_admin)
       @orgs = @admin_decorator.orgs
