@@ -9,7 +9,7 @@
   %header
     = f.label :organization_id, 'Choose an organization to create this location for.'
   %p
-    = f.text_field :organization_id, data: {autocomplete_source: @orgs}
+    = f.text_field :organization_id, data: { autocomplete_source: admin_organizations_populate_autocomplete_path }
 
 = render 'admin/locations/forms/location_name', f: f
 = render 'admin/locations/forms/admin_emails', f: f

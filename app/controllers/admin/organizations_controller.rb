@@ -73,5 +73,10 @@ class Admin
         format.js
       end
     end
+
+    def populate_autocomplete
+        @organizations = Organization.order(:name).where("name ilike ?", "%#{params[:term]}%")
+        render json: @organizations.map(&:name)
+    end
   end
 end
