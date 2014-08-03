@@ -55,7 +55,7 @@ feature 'Update phones' do
       number: '123-456-7890',
       department: 'Director of Development'
     )
-    click_link 'Add a phone number'
+    click_link 'Add a new phone number'
     click_button 'Save changes'
 
     within('.phones') do
@@ -69,7 +69,7 @@ feature 'Update phones' do
       number: '123-456-7890',
       department: 'Director of Development'
     )
-    click_link 'Add a phone number'
+    click_link 'Add a new phone number'
     within('.phones') do
       all_phones = all(:xpath, './/input[contains(@name, "[department]")]')
       fill_in all_phones[-1][:id], with: 'Department'

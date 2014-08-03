@@ -6,5 +6,4 @@
       Who are the main points of contact at the location?
   = f.fields_for :contacts do |builder|
     = render 'admin/locations/forms/contact_fields', f: builder
-    %hr
   = link_to_add_fields 'Add a new contact', f, :contacts

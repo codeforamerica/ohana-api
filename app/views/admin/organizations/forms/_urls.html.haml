@@ -12,5 +12,6 @@
         = url_field_tag 'organization[urls][]', url, class: 'span9', id: "organization_urls_#{i}"
         %br
         = link_to 'Delete this website permanently', '#', class: 'btn btn-danger delete_attribute'
-  = link_to_add_array_fields 'Add a website', :organizations, :url
+      %hr
+  = link_to_add_array_fields 'Add a new website', :organizations, :url
 

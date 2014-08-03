@@ -11,5 +11,6 @@
         = text_field_tag 'service[keywords][]', keyword, class: 'span4', id: "service_keywords_#{i}"
         %br
         = link_to 'Delete this keyword permanently', '#', class: 'btn btn-danger delete_attribute'
+      %hr
   = link_to_add_array_fields 'Add a keyword', :services, :keyword
 
