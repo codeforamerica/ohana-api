@@ -44,7 +44,6 @@ class Admin
 
     def create
       @organization = Organization.new(params[:organization])
-
       respond_to do |format|
         if @organization.save
           format.html do
@@ -72,6 +71,11 @@ class Admin
         format.html
         format.js
       end
+    end
+
+    def populate_autocomplete
+      @organizations = Organization.order(:name).where('name ilike ?', "%#{params[:term]}%")
+      render json: @organizations.map(&:name)
     end
   end
 end

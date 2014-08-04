@@ -17,6 +17,7 @@ gem 'protected_attributes'
 
 # Front end
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'haml-rails', '~> 0.5.3'
 
 # Server for deployment
@@ -80,4 +81,5 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'listen', '~> 1.0'
+  gem 'pry-rails'
 end

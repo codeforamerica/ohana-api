@@ -50,6 +50,10 @@ class Admin
 
     def create
       @location = Location.new(params[:location])
+      if Organization.exists?(name: params[:location][:organization_id])
+        organization_id = Organization.find_by(name: params[:location][:organization_id]).id
+      end
+      @location.organization_id = organization_id
       @admin_decorator = AdminDecorator.new(current_admin)
       @orgs = @admin_decorator.orgs
 

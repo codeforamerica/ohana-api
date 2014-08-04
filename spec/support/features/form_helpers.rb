@@ -161,7 +161,7 @@ module Features
     end
 
     def fill_in_all_required_fields
-      select 'Parent Agency', from: 'location_organization_id'
+      fill_in 'location_organization_id', with: 'Parent Agency'
       fill_in 'location_name', with: 'New Parent Agency location'
       fill_in 'location_description', with: 'new description'
       click_link 'Add a street address'
