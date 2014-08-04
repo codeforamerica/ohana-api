@@ -66,9 +66,12 @@ generic_domains:
 # This link appears when an admin views their locations and organizations.
 # See app/views/admin/locations/index.html.haml and
 # app/views/admin/organizations/index.html.haml.
+#
+# Please make sure to change this to your own email address.
 admin_support_email: ohanapi@codeforamerica.org
 
 # The email address that confirmation emails are sent from after user signup.
+# Please make sure to change this to your own email address.
 confirmation_email: ohanapi@codeforamerica.org
 
 #########################
