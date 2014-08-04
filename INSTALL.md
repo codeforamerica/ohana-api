@@ -52,15 +52,19 @@ _Note: Installation and preparation can take several minutes to complete!_
 ### Set up the environment variables & customizable settings
 
 Inside the `config` folder, you will find a file named `application.example.yml`.
-Copy its contents to a new file called `application.yml`.
+Copy its contents to a new file called `application.yml`, and read through the documentation.
+
+_The next step is only necessary if you are planning on customizing the app with_
+_the intent of deploying it. If you just want to submit a pull request, you can_
+_use the default `settings.yml`._
 
 Inside the `config` folder, you will also find a file called
 `settings.example.yml`. Copy its contents to a new file called `settings.yml`,
-overwriting the one that already exists. If you are planning on contributing
-code to this project, please make sure to not include your `settings.yml` in
-your pull requests.
+overwriting the one that already exists. Read through the documentation to
+learn how you can customize the app to suit your needs.
 
-Please read through the instructions in both files carefully.
+_If you are planning on contributing code to this project, please make sure not_
+_to include your `settings.yml` in your pull requests._
 
 ### Run the app
 
