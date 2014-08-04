@@ -6,7 +6,7 @@
   = f.telephone_field :vanity_number, maxlength: 12, class: 'span2'
   %br
   = f.label :number_type, 'Number Type (to identify TTY numbers)'
-  = f.select :number_type, [["TTY", "TTY"]], include_blank: true
+  = f.select :number_type, [['TTY', 'TTY']], include_blank: true
   %br
   = f.label :extension, 'Extension (for example: x101)'
   = f.text_field :extension, maxlength: 8, class: 'span2'

@@ -1,9 +1,9 @@
 %h2 Sign in
-= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   %div
     = f.label :email
     %br/
-    = f.email_field :email, :autofocus => true
+    = f.email_field :email, autofocus: true
   %div
     = f.label :password
     %br/
@@ -12,5 +12,5 @@
     %div
       = f.check_box :remember_me
       = f.label :remember_me
-  %div= f.submit "Sign in"
-= render "devise/shared/links"
+  %div= f.submit 'Sign in'
+= render 'devise/shared/links'

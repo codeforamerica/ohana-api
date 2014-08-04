@@ -8,7 +8,7 @@
         = javascript_include_tag 'application'
         = csrf_meta_tags
         = yield(:head)
-  %body{:class => "#{controller_name} #{action_name}"}
+  %body{class: "#{controller_name} #{action_name}"}
     .navbar.navbar-fixed-top
       %nav.navbar-inner
         .container

@@ -1,24 +1,24 @@
 = form_for @api_application do |f|
   - if @api_application.errors.any?
     .alert.alert-danger
-      %h2= "#{pluralize(@api_application.errors.count, "error")} prohibited this application from being saved:"
+      %h2= "#{pluralize(@api_application.errors.count, 'error')} prohibited this application from being saved:"
       %ul
         - @api_application.errors.full_messages.each do |msg|
           %li= msg
   .form-group
-    = f.label :name, "Application Name"
+    = f.label :name, 'Application Name'
     = f.text_field :name
   .form-group
-    = f.label :main_url, "Main URL"
+    = f.label :main_url, 'Main URL'
     = f.text_field :main_url
   .form-group
-    = f.label :callback_url, "Callback URL"
+    = f.label :callback_url, 'Callback URL'
     = f.text_field :callback_url
   %br
   - if f.object.new_record?
     .actions
-      = f.submit 'Register application', :class => "btn btn-primary"
+      = f.submit 'Register application', class: 'btn btn-primary'
   - else
     .actions
-      = f.submit 'Update application', :class => "btn btn-success"
-      = link_to 'Delete application', @api_application, method: :delete, data: { confirm: "Are you sure?" }, :class => "btn btn-danger"
+      = f.submit 'Update application', class: 'btn btn-success'
+      = link_to 'Delete application', @api_application, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

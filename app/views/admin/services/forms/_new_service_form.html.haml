@@ -1,6 +1,6 @@
 - if @service.errors.any?
   .alert.alert-danger
-    %h2= "#{pluralize(@service.errors.count, "error")} prohibited this service from being saved:"
+    %h2= "#{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:"
     %ul
       - @service.errors.full_messages.each do |msg|
         %li= msg
@@ -18,7 +18,7 @@
 = render 'admin/services/forms/categories', f: f
 = hidden_field_tag 'service[location_id]', @location.id, id: 'service_location_id'
 
-%div.save-box.navbar-inner
+.save-box.navbar-inner
   %p
     = 'Creating service for'
     %strong
