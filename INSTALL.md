@@ -58,7 +58,7 @@ Copy its contents to a new file called `application.yml`, and read through the d
 #### Adjust customizable settings
 _This step is only necessary if you are planning on customizing the app with_
 _the intent of deploying it. If you just want to submit a pull request, you can_
-_use the default `settings.yml`.
+_use the default `settings.yml`._
 
 Inside the `config` folder, you will also find a file called `settings.yml`.
 In that file, there are many settings you can, and should, customize.
