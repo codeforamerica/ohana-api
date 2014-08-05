@@ -57,7 +57,7 @@ module Features
     end
 
     def add_contact(options = {})
-      click_link 'Add a contact'
+      click_link 'Add a new contact'
       update_contact(options)
     end
 
@@ -78,9 +78,9 @@ module Features
     end
 
     def add_two_emails
-      click_link 'Add a general email'
+      click_link 'Add a new general email'
       fill_in 'location[emails][]', with: 'foo@ruby.com'
-      click_link 'Add a general email'
+      click_link 'Add a new general email'
       emails = all(:xpath, "//input[@name='location[emails][]']")
       fill_in emails[-1][:id], with: 'ruby@foo.com'
       click_button 'Save changes'
@@ -93,7 +93,7 @@ module Features
     end
 
     def add_fax(options = {})
-      click_link 'Add a fax number'
+      click_link 'Add a new fax number'
       update_fax(options)
     end
 
@@ -110,7 +110,7 @@ module Features
     end
 
     def add_phone(options = {})
-      click_link 'Add a phone number'
+      click_link 'Add a new phone number'
       update_phone(options)
     end
 
@@ -131,9 +131,9 @@ module Features
     end
 
     def add_two_admins
-      click_link 'Add an admin email'
+      click_link 'Add a new admin email'
       fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
-      click_link 'Add an admin email'
+      click_link 'Add a new admin email'
       admins = all(:xpath, "//input[contains(@name, '[admin_emails]')]")
       fill_in admins[-1][:id], with: 'moncef@otherlocation.com'
       click_button 'Save changes'
@@ -146,9 +146,9 @@ module Features
     end
 
     def add_two_urls
-      click_link 'Add a website'
+      click_link 'Add a new website'
       fill_in find(:xpath, "//input[@type='url']")[:id], with: 'http://ruby.com'
-      click_link 'Add a website'
+      click_link 'Add a new website'
       urls = all(:xpath, "//input[@type='url']")
       fill_in urls[-1][:id], with: 'http://monfresh.com'
       click_button 'Save changes'
@@ -172,9 +172,9 @@ module Features
     end
 
     def add_two_keywords
-      click_link 'Add a keyword'
+      click_link 'Add a new keyword'
       fill_in 'service[keywords][]', with: 'homeless'
-      click_link 'Add a keyword'
+      click_link 'Add a new keyword'
       keywords = page.
         all(:xpath, "//input[@name='service[keywords][]']")
       fill_in keywords[-1][:id], with: 'CalFresh'
@@ -188,9 +188,9 @@ module Features
     end
 
     def add_two_service_areas
-      click_link 'Add a service area'
+      click_link 'Add a new service area'
       fill_in 'service[service_areas][]', with: 'Belmont'
-      click_link 'Add a service area'
+      click_link 'Add a new service area'
       service_areas = page.
         all(:xpath, "//input[@name='service[service_areas][]']")
       fill_in service_areas[-1][:id], with: 'Atherton'

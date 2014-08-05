@@ -23,7 +23,7 @@ feature 'Update service areas' do
     @service.update!(service_areas: ['Belmont'])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
-    click_link 'Add a service area'
+    click_link 'Add a new service area'
     click_button 'Save changes'
     total_service_areas = all(:xpath, "//input[@name='service[service_areas][]']")
     expect(total_service_areas.length).to eq 1

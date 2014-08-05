@@ -43,7 +43,7 @@ feature 'Update faxes' do
       number: '123-456-7890',
       department: 'Director of Development'
     )
-    click_link 'Add a fax number'
+    click_link 'Add a new fax number'
     click_button 'Save changes'
     visit '/admin/locations/vrs-services'
 
@@ -58,7 +58,7 @@ feature 'Update faxes' do
       number: '123-456-7890',
       department: 'Director of Development'
     )
-    click_link 'Add a fax number'
+    click_link 'Add a new fax number'
     within('.faxes') do
       all_faxes = all(:xpath, './/input[contains(@name, "[department]")]')
       fill_in all_faxes[-1][:id], with: 'Department'
