@@ -12,5 +12,5 @@
         = url_field_tag 'service[urls][]', url, class: 'span9', id: "service_urls_#{i}"
         %br
         = link_to 'Delete this website permanently', '#', class: 'btn btn-danger delete_attribute'
-  = link_to_add_array_fields 'Add a website', :services, :url
-
+        %hr
+  = link_to_add_array_fields 'Add a new website', :services, :url

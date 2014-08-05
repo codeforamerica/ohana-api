@@ -27,7 +27,7 @@ feature 'Update keywords' do
     @service.update!(keywords: ['education'])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
-    click_link 'Add a keyword'
+    click_link 'Add a new keyword'
     click_button 'Save changes'
     total_keywords = all(:xpath, "//input[@name='service[keywords][]']")
     expect(total_keywords.length).to eq 1

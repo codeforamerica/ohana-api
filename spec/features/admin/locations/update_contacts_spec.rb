@@ -56,7 +56,7 @@ feature 'Update contacts' do
       name: 'Moncef Belyamani-Belyamani',
       title: 'Director of Development and Operations'
     )
-    click_link 'Add a contact'
+    click_link 'Add a new contact'
     click_button 'Save changes'
     visit '/admin/locations/vrs-services'
 
@@ -71,7 +71,7 @@ feature 'Update contacts' do
       name: 'Moncef Belyamani-Belyamani',
       title: 'Director of Development and Operations'
     )
-    click_link 'Add a contact'
+    click_link 'Add a new contact'
     within('.contacts') do
       all_phones = all(:xpath, './/input[contains(@name, "[phone]")]')
       fill_in all_phones[-1][:id], with: '202-555-1212'

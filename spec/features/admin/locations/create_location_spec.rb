@@ -132,7 +132,7 @@ feature 'Create a new location' do
 
   scenario 'with valid location email', :js do
     fill_in_all_required_fields
-    click_link 'Add a general email'
+    click_link 'Add a new general email'
     fill_in 'location[emails][]', with: 'moncefbelyamani@samaritanhousesanmateo.org'
 
     click_button 'Create location'
@@ -172,7 +172,7 @@ feature 'Create a new location' do
 
   scenario 'when adding a website', :js do
     fill_in_all_required_fields
-    click_link 'Add a website'
+    click_link 'Add a new website'
     fill_in find(:xpath, "//input[@type='url']")[:id], with: 'http://ruby.com'
     click_button 'Create location'
     click_link 'New Parent Agency location'

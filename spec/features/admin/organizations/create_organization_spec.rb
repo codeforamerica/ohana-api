@@ -22,7 +22,7 @@ feature 'Create a new organization' do
 
   scenario 'when adding a website', :js do
     fill_in 'organization_name', with: 'new org'
-    click_link 'Add a website'
+    click_link 'Add a new website'
     fill_in find(:xpath, "//input[@type='url']")[:id], with: 'http://ruby.com'
     click_button 'Create organization'
     click_link 'new org'
