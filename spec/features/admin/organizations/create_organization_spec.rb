@@ -18,6 +18,7 @@ feature 'Create a new organization' do
   scenario 'without any required fields' do
     click_button 'Create organization'
     expect(page).to have_content "Name can't be blank for Organization"
+    expect(page).to have_css('.field_with_errors')
   end
 
   scenario 'when adding a website', :js do
