@@ -1,15 +1,15 @@
-bundler_args: --without assets:development:production
+bundler_args: "--without assets:development:production"
 language: ruby
 rvm:
-  - 2.1.1
+- 2.1.1
 addons:
-  postgresql: "9.3"
+  postgresql: '9.3'
 before_script:
-  - psql -c 'create database ohana_api_smc_test;' -U postgres
-  - psql -U postgres -q -d ohana_api_smc_test -f db/structure.sql
-  - cp config/database.travis.yml config/database.yml
-install: "bin/wad"
-script: "bundle exec rake"
+- psql -c 'create database ohana_api_smc_test;' -U postgres
+- psql -U postgres -q -d ohana_api_smc_test -f db/structure.sql
+- cp config/database.travis.yml config/database.yml
+install: bin/wad
+script: bundle exec rake
 notifications:
   campfire:
     rooms:
@@ -18,8 +18,9 @@ notifications:
     on_failure: always
 env:
   global:
-    - S3_BUCKET_NAME=gems-for-travis
-    - ADMIN_APP_TOKEN=testing123
-    - API_PATH=api
-    - DEFAULT_PER_PAGE=30
-    - MAX_PER_PAGE=50
+  - S3_BUCKET_NAME=gems-for-travis
+  - ADMIN_APP_TOKEN=testing123
+  - API_PATH=api
+  - DEFAULT_PER_PAGE=30
+  - MAX_PER_PAGE=50
+  - secure: Gx3lTrS/ZFNsMugglRKgXmcu5/OznBKYBqXlS0nYpSsQIYi+fL4GNsQ4UAQrR78L8oy9rCBSY8s9phiR2wff8aY7OecBhm11ehWV+0BLFW8SSVKtd/Znty65sW9eMtzlxCNPfZiLqtgAkEkp46aFakLTWOM30V4ECKDKHll8hzo=

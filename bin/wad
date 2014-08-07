@@ -24,7 +24,7 @@ class Presss
 
     # Returns the value for the Authorization header for a message contents.
     def header(string)
-      'AWS ' + access_key_id + ':' + sign(string)
+      'AWS ' + access_key_id + ':' + sign(string) if access_key_id
     end
 
     # Returns a signature for a AWS request message.
@@ -114,10 +114,10 @@ class Presss
     # Returns the request headers for a date, message and content-type.
     def headers(date, message, content_type=nil)
       headers = {
-        'Authorization' => authorization.header(message),
         'Date' => date,
         'User-Agent' => 'Press/0.9'
       }
+      headers['Authorization'] = authorization.header(message) if authorization.header(message)
       headers['Content-Type'] = content_type if content_type
       headers
     end
@@ -329,10 +329,10 @@ class Wad
   def s3_configure
     Presss.config = {
       :region => s3_region,
-      :bucket_name => s3_bucket_name,
-      :access_key_id => s3_access_key_id,
-      :secret_access_key => s3_secret_access_key
+      :bucket_name => s3_bucket_name
     }
+    Presss.config[:access_key_id] = s3_access_key_id if ENV['S3_CREDENTIALS']
+    Presss.config[:secret_access_key] = s3_secret_access_key if ENV['S3_CREDENTIALS']
   end
 
   def s3_write_streaming
