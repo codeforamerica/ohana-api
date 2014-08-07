@@ -43,19 +43,25 @@ failing specs.
 To submit a code change to the project for review by the team:
 
 1. **Setup:** [Install the app][install] on your computer.
-3. **Branch:** [Create a topic branch][branch] for the one specific issue
+
+2. **Branch:** [Create a topic branch][branch] for the one specific issue
 you're addressing.
-4. **Write Specs:** Add specs for your unimplemented feature or bug fix in the
+
+3. **Write Specs:** Add specs for your unimplemented feature or bug fix in the
 `/spec/` directory.
-5. **Test to fail:** Run `rspec`. If your specs pass, return to **step 3**.
+
+4. **Test to fail:** Run `spring rspec`. If your specs pass, return to **step 3**.
 In the spirit of Test-Driven Development, you want to write a failing test
 first, then implement the feature or bug fix to make the test pass.
-6. **Implement:** Implement your feature or bug fix. Please follow the
+
+5. **Implement:** Implement your feature or bug fix. Please follow the
 [community-driven Ruby Style Guide][style_guide]*.
-7. **Test to pass:** Run `rspec`. If your specs fail, return to **step 5**.
-8. **Check for Ruby style issues:** Run `rubocop` and fix any issues it finds.
-9. **Commit changes:** Add, commit, and push your changes.
-10. **Pull request:** [Submit a pull request][pr] to send your changes to this
+
+6. **Test to pass:** Run `script/test`. If your specs fail and/or style offenses are reported, return to **step 5**.
+
+7. **Commit changes:** Add, commit, and push your changes.
+
+8. **Pull request:** [Submit a pull request][pr] to send your changes to this
 repository for review.
 
 _*If you use Sublime Text, please make sure to set your tab indentation to 2

@@ -1,7 +1,0 @@
-# Please don't change this file unless you know what you're doing.
-# These values are needed in order for the tests to pass.
-valid_service_areas:
-  - Belmont
-  - Atherton
-
-bounds: [[37.1074, -122.521], [37.7084, -122.085]]

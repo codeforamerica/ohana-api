@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Update an existing API Application' do
   # The 'visit_app' and 'update_api_app' methods are defined in
@@ -22,7 +22,7 @@ feature 'Update an existing API Application' do
   end
 
   scenario 'with valid fields' do
-    update_api_app('my awesome app', 'http://localhost', 'http://callback')
+    update_api_app('my awesome app', 'http://cfa.org', 'http://cfa.org')
     expect(page).to have_content 'Application was successfully updated.'
     expect(page).to have_content 'API Token'
   end
@@ -31,7 +31,6 @@ feature 'Update an existing API Application' do
     update_api_app('', '', '')
     expect(page).to have_content "Name can't be blank"
     expect(page).to have_content "Main url can't be blank"
-    expect(page).to have_content "Callback url can't be blank"
     expect(page).to have_button 'Update application'
     expect(page).to have_content 'API Token'
   end

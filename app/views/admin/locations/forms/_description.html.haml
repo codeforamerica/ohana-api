@@ -1,0 +1,7 @@
+%div.inst-box
+  %header
+    = f.label :description, 'Description'
+    %span.desc
+      A description of the location's services.
+  %p
+    = f.text_area :description, required: true, class: 'span9', rows: 10

@@ -1,9 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Signing up' do
   scenario 'with all required fields present and valid' do
     sign_up('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(page).to have_content 'activate your account'
+    expect(current_path).to eq(root_path)
   end
 
   scenario 'with name missing' do

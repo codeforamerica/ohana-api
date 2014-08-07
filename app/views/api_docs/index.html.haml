@@ -12,8 +12,7 @@
   %ul
     %li
       #{link_to "SMC Connect", "http://www.smc-connect.org"} - A web-based search interface (#{link_to "source code", "https://github.com/codeforamerica/ohana-web-search"})
-    %li
-      #{link_to "Ohana SMS", "https://github.com/marks/ohana-sms/"} - A text-message-based search interface (prototype)
+
 %h3 Step 1
 %p
   = link_to "Create an account", new_user_registration_path
@@ -37,6 +36,4 @@
 %p
   All API requests MUST include a valid User-Agent header. Requests with no User-Agent header will be rejected. Unless you're using the #{link_to "Ohanakapa", "https://github.com/codeforamerica/ohanakapa-ruby"} Ruby wrapper, we request that you use the name of your application for the User-Agent header value. This allows us to contact you if there are problems.
 %p
-  In the documentation below, you won't be able to try out the PUT, POST, and DELETE actions, because those require a token. For more information about writing to the API, read the documentation for the #{link_to "Ohana API Admin", "https://github.com/codeforamerica/ohana-api-admin"} interface.
-
-= render 'swagger_ui/swagger_ui', discovery_url: '/api/swagger_doc'
+  In the documentation, you won't be able to try out the PUT, POST, and DELETE actions, because those require a token. For more information about writing to the API, read the documentation for the #{link_to "Ohana API Admin", "https://github.com/codeforamerica/ohana-api-admin"} interface.

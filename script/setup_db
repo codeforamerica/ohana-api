@@ -2,13 +2,11 @@
 
 set -e
 
-echo "===> Creating ohana_api_smc_development database..."
-rake db:create
-echo "===> Loading the DB schema..."
-rake db:structure:load
+echo "===> Creating ohana_api_smc_development and ohana_api_smc_test databases..."
+bin/rake db:create:all
 
-echo "===> Creating ohana_api_smc_test database..."
-rake db:test:load
+echo "===> Setting up the ohana_api_smc_development database..."
+bin/rake db:structure:load
 
 echo "===> Populating DB with data from ohana_api_smc_test.dump file"
 pg_restore -c --no-owner -d ohana_api_smc_development data/ohana_api_smc_test.dump

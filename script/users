@@ -3,4 +3,4 @@
 set -e
 
 echo "===> Seeding the DB with test users..."
-rake db:seed
+bin/rake db:seed

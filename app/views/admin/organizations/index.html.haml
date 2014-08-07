@@ -1,0 +1,16 @@
+%p
+  Below you should see a list of organizations that you are allowed to administer.
+  If there are any entries missing, please #{mail_to "#{SETTINGS[:admin_support_email]}", "let us know"}.
+%p
+  To start updating, click on one of the links, which will take you to the details page
+  for the organization.
+
+- if current_admin.super_admin?
+  %p
+    As a super admin, you have access to all locations in the database. Please make updates responsibly.
+
+%p
+  - @orgs.each do |org|
+    %ul
+      = link_to org.second, edit_admin_organization_path(org.third)
+  = paginate @orgs

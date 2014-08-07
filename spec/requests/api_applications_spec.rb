@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'requests_helper'
 
 describe 'ApiApplications' do
@@ -6,8 +6,8 @@ describe 'ApiApplications' do
     context 'when not signed in' do
       it "redirects to 'users/sign_in'" do
         get api_applications_path
-        response.status.should be(302)
-        response.should redirect_to(new_user_session_path)
+        expect(response.status).to be(302)
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -16,7 +16,7 @@ describe 'ApiApplications' do
         @user = FactoryGirl.create(:user)
         login(@user)
         get api_applications_path
-        response.status.should be(200)
+        expect(response.status).to be(200)
       end
     end
   end

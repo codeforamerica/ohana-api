@@ -46,9 +46,8 @@ en:
         other: "Other"
         parks: "Parks"
         sports: "Sports"
-        test: "Test"
 
-
-
-
-
+  titles:
+    brand: "Ohana API"
+    main: "%{brand} Admin"
+    welcome: "Welcome to %{brand} Admin!"

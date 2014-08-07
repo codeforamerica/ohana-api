@@ -1,5 +1,5 @@
 class ApiApplicationsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   # GET /api_applications
   def index

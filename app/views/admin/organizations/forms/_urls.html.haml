@@ -1,0 +1,16 @@
+%div.inst-box.urls
+  %header
+    %strong
+      Websites
+    %p.desc
+      What websites are associated with the organization?
+      %em
+        Must include "http://" or "https://"
+  - if @organization.urls.present?
+    - @organization.urls.each_with_index do |url, i|
+      = field_set_tag do
+        = url_field_tag 'organization[urls][]', url, class: 'span9', id: "organization_urls_#{i}"
+        %br
+        = link_to 'Delete this website permanently', '#', class: 'btn btn-danger delete_attribute'
+  = link_to_add_array_fields 'Add a website', :organizations, :url
+

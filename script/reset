@@ -3,12 +3,11 @@
 set -e
 
 echo "===> Resetting the database..."
-rake db:reset
+bin/rake db:reset
+echo "===> Done resetting the DB."
 
-echo "===> Done resetting the DB. Now populating it again..."
+echo "===> Populating the DB via dump file"
 pg_restore -c --no-owner -d ohana_api_smc_development data/ohana_api_smc_test.dump
-
-echo "===> Done populating the DB. Now preparing the test database..."
-rake db:test:load
+echo "===> Done populating the DB."
 
 echo "===> All done!"

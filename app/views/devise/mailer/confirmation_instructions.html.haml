@@ -2,7 +2,7 @@
 %p Thanks for signing up as an Ohana API developer!
 %p
   After you've confirmed your account, check out the
-  = link_to 'documentation', "#{ENV["API_BASE_URL"]}docs"
+  = link_to 'documentation', docs_url
   to get started.
 %p You can confirm your account email through the link below:
 %p= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token)
