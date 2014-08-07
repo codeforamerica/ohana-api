@@ -10,8 +10,10 @@ feature 'Delete location' do
   scenario 'when submitting warning', :js do
     find_link('Permanently delete this location').click
     find_link('I understand the consequences, delete this location').click
-    expect(current_path).to eq admin_locations_path
-    expect(page).not_to have_link 'VRS Services'
+    using_wait_time 1 do
+      expect(current_path).to eq admin_locations_path
+      expect(page).not_to have_link 'VRS Services'
+    end
   end
 
   scenario 'when canceling warning', :js do
