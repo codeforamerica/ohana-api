@@ -5,7 +5,10 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
+    - 'db/seeds.rb'
     - 'db/migrate/*'
+    - 'config/initializers/generators.rb'
+    - 'config/unicorn.rb'
 
 # Allow dots at the end of lines when chaining methods
 # that span multiple lines
@@ -21,3 +24,13 @@ Documentation:
 MethodLength:
   CountComments: false
   Max: 15
+
+Style/ClassLength:
+  CountComments: false
+  Max: 102
+
+Style/GuardClause:
+  MinBodyLength: 3
+
+Rails/HasAndBelongsToMany:
+  Enabled: false

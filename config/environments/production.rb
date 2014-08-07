@@ -1,5 +1,9 @@
-OhanaApi::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+
+  # This setting enables the use of subdomains on Heroku.
+  # See config/settings.yml for more details.
+  config.action_dispatch.tld_length = SETTINGS[:tld_length]
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -32,8 +36,7 @@ OhanaApi::Application.configure do
   # Generate digests for assets URLs.
   config.assets.digest = true
 
-  # Version of your assets, change this if you want to expire all your assets.
-  config.assets.version = '1.0'
+  # `config.assets.version` and `config.assets.precompile` have moved to config/initializers/assets.rb
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -57,10 +60,6 @@ OhanaApi::Application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
 
-  # Precompile additional assets.
-  # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  # config.assets.precompile += %w( search.js )
-
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
@@ -73,14 +72,14 @@ OhanaApi::Application.configure do
   config.action_mailer.smtp_settings = {
     port:           '587',
     address:        'smtp.mandrillapp.com',
-    user_name:       ENV['MANDRILL_USERNAME'],
+    user_name:      ENV['MANDRILL_USERNAME'],
     password:       ENV['MANDRILL_APIKEY'],
     domain:         'heroku.com',
     authentication: :plain
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation can not be found).
+  # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
   # Send deprecation notices to registered listeners.
@@ -92,12 +91,6 @@ OhanaApi::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  # Set the schema format to ruby until we upgrade to Rails 4.1,
-  # at which point we can use the setting below instead.
-  # This is to suppress the "Error dumping database" message on Heroku.
-  config.active_record.schema_format = :ruby
-
   # Do not dump schema after migrations.
-  # This is a Rails 4.1 setting. Uncomment after upgrading.
-  # config.active_record.dump_schema_after_migration = false
+  config.active_record.dump_schema_after_migration = false
 end

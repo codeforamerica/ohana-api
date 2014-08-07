@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Visit home page after signing in' do
   # The 'login_as' method is a Warden test helper that
@@ -14,6 +14,32 @@ feature 'Visit home page after signing in' do
     user = FactoryGirl.create(:user)
     login_as(user, scope: :user)
     visit '/'
+  end
+
+  it 'includes a link to the Docs page in the navigation' do
+    within '.navbar' do
+      expect(page).to have_link 'Docs', href: docs_path
+    end
+  end
+
+  it 'includes a link to the Home page in the navigation' do
+    within '.navbar' do
+      expect(page).to have_link 'Home', href: root_path
+    end
+  end
+
+  it 'includes a link to sign out in the navigation' do
+    within '.navbar' do
+      expect(page).
+        to have_link 'Sign out', href: destroy_user_session_path
+    end
+  end
+
+  it 'includes a link to the Edit Account page in the navigation' do
+    within '.navbar' do
+      expect(page).
+        to have_link 'Edit account', href: edit_user_registration_path
+    end
   end
 
   scenario "click 'create a new application' link" do

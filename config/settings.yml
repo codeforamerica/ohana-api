@@ -1,3 +1,14 @@
+# First, copy the contents of this file to a new file called "settings.yml",
+# overwriting the one that's already in the "config" directory.
+
+# Note that changes to this file require a server restart to take effect.
+
+###############################
+#
+# GEOGRAPHICAL BOUNDS SETTINGS
+#
+###############################
+#
 # Google provides a "bounds" option to restrict the address search to
 # a particular area. This allows Google to disambiguate between two
 # cities with the same name. For example, there is a city in San Mateo
@@ -12,10 +23,18 @@
 # the coordinates should be Floats in [latitude, longitude] order. For example:
 # bounds: [[37.1074, -122.521], [37.7084, -122.085]]
 #
-# This setting is used in 'app/models/location.rb'.
+# The app is set to search within the continental US by default.
+# Make sure to change the coordinates to match your preferred search area.
+#
+# This setting is used in 'app/models/concerns/search.rb'.
 bounds: [[37.1074,-122.521], [37.7084,-122.085]]
 
-
+####################################################
+#
+# GENERIC EMAIL DOMAIN SETTINGS FOR ADMIN INTERFACE
+#
+####################################################
+#
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
 # to retrieve locations that match a particular domain name. This means that
@@ -34,7 +53,7 @@ bounds: [[37.1074,-122.521], [37.7084,-122.085]]
 # have a generic "@smcgov.org" email, even though they work in different
 # departments, and should only be able to access their specific locations.
 #
-# This setting is used in 'app/models/location.rb'.
+# This setting is used in 'app/models/concerns/search.rb'.
 generic_domains:
   - gmail.com
   - aol.com
@@ -43,13 +62,26 @@ generic_domains:
   - yahoo.com
   - co.sanmateo.ca.us
   - smcgov.org
+  - comcast.net
 
-# The San Mateo County data contains a service_areas field that identifies
-# which particular areas of a city or county are eligible for the services
-# provided by an organization, and if you want to make sure that the service
-# areas are always spelled the same way, then enter them below, one per line
-# preceded by a dash and a space, just like the generic_domains above.
-# Make sure to preserve the 2-space indentation. For example:
+# The email address that admin interface users should send questions/issues to.
+# This link appears when an admin views their locations and organizations.
+# See app/views/admin/locations/index.html.haml and
+# app/views/admin/organizations/index.html.haml.
+admin_support_email: ohanapi@codeforamerica.org
+
+#########################
+#
+# SERVICE AREAS SETTINGS
+#
+#########################
+#
+# If your data contains a service_areas field that identifies which particular
+# areas of a city or county are eligible for the services provided by an
+# organization, and if you want to make sure that the service areas are always
+# spelled the same way, then enter them below, one per line preceded by a dash
+# and a space, just like the generic_domains above. Make sure to preserve the
+# 2-space indentation. For example:
 # valid_service_areas:
 #   - Alameda County
 #   - Oakland
@@ -243,3 +275,37 @@ smc_service_areas:
   - San Gregorio
   - Sky Londa
   - West Menlo Park
+
+############################
+#
+# HEROKU SUBDOMAIN SETTINGS
+#
+############################
+#
+# When using the default Heroku setup (http://app-name.herokuapp.com),
+# set this to "2". Once you're ready to deploy to production, you will
+# most likely want to set up a custom domain name, like "smc-connect.org".
+# Once you do that, you will need to set the tld_length to the number
+# of dots in your top-level domain name, which will most likely be "1", but
+# if you are using ".co.uk" for example, then you should set it to "2".
+#
+# This setting is used in config/environments/production.rb.
+tld_length: 1
+
+###########################################
+#
+# SETTINGS FOR TESTS. PLEASE DO NOT MODIFY.
+#
+###########################################
+test:
+  bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+
+  smc_service_areas:
+  - Atherton
+  - Belmont
+
+  valid_service_areas:
+  - Belmont
+  - Atherton
+  - Alaska
+  - Arizona

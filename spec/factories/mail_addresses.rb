@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :mail_address do
+    attention 'Monfresh'
     street '1 davis dr'
     city 'Belmont'
     state 'CA'
@@ -11,6 +12,14 @@ FactoryGirl.define do
       street 'P.O Box 123'
       city 'La Honda'
       zip '94020'
+    end
+
+    factory :mail_address_with_extra_whitespace do
+      attention '   Moncef '
+      street '8875     La Honda Road'
+      city 'La Honda  '
+      state ' CA '
+      zip ' 94020'
     end
   end
 end

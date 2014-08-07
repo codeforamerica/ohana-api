@@ -3,8 +3,7 @@
 ## Install Prerequisites
 
 Before you can run Ohana API, you'll need to have the following software
-packages installed on your computer: Git, Ruby 2.1+, RVM, Postgres, and Redis.
-If you're on a Linux machine, you'll also need Node.js and libpq-dev.
+packages installed on your computer: Git, Ruby 2.1+, RVM, Postgres, and Redis. If you're on a Linux machine, you'll also need Node.js and libpq-dev.
 
 If you already have all of the prerequisites installed, you can go straight
 to the [Ohana Installation](#install-ohana-api). Otherwise, there are two ways
@@ -53,7 +52,7 @@ _Note: Installation and preparation can take several minutes to complete!_
 ### Set up the environment variables & customizable settings
 
 Inside the `config` folder, you will find a file named `application.example.yml`.
-Copy its contents to a new file called `application.yml`.
+Copy its contents to a new file called `application.yml` and read through the instructions carefully.
 
 Inside the `config` folder, you will also find a file called `settings.yml`.
 In that file, there are 4 variables you can customize. They are already
@@ -65,14 +64,6 @@ please read through the instructions in that file carefully.
 Start the app locally on port 8080:
 
     rails s -p 8080
-
-If for some reason, you can't run on port 8080, make sure you update
-`API_BASE_URL` and `API_BASE_HOST` in `config/application.yml` if you change
-the port number. You'll also need to update the port number in
-`OHANA_API_ENDPOINT` in your local [Admin Interface][admin] if it's pointing to
-your local API.
-
-[admin]: https://github.com/smcgov/SMC-Connect-Admin
 
 ### Verify the app is returning JSON
 
@@ -92,11 +83,17 @@ To reset your local database and populate it again with clean data:
 script/reset
 ```
 
-### User authentication (for the developer portal)
+### User and Admin authentication (for the developer portal and admin interface)
 
-The app automatically sets up users you can [sign in][sign_in] with.
+The app automatically sets up users and admins you can sign in with.
 Their username and password are stored in [db/seeds.rb][seeds].
 
-[sign_in]: http://localhost:8080/users/sign_in
 [seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb
 
+To set an admin as a Super Admin:
+
+    psql ohana_api_smc_development
+    UPDATE "admins" SET super_admin = true WHERE id = 3;
+    \q
+
+To access the admin interface, visit [http://localhost:8080/admin/](http://localhost:8080/admin/).

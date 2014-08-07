@@ -1,20 +1,13 @@
 class Fax < ActiveRecord::Base
-  belongs_to :location, touch: true
+  default_scope { order('id ASC') }
+
   attr_accessible :number, :department
 
-  validates_presence_of :number, message: "can't be blank for Fax"
-  validates_formatting_of(
-    :number,
-    using: :us_phone,
-    message: '%{value} is not a valid US fax number'
-  )
+  belongs_to :location, touch: true
 
-  normalize_attributes :number, :department
+  validates :number,
+            presence: { message: "can't be blank for Fax" },
+            fax: true
 
-  include Grape::Entity::DSL
-  entity do
-    expose :id
-    expose :number, unless: ->(o, _) { o.number.blank? }
-    expose :department, unless: ->(o, _) { o.department.blank? }
-  end
+  auto_strip_attributes :number, :department, squish: true
 end

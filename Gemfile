@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
 ruby '2.1.1'
-gem 'rails', '~> 4.0.4'
+gem 'rails', '~> 4.1.1'
 
 gem 'pg'
 
-gem 'sass-rails',   '~> 4.0.2'
+gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass'
@@ -22,80 +22,29 @@ gem 'haml-rails', '~> 0.5.3'
 # Server for deployment
 gem 'unicorn'
 
-group :production, :staging do
-  gem 'rails_12factor' # Heroku recommended
-  # Analytics
-  gem 'sentry-raven'
-end
-
-group :test, :development do
-  gem 'rspec-rails', '~> 2.14.2'
-  gem 'factory_girl_rails', '>= 4.2.0'
-end
-
-group :test do
-  gem 'database_cleaner', '>= 1.0.0.RC1'
-  gem 'capybara'
-  gem 'shoulda-matchers'
-  # Test coverage
-  gem 'coveralls', require: false
-  gem 'rubocop'
-end
-
-group :development do
-  # Debugging
-  # gem 'bullet'
-  gem 'quiet_assets', '>= 1.0.2'
-  gem 'better_errors', '>= 0.7.2'
-  gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
-  # gem 'debugger'
-
-  # Code quality and style
-  gem 'metric_fu'
-end
-
 # Geocoding
 gem 'geocoder'
 gem 'redis'
-
-# Format validation for URLs, phone numbers, zipcodes
-gem 'validates_formatting_of', '~> 0.8.1'
 
 # CORS support
 gem 'rack-cors', require: 'rack/cors'
 
 # API Design
-gem 'grape'
-gem 'grape-entity'
 gem 'kaminari'
-
-# Caching
-# gem 'garner'
-gem 'dalli'
-gem 'kgio'
-gem 'memcachier'
-
-# API Documentation
-gem 'grape-swagger'
-gem 'swagger-ui_rails'
+gem 'active_model_serializers', '~> 0.8.0'
 
 # Production Monitoring
 gem 'newrelic_rpm'
-gem 'newrelic-grape'
 gem 'rack-timeout'
 
-# Uncomment if you're using Rate Limiting
-# gem 'rack-throttle'
-
-# Authentication & Administration
+# Authentication
 gem 'devise'
 
-gem 'attribute_normalizer'
+gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
 
 # App config and ENV variables for heroku
 gem 'figaro'
-gem 'rails_config'
 
 # Search
 gem 'pg_search'
@@ -104,3 +53,32 @@ gem 'pg_search'
 gem 'ancestry'
 
 gem 'friendly_id', '~> 5.0.3'
+
+group :production, :staging do
+  gem 'rails_12factor'
+  gem 'sentry-raven'
+end
+
+group :test, :development do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl_rails', '>= 4.2.0'
+  gem 'bullet'
+end
+
+group :test do
+  gem 'database_cleaner', '>= 1.0.0.RC1'
+  gem 'capybara'
+  gem 'poltergeist'
+  gem 'shoulda-matchers', require: false
+  gem 'coveralls', require: false
+  gem 'rubocop'
+end
+
+group :development do
+  gem 'quiet_assets', '>= 1.0.2'
+  gem 'better_errors', '>= 0.7.2'
+  gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'listen', '~> 1.0'
+end

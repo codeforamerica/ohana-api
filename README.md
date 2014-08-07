@@ -1,13 +1,11 @@
-[![Build Status](https://travis-ci.org/smcgov/ohana-api-smc.png?branch=master)](https://travis-ci.org/smcgov/ohana-api-smc)
+[![Build Status](https://travis-ci.org/smcgov/ohana-api-smc.png?branch=master)](https://travis-ci.org/smcgov/ohana-api-smc) [![Coverage Status](https://coveralls.io/repos/smcgov/ohana-api-smc/badge.png?branch=master)](https://coveralls.io/r/smcgov/ohana-api-smc)
 
 #Ohana API - San Mateo County
 
-This is the repo for the San Mateo County instance of the [Ohana API](http://ohanapi.org). The API exposes information about community resources in San Mateo County to make it easier for residents in need to find services they are eligible for.
+This is the API + Admin Interface portion for the San Mateo County instance of the [Ohana API](http://ohanapi.org). The API exposes information about community resources in San Mateo County to make it easier for residents in need to find services they are eligible for.
 
 ## Apps that are using the Ohana API in San Mateo County
 [SMC-Connect](http://www.smc-connect.org), a mobile-friendly website for looking up community and human services. ([GitHub repo for SMC-Connect](https://github.com/smcgov/SMC-Connect))
-
-[SMC-Connect Admin site](http://admin.smc-connect.org), which allows organizations to update their own information. ([GitHub repo for SMC-Connect Admin](https://github.com/smcgov/SMC-Connect-Admin))
 
 We encourage third-party developers to build additional applications on top of the API. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the [API documentation](http://ohanapi.herokuapp.com/api.docs).
 
@@ -15,7 +13,7 @@ We encourage third-party developers to build additional applications on top of t
 We are currently using the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/smcgov/ohana-api-smc/blob/master/app/models/category.rb).
 Ohana API only accepts the categories defined by Open Eligibility.
 
-The easiest way to assign categories to a service is to use the [Ohana API Admin](http://admin.smc-connect.org) interface. Here's a screenshot:
+The easiest way to assign categories to a service is to use the Admin interface. Here's a screenshot:
 
 ![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
 
@@ -30,12 +28,10 @@ The easiest way to assign categories to a service is to use the [Ohana API Admin
 ## Stack Overview
 
 * Ruby version 2.1.1
-* Rails version 4.0.4
+* Rails version 4.1.4
 * Postgres
 * Redis
-* API framework: Grape
 * Testing Frameworks: RSpec, Factory Girl, Capybara
-
 
 ## Local Installation
 
@@ -45,23 +41,11 @@ Follow the instructions in [INSTALL.md][install].
 
 ### Running the tests
 
-First, run this command to make sure your local test database is up to date:
+Run tests locally with this simple command:
 
     script/test
 
-Then run tests locally with this simple command:
-
-    rspec
-
-For faster tests (optional):
-
-    gem install zeus
-    zeus start #in a separate Terminal window or tab
-    zeus rspec spec
-
-Read more about [Zeus](https://github.com/burke/zeus).
-
-To see the actual tests, browse through the [spec](https://github.com/codeforamerica/ohana-api/tree/master/spec) directory.
+To see the actual tests, browse through the [spec](https://github.com/smcgov/ohana-api-smc/tree/master/spec) directory.
 
 ## Contributing
 

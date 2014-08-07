@@ -12,6 +12,24 @@ class ApplicationController < ActionController::Base
   # https://github.com/rails/rails/issues/4127#issuecomment-10247450
   rescue_from ActionView::MissingTemplate, with: :missing_template
 
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from ActionController::RoutingError, with: :render_not_found
+  end
+
+  def after_sign_in_path_for(resource)
+    return root_url if resource.is_a?(User)
+    return admin_dashboard_path if resource.is_a?(Admin)
+  end
+
+  def after_sign_out_path_for(resource)
+    return root_path if resource == :user
+    return admin_dashboard_path if resource == :admin
+  end
+
+  layout :layout_by_resource
+
+  private
+
   def missing_template(exception)
     if exception.is_a?(ActionView::MissingTemplate) &&
       !Collector.new(collect_mimes_from_class_level).negotiate_format(request)
@@ -22,9 +40,29 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_not_found
+    hash =
+      {
+        'status'  => 404,
+        'message' => 'The requested resource could not be found.',
+        'documentation_url' => docs_url
+      }
+    render json: hash, status: 404
+  end
+
   protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
+  end
+
+  def layout_by_resource
+    if devise_controller? && resource_name == :user
+      'application'
+    elsif devise_controller? && resource_name == :admin
+      'admin'
+    else
+      'application'
+    end
   end
 end

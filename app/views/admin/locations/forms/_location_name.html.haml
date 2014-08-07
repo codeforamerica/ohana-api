@@ -1,0 +1,7 @@
+%div.inst-box
+  %header
+    = f.label :name, 'Location Name'
+    %span.desc
+      The name of the organization at a location, such as a branch, department, or similar.
+  %p
+    = f.text_field :name, required: true, maxlength: 255, class: 'span10'

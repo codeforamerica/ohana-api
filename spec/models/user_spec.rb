@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 # Uses the nifty shoulda-matchers
 # https://github.com/thoughtbot/shoulda-matchers
 describe User do
@@ -16,31 +16,31 @@ describe User do
     User.create!(@attr)
   end
 
-  it { should have_many :api_applications }
+  it { is_expected.to have_many :api_applications }
 
-  it { should allow_mass_assignment_of(:name) }
-  it { should allow_mass_assignment_of(:email) }
-  it { should allow_mass_assignment_of(:password) }
-  it { should allow_mass_assignment_of(:password_confirmation) }
-  it { should allow_mass_assignment_of(:remember_me) }
+  it { is_expected.to allow_mass_assignment_of(:name) }
+  it { is_expected.to allow_mass_assignment_of(:email) }
+  it { is_expected.to allow_mass_assignment_of(:password) }
+  it { is_expected.to allow_mass_assignment_of(:password_confirmation) }
+  it { is_expected.to allow_mass_assignment_of(:remember_me) }
 
   it do
-    should have_db_column(:name).of_type(:string).with_options(default: '')
+    is_expected.to have_db_column(:name).of_type(:string).with_options(default: '')
   end
 
   it do
-    should have_db_column(:encrypted_password).of_type(:string).
+    is_expected.to have_db_column(:encrypted_password).of_type(:string).
       with_options(default: '')
   end
 
-  it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:email) }
-  it { should validate_presence_of(:password) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_presence_of(:password) }
 
-  it { should ensure_length_of(:password).is_at_least(8) }
+  it { is_expected.to ensure_length_of(:password).is_at_least(8) }
 
   it do
-    should allow_value(
+    is_expected.to allow_value(
       'user@foo.com',
       'THE_USER@foo.bar.org',
       'first.last@foo.jp'
@@ -48,27 +48,27 @@ describe User do
   end
 
   it do
-    should_not allow_value(
+    is_expected.not_to allow_value(
       'user@foo,com',
       'user_at_foo.org',
       'example.user@foo.'
     ).for(:email)
   end
 
-  it { should validate_uniqueness_of(:email) }
+  it { is_expected.to validate_uniqueness_of(:email) }
 
   it 'rejects email addresses identical up to case' do
     upcased_email = @attr[:email].upcase
     User.create!(@attr.merge(email: upcased_email))
     user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
+    expect(user_with_duplicate_email).not_to be_valid
   end
 
   describe 'password validations' do
 
     it 'requires a matching password confirmation' do
-      User.new(@attr.merge(password_confirmation: 'invalid')).
-        should_not be_valid
+      expect(User.new(@attr.merge(password_confirmation: 'invalid'))).
+        not_to be_valid
     end
   end
 
@@ -79,7 +79,7 @@ describe User do
     end
 
     it 'should set the encrypted password attribute' do
-      @user.encrypted_password.should_not be_blank
+      expect(@user.encrypted_password).not_to be_blank
     end
   end
 end

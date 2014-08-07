@@ -13,5 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require swagger-ui
+//= require bootstrap-modal
 //= require_tree .

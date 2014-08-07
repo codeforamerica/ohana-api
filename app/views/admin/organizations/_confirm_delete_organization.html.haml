@@ -1,0 +1,16 @@
+%div.modal-header
+  %button.close{'aria-hidden' => 'true', 'data-dismiss' => 'modal', 'type' => 'button'} ×
+  %h3#myModalLabel Are you ABSOLUTELY sure?
+%div.modal-body
+  %p
+    = 'This action CANNOT be undone. This will delete '
+    %strong
+      ="#{@org_name}"
+    = 'and all of its associated locations permanently.'
+  / %p
+  /   Please type in the name of the location to confirm.
+  / %p
+  /   = text_field_tag "location-name", "", class: "span5"
+%div.modal-footer
+  %button.btn{'aria-hidden' => 'true', 'data-dismiss' => 'modal'} Close
+  = link_to 'I understand the consequences, delete this organization', { action: :destroy, id: @org_id }, method: :delete, class: 'btn btn-danger'

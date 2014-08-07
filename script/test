@@ -2,7 +2,5 @@
 
 set -e
 
-echo "===> Updating the test DB."
-rake db:migrate
-rake db:test:prepare
-rake db:test:load
+spring rspec
+rubocop -R

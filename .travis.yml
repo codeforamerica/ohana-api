@@ -1,16 +1,15 @@
-before_install: gem update bundler
-bundler_args: --without assets:development:production
+bundler_args: "--without assets:development:production"
 language: ruby
 rvm:
-  - 2.1.1
+- 2.1.1
 addons:
-  postgresql: "9.3"
-services:
-  - redis-server
+  postgresql: '9.3'
 before_script:
-  - psql -c 'create database ohana_api_smc_test;' -U postgres
-  - psql -U postgres -q -d ohana_api_smc_test -f db/structure.sql
-  - cp config/database.travis.yml config/database.yml
+- psql -c 'create database ohana_api_smc_test;' -U postgres
+- psql -U postgres -q -d ohana_api_smc_test -f db/structure.sql
+- cp config/database.travis.yml config/database.yml
+install: bin/wad
+script: bundle exec rake
 notifications:
   campfire:
     rooms:
@@ -19,5 +18,9 @@ notifications:
     on_failure: always
 env:
   global:
-    - secure: VLRxbuU8TtYrEvKLmMDA4fzcJo6xRWvh4QJ+gZ+zva8UXxI4fzPhi2gXhU4mH/K+g6WzHJsoT1U7mXZOibwY+0wilaBoc6HciPhPcFRJV6FozA2sxosBi7RliJGBfqvOdlIvla6Jg8I5gbXDz+w/6ySwzqrNvPp61l1qBS0oKAc=
-    - secure: UDLeRRewznh1rsMTJuz2bmLvP1ds4Zhgr3ecgOul0EWPwcBxn8gaVYbEzuyxORetqb02XvpTAnjLg774yVxmWK62B5DtNjppW4pFqQfc4VQ6PxkJV/f9njxWVkv5qJPEHGzV8pW+0OtVSaqLi4SEcjXfXhjJKIHoqe0MuA+cmho=
+  - S3_BUCKET_NAME=gems-for-travis
+  - ADMIN_APP_TOKEN=testing123
+  - API_PATH=api
+  - DEFAULT_PER_PAGE=30
+  - MAX_PER_PAGE=50
+  - secure: Gx3lTrS/ZFNsMugglRKgXmcu5/OznBKYBqXlS0nYpSsQIYi+fL4GNsQ4UAQrR78L8oy9rCBSY8s9phiR2wff8aY7OecBhm11ehWV+0BLFW8SSVKtd/Znty65sW9eMtzlxCNPfZiLqtgAkEkp46aFakLTWOM30V4ECKDKHll8hzo=
