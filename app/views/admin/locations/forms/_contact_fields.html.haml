@@ -1,23 +1,35 @@
 = field_set_tag do
-  = f.label :name, 'Name'
-  = f.text_field :name, maxlength: 255, class: 'span5'
-  %br
-  = f.label :title, 'Title'
-  = f.text_field :title, maxlength: 255, class: 'span5'
-  %br
-  = f.label :email, 'Email'
-  = f.text_field :email, maxlength: 255, class: 'span5'
-  %br
-  = f.label :phone, 'Phone'
-  = f.phone_field :phone, maxlength: 12, class: 'span2'
-  %br
-  = f.label :extension, 'Extension (for example: x101)'
-  = f.text_field :extension, maxlength: 12, class: 'span2'
-  %br
-  = f.label :fax, 'Fax'
-  = f.phone_field :fax, maxlength: 12, class: 'span2'
-
+  .form-group
+    = f.label :name, 'Name'
+    .row
+      .col-md-6
+        = f.text_field :name, maxlength: 255, class: 'form-control'
+  .form-group
+    = f.label :title, 'Title'
+    .row
+      .col-md-6
+        = f.text_field :title, maxlength: 255, class: 'form-control'
+  .form-group
+    = f.label :email, 'Email'
+    .row
+      .col-md-6
+        = f.text_field :email, maxlength: 255, class: 'form-control'
+  .form-group
+    = f.label :phone, 'Phone'
+    .row
+      .col-md-6
+        = f.phone_field :phone, maxlength: 12, class: 'form-control'
+  .form-group
+    = f.label :extension, 'Extension (for example: x101)'
+    .row
+      .col-md-6
+        = f.text_field :extension, maxlength: 12, class: 'form-control'
+  .form-group
+    = f.label :fax, 'Fax'
+    .row
+      .col-md-6
+        = f.phone_field :fax, maxlength: 12, class: 'form-control'
   = f.hidden_field :_destroy
-  %br
+
   = link_to 'Delete this contact permanently', '#', class: 'btn btn-danger delete_association'
   %hr

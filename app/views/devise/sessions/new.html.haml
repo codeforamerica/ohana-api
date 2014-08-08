@@ -1,16 +1,18 @@
-%h2 Sign in
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  %div
-    = f.label :password
-    %br/
-    = f.password_field :password
-  - if devise_mapping.rememberable?
-    %div
+.authform
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f|
+    %h3 Sign in
+    = devise_error_messages!
+    .form-group
+      = f.label :email
+      = f.email_field :email, autofocus: true, class: 'form-control'
+    .form-group
+      = f.label :password
+      = f.password_field :password, autocomplete: 'off', class: 'form-control'
+
+    = f.submit 'Sign in', class: 'button right'
+
+    .form-group
       = f.check_box :remember_me
       = f.label :remember_me
-  %div= f.submit 'Sign in'
-= render 'devise/shared/links'
+
+  = render 'devise/shared/links'

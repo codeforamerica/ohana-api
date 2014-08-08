@@ -22,7 +22,7 @@ class Admin
       end
 
       cats.map do |category, sub_categories|
-        class_name = category.depth == 0 ? 'depth0' : "hide depth#{category.depth}"
+        class_name = category.depth == 0 ? 'depth0 checkbox' : "hide depth#{category.depth} checkbox"
 
         content_tag(:ul) do
           concat(content_tag(:li, class: class_name) do

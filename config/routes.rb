@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with 'rake routes'.
   # Read more about routing: http://guides.rubyonrails.org/routing.html
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'user/registrations' }
 
   namespace :admin do
     root to: 'dashboard#index', as: :dashboard

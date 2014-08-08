@@ -6,34 +6,12 @@ feature 'Admin Home page' do
       visit '/admin'
     end
 
-    it 'sets the current path to the admin root page' do
-      expect(current_path).to eq(admin_dashboard_path)
-    end
-
-    it 'prompts the user to sign in or sign up' do
-      expect(page).to have_content 'please sign in, or sign up'
-    end
-
-    it 'includes a link to the sign in page' do
-      within '#main' do
-        expect(page).to have_link 'sign in', href: new_admin_session_path
-      end
+    it 'sets the current path to the admin sign in page' do
+      expect(current_path).to eq(new_admin_session_path)
     end
 
     it 'includes a link to the sign up page' do
       within '#main' do
-        expect(page).to have_link 'sign up', href: new_admin_registration_path
-      end
-    end
-
-    it 'includes a link to the sign in page in the navigation' do
-      within '.navbar' do
-        expect(page).to have_link 'Sign in', href: new_admin_session_path
-      end
-    end
-
-    it 'includes a link to the sign up page in the navigation' do
-      within '.navbar' do
         expect(page).to have_link 'Sign up', href: new_admin_registration_path
       end
     end
@@ -46,7 +24,7 @@ feature 'Admin Home page' do
 
     it 'does not include a link to Your locations in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'Your locations', href: admin_locations_path
+        expect(page).not_to have_link 'Locations', href: admin_locations_path
       end
     end
   end
@@ -103,19 +81,19 @@ feature 'Admin Home page' do
 
     it 'displays the name of the logged in admin in the navigation' do
       within '.navbar' do
-        expect(page).to have_content "Logged in as #{@admin.name}"
+        expect(page).to have_content "Hi, #{@admin.name}"
       end
     end
 
-    it 'includes a link to Your locations in the navigation' do
+    it 'includes a link to locations in the navigation' do
       within '.navbar' do
-        expect(page).to have_link 'Your locations', href: admin_locations_path
+        expect(page).to have_link 'Locations', href: admin_locations_path
       end
     end
 
-    it 'includes a link to Your organizations in the navigation' do
+    it 'includes a link to organizations in the navigation' do
       within '.navbar' do
-        expect(page).to have_link 'Your organizations', href: admin_organizations_path
+        expect(page).to have_link 'Organizations', href: admin_organizations_path
       end
     end
 

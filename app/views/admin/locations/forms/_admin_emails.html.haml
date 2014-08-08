@@ -10,8 +10,9 @@
   - elsif @location.admin_emails.present?
     - @location.admin_emails.each_with_index do |admin, i|
       = field_set_tag do
-        = text_field_tag 'location[admin_emails][]', admin, class: 'span4', id: "location_admin_emails_#{i}"
-        %br
+        .row
+          .col-xs-6
+            = text_field_tag 'location[admin_emails][]', admin, class: 'form-control', id: "location_admin_emails_#{i}"
         = link_to 'Delete this admin permanently', '#', class: 'btn btn-danger delete_attribute'
         %hr
   = link_to_add_array_fields 'Add a new admin email', :locations, :admin_email

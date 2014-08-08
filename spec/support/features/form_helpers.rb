@@ -1,7 +1,7 @@
 module Features
   module FormHelpers
     def reset_accessibility
-      within_fieldset('accessibility') do
+      within('.accessibility') do
         all('input[type=checkbox]').each do |checkbox|
           uncheck checkbox[:id]
         end
@@ -10,7 +10,7 @@ module Features
     end
 
     def set_all_accessibility
-      within_fieldset('accessibility') do
+      within('.accessibility') do
         all('input[type=checkbox]').each do |checkbox|
           check checkbox[:id]
         end

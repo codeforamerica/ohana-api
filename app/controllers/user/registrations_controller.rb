@@ -1,4 +1,4 @@
-class Admin
+class User
   class RegistrationsController < Devise::RegistrationsController
     before_action :configure_permitted_parameters
 
@@ -9,12 +9,8 @@ class Admin
       devise_parameter_sanitizer.for(:account_update).push(:name)
     end
 
-    def after_inactive_sign_up_path_for(_resource)
-      new_admin_session_path
-    end
-
     def after_update_path_for(_resource)
-      edit_admin_registration_path
+      edit_user_registration_path
     end
   end
 end

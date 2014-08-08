@@ -6,8 +6,8 @@ feature 'Signing out' do
     visit edit_admin_registration_path
   end
 
-  it 'redirects to the admin home page' do
+  it 'redirects to the admin sign in page' do
     click_link 'Sign out'
-    expect(current_path).to eq(admin_dashboard_path)
+    expect(current_path).to eq(new_admin_session_path)
   end
 end
