@@ -20,10 +20,6 @@ describe Service do
 
   it { is_expected.to belong_to(:location).touch(true) }
 
-  it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
-
   # This is no longer working in Rails 4.1.2. I opened an issue:
   # https://github.com/thoughtbot/shoulda-matchers/issues/549
   xit { is_expected.to have_and_belong_to_many(:categories).order('oe_id asc') }

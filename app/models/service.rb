@@ -11,8 +11,12 @@ class Service < ActiveRecord::Base
   # has_many :schedules
   # accepts_nested_attributes_for :schedules
 
-  validates :name, :description, :location,
+  validates :location,
             presence: { message: "can't be blank for Service" }
+
+  validates :name, :description,
+            presence: { message: "can't be blank for Service" },
+            if: proc { |service| service.location.kind == 'human_services' }
 
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,

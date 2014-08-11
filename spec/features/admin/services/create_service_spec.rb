@@ -18,12 +18,6 @@ feature 'Create a new service' do
     expect(find_field('service_description').value).to eq 'new description'
   end
 
-  scenario 'without any required fields' do
-    click_button 'Create service'
-    expect(page).to have_content "Description can't be blank for Service"
-    expect(page).to have_content "Name can't be blank for Service"
-  end
-
   scenario 'with audience' do
     fill_in 'service_name', with: 'New VRS Services service'
     fill_in 'service_description', with: 'new description'
