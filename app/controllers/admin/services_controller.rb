@@ -18,6 +18,7 @@ class Admin
     def update
       @service = Service.find(params[:id])
       @location = Location.find(params[:location_id])
+      @oe_ids = @service.categories.pluck(:oe_id)
 
       respond_to do |format|
         if @service.update(params[:service])

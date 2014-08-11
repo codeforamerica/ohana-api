@@ -13,6 +13,14 @@ feature 'Update categories' do
     click_link 'Literacy Program'
   end
 
+  scenario 'updating service without changing categories' do
+    fill_in 'service_name', with: ''
+    fill_in 'service_description', with: ''
+    click_button 'Save changes'
+
+    expect(page).to have_content("can't be blank")
+  end
+
   scenario 'when adding one subcategory', :js do
     check 'category_101'
     check 'category_101-01'
