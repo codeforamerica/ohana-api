@@ -7,14 +7,13 @@
           %li= msg
   .form-group
     = f.label :name, 'Application Name'
-    = f.text_field :name
+    = f.text_field :name, class: 'form-control'
   .form-group
     = f.label :main_url, 'Main URL'
-    = f.text_field :main_url
+    = f.text_field :main_url, class: 'form-control'
   .form-group
     = f.label :callback_url, 'Callback URL'
-    = f.text_field :callback_url
-  %br
+    = f.text_field :callback_url, class: 'form-control'
   - if f.object.new_record?
     .actions
       = f.submit 'Register application', class: 'btn btn-primary'

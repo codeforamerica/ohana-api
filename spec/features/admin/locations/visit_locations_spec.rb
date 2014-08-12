@@ -15,18 +15,6 @@ feature 'Locations page' do
         to have_content 'You need to sign in or sign up before continuing.'
     end
 
-    it 'includes a link to the sign in page in the navigation' do
-      within '.navbar' do
-        expect(page).to have_link 'Sign in', href: new_admin_session_path
-      end
-    end
-
-    it 'includes a link to the sign up page in the navigation' do
-      within '.navbar' do
-        expect(page).to have_link 'Sign up', href: new_admin_registration_path
-      end
-    end
-
     it 'does not include a link to the Home page in the navigation' do
       within '.navbar' do
         expect(page).not_to have_link 'Home', href: root_path
@@ -87,13 +75,13 @@ feature 'Locations page' do
 
     it 'displays the name of the logged in admin in the navigation' do
       within '.navbar' do
-        expect(page).to have_content "Logged in as #{@admin.name}"
+        expect(page).to have_content "Hi, #{@admin.name}"
       end
     end
 
-    it 'includes a link to Your locations in the navigation' do
+    it 'includes a link to locations in the navigation' do
       within '.navbar' do
-        expect(page).to have_link 'Your locations', href: admin_locations_path
+        expect(page).to have_link 'Locations', href: admin_locations_path
       end
     end
   end

@@ -7,7 +7,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to 'Ohana Developers', root_path, class: 'navbar-brand'
+      = link_to "#{t('titles.main', brand: t('titles.brand'))}", admin_dashboard_path, class: 'navbar-brand'
     %nav.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        = render 'shared/navigation_links'
+        = render 'admin/shared/navigation_links'

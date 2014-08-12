@@ -9,7 +9,7 @@
   %header
     = f.label :organization_id, 'Choose an organization to create this location for.'
   %p
-    = f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, include_blank: true
+    = f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, { include_blank: true }, class: 'form-control'
 
 = render 'admin/locations/forms/location_name', f: f
 = render 'admin/locations/forms/admin_emails', f: f
@@ -26,4 +26,4 @@
 = render 'admin/locations/forms/urls', f: f
 = render 'admin/locations/forms/accessibility', f: f
 
-= f.submit 'Create location', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }
+= f.submit 'Create location', class: 'btn btn-primary btn-lg', data: { disable_with: 'Please wait...' }

@@ -18,9 +18,9 @@
     Once you delete an organization, there is no going back. Please be certain.
   %p
     = link_to 'Permanently delete this organization', { action: :confirm_delete_organization, org_id: @organization.id, org_name: @organization.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
-#modal-window.modal.hide.fade{'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog'}
+#modal-window.modal.fade{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
 
-.save-box.navbar-inner
+.save-box.navbar-default
   %p
     = 'Editing'
     %strong

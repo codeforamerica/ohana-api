@@ -17,8 +17,8 @@ module Features
     end
 
     def login_user
-      user = FactoryGirl.create(:user)
-      login_as(user, scope: :user)
+      @user = FactoryGirl.create(:user)
+      login_as(@user, scope: :user)
     end
 
     def sign_in(email, password)

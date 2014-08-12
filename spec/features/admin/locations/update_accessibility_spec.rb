@@ -44,7 +44,7 @@ feature "Update a location's accessibility options" do
   scenario 'when adding all options' do
     set_all_accessibility
     visit '/admin/locations/soup-kitchen'
-    within_fieldset('accessibility') do
+    within('.accessibility') do
       all('input[type=checkbox]').each do |checkbox|
         expect(checkbox).to be_checked unless checkbox[:id].match('accessibility').nil?
       end

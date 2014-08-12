@@ -22,9 +22,9 @@ feature 'Visit home page after signing in' do
     end
   end
 
-  it 'includes a link to the Home page in the navigation' do
+  it 'includes a link to the dev portal home page in the navigation' do
     within '.navbar' do
-      expect(page).to have_link 'Home', href: root_path
+      expect(page).to have_link 'Ohana Developers', href: root_path
     end
   end
 
