@@ -94,7 +94,7 @@ GEM
       rails (>= 3, < 5)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
-    geocoder (1.2.3)
+    geocoder (1.2.4)
     haml (4.0.5)
       tilt
     haml-lint (0.6.0)
