@@ -6,7 +6,7 @@ class Fax < ActiveRecord::Base
   belongs_to :location, touch: true
 
   validates :number,
-            presence: { message: "can't be blank for Fax" },
+            presence: { message: I18n.t('errors.messages.blank_for_fax') },
             fax: true
 
   auto_strip_attributes :number, :department, squish: true

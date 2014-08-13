@@ -21,7 +21,7 @@ feature 'Update websites' do
   scenario 'with 2 urls but one is empty', :js do
     @location.update!(urls: ['http://ruby.org'])
     visit '/admin/locations/vrs-services'
-    click_link 'Add a website'
+    click_link 'Add a new website'
     click_button 'Save changes'
     total_urls = all(:xpath, "//input[@type='url']")
     expect(total_urls.length).to eq 1

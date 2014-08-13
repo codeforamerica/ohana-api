@@ -8,13 +8,13 @@ feature 'Update emails' do
   end
 
   scenario 'with empty email', :js do
-    click_link 'Add a general email'
+    click_link 'Add a new general email'
     click_button 'Save changes'
     expect(page).to have_no_xpath("//input[@name='location[emails][]']")
   end
 
   scenario 'with valid email', :js do
-    click_link 'Add a general email'
+    click_link 'Add a new general email'
     fill_in 'location[emails][]', with: 'moncefbelyamani@samaritanhousesanmateo.org'
     click_button 'Save changes'
     expect(find_field('location[emails][]').value).
@@ -53,7 +53,7 @@ feature 'Update emails' do
   scenario 'with 2 emails but one is empty', :js do
     @location.update!(emails: ['foo@ruby.org'])
     visit '/admin/locations/vrs-services'
-    click_link 'Add a general email'
+    click_link 'Add a new general email'
     click_button 'Save changes'
     total_emails = all(:xpath, "//input[@name='location[emails][]']")
     expect(total_emails.length).to eq 1

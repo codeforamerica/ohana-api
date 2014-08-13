@@ -19,7 +19,7 @@ feature 'Update phones' do
   scenario 'by adding a new phone', :js do
     add_phone(
       number: '123-456-7890',
-      number_type: 'TTY',
+      number_type: 'TTY number',
       department: 'Director of Development',
       extension: 'x1234',
       vanity_number: '123-ABC-DEFG'
@@ -55,7 +55,7 @@ feature 'Update phones' do
       number: '123-456-7890',
       department: 'Director of Development'
     )
-    click_link 'Add a phone number'
+    click_link 'Add a new phone number'
     click_button 'Save changes'
 
     within('.phones') do
@@ -69,7 +69,7 @@ feature 'Update phones' do
       number: '123-456-7890',
       department: 'Director of Development'
     )
-    click_link 'Add a phone number'
+    click_link 'Add a new phone number'
     within('.phones') do
       all_phones = all(:xpath, './/input[contains(@name, "[department]")]')
       fill_in all_phones[-1][:id], with: 'Department'
@@ -116,6 +116,11 @@ feature 'Update phones' do
 
   after(:all) do
     Organization.find_each(&:destroy)
+  end
+
+  scenario 'initial state of phone type' do
+    expect(find_field('location_phones_attributes_0_number_type')).
+        to have_text 'Not a TTY number'
   end
 
   scenario 'with an empty number' do

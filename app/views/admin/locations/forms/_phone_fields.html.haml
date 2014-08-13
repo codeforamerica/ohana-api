@@ -1,19 +1,29 @@
 = field_set_tag do
-  = f.label :number, 'Number'
-  = f.telephone_field :number, maxlength: 12, class: 'span2'
-  %br
-  = f.label :vanity_number, 'Vanity Number (for example: 650-123-HELP)'
-  = f.telephone_field :vanity_number, maxlength: 12, class: 'span2'
-  %br
-  = f.label :number_type, 'Number Type (to identify TTY numbers)'
-  = f.select :number_type, [["TTY", "TTY"]], include_blank: true
-  %br
-  = f.label :extension, 'Extension'
-  = f.text_field :extension, maxlength: 8, class: 'span2'
-  %br
-  = f.label :department, 'Department'
-  = f.text_field :department, maxlength: 50, class: 'span4'
-
+  .form-group
+    = f.label :number, 'Number'
+    .row
+      .col-md-4
+        = f.telephone_field :number, maxlength: 12, class: 'form-control'
+  .form-group
+    = f.label :vanity_number, 'Vanity Number (for example: 650-123-HELP)'
+    .row
+      .col-md-4
+        = f.telephone_field :vanity_number, maxlength: 12, class: 'form-control'
+  .form-group
+    = f.label :number_type, 'Number Type (to identify TTY numbers)'
+    .row
+      .col-md-4
+        = f.select :number_type, [['Not a TTY number', ''], ['TTY number', 'TTY']], {}, class: 'form-control'
+  .form-group
+    = f.label :extension, 'Extension (for example: x101)'
+    .row
+      .col-md-4
+        = f.text_field :extension, maxlength: 8, class: 'form-control'
+  .form-group
+    = f.label :department, 'Department'
+    .row
+      .col-md-4
+        = f.text_field :department, maxlength: 50, class: 'form-control'
   = f.hidden_field :_destroy
-  %br
   = link_to 'Delete this phone permanently', '#', class: 'btn btn-danger delete_association'
+  %hr

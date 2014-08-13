@@ -1,0 +1,13 @@
+%header.navbar.navbar-default.navbar-fixed-top
+  .container
+    .navbar-header
+      = button_tag type: 'button', class: 'navbar-toggle', data: { toggle: 'collapse', target: '.navbar-collapse' } do
+        %span.sr-only
+          Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "#{t('titles.main', brand: t('titles.brand'))}", admin_dashboard_path, class: 'navbar-brand'
+    %nav.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        = render 'admin/shared/navigation_links'

@@ -1,4 +1,4 @@
-%div.content-box
+.content-box
   %h2= "#{@service.try(:name)} / #{@location.name}"
 = form_for [:admin, @location, @service], html: { class: 'edit_entry' } do |f|
   = render 'admin/services/form', f: f

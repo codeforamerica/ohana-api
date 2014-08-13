@@ -55,9 +55,10 @@ In the spirit of Test-Driven Development, you want to write a failing test
 first, then implement the feature or bug fix to make the test pass.
 
 5. **Implement:** Implement your feature or bug fix. Please follow the
-[community-driven Ruby Style Guide][style_guide]*.
+[community-driven Ruby Style Guide][style_guide]*. Note that we follow the
+[single-quote style][string_quoting_style].
 
-6. **Test to pass:** Run `script/test`. If your specs fail and/or style offenses are reported, return to **step 5**.
+6. **Test to pass:** Run `script/test` to run the test suite, in addition to style checkers. If your specs fail and/or style offenses are reported, return to **step 5**.
 
 7. **Commit changes:** Add, commit, and push your changes.
 
@@ -77,3 +78,4 @@ plugin and set it to [Trim On Save][trim_on_save]._
 [pr]: http://help.github.com/send-pull-requests/
 [trailing_spaces]: https://github.com/SublimeText/TrailingSpaces
 [trim_on_save]: https://github.com/SublimeText/TrailingSpaces#trim-on-save
+[string_quoting_style]: https://github.com/bbatsov/ruby-style-guide#consistent-string-literals

@@ -1,4 +1,4 @@
-%div.inst-box
+.inst-box
   %header
     %strong
       Service Areas
@@ -10,8 +10,8 @@
   - if @service.service_areas.present?
     - @service.service_areas.each_with_index do |service_area, i|
       = field_set_tag do
-        = text_field_tag 'service[service_areas][]', service_area, class: 'span4', id: "service_service_areas_#{i}"
-        %br
+        = text_field_tag 'service[service_areas][]', service_area, class: 'form-control', id: "service_service_areas_#{i}"
         = link_to 'Delete this service area permanently', '#', class: 'btn btn-danger delete_attribute'
-  = link_to_add_array_fields 'Add a service area', :services, :service_area
+        %hr
+  = link_to_add_array_fields 'Add a new service area', :services, :service_area
 

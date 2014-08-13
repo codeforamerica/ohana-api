@@ -1,6 +1,6 @@
 - if @location.errors.any?
   .alert.alert-danger
-    %h2= "#{pluralize(@location.errors.count, "error")} prohibited this location from being saved:"
+    %h2= "#{pluralize(@location.errors.count, 'error')} prohibited this location from being saved:"
     %ul
       - @location.errors.full_messages.each do |msg|
         %li= msg
@@ -22,17 +22,17 @@
 = render 'admin/locations/forms/accessibility', f: f
 = render 'admin/locations/forms/kind', f: f
 
-%div.content-box
+.content-box
   %h2= 'Services'
   = 'Click a Service below to view and update it:'
   %p
   - @location.services.each_with_index do |service, i|
-    = link_to service.name || "Service ##{i+1}", edit_admin_location_service_path(@location, service)
+    = link_to service.name || "Service ##{i + 1}", edit_admin_location_service_path(@location, service)
     %br
   %p
     = link_to 'Add a new service', new_admin_location_service_path(@location), class: 'btn btn-primary'
 
-%div.danger-zone
+.danger-zone
   %header
     %strong
       Danger Zone
@@ -42,9 +42,9 @@
     Once you delete a location, there is no going back. Please be certain.
   %p
     = link_to 'Permanently delete this location', { action: :confirm_delete_location, location_id: @location.id, org_name: @org.name, loc_name: @location.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
-%div#modal-window.modal.hide.fade{'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog'}
+#modal-window.modal.fade{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
 
-%div.save-box.navbar-inner
+.save-box.navbar-default
   %p
     = 'Editing'
     %strong

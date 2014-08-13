@@ -1,4 +1,4 @@
-%div.inst-box.urls
+.inst-box.urls
   %header
     %strong
       Websites
@@ -9,8 +9,7 @@
   - if @location.urls.present?
     - @location.urls.each_with_index do |url, i|
       = field_set_tag do
-        = url_field_tag 'location[urls][]', url, class: 'span9', id: "location_urls_#{i}"
-        %br
-        = link_to "Delete this website permanently", '#', class: "btn btn-danger delete_attribute"
-  = link_to_add_array_fields 'Add a website', :locations, :url
-
+        = url_field_tag 'location[urls][]', url, class: 'form-control', id: "location_urls_#{i}"
+        = link_to 'Delete this website permanently', '#', class: 'btn btn-danger delete_attribute'
+        %hr
+  = link_to_add_array_fields 'Add a new website', :locations, :url

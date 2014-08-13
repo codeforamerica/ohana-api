@@ -1,15 +1,15 @@
 - if @location.errors.any?
   .alert.alert-danger
-    %h2= "#{pluralize(@location.errors.count, "error")} prohibited this location from being saved:"
+    %h2= "#{pluralize(@location.errors.count, 'error')} prohibited this location from being saved:"
     %ul
       - @location.errors.full_messages.each do |msg|
         %li= msg
 
-%div.inst-box
+.inst-box
   %header
     = f.label :organization_id, 'Choose an organization to create this location for.'
   %p
-    = f.select :organization_id, @orgs.collect { |org| [org.second, org.first] }, include_blank: true
+    = f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, { include_blank: true }, class: 'form-control'
 
 = render 'admin/locations/forms/location_name', f: f
 = render 'admin/locations/forms/admin_emails', f: f
@@ -27,4 +27,4 @@
 = render 'admin/locations/forms/accessibility', f: f
 = render 'admin/locations/forms/kind', f: f
 
-= f.submit 'Create location', class: 'btn btn-primary', data: { disable_with: 'Please wait...' }
+= f.submit 'Create location', class: 'btn btn-primary btn-lg', data: { disable_with: 'Please wait...' }

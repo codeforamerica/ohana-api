@@ -22,9 +22,17 @@ describe ApiApplication do
       for(:main_url)
   end
 
-  it { is_expected.not_to allow_value('http://').for(:main_url) }
+  it do
+    is_expected.not_to allow_value('http://').
+    for(:main_url).
+    with_message('http:// is not a valid URL')
+  end
 
-  it { is_expected.not_to allow_value('http://').for(:callback_url) }
+  it do
+    is_expected.not_to allow_value('http://foo').
+    for(:callback_url).
+    with_message('http://foo is not a valid URL')
+  end
 
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do

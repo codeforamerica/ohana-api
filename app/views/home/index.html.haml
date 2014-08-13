@@ -2,7 +2,7 @@
 
 - if user_signed_in?
   %p
-    Welcome back #{@user.name}! #{link_to "Create a new application", new_api_application_path} or #{link_to 'view', api_applications_path} your existing ones.
+    Welcome back #{@user.name}! #{link_to 'Create a new application', new_api_application_path} or #{link_to 'view', api_applications_path} your existing ones.
 - else
   %p
     Welcome to the Ohana API developer portal!
@@ -13,6 +13,6 @@
     libraries, hobby clubs, educators, government services, and other types of
     organizations.
   %p
-    We want you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.). Read the #{link_to "documentation", docs_url} to learn more.
+    We want you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.). Read the #{link_to 'documentation', docs_url} to learn more.
   %p
-    #{link_to "Sign up", new_user_registration_path} for a developer account, or #{link_to "sign in", new_user_session_path}.
+    #{link_to 'Sign up', new_user_registration_path} for a developer account, or #{link_to 'sign in', new_user_session_path}.

@@ -104,7 +104,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['errors'].first['urls'].first).to eq(' is not a valid URL')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
   end
 
   it "doesn't allow updating a service without a valid token" do

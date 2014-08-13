@@ -20,6 +20,11 @@ class LocationSerializer < ActiveModel::Serializer
     object.accessibility.map(&:text)
   end
 
+  def coordinates
+    return [] unless object.longitude.present? && object.latitude.present?
+    [object.longitude, object.latitude]
+  end
+
   def kind
     object.kind.text
   end

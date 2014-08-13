@@ -20,6 +20,7 @@ env:
   global:
   - S3_BUCKET_NAME=gems-for-travis
   - ADMIN_APP_TOKEN=testing123
+  - ADMIN_PATH=admin
   - API_PATH=api
   - DEFAULT_PER_PAGE=30
   - MAX_PER_PAGE=50

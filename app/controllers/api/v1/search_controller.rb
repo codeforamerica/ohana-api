@@ -18,7 +18,7 @@ module Api
         radius = Location.validated_radius(params[:radius], 0.5)
 
         nearby =
-          if location.coordinates.present?
+          if location.longitude.present? && location.latitude.present?
             location.nearbys(radius).
                     page(params[:page]).per(params[:per_page]).
                     includes(:organization, :address, :phones)

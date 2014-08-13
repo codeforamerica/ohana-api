@@ -1,6 +1,6 @@
 - if @service.errors.any?
   .alert.alert-danger
-    %h2= "#{pluralize(@service.errors.count, "error")} prohibited this service from being saved:"
+    %h2= "#{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:"
     %ul
       - @service.errors.full_messages.each do |msg|
         %li= msg
@@ -17,7 +17,7 @@
 = render 'admin/services/forms/wait', f: f
 = render 'admin/services/forms/categories', f: f
 
-%div.danger-zone
+.danger-zone
   %header
     %strong
       Danger Zone
@@ -27,9 +27,9 @@
     Once you delete a service, there is no going back. Please be certain.
   %p
     = link_to 'Permanently delete this service', { action: :confirm_delete_service, service_id: @service.id, service_name: @service.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
-%div#modal-window.modal.hide.fade{'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog'}
+#modal-window.modal.fade{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
 
-%div.save-box.navbar-inner
+.save-box.navbar-default
   %p
     = 'Editing'
     %strong

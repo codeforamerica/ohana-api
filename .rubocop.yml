@@ -27,7 +27,7 @@ MethodLength:
 
 Style/ClassLength:
   CountComments: false
-  Max: 102
+  Max: 101
 
 Style/GuardClause:
   MinBodyLength: 3

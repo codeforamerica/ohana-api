@@ -1,4 +1,6 @@
 = field_set_tag do
-  = text_field_tag 'service[keywords][]', '', class: 'span4'
-  %br
-  = link_to "Delete this keyword permanently", '#', class: "btn btn-danger delete_attribute"
+  .row
+    .col-md-6
+      = text_field_tag 'service[keywords][]', '', class: 'form-control'
+  = link_to 'Delete this keyword permanently', '#', class: 'btn btn-danger delete_attribute'
+  %hr
