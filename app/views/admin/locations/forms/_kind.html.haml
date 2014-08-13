@@ -6,6 +6,6 @@
       Choose the type of location that best describes the services offered.
   %p
     - if f.object.new_record?
-      = f.select :kind, Location.kind.options, prompt: 'Choose an option'
+      = f.select :kind, Location.kind.options, { prompt: 'Choose an option' }, class: 'form-control'
     - else
-      = f.select :kind, Location.kind.options
+      = f.select :kind, Location.kind.options, {}, class: 'form-control'
