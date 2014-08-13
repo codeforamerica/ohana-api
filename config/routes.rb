@@ -1,6 +1,5 @@
 require 'api_constraints'
-require 'docs_subdomain'
-require 'api_subdomain'
+require 'subdomain_constraints'
 
 Rails.application.routes.draw do
   # The priority is based upon order of creation:
@@ -9,31 +8,32 @@ Rails.application.routes.draw do
   # Read more about routing: http://guides.rubyonrails.org/routing.html
 
   devise_for :users, controllers: { registrations: 'user/registrations' }
+  devise_for :admins, path: ENV['ADMIN_PATH'] || '/', controllers: { registrations: 'admin/registrations' }
 
-  namespace :admin do
-    root to: 'dashboard#index', as: :dashboard
+  constraints(SubdomainConstraints.new(subdomain: ENV['ADMIN_SUBDOMAIN'])) do
+    namespace :admin, path: ENV['ADMIN_PATH'] do
+      root to: 'dashboard#index', as: :dashboard
 
-    resources :locations, except: :show do
-      resources :services, except: [:show, :index]
+      resources :locations, except: :show do
+        resources :services, except: [:show, :index]
+      end
+
+      resources :organizations, except: :show
+
+      get 'locations/:location_id/services/confirm_delete_service', to: 'services#confirm_delete_service', as: :confirm_delete_service
+      get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
+      get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
+
+      get 'locations/:location_id/services/:id', to: 'services#edit'
+      get 'locations/:id', to: 'locations#edit'
+      get 'organizations/:id', to: 'organizations#edit'
     end
-
-    resources :organizations, except: :show
-
-    get 'locations/:location_id/services/confirm_delete_service', to: 'services#confirm_delete_service', as: :confirm_delete_service
-    get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
-    get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
-
-    get 'locations/:location_id/services/:id', to: 'services#edit'
-    get 'locations/:id', to: 'locations#edit'
-    get 'organizations/:id', to: 'organizations#edit'
   end
-
-  devise_for :admins, path: 'admin', controllers: { registrations: 'admin/registrations' }
 
   resources :api_applications, except: :show
   get 'api_applications/:id' => 'api_applications#edit'
 
-  constraints(ApiSubdomain) do
+  constraints(SubdomainConstraints.new(subdomain: ENV['API_SUBDOMAIN'])) do
     namespace :api, path: ENV['API_PATH'], defaults: { format: 'json' } do
       scope module: :v1, constraints: ApiConstraints.new(version: 1) do
         get '/' => 'root#index'
@@ -61,7 +61,7 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints(DocsSubdomain) do
+  constraints(SubdomainConstraints.new(subdomain: ENV['DEV_SUBDOMAIN'])) do
     get 'docs' => 'api_docs#index'
   end
 

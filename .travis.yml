@@ -25,6 +25,7 @@ env:
     - S3_BUCKET_NAME=gems-for-travis
     - ADMIN_APP_TOKEN=testing123
     - API_PATH=api
+    - ADMIN_PATH=admin
     - DEFAULT_PER_PAGE=30
     - MAX_PER_PAGE=50
     - secure: "Zf09T1x9K8uzJPDQvdBv17XXnSh0DL8V/akzz8oRE6KfZWHlIhskqdygRyHeL4VNVndn2nvWQec8Md0nnYv+VeKASqPRBuXoaFizJBy/fvYCgTdw65puYFokF1tPFRzlrm4JiDDHJScb46eYShUzdhugsrL6cuwJJQs8ZZYYSWI="
