@@ -1,4 +1,4 @@
-%div.inst-box.emails
+.inst-box.emails
   %header
     %strong
       Emails (general info)
@@ -8,7 +8,9 @@
   - if @location.emails.present?
     - @location.emails.each_with_index do |email, i|
       = field_set_tag do
-        = email_field_tag 'location[emails][]', email, class: 'span6', id: "location_emails_#{i}"
-        %br
-        = link_to "Delete this email permanently", '#', class: "btn btn-danger delete_attribute"
-  = link_to_add_array_fields 'Add a general email', :locations, :email
+        .row
+          .col-md-6
+            = email_field_tag 'location[emails][]', email, class: 'form-control', id: "location_emails_#{i}"
+        = link_to 'Delete this email permanently', '#', class: 'btn btn-danger delete_attribute'
+        %hr
+  = link_to_add_array_fields 'Add a new general email', :locations, :email

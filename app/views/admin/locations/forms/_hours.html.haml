@@ -1,4 +1,4 @@
-%div.inst-box
+.inst-box
   %header
     %strong
       Opening Hours:
@@ -7,16 +7,16 @@
     - i = 0
     - days.each do |day|
       = "#{day}"
-      = select_tag("#{day}_first_open", options_for_select(create_hours(), @location.schedule.present? ? @location.schedule[i].open : "09:00"))
-      = "---"
-      = select_tag("#{day}_first_close", options_for_select(create_hours(), @location.schedule.present? ? @location.schedule[i].close : "12:00"))
+      = select_tag("#{day}_first_open", options_for_select(create_hours, @location.schedule.present? ? @location.schedule[i].open : '09:00'))
+      = '---'
+      = select_tag("#{day}_first_close", options_for_select(create_hours, @location.schedule.present? ? @location.schedule[i].close : '12:00'))
       %br
-      - if @location.schedule.present? && @location.schedule[i+1].open.present?
-        = "and"
+      - if @location.schedule.present? && @location.schedule[i + 1].open.present?
+        = 'and'
         = "#{day}"
-        = select_tag("#{day}_sec_open", options_for_select([""]+create_hours(), @location.schedule.present? ? @location.schedule[i+1].open : ""))
-        = "---"
-        = select_tag("#{day}_sec_close", options_for_select([""]+create_hours(), @location.schedule.present? ? @location.schedule[i+1].close : ""))
+        = select_tag("#{day}_sec_open", options_for_select([''] + create_hours, @location.schedule.present? ? @location.schedule[i + 1].open : ''))
+        = '---'
+        = select_tag("#{day}_sec_close", options_for_select([''] + create_hours, @location.schedule.present? ? @location.schedule[i + 1].close : ''))
       - i += 2
       %br
       %br

@@ -33,6 +33,24 @@ API_SUBDOMAIN:
 # make sure to set API_PATH to blank.
 API_PATH: api
 
+# If you'd like to run the admin interface on its own subdomain, set
+# ADMIN_SUBDOMAIN to your desired subdomain name. We recommend "admin".
+# Then make sure to delete "admin" from "ADMIN_PATH". That way, you'll have a
+# URL like http://admin.example.org instead of http://admin.example.org/admin.
+#
+# Note that an ADMIN subdomain won't work on Heroku unless you're using a custom
+# domain name. Heroku doesn't support sub-subdomains when using their default
+# setup, which gives you a URL such as http://ohana-api-demo.herokuapp.com.
+# In development, you can test it by adding the subdomain to 'lvh.me:8080'.
+# For example: http://admin.lvh.me:8080.
+ADMIN_SUBDOMAIN:
+
+# The ADMIN_PATH setting is related to the ADMIN_SUBDOMAIN setting. If you're
+# not using a separate subdomain for the admin interface, then define its path,
+# which is set to "admin" by default. If you do decide to use an ADMIN_SUBDOMAIN,
+# make sure to set ADMIN_PATH to blank.
+ADMIN_PATH: admin
+
 # If you'd like to run the developer portal on its own subdomain,
 # set DEV_SUBDOMAIN to your desired subdomain name, such as "developer".
 #
@@ -60,3 +78,17 @@ MAX_PER_PAGE: 50
 # In production, you should set this token to a long random string
 # that you can generate from the command line with "rake secret".
 ADMIN_APP_TOKEN: changeme
+
+###########################################
+#
+# SETTINGS FOR TESTS. PLEASE DO NOT MODIFY.
+#
+###########################################
+test:
+  API_SUBDOMAIN:
+  API_PATH: api
+  ADMIN_SUBDOMAIN:
+  ADMIN_PATH: admin
+  DEV_SUBDOMAIN:
+  DEFAULT_PER_PAGE: 30
+  MAX_PER_PAGE: 50

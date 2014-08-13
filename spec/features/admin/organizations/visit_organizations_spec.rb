@@ -15,27 +15,9 @@ feature 'Organizations page' do
         to have_content 'You need to sign in or sign up before continuing.'
     end
 
-    it 'includes a link to the sign in page in the navigation' do
+    it 'does not include a link to organizations in the navigation' do
       within '.navbar' do
-        expect(page).to have_link 'Sign in', href: new_admin_session_path
-      end
-    end
-
-    it 'includes a link to the sign up page in the navigation' do
-      within '.navbar' do
-        expect(page).to have_link 'Sign up', href: new_admin_registration_path
-      end
-    end
-
-    it 'does not include a link to the Home page in the navigation' do
-      within '.navbar' do
-        expect(page).not_to have_link 'Home', href: root_path
-      end
-    end
-
-    it 'does not include a link to Your organizations in the navigation' do
-      within '.navbar' do
-        expect(page).not_to have_link 'Your organizations', href: admin_organizations_path
+        expect(page).not_to have_link 'Organizations', href: admin_organizations_path
       end
     end
   end
@@ -58,44 +40,6 @@ feature 'Organizations page' do
       visit '/admin/organizations'
       expect(page).not_to have_link 'Food Stamps'
       expect(page).to have_link 'Parent Agency'
-    end
-
-    it 'does not include a link to the sign up page in the navigation' do
-      within '.navbar' do
-        expect(page).not_to have_link 'Sign up'
-      end
-    end
-
-    it 'does not include a link to the sign in page in the navigation' do
-      within '.navbar' do
-        expect(page).not_to have_link 'Sign in'
-      end
-    end
-
-    it 'includes a link to sign out in the navigation' do
-      within '.navbar' do
-        expect(page).
-          to have_link 'Sign out', href: destroy_admin_session_path
-      end
-    end
-
-    it 'includes a link to the Edit Account page in the navigation' do
-      within '.navbar' do
-        expect(page).
-          to have_link 'Edit account', href: edit_admin_registration_path
-      end
-    end
-
-    it 'displays the name of the logged in admin in the navigation' do
-      within '.navbar' do
-        expect(page).to have_content "Logged in as #{@admin.name}"
-      end
-    end
-
-    it 'includes a link to Your organizations in the navigation' do
-      within '.navbar' do
-        expect(page).to have_link 'Your organizations', href: admin_organizations_path
-      end
     end
   end
 

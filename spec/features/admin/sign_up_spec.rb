@@ -1,10 +1,23 @@
 require 'rails_helper'
 
-feature 'Signing up' do
+feature 'Signing up for a new admin account' do
   scenario 'with all required fields present and valid' do
     sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(page).to have_content 'activate your account'
-    expect(current_path).to eq(admin_dashboard_path)
+    expect(current_path).to eq(new_admin_session_path)
+  end
+
+  scenario 'with custom confirmation email address' do
+    reset_email
+    sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
+    expect(first_email.from.first).to eq('registration@ohanapi.org')
+  end
+
+  scenario 'with custom mailer' do
+    reset_email
+    sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
+    expect(first_email.body).to include('Admin')
+    expect(first_email.body).to_not include('documentation')
   end
 
   scenario 'with name missing' do

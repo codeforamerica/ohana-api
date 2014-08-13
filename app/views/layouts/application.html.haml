@@ -8,18 +8,11 @@
         = javascript_include_tag 'application'
         = csrf_meta_tags
         = yield(:head)
-  %body{:class => "#{controller_name} #{action_name}"}
-    .navbar.navbar-fixed-top
-      %nav.navbar-inner
-        .container
-          = render 'shared/navigation'
+  %body{class: "#{controller_name} #{action_name}"}
+    = render 'shared/navigation'
     #main{role: 'main'}
-      .container
-        .content
+      .content
+        .container
           .row
-            .span12
-              = render 'shared/messages'
-              = yield
-          %footer
-      / ! end of .container
-    / ! end of #main
+            = render 'shared/messages'
+            = yield

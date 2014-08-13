@@ -71,7 +71,7 @@ feature 'Create a new service' do
   scenario 'when adding a website', :js do
     fill_in 'service_name', with: 'New VRS Services service'
     fill_in 'service_description', with: 'new description'
-    click_link 'Add a website'
+    click_link 'Add a new website'
     fill_in find(:xpath, "//input[@type='url']")[:id], with: 'http://ruby.com'
     click_button 'Create service'
     click_link 'New VRS Services service'
@@ -82,7 +82,7 @@ feature 'Create a new service' do
   scenario 'when adding a keyword', :js do
     fill_in 'service_name', with: 'New VRS Services service'
     fill_in 'service_description', with: 'new description'
-    click_link 'Add a keyword'
+    click_link 'Add a new keyword'
     fill_in find(:xpath, "//input[@name='service[keywords][]']")[:id], with: 'ruby'
     click_button 'Create service'
     click_link 'New VRS Services service'
@@ -93,7 +93,7 @@ feature 'Create a new service' do
   scenario 'when adding a service area', :js do
     fill_in 'service_name', with: 'New VRS Services service'
     fill_in 'service_description', with: 'new description'
-    click_link 'Add a service area'
+    click_link 'Add a new service area'
     fill_in find(:xpath, "//input[@name='service[service_areas][]']")[:id], with: 'Belmont'
     click_button 'Create service'
     click_link 'New VRS Services service'

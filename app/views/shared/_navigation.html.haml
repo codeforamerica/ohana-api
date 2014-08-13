@@ -1,19 +1,13 @@
-= link_to "Home", root_path, :class => 'brand'
-%ul.nav
-  - if user_signed_in?
-    %li
-      = link_to 'Sign out', destroy_user_session_path, :method=>'delete'
-  - else
-    %li
-      = link_to 'Sign in', new_user_session_path
-  - if user_signed_in?
-    %li
-      = link_to 'Edit account', edit_user_registration_path
-  - else
-    %li
-      = link_to 'Sign up', new_user_registration_path
-  - if user_signed_in?
-    %li
-      = link_to 'Your apps', api_applications_path
-  %li
-    = link_to 'Docs', docs_path
+%header.navbar.navbar-default.navbar-fixed-top
+  .container
+    .navbar-header
+      = button_tag type: 'button', class: 'navbar-toggle', data: { toggle: 'collapse', target: '.navbar-collapse' } do
+        %span.sr-only
+          Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to 'Ohana Developers', root_path, class: 'navbar-brand'
+    %nav.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        = render 'shared/navigation_links'

@@ -17,8 +17,8 @@ module Features
     end
 
     def login_user
-      user = FactoryGirl.create(:user)
-      login_as(user, scope: :user)
+      @user = FactoryGirl.create(:user)
+      login_as(@user, scope: :user)
     end
 
     def sign_in(email, password)
@@ -31,7 +31,7 @@ module Features
     end
 
     def sign_in_admin(email, password)
-      visit '/admin/sign_in'
+      visit new_admin_session_path
       within('#new_admin') do
         fill_in 'admin_email',    with: email
         fill_in 'admin_password', with: password

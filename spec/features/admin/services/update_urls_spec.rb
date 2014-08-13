@@ -23,7 +23,7 @@ feature 'Update websites' do
     @service.update!(urls: ['http://ruby.org'])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
-    click_link 'Add a website'
+    click_link 'Add a new website'
     click_button 'Save changes'
     total_urls = all(:xpath, "//input[@type='url']")
     expect(total_urls.length).to eq 1

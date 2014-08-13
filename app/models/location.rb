@@ -37,21 +37,21 @@ class Location < ActiveRecord::Base
 
   validates :mail_address,
             presence: {
-              message: 'A location must have at least one address type.'
+              message: I18n.t('errors.messages.no_address')
             },
             unless: proc { |loc| loc.address.present? }
 
   validates :address,
             presence: {
-              message: 'A location must have at least one address type.'
+              message: I18n.t('errors.messages.no_address')
             },
             unless: proc { |loc| loc.mail_address.present? }
 
   validates :kind, :organization, :name,
-            presence: { message: "can't be blank for Location" }
+            presence: { message: I18n.t('errors.messages.blank_for_location') }
 
   validates :description, :short_desc,
-            presence: { message: "can't be blank for Location" },
+            presence: { message: I18n.t('errors.messages.blank_for_location') },
             unless: proc { |loc| loc.kind == 'farmers_markets' }
 
   ## Currently, the short description field is limited to 200 characters.
@@ -64,11 +64,13 @@ class Location < ActiveRecord::Base
   # custom array validator. See app/validators/array_validator.rb
   validates :urls, array: {
     format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: '%{value} is not a valid URL', allow_blank: true } }
+              message: "%{value} #{I18n.t('errors.messages.invalid_url')}",
+              allow_blank: true } }
 
   validates :emails, :admin_emails, array: {
     format: { with: /\A([^@\s]+)@((?:(?!-)[-a-z0-9]+(?<!-)\.)+[a-z]{2,})\z/i,
-              message: '%{value} is not a valid email', allow_blank: true } }
+              message: "%{value} #{I18n.t('errors.messages.invalid_email')}",
+              allow_blank: true } }
 
   # Only call Google's geocoding service if the address has changed
   # to avoid unnecessary requests that affect our rate limit.
@@ -96,8 +98,7 @@ class Location < ActiveRecord::Base
                  :parks, :sports]
 
   # List of admin emails that should have access to edit a location's info.
-  # Admin emails can be added to a location via the Admin GUI:
-  # https://github.com/codeforamerica/ohana-api-admin
+  # Admin emails can be added to a location via the Admin interface.
   serialize :admin_emails, Array
 
   serialize :ask_for, Array
@@ -143,10 +144,6 @@ class Location < ActiveRecord::Base
   def full_physical_address
     return unless address.present?
     "#{address.street}, #{address.city}, #{address.state} #{address.zip}"
-  end
-
-  def coordinates
-    [longitude, latitude] if longitude.present? && latitude.present?
   end
 
   def reset_coordinates

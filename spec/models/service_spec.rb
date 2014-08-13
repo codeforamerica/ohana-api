@@ -39,7 +39,6 @@ describe Service do
   it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:urls) }
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
-  it { is_expected.not_to allow_value('').for(:urls) }
 
   it do
     is_expected.not_to allow_value(%w(belmont)).

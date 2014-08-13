@@ -14,23 +14,10 @@
  *= require_self
  */
 
-.content {
-  background-color: #fff;
-  padding: 20px;
-  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
-  border-radius: 0 0 6px 6px;
-  font-size: 16px;
-  line-height: 1.428;
-}
-
 // creates styles for text in the navbar that is not a link
-.navbar .nav > li > span
+.navbar-default .navbar-nav > li > a.logged-in
 {
-  padding: 10px 15px 10px;
   color:#DE9292;
-  display:block;
 }
 
 .content-box
@@ -87,11 +74,16 @@
 
   p
   {
-    padding:0px 0px 10px 10px;
+    padding:0px 10px 0px 10px;
   }
   fieldset
   {
-    padding:10px 0px 10px 10px;
+    padding: 10px;
+  }
+
+  hr
+  {
+    margin-left:-10px;
   }
 }
 
@@ -100,20 +92,17 @@
   margin: 10px 0px 15px 10px;
 }
 
-#accessibility
+.accessibility
 {
-  ul {list-style-type: none; margin-left:15px;}
-  li {vertical-align:middle;}
-  input {height:20px;width:20px;margin-right:5px;margin-bottom:0px;margin-top:3px;display:inline-block;}
-  label {display:inline-block;vertical-align:middle;width:220px;margin-top:7px;}
+  input { margin-top: 4px; }
+
+  label { margin-bottom: 7px; }
 }
 
 #categories
 {
-  ul {list-style-type: none; margin-left:15px;}
-  li {vertical-align:middle;}
-  input {height:20px;width:20px;margin:5px 5px 5px 0px;display:inline-block;}
-  label {display:inline-block;vertical-align:middle;width:220px;}
+  label { padding-left: 5px; margin-bottom: 7px; }
+  input { margin: 4px 0px 0px -20px; }
 }
 
 // margin added to accommodate for floating footer

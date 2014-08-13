@@ -1,6 +1,3 @@
-# First, copy the contents of this file to a new file called "settings.yml",
-# overwriting the one that's already in the "config" directory.
-
 # Note that changes to this file require a server restart to take effect.
 
 ###############################
@@ -29,11 +26,11 @@
 # This setting is used in 'app/models/concerns/search.rb'.
 bounds: [[37.1074,-122.521], [37.7084,-122.085]]
 
-####################################################
+###############################
 #
-# GENERIC EMAIL DOMAIN SETTINGS FOR ADMIN INTERFACE
+# SETTINGS FOR ADMIN INTERFACE
 #
-####################################################
+###############################
 #
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
@@ -68,7 +65,13 @@ generic_domains:
 # This link appears when an admin views their locations and organizations.
 # See app/views/admin/locations/index.html.haml and
 # app/views/admin/organizations/index.html.haml.
+#
+# Please make sure to change this to your own email address.
 admin_support_email: ohanapi@codeforamerica.org
+
+# The email address that confirmation emails are sent from after user signup.
+# Please make sure to change this to your own email address.
+confirmation_email: ohanapi@codeforamerica.org
 
 #########################
 #
@@ -299,6 +302,8 @@ tld_length: 1
 ###########################################
 test:
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+
+  confirmation_email: registration@ohanapi.org
 
   smc_service_areas:
   - Atherton

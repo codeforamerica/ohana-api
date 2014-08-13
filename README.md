@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/smcgov/ohana-api-smc.png?branch=master)](https://travis-ci.org/smcgov/ohana-api-smc) [![Coverage Status](https://coveralls.io/repos/smcgov/ohana-api-smc/badge.png?branch=master)](https://coveralls.io/r/smcgov/ohana-api-smc)
+[![Build Status](https://travis-ci.org/smcgov/ohana-api-smc.png?branch=master)](https://travis-ci.org/smcgov/ohana-api-smc) [![Coverage Status](https://coveralls.io/repos/smcgov/ohana-api-smc/badge.png?branch=master)](https://coveralls.io/r/smcgov/ohana-api-smc) [![Dependency Status](https://gemnasium.com/smcgov/ohana-api-smc.svg)](https://gemnasium.com/smcgov/ohana-api-smc)
 
 #Ohana API - San Mateo County
 
