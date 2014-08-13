@@ -56,7 +56,7 @@ gem 'friendly_id', '~> 5.0.3'
 
 group :production, :staging do
   gem 'rails_12factor'
-  gem 'sentry-raven'
+  gem 'appsignal'
 end
 
 group :test, :development do
