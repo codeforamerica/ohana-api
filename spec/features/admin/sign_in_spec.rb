@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Visiting the Sign in page' do
   before :each do
-    visit '/admin/sign_in'
+    visit new_admin_session_path
   end
 
   it 'includes a link to the sign in page in the navigation' do
