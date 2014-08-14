@@ -117,6 +117,7 @@ describe 'GET /locations/:id' do
           'name'          => 'Parent Agency',
           'slug'          => 'parent-agency',
           '_slugs'        => ['parent-agency'],
+          'slugs'        => ['parent-agency'],
           'url'           => api_organization_url(org),
           'urls'          => []
         }

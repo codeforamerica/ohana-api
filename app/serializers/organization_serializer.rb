@@ -1,5 +1,5 @@
 class OrganizationSerializer < ActiveModel::Serializer
-  attributes :id, :name, :slug, :_slugs, :urls, :url, :locations_url
+  attributes :id, :name, :slug, :_slugs, :slugs, :urls, :url, :locations_url
 
   def url
     api_organization_url(object)
@@ -11,6 +11,10 @@ class OrganizationSerializer < ActiveModel::Serializer
 
   # Remove once the Postgres migration is done and smc-connect has been updated
   def _slugs
+    [slug]
+  end
+
+  def slugs
     [slug]
   end
 end
