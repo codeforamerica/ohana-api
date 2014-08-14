@@ -67,6 +67,6 @@ en:
       no_address: 'A location must have at least one address type.'
 
   titles:
-    brand: "Ohana API"
+    brand: "SMC Connect"
     main: "%{brand} Admin"
     welcome: "Welcome to %{brand} Admin!"

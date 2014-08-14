@@ -88,7 +88,7 @@ script/reset
 The app automatically sets up users and admins you can sign in with.
 Their username and password are stored in [db/seeds.rb][seeds].
 
-[seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb
+[seeds]: https://github.com/smcgov/ohana-api-smc/blob/master/db/seeds.rb
 
 To set an admin as a Super Admin:
 

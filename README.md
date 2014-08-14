@@ -18,9 +18,9 @@ The easiest way to assign categories to a service is to use the Admin interface.
 ![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
 
 ## API documentation
-[http://ohana-api-demo.herokuapp.com/api/docs](http://ohana-api-demo.herokuapp.com/api/docs)
+[http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
 
-[Search documentation](http://ohana-api-demo.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
+[Search documentation](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
 
 ## Ruby wrapper
 [https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
