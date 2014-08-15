@@ -3,7 +3,7 @@ Rails.application.configure do
 
   # This setting enables the use of subdomains on Heroku.
   # See config/settings.yml for more details.
-  config.action_dispatch.tld_length = ENV['TLD_LENGTH']
+  config.action_dispatch.tld_length = ENV['TLD_LENGTH'].to_i
 
   # Code is not reloaded between requests
   config.cache_classes = true
