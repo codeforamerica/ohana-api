@@ -11,6 +11,7 @@ module Api
 
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
+        expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true
       end
 
       def nearby

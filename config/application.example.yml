@@ -65,12 +65,12 @@ DEV_SUBDOMAIN:
 # per page by default. Note that clients can set this dynamically via
 # the "per_page" parameter, but if "per_page" is not specified, then the
 # setting below will dictate how many results are returned.
-DEFAULT_PER_PAGE: 30
+DEFAULT_PER_PAGE: '30'
 
 # This setting controls the maximum amount of results you want to the API to
 # return per page. If a client sets the "per_page" parameter to a value higher
 # than MAX_PER_PAGE, the API will limit results per page to MAX_PER_PAGE.
-MAX_PER_PAGE: 50
+MAX_PER_PAGE: '50'
 
 # The value of ADMIN_APP_TOKEN here should match the value of
 # OHANA_API_TOKEN in the Admin app:
@@ -78,6 +78,15 @@ MAX_PER_PAGE: 50
 # In production, you should set this token to a long random string
 # that you can generate from the command line with "rake secret".
 ADMIN_APP_TOKEN: changeme
+
+# This setting defines how long, in minutes, API responses will be cached in
+# Ohana Web Search (https://github.com/codeforamerica/ohana-web-search).
+# For example, if you set EXPIRES_IN to '5' below, when you do a search or
+# visit a specific location in Ohana Web Search, the app won't make that same
+# API request until 5 minutes have passed since the request was first made.
+# This greatly improves the performance of Ohana Web Search, and also reduces
+# the load on the API.
+EXPIRES_IN: '5'
 
 ###########################################
 #
@@ -90,5 +99,5 @@ test:
   ADMIN_SUBDOMAIN:
   ADMIN_PATH: admin
   DEV_SUBDOMAIN:
-  DEFAULT_PER_PAGE: 30
-  MAX_PER_PAGE: 50
+  DEFAULT_PER_PAGE: '30'
+  MAX_PER_PAGE: '50'
