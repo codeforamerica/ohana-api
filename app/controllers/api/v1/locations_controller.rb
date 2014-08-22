@@ -17,6 +17,7 @@ module Api
       def show
         location = Location.find(params[:id])
         render json: location, status: 200
+        expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true
       end
 
       def update
