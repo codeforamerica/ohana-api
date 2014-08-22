@@ -8,25 +8,35 @@ then
 
   echo "Getting ready to set environment variables for $herokuApp"
 
-  echo "Setting API_PATH"
-  heroku config:set API_PATH=api --app $herokuApp
+  echo "Setting API_SUBDOMAIN"
+  heroku config:set API_SUBDOMAIN=api --app $herokuApp
+
+  echo "Setting ADMIN_SUBDOMAIN"
+  heroku config:set ADMIN_SUBDOMAIN=admin --app $herokuApp
 
   echo "Setting DEFAULT_PER_PAGE"
   heroku config:set DEFAULT_PER_PAGE=30 --app $herokuApp
 
-   echo "Setting MAX_PER_PAGE"
+  echo "Setting MAX_PER_PAGE"
   heroku config:set MAX_PER_PAGE=50 --app $herokuApp
+
+  echo "Setting TLD_LENGTH"
+  heroku config:set TLD_LENGTH=1 --app $herokuApp
+
+  echo "Setting EXPIRES_IN"
+  heroku config:set EXPIRES_IN=5 --app $herokuApp
 
   echo "Setting MAILER_URL"
   heroku config:set MAILER_URL=$herokuApp.herokuapp.com --app $herokuApp
 
   echo "Setting DEVISE_SECRET_KEY"
-  # generate a random string with 128 alphanumeric characters
-  token1=$(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
+  # generate a random string with 36 characters
+  token1=$(python -c 'import uuid; print uuid.uuid4()')
   heroku config:set DEVISE_SECRET_KEY=$token1 --app $herokuApp
 
   echo "Setting SECRET_TOKEN"
-  token2=$(cat /dev/random | LC_CTYPE=C tr -dc "[:alnum:]" | head -c 128)
+  # generate a random string with 36 characters
+  token2=$(python -c 'import uuid; print uuid.uuid4()')
   heroku config:set SECRET_TOKEN=$token2 --app $herokuApp
 
   echo "Getting ready to install add-ons for $herokuApp"
