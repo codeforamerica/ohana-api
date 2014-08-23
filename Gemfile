@@ -33,7 +33,6 @@ gem 'kaminari'
 gem 'active_model_serializers', '~> 0.8.0'
 
 # Production Monitoring
-gem 'newrelic_rpm'
 gem 'rack-timeout'
 
 # Authentication
