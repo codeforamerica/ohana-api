@@ -31,7 +31,7 @@ GEM
       tzinfo (~> 1.1)
     ancestry (2.1.0)
       activerecord (>= 3.0.0)
-    appsignal (0.10.0)
+    appsignal (0.10.3)
       rack
       thread_safe
     arel (5.0.1.20140414130214)
