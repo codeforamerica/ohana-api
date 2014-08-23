@@ -60,5 +60,13 @@ feature 'Organizations page' do
       expect(page).to have_link 'Food Stamps'
       expect(page).to have_link 'Parent Agency'
     end
+
+    it 'sorts organizations alphabetically by name' do
+      create(:nearby_loc)
+      create(:location_for_org_admin)
+      visit '/admin/organizations'
+      expect(page.all('a')[7][:href]).
+        to eq '/admin/organizations/food-stamps/edit'
+    end
   end
 end

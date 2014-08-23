@@ -104,5 +104,13 @@ feature 'Locations page' do
       expect(page).to have_link 'Samaritan House'
       expect(page).not_to have_content 'Parent Agency locations'
     end
+
+    it 'sorts locations alphabetically by name' do
+      create(:location)
+      create(:location_for_org_admin)
+      visit '/admin/locations'
+      expect(page.all('a')[7][:href]).
+        to eq '/admin/locations/samaritan-house/edit'
+    end
   end
 end

@@ -8,7 +8,7 @@ class Admin
 
     def locations
       if admin.super_admin?
-        Location.pluck(:id, :name, :slug)
+        Location.pluck(:id, :name, :slug).sort_by(&:second)
       else
         Location.text_search(email: admin.email).pluck(:id, :name, :slug)
       end
@@ -16,7 +16,7 @@ class Admin
 
     def orgs
       if admin.super_admin?
-        Organization.pluck(:id, :name, :slug)
+        Organization.pluck(:id, :name, :slug).sort_by(&:second)
       else
         Organization.joins(:locations).
           where('locations.id IN (?)', locations.map(&:first).flatten).
