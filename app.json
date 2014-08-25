@@ -1,0 +1,56 @@
+{
+  "name": "Ohana API",
+  "description": "The open source API directory of community social services.",
+  "keywords": [
+    "social services",
+    "api",
+    "code for america"
+  ],
+  "website": "http://ohanapi.org/",
+  "repository": "https://github.com/codeforamerica/ohana-api",
+  "logo": "https://pbs.twimg.com/profile_images/423584474803093504/yBactGKA_400x400.png",
+  "success_url": "/",
+  "scripts": {
+    "postdeploy": "sh script/bootstrap && script/setup_prod_db"
+  },
+  "env": {
+    "API_PATH": {
+      "value": "api"
+    },
+    "ADMIN_PATH": {
+      "value": "admin"
+    },
+    "DEFAULT_PER_PAGE": {
+      "value": "30"
+    },
+    "MAX_PER_PAGE": {
+      "value": "50"
+    },
+    "EXPIRES_IN": {
+      "value": "5"
+    },
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "5"
+    },
+    "DEVISE_SECRET_KEY": {
+      "description": "Devise secret token",
+      "generator": "secret"
+    },
+    "SECRET_TOKEN": {
+      "description": "Rails secret token",
+      "generator": "secret"
+    },
+    "MAILER_URL": {
+      "value": "????"
+    }
+  },
+  "addons": [
+    "heroku-postgresql",
+    "mandrill"
+  ]
+}
