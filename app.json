@@ -15,38 +15,59 @@
   },
   "env": {
     "API_PATH": {
-      "value": "api"
+      "value": "api",
+      "required": true
     },
     "ADMIN_PATH": {
-      "value": "admin"
+      "value": "admin",
+      "required": true
+    },
+    "ADMIN_SUPPORT_EMAIL": {
+      "description": "The email address that admin interface users should send questions/issues to.",
+      "required": true
+    },
+    "CONFIRMATION_EMAIL": {
+      "description": "The email address that confirmation emails are sent from after user signup.",
+      "required": true
     },
     "DEFAULT_PER_PAGE": {
-      "value": "30"
+      "description": "This setting controls how many results you want to the API to return per page by default.",
+      "value": "30",
+      "required": true
     },
     "MAX_PER_PAGE": {
-      "value": "50"
+      "description": "This setting controls the maximum amount of results you want to the API to return per page.",
+      "value": "50",
+      "required": true
     },
     "EXPIRES_IN": {
-      "value": "5"
+      "description": "This setting defines how long, in minutes, API responses will be cached in Ohana Web Search",
+      "value": "5",
+      "required": true
     },
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
-      "generator": "secret"
+      "generator": "secret",
+      "required": true
     },
     "WEB_CONCURRENCY": {
       "description": "The number of processes to run.",
-      "value": "5"
+      "value": "5",
+      "required": true
     },
     "DEVISE_SECRET_KEY": {
       "description": "Devise secret token",
-      "generator": "secret"
+      "generator": "secret",
+      "required": true
     },
     "SECRET_TOKEN": {
       "description": "Rails secret token",
-      "generator": "secret"
+      "generator": "secret",
+      "required": true
     },
     "MAILER_URL": {
-      "value": "http://ohana-api-demo.herokuapp.com/"
+      "description": "Must have the format http://APPNAME.herokuapp.com/",
+      "required": true
     }
   },
   "addons": [
