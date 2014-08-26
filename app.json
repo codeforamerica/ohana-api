@@ -11,7 +11,7 @@
   "logo": "https://pbs.twimg.com/profile_images/423584474803093504/yBactGKA_400x400.png",
   "success_url": "/",
   "scripts": {
-    "postdeploy": "sh script/bootstrap && script/setup_prod_db"
+    "postdeploy": "sh script/setup_prod_db"
   },
   "env": {
     "API_PATH": {
@@ -46,7 +46,7 @@
       "generator": "secret"
     },
     "MAILER_URL": {
-      "value": "????"
+      "value": "http://ohana-api-demo.herokuapp.com/"
     }
   },
   "addons": [
