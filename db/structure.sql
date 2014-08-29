@@ -1012,6 +1012,13 @@ CREATE INDEX organizations_name ON organizations USING gin (to_tsvector('english
 
 
 --
+-- Name: services_service_areas; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX services_service_areas ON services USING gin (to_tsvector('english'::regconfig, service_areas));
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1076,4 +1083,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140522153640');
 INSERT INTO schema_migrations (version) VALUES ('20140629181523');
 
 INSERT INTO schema_migrations (version) VALUES ('20140630171418');
+
+INSERT INTO schema_migrations (version) VALUES ('20140829154350');
 
