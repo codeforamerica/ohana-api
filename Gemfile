@@ -54,6 +54,8 @@ gem 'ancestry'
 
 gem 'friendly_id', '~> 5.0.3'
 
+gem 'rabl-rails'
+
 group :production, :staging do
   gem 'rails_12factor'
   gem 'appsignal'
