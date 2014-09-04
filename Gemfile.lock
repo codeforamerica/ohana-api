@@ -152,6 +152,9 @@ GEM
       activemodel (>= 4.0.1, < 5.0)
     quiet_assets (1.0.3)
       railties (>= 3.1, < 5.0)
+    rabl-rails (0.3.4)
+      activesupport (>= 3.1)
+      railties (>= 3.1)
     rack (1.5.2)
     rack-cors (0.2.9)
     rack-test (0.6.2)
@@ -296,6 +299,7 @@ DEPENDENCIES
   poltergeist
   protected_attributes
   quiet_assets (>= 1.0.2)
+  rabl-rails
   rack-cors
   rack-timeout
   rails (~> 4.1.1)

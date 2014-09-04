@@ -5,13 +5,19 @@ module Api
       include PaginationHeaders
       include CustomErrors
 
-      def index
-        locations = Location.includes(:organization, :address, :phones).
-                            page(params[:page]).per(params[:per_page]).
-                            order('created_at DESC')
+      respond_to :xml
 
-        render json: locations, each_serializer: LocationsSerializer, status: 200
-        generate_pagination_headers(locations)
+      def index
+        @locations = Location.includes(tables).
+                              page(params[:page]).per(params[:per_page]).
+                              order('created_at DESC')
+
+        respond_to do |format|
+          format.json { render json: @locations, each_serializer: LocationsSerializer, status: 200 }
+          format.xml { respond_with @locations }
+        end
+
+        generate_pagination_headers(@locations)
       end
 
       def show
@@ -40,6 +46,14 @@ module Api
         location = Location.find(params[:id])
         location.destroy
         head 204
+      end
+
+      private
+
+      def tables
+        return [:organization, :address, :phones] unless request.format == Mime::XML
+        [:address, :contacts, :faxes, :mail_address, :organization, :phones,
+         :services]
       end
     end
   end
