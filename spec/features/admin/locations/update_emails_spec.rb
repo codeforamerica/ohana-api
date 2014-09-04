@@ -35,6 +35,7 @@ feature 'Update emails' do
     fill_in 'location_emails_0', with: 'example.org'
     click_button 'Save changes'
     expect(page).to have_content 'example.org is not a valid email'
+    expect(page).to have_css('.field_with_errors')
   end
 
   scenario 'by adding 2 new emails', :js do
@@ -57,5 +58,17 @@ feature 'Update emails' do
     click_button 'Save changes'
     total_emails = all(:xpath, "//input[@name='location[emails][]']")
     expect(total_emails.length).to eq 1
+  end
+
+  scenario 'with 2 emails but only one is invalid', :js do
+    @location.update!(emails: ['foo@ruby.org'])
+    visit '/admin/locations/vrs-services'
+    click_link 'Add a new general email'
+    emails = page.
+        all(:xpath, "//input[@name='location[emails][]']")
+    fill_in emails[-1][:id], with: 'Alexandria'
+    click_button 'Save changes'
+    total_fields_with_errors = page.all(:css, '.field_with_errors')
+    expect(total_fields_with_errors.length).to eq 1
   end
 end

@@ -33,5 +33,14 @@ class Admin
         end
       end.join.html_safe
     end
+
+    def error_class_for(model, attribute, field)
+      return if model.errors[attribute].blank?
+      'field_with_errors' if field_contains_errors?(model, attribute, field)
+    end
+
+    def field_contains_errors?(model, attribute, field)
+      model.errors[attribute].select { |error| error.include?(field) }.present?
+    end
   end
 end

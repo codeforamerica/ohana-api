@@ -12,10 +12,7 @@ class Organization < ActiveRecord::Base
   # For example, the urls field is an array that can contain multiple URLs.
   # To be able to validate each URL in the array, we have to use a
   # custom array validator. See app/validators/array_validator.rb
-  validates :urls, array: {
-    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: "%{value} #{I18n.t('errors.messages.invalid_url')}",
-              allow_blank: true } }
+  validates :urls, array: { url: true }
 
   serialize :urls, Array
 
