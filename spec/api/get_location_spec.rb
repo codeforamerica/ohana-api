@@ -56,10 +56,6 @@ describe 'GET /locations/:id' do
       expect(json['slug']).to eq(@location.slug)
     end
 
-    it 'includes the slugs attribute' do
-      expect(json['slugs']).to eq(['vrs-services'])
-    end
-
     it 'includes the updated_at attribute' do
       expect(json.keys).to include('updated_at')
     end
@@ -116,8 +112,6 @@ describe 'GET /locations/:id' do
           'locations_url' => locations_url,
           'name'          => 'Parent Agency',
           'slug'          => 'parent-agency',
-          '_slugs'        => ['parent-agency'],
-          'slugs'        => ['parent-agency'],
           'url'           => api_organization_url(org),
           'urls'          => []
         }

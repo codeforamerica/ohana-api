@@ -1,6 +1,6 @@
 class LocationsSerializer < ActiveModel::Serializer
   attributes :id, :admin_emails, :coordinates, :description, :kind, :latitude,
-             :longitude, :market_match, :name, :short_desc, :slug, :slugs,
+             :longitude, :market_match, :name, :short_desc, :slug,
              :updated_at, :urls, :contacts_url, :faxes_url, :services_url, :url
 
   has_one :address
@@ -34,10 +34,5 @@ class LocationsSerializer < ActiveModel::Serializer
 
   def include_market_match?
     object.kind == 'farmers_markets'
-  end
-
-  # Remove once the Postgres migration is done and smc-connect has been updated
-  def slugs
-    [slug]
   end
 end
