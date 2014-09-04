@@ -20,6 +20,9 @@ then
   echo "Setting MAX_PER_PAGE"
   heroku config:set MAX_PER_PAGE=50 --app $herokuApp
 
+  echo "Setting ENABLE_HTTPS"
+  heroku config:set ENABLE_HTTPS=yes --app $herokuApp
+
   echo "Setting EXPIRES_IN"
   heroku config:set EXPIRES_IN=5 --app $herokuApp
 
