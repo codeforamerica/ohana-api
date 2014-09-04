@@ -48,6 +48,7 @@ en:
       invalid_email: 'is not a valid email'
       invalid_fax: 'is not a valid US fax number'
       invalid_phone: 'is not a valid US phone number'
+      invalid_service_area: 'is not a valid service area'
       invalid_state: 'Please enter a valid 2-letter state abbreviation'
       invalid_url: 'is not a valid URL'
       invalid_zip: 'is not a valid ZIP code'

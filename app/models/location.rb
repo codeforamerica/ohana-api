@@ -67,15 +67,9 @@ class Location < ActiveRecord::Base
   # For example, the urls field is an array that can contain multiple URLs.
   # To be able to validate each URL in the array, we have to use a
   # custom array validator. See app/validators/array_validator.rb
-  validates :urls, array: {
-    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: "%{value} #{I18n.t('errors.messages.invalid_url')}",
-              allow_blank: true } }
+  validates :urls, array: { url: true }
 
-  validates :emails, :admin_emails, array: {
-    format: { with: /\A([^@\s]+)@((?:(?!-)[-a-z0-9]+(?<!-)\.)+[a-z]{2,})\z/i,
-              message: "%{value} #{I18n.t('errors.messages.invalid_email')}",
-              allow_blank: true } }
+  validates :emails, :admin_emails, array: { email: true }
 
   # Only call Google's geocoding service if the address has changed
   # to avoid unnecessary requests that affect our rate limit.

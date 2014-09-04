@@ -64,7 +64,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
     expect(json['errors'].first['service_areas'].first).
-      to include('At least one service area is improperly formatted')
+      to eq('Belmont, CA is not a valid service area')
   end
 
   it 'returns 422 when service_areas is empty String' do

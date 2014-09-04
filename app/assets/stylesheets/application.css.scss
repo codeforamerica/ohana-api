@@ -92,6 +92,16 @@
   margin: 10px 0px 15px 10px;
 }
 
+// Adds a red border around invalid input fields after form submission.
+.field_with_errors
+{
+  input, textarea
+  {
+    border-color: red;
+    border-width: 2px;
+  }
+}
+
 .accessibility
 {
   input { margin-top: 4px; }

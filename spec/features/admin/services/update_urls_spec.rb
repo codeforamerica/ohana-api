@@ -29,6 +29,19 @@ feature 'Update websites' do
     expect(total_urls.length).to eq 1
   end
 
+  scenario 'with 2 urls but only one is invalid', :js do
+    @service.update!(urls: ['http://ruby.org'])
+    visit '/admin/locations/vrs-services'
+    click_link 'Literacy Program'
+    click_link 'Add a new website'
+    urls = page.
+        all(:xpath, "//input[@name='service[urls][]']")
+    fill_in urls[-1][:id], with: 'Alexandria'
+    click_button 'Save changes'
+    total_fields_with_errors = page.all(:css, '.field_with_errors')
+    expect(total_fields_with_errors.length).to eq 1
+  end
+
   scenario 'with invalid website' do
     @service.update!(urls: ['http://ruby.org'])
     visit '/admin/locations/vrs-services'
@@ -36,6 +49,7 @@ feature 'Update websites' do
     fill_in 'service_urls_0', with: 'www.monfresh.com'
     click_button 'Save changes'
     expect(page).to have_content 'www.monfresh.com is not a valid URL'
+    expect(page).to have_css('.field_with_errors')
   end
 
   scenario 'with valid website' do

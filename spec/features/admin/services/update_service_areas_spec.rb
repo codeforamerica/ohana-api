@@ -29,6 +29,19 @@ feature 'Update service areas' do
     expect(total_service_areas.length).to eq 1
   end
 
+  scenario 'with 2 service_areas but only one is invalid', :js do
+    @service.update!(service_areas: ['Belmont'])
+    visit '/admin/locations/vrs-services'
+    click_link 'Literacy Program'
+    click_link 'Add a new service area'
+    service_areas = page.
+        all(:xpath, "//input[@name='service[service_areas][]']")
+    fill_in service_areas[-1][:id], with: 'Alexandria'
+    click_button 'Save changes'
+    total_fields_with_errors = page.all(:css, '.field_with_errors')
+    expect(total_fields_with_errors.length).to eq 1
+  end
+
   scenario 'with invalid service area' do
     @service.update!(service_areas: ['Belmont'])
     visit '/admin/locations/vrs-services'
@@ -36,7 +49,8 @@ feature 'Update service areas' do
     fill_in 'service_service_areas_0', with: 'Fairfax'
     click_button 'Save changes'
     expect(page).
-      to have_content 'At least one service area is improperly formatted'
+      to have_content 'Fairfax is not a valid service area'
+    expect(page).to have_css('.field_with_errors')
   end
 
   scenario 'with valid service area' do

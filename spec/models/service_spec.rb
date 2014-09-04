@@ -48,11 +48,7 @@ describe Service do
   it do
     is_expected.not_to allow_value(%w(belmont)).
     for(:service_areas).
-    with_message(
-      'At least one service area is improperly formatted, ' \
-      'or is not an accepted city or county name. Please make sure all ' \
-      'words are capitalized.'
-    )
+    with_message('belmont is not a valid service area')
   end
 
   it { is_expected.to allow_value(%w(Belmont Atherton)).for(:service_areas) }

@@ -9,7 +9,7 @@
     - @location.emails.each_with_index do |email, i|
       = field_set_tag do
         .row
-          .col-md-6
+          %div{ class: "col-sm-6 #{error_class_for(@location, :emails, email)}" }
             = email_field_tag 'location[emails][]', email, class: 'form-control', id: "location_emails_#{i}"
         = link_to 'Delete this email permanently', '#', class: 'btn btn-danger delete_attribute'
         %hr
