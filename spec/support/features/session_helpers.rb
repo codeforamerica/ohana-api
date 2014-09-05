@@ -22,7 +22,7 @@ module Features
     end
 
     def sign_in(email, password)
-      visit '/users/sign_in'
+      visit new_user_session_path
       within('#new_user') do
         fill_in 'Email',    with: email
         fill_in 'Password', with: password
@@ -40,7 +40,7 @@ module Features
     end
 
     def sign_up(name, email, password, confirmation)
-      visit '/users/sign_up'
+      visit new_user_registration_path
       fill_in 'user_name',                  with: name
       fill_in 'user_email',                 with: email
       fill_in 'user_password',              with: password
@@ -49,7 +49,7 @@ module Features
     end
 
     def sign_up_admin(name, email, password, confirmation)
-      visit '/admin/sign_up'
+      visit new_admin_registration_path
       fill_in 'admin_name',                  with: name
       fill_in 'admin_email',                 with: email
       fill_in 'admin_password',              with: password

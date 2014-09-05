@@ -20,6 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  admin:
+    api_location: 'San Mateo County'
+
   enumerize:
     location:
       accessibility:
@@ -56,5 +59,5 @@ en:
 
   titles:
     brand: "Ohana API"
-    main: "%{brand} Admin"
-    welcome: "Welcome to %{brand} Admin!"
+    admin: "%{brand} Admin"
+    developer: "%{brand} Developers"
