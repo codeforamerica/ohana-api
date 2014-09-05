@@ -59,7 +59,7 @@ ADMIN_PATH:
 # setup, which gives you a URL such as http://ohana-api-demo.herokuapp.com.
 # In development, you can test it by adding the subdomain to 'lvh.me:8080'.
 # For example: http://developer.lvh.me:8080.
-DEV_SUBDOMAIN:
+DEV_SUBDOMAIN: developer
 
 # When using the default Heroku setup (http://app-name.herokuapp.com),
 # set this to "2". Once you're ready to deploy to production, you will
@@ -69,7 +69,7 @@ DEV_SUBDOMAIN:
 # if you are using ".co.uk" for example, then you should set it to "2".
 #
 # This setting is used in config/environments/production.rb.
-TLD_LENGTH: 1
+TLD_LENGTH: '1'
 
 # This setting controls how many results you want to the API to return
 # per page by default. Note that clients can set this dynamically via
@@ -104,3 +104,4 @@ test:
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
   MAX_PER_PAGE: '50'
+  ADMIN_APP_TOKEN: testing123

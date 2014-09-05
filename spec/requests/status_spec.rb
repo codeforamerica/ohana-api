@@ -4,7 +4,7 @@ describe 'GET /.well-known/status' do
   context 'when everything is ok' do
     before(:each) do
       create(:loc_with_nil_fields)
-      get '/.well-known/status'
+      get '/api/.well-known/status'
     end
 
     it 'returns a 200 HTTP status' do
@@ -26,7 +26,7 @@ describe 'GET /.well-known/status' do
 
   context 'when everything is not ok' do
     before(:each) do
-      get '/.well-known/status'
+      get '/api/.well-known/status'
     end
 
     it "returns 'NOT OK' status" do
