@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with 'rake routes'.
   # Read more about routing: http://guides.rubyonrails.org/routing.html
 
-  devise_for :users, path: '/', controllers: { registrations: 'user/registrations' }
+  devise_for :users, controllers: { registrations: 'user/registrations' }
   devise_for :admins, path: ENV['ADMIN_PATH'] || '/', controllers: { registrations: 'admin/registrations' }
 
   constraints(SubdomainConstraints.new(subdomain: ENV['ADMIN_SUBDOMAIN'])) do
