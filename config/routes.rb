@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     namespace :api, path: ENV['API_PATH'], defaults: { format: 'json' } do
       scope module: :v1, constraints: ApiConstraints.new(version: 1) do
         get '/' => 'root#index'
+        get '.well-known/status' => 'status#check_status'
         resources :locations do
           resources :address, except: [:index, :show]
           resources :mail_address, except: [:index, :show]
@@ -66,6 +67,4 @@ Rails.application.routes.draw do
   end
 
   root to: 'home#index'
-
-  get '.well-known/status' => 'status#check_status'
 end
