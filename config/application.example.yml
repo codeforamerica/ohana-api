@@ -72,13 +72,6 @@ DEFAULT_PER_PAGE: '30'
 # than MAX_PER_PAGE, the API will limit results per page to MAX_PER_PAGE.
 MAX_PER_PAGE: '50'
 
-# The value of ADMIN_APP_TOKEN here should match the value of
-# OHANA_API_TOKEN in the Admin app:
-# https://github.com/codeforamerica/ohana-api-admin
-# In production, you should set this token to a long random string
-# that you can generate from the command line with "rake secret".
-ADMIN_APP_TOKEN: changeme
-
 # This setting defines how long, in minutes, API responses will be cached in
 # Ohana Web Search (https://github.com/codeforamerica/ohana-web-search).
 # For example, if you set EXPIRES_IN to '5' below, when you do a search or
@@ -101,3 +94,4 @@ test:
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
   MAX_PER_PAGE: '50'
+  ADMIN_APP_TOKEN: testing123

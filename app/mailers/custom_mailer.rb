@@ -4,6 +4,11 @@ class CustomMailer < Devise::Mailer
     super
   end
 
+  def reset_password_instructions(record, token, options = {})
+    options[:template_path] = template_path(record)
+    super
+  end
+
   private
 
   def template_path(resource)
