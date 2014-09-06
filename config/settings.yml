@@ -58,7 +58,7 @@ generic_domains:
   - hotmail.com
   - yahoo.com
   - comcast.net
-  
+
 #########################
 #
 # SERVICE AREAS SETTINGS
@@ -105,5 +105,3 @@ test:
   - Atherton
 
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
-
-  confirmation_email: registration@ohanapi.org
