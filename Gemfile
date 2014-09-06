@@ -20,7 +20,7 @@ gem 'jquery-rails'
 gem 'haml-rails', '~> 0.5.3'
 
 # Server for deployment
-gem 'unicorn'
+gem 'passenger'
 
 # Geocoding
 gem 'geocoder'
