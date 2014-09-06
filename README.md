@@ -27,8 +27,8 @@ The easiest way to assign categories to a service is to use the Admin interface.
 
 ## Stack Overview
 
-* Ruby version 2.1.1
-* Rails version 4.1.4
+* Ruby version 2.1.2
+* Rails version 4.1.5
 * Postgres
 * Redis
 * Testing Frameworks: RSpec, Factory Girl, Capybara
@@ -52,7 +52,7 @@ To see the actual tests, browse through the [spec](https://github.com/smcgov/oha
 We'd love to get your help developing this project! Take a look at the [Contribution Document](https://github.com/smcgov/ohana-api-smc/blob/master/CONTRIBUTING.md) to see how you can make a difference.
 
 ## Supported Ruby Version
-This library aims to support and is [tested against](http://travis-ci.org/smcgov/ohana-api-smc) Ruby version 2.1.1.
+This library aims to support and is [tested against](http://travis-ci.org/smcgov/ohana-api-smc) Ruby version 2.1.2.
 
 If something doesn't work on this version, it should be considered a bug.
 
