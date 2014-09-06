@@ -43,4 +43,7 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+
+  # Reload the browser when files change
+  config.middleware.use Rack::LiveReload, {live_reload_port: 35729}
 end

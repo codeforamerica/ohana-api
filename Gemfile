@@ -80,4 +80,7 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'listen', '~> 1.0'
+  gem "guard"
+  gem "guard-livereload", require: false
+  gem "rack-livereload"
 end

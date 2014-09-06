@@ -9,7 +9,7 @@
   "website": "http://ohanapi.org/",
   "repository": "https://github.com/codeforamerica/ohana-api",
   "logo": "https://pbs.twimg.com/profile_images/423584474803093504/yBactGKA_400x400.png",
-  "success_url": "/",
+  "success_url": "/welcome",
   "scripts": {
     "postdeploy": "sh script/setup_prod_db"
   },
