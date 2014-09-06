@@ -19,9 +19,6 @@ gem 'protected_attributes'
 gem 'jquery-rails'
 gem 'haml-rails', '~> 0.5.3'
 
-# Server for deployment
-gem 'passenger'
-
 # Geocoding
 gem 'geocoder'
 gem 'redis'
@@ -57,6 +54,7 @@ gem 'friendly_id', '~> 5.0.3'
 gem 'rabl-rails'
 
 group :production, :staging do
+  gem 'puma'
   gem 'rails_12factor'
   gem 'appsignal'
 end
