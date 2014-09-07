@@ -24,7 +24,7 @@ MethodLength:
   CountComments: false
   Max: 15
 
-Style/ClassLength:
+Metrics/ClassLength:
   CountComments: false
   Max: 100
 

@@ -10,7 +10,7 @@ module PaginationHeaders
 
     links = links(pages, params)
 
-    links.delete_if { |v| v.blank? }
+    links.delete_if(&:blank?)
 
     response.headers['Link'] = links.join(', ') unless links.blank?
     response.headers['X-Total-Count'] = "#{coll.total_count}"
