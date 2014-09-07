@@ -149,7 +149,7 @@ GEM
     powerpack (0.0.9)
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
-    puma (2.8.1)
+    puma (2.9.1)
       rack (>= 1.1, < 2.0)
     quiet_assets (1.0.3)
       railties (>= 3.1, < 5.0)
