@@ -96,6 +96,8 @@ GEM
     figaro (1.0.0.rc1)
       rails (>= 3, < 5)
       thor (~> 0.14)
+    font-awesome-rails (4.1.0.0)
+      railties (>= 3.2, < 5.0)
     formatador (0.2.5)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
@@ -302,6 +304,7 @@ DEPENDENCIES
   enumerize
   factory_girl_rails (>= 4.2.0)
   figaro (~> 1.0.0.rc1)
+  font-awesome-rails
   friendly_id (~> 5.0.3)
   geocoder
   guard

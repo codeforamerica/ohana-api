@@ -11,11 +11,7 @@ RSpec.describe WelcomeController, :type => :controller do
         get :home
         expect(response).to redirect_to(welcome_path(code: "token"))
       end
-
-      it "should add a param named code to the url" do
-        get :home
-        expect(response.body).to include("welcome?code")
-      end
+      
     end
 
     context "visiting the welcome page a second time" do
