@@ -14,14 +14,9 @@ class Service < ActiveRecord::Base
   validates :name, :description, :location,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
-  validates :urls, array: {
-    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: "%{value} #{I18n.t('errors.messages.invalid_url')}",
-              allow_blank: true } }
+  validates :urls, array: { url: true }
 
-  validate :service_area_format, if: (proc do |s|
-    s.service_areas.is_a?(Array) && SETTINGS[:valid_service_areas].present?
-  end)
+  validates :service_areas, array: { service_area: true }
 
   auto_strip_attributes :audience, :description, :eligibility, :fees,
                         :how_to_apply, :name, :short_desc, :wait
@@ -33,14 +28,4 @@ class Service < ActiveRecord::Base
   serialize :keywords, Array
   serialize :service_areas, Array
   serialize :urls, Array
-
-  def service_area_format
-    return unless service_areas.present?
-    valid_service_areas = SETTINGS[:valid_service_areas]
-    return unless (service_areas - valid_service_areas).size != 0
-    error_message = 'At least one service area is improperly formatted, ' \
-      'or is not an accepted city or county name. Please make sure all ' \
-      'words are capitalized.'
-    errors.add(:service_areas, error_message)
-  end
 end

@@ -11,6 +11,7 @@ feature 'Update name' do
     fill_in 'location_name', with: ''
     click_button 'Save changes'
     expect(page).to have_content "Name can't be blank for Location"
+    expect(page).to have_css('.field_with_errors')
   end
 
   scenario 'with valid location name' do

@@ -3,5 +3,7 @@
     = f.label :name, 'Location Name'
     %span.desc
       The name of the organization at a location, such as a branch, department, or similar.
-  %p
-    = f.text_field :name, required: false, maxlength: 255, class: 'form-control'
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.text_field :name, required: false, maxlength: 255, class: 'form-control'

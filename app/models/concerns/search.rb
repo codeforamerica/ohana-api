@@ -57,6 +57,10 @@ module Search
   module ClassMethods
     require 'exceptions'
 
+    def service_area(sa)
+      joins(:services).where('services.service_areas @@ :q', q: sa)
+    end
+
     def text_search(params = {})
       allowed_params(params).reduce(self) do |relation, (scope_name, value)|
         value.present? ? relation.public_send(scope_name, value) : relation.all
@@ -86,7 +90,7 @@ module Search
     end
 
     def allowed_params(params)
-      params.slice(:language, :category, :org_name, :email, :keyword)
+      params.slice(:language, :category, :org_name, :email, :keyword, :service_area)
     end
   end
 end
