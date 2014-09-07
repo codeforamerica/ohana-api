@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # Read more about routing: http://guides.rubyonrails.org/routing.html
 
   controller :welcome do
-    get "/welcome" => "welcome#home"
+    get "/welcome" => "welcome#home", as: :welcome
   end
 
   devise_for :users, controllers: { registrations: 'user/registrations' }
