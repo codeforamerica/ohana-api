@@ -54,7 +54,8 @@ gem 'friendly_id', '~> 5.0.3'
 gem 'rabl-rails'
 
 group :production, :staging do
-  gem 'puma'
+  gem 'unicorn'
+  # gem 'unicorn-worker-killer'
   gem 'rails_12factor'
   gem 'appsignal'
 end
