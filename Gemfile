@@ -58,7 +58,7 @@ group :production, :staging do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-rails', '~> 3.1.0'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
 end
