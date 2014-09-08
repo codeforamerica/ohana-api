@@ -33,7 +33,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     end
 
     it 'returns an empty Access-Control-Expose-Headers header' do
-      expect(headers['Access-Control-Expose-Headers']).to eq('')
+      expect(headers['Access-Control-Expose-Headers']).to eq('Link, X-Total-Count')
     end
 
     it 'allows access to the locations endpoint' do
@@ -127,8 +127,8 @@ describe 'CORS REQUESTS - POST and GET' do
       expect(headers['Access-Control-Allow-Credentials']).to eq('true')
     end
 
-    it 'returns an empty Access-Control-Expose-Headers header' do
-      expect(headers['Access-Control-Expose-Headers']).to eq('')
+    it 'exposes the Link and X-Total-Count headers' do
+      expect(headers['Access-Control-Expose-Headers']).to eq('Link, X-Total-Count')
     end
   end
 
