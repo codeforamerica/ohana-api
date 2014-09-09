@@ -259,49 +259,6 @@ describe "GET 'search'" do
     end
   end
 
-  context 'with category parameter' do
-    before(:each) do
-      create(:nearby_loc)
-      create(:farmers_market_loc)
-      cat = create(:jobs)
-      create_service
-      @service.category_ids = [cat.id]
-      @service.save
-    end
-
-    it 'only returns locations whose category name matches the query' do
-      get api_search_index_url(category: 'Jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '1'
-      expect(json.first['name']).to eq('VRS Services')
-    end
-
-    it 'only finds exact spelling matches for the category' do
-      get api_search_index_url(category: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-  end
-
-  context 'with category and keyword parameters' do
-    before(:each) do
-      loc1 = create(:nearby_loc)
-      loc2 = create(:farmers_market_loc)
-      loc3 = create(:location)
-
-      cat = create(:jobs)
-      [loc1, loc2, loc3].each do |loc|
-        loc.services.create!(attributes_for(:service))
-        service = loc.services.first
-        service.category_ids = [cat.id]
-        service.save
-      end
-    end
-
-    it 'returns unique locations when keyword matches the query' do
-      get api_search_index_url(category: 'Jobs', keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '3'
-    end
-  end
-
   context 'with org_name parameter' do
     before(:each) do
       create(:nearby_loc)
