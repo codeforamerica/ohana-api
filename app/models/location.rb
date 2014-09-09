@@ -95,12 +95,6 @@ class Location < ActiveRecord::Base
 
   serialize :emails, Array
 
-  serialize :languages, Array
-  # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
-  #   :mandarin, :polish, :portuguese, :russian, :spanish, :tagalog, :urdu,
-  #   :vietnamese,
-  #    ], multiple: true, scope: true
-
   serialize :urls, Array
 
   auto_strip_attributes :description, :hours, :name, :short_desc,

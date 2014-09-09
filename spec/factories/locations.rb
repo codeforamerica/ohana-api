@@ -40,7 +40,7 @@ FactoryGirl.define do
     latitude 37.5808591
     longitude(-122.343072)
     association :address, factory: :near
-    languages %w(spanish Arabic)
+    languages %w(Spanish Arabic)
     association :organization, factory: :nearby_org
   end
 
@@ -58,6 +58,7 @@ FactoryGirl.define do
     short_desc 'short description'
     latitude 37.3180168
     longitude(-122.2743951)
+    languages %w(French Tagalog)
     association :address, factory: :far_west
     organization
   end
@@ -69,7 +70,7 @@ FactoryGirl.define do
     latitude 37.6047797
     longitude(-122.3984501)
     association :address, factory: :far
-    languages %w(spanish Arabic)
+    languages %w(Spanish Arabic)
     organization
   end
 
