@@ -188,13 +188,6 @@ describe "GET 'search'" do
       end
     end
 
-    context 'with language parameter' do
-      it 'finds organizations that match the language' do
-        get api_search_index_url(keyword: 'library', language: 'arabic', subdomain: ENV['API_SUBDOMAIN'])
-        expect(json.first['name']).to eq('Library')
-      end
-    end
-
     context 'with keyword and location parameters' do
       it 'only returns locations matching both parameters' do
         get api_search_index_url(keyword: 'books', location: 'Burlingame', subdomain: ENV['API_SUBDOMAIN'])

@@ -71,7 +71,6 @@ describe Location do
 
   it { is_expected.to serialize(:admin_emails).as(Array) }
   it { is_expected.to serialize(:emails).as(Array) }
-  it { is_expected.to serialize(:languages).as(Array) }
   it { is_expected.to serialize(:urls).as(Array) }
 
   describe 'invalidations' do
