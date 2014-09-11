@@ -1,8 +1,7 @@
 class Service < ActiveRecord::Base
   attr_accessible :audience, :description, :eligibility, :fees,
                   :funding_sources, :how_to_apply, :keywords, :name,
-                  :service_areas, :short_desc, :urls, :wait, :category_ids,
-                  :location_id
+                  :service_areas, :short_desc, :urls, :wait, :category_ids
 
   belongs_to :location, touch: true
 

@@ -39,7 +39,7 @@ feature 'Organizations page' do
       create(:location_for_org_admin)
       visit '/admin/organizations'
       expect(page).not_to have_link 'Food Stamps'
-      expect(page).to have_link 'Parent Agency'
+      expect(page).to have_link 'Far Org'
     end
   end
 
@@ -58,7 +58,7 @@ feature 'Organizations page' do
       create(:location_for_org_admin)
       visit '/admin/organizations'
       expect(page).to have_link 'Food Stamps'
-      expect(page).to have_link 'Parent Agency'
+      expect(page).to have_link 'Far Org'
     end
   end
 end

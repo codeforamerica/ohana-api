@@ -3,11 +3,11 @@ require 'rails_helper'
 describe "GET 'search'" do
   context 'with valid keyword only' do
     before :all do
-      @locations = create_list(:farmers_market_loc, 2)
+      @locations = [create(:location), create(:nearby_loc)]
     end
 
     before :each do
-      get api_search_index_url(keyword: 'market', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(keyword: 'jobs', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do
@@ -23,11 +23,11 @@ describe "GET 'search'" do
     end
 
     it 'returns locations' do
-      expect(json.first['name']).to eq('Belmont Farmers Market')
+      expect(json.first['name']).to eq('VRS Services')
     end
 
     it 'is a paginated resource' do
-      get api_search_index_url(keyword: 'market', per_page: 1, page: 2, subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(keyword: 'jobs', per_page: 1, page: 2, subdomain: ENV['API_SUBDOMAIN'])
       expect(json.length).to eq(1)
       expect(json.first['name']).to eq(@locations.last.name)
     end
@@ -294,49 +294,49 @@ describe "GET 'search'" do
   context 'when email parameter contains custom domain' do
     it "finds domain name when url contains 'www'" do
       create(:location, urls: ['http://www.smchsa.org'])
-      create(:location, emails: ['info@cfa.org'])
+      create(:nearby_loc, emails: ['info@cfa.org'])
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds naked domain name' do
       create(:location, urls: ['http://smchsa.com'])
-      create(:location, emails: ['hello@cfa.com'])
+      create(:nearby_loc, emails: ['hello@cfa.com'])
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.com"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds long domain name in both url and email' do
       create(:location, urls: ['http://smchsa.org'])
-      create(:location, emails: ['info@smchsa.org'])
+      create(:nearby_loc, emails: ['info@smchsa.org'])
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '2'
     end
 
     it 'finds domain name when URL contains path' do
       create(:location, urls: ['http://www.smchealth.org/mcah'])
-      create(:location, emails: ['org@mcah.org'])
+      create(:nearby_loc, emails: ['org@mcah.org'])
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchealth.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains multiple paths' do
       create(:location, urls: ['http://www.smchsa.org/portal/site/planning'])
-      create(:location, emails: ['sanmateo@ca.us'])
+      create(:nearby_loc, emails: ['sanmateo@ca.us'])
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains a dash' do
       create(:location, urls: ['http://www.childsup-connect.ca.gov'])
-      create(:location, emails: ['gov@childsup-connect.gov'])
+      create(:nearby_loc, emails: ['gov@childsup-connect.gov'])
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@childsup-connect.ca.gov"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains a number' do
       create(:location, urls: ['http://www.prenatalto3.org'])
-      create(:location, emails: ['info@rwc2020.org'])
+      create(:nearby_loc, emails: ['info@rwc2020.org'])
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@prenatalto3.org"
       expect(headers['X-Total-Count']).to eq '1'
     end

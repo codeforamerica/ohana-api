@@ -18,6 +18,7 @@ gem 'protected_attributes'
 # Front end
 gem 'jquery-rails'
 gem 'haml-rails', '~> 0.5.3'
+gem 'select2-rails'
 
 # Server for deployment
 gem 'passenger'

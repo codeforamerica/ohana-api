@@ -5,7 +5,15 @@ class Admin
 
     def index
       @admin_decorator = AdminDecorator.new(current_admin)
-      @orgs = Kaminari.paginate_array(@admin_decorator.orgs).page(params[:page])
+      @all_orgs = @admin_decorator.orgs
+      @orgs = Kaminari.paginate_array(@all_orgs).page(params[:page])
+
+      respond_to do |format|
+        format.html
+        format.json do
+          render json: @all_orgs.select { |org| org[1] =~ /#{params[:q]}/i }
+        end
+      end
     end
 
     def edit

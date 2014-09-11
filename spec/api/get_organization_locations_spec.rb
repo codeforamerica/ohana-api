@@ -17,10 +17,9 @@ describe 'GET /organizations/:organization_id/locations' do
         short_desc: 'short_desc',
         transportation: 'BART stops 1 block away',
         urls: %w(http://monfresh.com),
-        address_attributes: attributes_for(:address),
-        organization_id: @org.id
+        address_attributes: attributes_for(:address)
       }
-      @location = Location.create!(attrs)
+      @location = @org.locations.create!(attrs)
       @location.contacts.create!(attributes_for(:contact))
       @location.faxes.create!(attributes_for(:fax))
       @location.phones.create!(attributes_for(:phone))
@@ -28,7 +27,7 @@ describe 'GET /organizations/:organization_id/locations' do
       @location.services.create!(attributes_for(:service))
       @location.create_mail_address!(attributes_for(:mail_address))
 
-      get api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN'])
+      get api_org_locations_url(@org, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do
@@ -165,7 +164,7 @@ describe 'GET /organizations/:organization_id/locations' do
   context "when organization doesn't have locations" do
     before :each do
       org = create(:organization)
-      get api_organization_locations_url(org, subdomain: ENV['API_SUBDOMAIN'])
+      get api_org_locations_url(org, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns an empty array' do

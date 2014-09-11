@@ -6,6 +6,6 @@ class OrganizationSerializer < ActiveModel::Serializer
   end
 
   def locations_url
-    api_organization_locations_url(object)
+    api_org_locations_url(object)
   end
 end

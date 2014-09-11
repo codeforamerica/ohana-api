@@ -5,7 +5,7 @@ class Location < ActiveRecord::Base
                   :short_desc, :transportation, :urls, :address_attributes,
                   :contacts_attributes, :faxes_attributes,
                   :mail_address_attributes, :phones_attributes,
-                  :services_attributes, :organization_id
+                  :services_attributes
 
   belongs_to :organization
   accepts_nested_attributes_for :organization

@@ -42,5 +42,19 @@ class Admin
     def field_contains_errors?(model, attribute, field)
       model.errors[attribute].select { |error| error.include?(field) }.present?
     end
+
+    def org_autocomplete_field_for(f, admin)
+      if admin.super_admin?
+        f.hidden_field(
+          :organization_id, id: 'org-name', class: 'form-control',
+          data: {
+            'ajax-url' => admin_organizations_url(subdomain: ENV['ADMIN_SUBDOMAIN']),
+            'placeholder' => 'Choose an organization'
+          }
+        )
+      else
+        f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, {}, class: 'form-control'
+      end
+    end
   end
 end

@@ -16,6 +16,8 @@ describe Organization do
       with_message("can't be blank for Organization")
   end
 
+  it { is_expected.to validate_uniqueness_of(:name) }
+
   it { is_expected.to serialize(:urls).as(Array) }
 
   it { is_expected.to allow_value('http://monfresh.com').for(:urls) }
@@ -47,30 +49,20 @@ describe Organization do
     end
   end
 
-  describe 'slug candidates' do
+  describe 'slug' do
     before(:each) { @org = create(:organization) }
-
-    context 'when name is already taken' do
-      it 'creates a new slug' do
-        new_org = Organization.create!(name: 'Parent Agency')
-        expect(new_org.reload.slug).not_to eq('parent-agency')
-      end
-    end
-
-    context 'when url is present and name is taken' do
-      it 'creates a new slug based on url' do
-        new_org = Organization.create!(
-          name: 'Parent Agency',
-          urls: ['http://monfresh.com']
-        )
-        expect(new_org.reload.slug).to eq('parent-agency-monfresh-com')
-      end
-    end
 
     context 'when name is not updated' do
       it "doesn't update slug" do
         @org.update_attributes!(urls: ['http://monfresh.com'])
         expect(@org.reload.slug).to eq('parent-agency')
+      end
+    end
+
+    context 'when name is updated' do
+      it 'updates slug based on name' do
+        @org.update_attributes!(name: 'New Org Name')
+        expect(@org.reload.slug).to eq('new-org-name')
       end
     end
   end

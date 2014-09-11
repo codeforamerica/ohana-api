@@ -161,7 +161,7 @@ module Features
     end
 
     def fill_in_all_required_fields
-      select 'Parent Agency', from: 'location_organization_id'
+      select2('Parent Agency')
       fill_in 'location_name', with: 'New Parent Agency location'
       fill_in 'location_description', with: 'new description'
       click_link 'Add a street address'
@@ -169,6 +169,16 @@ module Features
       fill_in 'location_address_attributes_city', with: 'Belmont'
       fill_in 'location_address_attributes_state', with: 'CA'
       fill_in 'location_address_attributes_zip', with: '12345'
+    end
+
+    def select2(value)
+      select2_container = first('#s2id_org-name')
+      select2_container.find('.select2-choice').click
+
+      find(:xpath, '//body').find('input.select2-input').set(value)
+      page.execute_script(%|$('input.select2-input:visible').keyup();|)
+      drop_container = '.select2-results'
+      find(:xpath, '//body').find("#{drop_container} li", text: value).click
     end
 
     def add_two_keywords
