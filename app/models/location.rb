@@ -100,7 +100,7 @@ class Location < ActiveRecord::Base
   auto_strip_attributes :description, :hours, :name, :short_desc,
                         :transportation
 
-  auto_strip_attributes :admin_emails, :emails, :urls,
+  auto_strip_attributes :admin_emails, :emails, :languages, :urls,
                         reject_blank: true, nullify: false
 
   extend FriendlyId

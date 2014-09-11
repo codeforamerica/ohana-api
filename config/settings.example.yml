@@ -1,37 +1,19 @@
 # Note that changes to this file require a server restart to take effect.
 
-###############################
+############################
 #
-# GEOGRAPHICAL BOUNDS SETTINGS
+# ADMIN INTERFACE SETTINGS
 #
-###############################
+############################
 #
-# Google provides a "bounds" option to restrict the address search to
-# a particular area. This allows Google to disambiguate between two
-# cities with the same name. For example, there is a city in San Mateo
-# County called 'Brisbane'. There also happens to be a 'Brisbane' in
-# Australia. If you didn't restrict the search to within San Mateo County,
-# and you searched for locations near 'Brisbane', Google would look in
-# Australia by default, and you wouldn't get any results.
+# The email address that admin interface users should send questions/issues to.
+# This link appears when an admin views their locations and organizations.
+# See app/views/admin/locations/index.html.haml and
+# app/views/admin/organizations/index.html.haml.
 #
-# The bounds are defined by the SW and NE geo coordinates of your search area.
-# It should be an array of two arrays. The first array should represent the
-# SW coordinates, and the second the NE coordinates. Within each inner array,
-# the coordinates should be Floats in [latitude, longitude] order. For example:
-# bounds: [[37.1074, -122.521], [37.7084, -122.085]]
-#
-# The app is set to search within the continental US by default.
-# Make sure to change the coordinates to match your preferred search area.
-#
-# This setting is used in 'app/models/concerns/search.rb'.
-bounds: [[25.7084, -124.085], [48.9084, -67.085]]
+# Please make sure to change this to your own email address.
+admin_support_email: ohanapi@codeforamerica.org
 
-###############################
-#
-# SETTINGS FOR ADMIN INTERFACE
-#
-###############################
-#
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
 # to retrieve locations that match a particular domain name. This means that
@@ -59,24 +41,94 @@ generic_domains:
   - yahoo.com
   - comcast.net
 
-# The email address that admin interface users should send questions/issues to.
-# This link appears when an admin views their locations and organizations.
-# See app/views/admin/locations/index.html.haml and
-# app/views/admin/organizations/index.html.haml.
-#
-# Please make sure to change this to your own email address.
-admin_support_email: ohanapi@codeforamerica.org
+# These will be the values that admin interface users will choose from when
+# updating a Location's or a Service's languages.
+languages:
+- 'American Sign Language'
+- 'Amharic'
+- 'Arabic'
+- 'Aramaic'
+- 'Armenian'
+- 'Assyrian'
+- 'Bengali'
+- 'Bosnian'
+- 'Burmese'
+- 'Cambodian'
+- 'Cantonese'
+- 'Cebuano'
+- 'Chinese'
+- 'Creole'
+- 'Croatian'
+- 'Czech'
+- 'Danish'
+- 'Dutch'
+- 'Fijian'
+- 'Filipino'
+- 'Finnish'
+- 'French'
+- 'Fulani'
+- 'Gaelic'
+- 'German'
+- 'Greek'
+- 'Gujarati'
+- 'Hausa'
+- 'Hebrew'
+- 'Hiligaynon'
+- 'Hindi'
+- 'Hmong'
+- 'Hungarian'
+- 'Igbo'
+- 'Ilocano'
+- 'Indonesian'
+- 'Italian'
+- 'Japanese'
+- 'Kapampangan'
+- 'Khmer'
+- 'Kinyarwanda'
+- 'Korean'
+- 'Krio'
+- 'Lao'
+- 'Latvian'
+- 'Maltese'
+- 'Mandarin'
+- 'Marathi'
+- 'Mende'
+- 'Mien'
+- 'Mongolian'
+- 'Ningbo'
+- 'Norwegian'
+- 'Oromo'
+- 'Pangasinan'
+- 'Persian'
+- 'Polish'
+- 'Portuguese'
+- 'Punjabi'
+- 'Romanian'
+- 'Russian'
+- 'Samoan'
+- 'Serbo-Croatian'
+- 'Shanghainese'
+- 'Sindhi'
+- 'Sinhalese'
+- 'Somali'
+- 'Spanish'
+- 'Swahili'
+- 'Swedish'
+- 'Tagalog'
+- 'Taiwanese'
+- 'Tamil'
+- 'Telugu'
+- 'Temne'
+- 'Thai'
+- 'Tibetan'
+- 'Tigrinya'
+- 'Tongan'
+- 'Ukrainian'
+- 'Urdu'
+- 'Vietnamese'
+- 'Yiddish'
+- 'Yoruba'
 
-# The email address that confirmation emails are sent from after user signup.
-# Please make sure to change this to your own email address.
-confirmation_email: ohanapi@codeforamerica.org
-
-#########################
-#
-# SERVICE AREAS SETTINGS
-#
-#########################
-#
 # If your data contains a service_areas field that identifies which particular
 # areas of a city or county are eligible for the services provided by an
 # organization, and if you want to make sure that the service areas are always
@@ -84,11 +136,57 @@ confirmation_email: ohanapi@codeforamerica.org
 # and a space, just like the generic_domains above. Make sure to preserve the
 # 2-space indentation. For example:
 # valid_service_areas:
-#   - Alameda County
-#   - Oakland
+#   - 'Alameda County'
+#   - 'Oakland'
 #
-# This setting is used in 'app/models/service.rb'.
+# These will be the values that admin interface users will choose from when
+# updating a Service's service areas.
 valid_service_areas:
+  - 'Alameda County'
+  - 'Belmont'
+  - 'Burlingame'
+  - 'Colma'
+  - 'Daly City'
+  - 'East Palo Alto'
+  - 'San Mateo'
+  - 'South San Francisco'
+
+############################
+#
+# EMAIL DELIVERY SETTINGS
+#
+############################
+#
+# The email address that confirmation emails are sent from after user signup,
+# for the Developer and Admin portals.
+# Please make sure to change this to your own email address.
+confirmation_email: ohanapi@codeforamerica.org
+
+###############################
+#
+# GEOGRAPHICAL BOUNDS SETTINGS
+#
+###############################
+#
+# Google provides a "bounds" option to restrict the address search to
+# a particular area. This allows Google to disambiguate between two
+# cities with the same name. For example, there is a city in San Mateo
+# County called 'Brisbane'. There also happens to be a 'Brisbane' in
+# Australia. If you didn't restrict the search to within San Mateo County,
+# and you searched for locations near 'Brisbane', Google would look in
+# Australia by default, and you wouldn't get any results.
+#
+# The bounds are defined by the SW and NE geo coordinates of your search area.
+# It should be an array of two arrays. The first array should represent the
+# SW coordinates, and the second the NE coordinates. Within each inner array,
+# the coordinates should be Floats in [latitude, longitude] order. For example:
+# bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+#
+# The app is set to search within the continental US by default.
+# Make sure to change the coordinates to match your preferred search area.
+#
+# This setting is used in 'app/models/concerns/search.rb'.
+bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 
 ############################
 #
