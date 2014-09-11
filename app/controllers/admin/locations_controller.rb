@@ -49,16 +49,19 @@ class Admin
     end
 
     def create
-      @location = Location.new(params[:location])
       @admin_decorator = AdminDecorator.new(current_admin)
       @orgs = @admin_decorator.orgs
+      org_id = params[:location][:organization_id]
+
+      @location = Location.new(params[:location])
+
+      if @orgs.select { |org| org[0] == org_id.to_i }.present?
+        @location.organization = Organization.find(org_id)
+      end
 
       respond_to do |format|
         if @location.save
-          format.html do
-            redirect_to admin_locations_url,
-                        notice: 'Location was successfully created.'
-          end
+          format.html { redirect_to admin_locations_url, notice: 'Location was successfully created.' }
         else
           format.html { render :new }
         end

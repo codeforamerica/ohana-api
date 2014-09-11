@@ -6,7 +6,9 @@ class Organization < ActiveRecord::Base
   has_many :locations, dependent: :destroy
   # accepts_nested_attributes_for :locations
 
-  validates :name, presence: { message: I18n.t('errors.messages.blank_for_org') }
+  validates :name,
+            presence: { message: I18n.t('errors.messages.blank_for_org') },
+            uniqueness: { case_sensitive: false }
 
   # Custom validation for values within arrays.
   # For example, the urls field is an array that can contain multiple URLs.
@@ -20,16 +22,7 @@ class Organization < ActiveRecord::Base
   auto_strip_attributes :urls, reject_blank: true, nullify: false
 
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:history]
-
-  # Try building a slug based on the following fields in
-  # increasing order of specificity.
-  def slug_candidates
-    [
-      :name,
-      [:name, :domain_name]
-    ]
-  end
+  friendly_id :name, use: [:history]
 
   def domain_name
     URI.parse(urls.first).host.gsub(/^www\./, '') if urls.present?

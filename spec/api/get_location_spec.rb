@@ -99,7 +99,7 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized organization association' do
       org = @location.organization
-      locations_url = api_organization_locations_url(org)
+      locations_url = api_org_locations_url(org)
 
       serialized_organization =
         {

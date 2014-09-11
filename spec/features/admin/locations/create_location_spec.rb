@@ -10,6 +10,7 @@ feature 'Create a new location' do
   scenario 'with all required fields', :js do
     fill_in_all_required_fields
     click_button 'Create location'
+    expect(current_path).to eq admin_locations_path
     click_link 'New Parent Agency location'
 
     expect(find_field('location_name').value).to eq 'New Parent Agency location'
@@ -24,9 +25,10 @@ feature 'Create a new location' do
 
   scenario 'without any required fields' do
     click_button 'Create location'
+    expect(page).to have_content 'A location must have at least one address type'
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
-    expect(page).to have_content 'A location must have at least one address type'
+    expect(page).to have_content "Organization can't be blank for Location"
   end
 
   scenario 'with valid mailing address', :js do

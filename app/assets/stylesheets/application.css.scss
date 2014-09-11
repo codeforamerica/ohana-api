@@ -12,6 +12,8 @@
  *
  *= require_tree .
  *= require_self
+ *= require select2
+ *= require select2-bootstrap
  */
 
 // creates styles for text in the navbar that is not a link

@@ -9,7 +9,7 @@
   %header
     = f.label :organization_id, 'Choose an organization to create this location for.'
   %p
-    = f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, { include_blank: true }, class: 'form-control'
+    = org_autocomplete_field_for(f, current_admin)
 
 = render 'admin/locations/forms/location_name', f: f
 = render 'admin/locations/forms/admin_emails', f: f

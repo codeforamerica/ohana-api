@@ -27,7 +27,8 @@ module Api
       end
 
       def create
-        location = Location.create!(params)
+        org = Organization.find(params[:organization_id])
+        location = org.locations.create!(params)
         response_hash = {
           id: location.id,
           name: location.name,

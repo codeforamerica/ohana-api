@@ -46,8 +46,8 @@ class Admin
     end
 
     def create
-      @service = Service.new(params[:service])
       @location = Location.find(params[:location_id])
+      @service = @location.services.new(params[:service])
       @oe_ids = []
 
       respond_to do |format|
