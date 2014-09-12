@@ -99,12 +99,11 @@ feature 'Create a new service' do
   scenario 'when adding a service area', :js do
     fill_in 'service_name', with: 'New VRS Services service'
     fill_in 'service_description', with: 'new description'
-    click_link 'Add a new service area'
-    fill_in find(:xpath, "//input[@name='service[service_areas][]']")[:id], with: 'Belmont'
+    select2('Belmont', 'service_service_areas', multiple: true)
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find_field('service[service_areas][]').value).to eq 'Belmont'
+    expect(find(:css, 'select#service_service_areas').value).to eq(['Belmont'])
   end
 
   scenario 'when adding categories', :js do

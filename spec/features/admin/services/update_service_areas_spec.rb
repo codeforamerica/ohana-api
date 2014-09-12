@@ -9,66 +9,28 @@ feature 'Update service areas' do
   end
 
   scenario 'when no service areas exist' do
-    expect(page).to have_no_xpath("//input[@name='service[service_areas][]']")
+    expect(page).to have_no_css('.select2-search-choice-close')
   end
 
-  scenario 'by adding 2 new service areas', :js do
-    add_two_service_areas
-    expect(find_field('service_service_areas_0').value).to eq 'Belmont'
-    delete_all_service_areas
-    expect(page).to have_no_xpath("//input[@name='service[service_areas][]']")
+  scenario 'with one service area', :js do
+    select2('Belmont', 'service_service_areas', multiple: true)
+    click_button 'Save changes'
+    expect(@service.reload.service_areas).to eq ['Belmont']
   end
 
-  scenario 'with 2 service_areas but one is empty', :js do
-    @service.update!(service_areas: ['Belmont'])
+  scenario 'with two service areas', :js do
+    select2('Belmont', 'service_service_areas', multiple: true)
+    select2('Atherton', 'service_service_areas', multiple: true)
+    click_button 'Save changes'
+    expect(@service.reload.service_areas).to eq %w(Atherton Belmont)
+  end
+
+  scenario 'removing a service area', :js do
+    @service.update!(service_areas: %w(Atherton Belmont))
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
-    click_link 'Add a new service area'
+    first('.select2-search-choice-close').click
     click_button 'Save changes'
-    total_service_areas = all(:xpath, "//input[@name='service[service_areas][]']")
-    expect(total_service_areas.length).to eq 1
-  end
-
-  scenario 'with 2 service_areas but only one is invalid', :js do
-    @service.update!(service_areas: ['Belmont'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    click_link 'Add a new service area'
-    service_areas = page.
-        all(:xpath, "//input[@name='service[service_areas][]']")
-    fill_in service_areas[-1][:id], with: 'Alexandria'
-    click_button 'Save changes'
-    total_fields_with_errors = page.all(:css, '.field_with_errors')
-    expect(total_fields_with_errors.length).to eq 1
-  end
-
-  scenario 'with invalid service area' do
-    @service.update!(service_areas: ['Belmont'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    fill_in 'service_service_areas_0', with: 'Fairfax'
-    click_button 'Save changes'
-    expect(page).
-      to have_content 'Fairfax is not a valid service area'
-    expect(page).to have_css('.field_with_errors')
-  end
-
-  scenario 'with valid service area' do
-    @service.update!(service_areas: ['Belmont'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    fill_in 'service_service_areas_0', with: 'Atherton'
-    click_button 'Save changes'
-    expect(find_field('service_service_areas_0').value).
-      to eq 'Atherton'
-  end
-
-  scenario 'clearing out existing service area' do
-    @service.update!(service_areas: ['Belmont'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    fill_in 'service_service_areas_0', with: ''
-    click_button 'Save changes'
-    expect(page).not_to have_field('service_service_areas_0')
+    expect(@service.reload.service_areas).to eq ['Belmont']
   end
 end

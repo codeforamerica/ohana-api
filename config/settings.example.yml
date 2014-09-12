@@ -211,8 +211,8 @@ tld_length: 2
 ###########################################
 test:
   valid_service_areas:
-  - Belmont
   - Atherton
+  - Belmont
 
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
 
