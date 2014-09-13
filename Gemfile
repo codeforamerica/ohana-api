@@ -55,7 +55,7 @@ gem 'rabl-rails'
 
 group :production, :staging do
   gem 'unicorn'
-  # gem 'unicorn-worker-killer'
+  gem 'unicorn-worker-killer'
   gem 'rails_12factor'
   gem 'appsignal'
 end
