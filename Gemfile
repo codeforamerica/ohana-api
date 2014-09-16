@@ -31,7 +31,6 @@ gem 'kaminari'
 gem 'active_model_serializers', '~> 0.8.0'
 
 # Production Monitoring
-gem 'newrelic_rpm'
 gem 'rack-timeout'
 
 # Authentication
@@ -57,7 +56,6 @@ group :production, :staging do
   gem 'unicorn'
   gem 'unicorn-worker-killer'
   gem 'rails_12factor'
-  gem 'appsignal'
 end
 
 group :test, :development do
