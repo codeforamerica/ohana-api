@@ -29,6 +29,9 @@ then
   echo "Setting MAILER_URL"
   heroku config:set MAILER_URL=$herokuApp.herokuapp.com --app $herokuApp
 
+  echo "Setting TLD_LENGTH"
+  heroku config:set TLD_LENGTH=2 --app $herokuApp
+
   echo "Setting DEVISE_SECRET_KEY"
   # generate a random string with 36 characters
   token1=$(python -c 'import uuid; print uuid.uuid4()')
