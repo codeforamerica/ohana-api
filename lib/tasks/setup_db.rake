@@ -27,9 +27,11 @@ task :load_data => :environment do
           f.puts(invalid_records.to_json)
         end
       end
-      # Uncomment line 32 below if you get Geocoder::OverQueryLimitError
-      # You might need to increase the sleep value. Try small increments.
-      # sleep 0.1
+      # If you get Geocoder::OverQueryLimitError when running this rake task,
+      # try incrementing the sleep value, or use a different geocoding service.
+      # See the Wiki for more details:
+      # https://github.com/codeforamerica/ohana-api/wiki#customization
+      sleep 0.2
     end
   end
   puts "===> Done populating the DB with #{file}."
