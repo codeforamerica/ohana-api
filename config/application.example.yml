@@ -12,9 +12,23 @@
 # Note that changes to this file require a server restart to take effect.
 
 # Each entry sets a local environment variable and overrides ENV variables
-# in the Unix shell. For example, setting API_PATH: api makes "api" available
+# in the Unix shell. For example, setting `API_PATH: api` makes "api" available
 # as ENV['API_PATH'] in the app. See app/config/routes.rb for a usage example.
 
+# Below, you will find descriptions for each variable, followed by default
+# settings for the development, production, and test environments.
+
+####################################
+#
+# ENVIRONMENT VARIABLE DESCRIPTIONS
+#
+####################################
+
+################
+#
+# API_SUBDOMAIN
+#
+################
 # If you'd like to run the API on its own subdomain, set API_SUBDOMAIN to your
 # desired subdomain name. We recommend "api". Then make sure to delete "api"
 # from "API_PATH". That way, you'll have a URL like http://api.yourdomain.org
@@ -25,14 +39,22 @@
 # setup, which gives you a URL such as http://ohana-api-demo.herokuapp.com.
 # In development, you can test it by adding the subdomain to 'lvh.me:8080'.
 # For example: http://api.lvh.me:8080.
-API_SUBDOMAIN:
 
+##################################################
+#
+# API_PATH - REQUIRED IF API_SUBDOMAIN IS NOT SET
+#
+##################################################
 # The API_PATH setting is related to the API_SUBDOMAIN setting. If you're not
 # using a separate subdomain for the API, then define the path for the API,
 # which is set to "api" by default. If you do decide to use an API_SUBDOMAIN,
 # make sure to set API_PATH to blank.
-API_PATH: api
 
+##################
+#
+# ADMIN_SUBDOMAIN
+#
+##################
 # If you'd like to run the admin interface on its own subdomain, set
 # ADMIN_SUBDOMAIN to your desired subdomain name. We recommend "admin".
 # Then make sure to delete "admin" from "ADMIN_PATH". That way, you'll have a
@@ -43,14 +65,22 @@ API_PATH: api
 # setup, which gives you a URL such as http://ohana-api-demo.herokuapp.com.
 # In development, you can test it by adding the subdomain to 'lvh.me:8080'.
 # For example: http://admin.lvh.me:8080.
-ADMIN_SUBDOMAIN:
 
+######################################################
+#
+# ADMIN_PATH - REQUIRED IF ADMIN_SUBDOMAIN IS NOT SET
+#
+######################################################
 # The ADMIN_PATH setting is related to the ADMIN_SUBDOMAIN setting. If you're
 # not using a separate subdomain for the admin interface, then define its path,
 # which is set to "admin" by default. If you do decide to use an ADMIN_SUBDOMAIN,
 # make sure to set ADMIN_PATH to blank.
-ADMIN_PATH: admin
 
+################
+#
+# DEV_SUBDOMAIN
+#
+################
 # If you'd like to run the developer portal on its own subdomain,
 # set DEV_SUBDOMAIN to your desired subdomain name, such as "developer".
 #
@@ -59,27 +89,109 @@ ADMIN_PATH: admin
 # setup, which gives you a URL such as http://ohana-api-demo.herokuapp.com.
 # In development, you can test it by adding the subdomain to 'lvh.me:8080'.
 # For example: http://developer.lvh.me:8080.
-DEV_SUBDOMAIN:
 
+##############################
+#
+# DEFAULT_PER_PAGE - REQUIRED
+#
+##############################
 # This setting controls how many results you want to the API to return
 # per page by default. Note that clients can set this dynamically via
 # the "per_page" parameter, but if "per_page" is not specified, then the
 # setting below will dictate how many results are returned.
-DEFAULT_PER_PAGE: '30'
 
+##########################
+#
+# MAX_PER_PAGE - REQUIRED
+#
+##########################
 # This setting controls the maximum amount of results you want to the API to
 # return per page. If a client sets the "per_page" parameter to a value higher
 # than MAX_PER_PAGE, the API will limit results per page to MAX_PER_PAGE.
-MAX_PER_PAGE: '50'
 
+#############
+#
+# EXPIRES_IN
+#
+#############
 # This setting defines how long, in minutes, API responses will be cached in
-# Ohana Web Search (https://github.com/codeforamerica/ohana-web-search).
-# For example, if you set EXPIRES_IN to '5' below, when you do a search or
+# a web client, such as Ohana Web Search:
+# https://github.com/codeforamerica/ohana-web-search
+# For example, if you set EXPIRES_IN to '5', when you do a search or
 # visit a specific location in Ohana Web Search, the app won't make that same
 # API request until 5 minutes have passed since the request was first made.
 # This greatly improves the performance of Ohana Web Search, and also reduces
 # the load on the API.
-EXPIRES_IN: '5'
+
+######################################
+#
+# TLD_LENGTH - REQUIRED IN PRODUCTION
+#
+######################################
+# When using the default Heroku domain setup (http://app-name.herokuapp.com),
+# TLD_LENGTH should be set to "2". Once you're ready to deploy with a custom
+# domain name (like "smc-connect.org"), you will need to set TLD_LENGTH to the
+# number of dots in your top-level domain name, which will most likely be "1",
+# but if you are using ".co.uk" for example, then you should set it to "2".
+
+########################################
+#
+# ENABLE_HTTPS - REQUIRED IN PRODUCTION
+#
+########################################
+# When using the default Heroku domain setup (http://app-name.herokuapp.com),
+# you can take advantage of SSL for free. However, to use SSL with a custom
+# domain name, you'll need to do some work first, as explained in the Wiki:
+# https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account#using-a-custom-domain-name-and-ssl-configuration
+
+##########################################################################
+#
+# ADMIN_APP_TOKEN - REQUIRED TO ALLOW AN EXTERNAL APP TO WRITE TO THE API
+#
+##########################################################################
+# This app comes with a built-in admin interface, but if you want to allow
+# a trusted third-party application to write to the API, follow these steps:
+# 1. Ask the developer to sign up for an account on your developer portal.
+# By default, this will be the home page of your deployed website. For example:
+# http://ohana-api-demo.herokuapp.com
+# 2. Have them register an application on the portal and send you the API token
+# that gets automatically generated.
+# 3. Set ADMIN_APP_TOKEN to the API token that they sent you.
+# 4. Tell the developer to send the same token in their app via the
+# `X-Api-Token` HTTP header.
+
+###########################
+#
+# SETTINGS FOR DEVELOPMENT
+#
+###########################
+development:
+  API_SUBDOMAIN:
+  API_PATH: api
+  ADMIN_SUBDOMAIN:
+  ADMIN_PATH: admin
+  DEV_SUBDOMAIN:
+  DEFAULT_PER_PAGE: '30'
+  MAX_PER_PAGE: '50'
+
+###############################################################################
+#
+# SETTINGS FOR PRODUCTION.
+#
+# Run `figaro heroku:set -e production -a your_app_name` to set them on Heroku.
+#
+###############################################################################
+production:
+  API_SUBDOMAIN:
+  API_PATH: api
+  ADMIN_SUBDOMAIN:
+  ADMIN_PATH: admin
+  DEV_SUBDOMAIN:
+  DEFAULT_PER_PAGE: '30'
+  MAX_PER_PAGE: '50'
+  EXPIRES_IN: '5'
+  TLD_LENGTH: '2'
+  ENABLE_HTTPS: yes
 
 ###########################################
 #
