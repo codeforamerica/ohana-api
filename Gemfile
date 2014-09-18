@@ -32,6 +32,7 @@ gem 'active_model_serializers', '~> 0.8.0'
 
 # Production Monitoring
 gem 'rack-timeout'
+gem 'librato-rails'
 
 # Authentication
 gem 'devise'
