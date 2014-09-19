@@ -7,7 +7,7 @@ This is the API + Admin Interface portion for the San Mateo County instance of t
 ## Apps that are using the Ohana API in San Mateo County
 [SMC-Connect](http://www.smc-connect.org), a mobile-friendly website for looking up community and human services. ([GitHub repo for SMC-Connect](https://github.com/smcgov/SMC-Connect))
 
-We encourage third-party developers to build additional applications on top of the API. You can register your app on our [developer portal](http://ohanapi.herokuapp.com) (branding work in progress), and view the [API documentation](http://ohanapi.herokuapp.com/api.docs).
+We encourage third-party developers to build additional applications on top of the API. You can register your app on our [developer portal](http://developer.smc-connect.org), and view the [API documentation](http://ohanapi.herokuapp.com/api/docs#!/api).
 
 ## Taxonomy
 We are currently using the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/smcgov/ohana-api-smc/blob/master/app/models/category.rb).
@@ -18,7 +18,7 @@ The easiest way to assign categories to a service is to use the Admin interface.
 ![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
 
 ## API documentation
-[http://ohanapi.herokuapp.com/api/docs](http://ohanapi.herokuapp.com/api/docs)
+[http://ohanapi.herokuapp.com/api/docs#!/api](http://ohanapi.herokuapp.com/api/docs#!/api)
 
 [Search documentation](http://ohanapi.herokuapp.com/api/docs#!/api/GET_api_search_format_get_15)
 
