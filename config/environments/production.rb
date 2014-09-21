@@ -48,8 +48,8 @@ Rails.application.configure do
   # Set to :debug to see everything in the log.
   config.log_level = :info
 
-  # Prepend all log lines with the following tags.
-  # config.log_tags = [ :subdomain, :uuid ]
+  # Add user agent and subdomain information to the log
+  config.log_tags = [:subdomain, lambda { |request| request.user_agent }]
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
