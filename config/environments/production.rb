@@ -49,7 +49,7 @@ Rails.application.configure do
   config.log_level = :info
 
   # Add user agent and subdomain information to the log
-  config.log_tags = [:subdomain, lambda { |request| request.user_agent }]
+  config.log_tags = [:subdomain, ->(request) { request.user_agent }]
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
