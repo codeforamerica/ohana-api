@@ -30,9 +30,6 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'kaminari'
 gem 'active_model_serializers', '~> 0.8.0'
 
-# Production Monitoring
-gem 'librato-rails'
-
 # Authentication
 gem 'devise'
 
@@ -56,6 +53,8 @@ group :production, :staging do
   gem 'unicorn'
   gem 'unicorn-worker-killer'
   gem 'rails_12factor'
+  gem 'rack-timeout'
+  gem 'librato-rails'
 end
 
 group :test, :development do
