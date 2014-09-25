@@ -49,13 +49,15 @@ gem 'friendly_id', '~> 5.0.3'
 
 gem 'rabl-rails'
 
-gem 'rack-timeout'
-
 group :production, :staging do
   gem 'unicorn'
   # gem 'unicorn-worker-killer'
   gem 'rails_12factor'
   gem 'librato-rails'
+
+  # Caching
+  # gem 'dalli'
+  # gem 'memcachier'
 end
 
 group :test, :development do

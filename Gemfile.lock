@@ -169,7 +169,6 @@ GEM
     rack-cors (0.2.9)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rack-timeout (0.0.4)
     rails (4.1.5)
       actionmailer (= 4.1.5)
       actionpack (= 4.1.5)
@@ -310,7 +309,6 @@ DEPENDENCIES
   quiet_assets (>= 1.0.2)
   rabl-rails
   rack-cors
-  rack-timeout
   rails (~> 4.1.1)
   rails_12factor
   redis
