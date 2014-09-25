@@ -53,7 +53,6 @@ group :production, :staging do
   gem 'unicorn'
   # gem 'unicorn-worker-killer'
   gem 'rails_12factor'
-  gem 'librato-rails'
 
   # Caching
   # gem 'dalli'
