@@ -54,6 +54,8 @@ group :production, :staging do
   # gem 'unicorn-worker-killer'
   gem 'rails_12factor'
 
+  gem 'newrelic_rpm'
+
   # Caching
   # gem 'dalli'
   # gem 'memcachier'
