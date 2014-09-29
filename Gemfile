@@ -57,8 +57,8 @@ group :production, :staging do
   gem 'newrelic_rpm'
 
   # Caching
-  # gem 'dalli'
-  # gem 'memcachier'
+  gem 'dalli'
+  gem 'memcachier'
 end
 
 group :test, :development do
