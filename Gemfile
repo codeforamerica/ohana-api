@@ -49,6 +49,8 @@ gem 'friendly_id', '~> 5.0.3'
 
 gem 'rabl-rails'
 
+gem 'rack-timeout', '0.1.0beta4'
+
 group :production, :staging do
   gem 'unicorn'
   # gem 'unicorn-worker-killer'
