@@ -133,9 +133,5 @@ module Search
       params.slice(:category, :email, :keyword, :language, :org_name,
                    :service_area)
     end
-
-    def cache_key
-      Digest::MD5.hexdigest "#{maximum(:updated_at).try(:to_i)}-#{count(:all)}"
-    end
   end
 end

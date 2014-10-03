@@ -23,11 +23,7 @@ module Api
       def show
         location = Location.find(params[:id])
 
-        json = cache ['v1', location] do
-          render_to_string json: location
-        end
-
-        render json: json, status: 200 if stale?(location, public: true)
+        render json: location, status: 200 if stale?(location, public: true)
       end
 
       def update

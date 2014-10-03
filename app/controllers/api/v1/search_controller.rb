@@ -8,13 +8,9 @@ module Api
         locations = Location.search(params).
                              page(params[:page]).per(params[:per_page])
 
-        json = cache ['v1', locations] do
-          render_to_string json: locations.preload(tables), each_serializer: LocationsSerializer
-        end
-
-        if stale?(locations, public: true)
+        if stale?(etag: cache_key(locations), public: true)
           generate_pagination_headers(locations)
-          render json: json, status: 200
+          render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
         end
       end
 
@@ -39,6 +35,10 @@ module Api
 
       def tables
         [:organization, :address, :phones]
+      end
+
+      def cache_key(scope)
+        "#{scope.to_sql}-#{scope.maximum(:updated_at)}-#{scope.total_count}"
       end
     end
   end
