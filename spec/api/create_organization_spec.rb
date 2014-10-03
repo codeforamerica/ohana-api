@@ -6,7 +6,7 @@ describe 'Create an organization (POST /organizations/)' do
   end
 
   before(:each) do
-    @org_attributes = { name: 'new org', urls: %w(http://monfresh.com) }
+    @org_attributes = { name: 'new org', description: 'testing', website: 'http://monfresh.com' }
   end
 
   after(:all) do

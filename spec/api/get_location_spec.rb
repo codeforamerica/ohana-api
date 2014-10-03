@@ -103,12 +103,16 @@ describe 'GET /locations/:id' do
 
       serialized_organization =
         {
-          'id'            => @location.organization.id,
-          'locations_url' => locations_url,
-          'name'          => 'Parent Agency',
-          'slug'          => 'parent-agency',
-          'url'           => api_organization_url(org),
-          'urls'          => []
+          'id'                => @location.organization.id,
+          'alternate_name'    => nil,
+          'date_incorporated' => nil,
+          'description'       => 'Organization created for testing purposes',
+          'email'             => nil,
+          'locations_url'     => locations_url,
+          'name'              => 'Parent Agency',
+          'slug'              => 'parent-agency',
+          'url'               => api_organization_url(org),
+          'website'           => nil
         }
 
       expect(json['organization']).to eq(serialized_organization)

@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    = f.label :tax_id, 'Tax Identifier'
+    %span.desc
+      Tax identifier such as the Federal Employer Identification Number.
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.text_field :tax_id, required: false, maxlength: 255, class: 'form-control'

@@ -277,7 +277,7 @@ describe 'GET /locations' do
     it 'returns nil fields within Organization' do
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
       org_keys = json.first['organization'].keys
-      expect(org_keys).to include('urls')
+      expect(org_keys).to include('website')
     end
 
     xit 'returns nil fields within Services' do

@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    = f.label :tax_status, 'Tax Status'
+    %span.desc
+      Internal Revenue Service tax designation, such as 501(c)(3).
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.text_field :tax_status, required: false, maxlength: 255, class: 'form-control'
