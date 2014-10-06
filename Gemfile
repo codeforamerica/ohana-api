@@ -51,16 +51,16 @@ gem 'rabl-rails'
 
 gem 'rack-timeout', '0.1.0beta4'
 
+# Caching
+gem 'rack-cache'
+gem 'dalli'
+gem 'kgio'
+gem 'memcachier'
+
 group :production, :staging do
   gem 'unicorn'
-  # gem 'unicorn-worker-killer'
   gem 'rails_12factor'
-
   gem 'newrelic_rpm'
-
-  # Caching
-  gem 'dalli'
-  gem 'memcachier'
 end
 
 group :test, :development do

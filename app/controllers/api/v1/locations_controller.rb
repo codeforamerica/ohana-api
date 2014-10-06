@@ -23,6 +23,7 @@ module Api
       def show
         location = Location.find(params[:id])
 
+        expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true
         render json: location, status: 200 if stale?(location, public: true)
       end
 

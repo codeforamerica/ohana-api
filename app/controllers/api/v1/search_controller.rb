@@ -8,6 +8,7 @@ module Api
         locations = Location.search(params).
                              page(params[:page]).per(params[:per_page])
 
+        expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true
         if stale?(etag: cache_key(locations), public: true)
           generate_pagination_headers(locations)
           render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200

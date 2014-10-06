@@ -153,6 +153,8 @@ GEM
       activesupport (>= 3.1)
       railties (>= 3.1)
     rack (1.5.2)
+    rack-cache (1.2)
+      rack (>= 0.4)
     rack-cors (0.2.9)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -286,6 +288,7 @@ DEPENDENCIES
   haml-rails (~> 0.5.3)
   jquery-rails
   kaminari
+  kgio
   listen (~> 1.0)
   memcachier
   newrelic_rpm
@@ -295,6 +298,7 @@ DEPENDENCIES
   protected_attributes
   quiet_assets (>= 1.0.2)
   rabl-rails
+  rack-cache
   rack-cors
   rack-timeout (= 0.1.0beta4)
   rails (~> 4.1.1)
