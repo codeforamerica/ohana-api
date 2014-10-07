@@ -14,10 +14,6 @@ module PaginationHeaders
 
     response.headers['Link'] = links.join(', ') unless links.blank?
     response.headers['X-Total-Count'] = "#{coll.total_count}"
-    response.headers['X-Total-Pages'] = "#{coll.total_pages}"
-    response.headers['X-Current-Page'] = "#{coll.current_page}" unless coll.empty?
-    response.headers['X-Next-Page'] = "#{coll.next_page}" unless coll.next_page.nil?
-    response.headers['X-Previous-Page'] = "#{pages[:prev]}" unless coll.prev_page.nil?
   end
 
   def url

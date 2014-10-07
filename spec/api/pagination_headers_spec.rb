@@ -38,18 +38,6 @@ describe 'Pagination Headers' do
       expect(json.length).to eq(1)
       expect(headers['X-Total-Count']).to eq('2')
     end
-
-    it 'returns an X-Total-Pages header' do
-      expect(response.status).to eq 200
-      expect(json.length).to eq(1)
-      expect(headers['X-Total-Pages']).to eq('2')
-    end
-
-    it 'returns pagination headers' do
-      expect(headers['X-Current-Page']).to eq '1'
-      expect(headers['X-Next-Page']).to eq '2'
-      expect(headers['X-Previous-Page']).to be_nil
-    end
   end
 
   context 'when on page 2 of 2' do
@@ -74,12 +62,6 @@ describe 'Pagination Headers' do
         "<#{@prefix}?keyword=jobs&page=1" \
         "&per_page=1>; rel=\"prev\""
       )
-    end
-
-    it 'returns pagination headers' do
-      expect(headers['X-Current-Page']).to eq '2'
-      expect(headers['X-Next-Page']).to be_nil
-      expect(headers['X-Previous-Page']).to eq('1')
     end
   end
 
@@ -111,12 +93,6 @@ describe 'Pagination Headers' do
         "&per_page=1>; rel=\"next\""
       )
     end
-
-    it 'returns pagination headers' do
-      expect(headers['X-Current-Page']).to eq '2'
-      expect(headers['X-Next-Page']).to eq '3'
-      expect(headers['X-Previous-Page']).to eq '1'
-    end
   end
 
   context 'when on page higher than max' do
@@ -141,13 +117,6 @@ describe 'Pagination Headers' do
         "<#{@prefix}?keyword=vrs&page=1>; rel=\"prev\", " \
         "<#{@prefix}?keyword=vrs&page=1>; rel=\"last\""
       )
-    end
-
-    it 'returns pagination headers' do
-      expect(headers.keys).not_to include 'X-Current-Page'
-      expect(headers.keys).not_to include 'X-Next-Page'
-      expect(headers['X-Previous-Page']).to eq '1'
-      expect(headers['X-Total-Pages']).to eq('1')
     end
   end
 
