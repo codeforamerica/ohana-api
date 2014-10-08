@@ -5,9 +5,9 @@ module Api
       include CustomErrors
 
       def update
-        address = Address.find(params[:id])
-        address.update!(params)
-        render json: address, status: 200
+        location = Location.find(params[:location_id])
+        location.update!(address_attributes: params)
+        render json: location.address, status: 200
       end
 
       def create

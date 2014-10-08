@@ -19,4 +19,12 @@ class Address < ActiveRecord::Base
   validates :zip, zip: true
 
   auto_strip_attributes :street, :city, :state, :zip, squish: true
+
+  after_destroy :reset_location_coordinates
+
+  private
+
+  def reset_location_coordinates
+    location.update!(latitude: nil, longitude: nil)
+  end
 end

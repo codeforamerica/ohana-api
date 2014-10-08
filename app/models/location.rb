@@ -1,9 +1,8 @@
 class Location < ActiveRecord::Base
-  attr_accessible :accessibility, :address, :admin_emails, :contacts,
-                  :description, :emails, :faxes, :hours, :languages,
-                  :latitude, :longitude, :mail_address, :name, :phones,
-                  :short_desc, :transportation, :urls, :address_attributes,
-                  :contacts_attributes, :faxes_attributes,
+  attr_accessible :accessibility, :admin_emails, :alternate_name, :description,
+                  :emails, :hours, :languages, :latitude, :longitude, :name,
+                  :short_desc, :transportation, :urls, :virtual,
+                  :address_attributes, :contacts_attributes, :faxes_attributes,
                   :mail_address_attributes, :phones_attributes,
                   :services_attributes
 
@@ -75,8 +74,6 @@ class Location < ActiveRecord::Base
   # to avoid unnecessary requests that affect our rate limit.
   after_validation :geocode, if: :needs_geocoding?
 
-  after_validation :reset_coordinates, if: proc { |l| l.address.blank? }
-
   geocoded_by :full_physical_address
 
   extend Enumerize
@@ -133,13 +130,10 @@ class Location < ActiveRecord::Base
     [longitude, latitude] if longitude.present? && latitude.present?
   end
 
-  def reset_coordinates
-    self.latitude = nil
-    self.longitude = nil
-  end
-
   def needs_geocoding?
-    address.changed? || latitude.nil? || longitude.nil? if address.present?
+    return false if address.blank?
+    return false if address.marked_for_destruction?
+    address.changed? || latitude.nil? || longitude.nil?
   end
 
   # See app/models/concerns/search.rb

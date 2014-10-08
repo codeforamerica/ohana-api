@@ -6,6 +6,21 @@ describe Location do
 
   it { is_expected.to be_valid }
 
+  it { is_expected.to allow_mass_assignment_of(:accessibility) }
+  it { is_expected.to allow_mass_assignment_of(:admin_emails) }
+  it { is_expected.to allow_mass_assignment_of(:alternate_name) }
+  it { is_expected.to allow_mass_assignment_of(:description) }
+  it { is_expected.to allow_mass_assignment_of(:emails) }
+  it { is_expected.to allow_mass_assignment_of(:hours) }
+  it { is_expected.to allow_mass_assignment_of(:languages) }
+  it { is_expected.to allow_mass_assignment_of(:latitude) }
+  it { is_expected.to allow_mass_assignment_of(:longitude) }
+  it { is_expected.to allow_mass_assignment_of(:name) }
+  it { is_expected.to allow_mass_assignment_of(:short_desc) }
+  it { is_expected.to allow_mass_assignment_of(:transportation) }
+  it { is_expected.to allow_mass_assignment_of(:urls) }
+  it { is_expected.to allow_mass_assignment_of(:virtual) }
+
   # Associations
   it { is_expected.to belong_to(:organization) }
   it { is_expected.to have_one(:address).dependent(:destroy) }
@@ -180,17 +195,18 @@ describe Location do
       coords = @loc.coordinates
 
       @loc.update!(address_attributes: address)
-      @loc.reload
-      expect(@loc.coordinates).to_not eq(coords)
+      expect(@loc.reload.coordinates).to_not eq(coords)
     end
 
     it 'resets coordinates when address is removed' do
       mail_address = {
         street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
       }
-      @loc.update!(mail_address_attributes: mail_address, address: nil)
-
-      expect(@loc.coordinates).to be_nil
+      @loc.update!(
+        mail_address_attributes: mail_address,
+        address_attributes: { id: @loc.address.id, _destroy: '1' }
+      )
+      expect(@loc.reload.coordinates).to be_nil
     end
   end
 end

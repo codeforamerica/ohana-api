@@ -353,7 +353,9 @@ CREATE TABLE locations (
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    tsv_body tsvector
+    tsv_body tsvector,
+    alternate_name character varying(255),
+    virtual boolean DEFAULT false
 );
 
 
@@ -1096,4 +1098,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140829154350');
 INSERT INTO schema_migrations (version) VALUES ('20140909031145');
 
 INSERT INTO schema_migrations (version) VALUES ('20140929221750');
+
+INSERT INTO schema_migrations (version) VALUES ('20141007144757');
 

@@ -50,4 +50,13 @@ describe Address do
       expect(address.zip).to eq('94020')
     end
   end
+
+  describe 'callbacks' do
+    before(:each) { @loc = create(:location) }
+
+    it 'calls reset_location_coordinates after destroy' do
+      expect(@loc.address).to receive(:reset_location_coordinates)
+      @loc.address.destroy
+    end
+  end
 end
