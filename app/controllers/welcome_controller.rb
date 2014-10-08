@@ -1,6 +1,7 @@
 class WelcomeController < ApplicationController
+  layout 'welcome'
   def home
-    # check if this is the first time the page is visited and generate a token if it is.
+    # Check if this is the first time the page is visited and generate a token if it is.
     if WelcomeToken.count == 0
       token = WelcomeToken.create
       redirect_to welcome_path(code: token.code)

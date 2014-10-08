@@ -1,36 +1,50 @@
 .container
-  %h1 Configure your app
-
-  .progress
-    .progress-bar(style="width: 10%;")
 
   .alert.alert-warning
     Notice that this page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
 
-  .row
-    .col-lg-4
-      .panel.panel-default
-        .panel-body.bg-info
-          %h2.text-center Prepare your data
-          .text-center
-            =fa_icon "database 2x"
-    .col-lg-4
-      .panel.panel-default
-        .panel-body
-          %h2.text-center Upload your data
-          .text-center
-            =fa_icon "upload 2x"
-    .col-lg-4
-      .panel.panel-default
-        .panel-body
-          %h2.text-center Create users
-          .text-center
-            =fa_icon "users 2x"
+  .jumbotron{style: "min-height:600px"}
+    %h2.title Configure your app
+    .row
+      .col-lg-4
+        %ul#welcomeTabs.list-unstyled
+          %li.active
+            %a.c{href: '#preparation'}
+              %h3
+                Prepare your data
+                %span.pull-right=fa_icon "database"
+          %li
+            %a.c{href: '#upload'}
+              %h3
+                Upload your data
+                %span.pull-right=fa_icon "upload"
+          %li
+            %a.c{href: '#users'}
+              %h3
+                Create users
+                %span.pull-right=fa_icon "users"
+      .col-lg-8
+        .tab-content
+          #preparation.tab-pane.fade.in.active
+            %h2.title Preparation
 
-  .jumbotron
-    %h2 Preparation
+            %p Your data needs to conform to the OpenReferral standards. Read about these standards here.
 
-    %p Your data needs to conform to the OpenReferral standards. Read about them here.
+            .text-left
+              :plain
+                <svg width='300' height='200'>
+                  <rect width='300' height='200'  fill='lightblue' />
+                  <text text-anchor='middle' x='50%' y='50%'>hello world</text>
+                </svg>
+
+          #upload.tab-pane.fade
+            %h2.title Upload data
+
+            %p Drag and drop your csv file over the nouns
+
+
+          #users.tab-pane.fade
+            %h2.title Create users
 
 
 

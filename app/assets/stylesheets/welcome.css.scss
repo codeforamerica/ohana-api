@@ -1,6 +1,28 @@
-// Place all the styles related to the welcome controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
 
 @import "font-awesome";
+@import "bootstrap/variables";
+
+.welcome.home{
+  .c{
+    cursor: pointer;
+  }
+  .title{
+    margin-top:10px;
+  }
+
+  #welcomeTabs{
+    border: none;
+
+    li{
+      border-bottom:solid 1px transparent;
+    }
+    .active{
+      border-bottom:solid 1px;
+    }
+    a:hover{
+      text-decoration: none;
+    }
+  }
+
+
+}
