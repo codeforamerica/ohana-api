@@ -181,6 +181,16 @@ feature 'Create a new location' do
 
     expect(find_field('location[urls][]').value).to eq 'http://ruby.com'
   end
+
+  scenario 'when adding an alternate name', :js do
+    fill_in_all_required_fields
+    fill_in 'location_alternate_name', with: 'HSA'
+    click_button 'Create location'
+    click_link 'New Parent Agency location'
+
+    expect(find_field('location_alternate_name').value).
+      to eq 'HSA'
+  end
 end
 
 describe 'creating a new location as regular admin' do

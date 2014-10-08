@@ -23,6 +23,10 @@ describe 'GET /locations/:id' do
       expect(json['accessibility']).to eq(@location.accessibility.map(&:text))
     end
 
+    it 'includes the alternate_name attribute' do
+      expect(json['alternate_name']).to eq(@location.alternate_name)
+    end
+
     it 'includes the coordinates attribute' do
       expect(json['coordinates']).to eq(@location.coordinates)
     end

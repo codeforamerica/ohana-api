@@ -133,15 +133,15 @@ module Features
     def add_two_admins
       click_link 'Add a new admin email'
       fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
-      click_link 'Add a new admin email'
+      find_link('Add a new admin email').trigger('click')
       admins = all(:xpath, "//input[contains(@name, '[admin_emails]')]")
       fill_in admins[-1][:id], with: 'moncef@otherlocation.com'
       click_button 'Save changes'
     end
 
     def delete_all_admins
-      find_link('Delete this admin permanently', match: :first).click
-      find_link('Delete this admin permanently', match: :first).click
+      find_link('Delete this admin permanently', match: :first).trigger('click')
+      find_link('Delete this admin permanently', match: :first).trigger('click')
       click_button 'Save changes'
     end
 
