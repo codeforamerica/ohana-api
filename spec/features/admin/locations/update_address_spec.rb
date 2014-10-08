@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Updating a location's address" do
+feature 'Add a street address' do
   before(:each) do
     @location = create(:no_address)
     login_super_admin
@@ -19,12 +19,6 @@ feature "Updating a location's address" do
     remove_street_address
     visit '/admin/locations/no-address'
     expect(page).to have_link 'Add a street address'
-  end
-
-  scenario 'when leaving location without address or mail address', :js do
-    remove_mail_address
-    expect(page).
-      to have_content 'A location must have at least one address type'
   end
 end
 
@@ -76,5 +70,19 @@ feature "Updating a location's address with invalid values" do
     update_street_address(street: '123', city: 'Ald', state: 'VA', zip: '1234')
     click_button 'Save changes'
     expect(page).to have_content 'valid ZIP code'
+  end
+end
+
+feature 'Remove a street address' do
+  before(:each) do
+    @location = create(:location)
+    login_super_admin
+    visit '/admin/locations/vrs-services'
+  end
+
+  scenario 'from a non-virtual location', :js do
+    remove_street_address
+    expect(page).
+      to have_content "Unless it's virtual, a location must have an address."
   end
 end

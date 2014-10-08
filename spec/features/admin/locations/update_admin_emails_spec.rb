@@ -22,13 +22,13 @@ feature 'Update admin_emails' do
   end
 
   scenario 'with empty admin', :js do
-    click_link 'Add a new admin'
+    find_link('Add a new admin email').trigger('click')
     click_button 'Save changes'
     expect(page).to have_no_xpath("//input[@name='location[admin_emails][]']")
   end
 
   scenario 'with 2 admins but one is empty', :js do
-    click_link 'Add a new admin'
+    find_link('Add a new admin email').trigger('click')
     fill_in 'location[admin_emails][]', with: 'moncef@samaritanhouse.com'
     find_link('Add a new admin email').trigger('click')
     click_button 'Save changes'
@@ -49,7 +49,7 @@ feature 'Update admin_emails' do
   end
 
   scenario 'with invalid admin', :js do
-    click_link 'Add a new admin'
+    find_link('Add a new admin email').trigger('click')
     fill_in 'location[admin_emails][]', with: 'moncefsamaritanhouse.com'
     click_button 'Save changes'
     expect(page).

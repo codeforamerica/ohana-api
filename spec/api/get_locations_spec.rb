@@ -296,7 +296,7 @@ describe 'GET /locations' do
   end
 
   context 'when location has no physical address' do
-    it 'returns nil coordinates' do
+    it 'exposes the coordinates field' do
       create(:no_address)
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
       location_keys = json.first.keys

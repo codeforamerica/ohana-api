@@ -131,7 +131,7 @@ module Features
     end
 
     def add_two_admins
-      click_link 'Add a new admin email'
+      find_link('Add a new admin email').trigger('click')
       fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
       find_link('Add a new admin email').trigger('click')
       admins = all(:xpath, "//input[contains(@name, '[admin_emails]')]")

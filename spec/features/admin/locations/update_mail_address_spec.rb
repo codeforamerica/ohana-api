@@ -36,7 +36,7 @@ feature 'Updating mailing address' do
   scenario 'when leaving location without address or mail address', :js do
     remove_street_address
     expect(page).
-      to have_content 'A location must have at least one address type'
+      to have_content "Unless it's virtual, a location must have an address."
   end
 end
 

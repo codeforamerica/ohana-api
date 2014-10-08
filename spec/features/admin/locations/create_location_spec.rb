@@ -25,7 +25,7 @@ feature 'Create a new location' do
 
   scenario 'without any required fields' do
     click_button 'Create location'
-    expect(page).to have_content 'A location must have at least one address type'
+    expect(page).to have_content "Unless it's virtual, a location must have an address."
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
     expect(page).to have_content "Organization can't be blank for Location"
@@ -190,6 +190,18 @@ feature 'Create a new location' do
 
     expect(find_field('location_alternate_name').value).
       to eq 'HSA'
+  end
+
+  scenario 'when setting the virtual attribute', :js do
+    select2('Parent Agency', 'org-name')
+    fill_in 'location_name', with: 'New Parent Agency location'
+    fill_in 'location_description', with: 'new description'
+    select('Does not have a physical address', from: 'location_virtual')
+    click_button 'Create location'
+    click_link 'New Parent Agency location'
+
+    expect(find_field('location_virtual').value).
+      to eq 'true'
   end
 end
 

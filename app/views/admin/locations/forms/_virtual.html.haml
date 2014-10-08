@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    = f.label :virtual, 'Type of location'
+    %span.desc
+      Does this location have a physical address?
+  = field_set_tag do
+    .row
+      .col-md-4
+        = f.select :virtual, [['Does not have a physical address', true], ['Has a physical address', false]], {}, class: 'form-control'

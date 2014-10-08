@@ -89,7 +89,7 @@ describe Location do
   it { is_expected.to serialize(:urls).as(Array) }
 
   describe 'invalidations' do
-    context 'without an address' do
+    context 'non-virtual and without an address' do
       subject { build(:location, address: nil) }
       it { is_expected.not_to be_valid }
     end
@@ -199,11 +199,8 @@ describe Location do
     end
 
     it 'resets coordinates when address is removed' do
-      mail_address = {
-        street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
-      }
       @loc.update!(
-        mail_address_attributes: mail_address,
+        virtual: true,
         address_attributes: { id: @loc.address.id, _destroy: '1' }
       )
       expect(@loc.reload.coordinates).to be_nil
