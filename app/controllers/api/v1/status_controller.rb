@@ -22,7 +22,7 @@ module Api
       end
 
       def search_okay?
-        Location.text_search(keyword: 'food').present?
+        Location.text_search(keyword: 'flute').page(1).per(1).present?
       end
     end
   end

@@ -85,7 +85,7 @@ FactoryGirl.define do
 
   factory :loc_with_nil_fields, class: Location do
     name 'Belmont Farmers Market with cat'
-    description 'yummy food'
+    description 'yummy food and flute performers'
     short_desc 'short description'
     kind :farmers_markets
     address
