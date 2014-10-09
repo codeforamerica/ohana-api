@@ -4,9 +4,10 @@
     Notice that this page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
 
   .jumbotron{style: "min-height:600px"}
-    %h2.title.page-header{style: 'border-bottom:solid 1px #ccc'} Configure your app
+  
     .row
       .col-lg-4
+        =image_tag "http://ohanapi.org/img/ohana-logo.png", width: 340
         %ul#welcomeTabs.list-unstyled
           %li
             %a.c{href: '#configs'}
@@ -35,40 +36,32 @@
                 %span.pull-right=fa_icon "eye"
       .col-lg-8
         .tab-content
-          #upload.tab-pane.fade.in.active
-            %h2.title 1. Study data model
+          #upload.tab-pane.fade.active.in
+            %h2.title 1. Build your data on Google Docs
 
             %p Your data needs to conform to the OpenReferral standards. The Human Services Data Specification (Open Referral) is an exchange format for publishing machine readable data about health, human, and social services, their locations, and the organizations that provide them. <a href='https://github.com/codeforamerica/OpenReferral' target='_blank'>Read about these standards here.</a>
 
-            %h2 2. Validate
+            %p You can use <a>this Google Doc</a> as a template to structure your data.
 
-            %ol
-              %li
-                %p Create 3 CSV files for each one of these data types:
-                %ul.nav-pills.nav#nounTabs
-                  %li.active
-                    %a{href: '#organization'} Organization
-                  %li
-                    %a{href: '#location'} Location
-                  %li
-                    %a{href: '#service'} Service
-                %br
-                .tab-content
-                  #organization.tab-pane.active
-                    %p.well
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                  #location.tab-pane
-                    %p.well
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                  #service.tab-pane
-                    %p.well
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+            .input-group
+              %input.input-lg.form-control{placeholder:"Enter your google doc url"}
+              .input-group-addon
+                %span.fa.fa-google
+
+            %h2 2. Validate
+            %p When you're ready, click the button below to validate. You will see the problems with your data below.
+            %p
+              %a.bn.btn-lg.btn-primary
+                %span.fa.fa-database
+                Validate data
 
             %h2 3. Upload
-            %p Drag and drop your csv file over the nouns
+            %p If your data was valid, click upload to finish.
+
+            %p
+              %a.bn.btn-lg.btn-primary
+                %span.fa.fa-upload
+                Upload data
           #users.tab-pane.fade
             %h2.title Create users
 
@@ -79,4 +72,6 @@
             %h2.title Basic configurations
 
 
-
+            %ol
+              %li Upload logo
+              %li Set the bounds of the geographic area of your services
