@@ -4,47 +4,79 @@
     Notice that this page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
 
   .jumbotron{style: "min-height:600px"}
-    %h2.title Configure your app
+    %h2.title.page-header{style: 'border-bottom:solid 1px #ccc'} Configure your app
     .row
       .col-lg-4
         %ul#welcomeTabs.list-unstyled
-          %li.active
-            %a.c{href: '#preparation'}
-              %h3
-                Prepare your data
-                %span.pull-right=fa_icon "database"
           %li
-            %a.c{href: '#upload'}
+            %a.c{href: '#configs'}
               %h3
-                Upload your data
-                %span.pull-right=fa_icon "upload"
+                Basic configurations
+                %span.pull-right=fa_icon "cogs"
+          %li
+            %a.c{href: '#taxonomy'}
+              %h3
+                Choose taxonomy
+                %span.pull-right=fa_icon "tag"
           %li
             %a.c{href: '#users'}
               %h3
                 Create users
                 %span.pull-right=fa_icon "users"
+          %li.active
+            %a.c{href: '#upload'}
+              %h3
+                Upload data
+                %span.pull-right=fa_icon "upload"
+          %li
+            %a.c{href: '#review'}
+              %h3
+                Review
+                %span.pull-right=fa_icon "eye"
       .col-lg-8
         .tab-content
-          #preparation.tab-pane.fade.in.active
-            %h2.title Preparation
+          #upload.tab-pane.fade.in.active
+            %h2.title 1. Study data model
 
-            %p Your data needs to conform to the OpenReferral standards. Read about these standards here.
+            %p Your data needs to conform to the OpenReferral standards. The Human Services Data Specification (Open Referral) is an exchange format for publishing machine readable data about health, human, and social services, their locations, and the organizations that provide them. <a href='https://github.com/codeforamerica/OpenReferral' target='_blank'>Read about these standards here.</a>
 
-            .text-left
-              :plain
-                <svg width='300' height='200'>
-                  <rect width='300' height='200'  fill='lightblue' />
-                  <text text-anchor='middle' x='50%' y='50%'>hello world</text>
-                </svg>
+            %h2 2. Validate
 
-          #upload.tab-pane.fade
-            %h2.title Upload data
+            %ol
+              %li
+                %p Create 3 CSV files for each one of these data types:
+                %ul.nav-pills.nav#nounTabs
+                  %li.active
+                    %a{href: '#organization'} Organization
+                  %li
+                    %a{href: '#location'} Location
+                  %li
+                    %a{href: '#service'} Service
+                %br
+                .tab-content
+                  #organization.tab-pane.active
+                    %p.well
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                  #location.tab-pane
+                    %p.well
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                  #service.tab-pane
+                    %p.well
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
 
+            %h2 3. Upload
             %p Drag and drop your csv file over the nouns
-
-
           #users.tab-pane.fade
             %h2.title Create users
+
+          #taxonomy.tab-pane.fade
+            %h2.title Create a taxonomy
+
+          #configs.tab-pane.fade
+            %h2.title Basic configurations
 
 
 
