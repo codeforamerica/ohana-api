@@ -135,13 +135,13 @@ feature 'Update contacts' do
   scenario 'with an empty phone' do
     update_contact(phone: '')
     click_button 'Save changes'
-    expect(page).to_not have_content 'is not a valid US phone number'
+    expect(page).to_not have_content 'is not a valid US phone or fax number'
   end
 
   scenario 'with an empty fax' do
     update_contact(fax: '')
     click_button 'Save changes'
-    expect(page).to_not have_content 'is not a valid US fax number'
+    expect(page).to_not have_content 'is not a valid US phone or fax number'
   end
 
   scenario 'with an invalid email' do
@@ -153,12 +153,12 @@ feature 'Update contacts' do
   scenario 'with an invalid phone' do
     update_contact(phone: '703')
     click_button 'Save changes'
-    expect(page).to have_content 'is not a valid US phone number'
+    expect(page).to have_content 'is not a valid US phone or fax number'
   end
 
   scenario 'with an invalid fax' do
     update_contact(fax: '202')
     click_button 'Save changes'
-    expect(page).to have_content 'is not a valid US fax number'
+    expect(page).to have_content 'is not a valid US phone or fax number'
   end
 end

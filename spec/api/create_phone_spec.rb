@@ -6,7 +6,7 @@ describe 'POST /locations/:location_id/phones' do
   end
 
   before(:each) do
-    @phone_attributes = { number: '123-456-7890' }
+    @phone_attributes = { number: '123-456-7890', number_type: 'voice' }
   end
 
   after(:all) do
@@ -25,11 +25,11 @@ describe 'POST /locations/:location_id/phones' do
   it "doesn't create a phone with invalid attributes" do
     post(
       api_location_phones_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
-      number: '703'
+      number: '703', number_type: 'fax'
     )
     expect(response.status).to eq(422)
     expect(json['errors'].first['number']).
-      to eq(['703 is not a valid US phone number'])
+      to eq(['703 is not a valid US phone or fax number'])
   end
 
   it "doesn't allow creating a phone without a valid token" do
@@ -47,7 +47,7 @@ describe 'POST /locations/:location_id/phones' do
     @loc.phones.create!(@phone_attributes)
     post(
       api_location_phones_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
-      number: '789-456-1234', department: 'cfo'
+      number: '789-456-1234', department: 'cfo', number_type: 'voice'
     )
     get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
     expect(json['phones'].length).to eq 2

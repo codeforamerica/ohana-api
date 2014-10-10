@@ -7,7 +7,7 @@ describe 'PATCH phone' do
   end
 
   before(:each) do
-    @attrs = { number: '123-456-7890', department: 'Director' }
+    @attrs = { number: '123-456-7890', number_type: 'fax' }
   end
 
   after(:all) do
@@ -28,7 +28,7 @@ describe 'PATCH phone' do
         api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(json['department']).to eq 'Director'
+      expect(json['number_type']).to eq 'fax'
     end
 
     it "updates the location's phone" do
@@ -66,7 +66,7 @@ describe 'PATCH phone' do
       expect(response.status).to eq(422)
       expect(json['message']).to eq('Validation failed for resource.')
       expect(json['errors'].first).
-        to eq('number' => ['703 is not a valid US phone number'])
+        to eq('number' => ['703 is not a valid US phone or fax number'])
     end
 
     it "doesn't allow updating a phone without a valid token" do

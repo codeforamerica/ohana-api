@@ -6,7 +6,6 @@ class LocationSerializer < ActiveModel::Serializer
 
   has_one :address
   has_many :contacts
-  has_many :faxes
   has_one :mail_address
   has_many :phones
   has_many :services

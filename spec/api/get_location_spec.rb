@@ -157,19 +157,6 @@ describe 'GET /locations/:id' do
       )
     end
 
-    it 'displays faxes when present' do
-      @location.faxes.create!(attributes_for(:fax))
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json['faxes']).
-        to eq(
-        [{
-          'id'    => @location.faxes.first.id,
-          'department' => @location.faxes.first.department,
-          'number'  => @location.faxes.first.number
-        }]
-      )
-    end
-
     it 'displays phones when present' do
       @location.phones.create!(attributes_for(:phone))
       get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
@@ -180,7 +167,7 @@ describe 'GET /locations/:id' do
           'department'    => @location.phones.first.department,
           'extension'     => @location.phones.first.extension,
           'number'        => @location.phones.first.number,
-          'number_type'   => nil,
+          'number_type'   => @location.phones.first.number_type,
           'vanity_number' => @location.phones.first.vanity_number
         }]
       )
@@ -228,7 +215,7 @@ describe 'GET /locations/:id' do
     it 'returns nil fields when visiting one location' do
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
       keys = json.keys
-      %w(faxes admin_emails emails accessibility hours).each do |key|
+      %w(admin_emails emails accessibility hours).each do |key|
         expect(keys).to include(key)
       end
     end

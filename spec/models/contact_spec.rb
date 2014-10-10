@@ -38,13 +38,13 @@ describe Contact do
   it do
     is_expected.not_to allow_value('123456789').
     for(:phone).
-    with_message('123456789 is not a valid US phone number')
+    with_message('123456789 is not a valid US phone or fax number')
   end
 
   it do
     is_expected.not_to allow_value('asdf').
     for(:fax).
-    with_message('asdf is not a valid US fax number')
+    with_message('asdf is not a valid US phone or fax number')
   end
 
   describe 'auto_strip_attributes' do

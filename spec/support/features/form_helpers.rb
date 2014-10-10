@@ -94,23 +94,6 @@ module Features
       click_button 'Save changes'
     end
 
-    def add_fax(options = {})
-      click_link 'Add a new fax number'
-      update_fax(options)
-    end
-
-    def update_fax(options = {})
-      within('.faxes') do
-        fill_in find(:xpath, './/input[contains(@name, "[number]")]')[:id], with: options[:number]
-        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
-      end
-    end
-
-    def delete_fax
-      click_link 'Delete this fax permanently'
-      click_button 'Save changes'
-    end
-
     def add_phone(options = {})
       click_link 'Add a new phone number'
       update_phone(options)

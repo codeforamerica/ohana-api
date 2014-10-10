@@ -10,7 +10,7 @@ class Contact < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
   validates :phone, phone: true, allow_blank: true
-  validates :fax, fax: true, allow_blank: true
+  validates :fax, phone: true, allow_blank: true
 
   auto_strip_attributes :email, :extension, :fax, :name, :phone, :title, squish: true
 end

@@ -10,10 +10,13 @@
       .col-md-4
         = f.telephone_field :vanity_number, maxlength: 12, class: 'form-control'
   .form-group
-    = f.label :number_type, 'Number Type (to identify TTY numbers)'
+    = f.label :number_type, 'Number Type (Fax, Hotline, Voice, or TTY)'
     .row
       .col-md-4
-        = f.select :number_type, [['Not a TTY number', ''], ['TTY number', 'TTY']], {}, class: 'form-control'
+        - if f.object.new_record?
+          = f.select :number_type, Phone.number_type.options, { prompt: 'Choose an option' }, class: 'form-control'
+        - else
+          = f.select :number_type, Phone.number_type.options, {}, class: 'form-control'
   .form-group
     = f.label :extension, 'Extension (for example: x101)'
     .row
@@ -24,6 +27,11 @@
     .row
       .col-md-4
         = f.text_field :department, maxlength: 50, class: 'form-control'
+  .form-group
+    = f.label :country_prefix, 'Country Prefix Code (for example: +1)'
+    .row
+      .col-md-4
+        = f.telephone_field :country_prefix, maxlength: 4, class: 'form-control'
   = f.hidden_field :_destroy
   = link_to 'Delete this phone permanently', '#', class: 'btn btn-danger delete_association'
   %hr

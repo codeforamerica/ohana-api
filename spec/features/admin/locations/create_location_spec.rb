@@ -61,7 +61,7 @@ feature 'Create a new location' do
     fill_in_all_required_fields
     add_phone(
       number: '123-456-7890',
-      number_type: 'TTY number',
+      number_type: 'TTY',
       department: 'Director of Development',
       extension: 'x1234',
       vanity_number: '123-ABC-DEFG'
@@ -73,7 +73,7 @@ feature 'Create a new location' do
       to eq '123-456-7890'
 
     expect(find_field('location_phones_attributes_0_number_type').value).
-      to eq 'TTY'
+      to eq 'tty'
 
     expect(find_field('location_phones_attributes_0_department').value).
       to eq 'Director of Development'
@@ -83,22 +83,6 @@ feature 'Create a new location' do
 
     expect(find_field('location_phones_attributes_0_vanity_number').value).
       to eq '123-ABC-DEFG'
-  end
-
-  scenario 'with valid fax number', :js do
-    fill_in_all_required_fields
-    add_fax(
-      number: '123-456-7890',
-      department: 'Director of Development'
-    )
-    click_button 'Create location'
-    click_link 'New Parent Agency location'
-
-    expect(find_field('location_faxes_attributes_0_number').value).
-      to eq '123-456-7890'
-
-    expect(find_field('location_faxes_attributes_0_department').value).
-      to eq 'Director of Development'
   end
 
   scenario 'with a valid contact', :js do

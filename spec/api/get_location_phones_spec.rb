@@ -4,8 +4,7 @@ describe 'GET /locations/:location_id/phones' do
   context 'when location has phones' do
     before :all do
       @loc = create(:location)
-      @first_phone = @loc.phones.
-        create!(attributes_for(:phone_with_extra_whitespace))
+      @first_phone = @loc.phones.create!(attributes_for(:phone))
     end
 
     before :each do

@@ -269,39 +269,6 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 
 --
--- Name: faxes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE faxes (
-    id integer NOT NULL,
-    location_id integer,
-    number text,
-    department text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: faxes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE faxes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: faxes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE faxes_id_seq OWNED BY faxes.id;
-
-
---
 -- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -471,7 +438,8 @@ CREATE TABLE phones (
     vanity_number text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    number_type character varying(255)
+    number_type character varying(255),
+    country_prefix character varying(255)
 );
 
 
@@ -630,13 +598,6 @@ ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY faxes ALTER COLUMN id SET DEFAULT nextval('faxes_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly_id_slugs_id_seq'::regclass);
 
 
@@ -720,14 +681,6 @@ ALTER TABLE ONLY categories
 
 ALTER TABLE ONLY contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
-
-
---
--- Name: faxes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY faxes
-    ADD CONSTRAINT faxes_pkey PRIMARY KEY (id);
 
 
 --
@@ -868,13 +821,6 @@ CREATE UNIQUE INDEX index_categories_services_on_service_id_and_category_id ON c
 --
 
 CREATE INDEX index_contacts_on_location_id ON contacts USING btree (location_id);
-
-
---
--- Name: index_faxes_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_faxes_on_location_id ON faxes USING btree (location_id);
 
 
 --
@@ -1108,4 +1054,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141007144757');
 INSERT INTO schema_migrations (version) VALUES ('20141009185459');
 
 INSERT INTO schema_migrations (version) VALUES ('20141009204519');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010031124');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010155451');
 

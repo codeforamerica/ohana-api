@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   attr_accessible :accessibility, :admin_emails, :alternate_name, :description,
                   :emails, :hours, :languages, :latitude, :longitude, :name,
                   :short_desc, :transportation, :urls, :virtual,
-                  :address_attributes, :contacts_attributes, :faxes_attributes,
+                  :address_attributes, :contacts_attributes,
                   :mail_address_attributes, :phones_attributes,
                   :services_attributes
 
@@ -14,10 +14,6 @@ class Location < ActiveRecord::Base
 
   has_many :contacts, dependent: :destroy
   accepts_nested_attributes_for :contacts,
-                                allow_destroy: true, reject_if: :all_blank
-
-  has_many :faxes, dependent: :destroy
-  accepts_nested_attributes_for :faxes,
                                 allow_destroy: true, reject_if: :all_blank
 
   has_one :mail_address, dependent: :destroy

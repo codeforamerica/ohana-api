@@ -48,7 +48,6 @@ Rails.application.routes.draw do
           resources :address, except: [:index, :show]
           resources :mail_address, except: [:index, :show]
           resources :contacts, except: [:show]
-          resources :faxes, except: [:show]
           resources :phones, except: [:show]
           resources :services
         end
