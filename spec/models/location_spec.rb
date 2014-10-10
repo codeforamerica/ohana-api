@@ -113,8 +113,8 @@ describe Location do
   # Instance methods
   it { is_expected.to respond_to(:address_street) }
   describe '#address_street' do
-    it 'returns address.street' do
-      expect(subject.address_street).to eq(subject.address.street)
+    it 'returns address.street_1' do
+      expect(subject.address_street).to eq(subject.address.street_1)
     end
   end
 
@@ -129,9 +129,9 @@ describe Location do
   it { is_expected.to respond_to(:full_physical_address) }
   describe '#full_physical_address' do
     it 'joins all address elements into one string' do
-      combined = "#{subject.address.street}, " \
+      combined = "#{subject.address.street_1}, " \
         "#{subject.address.city}, #{subject.address.state} " \
-        "#{subject.address.zip}"
+        "#{subject.address.postal_code}"
 
       expect(subject.full_physical_address).to eq(combined)
     end
@@ -190,7 +190,8 @@ describe Location do
 
     it 'geocodes when address has changed' do
       address = {
-        street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
+        street_1: '1 davis drive', city: 'belmont', state: 'CA',
+        postal_code: '94002', country_code: 'US'
       }
       coords = @loc.coordinates
 

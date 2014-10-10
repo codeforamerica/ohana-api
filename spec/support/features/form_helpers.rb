@@ -25,10 +25,11 @@ module Features
     end
 
     def update_street_address(options = {})
-      fill_in 'location_address_attributes_street', with: options[:street]
+      fill_in 'location_address_attributes_street_1', with: options[:street_1]
       fill_in 'location_address_attributes_city', with: options[:city]
       fill_in 'location_address_attributes_state', with: options[:state]
-      fill_in 'location_address_attributes_zip', with: options[:zip]
+      fill_in 'location_address_attributes_postal_code', with: options[:postal_code]
+      fill_in 'location_address_attributes_country_code', with: options[:country_code]
       click_button 'Save changes'
     end
 
@@ -40,10 +41,11 @@ module Features
 
     def update_mailing_address(options = {})
       fill_in 'location_mail_address_attributes_attention', with: options[:attention]
-      fill_in 'location_mail_address_attributes_street', with: options[:street]
+      fill_in 'location_mail_address_attributes_street_1', with: options[:street_1]
       fill_in 'location_mail_address_attributes_city', with: options[:city]
       fill_in 'location_mail_address_attributes_state', with: options[:state]
-      fill_in 'location_mail_address_attributes_zip', with: options[:zip]
+      fill_in 'location_mail_address_attributes_postal_code', with: options[:postal_code]
+      fill_in 'location_mail_address_attributes_country_code', with: options[:country_code]
     end
 
     def remove_street_address
@@ -165,10 +167,11 @@ module Features
       fill_in 'location_name', with: 'New Parent Agency location'
       fill_in 'location_description', with: 'new description'
       click_link 'Add a street address'
-      fill_in 'location_address_attributes_street', with: '123 Main St.'
+      fill_in 'location_address_attributes_street_1', with: '123 Main St.'
       fill_in 'location_address_attributes_city', with: 'Belmont'
       fill_in 'location_address_attributes_state', with: 'CA'
-      fill_in 'location_address_attributes_zip', with: '12345'
+      fill_in 'location_address_attributes_postal_code', with: '12345'
+      fill_in 'location_address_attributes_country_code', with: 'US'
     end
 
     def select2(value, id, options = {})

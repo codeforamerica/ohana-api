@@ -121,10 +121,11 @@ describe 'GET /locations' do
       serialized_address =
         {
           'id'     => @location.address.id,
-          'street' => @location.address.street,
+          'street_1' => @location.address.street_1,
+          'street_2' => nil,
           'city'   => @location.address.city,
           'state'  => @location.address.state,
-          'zip'    => @location.address.zip
+          'postal_code'    => @location.address.postal_code
         }
       expect(json.first['address']).to eq(serialized_address)
     end
@@ -193,10 +194,10 @@ describe 'GET /locations' do
         {
           'id'        => @location.mail_address.id,
           'attention' => @location.mail_address.attention,
-          'street'    => @location.mail_address.street,
+          'street_1'    => @location.mail_address.street_1,
           'city'      => @location.mail_address.city,
           'state'     => @location.mail_address.state,
-          'zip'       => @location.mail_address.zip
+          'postal_code'       => @location.mail_address.postal_code
         }
       expect(json.first['mail_address']).to eq(serialized_mail_address)
     end

@@ -108,7 +108,7 @@ class Location < ActiveRecord::Base
   end
 
   def address_street
-    address.street if address.present?
+    address.street_1 if address.present?
   end
 
   def mail_address_city
@@ -117,7 +117,7 @@ class Location < ActiveRecord::Base
 
   def full_physical_address
     return unless address.present?
-    "#{address.street}, #{address.city}, #{address.state} #{address.zip}"
+    "#{address.street_1}, #{address.city}, #{address.state} #{address.postal_code}"
   end
 
   def coordinates
