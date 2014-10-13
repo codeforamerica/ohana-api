@@ -53,15 +53,6 @@ The easiest way to assign categories to a service is to use the Admin interface.
 
 ![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
 
-## Apps that are using the Ohana API
-[SMC-Connect](http://www.smc-connect.org)
-[GitHub repo for SMC-Connect](https://github.com/codeforamerica/human_services_finder)
-
-[Ohana API Admin site](https://github.com/codeforamerica/ohana-api-admin)
-
-[Ohana SMS](https://github.com/marks/ohana-sms)
-
-
 ## Deploying to Heroku
 See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account).
 
