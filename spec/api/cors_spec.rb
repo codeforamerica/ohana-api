@@ -100,7 +100,7 @@ describe 'CORS REQUESTS - POST and GET' do
   context 'when ORIGIN is specified' do
     before :each do
       post api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
-           { name: 'foo' },
+           { name: 'foo', description: 'test' },
            'HTTP_ACCEPT' => 'application/vnd.ohanapi+json; version=1',
            'HTTP_ORIGIN' => 'http://ohanapi.org', 'HTTP_USER_AGENT' => 'Rspec'
     end
@@ -135,7 +135,7 @@ describe 'CORS REQUESTS - POST and GET' do
   context 'when ORIGIN is not specified' do
     it 'does not include CORS headers when ORIGIN is not specified' do
       post api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
-           { name: 'foo' },
+           { name: 'foo', description: 'test' },
            'HTTP_ACCEPT' => 'application/vnd.ohanapi+json; version=1',
            'HTTP_USER_AGENT' => 'Rspec'
       expect(response.status).to eq 201

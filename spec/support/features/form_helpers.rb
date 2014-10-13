@@ -25,10 +25,11 @@ module Features
     end
 
     def update_street_address(options = {})
-      fill_in 'location_address_attributes_street', with: options[:street]
+      fill_in 'location_address_attributes_street_1', with: options[:street_1]
       fill_in 'location_address_attributes_city', with: options[:city]
       fill_in 'location_address_attributes_state', with: options[:state]
-      fill_in 'location_address_attributes_zip', with: options[:zip]
+      fill_in 'location_address_attributes_postal_code', with: options[:postal_code]
+      fill_in 'location_address_attributes_country_code', with: options[:country_code]
       click_button 'Save changes'
     end
 
@@ -40,10 +41,11 @@ module Features
 
     def update_mailing_address(options = {})
       fill_in 'location_mail_address_attributes_attention', with: options[:attention]
-      fill_in 'location_mail_address_attributes_street', with: options[:street]
+      fill_in 'location_mail_address_attributes_street_1', with: options[:street_1]
       fill_in 'location_mail_address_attributes_city', with: options[:city]
       fill_in 'location_mail_address_attributes_state', with: options[:state]
-      fill_in 'location_mail_address_attributes_zip', with: options[:zip]
+      fill_in 'location_mail_address_attributes_postal_code', with: options[:postal_code]
+      fill_in 'location_mail_address_attributes_country_code', with: options[:country_code]
     end
 
     def remove_street_address
@@ -66,9 +68,7 @@ module Features
         fill_in find(:xpath, './/input[contains(@name, "[name]")]')[:id], with: options[:name]
         fill_in find(:xpath, './/input[contains(@name, "[title]")]')[:id], with: options[:title]
         fill_in find(:xpath, './/input[contains(@name, "[email]")]')[:id], with: options[:email]
-        fill_in find(:xpath, './/input[contains(@name, "[phone]")]')[:id], with: options[:phone]
-        fill_in find(:xpath, './/input[contains(@name, "[fax]")]')[:id], with: options[:fax]
-        fill_in find(:xpath, './/input[contains(@name, "[extension]")]')[:id], with: options[:extension]
+        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
       end
     end
 
@@ -89,23 +89,6 @@ module Features
     def delete_all_emails
       find_link('Delete this email permanently', match: :first).click
       find_link('Delete this email permanently', match: :first).click
-      click_button 'Save changes'
-    end
-
-    def add_fax(options = {})
-      click_link 'Add a new fax number'
-      update_fax(options)
-    end
-
-    def update_fax(options = {})
-      within('.faxes') do
-        fill_in find(:xpath, './/input[contains(@name, "[number]")]')[:id], with: options[:number]
-        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
-      end
-    end
-
-    def delete_fax
-      click_link 'Delete this fax permanently'
       click_button 'Save changes'
     end
 
@@ -131,17 +114,17 @@ module Features
     end
 
     def add_two_admins
-      click_link 'Add a new admin email'
+      find_link('Add a new admin email').trigger('click')
       fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
-      click_link 'Add a new admin email'
+      find_link('Add a new admin email').trigger('click')
       admins = all(:xpath, "//input[contains(@name, '[admin_emails]')]")
       fill_in admins[-1][:id], with: 'moncef@otherlocation.com'
       click_button 'Save changes'
     end
 
     def delete_all_admins
-      find_link('Delete this admin permanently', match: :first).click
-      find_link('Delete this admin permanently', match: :first).click
+      find_link('Delete this admin permanently', match: :first).trigger('click')
+      find_link('Delete this admin permanently', match: :first).trigger('click')
       click_button 'Save changes'
     end
 
@@ -165,10 +148,11 @@ module Features
       fill_in 'location_name', with: 'New Parent Agency location'
       fill_in 'location_description', with: 'new description'
       click_link 'Add a street address'
-      fill_in 'location_address_attributes_street', with: '123 Main St.'
+      fill_in 'location_address_attributes_street_1', with: '123 Main St.'
       fill_in 'location_address_attributes_city', with: 'Belmont'
       fill_in 'location_address_attributes_state', with: 'CA'
-      fill_in 'location_address_attributes_zip', with: '12345'
+      fill_in 'location_address_attributes_postal_code', with: '12345'
+      fill_in 'location_address_attributes_country_code', with: 'US'
     end
 
     def select2(value, id, options = {})
@@ -235,6 +219,13 @@ module Features
       find_link('Delete this service area permanently', match: :first).click
       find_link('Delete this service area permanently', match: :first).click
       click_button 'Save changes'
+    end
+
+    def select_date(date, options = {})
+      field = options[:from]
+      select date.strftime('%Y'), from: "#{field}_1i"
+      select date.strftime('%B'), from: "#{field}_2i"
+      select date.strftime('%-d'), from: "#{field}_3i"
     end
   end
 end

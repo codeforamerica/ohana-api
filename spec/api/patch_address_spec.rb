@@ -1,17 +1,11 @@
 require 'rails_helper'
 
 describe 'PATCH address' do
-  before(:all) do
-    @loc = create(:location)
-  end
-
   before(:each) do
+    @loc = create(:location)
     @address = @loc.address
-    @attrs = { street: 'foo', city: 'bar', state: 'CA', zip: '90210' }
-  end
-
-  after(:all) do
-    Organization.find_each(&:destroy)
+    @attrs = { street_1: '1236 Broadway', city: 'Burlingame', state: 'CA',
+      postal_code: '94010', country_code: 'US' }
   end
 
   describe 'PATCH /locations/:location_id/address/:id' do
@@ -28,7 +22,7 @@ describe 'PATCH address' do
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(json['city']).to eq 'bar'
+      expect(json['city']).to eq 'Burlingame'
     end
 
     it "updates the location's address" do
@@ -37,7 +31,25 @@ describe 'PATCH address' do
         @attrs
       )
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json['address']['street']).to eq 'foo'
+      expect(json['address']['street_1']).to eq '1236 Broadway'
+    end
+
+    it "updates the location's coordinates when the address has changed" do
+      old_coords = @loc.coordinates
+      patch(
+        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs
+      )
+      expect(@loc.reload.coordinates).to_not eq old_coords
+    end
+
+    it "does not update the location's coordinates when the address has not changed" do
+      old_coords = @loc.coordinates
+      patch(
+        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        @attrs.merge!(street_1: '1800 Easton Drive')
+      )
+      expect(@loc.reload.coordinates).to eq old_coords
     end
 
     it "doesn't add a new address" do
@@ -61,12 +73,12 @@ describe 'PATCH address' do
     it 'returns 422 when attribute is invalid' do
       patch(
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
-        @attrs.merge!(street: '')
+        @attrs.merge!(street_1: '')
       )
       expect(response.status).to eq(422)
       expect(json['message']).to eq('Validation failed for resource.')
       expect(json['errors'].first).
-        to eq('street' => ["can't be blank for Address"])
+        to eq('address.street_1' => ["can't be blank for Address"])
     end
 
     it "doesn't allow updating a address without a valid token" do

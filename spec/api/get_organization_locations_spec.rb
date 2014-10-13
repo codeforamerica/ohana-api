@@ -21,7 +21,6 @@ describe 'GET /organizations/:organization_id/locations' do
       }
       @location = @org.locations.create!(attrs)
       @location.contacts.create!(attributes_for(:contact))
-      @location.faxes.create!(attributes_for(:fax))
       @location.phones.create!(attributes_for(:phone))
       @location.contacts.create!(attributes_for(:contact))
       @location.services.create!(attributes_for(:service))
@@ -67,7 +66,7 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it 'includes the location address attribute in the serialization' do
-      expect(json.first['address']['street']).to eq(@location.address.street)
+      expect(json.first['address']['street_1']).to eq(@location.address.street_1)
     end
 
     xit 'includes the location mail_address attribute in the serialization' do
@@ -91,16 +90,6 @@ describe 'GET /organizations/:organization_id/locations' do
     it 'includes the contacts_url attribute in the serialization' do
       expect(json.first['contacts_url']).
         to eq(api_location_contacts_url(@location))
-    end
-
-    it 'includes the faxes_url attribute in the serialization' do
-      expect(json.first['faxes_url']).
-        to eq(api_location_faxes_url(@location))
-    end
-
-    xit 'includes the phones_url attribute in the serialization' do
-      expect(json.first['phones_url']).
-        to eq(api_location_phones_url(@location))
     end
 
     it 'includes the services_url attribute in the serialization' do
@@ -146,10 +135,6 @@ describe 'GET /organizations/:organization_id/locations' do
 
     it "doesn't include the location contacts attribute" do
       expect(json.first.keys).to_not include('contacts')
-    end
-
-    it "doesn't include the location faxes attribute" do
-      expect(json.first.keys).to_not include('faxes')
     end
 
     it 'includes the location phones attribute' do

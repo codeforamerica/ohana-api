@@ -15,17 +15,17 @@ feature 'Create a new location' do
 
     expect(find_field('location_name').value).to eq 'New Parent Agency location'
     expect(find_field('location_description').value).to eq 'new description'
-    expect(find_field('location_address_attributes_street').value).
+    expect(find_field('location_address_attributes_street_1').value).
       to eq '123 Main St.'
     expect(find_field('location_address_attributes_city').value).
       to eq 'Belmont'
     expect(find_field('location_address_attributes_state').value).to eq 'CA'
-    expect(find_field('location_address_attributes_zip').value).to eq '12345'
+    expect(find_field('location_address_attributes_postal_code').value).to eq '12345'
   end
 
   scenario 'without any required fields' do
     click_button 'Create location'
-    expect(page).to have_content 'A location must have at least one address type'
+    expect(page).to have_content "Unless it's virtual, a location must have an address."
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
     expect(page).to have_content "Organization can't be blank for Location"
@@ -36,23 +36,24 @@ feature 'Create a new location' do
     click_link 'Add a mailing address'
     update_mailing_address(
       attention: 'moncef',
-      street: '123',
+      street_1: '123',
       city: 'Vienna',
       state: 'VA',
-      zip: '12345'
+      postal_code: '12345',
+      country_code: 'US'
     )
     click_button 'Create location'
     click_link 'New Parent Agency location'
 
     expect(find_field('location_mail_address_attributes_attention').value).
       to eq 'moncef'
-    expect(find_field('location_mail_address_attributes_street').value).
+    expect(find_field('location_mail_address_attributes_street_1').value).
       to eq '123'
     expect(find_field('location_mail_address_attributes_city').value).
       to eq 'Vienna'
     expect(find_field('location_mail_address_attributes_state').value).
       to eq 'VA'
-    expect(find_field('location_mail_address_attributes_zip').value).
+    expect(find_field('location_mail_address_attributes_postal_code').value).
       to eq '12345'
   end
 
@@ -60,7 +61,7 @@ feature 'Create a new location' do
     fill_in_all_required_fields
     add_phone(
       number: '123-456-7890',
-      number_type: 'TTY number',
+      number_type: 'TTY',
       department: 'Director of Development',
       extension: 'x1234',
       vanity_number: '123-ABC-DEFG'
@@ -72,7 +73,7 @@ feature 'Create a new location' do
       to eq '123-456-7890'
 
     expect(find_field('location_phones_attributes_0_number_type').value).
-      to eq 'TTY'
+      to eq 'tty'
 
     expect(find_field('location_phones_attributes_0_department').value).
       to eq 'Director of Development'
@@ -82,54 +83,6 @@ feature 'Create a new location' do
 
     expect(find_field('location_phones_attributes_0_vanity_number').value).
       to eq '123-ABC-DEFG'
-  end
-
-  scenario 'with valid fax number', :js do
-    fill_in_all_required_fields
-    add_fax(
-      number: '123-456-7890',
-      department: 'Director of Development'
-    )
-    click_button 'Create location'
-    click_link 'New Parent Agency location'
-
-    expect(find_field('location_faxes_attributes_0_number').value).
-      to eq '123-456-7890'
-
-    expect(find_field('location_faxes_attributes_0_department').value).
-      to eq 'Director of Development'
-  end
-
-  scenario 'with a valid contact', :js do
-    fill_in_all_required_fields
-    add_contact(
-      name: 'Moncef Belyamani-Belyamani',
-      title: 'Director of Development and Operations',
-      email: 'moncefbelyamani@samaritanhousesanmateo.org',
-      phone: '703-555-1212',
-      extension: 'x1234',
-      fax: '703-555-1234'
-    )
-    click_button 'Create location'
-    click_link 'New Parent Agency location'
-
-    expect(find_field('location_contacts_attributes_0_name').value).
-      to eq 'Moncef Belyamani-Belyamani'
-
-    expect(find_field('location_contacts_attributes_0_title').value).
-      to eq 'Director of Development and Operations'
-
-    expect(find_field('location_contacts_attributes_0_email').value).
-      to eq 'moncefbelyamani@samaritanhousesanmateo.org'
-
-    expect(find_field('location_contacts_attributes_0_phone').value).
-      to eq '703-555-1212'
-
-    expect(find_field('location_contacts_attributes_0_extension').value).
-      to eq 'x1234'
-
-    expect(find_field('location_contacts_attributes_0_fax').value).
-      to eq '703-555-1234'
   end
 
   scenario 'with valid location email', :js do
@@ -180,6 +133,28 @@ feature 'Create a new location' do
     click_link 'New Parent Agency location'
 
     expect(find_field('location[urls][]').value).to eq 'http://ruby.com'
+  end
+
+  scenario 'when adding an alternate name', :js do
+    fill_in_all_required_fields
+    fill_in 'location_alternate_name', with: 'HSA'
+    click_button 'Create location'
+    click_link 'New Parent Agency location'
+
+    expect(find_field('location_alternate_name').value).
+      to eq 'HSA'
+  end
+
+  scenario 'when setting the virtual attribute', :js do
+    select2('Parent Agency', 'org-name')
+    fill_in 'location_name', with: 'New Parent Agency location'
+    fill_in 'location_description', with: 'new description'
+    select('Does not have a physical address', from: 'location_virtual')
+    click_button 'Create location'
+    click_link 'New Parent Agency location'
+
+    expect(find_field('location_virtual').value).
+      to eq 'true'
   end
 end
 
