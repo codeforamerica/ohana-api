@@ -14,7 +14,6 @@
 = render 'admin/locations/forms/virtual', f: f
 = render 'admin/locations/forms/address', f: f
 = render 'admin/locations/forms/mail_address', f: f
-= render 'admin/locations/forms/contacts', f: f
 = render 'admin/locations/forms/phones', f: f
 = render 'admin/locations/forms/emails', f: f
 = render 'admin/locations/forms/languages', f: f
@@ -22,6 +21,16 @@
 = render 'admin/locations/forms/transportation', f: f
 = render 'admin/locations/forms/urls', f: f
 = render 'admin/locations/forms/accessibility', f: f
+
+.content-box
+  %h2= 'Contacts'
+  = 'Click a Contact below to view and update it:'
+  %p
+  - @location.contacts.each do |contact|
+    = link_to contact.name, edit_admin_location_contact_path(@location, contact)
+    %br
+  %p
+    = link_to 'Add a new contact', new_admin_location_contact_path(@location), class: 'btn btn-primary'
 
 .content-box
   %h2= 'Services'

@@ -1,3 +1,5 @@
 class ContactSerializer < ActiveModel::Serializer
-  attributes :email, :extension, :fax, :id, :name, :phone, :title
+  attributes :department, :email, :id, :name, :title
+
+  has_many :phones
 end

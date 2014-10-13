@@ -68,9 +68,7 @@ module Features
         fill_in find(:xpath, './/input[contains(@name, "[name]")]')[:id], with: options[:name]
         fill_in find(:xpath, './/input[contains(@name, "[title]")]')[:id], with: options[:title]
         fill_in find(:xpath, './/input[contains(@name, "[email]")]')[:id], with: options[:email]
-        fill_in find(:xpath, './/input[contains(@name, "[phone]")]')[:id], with: options[:phone]
-        fill_in find(:xpath, './/input[contains(@name, "[fax]")]')[:id], with: options[:fax]
-        fill_in find(:xpath, './/input[contains(@name, "[extension]")]')[:id], with: options[:extension]
+        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
       end
     end
 

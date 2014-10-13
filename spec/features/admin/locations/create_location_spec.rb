@@ -85,38 +85,6 @@ feature 'Create a new location' do
       to eq '123-ABC-DEFG'
   end
 
-  scenario 'with a valid contact', :js do
-    fill_in_all_required_fields
-    add_contact(
-      name: 'Moncef Belyamani-Belyamani',
-      title: 'Director of Development and Operations',
-      email: 'moncefbelyamani@samaritanhousesanmateo.org',
-      phone: '703-555-1212',
-      extension: 'x1234',
-      fax: '703-555-1234'
-    )
-    click_button 'Create location'
-    click_link 'New Parent Agency location'
-
-    expect(find_field('location_contacts_attributes_0_name').value).
-      to eq 'Moncef Belyamani-Belyamani'
-
-    expect(find_field('location_contacts_attributes_0_title').value).
-      to eq 'Director of Development and Operations'
-
-    expect(find_field('location_contacts_attributes_0_email').value).
-      to eq 'moncefbelyamani@samaritanhousesanmateo.org'
-
-    expect(find_field('location_contacts_attributes_0_phone').value).
-      to eq '703-555-1212'
-
-    expect(find_field('location_contacts_attributes_0_extension').value).
-      to eq 'x1234'
-
-    expect(find_field('location_contacts_attributes_0_fax').value).
-      to eq '703-555-1234'
-  end
-
   scenario 'with valid location email', :js do
     fill_in_all_required_fields
     click_link 'Add a new general email'

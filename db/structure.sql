@@ -241,11 +241,9 @@ CREATE TABLE contacts (
     name text,
     title text,
     email text,
-    fax text,
-    phone text,
-    extension text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    department character varying(255)
 );
 
 
@@ -439,7 +437,8 @@ CREATE TABLE phones (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     number_type character varying(255),
-    country_prefix character varying(255)
+    country_prefix character varying(255),
+    contact_id integer
 );
 
 
@@ -894,6 +893,13 @@ CREATE UNIQUE INDEX index_organizations_on_slug ON organizations USING btree (sl
 
 
 --
+-- Name: index_phones_on_contact_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_phones_on_contact_id ON phones USING btree (contact_id);
+
+
+--
 -- Name: index_phones_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1058,4 +1064,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141009204519');
 INSERT INTO schema_migrations (version) VALUES ('20141010031124');
 
 INSERT INTO schema_migrations (version) VALUES ('20141010155451');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010171020');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010171817');
 

@@ -16,7 +16,6 @@ describe 'DELETE /locations/:location_id/phones/:id' do
       {}
     )
     expect(@loc.reload.phones.count).to eq(0)
-    expect(Phone.count).to eq(0)
   end
 
   it 'returns a 204 status' do

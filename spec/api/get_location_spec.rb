@@ -148,11 +148,10 @@ describe 'GET /locations/:id' do
         [{
           'id'        => @location.contacts.first.id,
           'email'     => nil,
-          'extension' => nil,
-          'fax'       => nil,
           'name'      => @location.contacts.first.name,
-          'phone'     => nil,
-          'title'     => @location.contacts.first.title
+          'department'     => nil,
+          'title'     => @location.contacts.first.title,
+          'phones'    => @location.contacts.first.phones
         }]
       )
     end

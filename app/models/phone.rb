@@ -5,6 +5,7 @@ class Phone < ActiveRecord::Base
                   :number_type, :vanity_number
 
   belongs_to :location, touch: true
+  belongs_to :contact, touch: true
 
   validates :number,
             presence: { message: I18n.t('errors.messages.blank_for_phone') },

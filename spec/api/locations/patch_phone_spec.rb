@@ -45,7 +45,7 @@ describe 'PATCH phone' do
         api_location_phone_url(@loc, @phone, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(Phone.count).to eq(1)
+      expect(@loc.reload.phones.count).to eq(1)
     end
 
     it 'requires a valid phone id' do

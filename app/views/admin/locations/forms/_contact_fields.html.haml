@@ -15,20 +15,10 @@
       .col-md-6
         = f.text_field :email, maxlength: 255, class: 'form-control'
   .form-group
-    = f.label :phone, 'Phone'
+    = f.label :department, 'Department'
     .row
       .col-md-6
-        = f.phone_field :phone, maxlength: 12, class: 'form-control'
-  .form-group
-    = f.label :extension, 'Extension (for example: x101)'
-    .row
-      .col-md-6
-        = f.text_field :extension, maxlength: 12, class: 'form-control'
-  .form-group
-    = f.label :fax, 'Fax'
-    .row
-      .col-md-6
-        = f.phone_field :fax, maxlength: 12, class: 'form-control'
+        = f.text_field :department, maxlength: 255, class: 'form-control'
   = f.hidden_field :_destroy
 
   = link_to 'Delete this contact permanently', '#', class: 'btn btn-danger delete_association'
