@@ -19,6 +19,7 @@ gem 'protected_attributes'
 # Front end
 gem 'jquery-rails'
 gem 'haml-rails', '~> 0.5.3'
+gem 'select2-rails'
 
 # Server for deployment
 gem 'passenger'
@@ -43,7 +44,7 @@ gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
 
 # App config and ENV variables for heroku
-gem 'figaro', '~> 1.0.0.rc1'
+gem 'figaro', '~> 1.0.0'
 
 # Search
 gem 'pg_search'
@@ -59,7 +60,7 @@ group :production, :staging do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-rails', '~> 3.1.0'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
   gem 'pry-rails'

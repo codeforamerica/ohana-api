@@ -36,13 +36,18 @@ en:
         tty: "TTY"
         wheelchair: "Wheelchair"
         wheelchair_van: "Wheelchair-accessible van"
+    phone:
+      number_type:
+        fax: "Fax"
+        hotline: "Hotline"
+        voice: "Voice"
+        tty: "TTY"
 
   errors:
     messages:
       blank_for_address: "can't be blank for Address"
       blank_for_category: "can't be blank for Category"
       blank_for_contact: "can't be blank for Contact"
-      blank_for_fax: "can't be blank for Fax"
       blank_for_location: "can't be blank for Location"
       blank_for_mail_address: "can't be blank for Mail Address"
       blank_for_org: "can't be blank for Organization"
@@ -50,12 +55,12 @@ en:
       blank_for_service: "can't be blank for Service"
       invalid_email: 'is not a valid email'
       invalid_fax: 'is not a valid US fax number'
-      invalid_phone: 'is not a valid US phone number'
+      invalid_phone: 'is not a valid US phone or fax number'
       invalid_service_area: 'is not a valid service area'
       invalid_state: 'Please enter a valid 2-letter state abbreviation'
       invalid_url: 'is not a valid URL'
       invalid_zip: 'is not a valid ZIP code'
-      no_address: 'A location must have at least one address type.'
+      no_address: "Unless it's virtual, a location must have an address."
 
   titles:
     brand: "Ohana API"

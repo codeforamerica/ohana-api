@@ -15,7 +15,6 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
   end
 
   it 'deletes the mail_address' do
-    @loc.create_address!(attributes_for(:address))
     delete(
       api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
       {}
@@ -25,7 +24,6 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
   end
 
   it 'returns a 204 status' do
-    @loc.create_address!(attributes_for(:address))
     delete(
       api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
       {}
@@ -40,16 +38,6 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
     expect(response).to have_http_status(401)
-  end
-
-  it "doesn't delete the mail_address if an address isn't present" do
-    delete(
-      api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
-      {}
-    )
-    expect(response).to have_http_status(422)
-    expect(json['errors'].first['mail_address']).
-      to eq(['A location must have at least one address type.'])
   end
 
   it "doesn't delete the mail_address if the location & mail_address IDs don't match" do

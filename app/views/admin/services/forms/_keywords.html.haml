@@ -3,15 +3,7 @@
     %strong
       Keywords
     %p.desc
-      What search terms does this location's services fall under?
+      The best way to ensure a service appears in search results is to write a detailed and accurate service description. If certain words or phrases cannot be part of the description, such as common misspellings, then the keywords field is where you can add them.
 
-  - if @service.keywords.present?
-    - @service.keywords.each_with_index do |keyword, i|
-      = field_set_tag do
-        .row
-          .col-md-6
-            = text_field_tag 'service[keywords][]', keyword, class: 'form-control', id: "service_keywords_#{i}"
-        = link_to 'Delete this keyword permanently', '#', class: 'btn btn-danger delete_attribute'
-        %hr
-  = link_to_add_array_fields 'Add a new keyword', :services, :keyword
-
+  = field_set_tag do
+    = text_field_tag 'service[keywords][]', @service.keywords.join(','), id: 'service_keywords', class: 'form-control'

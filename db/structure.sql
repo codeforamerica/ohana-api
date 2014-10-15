@@ -76,12 +76,14 @@ SET default_with_oids = false;
 CREATE TABLE addresses (
     id integer NOT NULL,
     location_id integer,
-    street text,
+    street_1 text,
     city text,
     state text,
-    zip text,
+    postal_code text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    country_code character varying(255) NOT NULL,
+    street_2 character varying(255)
 );
 
 
@@ -239,11 +241,9 @@ CREATE TABLE contacts (
     name text,
     title text,
     email text,
-    fax text,
-    phone text,
-    extension text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    department character varying(255)
 );
 
 
@@ -264,39 +264,6 @@ CREATE SEQUENCE contacts_id_seq
 --
 
 ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
-
-
---
--- Name: faxes; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
-CREATE TABLE faxes (
-    id integer NOT NULL,
-    location_id integer,
-    number text,
-    department text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: faxes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE faxes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: faxes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE faxes_id_seq OWNED BY faxes.id;
 
 
 --
@@ -345,7 +312,7 @@ CREATE TABLE locations (
     hours text,
     latitude double precision,
     longitude double precision,
-    languages text,
+    languages text[] DEFAULT '{}'::text[],
     name text,
     short_desc text,
     transportation text,
@@ -353,7 +320,9 @@ CREATE TABLE locations (
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    tsv_body tsvector
+    tsv_body tsvector,
+    alternate_name character varying(255),
+    virtual boolean DEFAULT false
 );
 
 
@@ -384,12 +353,14 @@ CREATE TABLE mail_addresses (
     id integer NOT NULL,
     location_id integer,
     attention text,
-    street text,
+    street_1 text,
     city text,
     state text,
-    zip text,
+    postal_code text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    country_code character varying(255) NOT NULL,
+    street_2 character varying(255)
 );
 
 
@@ -419,10 +390,17 @@ ALTER SEQUENCE mail_addresses_id_seq OWNED BY mail_addresses.id;
 CREATE TABLE organizations (
     id integer NOT NULL,
     name text,
-    urls text,
     slug text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    alternate_name character varying(255),
+    date_incorporated date,
+    description text NOT NULL,
+    email character varying(255),
+    legal_status character varying(255),
+    tax_id character varying(255),
+    tax_status character varying(255),
+    website character varying(255)
 );
 
 
@@ -458,7 +436,9 @@ CREATE TABLE phones (
     vanity_number text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    number_type character varying(255)
+    number_type character varying(255),
+    country_prefix character varying(255),
+    contact_id integer
 );
 
 
@@ -648,13 +628,6 @@ ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY faxes ALTER COLUMN id SET DEFAULT nextval('faxes_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly_id_slugs_id_seq'::regclass);
 
 
@@ -745,14 +718,6 @@ ALTER TABLE ONLY categories
 
 ALTER TABLE ONLY contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
-
-
---
--- Name: faxes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY faxes
-    ADD CONSTRAINT faxes_pkey PRIMARY KEY (id);
 
 
 --
@@ -904,13 +869,6 @@ CREATE INDEX index_contacts_on_location_id ON contacts USING btree (location_id)
 
 
 --
--- Name: index_faxes_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX index_faxes_on_location_id ON faxes USING btree (location_id);
-
-
---
 -- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
@@ -929,6 +887,13 @@ CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
+
+
+--
+-- Name: index_locations_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX index_locations_on_languages ON locations USING gin (languages);
 
 
 --
@@ -971,6 +936,13 @@ CREATE INDEX index_mail_addresses_on_location_id ON mail_addresses USING btree (
 --
 
 CREATE UNIQUE INDEX index_organizations_on_slug ON organizations USING btree (slug);
+
+
+--
+-- Name: index_phones_on_contact_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX index_phones_on_contact_id ON phones USING btree (contact_id);
 
 
 --
@@ -1027,13 +999,6 @@ CREATE INDEX locations_description ON locations USING gin (to_tsvector('english'
 --
 
 CREATE INDEX locations_emails ON locations USING gin (to_tsvector('english'::regconfig, emails));
-
-
---
--- Name: locations_languages; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX locations_languages ON locations USING gin (to_tsvector('english'::regconfig, languages));
 
 
 --
@@ -1132,5 +1097,20 @@ INSERT INTO schema_migrations (version) VALUES ('20140630171418');
 
 INSERT INTO schema_migrations (version) VALUES ('20140906233732');
 
-INSERT INTO schema_migrations (version) VALUES ('20140829154350');
-    
+INSERT INTO schema_migrations (version) VALUES ('20140909031145');
+
+INSERT INTO schema_migrations (version) VALUES ('20140929221750');
+
+INSERT INTO schema_migrations (version) VALUES ('20141007144757');
+
+INSERT INTO schema_migrations (version) VALUES ('20141009185459');
+
+INSERT INTO schema_migrations (version) VALUES ('20141009204519');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010031124');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010155451');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010171020');
+
+INSERT INTO schema_migrations (version) VALUES ('20141010171817');

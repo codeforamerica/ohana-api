@@ -1,0 +1,7 @@
+.inst-box
+  %header
+    = f.label :title, 'Contact Title'
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.text_field :title, required: false, maxlength: 255, class: 'form-control'

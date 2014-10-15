@@ -6,18 +6,31 @@ describe Location do
 
   it { is_expected.to be_valid }
 
+  it { is_expected.to allow_mass_assignment_of(:accessibility) }
+  it { is_expected.to allow_mass_assignment_of(:admin_emails) }
+  it { is_expected.to allow_mass_assignment_of(:alternate_name) }
+  it { is_expected.to allow_mass_assignment_of(:description) }
+  it { is_expected.to allow_mass_assignment_of(:emails) }
+  it { is_expected.to allow_mass_assignment_of(:hours) }
+  it { is_expected.to allow_mass_assignment_of(:languages) }
+  it { is_expected.to allow_mass_assignment_of(:latitude) }
+  it { is_expected.to allow_mass_assignment_of(:longitude) }
+  it { is_expected.to allow_mass_assignment_of(:name) }
+  it { is_expected.to allow_mass_assignment_of(:short_desc) }
+  it { is_expected.to allow_mass_assignment_of(:transportation) }
+  it { is_expected.to allow_mass_assignment_of(:urls) }
+  it { is_expected.to allow_mass_assignment_of(:virtual) }
+
   # Associations
   it { is_expected.to belong_to(:organization) }
   it { is_expected.to have_one(:address).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
-  it { is_expected.to have_many(:faxes).dependent(:destroy) }
   it { is_expected.to have_one(:mail_address).dependent(:destroy) }
   it { is_expected.to have_many(:phones).dependent(:destroy) }
   it { is_expected.to have_many(:services).dependent(:destroy) }
 
   it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:contacts) }
-  it { is_expected.to accept_nested_attributes_for(:faxes) }
   it { is_expected.to accept_nested_attributes_for(:mail_address).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:phones) }
   it { is_expected.to accept_nested_attributes_for(:services) }
@@ -71,11 +84,10 @@ describe Location do
 
   it { is_expected.to serialize(:admin_emails).as(Array) }
   it { is_expected.to serialize(:emails).as(Array) }
-  it { is_expected.to serialize(:languages).as(Array) }
   it { is_expected.to serialize(:urls).as(Array) }
 
   describe 'invalidations' do
-    context 'without an address' do
+    context 'non-virtual and without an address' do
       subject { build(:location, address: nil) }
       it { is_expected.not_to be_valid }
     end
@@ -99,8 +111,8 @@ describe Location do
   # Instance methods
   it { is_expected.to respond_to(:address_street) }
   describe '#address_street' do
-    it 'returns address.street' do
-      expect(subject.address_street).to eq(subject.address.street)
+    it 'returns address.street_1' do
+      expect(subject.address_street).to eq(subject.address.street_1)
     end
   end
 
@@ -115,9 +127,9 @@ describe Location do
   it { is_expected.to respond_to(:full_physical_address) }
   describe '#full_physical_address' do
     it 'joins all address elements into one string' do
-      combined = "#{subject.address.street}, " \
+      combined = "#{subject.address.street_1}, " \
         "#{subject.address.city}, #{subject.address.state} " \
-        "#{subject.address.zip}"
+        "#{subject.address.postal_code}"
 
       expect(subject.full_physical_address).to eq(combined)
     end
@@ -176,22 +188,21 @@ describe Location do
 
     it 'geocodes when address has changed' do
       address = {
-        street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
+        street_1: '1 davis drive', city: 'belmont', state: 'CA',
+        postal_code: '94002', country_code: 'US'
       }
       coords = @loc.coordinates
 
       @loc.update!(address_attributes: address)
-      @loc.reload
-      expect(@loc.coordinates).to_not eq(coords)
+      expect(@loc.reload.coordinates).to_not eq(coords)
     end
 
     it 'resets coordinates when address is removed' do
-      mail_address = {
-        street: '1 davis drive', city: 'belmont', state: 'CA', zip: '94002'
-      }
-      @loc.update!(mail_address_attributes: mail_address, address: nil)
-
-      expect(@loc.coordinates).to be_nil
+      @loc.update!(
+        virtual: true,
+        address_attributes: { id: @loc.address.id, _destroy: '1' }
+      )
+      expect(@loc.reload.coordinates).to be_nil
     end
   end
 end

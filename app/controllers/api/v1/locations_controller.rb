@@ -15,7 +15,7 @@ module Api
       end
 
       def show
-        location = Location.find(params[:id])
+        location = Location.includes(contacts: :phones, services: :categories).find(params[:id])
         render json: location, status: 200
         expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true
       end
@@ -27,7 +27,8 @@ module Api
       end
 
       def create
-        location = Location.create!(params)
+        org = Organization.find(params[:organization_id])
+        location = org.locations.create!(params)
         response_hash = {
           id: location.id,
           name: location.name,

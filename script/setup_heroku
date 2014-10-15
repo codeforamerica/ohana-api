@@ -7,24 +7,7 @@ then
   herokuApp="$1"
 
   echo "Getting ready to set environment variables for $herokuApp"
-
-  echo "Setting API_PATH"
-  heroku config:set API_PATH=api --app $herokuApp
-
-  echo "Setting ADMIN_PATH"
-  heroku config:set ADMIN_PATH=admin --app $herokuApp
-
-  echo "Setting DEFAULT_PER_PAGE"
-  heroku config:set DEFAULT_PER_PAGE=30 --app $herokuApp
-
-  echo "Setting MAX_PER_PAGE"
-  heroku config:set MAX_PER_PAGE=50 --app $herokuApp
-
-  echo "Setting ENABLE_HTTPS"
-  heroku config:set ENABLE_HTTPS=yes --app $herokuApp
-
-  echo "Setting EXPIRES_IN"
-  heroku config:set EXPIRES_IN=5 --app $herokuApp
+  figaro heroku:set -e production
 
   echo "Setting MAILER_URL"
   heroku config:set MAILER_URL=$herokuApp.herokuapp.com --app $herokuApp

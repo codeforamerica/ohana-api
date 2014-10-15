@@ -5,10 +5,15 @@
       .col-sm-6
         = f.text_field :attention, maxlength: 255, class: 'form-control'
   .form-group
-    = f.label :street, 'Street'
+    = f.label :street_1, 'Street (Line 1)'
     .row
       .col-sm-6
-        = f.text_field :street, class: 'form-control'
+        = f.text_field :street_1, class: 'form-control'
+  .form-group
+    = f.label :street_2, 'Street (Line 2)'
+    .row
+      .col-sm-6
+        = f.text_field :street_2, class: 'form-control'
   .form-group
     = f.label :city, 'City'
     .row
@@ -20,9 +25,14 @@
       .col-sm-2
         = f.text_field :state, maxlength: 2, class: 'form-control'
   .form-group
-    = f.label :zip, 'ZIP Code'
+    = f.label :postal_code, 'ZIP Code'
     .row
       .col-xs-4
-        = f.text_field :zip, maxlength: 10, class: 'form-control'
+        = f.text_field :postal_code, maxlength: 10, class: 'form-control'
+  .form-group
+    = f.label :country_code, 'ISO 3361-1 2-letter Country Code'
+    .row
+      .col-sm-2
+        = f.text_field :country_code, maxlength: 2, class: 'form-control'
   = f.hidden_field :_destroy
   = link_to 'Delete this mailing address permanently', '#', class: 'btn btn-danger delete_association'

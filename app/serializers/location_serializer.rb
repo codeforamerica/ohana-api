@@ -1,11 +1,11 @@
 class LocationSerializer < ActiveModel::Serializer
-  attributes :id, :accessibility, :admin_emails, :coordinates, :description,
-             :emails, :hours, :languages, :latitude, :longitude, :name,
-             :short_desc, :slug, :transportation, :updated_at, :urls, :url
+  attributes :id, :accessibility, :admin_emails, :alternate_name, :coordinates,
+             :description, :emails, :hours, :languages, :latitude, :longitude,
+             :name, :short_desc, :slug, :transportation, :updated_at, :urls,
+             :url
 
   has_one :address
   has_many :contacts
-  has_many :faxes
   has_one :mail_address
   has_many :phones
   has_many :services

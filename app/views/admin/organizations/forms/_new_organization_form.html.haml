@@ -6,6 +6,13 @@
         %li= msg
 
 = render 'admin/organizations/forms/name', f: f
-= render 'admin/organizations/forms/urls', f: f
+= render 'admin/organizations/forms/alternate_name', f: f
+= render 'admin/organizations/forms/date_incorporated', f: f
+= render 'admin/organizations/forms/description', f: f
+= render 'admin/organizations/forms/email', f: f
+= render 'admin/organizations/forms/legal_status', f: f
+= render 'admin/organizations/forms/tax_id', f: f
+= render 'admin/organizations/forms/tax_status', f: f
+= render 'admin/organizations/forms/website', f: f
 
 = f.submit 'Create organization', class: 'btn btn-primary btn-lg', data: { disable_with: 'Please wait...' }

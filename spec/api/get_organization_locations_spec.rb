@@ -17,18 +17,16 @@ describe 'GET /organizations/:organization_id/locations' do
         short_desc: 'short_desc',
         transportation: 'BART stops 1 block away',
         urls: %w(http://monfresh.com),
-        address_attributes: attributes_for(:address),
-        organization_id: @org.id
+        address_attributes: attributes_for(:address)
       }
-      @location = Location.create!(attrs)
+      @location = @org.locations.create!(attrs)
       @location.contacts.create!(attributes_for(:contact))
-      @location.faxes.create!(attributes_for(:fax))
       @location.phones.create!(attributes_for(:phone))
       @location.contacts.create!(attributes_for(:contact))
       @location.services.create!(attributes_for(:service))
       @location.create_mail_address!(attributes_for(:mail_address))
 
-      get api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN'])
+      get api_org_locations_url(@org, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do
@@ -68,7 +66,7 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it 'includes the location address attribute in the serialization' do
-      expect(json.first['address']['street']).to eq(@location.address.street)
+      expect(json.first['address']['street_1']).to eq(@location.address.street_1)
     end
 
     xit 'includes the location mail_address attribute in the serialization' do
@@ -92,16 +90,6 @@ describe 'GET /organizations/:organization_id/locations' do
     it 'includes the contacts_url attribute in the serialization' do
       expect(json.first['contacts_url']).
         to eq(api_location_contacts_url(@location))
-    end
-
-    it 'includes the faxes_url attribute in the serialization' do
-      expect(json.first['faxes_url']).
-        to eq(api_location_faxes_url(@location))
-    end
-
-    xit 'includes the phones_url attribute in the serialization' do
-      expect(json.first['phones_url']).
-        to eq(api_location_phones_url(@location))
     end
 
     it 'includes the services_url attribute in the serialization' do
@@ -149,10 +137,6 @@ describe 'GET /organizations/:organization_id/locations' do
       expect(json.first.keys).to_not include('contacts')
     end
 
-    it "doesn't include the location faxes attribute" do
-      expect(json.first.keys).to_not include('faxes')
-    end
-
     it 'includes the location phones attribute' do
       expect(json.first.keys).to include('phones')
     end
@@ -165,7 +149,7 @@ describe 'GET /organizations/:organization_id/locations' do
   context "when organization doesn't have locations" do
     before :each do
       org = create(:organization)
-      get api_organization_locations_url(org, subdomain: ENV['API_SUBDOMAIN'])
+      get api_org_locations_url(org, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     it 'returns an empty array' do

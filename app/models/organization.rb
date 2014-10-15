@@ -1,39 +1,26 @@
 class Organization < ActiveRecord::Base
   default_scope { order('id DESC') }
 
-  attr_accessible :name, :urls
+  attr_accessible :alternate_name, :date_incorporated, :description, :email,
+                  :legal_status, :name, :tax_id, :tax_status, :website
 
   has_many :locations, dependent: :destroy
-  # accepts_nested_attributes_for :locations
 
-  validates :name, presence: { message: I18n.t('errors.messages.blank_for_org') }
+  validates :name,
+            presence: { message: I18n.t('errors.messages.blank_for_org') },
+            uniqueness: { case_sensitive: false }
 
-  # Custom validation for values within arrays.
-  # For example, the urls field is an array that can contain multiple URLs.
-  # To be able to validate each URL in the array, we have to use a
-  # custom array validator. See app/validators/array_validator.rb
-  validates :urls, array: { url: true }
+  validates :description,
+            presence: { message: I18n.t('errors.messages.blank_for_org') }
 
-  serialize :urls, Array
+  validates :email, email: true, allow_blank: true
+  validates :website, url: true, allow_blank: true
 
-  auto_strip_attributes :name
-  auto_strip_attributes :urls, reject_blank: true, nullify: false
+  auto_strip_attributes :alternate_name, :description, :email, :legal_status,
+                        :name, :tax_id, :tax_status, :website
 
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:history]
-
-  # Try building a slug based on the following fields in
-  # increasing order of specificity.
-  def slug_candidates
-    [
-      :name,
-      [:name, :domain_name]
-    ]
-  end
-
-  def domain_name
-    URI.parse(urls.first).host.gsub(/^www\./, '') if urls.present?
-  end
+  friendly_id :name, use: [:history]
 
   after_save :touch_locations
 

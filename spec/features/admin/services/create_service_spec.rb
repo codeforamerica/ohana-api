@@ -85,26 +85,26 @@ feature 'Create a new service' do
     expect(find_field('service[urls][]').value).to eq 'http://ruby.com'
   end
 
-  scenario 'when adding a keyword', :js do
+  scenario 'when adding multiple keywords', :js do
     fill_in 'service_name', with: 'New VRS Services service'
     fill_in 'service_description', with: 'new description'
-    click_link 'Add a new keyword'
-    fill_in find(:xpath, "//input[@name='service[keywords][]']")[:id], with: 'ruby'
+    select2('first', 'service_keywords', multiple: true, tag: true)
+    select2('second', 'service_keywords', multiple: true, tag: true)
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find_field('service[keywords][]').value).to eq 'ruby'
+    service = Service.find_by_name('New VRS Services service')
+    expect(service.keywords).to eq %w(first second)
   end
 
   scenario 'when adding a service area', :js do
     fill_in 'service_name', with: 'New VRS Services service'
     fill_in 'service_description', with: 'new description'
-    click_link 'Add a new service area'
-    fill_in find(:xpath, "//input[@name='service[service_areas][]']")[:id], with: 'Belmont'
+    select2('Belmont', 'service_service_areas', multiple: true)
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find_field('service[service_areas][]').value).to eq 'Belmont'
+    expect(find(:css, 'select#service_service_areas').value).to eq(['Belmont'])
   end
 
   scenario 'when adding categories', :js do

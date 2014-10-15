@@ -93,8 +93,8 @@ with your JSON file.
 
 - Run `script/reset` from the command line.
 
-If the script fails because of `Geocoder::OverQueryLimitError`, try slowing
-down the script by uncommenting line 32 in `setup_db.rake `. Alternatively,
+If the script fails because of `Geocoder::OverQueryLimitError`, try increasing
+the sleep value on line 34 in `setup_db.rake `. Alternatively,
 use a different geocoding service that allows more requests per second.
 See the [geocoding configuration][geocode] section in the Wiki for more details.
 
@@ -129,7 +129,7 @@ delete it before running the script to start fresh each time.
 until your data is clean.
 
 [prepare]: https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file
-[geocode]: https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account#geocoding-configuration
+[geocode]: https://github.com/codeforamerica/ohana-api/wiki/Customizing-the-geocoding-configuration
 
 ### Export the database
 

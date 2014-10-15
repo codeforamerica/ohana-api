@@ -20,6 +20,9 @@ class Admin
       @location = Location.find(params[:location_id])
       @oe_ids = @service.categories.pluck(:oe_id)
 
+      keywords = params[:service][:keywords]
+      params[:service][:keywords] = keywords.shift.split(',')
+
       respond_to do |format|
         if @service.update(params[:service])
           format.html do
@@ -46,8 +49,11 @@ class Admin
     end
 
     def create
-      @service = Service.new(params[:service])
+      keywords = params[:service][:keywords]
+      params[:service][:keywords] = keywords.shift.split(',')
+
       @location = Location.find(params[:location_id])
+      @service = @location.services.new(params[:service])
       @oe_ids = []
 
       respond_to do |format|

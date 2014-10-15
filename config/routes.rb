@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
       resources :locations, except: :show do
         resources :services, except: [:show, :index]
+        resources :contacts, except: [:show, :index]
       end
 
       resources :organizations, except: :show
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
       get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
 
       get 'locations/:location_id/services/:id', to: 'services#edit'
+      get 'locations/:location_id/contacts/:id', to: 'contacts#edit'
       get 'locations/:id', to: 'locations#edit'
       get 'organizations/:id', to: 'organizations#edit'
     end
@@ -42,21 +44,29 @@ Rails.application.routes.draw do
       scope module: :v1, constraints: ApiConstraints.new(version: 1) do
         get '/' => 'root#index'
         get '.well-known/status' => 'status#check_status'
+
+        resources :organizations do
+          resources :locations, only: :create
+        end
+        get 'organizations/:organization_id/locations', to: 'organizations#locations', as: :org_locations
+
         resources :locations do
           resources :address, except: [:index, :show]
           resources :mail_address, except: [:index, :show]
-          resources :contacts, except: [:show]
-          resources :faxes, except: [:show]
-          resources :phones, except: [:show]
+          resources :contacts, except: [:show] do
+            resources :phones, except: [:show, :index], path: '/phones', controller: 'contact_phones'
+          end
+          resources :phones, except: [:show], path: '/phones', controller: 'location_phones'
           resources :services
         end
+
         resources :search, only: :index
+
         resources :categories, only: :index
-        resources :organizations
+
         put 'services/:service_id/categories', to: 'services#update_categories', as: :service_categories
         get 'categories/:oe_id/children', to: 'categories#children', as: :category_children
         get 'locations/:location_id/nearby', to: 'search#nearby', as: :location_nearby
-        get 'organizations/:organization_id/locations', to: 'organizations#locations', as: :organization_locations
 
         match '*unmatched_route' => 'errors#raise_not_found!', via: [:get, :delete, :patch, :post, :put]
 
