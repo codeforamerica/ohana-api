@@ -19,7 +19,7 @@ feature 'Visiting the Sign in page' do
 
   it 'does not include a link to the Docs page in the navigation' do
     within '.navbar' do
-      expect(page).not_to have_link 'Docs', href: docs_path
+      expect(page).not_to have_link 'Docs'
     end
   end
 

@@ -59,7 +59,7 @@ describe 'PATCH /organizations/:id' do
     expect(response.status).to eq(404)
     expect(json['message']).to eq('The requested resource could not be found.')
     expect(json['documentation_url']).
-      to eq(docs_url(subdomain: ENV['API_SUBDOMAIN']))
+      to eq('http://codeforamerica.github.io/ohana-api-docs/')
   end
 
   it 'updates the search index when organization changes' do

@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
       {
         'status'  => 404,
         'message' => 'The requested resource could not be found.',
-        'documentation_url' => docs_url
+        'documentation_url' => 'http://codeforamerica.github.io/ohana-api-docs/'
       }
     render json: hash, status: 404
   end

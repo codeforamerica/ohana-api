@@ -2,13 +2,16 @@
 
 - if user_signed_in?
   %p
-    Welcome back #{@user.name}! #{link_to 'Create a new application', new_api_application_path} or #{link_to 'view', api_applications_path} your existing ones.
+    Welcome back, #{@user.name}! #{link_to 'Register a new application', new_api_application_path} or #{link_to 'view', api_applications_path} your existing ones.
 - else
   %p
     Welcome to the #{t('titles.brand')} developer portal!
   %p
-    This particular instance of the API exposes information about various human services providers in #{t('admin.api_location')}.
+    This particular instance of the Ohana API exposes information about various human services providers in #{t('admin.api_location')}.
   %p
-    We'd love for you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.). Read the #{link_to 'documentation', docs_url} to learn more.
+    We'd love for you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.).
+  %p
+    Read the #{link_to 'documentation', 'http://codeforamerica.github.io/ohana-api-docs/'} to learn more.
+    If you're a Ruby developer, we encourage you to use the official #{link_to 'Ohanakapa', 'https://github.com/codeforamerica/ohanakapa-ruby'} Ruby library.
   %p
     #{link_to 'Sign up', new_user_registration_path} for a developer account, or #{link_to 'sign in', new_user_session_path}.

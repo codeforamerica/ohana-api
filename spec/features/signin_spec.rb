@@ -13,7 +13,7 @@ feature 'Signing in' do
     end
 
     it 'greets the admin by their name' do
-      expect(page).to have_content 'Welcome back Test User'
+      expect(page).to have_content 'Welcome back, Test User'
     end
 
     it 'displays a success message' do
