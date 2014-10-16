@@ -21,7 +21,7 @@ gem 'haml-rails', '~> 0.5.3'
 gem 'select2-rails'
 
 # Server for deployment
-gem 'passenger'
+gem 'unicorn'
 
 # Geocoding
 gem 'geocoder'

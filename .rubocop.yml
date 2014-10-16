@@ -8,6 +8,7 @@ AllCops:
     - 'db/seeds.rb'
     - 'db/migrate/*'
     - 'config/initializers/generators.rb'
+    - 'config/unicorn.rb'
 
 # Allow dots at the end of lines when chaining methods
 # that span multiple lines
