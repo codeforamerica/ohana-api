@@ -21,7 +21,7 @@ feature 'Update phones' do
       number: '123-456-7890',
       number_type: 'TTY',
       department: 'Director of Development',
-      extension: 'x1234',
+      extension: '1234',
       vanity_number: '123-ABC-DEFG'
     )
     click_button 'Save changes'
@@ -37,7 +37,7 @@ feature 'Update phones' do
       to eq 'Director of Development'
 
     expect(find_field('location_phones_attributes_0_extension').value).
-      to eq 'x1234'
+      to eq '1234'
 
     expect(find_field('location_phones_attributes_0_vanity_number').value).
       to eq '123-ABC-DEFG'
@@ -108,7 +108,7 @@ end
 feature 'Update phones' do
   before(:all) do
     @location = create(:location)
-    @location.phones.create!(attributes_for(:phone))
+    @location.phones.create!(attributes_for(:phone).merge!(extension: ''))
   end
 
   before(:each) do
@@ -140,5 +140,17 @@ feature 'Update phones' do
     update_phone(number: '703')
     click_button 'Save changes'
     expect(page).to have_content 'is not a valid US phone or fax number'
+  end
+
+  scenario 'with an invalid extension' do
+    update_phone(number: '703-555-1212', extension: 'x200')
+    click_button 'Save changes'
+    expect(page).to have_content 'extension is not a number'
+  end
+
+  scenario 'with an empty extension' do
+    update_phone(number: '703-555-1212', extension: '')
+    click_button 'Save changes'
+    expect(page).to_not have_content 'extension is not a number'
   end
 end

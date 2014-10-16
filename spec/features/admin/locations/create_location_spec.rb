@@ -63,7 +63,7 @@ feature 'Create a new location' do
       number: '123-456-7890',
       number_type: 'TTY',
       department: 'Director of Development',
-      extension: 'x1234',
+      extension: '1234',
       vanity_number: '123-ABC-DEFG'
     )
     click_button 'Create location'
@@ -79,7 +79,7 @@ feature 'Create a new location' do
       to eq 'Director of Development'
 
     expect(find_field('location_phones_attributes_0_extension').value).
-      to eq 'x1234'
+      to eq '1234'
 
     expect(find_field('location_phones_attributes_0_vanity_number').value).
       to eq '123-ABC-DEFG'

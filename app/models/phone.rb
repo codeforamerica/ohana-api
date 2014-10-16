@@ -14,6 +14,8 @@ class Phone < ActiveRecord::Base
   validates :number_type,
             presence: { message: I18n.t('errors.messages.blank_for_phone') }
 
+  validates :extension, numericality: { allow_nil: true }
+
   auto_strip_attributes :country_prefix, :department, :extension, :number,
                         :vanity_number, squish: true
 
