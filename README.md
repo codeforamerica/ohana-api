@@ -17,13 +17,16 @@ Before we started working on the Ohana API, the search interface that residents 
 ## Demo
 You can see a running version of the different parts of the application here:
 
-**Developer portal**: [http://ohana-api-demo.herokuapp.com/](http://ohana-api-demo.herokuapp.com/) (see [db/seeds.rb][seeds] for a list of usernames and passwords you can sign in with.)
+**Developer portal**: [http://ohana-api-demo.herokuapp.com/](http://ohana-api-demo.herokuapp.com/)
+(see [db/seeds.rb][developer_portal_seeds] for two usernames and passwords you can sign in with).
 
 **API**: [http://ohana-api-demo.herokuapp.com/api](http://ohana-api-demo.herokuapp.com/api)
 
-**Admin Interface**: [http://ohana-api-demo.herokuapp.com/admin](http://ohana-api-demo.herokuapp.com/admin) (see [db/seeds.rb][seeds] for a list of usernames and passwords you can sign in with.)
+**Admin Interface**: [http://ohana-api-demo.herokuapp.com/admin](http://ohana-api-demo.herokuapp.com/admin)
+(see [db/seeds.rb][admin_interface_seeds] for three usernames and passwords you can sign in with).
 
-[seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb
+[developer_portal_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L10-L23
+[admin_interface_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L25-45
 
 ## Current Status
 We are happy to announce that this project has been awarded a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which means we get to keep working on it in 2014! Our primary goals this year are: simplifying the installation process, streamlining the code, reducing dependencies, and preparing the project for broader installation by a variety of organizations and governments.
