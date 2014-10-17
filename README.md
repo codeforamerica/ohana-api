@@ -25,13 +25,16 @@ Please note that between now and January 2015, there could be breaking changes i
 ## Demo
 You can see a running version of the different parts of the application here:
 
-**Developer portal**: [http://ohana-api-demo.herokuapp.com/](http://ohana-api-demo.herokuapp.com/) (see [db/seeds.rb][seeds] for a list of usernames and passwords you can sign in with.)
+**Developer portal**: [http://ohana-api-demo.herokuapp.com/](http://ohana-api-demo.herokuapp.com/)
+(see [db/seeds.rb][developer_portal_seeds] for two usernames and passwords you can sign in with).
 
 **API**: [http://ohana-api-demo.herokuapp.com/api](http://ohana-api-demo.herokuapp.com/api)
 
-**Admin Interface**: [http://ohana-api-demo.herokuapp.com/admin](http://ohana-api-demo.herokuapp.com/admin) (see [db/seeds.rb][seeds] for a list of usernames and passwords you can sign in with.)
+**Admin Interface**: [http://ohana-api-demo.herokuapp.com/admin](http://ohana-api-demo.herokuapp.com/admin)
+(see [db/seeds.rb][admin_interface_seeds] for three usernames and passwords you can sign in with).
 
-[seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb
+[developer_portal_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L10-L23
+[admin_interface_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L25-45
 
 ## Data Schema
 If you would like to try out the current version of the project, please read the Wiki article about [Populating the Postgres DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
