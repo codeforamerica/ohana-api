@@ -82,21 +82,26 @@ describe 'GET /locations/:id' do
 
       serialized_services =
         [{
-          'id'              => @location.services.reload.first.id,
-          'audience'        => nil,
-          'description'     => @location.services.first.description,
-          'eligibility'     => nil,
-          'fees'            => nil,
-          'funding_sources' => [],
-          'how_to_apply'    => nil,
-          'keywords'        => @location.services.first.keywords,
-          'name'            => @location.services.first.name,
-          'service_areas'   => [],
-          'short_desc'      => nil,
-          'urls'            => [],
-          'wait'            => nil,
-          'updated_at'      => service_formatted_time,
-          'categories'      => []
+          'id'                 => @location.services.reload.first.id,
+          'accepted_payments'  => [],
+          'alternate_name'     => nil,
+          'audience'           => nil,
+          'description'        => @location.services.first.description,
+          'eligibility'        => nil,
+          'email'              => nil,
+          'fees'               => nil,
+          'funding_sources'    => [],
+          'how_to_apply'       => @location.services.first.how_to_apply,
+          'keywords'           => @location.services.first.keywords,
+          'languages'          => [],
+          'name'               => @location.services.first.name,
+          'required_documents' => [],
+          'service_areas'      => [],
+          'status'             => nil,
+          'website'            => nil,
+          'wait'               => nil,
+          'updated_at'         => service_formatted_time,
+          'categories'         => []
         }]
 
       expect(json['services']).to eq(serialized_services)

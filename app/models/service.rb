@@ -1,7 +1,8 @@
 class Service < ActiveRecord::Base
-  attr_accessible :audience, :description, :eligibility, :fees,
-                  :funding_sources, :how_to_apply, :keywords, :name,
-                  :service_areas, :short_desc, :urls, :wait, :category_ids
+  attr_accessible :accepted_payments, :alternate_name, :audience, :description,
+                  :eligibility, :email, :fees, :funding_sources, :how_to_apply,
+                  :keywords, :languages, :name, :required_documents,
+                  :service_areas, :status, :website, :wait, :category_ids
 
   belongs_to :location, touch: true
 
@@ -10,21 +11,23 @@ class Service < ActiveRecord::Base
   # has_many :schedules
   # accepts_nested_attributes_for :schedules
 
-  validates :name, :description, :location,
+  validates :name, :description, :how_to_apply, :location,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
-  validates :urls, array: { url: true }
+  validates :website, url: true, allow_blank: true
 
   validates :service_areas, array: { service_area: true }
 
-  auto_strip_attributes :audience, :description, :eligibility, :fees,
-                        :how_to_apply, :name, :short_desc, :wait
+  validates :accepted_payments, :languages, :required_documents, pg_array: true
 
-  auto_strip_attributes :funding_sources, :keywords, :service_areas, :urls,
+  auto_strip_attributes :alternate_name, :audience, :description, :eligibility,
+                        :email, :fees, :how_to_apply, :name, :wait, :status,
+                        :website
+
+  auto_strip_attributes :funding_sources, :keywords, :service_areas,
                         reject_blank: true, nullify: false
 
   serialize :funding_sources, Array
   serialize :keywords, Array
   serialize :service_areas, Array
-  serialize :urls, Array
 end

@@ -58,6 +58,8 @@ class Location < ActiveRecord::Base
   # custom array validator. See app/validators/array_validator.rb
   validates :urls, array: { url: true }
 
+  validates :languages, pg_array: true
+
   validates :emails, :admin_emails, array: { email: true }
 
   # Only call Google's geocoding service if the address has changed
@@ -87,7 +89,7 @@ class Location < ActiveRecord::Base
   auto_strip_attributes :description, :hours, :name, :short_desc,
                         :transportation
 
-  auto_strip_attributes :admin_emails, :emails, :languages, :urls,
+  auto_strip_attributes :admin_emails, :emails, :urls,
                         reject_blank: true, nullify: false
 
   extend FriendlyId

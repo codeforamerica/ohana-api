@@ -227,5 +227,11 @@ module Features
       select date.strftime('%B'), from: "#{field}_2i"
       select date.strftime('%-d'), from: "#{field}_3i"
     end
+
+    def fill_in_required_service_fields
+      fill_in 'service_name', with: 'New VRS Services service'
+      fill_in 'service_description', with: 'new description'
+      fill_in 'service_how_to_apply', with: 'new application process'
+    end
   end
 end

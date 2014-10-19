@@ -31,6 +31,7 @@ FactoryGirl.define do
       urls [' http://samaritanhouse.com  ', 'http://samaritanhouse.com']
       admin_emails [' foo@bar.com  ', 'foo@bar.com']
       emails [' bar@foo.com  ', 'bar@foo.com']
+      languages [' English', 'Vietnamese ']
     end
   end
 

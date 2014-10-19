@@ -27,13 +27,12 @@ module CustomErrors
     render json: hash, status: 422
   end
 
-  def render_invalid_type(exception)
-    value = exception.message.split('-- ').last
+  def render_invalid_type
     hash =
       {
-        'status'  => 422,
-        'message' => 'Validation failed for resource.',
-        'error' => "Attribute was supposed to be an Array, but was a String: #{value}."
+        status: 422,
+        message: 'Validation failed for resource.',
+        error: 'Attribute was supposed to be an Array, but was a String.'
       }
     render json: hash, status: 422
   end
