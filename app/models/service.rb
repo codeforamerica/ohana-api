@@ -11,14 +11,16 @@ class Service < ActiveRecord::Base
   # has_many :schedules
   # accepts_nested_attributes_for :schedules
 
+  validates :accepted_payments, :languages, :required_documents, pg_array: true
+
+  validates :email, email: true, allow_blank: true
+
   validates :name, :description, :how_to_apply, :location,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
-  validates :website, url: true, allow_blank: true
-
   validates :service_areas, array: { service_area: true }
 
-  validates :accepted_payments, :languages, :required_documents, pg_array: true
+  validates :website, url: true, allow_blank: true
 
   auto_strip_attributes :alternate_name, :audience, :description, :eligibility,
                         :email, :fees, :how_to_apply, :name, :wait, :status,

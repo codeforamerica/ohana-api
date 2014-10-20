@@ -25,17 +25,19 @@ describe Organization do
 
   it { is_expected.to validate_uniqueness_of(:name) }
 
-  it { is_expected.to allow_value('http://monfresh.com').for(:website) }
+  it { is_expected.not_to allow_value('codeforamerica.org').for(:email) }
+  it { is_expected.not_to allow_value('codeforamerica@org').for(:email) }
+  it { is_expected.to allow_value('code@foramerica.org').for(:email) }
 
+  it { is_expected.to allow_value('http://monfresh.com').for(:website) }
+  it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:website) }
+  it { is_expected.not_to allow_value('http://codeforamericaorg').for(:website) }
+  it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
   it do
     is_expected.not_to allow_value('http://').
     for(:website).
     with_message('http:// is not a valid URL')
   end
-
-  it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:website) }
-  it { is_expected.not_to allow_value('http://codeforamericaorg').for(:website) }
-  it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
 
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
