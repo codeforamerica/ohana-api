@@ -4,7 +4,7 @@ feature 'Update keywords' do
   background do
     location = create(:location)
     @service = location.services.create!(
-      name: 'Literacy Program', description: 'learn to read')
+      attributes_for(:service).merge(keywords: []))
     login_super_admin
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'

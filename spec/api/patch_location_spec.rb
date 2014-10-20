@@ -1,12 +1,8 @@
 require 'rails_helper'
 
 describe 'PATCH /locations/:id)' do
-  before(:all) do
+  before(:each) do
     @loc = create(:location)
-  end
-
-  after(:all) do
-    Organization.find_each(&:destroy)
   end
 
   it 'returns 200 when validations pass' do
@@ -53,6 +49,21 @@ describe 'PATCH /locations/:id)' do
     expect(json['error']).to include('Attribute was supposed to be an Array')
   end
 
+  it 'returns 422 if languages is set to empty string' do
+    @loc.update!(languages: ['English'])
+    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), languages: ''
+    expect(@loc.reload.languages).to eq ['English']
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).to include('Attribute was supposed to be an Array')
+  end
+
+  it 'sets languages to empty array if value is empty array' do
+    @loc.update!(languages: %w(French Arabic))
+    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), languages: []
+    expect(json['languages']).to eq([])
+  end
+
   it 'returns 422 when attribute is invalid' do
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
           admin_emails: ['moncef-at-ohanapi.org']
@@ -70,7 +81,7 @@ describe 'PATCH /locations/:id)' do
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
     expect(json['error']).
-      to eq('Attribute was supposed to be an Array, but was a String: "moncef@cfa.com".')
+      to eq('Attribute was supposed to be an Array, but was a String.')
   end
 
   it 'returns 422 when required attribute is missing' do

@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    %strong
+      Funding Sources
+    %p.desc
+      How is this service funded?
+
+  = field_set_tag do
+    = text_field_tag 'service[funding_sources][]', @service.funding_sources.join(','), id: 'service_funding_sources', class: 'form-control'

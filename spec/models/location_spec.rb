@@ -105,6 +105,7 @@ describe Location do
       expect(loc.urls).to eq(['http://samaritanhouse.com'])
       expect(loc.admin_emails).to eq(['foo@bar.com'])
       expect(loc.emails).to eq(['bar@foo.com'])
+      expect(loc.languages).to eq(%w(English Vietnamese))
     end
   end
 

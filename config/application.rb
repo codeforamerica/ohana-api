@@ -50,5 +50,11 @@ module OhanaApi
                  expose: ['Etag', 'Last-Modified', 'Link', 'X-Total-Count']
       end
     end
+
+    # This is required to be able to pass in an empty array as a JSON parameter
+    # when updating a Postgres array field. Otherwise, Rails will convert the
+    # empty array to `nil`. Search for "deep munge" on the rails/rails GitHub
+    # repo for more details.
+    config.action_dispatch.perform_deep_munge = false
   end
 end

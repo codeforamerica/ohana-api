@@ -478,19 +478,24 @@ CREATE TABLE services (
     id integer NOT NULL,
     location_id integer,
     audience text,
-    description text,
+    description text NOT NULL,
     eligibility text,
     fees text,
-    how_to_apply text,
+    how_to_apply text NOT NULL,
     name text,
-    short_desc text,
-    urls text,
     wait text,
     funding_sources text,
     service_areas text,
     keywords text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    accepted_payments character varying(255)[] DEFAULT '{}'::character varying[],
+    alternate_name character varying(255),
+    email character varying(255),
+    languages character varying(255)[] DEFAULT '{}'::character varying[],
+    required_documents character varying(255)[] DEFAULT '{}'::character varying[],
+    status character varying(255),
+    website character varying(255)
 );
 
 
@@ -907,6 +912,13 @@ CREATE INDEX index_phones_on_location_id ON phones USING btree (location_id);
 
 
 --
+-- Name: index_services_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_services_on_languages ON services USING gin (languages);
+
+
+--
 -- Name: index_services_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1068,4 +1080,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141010155451');
 INSERT INTO schema_migrations (version) VALUES ('20141010171020');
 
 INSERT INTO schema_migrations (version) VALUES ('20141010171817');
+
+INSERT INTO schema_migrations (version) VALUES ('20141017154640');
 

@@ -20,8 +20,7 @@ class Admin
       @location = Location.find(params[:location_id])
       @oe_ids = @service.categories.pluck(:oe_id)
 
-      keywords = params[:service][:keywords]
-      params[:service][:keywords] = keywords.shift.split(',')
+      shift_and_split_params(params[:service])
 
       respond_to do |format|
         if @service.update(params[:service])
@@ -49,8 +48,7 @@ class Admin
     end
 
     def create
-      keywords = params[:service][:keywords]
-      params[:service][:keywords] = keywords.shift.split(',')
+      shift_and_split_params(params[:service])
 
       @location = Location.find(params[:location_id])
       @service = @location.services.new(params[:service])
@@ -82,6 +80,14 @@ class Admin
       respond_to do |format|
         format.html
         format.js
+      end
+    end
+
+    private
+
+    def shift_and_split_params(params)
+      [:funding_sources, :keywords].each do |key|
+        params[key] = params[key].shift.split(',')
       end
     end
   end
