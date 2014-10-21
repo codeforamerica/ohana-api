@@ -15,7 +15,7 @@ class Service < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
 
-  validates :name, :description, :how_to_apply, :location,
+  validates :name, :description, :how_to_apply, :location, :status,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
   validates :service_areas, array: { service_area: true }
@@ -32,4 +32,7 @@ class Service < ActiveRecord::Base
   serialize :funding_sources, Array
   serialize :keywords, Array
   serialize :service_areas, Array
+
+  extend Enumerize
+  enumerize :status, in: [:active, :defunct, :inactive]
 end

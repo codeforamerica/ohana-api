@@ -494,7 +494,7 @@ CREATE TABLE services (
     email character varying(255),
     languages character varying(255)[] DEFAULT '{}'::character varying[],
     required_documents character varying(255)[] DEFAULT '{}'::character varying[],
-    status character varying(255),
+    status character varying(255) DEFAULT 'active'::character varying NOT NULL,
     website character varying(255)
 );
 
@@ -1082,4 +1082,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141010171020');
 INSERT INTO schema_migrations (version) VALUES ('20141010171817');
 
 INSERT INTO schema_migrations (version) VALUES ('20141017154640');
+
+INSERT INTO schema_migrations (version) VALUES ('20141021195019');
 

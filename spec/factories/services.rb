@@ -4,14 +4,7 @@ FactoryGirl.define do
     description 'yoga classes'
     how_to_apply 'By phone.'
     keywords ['library', 'food pantries', 'stood famps', 'emergency']
-    location
-  end
-
-  factory :service_with_nil_fields, class: Service do
-    name 'Food Stamps'
-    description 'SNAP market'
-    keywords %w(health yoga)
-    fees nil
+    status 'active'
     location
   end
 
@@ -30,7 +23,7 @@ FactoryGirl.define do
     name 'Benefits '
     required_documents ['ID ']
     service_areas ['Belmont ', 'Belmont']
-    status 'active '
+    status 'active'
     website ' http://www.monfresh.com '
     wait '2 days '
     location

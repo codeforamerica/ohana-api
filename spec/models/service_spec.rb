@@ -60,6 +60,9 @@ describe Service do
 
   it { is_expected.to allow_value(%w(Belmont Atherton)).for(:service_areas) }
 
+  it { is_expected.to allow_value('active', 'defunct', 'inactive').for(:status) }
+  it { is_expected.not_to allow_value('Active').for(:status) }
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       service = build(:service_with_extra_whitespace)

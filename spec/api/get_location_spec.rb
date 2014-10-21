@@ -97,7 +97,7 @@ describe 'GET /locations/:id' do
           'name'               => @location.services.first.name,
           'required_documents' => [],
           'service_areas'      => [],
-          'status'             => nil,
+          'status'             => @location.services.first.status,
           'website'            => nil,
           'wait'               => nil,
           'updated_at'         => service_formatted_time,

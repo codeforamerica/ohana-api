@@ -99,6 +99,15 @@ feature 'Create a new service' do
     expect(find_field('service_how_to_apply').value).to eq 'Low-income residents.'
   end
 
+  scenario 'with status' do
+    fill_in_required_service_fields
+    select 'Inactive', from: 'service_status'
+    click_button 'Create service'
+    click_link 'New VRS Services service'
+
+    expect(find_field('service_status').value).to eq 'inactive'
+  end
+
   scenario 'when adding multiple keywords', :js do
     fill_in_required_service_fields
     select2('first', 'service_keywords', multiple: true, tag: true)
