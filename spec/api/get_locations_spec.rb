@@ -57,8 +57,8 @@ describe 'GET /locations' do
       expect(json.first.keys).to_not include('accessibility')
     end
 
-    it 'does not include the alternate_name attribute' do
-      expect(json.first.keys).to_not include('alternate_name')
+    it 'includes the alternate_name attribute' do
+      expect(json.first.keys).to include('alternate_name')
     end
 
     it 'includes the coordinates attribute' do
