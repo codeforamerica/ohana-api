@@ -34,3 +34,8 @@ Style/GuardClause:
 
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Style/AndOr:
+  # Whether `and` and `or` are banned only in conditionals (conditionals)
+  # or completely (always).
+  EnforcedStyle: conditionals
