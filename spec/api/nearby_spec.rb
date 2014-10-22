@@ -16,6 +16,12 @@ describe "GET 'nearby'" do
     expect(json.first['name']).to eq('Belmont Farmers Market')
   end
 
+  it 'returns a summarized JSON representation' do
+    get api_location_nearby_url(@loc, radius: 2, subdomain: ENV['API_SUBDOMAIN'])
+    expect(json.first.keys).
+      to eq %w(id alternate_name latitude longitude name slug address)
+  end
+
   context 'with no radius' do
     it 'displays nearby locations within 0.5 miles' do
       get api_location_nearby_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
