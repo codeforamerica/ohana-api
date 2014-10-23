@@ -1,8 +1,8 @@
 class Location < ActiveRecord::Base
-  attr_accessible :accessibility, :admin_emails, :alternate_name, :description,
-                  :emails, :hours, :languages, :latitude, :longitude, :name,
-                  :short_desc, :transportation, :urls, :virtual,
-                  :address_attributes, :contacts_attributes,
+  attr_accessible :accessibility, :active, :admin_emails, :alternate_name,
+                  :description, :emails, :hours, :languages, :latitude,
+                  :longitude, :name, :short_desc, :transportation, :urls,
+                  :virtual, :address_attributes, :contacts_attributes,
                   :mail_address_attributes, :phones_attributes,
                   :services_attributes
 

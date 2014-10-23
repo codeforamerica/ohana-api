@@ -35,4 +35,17 @@ class Service < ActiveRecord::Base
 
   extend Enumerize
   enumerize :status, in: [:active, :defunct, :inactive]
+
+  after_save :update_location_status, if: :status_changed?
+
+  private
+
+  def update_location_status
+    return if location.active == location_services_active?
+    location.update_columns(active: location_services_active?)
+  end
+
+  def location_services_active?
+    location.services.pluck(:status).include?('active')
+  end
 end

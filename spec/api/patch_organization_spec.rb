@@ -62,7 +62,7 @@ describe 'PATCH /organizations/:id' do
       to eq('http://codeforamerica.github.io/ohana-api-docs/')
   end
 
-  it 'updates the search index when organization changes' do
+  it 'updates the search index when organization name changes' do
     patch(
       api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
       name: 'Code for America'
