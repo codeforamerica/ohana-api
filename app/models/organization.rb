@@ -22,7 +22,7 @@ class Organization < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:history]
 
-  after_save :touch_locations
+  after_save :touch_locations, if: :name_changed?
 
   private
 

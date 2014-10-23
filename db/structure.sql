@@ -322,7 +322,8 @@ CREATE TABLE locations (
     updated_at timestamp without time zone,
     tsv_body tsvector,
     alternate_name character varying(255),
-    virtual boolean DEFAULT false
+    virtual boolean DEFAULT false,
+    active boolean DEFAULT true
 );
 
 
@@ -849,6 +850,13 @@ CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USIN
 
 
 --
+-- Name: index_locations_on_active; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_locations_on_active ON locations USING btree (active);
+
+
+--
 -- Name: index_locations_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1084,4 +1092,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141010171817');
 INSERT INTO schema_migrations (version) VALUES ('20141017154640');
 
 INSERT INTO schema_migrations (version) VALUES ('20141021195019');
+
+INSERT INTO schema_migrations (version) VALUES ('20141023040419');
 

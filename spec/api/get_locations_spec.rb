@@ -258,4 +258,34 @@ describe 'GET /locations' do
       expect(location_keys).to include('coordinates')
     end
   end
+
+  context 'when location has no active services' do
+    it 'sets the active field to false' do
+      location = create(:location)
+
+      attrs =  attributes_for(:service)
+
+      location.services.create!(attrs.merge(status: 'inactive'))
+      location.services.create!(attrs.merge(status: 'inactive'))
+
+      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+
+      expect(json.first['active']).to eq false
+    end
+  end
+
+  context 'when location has at least one active service' do
+    it 'sets the active field to true' do
+      location = create(:location)
+
+      attrs =  attributes_for(:service)
+
+      location.services.create!(attrs)
+      location.services.create!(attrs.merge(status: 'inactive'))
+
+      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+
+      expect(json.first['active']).to eq true
+    end
+  end
 end

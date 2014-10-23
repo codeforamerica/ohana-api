@@ -25,6 +25,6 @@ class Address < ActiveRecord::Base
   private
 
   def reset_location_coordinates
-    location.update!(latitude: nil, longitude: nil)
+    location.update(latitude: nil, longitude: nil)
   end
 end

@@ -56,6 +56,10 @@ module Search
   module ClassMethods
     require 'exceptions'
 
+    def status(param)
+      param == 'active' ? where(active: true) : where(active: false)
+    end
+
     def language(lang)
       where('languages && ARRAY[?]', lang)
     end
@@ -93,7 +97,10 @@ module Search
     end
 
     def allowed_params(params)
-      params.slice(:language, :category, :org_name, :email, :keyword, :service_area)
+      params.slice(
+        :category, :email, :keyword, :language, :org_name, :service_area,
+        :status
+      )
     end
   end
 end
