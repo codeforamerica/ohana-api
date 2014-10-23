@@ -70,7 +70,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: addresses; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: addresses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE addresses (
@@ -107,7 +107,7 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 
 --
--- Name: admins; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: admins; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE admins (
@@ -153,7 +153,7 @@ ALTER SEQUENCE admins_id_seq OWNED BY admins.id;
 
 
 --
--- Name: api_applications; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: api_applications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE api_applications (
@@ -188,7 +188,7 @@ ALTER SEQUENCE api_applications_id_seq OWNED BY api_applications.id;
 
 
 --
--- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: categories; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE categories (
@@ -222,7 +222,7 @@ ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
 
 
 --
--- Name: categories_services; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: categories_services; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE categories_services (
@@ -232,7 +232,7 @@ CREATE TABLE categories_services (
 
 
 --
--- Name: contacts; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: contacts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE contacts (
@@ -267,7 +267,7 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 
 --
--- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE friendly_id_slugs (
@@ -299,7 +299,7 @@ ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
 
 
 --
--- Name: locations; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE locations (
@@ -346,7 +346,7 @@ ALTER SEQUENCE locations_id_seq OWNED BY locations.id;
 
 
 --
--- Name: mail_addresses; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: mail_addresses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE mail_addresses (
@@ -384,7 +384,7 @@ ALTER SEQUENCE mail_addresses_id_seq OWNED BY mail_addresses.id;
 
 
 --
--- Name: organizations; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: organizations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE organizations (
@@ -424,7 +424,7 @@ ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
 
 
 --
--- Name: phones; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: phones; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE phones (
@@ -462,7 +462,7 @@ ALTER SEQUENCE phones_id_seq OWNED BY phones.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
@@ -471,7 +471,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: services; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: services; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE services (
@@ -514,7 +514,7 @@ ALTER SEQUENCE services_id_seq OWNED BY services.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -559,7 +559,7 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: welcome_tokens; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: welcome_tokens; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE welcome_tokens (
@@ -681,7 +681,7 @@ ALTER TABLE ONLY welcome_tokens ALTER COLUMN id SET DEFAULT nextval('welcome_tok
 
 
 --
--- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY addresses
@@ -689,7 +689,7 @@ ALTER TABLE ONLY addresses
 
 
 --
--- Name: admins_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: admins_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY admins
@@ -697,7 +697,7 @@ ALTER TABLE ONLY admins
 
 
 --
--- Name: api_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: api_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY api_applications
@@ -705,7 +705,7 @@ ALTER TABLE ONLY api_applications
 
 
 --
--- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY categories
@@ -713,7 +713,7 @@ ALTER TABLE ONLY categories
 
 
 --
--- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY contacts
@@ -721,7 +721,7 @@ ALTER TABLE ONLY contacts
 
 
 --
--- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY friendly_id_slugs
@@ -729,7 +729,7 @@ ALTER TABLE ONLY friendly_id_slugs
 
 
 --
--- Name: locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY locations
@@ -737,7 +737,7 @@ ALTER TABLE ONLY locations
 
 
 --
--- Name: mail_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: mail_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY mail_addresses
@@ -745,7 +745,7 @@ ALTER TABLE ONLY mail_addresses
 
 
 --
--- Name: organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY organizations
@@ -753,7 +753,7 @@ ALTER TABLE ONLY organizations
 
 
 --
--- Name: phones_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: phones_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY phones
@@ -761,7 +761,7 @@ ALTER TABLE ONLY phones
 
 
 --
--- Name: services_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: services_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY services
@@ -769,7 +769,7 @@ ALTER TABLE ONLY services
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -777,7 +777,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: welcome_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+-- Name: welcome_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY welcome_tokens
@@ -785,252 +785,252 @@ ALTER TABLE ONLY welcome_tokens
 
 
 --
--- Name: categories_name; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: categories_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX categories_name ON categories USING gin (to_tsvector('english'::regconfig, name));
 
 
 --
--- Name: index_addresses_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_addresses_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_addresses_on_location_id ON addresses USING btree (location_id);
 
 
 --
--- Name: index_admins_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_admins_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_admins_on_confirmation_token ON admins USING btree (confirmation_token);
 
 
 --
--- Name: index_admins_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_admins_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_admins_on_email ON admins USING btree (email);
 
 
 --
--- Name: index_admins_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_admins_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_admins_on_reset_password_token ON admins USING btree (reset_password_token);
 
 
 --
--- Name: index_api_applications_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_api_applications_on_api_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_api_applications_on_api_token ON api_applications USING btree (api_token);
 
 
 --
--- Name: index_api_applications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_api_applications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_api_applications_on_user_id ON api_applications USING btree (user_id);
 
 
 --
--- Name: index_categories_on_ancestry; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_categories_on_ancestry; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_categories_on_ancestry ON categories USING btree (ancestry);
 
 
 --
--- Name: index_categories_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_categories_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_categories_on_slug ON categories USING btree (slug);
 
 
 --
--- Name: index_categories_services_on_category_id_and_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_categories_services_on_category_id_and_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_categories_services_on_category_id_and_service_id ON categories_services USING btree (category_id, service_id);
 
 
 --
--- Name: index_categories_services_on_service_id_and_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_categories_services_on_service_id_and_category_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_categories_services_on_service_id_and_category_id ON categories_services USING btree (service_id, category_id);
 
 
 --
--- Name: index_contacts_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_contacts_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_contacts_on_location_id ON contacts USING btree (location_id);
 
 
 --
--- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON friendly_id_slugs USING btree (slug, sluggable_type);
 
 
 --
--- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING btree (sluggable_id);
 
 
 --
--- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
 
 
 --
--- Name: index_locations_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_locations_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_locations_on_languages ON locations USING gin (languages);
 
 
 --
--- Name: index_locations_on_latitude_and_longitude; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_locations_on_latitude_and_longitude; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_locations_on_latitude_and_longitude ON locations USING btree (latitude, longitude);
 
 
 --
--- Name: index_locations_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_locations_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_locations_on_organization_id ON locations USING btree (organization_id);
 
 
 --
--- Name: index_locations_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_locations_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_locations_on_slug ON locations USING btree (slug);
 
 
 --
--- Name: index_locations_on_tsv_body; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_locations_on_tsv_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_locations_on_tsv_body ON locations USING gin (tsv_body);
 
 
 --
--- Name: index_mail_addresses_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_mail_addresses_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_mail_addresses_on_location_id ON mail_addresses USING btree (location_id);
 
 
 --
--- Name: index_organizations_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_organizations_on_slug; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_organizations_on_slug ON organizations USING btree (slug);
 
 
 --
--- Name: index_phones_on_contact_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_phones_on_contact_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_phones_on_contact_id ON phones USING btree (contact_id);
 
 
 --
--- Name: index_phones_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_phones_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_phones_on_location_id ON phones USING btree (location_id);
 
 
 --
--- Name: index_services_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_services_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_services_on_location_id ON services USING btree (location_id);
 
 
 --
--- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
 
 
 --
--- Name: locations_admin_emails; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: locations_admin_emails; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX locations_admin_emails ON locations USING gin (to_tsvector('english'::regconfig, admin_emails));
 
 
 --
--- Name: locations_description; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: locations_description; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX locations_description ON locations USING gin (to_tsvector('english'::regconfig, description));
 
 
 --
--- Name: locations_emails; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: locations_emails; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX locations_emails ON locations USING gin (to_tsvector('english'::regconfig, emails));
 
 
 --
--- Name: locations_name; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: locations_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX locations_name ON locations USING gin (to_tsvector('english'::regconfig, name));
 
 
 --
--- Name: locations_urls; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: locations_urls; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX locations_urls ON locations USING gin (to_tsvector('english'::regconfig, urls));
 
 
 --
--- Name: organizations_name; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: organizations_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX organizations_name ON organizations USING gin (to_tsvector('english'::regconfig, name));
 
 
 --
--- Name: services_service_areas; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: services_service_areas; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX services_service_areas ON services USING gin (to_tsvector('english'::regconfig, service_areas));
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace:
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -1095,6 +1095,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140629181523');
 
 INSERT INTO schema_migrations (version) VALUES ('20140630171418');
 
+INSERT INTO schema_migrations (version) VALUES ('20140829154350');
+
 INSERT INTO schema_migrations (version) VALUES ('20140906233732');
 
 INSERT INTO schema_migrations (version) VALUES ('20140909031145');
@@ -1114,3 +1116,4 @@ INSERT INTO schema_migrations (version) VALUES ('20141010155451');
 INSERT INTO schema_migrations (version) VALUES ('20141010171020');
 
 INSERT INTO schema_migrations (version) VALUES ('20141010171817');
+

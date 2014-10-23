@@ -3,75 +3,15 @@
   .alert.alert-warning
     Notice that this page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
 
-  .jumbotron{style: "min-height:600px"}
-  
+  .jumbotron{style: "min-height:600px;position:relative"}
     .row
-      .col-lg-4
-        =image_tag "http://ohanapi.org/img/ohana-logo.png", width: 340
-        %ul#welcomeTabs.list-unstyled
-          %li
-            %a.c{href: '#configs'}
-              %h3
-                Basic configurations
-                %span.pull-right=fa_icon "cogs"
-          %li
-            %a.c{href: '#taxonomy'}
-              %h3
-                Choose taxonomy
-                %span.pull-right=fa_icon "tag"
-          %li
-            %a.c{href: '#users'}
-              %h3
-                Create users
-                %span.pull-right=fa_icon "users"
-          %li.active
-            %a.c{href: '#upload'}
-              %h3
-                Upload data
-                %span.pull-right=fa_icon "upload"
-          %li
-            %a.c{href: '#review'}
-              %h3
-                Review
-                %span.pull-right=fa_icon "eye"
+      .col-lg-4{style: 'max-width:350px'}
+        =render partial: 'welcome/sidebar'
       .col-lg-8
-        .tab-content
-          #upload.tab-pane.fade.active.in
-            %h2.title 1. Build your data on Google Docs
-
-            %p Your data needs to conform to the OpenReferral standards. The Human Services Data Specification (Open Referral) is an exchange format for publishing machine readable data about health, human, and social services, their locations, and the organizations that provide them. <a href='https://github.com/codeforamerica/OpenReferral' target='_blank'>Read about these standards here.</a>
-
-            %p You can use <a>this Google Doc</a> as a template to structure your data.
-
-            .input-group
-              %input.input-lg.form-control{placeholder:"Enter your google doc url"}
-              .input-group-addon
-                %span.fa.fa-google
-
-            %h2 2. Validate
-            %p When you're ready, click the button below to validate. You will see the problems with your data below.
-            %p
-              %a.bn.btn-lg.btn-primary
-                %span.fa.fa-database
-                Validate data
-
-            %h2 3. Upload
-            %p If your data was valid, click upload to finish.
-
-            %p
-              %a.bn.btn-lg.btn-primary
-                %span.fa.fa-upload
-                Upload data
-          #users.tab-pane.fade
-            %h2.title Create users
-
-          #taxonomy.tab-pane.fade
-            %h2.title Create a taxonomy
-
-          #configs.tab-pane.fade
-            %h2.title Basic configurations
+        =render partial: 'welcome/content'
+    .clearfix{style: 'position:absolute;bottom:10px;right:10px'}
+      .btn-group.pull-right
+        %a.btn.btn-default Prev
+        %a.btn.btn-default Next
 
 
-            %ol
-              %li Upload logo
-              %li Set the bounds of the geographic area of your services

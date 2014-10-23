@@ -1,0 +1,44 @@
+.tab-content
+  #upload.tab-pane.fade.active.in
+    %h2 Build your data on Google Docs
+
+    %p You can use <a>this Google Doc</a> as a template to structure your data.
+
+    %p
+      .input-group
+        %input.input-lg.form-control{placeholder:"Enter your google doc url", value:'https://docs.google.com/spreadsheets/d/1xBJANeJubgSV8lSFsNJTDCH9lSjZc0yrPu5vrQDmeqg/edit?usp=sharing'}
+        .input-group-addon
+          %a.fa.fa-google.c
+
+    %p
+
+      .btn-group.btn-block.btn-group-justified.btn-group-lg
+        %a.btn.btn-primary
+          %span.fa.fa-database
+          Validate your data
+        %a.btn.btn-primary
+          %span.fa.fa-upload
+          Upload data
+
+    .well
+      %pre
+        :plain
+          ==> 20 problems
+          <ul>
+            <li>Invalid phone number format</li>
+            <li>Invalid city name description</li>
+          </ul>
+
+  #users.tab-pane.fade
+    %h2.title Create users
+
+  #taxonomy.tab-pane.fade
+    %h2.title Create a taxonomy
+
+  #configs.tab-pane.fade
+    %h2.title Basic configurations
+
+
+    %ol
+      %li Upload logo
+      %li Set the bounds of the geographic area of your services
