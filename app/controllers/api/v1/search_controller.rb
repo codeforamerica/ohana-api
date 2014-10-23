@@ -21,7 +21,7 @@ module Api
 
         radius = Location.validated_radius(params[:radius], 0.5)
 
-        nearby = location.nearbys(radius).
+        nearby = location.nearbys(radius).status('active').
                          page(params[:page]).per(params[:per_page]).
                          includes(:address)
 
