@@ -62,8 +62,6 @@ class Location < ActiveRecord::Base
 
   validates :emails, :admin_emails, array: { email: true }
 
-  # Only call Google's geocoding service if the address has changed
-  # to avoid unnecessary requests that affect our rate limit.
   after_validation :geocode, if: :needs_geocoding?
 
   geocoded_by :full_physical_address
@@ -123,9 +121,12 @@ class Location < ActiveRecord::Base
   end
 
   def needs_geocoding?
-    return false if address.blank?
-    return false if address.marked_for_destruction?
-    address.changed? || latitude.nil? || longitude.nil?
+    return false if address.blank? || new_record_with_coordinates?
+    address.changed?
+  end
+
+  def new_record_with_coordinates?
+    new_record? && latitude.present? && longitude.present?
   end
 
   # See app/models/concerns/search.rb

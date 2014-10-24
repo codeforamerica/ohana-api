@@ -93,10 +93,13 @@ with your JSON file.
 
 - Run `script/reset` from the command line.
 
-If the script fails because of `Geocoder::OverQueryLimitError`, try increasing
-the sleep value on line 34 in `setup_db.rake `. Alternatively,
-use a different geocoding service that allows more requests per second.
-See the [geocoding configuration][geocode] section in the Wiki for more details.
+If your Location entries don't already include a latitude and longitude, the
+script will geocode them for you, but this can cause the script to fail with
+`Geocoder::OverQueryLimitError`. If you get that error, try increasing the
+sleep value on line 34 in `setup_db.rake `. Alternatively, cache requests
+and/or use a different geocoding service that allows more requests per second.
+See the [geocoding configuration][geocode] section in the Wiki for more
+details.
 
 If any locations contain invalid data, the script will output the following line:
 ```

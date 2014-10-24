@@ -199,10 +199,12 @@ describe Location do
     end
 
     it 'resets coordinates when address is removed' do
-      @loc.update!(
+      @loc.update(
         virtual: true,
         address_attributes: { id: @loc.address.id, _destroy: '1' }
       )
+      expect(@loc).not_to receive(:geocode)
+      @loc.save!
       expect(@loc.reload.coordinates).to be_nil
     end
   end
