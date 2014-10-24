@@ -37,7 +37,7 @@ gem 'active_model_serializers', '~> 0.8.0'
 gem 'rack-timeout'
 
 # Authentication
-gem 'devise'
+gem 'devise', '~> 3.4'
 
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
