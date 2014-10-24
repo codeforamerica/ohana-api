@@ -5,6 +5,7 @@ class Service < ActiveRecord::Base
                   :service_areas, :status, :website, :wait, :category_ids
 
   belongs_to :location, touch: true
+  belongs_to :program
 
   has_and_belongs_to_many :categories, -> { order('oe_id asc').uniq }
 

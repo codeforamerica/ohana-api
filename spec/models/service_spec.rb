@@ -24,6 +24,7 @@ describe Service do
   it { is_expected.to allow_mass_assignment_of(:wait) }
 
   it { is_expected.to belong_to(:location).touch(true) }
+  it { is_expected.to belong_to(:program) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
