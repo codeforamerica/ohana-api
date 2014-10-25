@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Create a new service' do
   background do
-    create(:location)
+    @loc = create(:location)
     login_super_admin
     visit('/admin/locations/vrs-services')
     click_link 'Add a new service'
@@ -178,6 +178,18 @@ feature 'Create a new service' do
 
     expect(find('#category_101-01')).to be_checked
     expect(find('#category_101')).to be_checked
+  end
+
+  scenario 'when adding a program', :js do
+    @loc.organization.programs.create!(attributes_for(:program))
+    visit new_admin_location_service_path(@loc)
+    fill_in_required_service_fields
+    select 'Collection of Services', from: 'service_program_id'
+    click_button 'Create service'
+    click_link 'New VRS Services service'
+
+    expect(page).
+      to have_select('service_program_id', selected: 'Collection of Services')
   end
 end
 

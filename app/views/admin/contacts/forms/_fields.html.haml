@@ -5,7 +5,7 @@
       - @contact.errors.full_messages.each do |msg|
         %li= msg
 
-= render 'admin/contacts/forms/name', f: f
+= render 'admin/shared/forms/name', f: f
 = render 'admin/contacts/forms/title', f: f
 = render 'admin/contacts/forms/email', f: f
 = render 'admin/contacts/forms/department', f: f

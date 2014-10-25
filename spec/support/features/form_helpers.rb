@@ -186,7 +186,9 @@ module Features
 
     def set_single_select2_value(value, container)
       container.find('.select2-choice').click
-      find(:xpath, '//body').find('input.select2-input').set(value)
+      within '.select2-search' do
+        find('input.select2-input').set(value)
+      end
     end
 
     def add_two_keywords

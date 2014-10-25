@@ -88,6 +88,8 @@ feature 'Locations page' do
 
   context 'when signed in as super admin' do
     before :each do
+      @location = create(:location)
+      create(:location_for_org_admin)
       login_super_admin
       visit '/admin/locations'
     end
@@ -97,12 +99,14 @@ feature 'Locations page' do
     end
 
     it 'shows all locations' do
-      create(:location)
-      create(:location_for_org_admin)
-      visit '/admin/locations'
       expect(page).to have_link 'VRS Services'
       expect(page).to have_link 'Samaritan House'
       expect(page).not_to have_content 'Parent Agency locations'
+    end
+
+    it 'takes you to the right location when clicked' do
+      click_link 'VRS Services'
+      expect(current_path).to eq edit_admin_location_path(@location)
     end
   end
 end

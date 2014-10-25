@@ -5,6 +5,7 @@ class Organization < ActiveRecord::Base
                   :legal_status, :name, :tax_id, :tax_status, :website
 
   has_many :locations, dependent: :destroy
+  has_many :programs, dependent: :destroy
 
   validates :name,
             presence: { message: I18n.t('errors.messages.blank_for_org') },

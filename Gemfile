@@ -33,9 +33,6 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'kaminari'
 gem 'active_model_serializers', '~> 0.8.0'
 
-# Production Monitoring
-gem 'rack-timeout'
-
 # Authentication
 gem 'devise', '~> 3.4'
 
@@ -52,6 +49,8 @@ gem 'pg_search'
 gem 'ancestry'
 
 gem 'friendly_id', '~> 5.0.3'
+
+gem 'rack-timeout'
 
 group :production, :staging do
   # Heroku recommended

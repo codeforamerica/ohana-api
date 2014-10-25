@@ -48,13 +48,21 @@ class Admin
         f.hidden_field(
           :organization_id, id: 'org-name', class: 'form-control',
           data: {
-            'ajax-url' => admin_organizations_url(subdomain: ENV['ADMIN_SUBDOMAIN']),
+            'ajax-url' => admin_organizations_url,
             'placeholder' => 'Choose an organization'
           }
         )
       else
         f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, {}, class: 'form-control'
       end
+    end
+
+    def program_autocomplete_field_for(f)
+      f.select(
+        :program_id, @location.organization.programs.pluck(:name, :id),
+        { include_blank: 'This service is not part of any program' },
+        class: 'form-control'
+      )
     end
   end
 end
