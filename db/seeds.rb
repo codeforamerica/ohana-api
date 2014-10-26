@@ -43,3 +43,5 @@ admin3 = Admin.create! :name => 'Super Admin',
                      :password => 'ohanatest',
                      :password_confirmation => 'ohanatest'
 admin3.confirm!
+admin3.super_admin = true
+admin3.save
