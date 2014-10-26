@@ -1,0 +1,5 @@
+.content-box
+  %h1 Create a new program
+
+= form_for [:admin, @program], url: admin_programs_path, html: { method: :post, class: 'edit_entry' } do |f|
+  = render 'admin/programs/forms/new_program_form', f: f

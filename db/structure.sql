@@ -463,6 +463,39 @@ ALTER SEQUENCE phones_id_seq OWNED BY phones.id;
 
 
 --
+-- Name: programs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE programs (
+    id integer NOT NULL,
+    organization_id integer,
+    name character varying(255),
+    alternate_name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: programs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE programs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: programs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -496,7 +529,8 @@ CREATE TABLE services (
     languages character varying(255)[] DEFAULT '{}'::character varying[],
     required_documents character varying(255)[] DEFAULT '{}'::character varying[],
     status character varying(255) DEFAULT 'active'::character varying NOT NULL,
-    website character varying(255)
+    website character varying(255),
+    program_id integer
 );
 
 
@@ -638,6 +672,13 @@ ALTER TABLE ONLY phones ALTER COLUMN id SET DEFAULT nextval('phones_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY programs ALTER COLUMN id SET DEFAULT nextval('programs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY services ALTER COLUMN id SET DEFAULT nextval('services_id_seq'::regclass);
 
 
@@ -726,6 +767,14 @@ ALTER TABLE ONLY organizations
 
 ALTER TABLE ONLY phones
     ADD CONSTRAINT phones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY programs
+    ADD CONSTRAINT programs_pkey PRIMARY KEY (id);
 
 
 --
@@ -920,6 +969,13 @@ CREATE INDEX index_phones_on_location_id ON phones USING btree (location_id);
 
 
 --
+-- Name: index_programs_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_programs_on_organization_id ON programs USING btree (organization_id);
+
+
+--
 -- Name: index_services_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -931,6 +987,13 @@ CREATE INDEX index_services_on_languages ON services USING gin (languages);
 --
 
 CREATE INDEX index_services_on_location_id ON services USING btree (location_id);
+
+
+--
+-- Name: index_services_on_program_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_services_on_program_id ON services USING btree (program_id);
 
 
 --
@@ -1094,4 +1157,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141017154640');
 INSERT INTO schema_migrations (version) VALUES ('20141021195019');
 
 INSERT INTO schema_migrations (version) VALUES ('20141023040419');
+
+INSERT INTO schema_migrations (version) VALUES ('20141024022657');
+
+INSERT INTO schema_migrations (version) VALUES ('20141024025404');
 

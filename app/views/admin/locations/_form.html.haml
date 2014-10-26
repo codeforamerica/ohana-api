@@ -5,7 +5,7 @@
       - @location.errors.full_messages.each do |msg|
         %li= msg
 
-= render 'admin/locations/forms/location_name', f: f
+= render 'admin/shared/forms/name', f: f
 = render 'admin/shared/forms/alternate_name', f: f
 - if @admin_decorator.allowed_to_access_location?(@location)
   = render 'admin/locations/forms/admin_emails', f: f

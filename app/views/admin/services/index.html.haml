@@ -1,0 +1,18 @@
+%p
+  Below you should see a list of services that you are allowed to administer.
+  If there are any entries missing, please #{mail_to "#{SETTINGS[:admin_support_email]}", 'let us know'}.
+%p
+  To start updating, click on one of the links, which will take you to the details page
+  for the service.
+
+- if current_admin.super_admin?
+  %p
+    As a super admin, you have access to all services in the database. Please make updates responsibly.
+
+%p
+  - @services.each do |service|
+    %ul
+      = link_to service[2], edit_admin_location_service_path(service[0], service[1])
+  = paginate @services
+
+  /= link_to 'Add a new service', new_admin_service_path, class: 'btn btn-primary'

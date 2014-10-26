@@ -1,0 +1,6 @@
+- if f.object.new_record?
+  .inst-box
+    %header
+      = f.label :organization_id, 'Choose an organization to create this program for.'
+    %p
+      = org_autocomplete_field_for(f, current_admin)

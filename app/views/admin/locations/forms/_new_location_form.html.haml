@@ -5,13 +5,8 @@
       - @location.errors.full_messages.each do |msg|
         %li= msg
 
-.inst-box
-  %header
-    = f.label :organization_id, 'Choose an organization to create this location for.'
-  %p
-    = org_autocomplete_field_for(f, current_admin)
-
-= render 'admin/locations/forms/location_name', f: f
+= render 'admin/shared/forms/choose_org', f: f
+= render 'admin/shared/forms/name', f: f
 = render 'admin/shared/forms/alternate_name', f: f
 = render 'admin/locations/forms/admin_emails', f: f
 = render 'admin/locations/forms/description', f: f
