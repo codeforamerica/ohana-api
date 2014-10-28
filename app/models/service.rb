@@ -2,15 +2,17 @@ class Service < ActiveRecord::Base
   attr_accessible :accepted_payments, :alternate_name, :audience, :description,
                   :eligibility, :email, :fees, :funding_sources, :how_to_apply,
                   :keywords, :languages, :name, :required_documents,
-                  :service_areas, :status, :website, :wait, :category_ids
+                  :service_areas, :status, :website, :wait, :category_ids,
+                  :regular_schedules_attributes
 
   belongs_to :location, touch: true
   belongs_to :program
 
   has_and_belongs_to_many :categories, -> { order('oe_id asc').uniq }
 
-  # has_many :schedules
-  # accepts_nested_attributes_for :schedules
+  has_many :regular_schedules, dependent: :destroy
+
+  accepts_nested_attributes_for :regular_schedules
 
   validates :accepted_payments, :languages, :required_documents, pg_array: true
 
