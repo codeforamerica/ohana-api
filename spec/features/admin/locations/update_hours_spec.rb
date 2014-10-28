@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Update hours' do
   background do
@@ -7,15 +7,22 @@ feature 'Update hours' do
     visit '/admin/locations/vrs-services'
   end
 
-  scenario 'with empty hours' do
-    fill_in 'location_hours', with: ''
+  scenario 'with valid hours', :js do
+    add_hour(
+      weekday: 'Tuesday',
+      opens_at_hour: '9 AM', opens_at_minute: '30',
+      closes_at_hour: '5 PM', closes_at_minute: '45'
+    )
     click_button 'Save changes'
-    expect(find_field('location_hours').value).to be_nil
-  end
 
-  scenario 'with valid hours' do
-    fill_in 'location_hours', with: 'Monday-Friday 10am-5pm'
-    click_button 'Save changes'
-    expect(find_field('location_hours').value).to eq 'Monday-Friday 10am-5pm'
+    prefix = 'location_regular_schedules_attributes_0'
+
+    expect(find_field("#{prefix}_weekday").value).to eq '2'
+
+    expect(find_field("#{prefix}_opens_at_4i").value).to eq '09'
+    expect(find_field("#{prefix}_opens_at_5i").value).to eq '30'
+
+    expect(find_field("#{prefix}_closes_at_4i").value).to eq '17'
+    expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
   end
 end

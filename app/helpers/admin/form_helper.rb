@@ -64,5 +64,11 @@ class Admin
         class: 'form-control'
       )
     end
+
+    WEEKDAYS = %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday).freeze
+
+    def weekday_select_field
+      WEEKDAYS.each_with_index.map { |day, i| [day, i] }
+    end
   end
 end
