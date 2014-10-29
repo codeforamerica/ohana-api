@@ -309,7 +309,6 @@ CREATE TABLE locations (
     admin_emails text,
     description text,
     emails text,
-    hours text,
     latitude double precision,
     longitude double precision,
     languages text[] DEFAULT '{}'::text[],
@@ -1246,4 +1245,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141024022657');
 INSERT INTO schema_migrations (version) VALUES ('20141024025404');
 
 INSERT INTO schema_migrations (version) VALUES ('20141027154101');
+
+INSERT INTO schema_migrations (version) VALUES ('20141029170109');
 

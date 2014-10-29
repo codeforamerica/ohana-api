@@ -35,6 +35,10 @@ describe 'GET /locations/:id' do
       expect(json['description']).to eq(@location.description)
     end
 
+    it 'does not include the hours attribute' do
+      expect(json.keys).not_to include('hours')
+    end
+
     it 'includes the latitude attribute' do
       expect(json['latitude']).to eq(@location.latitude)
     end
@@ -243,7 +247,7 @@ describe 'GET /locations/:id' do
     it 'returns nil fields when visiting one location' do
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
       keys = json.keys
-      %w(admin_emails emails accessibility hours).each do |key|
+      %w(admin_emails emails accessibility).each do |key|
         expect(keys).to include(key)
       end
     end

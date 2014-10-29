@@ -24,7 +24,6 @@ FactoryGirl.define do
 
     factory :loc_with_extra_whitespace do
       description ' Provides job training'
-      hours ' Monday-Friday 10am-3pm '
       name 'VRS   Services '
       short_desc 'Provides job training. '
       transportation ' BART stop 1 block away.'

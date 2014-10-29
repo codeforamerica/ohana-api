@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
   attr_accessible :accessibility, :active, :admin_emails, :alternate_name,
-                  :description, :emails, :hours, :languages, :latitude,
+                  :description, :emails, :languages, :latitude,
                   :longitude, :name, :short_desc, :transportation, :urls,
                   :virtual, :address_attributes, :contacts_attributes,
                   :mail_address_attributes, :phones_attributes,
@@ -84,7 +84,7 @@ class Location < ActiveRecord::Base
 
   serialize :urls, Array
 
-  auto_strip_attributes :description, :hours, :name, :short_desc,
+  auto_strip_attributes :description, :name, :short_desc,
                         :transportation
 
   auto_strip_attributes :admin_emails, :emails, :urls,

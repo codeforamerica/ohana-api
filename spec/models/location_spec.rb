@@ -11,7 +11,6 @@ describe Location do
   it { is_expected.to allow_mass_assignment_of(:alternate_name) }
   it { is_expected.to allow_mass_assignment_of(:description) }
   it { is_expected.to allow_mass_assignment_of(:emails) }
-  it { is_expected.to allow_mass_assignment_of(:hours) }
   it { is_expected.to allow_mass_assignment_of(:languages) }
   it { is_expected.to allow_mass_assignment_of(:latitude) }
   it { is_expected.to allow_mass_assignment_of(:longitude) }
@@ -99,7 +98,6 @@ describe Location do
       loc = build(:loc_with_extra_whitespace)
       loc.valid?
       expect(loc.description).to eq('Provides job training')
-      expect(loc.hours).to eq('Monday-Friday 10am-3pm')
       expect(loc.name).to eq('VRS Services')
       expect(loc.short_desc).to eq('Provides job training.')
       expect(loc.transportation).to eq('BART stop 1 block away.')
