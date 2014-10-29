@@ -236,5 +236,29 @@ module Features
       fill_in 'service_how_to_apply', with: 'new application process'
       select 'Active', from: 'service_status'
     end
+
+    def add_hour(options = {})
+      click_link 'Add hours of operation'
+      update_hours(options)
+    end
+
+    def update_hours(options = {})
+      within('.hours') do
+        day = find(:xpath, './/select[contains(@name, "[weekday]")]')[:id]
+        select(options[:weekday], from: day) if options[:weekday]
+
+        opens_at_hour = find(:xpath, './/select[contains(@name, "[opens_at(4i)")]')[:id]
+        select(options[:opens_at_hour], from: opens_at_hour) if options[:opens_at_hour]
+
+        opens_at_minute = find(:xpath, './/select[contains(@name, "[opens_at(5i)")]')[:id]
+        select(options[:opens_at_minute], from: opens_at_minute) if options[:opens_at_minute]
+
+        closes_at_hour = find(:xpath, './/select[contains(@name, "[closes_at(4i)")]')[:id]
+        select(options[:closes_at_hour], from: closes_at_hour) if options[:closes_at_hour]
+
+        closes_at_minute = find(:xpath, './/select[contains(@name, "[closes_at(5i)")]')[:id]
+        select(options[:closes_at_minute], from: closes_at_minute) if options[:closes_at_minute]
+      end
+    end
   end
 end

@@ -28,6 +28,7 @@ describe Location do
   it { is_expected.to have_one(:mail_address).dependent(:destroy) }
   it { is_expected.to have_many(:phones).dependent(:destroy) }
   it { is_expected.to have_many(:services).dependent(:destroy) }
+  it { is_expected.to have_many(:regular_schedules).dependent(:destroy) }
 
   it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:contacts) }

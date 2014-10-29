@@ -9,6 +9,7 @@ class LocationSerializer < ActiveModel::Serializer
   has_one :mail_address
   has_many :phones
   has_many :services
+  has_many :regular_schedules
   has_one :organization
 
   def url

@@ -53,6 +53,7 @@ en:
       blank_for_org: "can't be blank for Organization"
       blank_for_phone: "can't be blank for Phone"
       blank_for_program: "can't be blank for Program"
+      blank_for_rs: "can't be blank for Regular Schedule"
       blank_for_service: "can't be blank for Service"
       invalid_email: 'is not a valid email'
       invalid_fax: 'is not a valid US fax number'
@@ -60,8 +61,10 @@ en:
       invalid_service_area: 'is not a valid service area'
       invalid_state: 'Please enter a valid 2-letter state abbreviation'
       invalid_url: 'is not a valid URL'
+      invalid_weekday: 'is not a valid weekday'
       invalid_zip: 'is not a valid ZIP code'
       no_address: "Unless it's virtual, a location must have an address."
+
 
   titles:
     brand: "Ohana API"

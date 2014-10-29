@@ -496,6 +496,39 @@ ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
 
 
 --
+-- Name: regular_schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE regular_schedules (
+    id integer NOT NULL,
+    weekday integer,
+    opens_at time without time zone,
+    closes_at time without time zone,
+    service_id integer,
+    location_id integer
+);
+
+
+--
+-- Name: regular_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE regular_schedules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: regular_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE regular_schedules_id_seq OWNED BY regular_schedules.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -679,6 +712,13 @@ ALTER TABLE ONLY programs ALTER COLUMN id SET DEFAULT nextval('programs_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY regular_schedules ALTER COLUMN id SET DEFAULT nextval('regular_schedules_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY services ALTER COLUMN id SET DEFAULT nextval('services_id_seq'::regclass);
 
 
@@ -775,6 +815,14 @@ ALTER TABLE ONLY phones
 
 ALTER TABLE ONLY programs
     ADD CONSTRAINT programs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: regular_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY regular_schedules
+    ADD CONSTRAINT regular_schedules_pkey PRIMARY KEY (id);
 
 
 --
@@ -976,6 +1024,41 @@ CREATE INDEX index_programs_on_organization_id ON programs USING btree (organiza
 
 
 --
+-- Name: index_regular_schedules_on_closes_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_closes_at ON regular_schedules USING btree (closes_at);
+
+
+--
+-- Name: index_regular_schedules_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_location_id ON regular_schedules USING btree (location_id);
+
+
+--
+-- Name: index_regular_schedules_on_opens_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_opens_at ON regular_schedules USING btree (opens_at);
+
+
+--
+-- Name: index_regular_schedules_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_service_id ON regular_schedules USING btree (service_id);
+
+
+--
+-- Name: index_regular_schedules_on_weekday; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_weekday ON regular_schedules USING btree (weekday);
+
+
+--
 -- Name: index_services_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1161,4 +1244,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141023040419');
 INSERT INTO schema_migrations (version) VALUES ('20141024022657');
 
 INSERT INTO schema_migrations (version) VALUES ('20141024025404');
+
+INSERT INTO schema_migrations (version) VALUES ('20141027154101');
 
