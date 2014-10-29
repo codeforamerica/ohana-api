@@ -191,6 +191,27 @@ feature 'Create a new service' do
     expect(page).
       to have_select('service_program_id', selected: 'Collection of Services')
   end
+
+  scenario 'when adding hours of operation', :js do
+    fill_in_required_service_fields
+    add_hour(
+      weekday: 'Tuesday',
+      opens_at_hour: '9 AM', opens_at_minute: '30',
+      closes_at_hour: '5 PM', closes_at_minute: '45'
+    )
+    click_button 'Create service'
+    click_link 'New VRS Services service'
+
+    prefix = 'service_regular_schedules_attributes_0'
+
+    expect(find_field("#{prefix}_weekday").value).to eq '2'
+
+    expect(find_field("#{prefix}_opens_at_4i").value).to eq '09'
+    expect(find_field("#{prefix}_opens_at_5i").value).to eq '30'
+
+    expect(find_field("#{prefix}_closes_at_4i").value).to eq '17'
+    expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
+  end
 end
 
 describe 'when admin does not have access to the location' do
