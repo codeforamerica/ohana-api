@@ -86,10 +86,10 @@ the JSON response so it is easier to read in the browser.
 
 - [Prepare your data][prepare] in a format compatible with Ohana API.
 
-- Place your JSON file in the `data` folder.
+- Place your text file in the `data` folder.
 
-- Open `lib/tasks/setup_db.rake`, and replace `sample_data.json` on line 9
-with your JSON file.
+- Open `lib/tasks/setup_db.rake`, and replace `sample_data.txt` on line 9
+with your text file.
 
 - Run `script/reset` from the command line.
 
@@ -112,12 +112,12 @@ fields. For example:
 {"Redwood City Free Medical Clinic":{"errors":{"contacts.name":["can't be blank for Contact"]}}}
 ```
 At this point, your local database is populated with all of the locations from your
-JSON file, except for the invalid ones. Therefore, to avoid populating the database
+text file, except for the invalid ones. Therefore, to avoid populating the database
 and geocoding the addresses all over again, follow these steps:
 
 1. For each location in `invalid_records.json`, find the corresponding location
-in your original JSON file, then copy and paste that location (from your
-original JSON file, not `invalid_records.json`) into a new `.json` file.
+in your original text file, then copy and paste that location (from your
+original text file, not `invalid_records.json`) into a new `.txt` file.
 
 2. Fix the invalid data in this new file.
 
@@ -141,15 +141,15 @@ and much faster to import, whether on your local machine, or on Heroku.
 Run this command to export the database:
 
 ```
-script/export
+script/export_prod_db
 ```
-This will create a filed called `ohana_api_development.dump` in the data folder.
+This will create a filed called `ohana_api_production.dump` in the data folder.
 
 ### Import the database locally
 
-To reset your local database and populate it again with your clean data:
+To restore your local database from your clean data:
 ```
-script/import
+script/restore_prod_db
 ```
 
 ### User and Admin authentication (for the developer portal and admin interface)

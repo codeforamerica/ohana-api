@@ -6,7 +6,7 @@ task :setup_db => [
   ]
 
 task :load_data => :environment do
-  file = 'data/sample_data.json'
+  file = 'data/sample_data.txt'
 
   puts "===> Populating the #{Rails.env} DB with #{file}..."
   puts '===> Depending on the size of your data, this can take several minutes...'

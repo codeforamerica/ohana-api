@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+echo "===> Restoring the DB from data/ohana_api_production.dump..."
+pg_restore -c --no-owner -d ohana_api_development data/ohana_api_production.dump
+echo "===> Done restoring the DB."
