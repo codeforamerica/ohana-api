@@ -11,8 +11,8 @@ class Service < ActiveRecord::Base
   has_and_belongs_to_many :categories, -> { order('oe_id asc').uniq }
 
   has_many :regular_schedules, dependent: :destroy
-
-  accepts_nested_attributes_for :regular_schedules
+  accepts_nested_attributes_for :regular_schedules,
+                                allow_destroy: true, reject_if: :all_blank
 
   validates :accepted_payments, :languages, :required_documents, pg_array: true
 

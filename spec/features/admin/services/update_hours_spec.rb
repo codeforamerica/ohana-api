@@ -26,4 +26,20 @@ feature 'Update hours' do
     expect(find_field("#{prefix}_closes_at_4i").value).to eq '17'
     expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
   end
+
+  scenario 'removing an hour', :js do
+    @service.regular_schedules.create!(attributes_for(:regular_schedule))
+    visit '/admin/locations/vrs-services'
+    click_link 'Literacy Program'
+
+    prefix = 'service_regular_schedules_attributes_0'
+    expect(find_field("#{prefix}_weekday").value).to eq '1'
+
+    within '.hours' do
+      click_link 'x'
+    end
+    click_button 'Save changes'
+
+    expect(page).to have_no_field("#{prefix}_weekday")
+  end
 end

@@ -27,7 +27,8 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :services, allow_destroy: true
 
   has_many :regular_schedules, dependent: :destroy
-  accepts_nested_attributes_for :regular_schedules
+  accepts_nested_attributes_for :regular_schedules,
+                                allow_destroy: true, reject_if: :all_blank
 
   validates :address,
             presence: {
