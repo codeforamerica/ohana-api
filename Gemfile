@@ -49,7 +49,7 @@ gem 'friendly_id', '~> 5.0.3'
 
 gem 'rabl-rails'
 
-gem 'rack-timeout', '0.1.0beta4'
+gem 'rack-timeout', '~> 0.1'
 
 # Caching
 gem 'rack-cache'

@@ -2,3 +2,5 @@
 # config/unicorn.rb. The rack-timeout gem allows you to troubleshoot
 # H13 errors on Heroku by providing a stack trace.
 Rack::Timeout.timeout = 10
+
+Rack::Timeout.unregister_state_change_observer(:logger) unless Rails.env.production?
