@@ -31,7 +31,7 @@ describe RegularSchedule do
   end
 
   it do
-    is_expected.to allow_value(3, 'Monday', 'Tue', '0', '6').for(:weekday)
+    is_expected.to allow_value(3, 'Monday', 'Tue', '1', '7').for(:weekday)
   end
 
   it do
@@ -48,7 +48,7 @@ describe RegularSchedule do
 
   it { is_expected.not_to allow_value(11).for(:weekday) }
   it { is_expected.not_to allow_value('-1').for(:weekday) }
-  it { is_expected.not_to allow_value('7').for(:weekday) }
+  it { is_expected.not_to allow_value('0').for(:weekday) }
 
   it do
     is_expected.not_to allow_value('Freitag').for(:weekday).
@@ -56,10 +56,10 @@ describe RegularSchedule do
   end
 
   describe 'conversion of weekday to integer' do
-    it 'converts a full weekday name to its integer value' do
-      rs = build(:regular_schedule, weekday: 'Tuesday')
+    it 'converts Sunday to 7' do
+      rs = build(:regular_schedule, weekday: 'Sunday')
       rs.valid?
-      expect(rs.weekday).to eq(2)
+      expect(rs.weekday).to eq(7)
     end
 
     it 'converts an abbreviated weekday name to its integer value' do

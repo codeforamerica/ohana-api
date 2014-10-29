@@ -1,4 +1,6 @@
 class RegularSchedule < ActiveRecord::Base
+  default_scope { order('weekday ASC') }
+
   attr_accessible :weekday, :opens_at, :closes_at
 
   belongs_to :location, touch: true
