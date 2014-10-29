@@ -10,6 +10,4 @@ class RegularSchedule < ActiveRecord::Base
             presence: { message: I18n.t('errors.messages.blank_for_rs') }
 
   validates :weekday, weekday: true
-
-  validates :opens_at, :closes_at, uniqueness: { scope: :weekday }
 end

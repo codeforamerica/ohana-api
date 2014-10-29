@@ -12,9 +12,6 @@ describe RegularSchedule do
   it { is_expected.to belong_to(:location).touch(true) }
   it { is_expected.to belong_to(:service).touch(true) }
 
-  it { is_expected.to validate_uniqueness_of(:opens_at).scoped_to(:weekday) }
-  it { is_expected.to validate_uniqueness_of(:closes_at).scoped_to(:weekday) }
-
   it do
     is_expected.to validate_presence_of(:weekday).
       with_message("can't be blank for Regular Schedule")
@@ -72,6 +69,14 @@ describe RegularSchedule do
       rs = build(:regular_schedule, weekday: '3')
       rs.valid?
       expect(rs.weekday).to eq(3)
+    end
+  end
+
+  context 'when same schedule is created for different entities' do
+    it 'allows the schedule creation' do
+      create(:regular_schedule)
+      second_rs = create(:regular_schedule)
+      expect(second_rs.weekday).to eq(1)
     end
   end
 end
