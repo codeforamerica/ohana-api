@@ -6,7 +6,11 @@ class PgArrayValidator < ActiveModel::EachValidator
 
     return if attr.include? '{'
 
-    fail ActiveRecord::SerializationTypeMismatch unless attr.is_a?(Array)
+    default_message = "#{attr} #{I18n.t('errors.messages.not_an_array')}"
+    unless attr.is_a?(Array)
+      record.errors[attribute] << (options[:message] || default_message)
+      return
+    end
 
     record[attribute] = attr.map(&:squish).reject(&:blank?).uniq
   end

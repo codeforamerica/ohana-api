@@ -55,7 +55,7 @@ describe 'PATCH /locations/:id)' do
     expect(@loc.reload.languages).to eq ['English']
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
+    expect(json['errors'][0]['languages']).to eq [' is not an Array.']
   end
 
   it 'sets languages to empty array if value is empty array' do

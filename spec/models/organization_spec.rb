@@ -6,11 +6,14 @@ describe Organization do
 
   it { is_expected.to be_valid }
 
+  it { is_expected.to allow_mass_assignment_of(:accreditations) }
   it { is_expected.to allow_mass_assignment_of(:alternate_name) }
   it { is_expected.to allow_mass_assignment_of(:date_incorporated) }
   it { is_expected.to allow_mass_assignment_of(:description) }
   it { is_expected.to allow_mass_assignment_of(:email) }
+  it { is_expected.to allow_mass_assignment_of(:funding_sources) }
   it { is_expected.to allow_mass_assignment_of(:legal_status) }
+  it { is_expected.to allow_mass_assignment_of(:licenses) }
   it { is_expected.to allow_mass_assignment_of(:name) }
   it { is_expected.to allow_mass_assignment_of(:tax_id) }
   it { is_expected.to allow_mass_assignment_of(:tax_status) }
@@ -40,11 +43,38 @@ describe Organization do
     with_message('http:// is not a valid URL')
   end
 
+  it do
+    is_expected.not_to allow_value('BBB').
+    for(:accreditations).
+    with_message('BBB is not an Array.')
+  end
+
+  it do
+    is_expected.not_to allow_value('BBB').
+    for(:funding_sources).
+    with_message('BBB is not an Array.')
+  end
+
+  it do
+    is_expected.not_to allow_value('BBB').
+    for(:licenses).
+    with_message('BBB is not an Array.')
+  end
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       org = build(:org_with_extra_whitespace)
       org.valid?
+      expect(org.accreditations).to eq(%w(BBB AAA))
+      expect(org.alternate_name).to eq('AKA')
+      expect(org.description).to eq('Organization created for testing purposes')
+      expect(org.email).to eq('foo@bar.org')
+      expect(org.funding_sources).to eq(%w(County State))
+      expect(org.legal_status).to eq('nonprofit')
+      expect(org.licenses).to eq(['Health Bureau'])
       expect(org.name).to eq('Food Pantry')
+      expect(org.tax_id).to eq('12345')
+      expect(org.tax_status).to eq('501c3')
       expect(org.website).to eq('http://cfa.org')
     end
   end

@@ -66,6 +66,7 @@ en:
       invalid_weekday: 'is not a valid weekday'
       invalid_zip: 'is not a valid ZIP code'
       no_address: "Unless it's virtual, a location must have an address."
+      not_an_array: 'is not an Array.'
 
 
   titles:

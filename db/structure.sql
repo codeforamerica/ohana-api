@@ -435,7 +435,10 @@ CREATE TABLE organizations (
     legal_status character varying(255),
     tax_id character varying(255),
     tax_status character varying(255),
-    website character varying(255)
+    website character varying(255),
+    funding_sources character varying(255)[] DEFAULT '{}'::character varying[],
+    accreditations character varying(255)[] DEFAULT '{}'::character varying[],
+    licenses character varying(255)[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -1313,4 +1316,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141027154101');
 INSERT INTO schema_migrations (version) VALUES ('20141029170109');
 
 INSERT INTO schema_migrations (version) VALUES ('20141030012617');
+
+INSERT INTO schema_migrations (version) VALUES ('20141030204742');
 

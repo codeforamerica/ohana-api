@@ -70,6 +70,24 @@ describe Service do
   it { is_expected.to allow_value('active', 'defunct', 'inactive').for(:status) }
   it { is_expected.not_to allow_value('Active').for(:status) }
 
+  it do
+    is_expected.not_to allow_value('BBB').
+    for(:accepted_payments).
+    with_message('BBB is not an Array.')
+  end
+
+  it do
+    is_expected.not_to allow_value('BBB').
+    for(:required_documents).
+    with_message('BBB is not an Array.')
+  end
+
+  it do
+    is_expected.not_to allow_value('BBB').
+    for(:languages).
+    with_message('BBB is not an Array.')
+  end
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       service = build(:service_with_extra_whitespace)

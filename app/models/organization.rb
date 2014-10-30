@@ -1,8 +1,9 @@
 class Organization < ActiveRecord::Base
   default_scope { order('id DESC') }
 
-  attr_accessible :alternate_name, :date_incorporated, :description, :email,
-                  :legal_status, :name, :tax_id, :tax_status, :website
+  attr_accessible :accreditations, :alternate_name, :date_incorporated,
+                  :description, :email, :funding_sources, :legal_status,
+                  :licenses, :name, :tax_id, :tax_status, :website
 
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
@@ -16,6 +17,8 @@ class Organization < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
   validates :website, url: true, allow_blank: true
+
+  validates :accreditations, :funding_sources, :licenses, pg_array: true
 
   auto_strip_attributes :alternate_name, :description, :email, :legal_status,
                         :name, :tax_id, :tax_status, :website

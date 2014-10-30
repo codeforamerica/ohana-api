@@ -105,7 +105,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
+    expect(json['errors'][0]['languages']).to eq [' is not an Array.']
   end
 
   it 'returns 422 when accepted_payments is empty String' do
@@ -115,7 +115,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
+    expect(json['errors'][0]['accepted_payments']).to eq [' is not an Array.']
   end
 
   it 'returns 422 when required_documents is empty String' do
@@ -125,7 +125,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
     )
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
+    expect(json['errors'][0]['required_documents']).to eq [' is not an Array.']
   end
 
   it "doesn't allow updating a service without a valid token" do
