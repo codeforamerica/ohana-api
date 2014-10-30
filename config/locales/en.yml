@@ -48,6 +48,8 @@ en:
       blank_for_address: "can't be blank for Address"
       blank_for_category: "can't be blank for Category"
       blank_for_contact: "can't be blank for Contact"
+      blank_for_hs: "can't be blank for Holiday Schedule"
+      blank_for_hs_open: "can't be blank for Holiday Schedule when open on that day"
       blank_for_location: "can't be blank for Location"
       blank_for_mail_address: "can't be blank for Mail Address"
       blank_for_org: "can't be blank for Organization"

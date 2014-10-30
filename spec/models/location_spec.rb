@@ -28,12 +28,15 @@ describe Location do
   it { is_expected.to have_many(:phones).dependent(:destroy) }
   it { is_expected.to have_many(:services).dependent(:destroy) }
   it { is_expected.to have_many(:regular_schedules).dependent(:destroy) }
+  it { is_expected.to have_many(:holiday_schedules).dependent(:destroy) }
 
   it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
-  it { is_expected.to accept_nested_attributes_for(:contacts) }
+  it { is_expected.to accept_nested_attributes_for(:contacts).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:mail_address).allow_destroy(true) }
-  it { is_expected.to accept_nested_attributes_for(:phones) }
-  it { is_expected.to accept_nested_attributes_for(:services) }
+  it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
+  it { is_expected.to accept_nested_attributes_for(:services).allow_destroy(true) }
+  it { is_expected.to accept_nested_attributes_for(:regular_schedules).allow_destroy(true) }
+  it { is_expected.to accept_nested_attributes_for(:holiday_schedules).allow_destroy(true) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Location") }
   it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Location") }

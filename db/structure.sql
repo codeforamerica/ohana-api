@@ -299,6 +299,41 @@ ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
 
 
 --
+-- Name: holiday_schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE holiday_schedules (
+    id integer NOT NULL,
+    location_id integer,
+    service_id integer,
+    closed boolean NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    opens_at time without time zone,
+    closes_at time without time zone
+);
+
+
+--
+-- Name: holiday_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE holiday_schedules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: holiday_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE holiday_schedules_id_seq OWNED BY holiday_schedules.id;
+
+
+--
 -- Name: locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -676,6 +711,13 @@ ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY holiday_schedules ALTER COLUMN id SET DEFAULT nextval('holiday_schedules_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq'::regclass);
 
 
@@ -774,6 +816,14 @@ ALTER TABLE ONLY contacts
 
 ALTER TABLE ONLY friendly_id_slugs
     ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: holiday_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY holiday_schedules
+    ADD CONSTRAINT holiday_schedules_pkey PRIMARY KEY (id);
 
 
 --
@@ -943,6 +993,20 @@ CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
+
+
+--
+-- Name: index_holiday_schedules_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_holiday_schedules_on_location_id ON holiday_schedules USING btree (location_id);
+
+
+--
+-- Name: index_holiday_schedules_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_holiday_schedules_on_service_id ON holiday_schedules USING btree (service_id);
 
 
 --
@@ -1247,4 +1311,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141024025404');
 INSERT INTO schema_migrations (version) VALUES ('20141027154101');
 
 INSERT INTO schema_migrations (version) VALUES ('20141029170109');
+
+INSERT INTO schema_migrations (version) VALUES ('20141030012617');
 
