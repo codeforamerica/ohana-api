@@ -4,7 +4,8 @@ class Location < ActiveRecord::Base
                   :longitude, :name, :short_desc, :transportation, :urls,
                   :virtual, :address_attributes, :contacts_attributes,
                   :mail_address_attributes, :phones_attributes,
-                  :services_attributes, :regular_schedules_attributes
+                  :services_attributes, :regular_schedules_attributes,
+                  :holiday_schedules_attributes
 
   belongs_to :organization
   accepts_nested_attributes_for :organization
@@ -28,6 +29,10 @@ class Location < ActiveRecord::Base
 
   has_many :regular_schedules, dependent: :destroy
   accepts_nested_attributes_for :regular_schedules,
+                                allow_destroy: true, reject_if: :all_blank
+
+  has_many :holiday_schedules, dependent: :destroy
+  accepts_nested_attributes_for :holiday_schedules,
                                 allow_destroy: true, reject_if: :all_blank
 
   validates :address,
