@@ -3,7 +3,11 @@
     %strong
       Keywords
     %p.desc
-      The best way to ensure a service appears in search results is to write a detailed and accurate service description. If certain words or phrases cannot be part of the description, such as common misspellings, then the keywords field is where you can add them.
+      The best way to ensure a service appears in search results is to write
+      a detailed and accurate service description. If certain words or phrases
+      cannot be part of the description, such as common misspellings, then the
+      keywords field is where you can add them. You can enter multiple
+      keywords in this box by pressing the comma key after each one.
 
   = field_set_tag do
     = text_field_tag 'service[keywords][]', @service.keywords.join(','), id: 'service_keywords', class: 'form-control'

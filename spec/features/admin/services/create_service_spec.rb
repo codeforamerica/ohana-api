@@ -84,7 +84,6 @@ feature 'Create a new service' do
     select2('first', 'service_funding_sources', multiple: true, tag: true)
     select2('second', 'service_funding_sources', multiple: true, tag: true)
     click_button 'Create service'
-    click_link 'New VRS Services service'
 
     service = Service.find_by_name('New VRS Services service')
     expect(service.funding_sources).to eq %w(first second)

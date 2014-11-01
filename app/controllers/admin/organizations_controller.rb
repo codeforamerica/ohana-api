@@ -3,6 +3,8 @@ class Admin
     before_action :authenticate_admin!
     layout 'admin'
 
+    include Taggable
+
     def index
       @admin_decorator = AdminDecorator.new(current_admin)
       @all_orgs = @admin_decorator.orgs
@@ -29,6 +31,9 @@ class Admin
     def update
       @organization = Organization.find(params[:id])
 
+      shift_and_split_params(
+        params[:organization], :accreditations, :funding_sources, :licenses)
+
       respond_to do |format|
         if @organization.update(params[:organization])
           format.html do
@@ -51,6 +56,9 @@ class Admin
     end
 
     def create
+      shift_and_split_params(
+        params[:organization], :accreditations, :funding_sources, :licenses)
+
       @organization = Organization.new(params[:organization])
 
       respond_to do |format|

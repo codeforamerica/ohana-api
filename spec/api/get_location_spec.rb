@@ -129,10 +129,13 @@ describe 'GET /locations/:id' do
       serialized_organization =
         {
           'id'                => @location.organization.id,
+          'accreditations'    => [],
           'alternate_name'    => nil,
           'date_incorporated' => nil,
           'description'       => 'Organization created for testing purposes',
           'email'             => nil,
+          'funding_sources'   => [],
+          'licenses'          => [],
           'locations_url'     => locations_url,
           'name'              => 'Parent Agency',
           'slug'              => 'parent-agency',

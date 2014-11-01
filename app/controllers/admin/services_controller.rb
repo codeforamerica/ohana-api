@@ -3,6 +3,8 @@ class Admin
     before_action :authenticate_admin!
     layout 'admin'
 
+    include Taggable
+
     def index
       @admin_decorator = AdminDecorator.new(current_admin)
       @services = Kaminari.paginate_array(@admin_decorator.services).
@@ -28,7 +30,7 @@ class Admin
 
       add_program_to_service_if_authorized
 
-      shift_and_split_params(params[:service])
+      shift_and_split_params(params[:service], :funding_sources, :keywords)
 
       respond_to do |format|
         if @service.update(params[:service])
@@ -56,7 +58,7 @@ class Admin
     end
 
     def create
-      shift_and_split_params(params[:service])
+      shift_and_split_params(params[:service], :funding_sources, :keywords)
 
       @location = Location.find(params[:location_id])
       @service = @location.services.new(params[:service])
@@ -94,12 +96,6 @@ class Admin
     end
 
     private
-
-    def shift_and_split_params(params)
-      [:funding_sources, :keywords].each do |key|
-        params[key] = params[key].shift.split(',')
-      end
-    end
 
     def add_program_to_service_if_authorized
       prog_id = params[:service][:program_id]
