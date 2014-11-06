@@ -1,9 +1,9 @@
 class Admin
   class ServicesController < ApplicationController
+    include Taggable
+
     before_action :authenticate_admin!
     layout 'admin'
-
-    include Taggable
 
     def index
       @admin_decorator = AdminDecorator.new(current_admin)
@@ -28,19 +28,13 @@ class Admin
       @location = Location.find(params[:location_id])
       @oe_ids = @service.categories.pluck(:oe_id)
 
-      add_program_to_service_if_authorized
+      preprocess_service
 
-      shift_and_split_params(params[:service], :funding_sources, :keywords)
-
-      respond_to do |format|
-        if @service.update(params[:service])
-          format.html do
-            redirect_to [:admin, @location, @service],
-                        notice: 'Service was successfully updated.'
-          end
-        else
-          format.html { render :edit }
-        end
+      if @service.update(params[:service])
+        redirect_to [:admin, @location, @service],
+                    notice: 'Service was successfully updated.'
+      else
+        render :edit
       end
     end
 
@@ -58,7 +52,7 @@ class Admin
     end
 
     def create
-      shift_and_split_params(params[:service], :funding_sources, :keywords)
+      preprocess_service_params
 
       @location = Location.find(params[:location_id])
       @service = @location.services.new(params[:service])
@@ -66,24 +60,18 @@ class Admin
 
       add_program_to_service_if_authorized
 
-      respond_to do |format|
-        if @service.save
-          format.html do
-            redirect_to admin_location_path(@location),
-                        notice: "Service '#{@service.name}' was successfully created."
-          end
-        else
-          format.html { render :new }
-        end
+      if @service.save
+        redirect_to admin_location_path(@location),
+                    notice: "Service '#{@service.name}' was successfully created."
+      else
+        render :new
       end
     end
 
     def destroy
       service = Service.find(params[:id])
       service.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_locations_path }
-      end
+      redirect_to admin_locations_path
     end
 
     def confirm_delete_service
@@ -96,6 +84,15 @@ class Admin
     end
 
     private
+
+    def preprocess_service
+      preprocess_service_params
+      add_program_to_service_if_authorized
+    end
+
+    def preprocess_service_params
+      shift_and_split_params(params[:service], :funding_sources, :keywords)
+    end
 
     def add_program_to_service_if_authorized
       prog_id = params[:service][:program_id]

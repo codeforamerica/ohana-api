@@ -49,22 +49,14 @@ class Admin
     end
 
     def create
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @orgs = @admin_decorator.orgs
-      org_id = params[:location][:organization_id]
-
       @location = Location.new(params[:location])
 
-      if @orgs.select { |org| org[0] == org_id.to_i }.present?
-        @location.organization = Organization.find(org_id)
-      end
+      assign_location_to_org(AdminDecorator.new(current_admin).orgs)
 
-      respond_to do |format|
-        if @location.save
-          format.html { redirect_to admin_locations_url, notice: 'Location was successfully created.' }
-        else
-          format.html { render :new }
-        end
+      if @location.save
+        redirect_to admin_locations_url, notice: 'Location was successfully created.'
+      else
+        render :new
       end
     end
 
@@ -83,6 +75,16 @@ class Admin
       respond_to do |format|
         format.html
         format.js
+      end
+    end
+
+    private
+
+    def assign_location_to_org(admin_orgs)
+      org_id = params[:location][:organization_id]
+
+      if admin_orgs.select { |org| org[0] == org_id.to_i }.present?
+        @location.organization = Organization.find(org_id)
       end
     end
   end

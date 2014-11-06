@@ -211,6 +211,35 @@ feature 'Create a new service' do
     expect(find_field("#{prefix}_closes_at_4i").value).to eq '17'
     expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
   end
+
+  scenario 'when adding holiday schedule', :js do
+    fill_in_required_service_fields
+    add_holiday_schedule(
+      start_month: 'January',
+      start_day: '1',
+      end_month: 'January',
+      end_day: '2',
+      closed: 'Closed'
+    )
+    click_button 'Create service'
+    click_link 'New VRS Services service'
+
+    prefix = 'service_holiday_schedules_attributes_0'
+
+    expect(find_field("#{prefix}_start_date_2i").value).to eq '1'
+    expect(find_field("#{prefix}_start_date_3i").value).to eq '1'
+
+    expect(find_field("#{prefix}_end_date_2i").value).to eq '1'
+    expect(find_field("#{prefix}_end_date_3i").value).to eq '2'
+
+    expect(find_field("#{prefix}_closed").value).to eq 'true'
+
+    expect(find_field("#{prefix}_opens_at_4i").value).to eq ''
+    expect(find_field("#{prefix}_opens_at_5i").value).to eq ''
+
+    expect(find_field("#{prefix}_closes_at_4i").value).to eq ''
+    expect(find_field("#{prefix}_closes_at_5i").value).to eq ''
+  end
 end
 
 describe 'when admin does not have access to the location' do

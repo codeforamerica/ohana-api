@@ -82,6 +82,7 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized services association' do
       @service.regular_schedules.create!(attributes_for(:regular_schedule))
+      @service.holiday_schedules.create!(attributes_for(:holiday_schedule))
 
       service_formatted_time = @service.reload.updated_at.
         strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
@@ -115,6 +116,15 @@ describe 'GET /locations/:id' do
               'weekday'   => 'Monday',
               'opens_at'  => '2000-01-01T09:30:00.000Z',
               'closes_at' => '2000-01-01T17:00:00.000Z'
+            }
+          ],
+          'holiday_schedules'  => [
+            {
+              'closed'     => true,
+              'start_date' => '2014-12-24',
+              'end_date'   => '2014-12-24',
+              'opens_at'   => nil,
+              'closes_at'  => nil
             }
           ]
         }]
@@ -206,6 +216,21 @@ describe 'GET /locations/:id' do
           'closes_at' => '2000-01-01T17:00:00.000Z'
         }
       expect(json['regular_schedules'].first).to eq(serialized_regular_schedule)
+    end
+
+    it 'includes the serialized holiday_schedules association' do
+      @location.holiday_schedules.create!(attributes_for(:holiday_schedule))
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+
+      serialized_holiday_schedule =
+        {
+          'closed'   => true,
+          'start_date'  => '2014-12-24',
+          'end_date' => '2014-12-24',
+          'opens_at'   => nil,
+          'closes_at'  => nil
+        }
+      expect(json['holiday_schedules'].first).to eq(serialized_holiday_schedule)
     end
 
     it 'is json' do

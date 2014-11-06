@@ -7,4 +7,5 @@ class ServiceSerializer < ActiveModel::Serializer
   # embed :ids, include: true
   has_many :categories
   has_many :regular_schedules
+  has_many :holiday_schedules
 end
