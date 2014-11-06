@@ -97,7 +97,7 @@
 // Adds a red border around invalid input fields after form submission.
 .field_with_errors
 {
-  input, textarea
+  input, select, textarea
   {
     border-color: red;
     border-width: 2px;

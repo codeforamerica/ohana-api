@@ -16,7 +16,8 @@ describe 'GET /locations/:location_id/services' do
         %w(id accepted_payments alternate_name audience description
            eligibility email fees funding_sources how_to_apply
            keywords languages name required_documents service_areas
-           status website wait updated_at categories regular_schedules)
+           status website wait updated_at categories regular_schedules
+           holiday_schedules)
       )
     end
   end

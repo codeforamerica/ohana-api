@@ -118,6 +118,35 @@ feature 'Create a new location' do
     expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
   end
 
+  scenario 'with valid holiday schedule', :js do
+    fill_in_all_required_fields
+    add_holiday_schedule(
+      start_month: 'January',
+      start_day: '1',
+      end_month: 'January',
+      end_day: '2',
+      closed: 'Closed'
+    )
+    click_button 'Create location'
+    click_link 'New Parent Agency location'
+
+    prefix = 'location_holiday_schedules_attributes_0'
+
+    expect(find_field("#{prefix}_start_date_2i").value).to eq '1'
+    expect(find_field("#{prefix}_start_date_3i").value).to eq '1'
+
+    expect(find_field("#{prefix}_end_date_2i").value).to eq '1'
+    expect(find_field("#{prefix}_end_date_3i").value).to eq '2'
+
+    expect(find_field("#{prefix}_closed").value).to eq 'true'
+
+    expect(find_field("#{prefix}_opens_at_4i").value).to eq ''
+    expect(find_field("#{prefix}_opens_at_5i").value).to eq ''
+
+    expect(find_field("#{prefix}_closes_at_4i").value).to eq ''
+    expect(find_field("#{prefix}_closes_at_5i").value).to eq ''
+  end
+
   scenario 'when adding an accessibility option', :js do
     fill_in_all_required_fields
     check 'location_accessibility_elevator'
@@ -167,6 +196,16 @@ feature 'Create a new location' do
 
     expect(find_field('location_virtual').value).
       to eq 'true'
+  end
+
+  scenario 'when setting languages', :js do
+    fill_in_all_required_fields
+    select2('French', 'location_languages', multiple: true)
+    select2('Spanish', 'location_languages', multiple: true)
+    click_button 'Create location'
+    click_link 'New Parent Agency location'
+
+    expect(find_field('location_languages').value).to eq %w(French Spanish)
   end
 end
 
