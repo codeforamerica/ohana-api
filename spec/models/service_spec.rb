@@ -26,20 +26,21 @@ describe Service do
   it { is_expected.to belong_to(:location).touch(true) }
   it { is_expected.to belong_to(:program) }
 
-  it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:how_to_apply).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
-
   # This is no longer working in Rails 4.1.2. I opened an issue:
   # https://github.com/thoughtbot/shoulda-matchers/issues/549
   xit { is_expected.to have_and_belong_to_many(:categories).order('oe_id asc') }
 
   it { is_expected.to have_many(:regular_schedules).dependent(:destroy) }
-  it { is_expected.to have_many(:holiday_schedules).dependent(:destroy) }
-
   it { is_expected.to accept_nested_attributes_for(:regular_schedules).allow_destroy(true) }
+  it { is_expected.to have_many(:holiday_schedules).dependent(:destroy) }
   it { is_expected.to accept_nested_attributes_for(:holiday_schedules).allow_destroy(true) }
+  it { is_expected.to have_many(:contacts).dependent(:destroy) }
+  it { is_expected.to accept_nested_attributes_for(:contacts) }
+
+  it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
+  it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
+  it { is_expected.to validate_presence_of(:how_to_apply).with_message("can't be blank for Service") }
+  it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
   it { is_expected.to serialize(:keywords).as(Array) }

@@ -244,7 +244,8 @@ CREATE TABLE contacts (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     department character varying(255),
-    organization_id integer
+    organization_id integer,
+    service_id integer
 );
 
 
@@ -986,6 +987,13 @@ CREATE INDEX index_contacts_on_organization_id ON contacts USING btree (organiza
 
 
 --
+-- Name: index_contacts_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_contacts_on_service_id ON contacts USING btree (service_id);
+
+
+--
 -- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1328,4 +1336,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141030012617');
 INSERT INTO schema_migrations (version) VALUES ('20141030204742');
 
 INSERT INTO schema_migrations (version) VALUES ('20141106215928');
+
+INSERT INTO schema_migrations (version) VALUES ('20141107161835');
 
