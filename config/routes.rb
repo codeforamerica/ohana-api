@@ -19,7 +19,9 @@ Rails.application.routes.draw do
         resources :contacts, except: [:show, :index]
       end
 
-      resources :organizations, except: :show
+      resources :organizations, except: :show do
+        resources :contacts, except: [:show, :index], controller: 'organization_contacts'
+      end
       resources :programs, except: :show
       resources :services, only: :index
 
@@ -32,6 +34,7 @@ Rails.application.routes.draw do
       get 'locations/:location_id/contacts/:id', to: 'contacts#edit'
       get 'locations/:id', to: 'locations#edit'
       get 'organizations/:id', to: 'organizations#edit'
+      get 'organizations/:organization_id/contacts/:id', to: 'organization_contacts#edit'
       get 'programs/:id', to: 'programs#edit'
     end
   end

@@ -21,6 +21,7 @@ describe Organization do
 
   it { is_expected.to have_many(:locations).dependent(:destroy) }
   it { is_expected.to have_many(:programs).dependent(:destroy) }
+  it { is_expected.to have_many(:contacts).dependent(:destroy) }
 
   it do
     is_expected.to validate_presence_of(:name).

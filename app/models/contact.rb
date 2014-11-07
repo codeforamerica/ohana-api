@@ -4,6 +4,7 @@ class Contact < ActiveRecord::Base
   attr_accessible :department, :email, :name, :title, :phones_attributes
 
   belongs_to :location, touch: true
+  belongs_to :organization
 
   has_many :phones, dependent: :destroy
   accepts_nested_attributes_for :phones,

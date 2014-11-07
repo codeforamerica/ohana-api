@@ -163,6 +163,12 @@ describe 'GET /locations' do
       expect(json.first.keys).to include('organization')
     end
 
+    it 'does not include contacts within Organization' do
+      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+      org_keys = json.first['organization'].keys
+      expect(org_keys).to_not include('contacts')
+    end
+
     it 'includes the correct url attribute' do
       loc_url = json.first['url']
 

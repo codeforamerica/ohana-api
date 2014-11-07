@@ -1,14 +1,14 @@
 class Admin
-  class ContactsController < ApplicationController
+  class OrganizationContactsController < ApplicationController
     before_action :authenticate_admin!
     layout 'admin'
 
     def edit
-      @location = Location.find(params[:location_id])
+      @organization = Organization.find(params[:organization_id])
       @contact = Contact.find(params[:id])
       @admin_decorator = AdminDecorator.new(current_admin)
 
-      unless @admin_decorator.allowed_to_access_location?(@location)
+      unless @admin_decorator.allowed_to_access_organization?(@organization)
         redirect_to admin_dashboard_path,
                     alert: "Sorry, you don't have access to that page."
       end
@@ -16,11 +16,11 @@ class Admin
 
     def update
       @contact = Contact.find(params[:id])
-      @location = Location.find(params[:location_id])
+      @organization = Organization.find(params[:organization_id])
 
       if @contact.update(params[:contact])
         flash[:notice] = 'Contact was successfully updated.'
-        redirect_to [:admin, @location, @contact]
+        redirect_to [:admin, @organization, @contact]
       else
         render :edit
       end
@@ -28,9 +28,9 @@ class Admin
 
     def new
       @admin_decorator = AdminDecorator.new(current_admin)
-      @location = Location.find(params[:location_id])
+      @organization = Organization.find(params[:organization_id])
 
-      unless @admin_decorator.allowed_to_access_location?(@location)
+      unless @admin_decorator.allowed_to_access_organization?(@organization)
         redirect_to admin_dashboard_path,
                     alert: "Sorry, you don't have access to that page."
       end
@@ -39,12 +39,12 @@ class Admin
     end
 
     def create
-      @location = Location.find(params[:location_id])
-      @contact = @location.contacts.new(params[:contact])
+      @organization = Organization.find(params[:organization_id])
+      @contact = @organization.contacts.new(params[:contact])
 
       if @contact.save
         flash[:notice] = "Contact '#{@contact.name}' was successfully created."
-        redirect_to admin_location_path(@location)
+        redirect_to admin_organization_path(@organization)
       else
         render :new
       end
@@ -53,7 +53,7 @@ class Admin
     def destroy
       contact = Contact.find(params[:id])
       contact.destroy
-      redirect_to admin_location_path(contact.location),
+      redirect_to admin_organization_path(contact.organization),
                   notice: "Contact '#{contact.name}' was successfully deleted."
     end
   end

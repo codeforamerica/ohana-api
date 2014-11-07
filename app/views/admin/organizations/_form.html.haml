@@ -1,5 +1,16 @@
 = render 'admin/organizations/forms/fields', f: f
 
+.content-box
+  %h2= 'Contacts'
+  - if @organization.contacts.present?
+    = 'Click a Contact below to view and update it:'
+    %p
+    - @organization.contacts.each do |contact|
+      = link_to contact.name, edit_admin_organization_contact_path(@organization, contact)
+      %br
+  %p
+    = link_to 'Add a new contact', new_admin_organization_contact_path(@organization), class: 'btn btn-primary'
+
 .danger-zone
   %header
     %strong

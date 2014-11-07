@@ -7,6 +7,7 @@ class Organization < ActiveRecord::Base
 
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
+  has_many :contacts, dependent: :destroy
 
   validates :name,
             presence: { message: I18n.t('errors.messages.blank_for_org') },
