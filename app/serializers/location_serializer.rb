@@ -11,7 +11,7 @@ class LocationSerializer < ActiveModel::Serializer
   has_many :services
   has_many :regular_schedules
   has_many :holiday_schedules
-  has_one :organization
+  has_one :organization, serializer: SummarizedOrganizationSerializer
 
   def url
     api_location_url(object)

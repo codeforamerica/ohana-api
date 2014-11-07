@@ -6,7 +6,7 @@ module Api
       include CustomErrors
 
       def index
-        orgs = Organization.page(params[:page]).per(params[:per_page])
+        orgs = Organization.includes(:contacts).page(params[:page]).per(params[:per_page])
         render json: orgs, status: 200
         generate_pagination_headers(orgs)
       end

@@ -1,9 +1,7 @@
-class OrganizationSerializer < ActiveModel::Serializer
+class LocationsOrganizationSerializer < ActiveModel::Serializer
   attributes :id, :accreditations, :alternate_name, :date_incorporated,
              :description, :email, :funding_sources, :licenses, :name, :slug,
              :website, :url, :locations_url
-
-  has_many :contacts
 
   def url
     api_organization_url(object)

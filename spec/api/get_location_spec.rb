@@ -134,23 +134,14 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized organization association' do
       org = @location.organization
-      locations_url = api_org_locations_url(org)
 
       serialized_organization =
         {
           'id'                => @location.organization.id,
-          'accreditations'    => [],
           'alternate_name'    => nil,
-          'date_incorporated' => nil,
-          'description'       => 'Organization created for testing purposes',
-          'email'             => nil,
-          'funding_sources'   => [],
-          'licenses'          => [],
-          'locations_url'     => locations_url,
           'name'              => 'Parent Agency',
           'slug'              => 'parent-agency',
-          'url'               => api_organization_url(org),
-          'website'           => nil
+          'url'               => api_organization_url(org)
         }
 
       expect(json['organization']).to eq(serialized_organization)

@@ -4,7 +4,7 @@ class LocationsSerializer < ActiveModel::Serializer
              :updated_at, :urls, :contacts_url, :services_url, :url
 
   has_one :address
-  has_one :organization
+  has_one :organization, serializer: LocationsOrganizationSerializer
   has_many :phones
 
   def contacts_url
