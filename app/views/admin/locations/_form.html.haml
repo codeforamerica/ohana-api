@@ -2,11 +2,12 @@
 
 .content-box
   %h2= 'Contacts'
-  = 'Click a Contact below to view and update it:'
-  %p
-  - @location.contacts.each do |contact|
-    = link_to contact.name, edit_admin_location_contact_path(@location, contact)
-    %br
+  - if @location.contacts.present?
+    = 'Click a Contact below to view and update it:'
+    %p
+    - @location.contacts.each do |contact|
+      = link_to contact.name, edit_admin_location_contact_path(@location, contact)
+      %br
   %p
     = link_to 'Add a new contact', new_admin_location_contact_path(@location), class: 'btn btn-primary'
 

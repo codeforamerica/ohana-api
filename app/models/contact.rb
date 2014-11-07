@@ -5,6 +5,7 @@ class Contact < ActiveRecord::Base
 
   belongs_to :location, touch: true
   belongs_to :organization
+  belongs_to :service, touch: true
 
   has_many :phones, dependent: :destroy
   accepts_nested_attributes_for :phones,

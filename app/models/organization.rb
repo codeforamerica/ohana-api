@@ -3,11 +3,13 @@ class Organization < ActiveRecord::Base
 
   attr_accessible :accreditations, :alternate_name, :date_incorporated,
                   :description, :email, :funding_sources, :legal_status,
-                  :licenses, :name, :tax_id, :tax_status, :website
+                  :licenses, :name, :tax_id, :tax_status, :website,
+                  :contacts_attributes
 
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
   has_many :contacts, dependent: :destroy
+  accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
   validates :name,
             presence: { message: I18n.t('errors.messages.blank_for_org') },
