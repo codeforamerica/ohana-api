@@ -1,15 +1,16 @@
 require 'rails_helper'
 
-feature 'Create a new contact for organization' do
+feature 'Create a new contact for service' do
   background do
-    @org = create(:organization)
+    create_service
     login_super_admin
-    visit '/admin/organizations/parent-agency'
+    visit '/admin/locations/vrs-services'
+    click_link 'Literacy Program'
     click_link 'Add a new contact'
   end
 
-  it 'creates a contact for the right organization' do
-    expect(page).to have_content "Creating contact for #{@org.name}"
+  it 'creates a contact for the right service' do
+    expect(page).to have_content "Creating contact for #{@service.name}"
   end
 
   scenario 'with all required fields' do
@@ -60,12 +61,12 @@ feature 'Create a new contact for organization' do
   end
 end
 
-describe 'when admin does not have access to the organization' do
+describe 'when admin does not have access to the service' do
   it 'denies access to create a new contact' do
-    create(:organization)
+    create_service
     login_admin
 
-    visit('/admin/organizations/parent-agency/contacts/new')
+    visit("/admin/locations/vrs-services/services/#{@service.id}/contacts/new")
 
     expect(page).to have_content "Sorry, you don't have access to that page."
   end

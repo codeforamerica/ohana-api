@@ -111,6 +111,12 @@ feature 'Admin Home page' do
       end
     end
 
+    it 'includes a link to services in the navigation' do
+      within '.navbar' do
+        expect(page).to have_link 'Services', href: admin_services_path
+      end
+    end
+
     it 'does not display a link to add a new organization' do
       expect(page).not_to have_link 'Add a new organization', new_admin_organization_path
     end

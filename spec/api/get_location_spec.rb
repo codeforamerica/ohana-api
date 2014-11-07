@@ -111,6 +111,7 @@ describe 'GET /locations/:id' do
           'wait'               => nil,
           'updated_at'         => service_formatted_time,
           'categories'         => [],
+          'contacts'           => [],
           'regular_schedules'  => [
             {
               'weekday'   => 'Monday',

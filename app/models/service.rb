@@ -20,7 +20,8 @@ class Service < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   has_many :contacts, dependent: :destroy
-  accepts_nested_attributes_for :contacts, reject_if: :all_blank
+  accepts_nested_attributes_for :contacts,
+                                allow_destroy: true, reject_if: :all_blank
 
   validates :accepted_payments, :languages, :required_documents, pg_array: true
 
