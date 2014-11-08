@@ -23,6 +23,9 @@ describe Organization do
   it { is_expected.to have_many(:programs).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
 
+  it { is_expected.to have_many(:phones).dependent(:destroy) }
+  it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
+
   it do
     is_expected.to validate_presence_of(:name).
       with_message("can't be blank for Organization")
