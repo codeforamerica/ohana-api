@@ -1,7 +1,7 @@
 class Location < ActiveRecord::Base
   attr_accessible :accessibility, :active, :admin_emails, :alternate_name,
                   :description, :emails, :languages, :latitude,
-                  :longitude, :name, :short_desc, :transportation, :urls,
+                  :longitude, :name, :short_desc, :transportation, :website,
                   :virtual, :address_attributes, :contacts_attributes,
                   :mail_address_attributes, :phones_attributes,
                   :services_attributes, :regular_schedules_attributes,
@@ -58,11 +58,7 @@ class Location < ActiveRecord::Base
   ## displayed in the ohana-web-search client to suit your needs.
   # validates :short_desc, length: { maximum: 200 }
 
-  # Custom validation for values within arrays.
-  # For example, the urls field is an array that can contain multiple URLs.
-  # To be able to validate each URL in the array, we have to use a
-  # custom array validator. See app/validators/array_validator.rb
-  validates :urls, array: { url: true }
+  validates :website, url: true
 
   validates :languages, pg_array: true
 
@@ -88,12 +84,10 @@ class Location < ActiveRecord::Base
 
   serialize :emails, Array
 
-  serialize :urls, Array
+  auto_strip_attributes :description, :name, :short_desc, :transportation,
+                        :website
 
-  auto_strip_attributes :description, :name, :short_desc,
-                        :transportation
-
-  auto_strip_attributes :admin_emails, :emails, :urls,
+  auto_strip_attributes :admin_emails, :emails,
                         reject_blank: true, nullify: false
 
   extend FriendlyId

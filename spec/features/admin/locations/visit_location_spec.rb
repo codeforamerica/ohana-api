@@ -29,11 +29,11 @@ feature 'Visiting a specific location' do
   end
 
   scenario 'when location includes domain name' do
-    @location.update!(urls: ['http://samaritanhouse.com'])
+    @location.update!(website: 'http://samaritanhouse.com')
     login_admin
     visit('/admin/locations/vrs-services')
     expect(page).to_not have_content "Sorry, you don't have access to that page"
-    @location.update!(urls: [])
+    @location.update!(website: '')
   end
 
   scenario 'when admin is location admin' do

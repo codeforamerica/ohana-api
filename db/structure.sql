@@ -352,14 +352,14 @@ CREATE TABLE locations (
     name text,
     short_desc text,
     transportation text,
-    urls text,
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     tsv_body tsvector,
     alternate_name character varying(255),
     virtual boolean DEFAULT false,
-    active boolean DEFAULT true
+    active boolean DEFAULT true,
+    website character varying(255)
 );
 
 
@@ -1227,10 +1227,10 @@ CREATE INDEX locations_name ON locations USING gin (to_tsvector('english'::regco
 
 
 --
--- Name: locations_urls; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: locations_website_with_varchar_pattern_ops; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX locations_urls ON locations USING gin (to_tsvector('english'::regconfig, urls));
+CREATE INDEX locations_website_with_varchar_pattern_ops ON locations USING btree (website varchar_pattern_ops);
 
 
 --
@@ -1358,4 +1358,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141107161835');
 INSERT INTO schema_migrations (version) VALUES ('20141108042551');
 
 INSERT INTO schema_migrations (version) VALUES ('20141108183056');
+
+INSERT INTO schema_migrations (version) VALUES ('20141108194838');
+
+INSERT INTO schema_migrations (version) VALUES ('20141108214741');
 
