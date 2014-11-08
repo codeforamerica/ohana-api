@@ -15,18 +15,6 @@ describe 'PATCH /locations/:id)' do
     expect(json['name']).to eq('New Name')
   end
 
-  it 'sets urls to empty array if value is empty array' do
-    @loc.update!(urls: %w(http://cfa.org))
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), urls: []
-    expect(json['urls']).to eq([])
-  end
-
-  it 'sets urls to empty array if value is nil' do
-    @loc.update!(urls: %w(http://cfa.org))
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), urls: nil
-    expect(json['urls']).to eq([])
-  end
-
   it 'returns 422 if emails is set to empty string' do
     @loc.update!(emails: %w(moncef@cfa.org))
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), emails: ''
@@ -37,13 +25,6 @@ describe 'PATCH /locations/:id)' do
 
   it 'returns 422 if admin_emails is set to empty string' do
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), admin_emails: ''
-    expect(response.status).to eq(422)
-    expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
-  end
-
-  it 'returns 422 if urls is set to empty string' do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), urls: ''
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
     expect(json['error']).to include('Attribute was supposed to be an Array')

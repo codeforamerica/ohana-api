@@ -32,9 +32,9 @@ module Search
         Location.where(locations[:admin_emails].matches("%#{email}%").
                 or(locations[:emails].matches("%#{email}%")))
       else
-        # where('urls ilike :q or emails ilike :q or admin_emails @@ :p', q: "%#{domain}%", p: email)
+        # where('website ilike :q or emails ilike :q or admin_emails @@ :p', q: "%#{domain}%", p: email)
         Location.where(locations[:admin_emails].matches("%#{email}%").
-                or(locations[:urls].matches("%#{domain}%")).
+                or(locations[:website].matches("%#{domain}%")).
                 or(locations[:emails].matches("%#{domain}%")))
       end
     end)

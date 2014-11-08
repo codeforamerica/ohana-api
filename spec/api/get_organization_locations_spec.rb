@@ -15,7 +15,7 @@ describe 'GET /organizations/:organization_id/locations' do
         name: 'new location',
         short_desc: 'short_desc',
         transportation: 'BART stops 1 block away',
-        urls: %w(http://monfresh.com),
+        website: 'http://monfresh.com',
         address_attributes: attributes_for(:address)
       }
       @location = @org.locations.create!(attrs)
@@ -128,8 +128,8 @@ describe 'GET /organizations/:organization_id/locations' do
       expect(json.first.keys).to_not include('transportation')
     end
 
-    it 'includes the location urls attribute' do
-      expect(json.first.keys).to include('urls')
+    it 'includes the location website attribute' do
+      expect(json.first.keys).to include('website')
     end
 
     it "doesn't include the location contacts attribute" do

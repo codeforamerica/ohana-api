@@ -31,11 +31,11 @@ feature 'Visiting a specific organization' do
   end
 
   scenario 'when admin has matched custom domain name' do
-    @location.update!(urls: ['http://samaritanhouse.com'])
+    @location.update!(website: 'http://samaritanhouse.com')
     login_admin
     visit('/admin/organizations/parent-agency')
     expect(page).to_not have_content "Sorry, you don't have access to that page"
-    @location.update!(urls: [])
+    @location.update!(website: '')
   end
 
   scenario 'when admin is location admin' do

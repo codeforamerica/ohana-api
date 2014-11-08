@@ -17,7 +17,7 @@ describe Location do
   it { is_expected.to allow_mass_assignment_of(:name) }
   it { is_expected.to allow_mass_assignment_of(:short_desc) }
   it { is_expected.to allow_mass_assignment_of(:transportation) }
-  it { is_expected.to allow_mass_assignment_of(:urls) }
+  it { is_expected.to allow_mass_assignment_of(:website) }
   it { is_expected.to allow_mass_assignment_of(:virtual) }
 
   # Associations
@@ -43,17 +43,17 @@ describe Location do
   it { is_expected.to validate_presence_of(:organization).with_message("can't be blank for Location") }
 
   # Validations
-  it { is_expected.to allow_value('http://monfresh.com').for(:urls) }
+  it { is_expected.to allow_value('http://monfresh.com').for(:website) }
 
   it do
     is_expected.not_to allow_value('http://').
-    for(:urls).
+    for(:website).
     with_message('http:// is not a valid URL')
   end
 
-  it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:urls) }
-  it { is_expected.not_to allow_value('http://codeforamericaorg').for(:urls) }
-  it { is_expected.not_to allow_value('www.codeforamerica.org').for(:urls) }
+  it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:website) }
+  it { is_expected.not_to allow_value('http://codeforamericaorg').for(:website) }
+  it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
 
   it { is_expected.to allow_value('moncef@blah.com').for(:emails) }
 
@@ -87,7 +87,6 @@ describe Location do
 
   it { is_expected.to serialize(:admin_emails).as(Array) }
   it { is_expected.to serialize(:emails).as(Array) }
-  it { is_expected.to serialize(:urls).as(Array) }
 
   describe 'invalidations' do
     context 'non-virtual and without an address' do
@@ -104,7 +103,7 @@ describe Location do
       expect(loc.name).to eq('VRS Services')
       expect(loc.short_desc).to eq('Provides job training.')
       expect(loc.transportation).to eq('BART stop 1 block away.')
-      expect(loc.urls).to eq(['http://samaritanhouse.com'])
+      expect(loc.website).to eq('http://samaritanhouse.com')
       expect(loc.admin_emails).to eq(['foo@bar.com'])
       expect(loc.emails).to eq(['bar@foo.com'])
       expect(loc.languages).to eq(%w(English Vietnamese))

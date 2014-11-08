@@ -168,12 +168,11 @@ feature 'Create a new location' do
 
   scenario 'when adding a website', :js do
     fill_in_all_required_fields
-    click_link 'Add a new website'
-    fill_in find(:xpath, "//input[@type='url']")[:id], with: 'http://ruby.com'
+    fill_in 'location_website', with: 'http://ruby.com'
     click_button 'Create location'
     click_link 'New Parent Agency location'
 
-    expect(find_field('location[urls][]').value).to eq 'http://ruby.com'
+    expect(find_field('location_website').value).to eq 'http://ruby.com'
   end
 
   scenario 'when adding an alternate name', :js do
