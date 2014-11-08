@@ -14,6 +14,7 @@ describe Phone do
 
   it { is_expected.to belong_to(:location).touch(true) }
   it { is_expected.to belong_to(:contact).touch(true) }
+  it { is_expected.to belong_to(:service).touch(true) }
   it { is_expected.to belong_to(:organization) }
 
   it do

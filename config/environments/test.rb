@@ -47,5 +47,8 @@ Rails.application.configure do
     Bullet.add_whitelist(
       type: :n_plus_one_query, class_name: 'Phone', association: :contact
     )
+    Bullet.add_whitelist(
+      type: :n_plus_one_query, class_name: 'Phone', association: :service
+    )
   end
 end

@@ -17,7 +17,8 @@ module Api
       def show
         location = Location.includes(
           contacts: :phones,
-          services: [:contacts, :categories, :regular_schedules, :holiday_schedules]
+          services: [:categories, :contacts, :phones, :regular_schedules,
+                     :holiday_schedules]
           ).find(params[:id])
         render json: location, status: 200
         expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true

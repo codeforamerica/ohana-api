@@ -6,6 +6,7 @@ class Phone < ActiveRecord::Base
 
   belongs_to :location, touch: true
   belongs_to :contact, touch: true
+  belongs_to :service, touch: true
   belongs_to :organization
 
   validates :number,

@@ -4,7 +4,7 @@ class Service < ActiveRecord::Base
                   :keywords, :languages, :name, :required_documents,
                   :service_areas, :status, :website, :wait, :category_ids,
                   :contacts_attributes, :regular_schedules_attributes,
-                  :holiday_schedules_attributes
+                  :holiday_schedules_attributes, :phones_attributes
 
   belongs_to :location, touch: true
   belongs_to :program
@@ -21,6 +21,10 @@ class Service < ActiveRecord::Base
 
   has_many :contacts, dependent: :destroy
   accepts_nested_attributes_for :contacts,
+                                allow_destroy: true, reject_if: :all_blank
+
+  has_many :phones, dependent: :destroy
+  accepts_nested_attributes_for :phones,
                                 allow_destroy: true, reject_if: :all_blank
 
   validates :accepted_payments, :languages, :required_documents, pg_array: true

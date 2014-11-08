@@ -479,7 +479,8 @@ CREATE TABLE phones (
     number_type character varying(255),
     country_prefix character varying(255),
     contact_id integer,
-    organization_id integer
+    organization_id integer,
+    service_id integer
 );
 
 
@@ -1107,6 +1108,13 @@ CREATE INDEX index_phones_on_organization_id ON phones USING btree (organization
 
 
 --
+-- Name: index_phones_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_phones_on_service_id ON phones USING btree (service_id);
+
+
+--
 -- Name: index_programs_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1348,4 +1356,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141106215928');
 INSERT INTO schema_migrations (version) VALUES ('20141107161835');
 
 INSERT INTO schema_migrations (version) VALUES ('20141108042551');
+
+INSERT INTO schema_migrations (version) VALUES ('20141108183056');
 
