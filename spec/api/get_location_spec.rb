@@ -112,6 +112,7 @@ describe 'GET /locations/:id' do
           'updated_at'         => service_formatted_time,
           'categories'         => [],
           'contacts'           => [],
+          'phones'             => [],
           'regular_schedules'  => [
             {
               'weekday'   => 'Monday',

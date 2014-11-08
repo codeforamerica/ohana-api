@@ -36,6 +36,8 @@ describe Service do
   it { is_expected.to accept_nested_attributes_for(:holiday_schedules).allow_destroy(true) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
   it { is_expected.to accept_nested_attributes_for(:contacts) }
+  it { is_expected.to have_many(:phones).dependent(:destroy) }
+  it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
