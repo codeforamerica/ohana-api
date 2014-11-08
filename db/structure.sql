@@ -478,7 +478,8 @@ CREATE TABLE phones (
     updated_at timestamp without time zone,
     number_type character varying(255),
     country_prefix character varying(255),
-    contact_id integer
+    contact_id integer,
+    organization_id integer
 );
 
 
@@ -1099,6 +1100,13 @@ CREATE INDEX index_phones_on_location_id ON phones USING btree (location_id);
 
 
 --
+-- Name: index_phones_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_phones_on_organization_id ON phones USING btree (organization_id);
+
+
+--
 -- Name: index_programs_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1338,4 +1346,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141030204742');
 INSERT INTO schema_migrations (version) VALUES ('20141106215928');
 
 INSERT INTO schema_migrations (version) VALUES ('20141107161835');
+
+INSERT INTO schema_migrations (version) VALUES ('20141108042551');
 

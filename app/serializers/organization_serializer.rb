@@ -4,6 +4,7 @@ class OrganizationSerializer < ActiveModel::Serializer
              :website, :url, :locations_url
 
   has_many :contacts
+  has_many :phones
 
   def url
     api_organization_url(object)

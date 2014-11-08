@@ -159,8 +159,11 @@ describe 'GET /locations' do
       expect(json.first['phones']).to eq(serialized_phones)
     end
 
-    it 'includes the organization association' do
-      expect(json.first.keys).to include('organization')
+    it 'includes a summarized organization association' do
+      expect(json.first['organization'].keys).
+        to eq(%w(id accreditations alternate_name date_incorporated
+                 description email funding_sources licenses name slug
+                 website url locations_url))
     end
 
     it 'does not include contacts within Organization' do
