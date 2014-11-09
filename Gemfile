@@ -36,6 +36,9 @@ gem 'active_model_serializers', '~> 0.8.0'
 # Authentication
 gem 'devise', '~> 3.4'
 
+# Authorization
+gem 'pundit'
+
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
 

@@ -6,12 +6,8 @@ class Admin
     def edit
       @organization = Organization.find(params[:organization_id])
       @contact = Contact.find(params[:id])
-      @admin_decorator = AdminDecorator.new(current_admin)
 
-      unless @admin_decorator.allowed_to_access_organization?(@organization)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @organization
     end
 
     def update
@@ -27,13 +23,9 @@ class Admin
     end
 
     def new
-      @admin_decorator = AdminDecorator.new(current_admin)
       @organization = Organization.find(params[:organization_id])
 
-      unless @admin_decorator.allowed_to_access_organization?(@organization)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @organization
 
       @contact = Contact.new
     end

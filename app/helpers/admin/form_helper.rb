@@ -53,7 +53,7 @@ class Admin
           }
         )
       else
-        f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, {}, class: 'form-control'
+        f.select :organization_id, policy_scope(Organization).map { |org| [org.second, org.first] }, {}, class: 'form-control'
       end
     end
 

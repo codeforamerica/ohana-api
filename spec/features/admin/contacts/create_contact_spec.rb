@@ -63,6 +63,6 @@ describe 'when admin does not have access to the location' do
 
     visit('/admin/locations/vrs-services/contacts/new')
 
-    expect(page).to have_content "Sorry, you don't have access to that page."
+    expect(page).to have_content I18n.t('admin.not_authorized')
   end
 end
