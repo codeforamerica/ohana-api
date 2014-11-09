@@ -10,7 +10,7 @@ describe Location do
   it { is_expected.to allow_mass_assignment_of(:admin_emails) }
   it { is_expected.to allow_mass_assignment_of(:alternate_name) }
   it { is_expected.to allow_mass_assignment_of(:description) }
-  it { is_expected.to allow_mass_assignment_of(:emails) }
+  it { is_expected.to allow_mass_assignment_of(:email) }
   it { is_expected.to allow_mass_assignment_of(:languages) }
   it { is_expected.to allow_mass_assignment_of(:latitude) }
   it { is_expected.to allow_mass_assignment_of(:longitude) }
@@ -55,16 +55,16 @@ describe Location do
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:website) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
 
-  it { is_expected.to allow_value('moncef@blah.com').for(:emails) }
+  it { is_expected.to allow_value('moncef@blah.com').for(:email) }
 
   it do
     is_expected.not_to allow_value('moncef@blahcom').
-    for(:emails).
+    for(:email).
     with_message('moncef@blahcom is not a valid email')
   end
 
-  it { is_expected.not_to allow_value('moncef.blahcom').for(:emails) }
-  it { is_expected.not_to allow_value(' foo @bar.com').for(:emails) }
+  it { is_expected.not_to allow_value('moncef.blahcom').for(:email) }
+  it { is_expected.not_to allow_value(' foo @bar.com').for(:email) }
 
   it { is_expected.to allow_value('moncef@blah.com').for(:admin_emails) }
 
@@ -86,7 +86,6 @@ describe Location do
   end
 
   it { is_expected.to serialize(:admin_emails).as(Array) }
-  it { is_expected.to serialize(:emails).as(Array) }
 
   describe 'invalidations' do
     context 'non-virtual and without an address' do
@@ -105,7 +104,7 @@ describe Location do
       expect(loc.transportation).to eq('BART stop 1 block away.')
       expect(loc.website).to eq('http://samaritanhouse.com')
       expect(loc.admin_emails).to eq(['foo@bar.com'])
-      expect(loc.emails).to eq(['bar@foo.com'])
+      expect(loc.email).to eq('bar@foo.com')
       expect(loc.languages).to eq(%w(English Vietnamese))
     end
   end

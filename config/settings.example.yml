@@ -34,7 +34,7 @@ admin_support_email: ohanapi@codeforamerica.org
 # locations that match "codeforamerica.org". This works for these types of
 # organization domain names, but if we allowed the same lookup for people with
 # generic email addresses that end in "@gmail.com" for example, then they would
-# be able to access all locations with "gmail.com" in the "emails" field.
+# be able to access all locations with "gmail.com" in the "email" field.
 # To prevent that, the API compares the domain name with the list of generic
 # domains that you define below, and if it finds it, then it looks for an exact
 # match of the full email address.

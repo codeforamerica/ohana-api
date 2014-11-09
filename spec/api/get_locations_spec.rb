@@ -97,8 +97,8 @@ describe 'GET /locations' do
       expect(json.first.keys).to include('admin_emails')
     end
 
-    it 'does not include the emails attribute' do
-      expect(json.first.keys).to_not include('emails')
+    it 'does not include the email attribute' do
+      expect(json.first.keys).to_not include('email')
     end
 
     it 'does not include the hours attribute' do

@@ -87,13 +87,12 @@ feature 'Create a new location' do
 
   scenario 'with valid location email', :js do
     fill_in_all_required_fields
-    click_link 'Add a new general email'
-    fill_in 'location[emails][]', with: 'moncefbelyamani@samaritanhousesanmateo.org'
+    fill_in 'location_email', with: 'moncefbelyamani@samaritanhousesanmateo.org'
 
     click_button 'Create location'
     click_link 'New Parent Agency location'
 
-    expect(find_field('location[emails][]').value).
+    expect(find_field('location_email').value).
       to eq 'moncefbelyamani@samaritanhousesanmateo.org'
   end
 

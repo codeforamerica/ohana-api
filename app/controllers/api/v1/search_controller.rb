@@ -19,9 +19,7 @@ module Api
 
         render json: [] and return if location.coordinates.blank?
 
-        radius = Location.validated_radius(params[:radius], 0.5)
-
-        nearby = location.nearbys(radius).status('active').
+        nearby = location.nearbys(params[:radius]).status('active').
                          page(params[:page]).per(params[:per_page]).
                          includes(:address)
 
