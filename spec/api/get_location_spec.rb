@@ -28,7 +28,8 @@ describe 'GET /locations/:id' do
     end
 
     it 'includes the coordinates attribute' do
-      expect(json['coordinates']).to eq(@location.coordinates)
+      expect(json['coordinates']).
+        to eq([@location.longitude, @location.latitude])
     end
 
     it 'includes the description attribute' do

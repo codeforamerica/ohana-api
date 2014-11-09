@@ -22,7 +22,7 @@ describe 'DELETE /locations/:location/address/:id' do
     )
     expect(@loc.reload.address).to be_nil
     expect(Address.count).to eq(0)
-    expect(@loc.reload.coordinates).to be_nil
+    expect(@loc.reload.latitude).to be_nil
   end
 
   it 'returns a 204 status' do

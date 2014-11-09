@@ -17,7 +17,7 @@ module Api
       def nearby
         location = Location.find(params[:location_id])
 
-        render json: [] and return if location.coordinates.blank?
+        render json: [] and return if location.latitude.blank?
 
         nearby = location.nearbys(params[:radius]).status('active').
                          page(params[:page]).per(params[:per_page]).

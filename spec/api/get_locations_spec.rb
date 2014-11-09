@@ -62,7 +62,7 @@ describe 'GET /locations' do
     end
 
     it 'includes the coordinates attribute' do
-      expect(json.first['coordinates']).to eq(@location.coordinates)
+      expect(json.first['coordinates']).to eq([@location.longitude, @location.latitude])
     end
 
     it 'includes the description attribute' do
@@ -162,8 +162,8 @@ describe 'GET /locations' do
     it 'includes a summarized organization association' do
       expect(json.first['organization'].keys).
         to eq(%w(id accreditations alternate_name date_incorporated
-                 description email funding_sources licenses name slug
-                 website url locations_url))
+                 description email funding_sources licenses name
+                 website slug url locations_url))
     end
 
     it 'does not include contacts within Organization' do
@@ -178,16 +178,6 @@ describe 'GET /locations' do
       get loc_url
       json = JSON.parse(response.body)
       expect(json['name']).to eq(@location.name)
-    end
-
-    it 'includes the contacts_url attribute' do
-      expect(json.first['contacts_url']).
-        to eq(api_location_contacts_url(@location))
-    end
-
-    it 'includes the services_url attribute' do
-      expect(json.first['services_url']).
-        to eq(api_location_services_url(@location))
     end
 
     xit 'displays mail_address when present' do

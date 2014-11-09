@@ -35,21 +35,21 @@ describe 'PATCH address' do
     end
 
     it "updates the location's coordinates when the address has changed" do
-      old_coords = @loc.coordinates
+      old_coords = [@loc.longitude, @loc.latitude]
       patch(
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(@loc.reload.coordinates).to_not eq old_coords
+      expect(@loc.reload.longitude).to_not eq old_coords.first
     end
 
     it "does not update the location's coordinates when the address has not changed" do
-      old_coords = @loc.coordinates
+      old_coords = [@loc.longitude, @loc.latitude]
       patch(
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
         @attrs.merge!(street_1: '1800 Easton Drive')
       )
-      expect(@loc.reload.coordinates).to eq old_coords
+      expect(@loc.reload.longitude).to eq old_coords.first
     end
 
     it "doesn't add a new address" do

@@ -86,16 +86,6 @@ describe 'GET /organizations/:organization_id/locations' do
         to eq(api_location_url(@location, subdomain: ENV['API_SUBDOMAIN']))
     end
 
-    it 'includes the contacts_url attribute in the serialization' do
-      expect(json.first['contacts_url']).
-        to eq(api_location_contacts_url(@location))
-    end
-
-    it 'includes the services_url attribute in the serialization' do
-      expect(json.first['services_url']).
-        to eq(api_location_services_url(@location))
-    end
-
     it "doesn't include the location accessibility attribute" do
       expect(json.first.keys).to_not include('accessibility')
     end

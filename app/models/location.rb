@@ -115,10 +115,6 @@ class Location < ActiveRecord::Base
     "#{address.street_1}, #{address.city}, #{address.state} #{address.postal_code}"
   end
 
-  def coordinates
-    [longitude, latitude] if longitude.present? && latitude.present?
-  end
-
   def needs_geocoding?
     return false if address.blank? || new_record_with_coordinates?
     address.changed?

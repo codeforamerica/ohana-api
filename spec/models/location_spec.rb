@@ -136,14 +136,6 @@ describe Location do
     end
   end
 
-  it { is_expected.to respond_to(:coordinates) }
-  describe '#coordinates' do
-    it 'returns [lon, lat]' do
-      coords = [subject.longitude, subject.latitude]
-      expect(subject.coordinates).to eq(coords)
-    end
-  end
-
   describe 'slug candidates' do
     before(:each) { @loc = create(:location) }
 
@@ -192,10 +184,10 @@ describe Location do
         street_1: '1 davis drive', city: 'belmont', state: 'CA',
         postal_code: '94002', country_code: 'US'
       }
-      coords = @loc.coordinates
+      coords = [@loc.longitude, @loc.latitude]
 
       @loc.update!(address_attributes: address)
-      expect(@loc.reload.coordinates).to_not eq(coords)
+      expect(@loc.reload.latitude).to_not eq(coords.second)
     end
 
     it 'resets coordinates when address is removed' do
@@ -205,7 +197,8 @@ describe Location do
       )
       expect(@loc).not_to receive(:geocode)
       @loc.save!
-      expect(@loc.reload.coordinates).to be_nil
+      expect(@loc.reload.latitude).to be_nil
+      expect(@loc.reload.longitude).to be_nil
     end
   end
 end
