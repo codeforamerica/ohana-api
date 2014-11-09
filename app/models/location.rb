@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
   attr_accessible :accessibility, :active, :admin_emails, :alternate_name,
-                  :description, :emails, :languages, :latitude,
+                  :description, :email, :languages, :latitude,
                   :longitude, :name, :short_desc, :transportation, :website,
                   :virtual, :address_attributes, :contacts_attributes,
                   :mail_address_attributes, :phones_attributes,
@@ -62,7 +62,9 @@ class Location < ActiveRecord::Base
 
   validates :languages, pg_array: true
 
-  validates :emails, :admin_emails, array: { email: true }
+  validates :admin_emails, array: { email: true }
+
+  validates :email, email: true
 
   after_validation :geocode, if: :needs_geocoding?
 
@@ -82,13 +84,10 @@ class Location < ActiveRecord::Base
   # Admin emails can be added to a location via the Admin interface.
   serialize :admin_emails, Array
 
-  serialize :emails, Array
+  auto_strip_attributes :description, :email, :name, :short_desc,
+                        :transportation, :website
 
-  auto_strip_attributes :description, :name, :short_desc, :transportation,
-                        :website
-
-  auto_strip_attributes :admin_emails, :emails,
-                        reject_blank: true, nullify: false
+  auto_strip_attributes :admin_emails, reject_blank: true, nullify: false
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]

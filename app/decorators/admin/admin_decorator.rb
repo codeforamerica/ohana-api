@@ -7,41 +7,33 @@ class Admin
     end
 
     def locations
-      if admin.super_admin?
-        Location.pluck(:id, :name, :slug)
-      else
-        Location.text_search(email: admin.email).pluck(:id, :name, :slug)
-      end
+      return Location.pluck(:id, :name, :slug) if admin.super_admin?
+      Location.with_email(admin.email).pluck(:id, :name, :slug)
+    end
+
+    def location_ids_for(locations)
+      locations.map(&:first).flatten
     end
 
     def orgs
-      if admin.super_admin?
-        Organization.pluck(:id, :name, :slug)
-      else
-        Organization.joins(:locations).
-          where('locations.id IN (?)', locations.map(&:first).flatten).
-          uniq.pluck(:id, :name, :slug)
-      end
+      return Organization.pluck(:id, :name, :slug) if admin.super_admin?
+      Organization.joins(:locations).
+        where('locations.id IN (?)', location_ids_for(locations)).
+        uniq.pluck(:id, :name, :slug)
     end
 
     def programs
-      if admin.super_admin?
-        Program.pluck(:id, :name)
-      else
-        Program.joins(:organization).
-          where('organization_id IN (?)', orgs.map(&:first).flatten).
-          uniq.pluck(:id, :name)
-      end
+      return Program.pluck(:id, :name) if admin.super_admin?
+      Program.joins(:organization).
+        where('organization_id IN (?)', orgs.map(&:first).flatten).
+        uniq.pluck(:id, :name)
     end
 
     def services
-      if admin.super_admin?
-        Service.pluck(:location_id, :id, :name)
-      else
-        Service.joins(:location).
-          where('location_id IN (?)', locations.map(&:first).flatten).
-          uniq.pluck(:location_id, :id, :name)
-      end
+      return Service.pluck(:location_id, :id, :name) if admin.super_admin?
+      Service.joins(:location).
+        where('location_id IN (?)', location_ids_for(locations)).
+        uniq.pluck(:location_id, :id, :name)
     end
 
     def allowed_to_access_location?(location)

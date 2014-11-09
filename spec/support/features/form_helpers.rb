@@ -77,21 +77,6 @@ module Features
       click_button 'Save changes'
     end
 
-    def add_two_emails
-      click_link 'Add a new general email'
-      fill_in 'location[emails][]', with: 'foo@ruby.com'
-      click_link 'Add a new general email'
-      emails = all(:xpath, "//input[@name='location[emails][]']")
-      fill_in emails[-1][:id], with: 'ruby@foo.com'
-      click_button 'Save changes'
-    end
-
-    def delete_all_emails
-      find_link('Delete this email permanently', match: :first).click
-      find_link('Delete this email permanently', match: :first).click
-      click_button 'Save changes'
-    end
-
     def add_phone(options = {})
       click_link 'Add a new phone number'
       update_phone(options)
@@ -125,21 +110,6 @@ module Features
     def delete_all_admins
       find_link('Delete this admin permanently', match: :first).trigger('click')
       find_link('Delete this admin permanently', match: :first).trigger('click')
-      click_button 'Save changes'
-    end
-
-    def add_two_urls
-      click_link 'Add a new website'
-      fill_in find(:xpath, "//input[@type='url']")[:id], with: 'http://ruby.com'
-      click_link 'Add a new website'
-      urls = all(:xpath, "//input[@type='url']")
-      fill_in urls[-1][:id], with: 'http://monfresh.com'
-      click_button 'Save changes'
-    end
-
-    def delete_all_urls
-      find_link('Delete this website permanently', match: :first).click
-      find_link('Delete this website permanently', match: :first).click
       click_button 'Save changes'
     end
 

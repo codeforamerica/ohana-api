@@ -345,7 +345,6 @@ CREATE TABLE locations (
     accessibility text,
     admin_emails text,
     description text,
-    emails text,
     latitude double precision,
     longitude double precision,
     languages text[] DEFAULT '{}'::text[],
@@ -359,7 +358,8 @@ CREATE TABLE locations (
     alternate_name character varying(255),
     virtual boolean DEFAULT false,
     active boolean DEFAULT true,
-    website character varying(255)
+    website character varying(255),
+    email character varying(255)
 );
 
 
@@ -1213,10 +1213,10 @@ CREATE INDEX locations_description ON locations USING gin (to_tsvector('english'
 
 
 --
--- Name: locations_emails; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: locations_email_with_varchar_pattern_ops; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX locations_emails ON locations USING gin (to_tsvector('english'::regconfig, emails));
+CREATE INDEX locations_email_with_varchar_pattern_ops ON locations USING btree (email varchar_pattern_ops);
 
 
 --
@@ -1362,4 +1362,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141108183056');
 INSERT INTO schema_migrations (version) VALUES ('20141108194838');
 
 INSERT INTO schema_migrations (version) VALUES ('20141108214741');
+
+INSERT INTO schema_migrations (version) VALUES ('20141109021540');
+
+INSERT INTO schema_migrations (version) VALUES ('20141109022202');
 

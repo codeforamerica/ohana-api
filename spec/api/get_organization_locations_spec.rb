@@ -8,7 +8,7 @@ describe 'GET /organizations/:organization_id/locations' do
         accessibility: %w(restroom),
         admin_emails: %w(foo@bar.com),
         description: 'testing 1 2 3',
-        emails: %w(foo@bar.com),
+        email: 'foo@bar.com',
         languages: %w(french, arabic),
         latitude: 37.583939,
         longitude: -122.3715745,
@@ -108,8 +108,8 @@ describe 'GET /organizations/:organization_id/locations' do
       expect(json.first.keys).to include('coordinates')
     end
 
-    it "doesn't include the location emails attribute" do
-      expect(json.first.keys).to_not include('emails')
+    it "doesn't include the location email attribute" do
+      expect(json.first.keys).to_not include('email')
     end
 
     it "doesn't include the location hours attribute" do

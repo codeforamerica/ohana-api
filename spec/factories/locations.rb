@@ -29,7 +29,7 @@ FactoryGirl.define do
       transportation ' BART stop 1 block away.'
       website ' http://samaritanhouse.com  '
       admin_emails [' foo@bar.com  ', 'foo@bar.com']
-      emails [' bar@foo.com  ', 'bar@foo.com']
+      email ' bar@foo.com  '
       languages [' English', 'Vietnamese ']
     end
   end
