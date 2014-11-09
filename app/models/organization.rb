@@ -30,6 +30,10 @@ class Organization < ActiveRecord::Base
   auto_strip_attributes :alternate_name, :description, :email, :legal_status,
                         :name, :tax_id, :tax_status, :website
 
+  def self.with_locations(ids)
+    joins(:locations).where('locations.id IN (?)', ids).uniq
+  end
+
   extend FriendlyId
   friendly_id :name, use: [:history]
 

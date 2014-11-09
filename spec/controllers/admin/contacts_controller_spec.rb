@@ -1,27 +1,27 @@
 require 'rails_helper'
 
-describe Admin::ProgramsController do
+describe Admin::ContactsController do
   describe 'GET edit' do
     before(:each) do
-      org = create(:organization)
-      @program = org.programs.create!(attributes_for(:program))
+      @loc = create(:nearby_loc)
+      @contact = @loc.contacts.create!(attributes_for(:contact))
     end
 
     context 'when admin is super admin' do
-      it 'allows access to edit program' do
+      it 'allows access to edit contact' do
         log_in_as_admin(:super_admin)
 
-        get :edit, id: @program.id
+        get :edit, location_id: @loc.id, id: @contact.id
 
         expect(response).to render_template(:edit)
       end
     end
 
-    context 'when admin does not have access' do
+    context 'when admin is regular admin without privileges' do
       it 'redirects to admin dashboard' do
         log_in_as_admin(:admin)
 
-        get :edit, id: @program.id
+        get :edit, location_id: @loc.id, id: @contact.id
 
         expect(response).to redirect_to admin_dashboard_path
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -31,24 +31,24 @@ describe Admin::ProgramsController do
 
   describe 'GET new' do
     before(:each) do
-      create(:location)
+      @loc = create(:nearby_loc)
     end
 
     context 'when admin is super admin' do
-      it 'allows access to add a new program' do
+      it 'allows access to edit contact' do
         log_in_as_admin(:super_admin)
 
-        get :new
+        get :new, location_id: @loc.id
 
         expect(response).to render_template(:new)
       end
     end
 
-    context 'when admin does not have access' do
+    context 'when admin is regular admin without privileges' do
       it 'redirects to admin dashboard' do
         log_in_as_admin(:admin)
 
-        get :new
+        get :new, location_id: @loc.id
 
         expect(response).to redirect_to admin_dashboard_path
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))

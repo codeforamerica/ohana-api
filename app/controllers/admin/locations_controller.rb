@@ -4,26 +4,20 @@ class Admin
     layout 'admin'
 
     def index
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @locations = Kaminari.paginate_array(@admin_decorator.locations).
+      @locations = Kaminari.paginate_array(policy_scope(Location)).
                            page(params[:page]).per(params[:per_page])
     end
 
     def edit
-      @admin_decorator = AdminDecorator.new(current_admin)
       @location = Location.find(params[:id])
       @org = @location.organization
 
-      unless @admin_decorator.allowed_to_access_location?(@location)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @location
     end
 
     def update
       @location = Location.find(params[:id])
       @org = @location.organization
-      @admin_decorator = AdminDecorator.new(current_admin)
 
       respond_to do |format|
         if @location.update(params[:location])
@@ -39,19 +33,13 @@ class Admin
 
     def new
       @location = Location.new
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @orgs = @admin_decorator.orgs
-
-      unless @orgs.present?
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @location
     end
 
     def create
       @location = Location.new(params[:location])
 
-      assign_location_to_org(AdminDecorator.new(current_admin).orgs)
+      assign_location_to_org(policy_scope(Organization))
 
       if @location.save
         redirect_to admin_locations_url, notice: 'Location was successfully created.'

@@ -52,6 +52,10 @@ class Service < ActiveRecord::Base
   extend Enumerize
   enumerize :status, in: [:active, :defunct, :inactive]
 
+  def self.with_locations(ids)
+    joins(:location).where('location_id IN (?)', ids).uniq
+  end
+
   after_save :update_location_status, if: :status_changed?
 
   private

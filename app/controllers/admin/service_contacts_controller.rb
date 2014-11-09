@@ -6,12 +6,8 @@ class Admin
     def edit
       @service = Service.find(params[:service_id])
       @contact = Contact.find(params[:id])
-      @admin_decorator = AdminDecorator.new(current_admin)
 
-      unless @admin_decorator.allowed_to_access_location?(@service.location)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @service.location
     end
 
     def update
@@ -27,13 +23,9 @@ class Admin
     end
 
     def new
-      @admin_decorator = AdminDecorator.new(current_admin)
       @service = Service.find(params[:service_id])
 
-      unless @admin_decorator.allowed_to_access_location?(@service.location)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @service.location
 
       @contact = Contact.new
     end

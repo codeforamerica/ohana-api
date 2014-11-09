@@ -4,19 +4,14 @@ class Admin
     layout 'admin'
 
     def index
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @programs = Kaminari.paginate_array(@admin_decorator.programs).
+      @programs = Kaminari.paginate_array(policy_scope(Program)).
                           page(params[:page]).per(params[:per_page])
     end
 
     def edit
-      @admin_decorator = AdminDecorator.new(current_admin)
       @program = Program.find(params[:id])
 
-      unless @admin_decorator.allowed_to_access_program?(@program)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @program
     end
 
     def update
@@ -36,13 +31,7 @@ class Admin
 
     def new
       @program = Program.new
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @orgs = @admin_decorator.orgs
-
-      unless @orgs.present?
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @program
     end
 
     def create
@@ -84,9 +73,7 @@ class Admin
     def add_org_to_program_if_authorized
       org_id = params[:program][:organization_id]
 
-      @orgs = AdminDecorator.new(current_admin).orgs
-
-      if @orgs.select { |org| org[0] == org_id.to_i }.present?
+      if policy_scope(Organization).select { |org| org[0] == org_id.to_i }.present?
         @program.organization_id = org_id
       end
     end

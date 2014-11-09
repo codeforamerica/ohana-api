@@ -24,8 +24,7 @@ describe Admin::ServicesController do
         get :edit, location_id: @loc.id, id: @service.id
 
         expect(response).to redirect_to admin_dashboard_path
-        expect(flash[:alert]).
-          to eq("Sorry, you don't have access to that page.")
+        expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
   end
@@ -52,8 +51,7 @@ describe Admin::ServicesController do
         get :new, location_id: @loc.id
 
         expect(response).to redirect_to admin_dashboard_path
-        expect(flash[:alert]).
-          to eq("Sorry, you don't have access to that page.")
+        expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
   end
