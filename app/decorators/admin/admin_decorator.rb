@@ -17,23 +17,19 @@ class Admin
 
     def orgs
       return Organization.pluck(:id, :name, :slug) if admin.super_admin?
-      Organization.joins(:locations).
-        where('locations.id IN (?)', location_ids_for(locations)).
-        uniq.pluck(:id, :name, :slug)
+      Organization.with_locations(location_ids_for(locations)).
+                  pluck(:id, :name, :slug)
     end
 
     def programs
       return Program.pluck(:id, :name) if admin.super_admin?
-      Program.joins(:organization).
-        where('organization_id IN (?)', orgs.map(&:first).flatten).
-        uniq.pluck(:id, :name)
+      Program.with_orgs(orgs.map(&:first).flatten).pluck(:id, :name)
     end
 
     def services
       return Service.pluck(:location_id, :id, :name) if admin.super_admin?
-      Service.joins(:location).
-        where('location_id IN (?)', location_ids_for(locations)).
-        uniq.pluck(:location_id, :id, :name)
+      Service.with_locations(location_ids_for(locations)).
+             pluck(:location_id, :id, :name)
     end
 
     def allowed_to_access_location?(location)
