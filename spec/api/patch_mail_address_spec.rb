@@ -8,7 +8,7 @@ describe 'PATCH mail_address' do
   before(:each) do
     @mail_address = @loc.mail_address
     @attrs = { street_1: 'foo', city: 'bar', state: 'CA', postal_code: '90210',
-      country_code: 'US' }
+               country_code: 'US' }
   end
 
   after(:all) do

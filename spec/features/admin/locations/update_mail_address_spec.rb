@@ -57,56 +57,56 @@ feature 'Updating mailing address with invalid values' do
 
   scenario 'with an empty street' do
     update_mailing_address(street_1: '', city: 'fair', state: 'VA',
-      postal_code: '12345', country_code: 'US')
+                           postal_code: '12345', country_code: 'US')
     click_button 'Save changes'
     expect(page).to have_content "street 1 can't be blank for Mail Address"
   end
 
   scenario 'with an empty city' do
     update_mailing_address(street_1: '123', city: '', state: 'VA',
-      postal_code: '12345', country_code: 'US')
+                           postal_code: '12345', country_code: 'US')
     click_button 'Save changes'
     expect(page).to have_content "city can't be blank for Mail Address"
   end
 
   scenario 'with an empty state' do
     update_mailing_address(street_1: '123', city: 'fair', state: '',
-      postal_code: '12345', country_code: 'US')
+                           postal_code: '12345', country_code: 'US')
     click_button 'Save changes'
     expect(page).to have_content "state can't be blank for Mail Address"
   end
 
   scenario 'with an empty zip' do
     update_mailing_address(street_1: '123', city: 'Belmont', state: 'CA',
-      postal_code: '', country_code: 'US')
+                           postal_code: '', country_code: 'US')
     click_button 'Save changes'
     expect(page).to have_content "postal code can't be blank for Mail Address"
   end
 
   scenario 'with an empty country_code' do
     update_mailing_address(street_1: '123', city: 'Belmont', state: 'CA',
-      postal_code: '12345')
+                           postal_code: '12345')
     click_button 'Save changes'
     expect(page).to have_content "country code can't be blank for Mail Address"
   end
 
   scenario 'with an invalid state' do
     update_mailing_address(street_1: '123', city: 'Par', state: 'V',
-      postal_code: '12345', country_code: 'US')
+                           postal_code: '12345', country_code: 'US')
     click_button 'Save changes'
     expect(page).to have_content 'too short'
   end
 
   scenario 'with an invalid zip' do
     update_mailing_address(street_1: '123', city: 'Ald', state: 'VA',
-      postal_code: '1234', country_code: 'US')
+                           postal_code: '1234', country_code: 'US')
     click_button 'Save changes'
     expect(page).to have_content 'valid ZIP code'
   end
 
   scenario 'with an invalid country_code' do
     update_mailing_address(street_1: '123', city: 'Ald', state: 'VA',
-      postal_code: '12345', country_code: 'U')
+                           postal_code: '12345', country_code: 'U')
     click_button 'Save changes'
     expect(page).to have_content 'too short'
   end

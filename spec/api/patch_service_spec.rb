@@ -7,7 +7,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
 
   before(:each) do
     @attrs = { name: 'New Service', description: 'Hot Meals',
-      how_to_apply: 'Walk in.' }
+               how_to_apply: 'Walk in.' }
   end
 
   after(:all) do

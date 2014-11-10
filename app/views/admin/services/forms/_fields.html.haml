@@ -1,6 +1,6 @@
 - if @service.errors.any?
   .alert.alert-danger
-    %h2= "#{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:"
+    %h2 #{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:
     %ul
       - @service.errors.full_messages.each do |msg|
         %li= msg

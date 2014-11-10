@@ -1,9 +1,9 @@
 = render 'admin/locations/forms/fields', f: f
 
 .content-box
-  %h2= 'Contacts'
+  %h2 Contacts
   - if @location.contacts.present?
-    = 'Click a Contact below to view and update it:'
+    Click a Contact below to view and update it:
     %p
     - @location.contacts.each do |contact|
       = link_to contact.name, edit_admin_location_contact_path(@location, contact)
@@ -12,8 +12,8 @@
     = link_to 'Add a new contact', new_admin_location_contact_path(@location), class: 'btn btn-primary'
 
 .content-box
-  %h2= 'Services'
-  = 'Click a Service below to view and update it:'
+  %h2 Services
+  Click a Service below to view and update it:
   %p
   - @location.services.each_with_index do |service, i|
     = link_to service.name || "Service ##{i + 1}", edit_admin_location_service_path(@location, service)
@@ -31,11 +31,11 @@
     Once you delete a location, there is no going back. Please be certain.
   %p
     = link_to 'Permanently delete this location', { action: :confirm_delete_location, location_id: @location.id, org_name: @org.name, loc_name: @location.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
-#modal-window.modal.fade{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
+.modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
 
 .save-box.navbar-default
   %p
-    = 'Editing'
+    Editing
     %strong
-      = "#{@org.name} / #{@location.name}"
+      #{@org.name} / #{@location.name}
   = f.submit 'Save changes & apply edits to database', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

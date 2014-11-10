@@ -2,7 +2,7 @@
 
 .save-box.navbar-default
   %p
-    = 'Creating service for'
+    Creating service for
     %strong
-      = "#{@location.name}"
+      #{@location.name}
   = f.submit 'Create service', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

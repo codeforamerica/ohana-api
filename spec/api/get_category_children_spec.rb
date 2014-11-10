@@ -5,7 +5,7 @@ describe 'GET /categories/:category_id/children' do
     before :all do
       @food = Category.create!(name: 'Food', oe_id: '101')
       @food_child = @food.children.
-        create!(name: 'Emergency Food', oe_id: '101-01')
+                    create!(name: 'Emergency Food', oe_id: '101-01')
     end
 
     before :each do

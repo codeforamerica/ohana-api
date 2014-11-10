@@ -58,46 +58,6 @@ module Features
       click_button 'Save changes'
     end
 
-    def add_contact(options = {})
-      click_link 'Add a new contact'
-      update_contact(options)
-    end
-
-    def update_contact(options = {})
-      within('.contacts') do
-        fill_in find(:xpath, './/input[contains(@name, "[name]")]')[:id], with: options[:name]
-        fill_in find(:xpath, './/input[contains(@name, "[title]")]')[:id], with: options[:title]
-        fill_in find(:xpath, './/input[contains(@name, "[email]")]')[:id], with: options[:email]
-        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
-      end
-    end
-
-    def delete_contact
-      click_link 'Delete this contact permanently'
-      click_button 'Save changes'
-    end
-
-    def add_phone(options = {})
-      click_link 'Add a new phone number'
-      update_phone(options)
-    end
-
-    def update_phone(options = {})
-      within('.phones') do
-        fill_in find(:xpath, './/input[contains(@name, "[number]")]')[:id], with: options[:number]
-        select_field = find(:xpath, './/select[contains(@name, "[number_type]")]')[:id]
-        select(options[:number_type], from: select_field) if options[:number_type]
-        fill_in find(:xpath, './/input[contains(@name, "[department]")]')[:id], with: options[:department]
-        fill_in find(:xpath, './/input[contains(@name, "[extension]")]')[:id], with: options[:extension]
-        fill_in find(:xpath, './/input[contains(@name, "[vanity_number]")]')[:id], with: options[:vanity_number]
-      end
-    end
-
-    def delete_phone
-      click_link 'Delete this phone permanently'
-      click_button 'Save changes'
-    end
-
     def add_two_admins
       find_link('Add a new admin email').trigger('click')
       fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
@@ -166,7 +126,7 @@ module Features
       fill_in 'service[keywords][]', with: 'homeless'
       click_link 'Add a new keyword'
       keywords = page.
-        all(:xpath, "//input[@name='service[keywords][]']")
+                 all(:xpath, "//input[@name='service[keywords][]']")
       fill_in keywords[-1][:id], with: 'CalFresh'
       click_button 'Save changes'
     end
@@ -182,7 +142,7 @@ module Features
       fill_in 'service[service_areas][]', with: 'Belmont'
       click_link 'Add a new service area'
       service_areas = page.
-        all(:xpath, "//input[@name='service[service_areas][]']")
+                      all(:xpath, "//input[@name='service[service_areas][]']")
       fill_in service_areas[-1][:id], with: 'Atherton'
       click_button 'Save changes'
     end

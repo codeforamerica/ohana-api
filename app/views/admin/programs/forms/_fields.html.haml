@@ -1,6 +1,6 @@
 - if @program.errors.any?
   .alert.alert-danger
-    %h2= "#{pluralize(@program.errors.count, 'error')} prohibited this program from being saved:"
+    %h2 #{pluralize(@program.errors.count, 'error')} prohibited this program from being saved:
     %ul
       - @program.errors.full_messages.each do |msg|
         %li= msg

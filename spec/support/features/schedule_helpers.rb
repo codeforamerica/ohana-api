@@ -8,7 +8,8 @@ module Features
     def update_hours(options = {})
       within('.hours') do
         select(options[:weekday], from: weekday) if options[:weekday]
-        select_hours(options)
+        select_opening_hours(options)
+        select_closing_hours(options)
       end
     end
 
@@ -19,22 +20,30 @@ module Features
 
     def update_holiday_schedule(options = {})
       within('.holiday-hours') do
-        select_holiday_dates(options)
+        select_start_date(options)
+        select_end_date(options)
         select(options[:closed], from: closed) if options[:closed]
-        select_hours(options)
+        select_opening_hours(options)
+        select_closing_hours(options)
       end
     end
 
-    def select_holiday_dates(options = {})
+    def select_start_date(options)
       select(options[:start_month], from: start_month) if options[:start_month]
       select(options[:start_day], from: start_day) if options[:start_day]
+    end
+
+    def select_end_date(options)
       select(options[:end_month], from: end_month) if options[:end_month]
       select(options[:end_day], from: end_day) if options[:end_day]
     end
 
-    def select_hours(options = {})
+    def select_opening_hours(options)
       select(options[:opens_at_hour], from: opens_at_hour) if options[:opens_at_hour]
       select(options[:opens_at_minute], from: opens_at_minute) if options[:opens_at_minute]
+    end
+
+    def select_closing_hours(options)
       select(options[:closes_at_hour], from: closes_at_hour) if options[:closes_at_hour]
       select(options[:closes_at_minute], from: closes_at_minute) if options[:closes_at_minute]
     end

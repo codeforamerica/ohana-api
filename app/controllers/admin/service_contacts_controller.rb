@@ -35,8 +35,8 @@ class Admin
       @contact = @service.contacts.new(params[:contact])
 
       if @contact.save
-        flash[:notice] = "Contact '#{@contact.name}' was successfully created."
-        redirect_to admin_location_service_path(@service.location, @service)
+        redirect_to admin_location_service_path(@service.location, @service),
+                    notice: "Contact '#{@contact.name}' was successfully created."
       else
         render :new
       end

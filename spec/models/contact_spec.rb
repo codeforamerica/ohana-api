@@ -26,9 +26,8 @@ describe Contact do
   it { is_expected.to allow_value('moncef@blah.com').for(:email) }
 
   it do
-    is_expected.not_to allow_value('moncef@blahcom').
-    for(:email).
-    with_message('moncef@blahcom is not a valid email')
+    is_expected.not_to allow_value('moncef@blahcom').for(:email).
+      with_message('moncef@blahcom is not a valid email')
   end
 
   describe 'auto_strip_attributes' do

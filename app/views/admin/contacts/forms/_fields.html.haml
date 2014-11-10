@@ -1,6 +1,6 @@
 - if @contact.errors.any?
   .alert.alert-danger
-    %h2= "#{pluralize(@contact.errors.count, 'error')} prohibited this contact from being saved:"
+    %h2 #{pluralize(@contact.errors.count, 'error')} prohibited this contact from being saved:
     %ul
       - @contact.errors.full_messages.each do |msg|
         %li= msg

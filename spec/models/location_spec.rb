@@ -47,8 +47,8 @@ describe Location do
 
   it do
     is_expected.not_to allow_value('http://').
-    for(:website).
-    with_message('http:// is not a valid URL')
+      for(:website).
+      with_message('http:// is not a valid URL')
   end
 
   it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:website) }
@@ -59,8 +59,8 @@ describe Location do
 
   it do
     is_expected.not_to allow_value('moncef@blahcom').
-    for(:email).
-    with_message('moncef@blahcom is not a valid email')
+      for(:email).
+      with_message('moncef@blahcom is not a valid email')
   end
 
   it { is_expected.not_to allow_value('moncef.blahcom').for(:email) }
@@ -70,8 +70,8 @@ describe Location do
 
   it do
     is_expected.not_to allow_value('moncef@blahcom').
-    for(:admin_emails).
-    with_message('moncef@blahcom is not a valid email')
+      for(:admin_emails).
+      with_message('moncef@blahcom is not a valid email')
   end
 
   it { is_expected.not_to allow_value('moncef.blahcom').for(:admin_emails) }
@@ -79,10 +79,10 @@ describe Location do
 
   it do
     is_expected.to enumerize(:accessibility).
-    in(
-      :cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp, :restroom,
-      :tape_braille, :tty, :wheelchair, :wheelchair_van
-    )
+      in(
+        :cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp, :restroom,
+        :tape_braille, :tty, :wheelchair, :wheelchair_van
+      )
   end
 
   it { is_expected.to serialize(:admin_emails).as(Array) }

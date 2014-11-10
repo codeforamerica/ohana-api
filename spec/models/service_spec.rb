@@ -58,14 +58,14 @@ describe Service do
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
   it do
     is_expected.not_to allow_value('http://').
-    for(:website).
-    with_message('http:// is not a valid URL')
+      for(:website).
+      with_message('http:// is not a valid URL')
   end
 
   it do
     is_expected.not_to allow_value(%w(belmont)).
-    for(:service_areas).
-    with_message('belmont is not a valid service area')
+      for(:service_areas).
+      with_message('belmont is not a valid service area')
   end
 
   it { is_expected.to allow_value(%w(Belmont Atherton)).for(:service_areas) }
@@ -75,20 +75,20 @@ describe Service do
 
   it do
     is_expected.not_to allow_value('BBB').
-    for(:accepted_payments).
-    with_message('BBB is not an Array.')
+      for(:accepted_payments).
+      with_message('BBB is not an Array.')
   end
 
   it do
     is_expected.not_to allow_value('BBB').
-    for(:required_documents).
-    with_message('BBB is not an Array.')
+      for(:required_documents).
+      with_message('BBB is not an Array.')
   end
 
   it do
     is_expected.not_to allow_value('BBB').
-    for(:languages).
-    with_message('BBB is not an Array.')
+      for(:languages).
+      with_message('BBB is not an Array.')
   end
 
   describe 'auto_strip_attributes' do

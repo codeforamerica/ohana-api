@@ -2,7 +2,7 @@
 
 .save-box.navbar-default
   %p
-    = 'Creating contact for'
+    Creating contact for
     %strong
-      = "#{@service.name}"
+      #{@service.name}
   = f.submit 'Create contact', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

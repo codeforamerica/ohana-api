@@ -18,9 +18,9 @@
     = f.label :opens_at, 'If open, enter the opening and closing hours below:'
     .row
       .col-md-6
-        = 'Opens at:'
+        Opens at:
         = f.time_select :opens_at, minute_step: 15, prompt: true, ampm: true, ignore_date: true
-        = 'Closes at:'
+        Closes at:
         = f.time_select :closes_at, minute_step: 15, prompt: true, ampm: true, ignore_date: true
 
   = f.hidden_field :_destroy

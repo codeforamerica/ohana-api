@@ -98,7 +98,7 @@ feature 'Update phones' do
 
   scenario 'initial state of phone type' do
     expect(find_field('organization_phones_attributes_0_number_type')).
-        to have_text 'Voice'
+      to have_text 'Voice'
   end
 
   scenario 'select options for number type' do

@@ -5,7 +5,7 @@ describe 'PATCH address' do
     @loc = create(:location)
     @address = @loc.address
     @attrs = { street_1: '1236 Broadway', city: 'Burlingame', state: 'CA',
-      postal_code: '94010', country_code: 'US' }
+               postal_code: '94010', country_code: 'US' }
   end
 
   describe 'PATCH /locations/:location_id/address/:id' do
@@ -43,7 +43,7 @@ describe 'PATCH address' do
       expect(@loc.reload.longitude).to_not eq old_coords.first
     end
 
-    it "does not update the location's coordinates when the address has not changed" do
+    it "doesn't update location's coordinates when address hasn't changed" do
       old_coords = [@loc.longitude, @loc.latitude]
       patch(
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),

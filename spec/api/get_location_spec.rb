@@ -86,7 +86,7 @@ describe 'GET /locations/:id' do
       @service.holiday_schedules.create!(attributes_for(:holiday_schedule))
 
       service_formatted_time = @service.reload.updated_at.
-        strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
+                               strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
 
       get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
 

@@ -43,26 +43,26 @@ describe Organization do
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
   it do
     is_expected.not_to allow_value('http://').
-    for(:website).
-    with_message('http:// is not a valid URL')
+      for(:website).
+      with_message('http:// is not a valid URL')
   end
 
   it do
     is_expected.not_to allow_value('BBB').
-    for(:accreditations).
-    with_message('BBB is not an Array.')
+      for(:accreditations).
+      with_message('BBB is not an Array.')
   end
 
   it do
     is_expected.not_to allow_value('BBB').
-    for(:funding_sources).
-    with_message('BBB is not an Array.')
+      for(:funding_sources).
+      with_message('BBB is not an Array.')
   end
 
   it do
     is_expected.not_to allow_value('BBB').
-    for(:licenses).
-    with_message('BBB is not an Array.')
+      for(:licenses).
+      with_message('BBB is not an Array.')
   end
 
   describe 'auto_strip_attributes' do

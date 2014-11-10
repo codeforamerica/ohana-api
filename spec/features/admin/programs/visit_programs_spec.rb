@@ -52,7 +52,8 @@ feature 'Programs page' do
     before :each do
       nearby = create(:nearby_loc)
       @program = nearby.organization.programs.
-        create!(attributes_for(:program).merge(name: 'Nearby Program'))
+                 create!(attributes_for(:program).
+                 merge(name: 'Nearby Program'))
 
       loc = create(:location_for_org_admin)
       loc.organization.programs.create!(attributes_for(:program))

@@ -1,6 +1,6 @@
 .authform
   - if request.host == 'ohana-api-demo.herokuapp.com' && resource.is_a?(Admin)
-    = 'To try out the admin interface, sign in with one of these'
+    To try out the admin interface, sign in with one of these
     #{link_to 'three demo emails and passwords', 'https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L24-43'}.
 
   = form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f|

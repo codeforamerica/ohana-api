@@ -5,7 +5,7 @@ class Admin
 
     def index
       @programs = Kaminari.paginate_array(policy_scope(Program)).
-                          page(params[:page]).per(params[:per_page])
+                  page(params[:page]).per(params[:per_page])
     end
 
     def edit

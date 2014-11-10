@@ -52,7 +52,8 @@ feature 'Services page' do
     before :each do
       @nearby = create(:nearby_loc)
       @service = @nearby.services.
-        create!(attributes_for(:service).merge(name: 'Nearby Service'))
+                 create!(attributes_for(:service).
+                 merge(name: 'Nearby Service'))
 
       loc = create(:location_for_org_admin)
       loc.services.create!(attributes_for(:service))
