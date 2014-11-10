@@ -58,13 +58,13 @@ class Location < ActiveRecord::Base
   ## displayed in the ohana-web-search client to suit your needs.
   # validates :short_desc, length: { maximum: 200 }
 
-  validates :website, url: true
+  validates :website, url: true, allow_blank: true
 
   validates :languages, pg_array: true
 
   validates :admin_emails, array: { email: true }
 
-  validates :email, email: true
+  validates :email, email: true, allow_blank: true
 
   after_validation :geocode, if: :needs_geocoding?
 
