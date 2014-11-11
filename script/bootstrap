@@ -5,4 +5,4 @@ set -e
 echo "===> Bundling..."
 bundle install
 
-script/restore
+script/setup_db
