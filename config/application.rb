@@ -16,6 +16,8 @@ Bundler.require(*Rails.groups)
 
 module OhanaApi
   class Application < Rails::Application
+    config.autoload_paths << Rails.root.join('lib')
+
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
 

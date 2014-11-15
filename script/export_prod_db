@@ -2,6 +2,10 @@
 
 set -e
 
-echo "===> Exporting the ohana_api_development DB into data/ohana_api_production.dump"
+echo 'Removing test users and admins'
+bin/rake remove_test_users_and_admins
+
+echo Exporting the ohana_api_development DB into data/ohana_api_production.dump...
 pg_dump -Fc --no-acl --no-owner -h localhost ohana_api_development > data/ohana_api_production.dump
-echo "===> Done exporting the DB."
+
+echo Done exporting the DB.

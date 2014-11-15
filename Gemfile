@@ -62,6 +62,7 @@ end
 
 group :test, :development do
   gem 'rspec-rails', '~> 3.1.0'
+  gem 'rspec-its'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
 end

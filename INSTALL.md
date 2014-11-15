@@ -86,50 +86,33 @@ the JSON response so it is easier to read in the browser.
 
 - [Prepare your data][prepare] in a format compatible with Ohana API.
 
-- Place your text file in the `data` folder.
+- Place your CSV files in the `data` folder.
 
-- Open `lib/tasks/setup_db.rake`, and replace `sample_data.txt` on line 9
-with your text file.
+- From the command line, run `script/reset` to reset the database.
 
-- Run `script/reset` from the command line.
+- Run `script/import` to import your CSV files.
 
 If your Location entries don't already include a latitude and longitude, the
 script will geocode them for you, but this can cause the script to fail with
-`Geocoder::OverQueryLimitError`. If you get that error, try increasing the
-sleep value on line 34 in `setup_db.rake `. Alternatively, cache requests
-and/or use a different geocoding service that allows more requests per second.
-See the [geocoding configuration][geocode] section in the Wiki for more
-details.
-
-If any locations contain invalid data, the script will output the following line:
+`Geocoder::OverQueryLimitError`. If you get that error, set a sleep time to
+slow down the script:
 ```
-Some locations failed to load. Check data/invalid_records.json.
+script/import 0.2
 ```
-Check `data/invalid_records.json` to see which fields need to be fixed.
-Each line will identify the location by its name and will specify the invalid
-fields. For example:
+
+Alternatively, cache requests and/or use a different geocoding service that
+allows more requests per second. See the [geocoding configuration][geocode]
+section in the Wiki for more details.
+
+If any entries contain invalid data, the script will output the CSV row
+containing the error(s):
 ```
-{"Redwood City Free Medical Clinic":{"errors":{"contacts.name":["can't be blank for Contact"]}}}
+Importing your organizations...
+Line 2: Organization name can't be blank.
 ```
-At this point, your local database is populated with all of the locations from your
-text file, except for the invalid ones. Therefore, to avoid populating the database
-and geocoding the addresses all over again, follow these steps:
 
-1. For each location in `invalid_records.json`, find the corresponding location
-in your original text file, then copy and paste that location (from your
-original text file, not `invalid_records.json`) into a new `.txt` file.
-
-2. Fix the invalid data in this new file.
-
-3. Set this new file on line 9 of `setup_db.rake`.
-
-4. Delete `invalid_records.json`. The script appends to it, so you want to
-delete it before running the script to start fresh each time.
-
-5. Run `bin/rake load_data`
-
-6. If the script outputs `Some locations failed to load.`, repeat steps 1 - 5
-until your data is clean.
+Open the CSV file containing the error, fix it, save it to the `data` folder,
+then run `script/import`. Repeat until your data is error-free.
 
 [prepare]: https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file
 [geocode]: https://github.com/codeforamerica/ohana-api/wiki/Customizing-the-geocoding-configuration
@@ -144,6 +127,7 @@ Run this command to export the database:
 script/export_prod_db
 ```
 This will create a filed called `ohana_api_production.dump` in the data folder.
+This will also automatically remove all test users and admins before the export.
 
 ### Import the database locally
 

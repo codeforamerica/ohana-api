@@ -1,7 +1,7 @@
 require 'json'
 
 task :create_categories => :environment do
-  puts "===> Creating categories based on OpenEligibility Taxonomy..."
+  Kernel.puts "Creating categories based on OpenEligibility Taxonomy..."
 
   json = JSON.parse(File.read("data/oe.json"))
 
@@ -27,5 +27,4 @@ task :create_categories => :environment do
       end
     end
   end
-  puts "===> All done creating categories."
 end

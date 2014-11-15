@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+sleep_time="$1"
+
+bin/rake import:all sleep=$sleep_time
+echo 'All done, rock on!'
