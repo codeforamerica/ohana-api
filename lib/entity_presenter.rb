@@ -1,4 +1,4 @@
-class EntityPresenter < Struct.new(:row)
+module EntityPresenter
   def to_array(row, *fields)
     fields.each do |field|
       if row[field].blank?

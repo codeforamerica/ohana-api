@@ -1,6 +1,8 @@
+include EntityPresenter
+
 class LocationPresenter < Struct.new(:row, :addresses)
   def to_location
-    location = Organization.find(row[:organization_id]).
+    location = Organization.find(row[:organization_id].to_i).
                locations.find_or_initialize_by(id: row[:id].to_i)
     transform_fields(row)
     location.attributes = row
@@ -24,15 +26,5 @@ class LocationPresenter < Struct.new(:row, :addresses)
 
   def matching_address(id)
     addresses.select { |a| a[:location_id] == id }.first
-  end
-
-  def to_array(row, *fields)
-    fields.each do |field|
-      if row[field].blank?
-        row[field] = []
-      else
-        row[field] = row[field].split(',').map(&:squish)
-      end
-    end
   end
 end

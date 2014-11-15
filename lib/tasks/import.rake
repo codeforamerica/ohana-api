@@ -1,5 +1,5 @@
 namespace :import do
-  task all: [:organizations, :locations]
+  task all: [:organizations, :locations, :services]
 
   desc 'Imports organizations'
   task :organizations, [:path] => :environment do |_, args|
@@ -17,6 +17,14 @@ namespace :import do
       addresses_path: Rails.root.join('data/addresses.csv')
     )
     importer = LocationImporter.import_file(args[:path], args[:addresses_path])
+    importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
+  end
+
+  desc 'Imports services'
+  task :services, [:path] => :environment do |_, args|
+    Kernel.puts('Importing your services...')
+    args.with_defaults(path: Rails.root.join('data/services.csv'))
+    importer = ServiceImporter.import_file(args[:path])
     importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
   end
 end
