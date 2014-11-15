@@ -116,7 +116,7 @@ describe 'GET /locations/:id' do
           'phones'             => [],
           'regular_schedules'  => [
             {
-              'weekday'   => 'Monday',
+              'weekday'   => 1,
               'opens_at'  => '2000-01-01T09:30:00.000Z',
               'closes_at' => '2000-01-01T17:00:00.000Z'
             }
@@ -205,7 +205,7 @@ describe 'GET /locations/:id' do
 
       serialized_regular_schedule =
         {
-          'weekday'   => 'Monday',
+          'weekday'   => 1,
           'opens_at'  => '2000-01-01T09:30:00.000Z',
           'closes_at' => '2000-01-01T17:00:00.000Z'
         }
