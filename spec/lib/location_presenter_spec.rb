@@ -159,5 +159,21 @@ describe LocationPresenter do
         expect(location.address).to be_nil
       end
     end
+
+    context 'when there is a matching address' do
+      let(:properties) do
+        {
+          organization_id: '1',
+          id: '1',
+          name: 'Example Location',
+          description: 'Example description'
+        }
+      end
+
+      it 'sets address attributes' do
+        location = presenter.to_location
+        expect(location.address).to_not be_nil
+      end
+    end
   end
 end

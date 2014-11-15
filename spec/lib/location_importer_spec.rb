@@ -3,7 +3,9 @@ require 'rails_helper'
 describe LocationImporter do
   let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_location_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_location.csv').read }
+  let(:invalid_org) { Rails.root.join('spec/support/fixtures/invalid_location_org.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location.csv').read }
+
   let(:valid_address) do
     path = Rails.root.join('spec/support/fixtures/valid_address.csv')
     AddressExtractor.extract_addresses(path)
@@ -93,8 +95,7 @@ describe LocationImporter do
       let(:content) { invalid_content }
       let(:address) { valid_address }
 
-      errors = ["Line 2: Name can't be blank for Location, " \
-        'Organization locations is invalid']
+      errors = ["Line 2: Name can't be blank for Location"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -103,8 +104,7 @@ describe LocationImporter do
       let(:content) { valid_content }
       let(:address) { invalid_address }
 
-      errors = ["Line 2: Address city can't be blank for Address, " \
-        'Organization locations is invalid']
+      errors = ["Line 2: Address city can't be blank for Address"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -113,8 +113,16 @@ describe LocationImporter do
       let(:content) { valid_content }
       let(:address) { missing_address }
 
-      errors = ["Line 2: Address Unless it's virtual, a location must have an address., " \
-        'Organization locations is invalid']
+      errors = ["Line 2: Address Unless it's virtual, a location must have an address."]
+
+      its(:errors) { is_expected.to eq(errors) }
+    end
+
+    context 'when the organization_id does not exist' do
+      let(:content) { invalid_org }
+      let(:address) { valid_address }
+
+      errors = ["Line 2: Organization can't be blank for Location"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -137,6 +145,7 @@ describe LocationImporter do
         its(:name) { is_expected.to eq 'Harvest Food Bank' }
         its(:latitude) { is_expected.to eq(37.7726402) }
         its(:longitude) { is_expected.to eq(-122.4099154) }
+        its(:organization_id) { is_expected.to eq 1 }
       end
     end
 

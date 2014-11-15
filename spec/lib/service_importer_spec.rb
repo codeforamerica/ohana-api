@@ -3,6 +3,7 @@ require 'rails_helper'
 describe ServiceImporter do
   let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_service_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_service.csv').read }
+  let(:invalid_location) { Rails.root.join('spec/support/fixtures/invalid_service_location.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_service.csv').read }
 
   before(:all) do
@@ -70,6 +71,14 @@ describe ServiceImporter do
 
       its(:errors) { is_expected.to eq(errors) }
     end
+
+    context 'when the location_id does not exist' do
+      let(:content) { invalid_location }
+
+      errors = ["Line 2: Location can't be blank for Service"]
+
+      its(:errors) { is_expected.to eq(errors) }
+    end
   end
 
   describe '#import' do
@@ -99,6 +108,7 @@ describe ServiceImporter do
         its(:status) { is_expected.to eq 'active' }
         its(:wait) { is_expected.to eq 'No wait.' }
         its(:website) { is_expected.to eq 'http://example.org/service' }
+        its(:location_id) { is_expected.to eq 1 }
       end
     end
 
@@ -141,7 +151,7 @@ describe ServiceImporter do
     context 'with invalid data' do
       it 'does not create a service' do
         expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_org.csv')
+          path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
           ServiceImporter.import_file(path)
         end.not_to change(Service, :count)
       end
