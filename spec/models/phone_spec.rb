@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Phone do
   subject { build(:phone) }
 
-  it { is_expected.to be_valid }
+  it { is_expected.to_not be_valid }
 
   it { is_expected.to allow_mass_assignment_of(:country_prefix) }
   it { is_expected.to allow_mass_assignment_of(:department) }

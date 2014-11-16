@@ -1,5 +1,6 @@
 namespace :import do
-  task all: [:organizations, :locations, :services, :mail_addresses, :contacts]
+  task all: [:organizations, :locations, :services, :mail_addresses,
+             :contacts, :phones]
 
   desc 'Imports organizations'
   task :organizations, [:path] => :environment do |_, args|
@@ -41,6 +42,14 @@ namespace :import do
     Kernel.puts('Importing your contacts...')
     args.with_defaults(path: Rails.root.join('data/contacts.csv'))
     importer = ContactImporter.import_file(args[:path])
+    importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
+  end
+
+  desc 'Imports phones'
+  task :phones, [:path] => :environment do |_, args|
+    Kernel.puts('Importing your phones...')
+    args.with_defaults(path: Rails.root.join('data/phones.csv'))
+    importer = PhoneImporter.import_file(args[:path])
     importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
   end
 end
