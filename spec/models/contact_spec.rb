@@ -4,7 +4,7 @@ describe Contact do
 
   subject { build(:contact) }
 
-  it { is_expected.to be_valid }
+  it { is_expected.to_not be_valid }
 
   it { is_expected.to allow_mass_assignment_of(:email) }
   it { is_expected.to allow_mass_assignment_of(:department) }

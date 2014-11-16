@@ -16,5 +16,14 @@ class Contact < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
 
+  validate :parent_presence
+
   auto_strip_attributes :department, :email, :name, :title, squish: true
+
+  private
+
+  def parent_presence
+    return if [location, organization, service].any?(&:present?)
+    errors[:base] << 'Contact must belong to either a Location, Organization or Service'
+  end
 end
