@@ -1,6 +1,6 @@
 namespace :import do
   task all: [:organizations, :programs, :locations, :services, :mail_addresses,
-             :contacts, :phones, :regular_schedules]
+             :contacts, :phones, :regular_schedules, :holiday_schedules]
 
   desc 'Imports organizations'
   task :organizations, [:path] => :environment do |_, args|
@@ -66,6 +66,14 @@ namespace :import do
     Kernel.puts('Importing your regular_schedules...')
     args.with_defaults(path: Rails.root.join('data/regular_schedules.csv'))
     importer = RegularScheduleImporter.import_file(args[:path])
+    importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
+  end
+
+  desc 'Imports holiday_schedules'
+  task :holiday_schedules, [:path] => :environment do |_, args|
+    Kernel.puts('Importing your holiday_schedules...')
+    args.with_defaults(path: Rails.root.join('data/holiday_schedules.csv'))
+    importer = HolidayScheduleImporter.import_file(args[:path])
     importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
   end
 end
