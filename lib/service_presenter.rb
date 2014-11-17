@@ -6,7 +6,14 @@ class ServicePresenter < Struct.new(:row)
     to_array(row, :accepted_payments, :funding_sources, :keywords, :languages,
              :required_documents, :service_areas)
     service.attributes = row
-    service.location_id = row[:location_id].to_i
+    assign_parents_for(service)
     service
+  end
+
+  private
+
+  def assign_parents_for(service)
+    service.location_id = row[:location_id].to_i
+    service.program_id = row[:program_id].to_i
   end
 end

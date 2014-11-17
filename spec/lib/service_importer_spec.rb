@@ -8,7 +8,7 @@ describe ServiceImporter do
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
-    create(:location)
+    @org = create(:location).organization
   end
 
   after(:all) do
@@ -85,7 +85,7 @@ describe ServiceImporter do
     context 'with all the required fields to create a service' do
       let(:content) { valid_content }
 
-      it 'creates an service' do
+      it 'creates a service' do
         expect { importer.import }.to change(Service, :count).by(1)
       end
 
@@ -109,6 +109,22 @@ describe ServiceImporter do
         its(:wait) { is_expected.to eq 'No wait.' }
         its(:website) { is_expected.to eq 'http://example.org/service' }
         its(:location_id) { is_expected.to eq 1 }
+      end
+    end
+
+    context 'when the service belongs to a program' do
+      before do
+        @org.programs.create!(attributes_for(:program))
+      end
+
+      let(:content) { valid_content }
+
+      describe 'the service' do
+        before { importer.import }
+
+        subject { Service.first }
+
+        its(:program_id) { is_expected.to eq 1 }
       end
     end
 

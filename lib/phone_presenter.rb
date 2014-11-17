@@ -9,6 +9,8 @@ class PhonePresenter < Struct.new(:row)
     phone
   end
 
+  private
+
   def assign_contact_for(phone)
     phone.contact_id = row[:contact_id].to_i
   end

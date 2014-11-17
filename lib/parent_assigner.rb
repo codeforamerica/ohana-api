@@ -1,4 +1,6 @@
 module ParentAssigner
+  private
+
   def assign_parents_for(entity)
     assign_service_for(entity)
     assign_location_for(entity)
