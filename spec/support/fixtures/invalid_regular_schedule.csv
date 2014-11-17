@@ -1,0 +1,6 @@
+id,location_id,service_id,weekday,opens_at,closes_at
+1,1,,Monday,9:30,
+2,1,,Tuesday,9:30,5:00 PM
+3,1,,Wednesday,9:30,5:00 PM
+4,1,,Thursday,9:30,5:00 PM
+5,1,,Friday,9:00,4:00 PM
