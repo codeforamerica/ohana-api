@@ -1,6 +1,6 @@
 class PhoneImporter < EntityImporter
   def valid?
-    valid_headers? && phones.all?(&:valid?)
+    @valid ||= valid_headers? && phones.all?(&:valid?)
   end
 
   def errors

@@ -1,6 +1,6 @@
 class MailAddressImporter < EntityImporter
   def valid?
-    valid_headers? && mail_addresses.all?(&:valid?)
+    @valid ||= valid_headers? && mail_addresses.all?(&:valid?)
   end
 
   def errors

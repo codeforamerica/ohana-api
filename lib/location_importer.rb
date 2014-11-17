@@ -10,7 +10,7 @@ class LocationImporter < Struct.new(:content, :addresses)
   end
 
   def valid?
-    valid_headers? && locations.all?(&:valid?)
+    @valid ||= valid_headers? && locations.all?(&:valid?)
   end
 
   def errors
@@ -29,7 +29,7 @@ class LocationImporter < Struct.new(:content, :addresses)
   protected
 
   def locations
-    @locations ||= csv_entries.map(&:to_hash).map do |p|
+    csv_entries.map(&:to_hash).map do |p|
       LocationPresenter.new(p, addresses).to_location
     end
   end

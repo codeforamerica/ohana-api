@@ -1,6 +1,6 @@
 class ServiceImporter < EntityImporter
   def valid?
-    valid_headers? && services.all?(&:valid?)
+    @valid ||= valid_headers? && services.all?(&:valid?)
   end
 
   def errors

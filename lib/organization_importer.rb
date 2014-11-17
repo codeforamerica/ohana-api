@@ -1,6 +1,6 @@
 class OrganizationImporter < EntityImporter
   def valid?
-    valid_headers? && organizations.all?(&:valid?)
+    @valid ||= valid_headers? && organizations.all?(&:valid?)
   end
 
   def errors
@@ -20,7 +20,7 @@ class OrganizationImporter < EntityImporter
   protected
 
   def organizations
-    @organizations ||= csv_entries.map(&:to_hash).map do |p|
+    csv_entries.map(&:to_hash).map do |p|
       OrganizationPresenter.new(p).to_org
     end
   end

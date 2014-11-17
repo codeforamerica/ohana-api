@@ -1,6 +1,6 @@
 class ProgramImporter < EntityImporter
   def valid?
-    valid_headers? && programs.all?(&:valid?)
+    @valid ||= valid_headers? && programs.all?(&:valid?)
   end
 
   def errors

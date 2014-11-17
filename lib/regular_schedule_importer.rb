@@ -1,6 +1,6 @@
 class RegularScheduleImporter < EntityImporter
   def valid?
-    valid_headers? && regular_schedules.all?(&:valid?)
+    @valid ||= valid_headers? && regular_schedules.all?(&:valid?)
   end
 
   def errors

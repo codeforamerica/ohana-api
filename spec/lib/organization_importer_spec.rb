@@ -3,7 +3,10 @@ require 'rails_helper'
 describe OrganizationImporter do
   let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_org_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_org.csv').read }
+  let(:invalid_date) { Rails.root.join('spec/support/fixtures/org_with_invalid_date.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_org.csv').read }
+  let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/org_with_spelled_out_date.csv').read }
+  let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/org_with_2_digit_year.csv').read }
 
   subject(:importer) { OrganizationImporter.new(content) }
 
@@ -61,6 +64,14 @@ describe OrganizationImporter do
 
       its(:errors) { is_expected.to eq(errors) }
     end
+
+    context 'when the date is not valid' do
+      let(:content) { invalid_date }
+
+      errors = ['Line 2: Date incorporated 24/2/70 is not a valid date']
+
+      its(:errors) { is_expected.to eq(errors) }
+    end
   end
 
   describe '#import' do
@@ -78,7 +89,7 @@ describe OrganizationImporter do
 
         its(:accreditations) { is_expected.to eq ['BBB', 'State Board of Education'] }
         its(:alternate_name) { is_expected.to eq 'HFB' }
-        its(:date_incorporated) { is_expected.to eq Date.parse('January 1, 1970') }
+        its(:date_incorporated) { is_expected.to eq Date.parse('January 2, 1970') }
         its(:description) { is_expected.to eq 'Harvest Food Bank provides fresh produce, dairy, and canned goods to food pantries throughout the city.' }
         its(:email) { is_expected.to eq 'info@example.org' }
         its(:funding_sources) { is_expected.to eq %w(Donations Grants) }
@@ -88,6 +99,30 @@ describe OrganizationImporter do
         its(:tax_id) { is_expected.to eq '12-456789' }
         its(:tax_status) { is_expected.to eq '501(c)3' }
         its(:website) { is_expected.to eq 'http://www.example.org' }
+      end
+    end
+
+    context 'when the date is formatted as month, day, year' do
+      let(:content) { spelled_out_date }
+
+      describe 'the org' do
+        before { importer.import }
+
+        subject { Organization.first }
+
+        its(:date_incorporated) { is_expected.to eq Date.parse('January 20, 1970') }
+      end
+    end
+
+    context 'when the year only contains two digits' do
+      let(:content) { org_with_2_digit_year }
+
+      describe 'the org' do
+        before { importer.import }
+
+        subject { Organization.first }
+
+        its(:date_incorporated) { is_expected.to eq Date.parse('January 24, 1970') }
       end
     end
 

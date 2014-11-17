@@ -1,6 +1,6 @@
 class ContactImporter < EntityImporter
   def valid?
-    valid_headers? && contacts.all?(&:valid?)
+    @valid ||= valid_headers? && contacts.all?(&:valid?)
   end
 
   def errors
