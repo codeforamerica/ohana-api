@@ -3,7 +3,7 @@ require 'rails_helper'
 describe RegularSchedule do
   subject { build(:regular_schedule) }
 
-  it { is_expected.to be_valid }
+  it { is_expected.to_not be_valid }
 
   it { is_expected.to allow_mass_assignment_of(:weekday) }
   it { is_expected.to allow_mass_assignment_of(:opens_at) }
@@ -74,8 +74,10 @@ describe RegularSchedule do
 
   context 'when same schedule is created for different entities' do
     it 'allows the schedule creation' do
-      create(:regular_schedule)
-      second_rs = create(:regular_schedule)
+      create(:location).regular_schedules.
+        create(attributes_for(:regular_schedule))
+      second_rs = create(:nearby_loc).regular_schedules.
+                  create(attributes_for(:regular_schedule))
       expect(second_rs.weekday).to eq(1)
     end
   end

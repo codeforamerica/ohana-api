@@ -2,6 +2,7 @@ AllCops:
   Include:
     - 'Gemfile'
     - 'Rakefile'
+    - 'lib/tasks/*'
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'

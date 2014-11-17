@@ -65,6 +65,12 @@ describe Organization do
       with_message('BBB is not an Array.')
   end
 
+  it do
+    is_expected.not_to allow_value('24/2/2014').
+      for(:date_incorporated).
+      with_message('24/2/2014 is not a valid date')
+  end
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       org = build(:org_with_extra_whitespace)

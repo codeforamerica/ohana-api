@@ -24,6 +24,7 @@ class Organization < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
   validates :website, url: true, allow_blank: true
+  validates :date_incorporated, date: true
 
   validates :accreditations, :funding_sources, :licenses, pg_array: true
 

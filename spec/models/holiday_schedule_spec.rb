@@ -3,7 +3,7 @@ require 'rails_helper'
 describe HolidaySchedule do
   subject { build(:holiday_schedule) }
 
-  it { is_expected.to be_valid }
+  it { is_expected.to_not be_valid }
 
   it { is_expected.to allow_mass_assignment_of(:closed) }
   it { is_expected.to allow_mass_assignment_of(:opens_at) }
@@ -34,8 +34,10 @@ describe HolidaySchedule do
 
   context 'when same schedule is created for different entities' do
     it 'allows the schedule creation' do
-      create(:holiday_schedule)
-      second_hs = create(:holiday_schedule)
+      create(:location).holiday_schedules.
+        create(attributes_for(:holiday_schedule))
+      second_hs = create(:nearby_loc).holiday_schedules.
+                  create(attributes_for(:holiday_schedule))
       expect(second_hs.closed).to eq(true)
     end
   end

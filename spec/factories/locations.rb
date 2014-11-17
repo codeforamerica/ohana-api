@@ -51,7 +51,6 @@ FactoryGirl.define do
     description 'no coordinates'
     short_desc 'short description'
     virtual true
-    association :mail_address, factory: :po_box
     association :organization, factory: :no_address_org
   end
 

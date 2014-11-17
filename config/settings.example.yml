@@ -173,6 +173,18 @@ valid_service_areas:
 
 ############################
 #
+# DATE SETTINGS
+#
+############################
+#
+# The date format to use for the Organization `date_incorporated` field,
+# and for the Holiday Schedule `start_date` and `end_date` fields.
+# The default format is the US-style month/day/year. To use the day/month
+# style, change the value below to '%d/%m/'.
+date_format: '%m/%d/'
+
+############################
+#
 # EMAIL DELIVERY SETTINGS
 #
 ############################
@@ -234,3 +246,5 @@ test:
   valid_service_areas:
   - 'Atherton'
   - 'Belmont'
+
+  date_format: '%m/%d/'

@@ -43,7 +43,7 @@ end
 
 feature 'Updating mailing address with invalid values' do
   before(:all) do
-    @location = create(:no_address)
+    @location = create(:mail_address).location
   end
 
   before(:each) do
