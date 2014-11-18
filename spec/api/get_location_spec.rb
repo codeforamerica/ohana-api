@@ -109,7 +109,7 @@ describe 'GET /locations/:id' do
           'service_areas'      => [],
           'status'             => @location.services.first.status,
           'website'            => nil,
-          'wait'               => nil,
+          'wait_time'          => nil,
           'updated_at'         => service_formatted_time,
           'categories'         => [],
           'contacts'           => [],

@@ -25,7 +25,7 @@ FactoryGirl.define do
     service_areas ['Belmont ', 'Belmont']
     status 'active'
     website ' http://www.monfresh.com '
-    wait '2 days '
+    wait_time '2 days '
     location
   end
 end

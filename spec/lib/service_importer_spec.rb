@@ -106,7 +106,7 @@ describe ServiceImporter do
         its(:name) { is_expected.to eq 'Harvest Food Bank of Palo Alto' }
         its(:service_areas) { is_expected.to eq %w(Atherton Belmont) }
         its(:status) { is_expected.to eq 'active' }
-        its(:wait) { is_expected.to eq 'No wait.' }
+        its(:wait_time) { is_expected.to eq 'No wait.' }
         its(:website) { is_expected.to eq 'http://example.org/service' }
         its(:location_id) { is_expected.to eq 1 }
       end

@@ -2,7 +2,7 @@ class Service < ActiveRecord::Base
   attr_accessible :accepted_payments, :alternate_name, :audience, :description,
                   :eligibility, :email, :fees, :funding_sources, :how_to_apply,
                   :keywords, :languages, :name, :required_documents,
-                  :service_areas, :status, :website, :wait, :category_ids,
+                  :service_areas, :status, :website, :wait_time, :category_ids,
                   :contacts_attributes, :regular_schedules_attributes,
                   :holiday_schedules_attributes, :phones_attributes
 
@@ -39,7 +39,7 @@ class Service < ActiveRecord::Base
   validates :website, url: true, allow_blank: true
 
   auto_strip_attributes :alternate_name, :audience, :description, :eligibility,
-                        :email, :fees, :how_to_apply, :name, :wait, :status,
+                        :email, :fees, :how_to_apply, :name, :wait_time, :status,
                         :website
 
   auto_strip_attributes :funding_sources, :keywords, :service_areas,

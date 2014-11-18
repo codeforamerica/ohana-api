@@ -21,7 +21,7 @@ describe Service do
   it { is_expected.to allow_mass_assignment_of(:service_areas) }
   it { is_expected.to allow_mass_assignment_of(:status) }
   it { is_expected.to allow_mass_assignment_of(:website) }
-  it { is_expected.to allow_mass_assignment_of(:wait) }
+  it { is_expected.to allow_mass_assignment_of(:wait_time) }
 
   it { is_expected.to belong_to(:location).touch(true) }
   it { is_expected.to belong_to(:program) }
@@ -111,7 +111,7 @@ describe Service do
       expect(service.service_areas).to eq(['Belmont'])
       expect(service.status).to eq('active')
       expect(service.website).to eq('http://www.monfresh.com')
-      expect(service.wait).to eq('2 days')
+      expect(service.wait_time).to eq('2 days')
     end
   end
 end
