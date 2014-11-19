@@ -95,7 +95,7 @@ GEM
       thor (~> 0.14)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
-    geocoder (1.2.5)
+    geocoder (1.2.6)
     haml (4.0.5)
       tilt
     haml-lint (0.6.0)
