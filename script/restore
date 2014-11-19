@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+echo "===> Restoring the DB from data/latest.dump..."
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -d ohana_api_smc_development data/latest.dump
+echo "===> Done restoring the DB."

@@ -45,6 +45,7 @@ dump.rdb
 /data/null_address.json
 /data/ohana-api-smc_development.dump
 /data/ohana_api_development.dump
+/data/latest.dump
 /data/big.json
 
 script/backup_mongo

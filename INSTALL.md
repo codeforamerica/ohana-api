@@ -76,13 +76,6 @@ the JSON response so it is easier to read in the browser.
 
 [jsonview]: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
 
-### Reset the database with clean data
-
-To reset your local database and populate it again with clean data:
-```
-script/reset
-```
-
 ### User and Admin authentication (for the developer portal and admin interface)
 
 The app automatically sets up users and admins you can sign in with.
