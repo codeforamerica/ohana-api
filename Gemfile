@@ -37,7 +37,7 @@ gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
 
 # App config and ENV variables for heroku
-gem 'figaro', '~> 1.0.0.rc1'
+gem 'figaro', '~> 1.0.0'
 
 # Search
 gem 'pg_search'
