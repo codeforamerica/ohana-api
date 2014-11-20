@@ -1,17 +1,9 @@
 require 'rails_helper'
 
 describe 'DELETE /locations/:location_id/mail_address/:id' do
-  before(:all) do
-    @loc = create(:no_address)
-  end
-
   before(:each) do
-    @loc.reload
-    @mail_address = @loc.mail_address
-  end
-
-  after(:all) do
-    Organization.find_each(&:destroy)
+    @mail_address = create(:mail_address)
+    @loc = @mail_address.location
   end
 
   it 'deletes the mail_address' do

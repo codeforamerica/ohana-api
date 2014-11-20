@@ -1,0 +1,28 @@
+= field_set_tag do
+  .form-group
+    = f.label :start_date, 'Start date'
+    .row
+      .col-md-6
+        = f.date_select :start_date, include_blank: true, discard_year: true, class: 'form-control'
+  .form-group
+    = f.label :end_date, 'End date'
+    .row
+      .col-md-6
+        = f.date_select :end_date, include_blank: true, discard_year: true, class: 'form-control'
+  .form-group
+    = f.label :closed, 'Closed or open during the above dates?'
+    .row
+      .col-md-6
+        = f.select :closed, [['Closed', true], ['Open', false]]
+  .form-group
+    = f.label :opens_at, 'If open, enter the opening and closing hours below:'
+    .row
+      .col-md-6
+        Opens at:
+        = f.time_select :opens_at, minute_step: 15, prompt: true, ampm: true, ignore_date: true
+        Closes at:
+        = f.time_select :closes_at, minute_step: 15, prompt: true, ampm: true, ignore_date: true
+
+  = f.hidden_field :_destroy
+  = link_to 'Remove this holiday schedule', '#', class: 'btn btn-danger delete_association'
+  %hr

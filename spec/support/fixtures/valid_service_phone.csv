@@ -1,0 +1,2 @@
+id,contact_id,location_id,organization_id,service_id,number,extension,department,number_type,vanity_number,country_prefix
+1,,,,1,703-555-1212,123,Food Pantry,voice,703-555-FOOD,1

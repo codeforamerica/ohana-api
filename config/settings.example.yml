@@ -6,6 +6,18 @@
 #
 ############################
 #
+# These will be the values that admin interface users will choose from when
+# updating a Service's accepted methods of payment.
+#
+# The list below should remain alphabetical, and should encompass all possible
+# payment methods across all services.
+accepted_payments:
+- 'Cash'
+- 'Check'
+- 'Credit Card'
+- 'EBT Card'
+- 'Medicare'
+
 # The email address that admin interface users should send questions/issues to.
 # This link appears when an admin views their locations and organizations.
 # See app/views/admin/locations/index.html.haml and
@@ -22,7 +34,7 @@ admin_support_email: ohanapi@codeforamerica.org
 # locations that match "codeforamerica.org". This works for these types of
 # organization domain names, but if we allowed the same lookup for people with
 # generic email addresses that end in "@gmail.com" for example, then they would
-# be able to access all locations with "gmail.com" in the "emails" field.
+# be able to access all locations with "gmail.com" in the "email" field.
 # To prevent that, the API compares the domain name with the list of generic
 # domains that you define below, and if it finds it, then it looks for an exact
 # match of the full email address.
@@ -42,7 +54,8 @@ generic_domains:
   - comcast.net
 
 # These will be the values that admin interface users will choose from when
-# updating a Location's or a Service's languages.
+# updating a Location's or a Service's languages. The list below should remain
+# in alphabetical order.
 languages:
 - 'American Sign Language'
 - 'Amharic'
@@ -129,6 +142,13 @@ languages:
 - 'Yiddish'
 - 'Yoruba'
 
+# These will be the values that admin interface users will choose from when
+# updating a Service's required documents. The list below should remain
+# in alphabetical order.
+required_documents:
+- 'Bank statements (last 3 months)'
+- 'Government-issued picture identification'
+
 # If your data contains a service_areas field that identifies which particular
 # areas of a city or county are eligible for the services provided by an
 # organization, and if you want to make sure that the service areas are always
@@ -150,6 +170,18 @@ valid_service_areas:
   - 'East Palo Alto'
   - 'San Mateo'
   - 'South San Francisco'
+
+############################
+#
+# DATE SETTINGS
+#
+############################
+#
+# The date format to use for the Organization `date_incorporated` field,
+# and for the Holiday Schedule `start_date` and `end_date` fields.
+# The default format is the US-style month/day/year. To use the day/month
+# style, change the value below to '%d/%m/'.
+date_format: '%m/%d/'
 
 ############################
 #
@@ -194,10 +226,25 @@ bounds: [[25.7084, -124.085], [48.9084, -67.085]]
 #
 ###########################################
 test:
-  valid_service_areas:
-  - Atherton
-  - Belmont
+  accepted_payments:
+  - 'Cash'
+  - 'Check'
 
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
 
   confirmation_email: registration@ohanapi.org
+
+  languages:
+  - 'Arabic'
+  - 'French'
+  - 'Spanish'
+
+  required_documents:
+  - 'Bank Statement'
+  - 'Picture ID'
+
+  valid_service_areas:
+  - 'Atherton'
+  - 'Belmont'
+
+  date_format: '%m/%d/'

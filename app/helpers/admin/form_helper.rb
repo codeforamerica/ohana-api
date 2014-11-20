@@ -16,22 +16,41 @@ class Admin
     end
 
     def nested_categories(categories)
-      cats = []
-      categories.each do |array|
-        cats.push([array.first, array.second])
-      end
-
-      cats.map do |category, sub_categories|
-        class_name = category.depth == 0 ? 'depth0 checkbox' : "hide depth#{category.depth} checkbox"
-
+      cats_and_subcats(categories).map do |category, sub_categories|
         content_tag(:ul) do
-          concat(content_tag(:li, class: class_name) do
-            concat(check_box_tag 'service[category_ids][]', category.id, @oe_ids.include?(category.oe_id), id: "category_#{category.oe_id}")
-            concat(label_tag "category_#{category.oe_id}", category.name)
+          concat(content_tag(:li, class: class_name_for(category)) do
+            concat(checkbox_tag_for(category))
+            concat(label_tag_for(category))
             concat(nested_categories(sub_categories))
           end)
         end
       end.join.html_safe
+    end
+
+    def cats_and_subcats(categories)
+      cats = []
+      categories.each do |array|
+        cats.push([array.first, array.second])
+      end
+      cats
+    end
+
+    def class_name_for(category)
+      return 'depth0 checkbox' if category.depth == 0
+      "hide depth#{category.depth} checkbox"
+    end
+
+    def checkbox_tag_for(category)
+      check_box_tag(
+        'service[category_ids][]',
+        category.id,
+        @oe_ids.include?(category.oe_id),
+        id: "category_#{category.oe_id}"
+      )
+    end
+
+    def label_tag_for(category)
+      label_tag "category_#{category.oe_id}", category.name
     end
 
     def error_class_for(model, attribute, field)
@@ -46,15 +65,33 @@ class Admin
     def org_autocomplete_field_for(f, admin)
       if admin.super_admin?
         f.hidden_field(
-          :organization_id, id: 'org-name', class: 'form-control',
-          data: {
-            'ajax-url' => admin_organizations_url(subdomain: ENV['ADMIN_SUBDOMAIN']),
-            'placeholder' => 'Choose an organization'
-          }
+          :organization_id,
+          id: 'org-name',
+          class: 'form-control',
+          data: { 'ajax-url' => admin_organizations_url,
+                  'placeholder' => 'Choose an organization' }
         )
       else
-        f.select :organization_id, @orgs.map { |org| [org.second, org.first] }, {}, class: 'form-control'
+        f.select(
+          :organization_id,
+          policy_scope(Organization).map { |org| [org.second, org.first] },
+          {}, class: 'form-control'
+        )
       end
+    end
+
+    def program_autocomplete_field_for(f)
+      f.select(
+        :program_id, @location.organization.programs.pluck(:name, :id),
+        { include_blank: 'This service is not part of any program' },
+        class: 'form-control'
+      )
+    end
+
+    WEEKDAYS = %w(Monday Tuesday Wednesday Thursday Friday Saturday Sunday).freeze
+
+    def weekday_select_field
+      WEEKDAYS.each_with_index.map { |day, i| [day, i + 1] }
     end
   end
 end

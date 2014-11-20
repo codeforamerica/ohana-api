@@ -31,8 +31,16 @@ FactoryGirl.define do
   end
 
   factory :org_with_extra_whitespace, class: Organization do
+    accreditations ['BBB ', ' AAA']
+    alternate_name 'AKA '
+    description 'Organization created for testing purposes '
+    email 'foo@bar.org '
+    funding_sources ['County ', ' State ']
+    legal_status 'nonprofit '
+    licenses ['Health Bureau ']
     name 'Food   Pantry  '
-    description 'Organization created for testing purposes'
+    tax_id '12345 '
+    tax_status '501c3 '
     website ' http://cfa.org'
   end
 end

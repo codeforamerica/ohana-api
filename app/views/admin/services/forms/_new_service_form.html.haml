@@ -1,25 +1,8 @@
-- if @service.errors.any?
-  .alert.alert-danger
-    %h2= "#{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:"
-    %ul
-      - @service.errors.full_messages.each do |msg|
-        %li= msg
-
-= render 'admin/services/forms/name', f: f
-= render 'admin/services/forms/description', f: f
-= render 'admin/services/forms/audience', f: f
-= render 'admin/services/forms/eligibility', f: f
-= render 'admin/services/forms/fees', f: f
-= render 'admin/services/forms/how_to_apply', f: f
-= render 'admin/services/forms/keywords', f: f
-= render 'admin/services/forms/service_areas', f: f
-= render 'admin/services/forms/urls', f: f
-= render 'admin/services/forms/wait', f: f
-= render 'admin/services/forms/categories', f: f
+= render 'admin/services/forms/fields', f: f
 
 .save-box.navbar-default
   %p
-    = 'Creating service for'
+    Creating service for
     %strong
-      = "#{@location.name}"
+      #{@location.name}
   = f.submit 'Create service', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

@@ -9,4 +9,4 @@ echo "===> Setting up the ohana_api_development database..."
 bin/rake db:structure:load
 
 echo "===> Populating the ohana_api_development database..."
-bin/rake setup_db
+script/restore

@@ -40,9 +40,8 @@ describe Address do
   it { is_expected.to allow_value('90210-1234', '22045').for(:postal_code) }
 
   it do
-    is_expected.not_to allow_value('asdf').
-    for(:postal_code).
-    with_message('asdf is not a valid ZIP code')
+    is_expected.not_to allow_value('asdf').for(:postal_code).
+      with_message('asdf is not a valid ZIP code')
   end
 
   it { is_expected.not_to allow_value('1234').for(:postal_code) }

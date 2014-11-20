@@ -2,7 +2,7 @@
   %header
     %strong
       Phone Numbers
-    - if f.object.class == Location
+    - unless f.object.class == Contact
       %p.desc
         %em
           If the phone number belongs to a contact, please move it to the existing contact, or add a new contact.

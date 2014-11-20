@@ -97,4 +97,37 @@ feature 'Create a new organization' do
     expect(find_field('organization_date_incorporated_3i').value).
       to eq Date.today.day.to_s
   end
+
+  scenario 'when adding multiple funding_sources', :js do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    select2('first', 'organization_funding_sources', multiple: true, tag: true)
+    select2('second', 'organization_funding_sources', multiple: true, tag: true)
+    click_button 'Create organization'
+
+    organization = Organization.find_by_name('new org')
+    expect(organization.funding_sources).to eq %w(first second)
+  end
+
+  scenario 'when adding multiple accreditations', :js do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    select2('first', 'organization_accreditations', multiple: true, tag: true)
+    select2('second', 'organization_accreditations', multiple: true, tag: true)
+    click_button 'Create organization'
+
+    organization = Organization.find_by_name('new org')
+    expect(organization.accreditations).to eq %w(first second)
+  end
+
+  scenario 'when adding multiple licenses', :js do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    select2('first', 'organization_licenses', multiple: true, tag: true)
+    select2('second', 'organization_licenses', multiple: true, tag: true)
+    click_button 'Create organization'
+
+    organization = Organization.find_by_name('new org')
+    expect(organization.licenses).to eq %w(first second)
+  end
 end

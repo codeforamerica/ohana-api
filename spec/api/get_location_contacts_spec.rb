@@ -5,7 +5,7 @@ describe 'GET /locations/:location_id/contacts' do
     before :all do
       @loc = create(:location)
       @first_contact = @loc.contacts.
-        create!(attributes_for(:contact_with_extra_whitespace))
+                       create!(attributes_for(:contact_with_extra_whitespace))
     end
 
     before :each do

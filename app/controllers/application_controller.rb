@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pundit
   # Prevent CSRF attacks by raising an exception (with: :exception),
   # or, for APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
@@ -9,6 +10,8 @@ class ApplicationController < ActionController::Base
   # This is a bug in Rails and this workaround came from this issue:
   # https://github.com/rails/rails/issues/4127#issuecomment-10247450
   rescue_from ActionView::MissingTemplate, with: :missing_template
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   unless Rails.application.config.consider_all_requests_local
     rescue_from ActionController::RoutingError, with: :render_not_found
@@ -26,11 +29,15 @@ class ApplicationController < ActionController::Base
 
   layout :layout_by_resource
 
+  def pundit_user
+    current_admin
+  end
+
   private
 
   def missing_template(exception)
     if exception.is_a?(ActionView::MissingTemplate) &&
-      !Collector.new(collect_mimes_from_class_level).negotiate_format(request)
+       !Collector.new(collect_mimes_from_class_level).negotiate_format(request)
       render nothing: true, status: 406
     else
       logger.error(exception)
@@ -43,9 +50,14 @@ class ApplicationController < ActionController::Base
       {
         'status'  => 404,
         'message' => 'The requested resource could not be found.',
-        'documentation_url' => docs_url
+        'documentation_url' => 'http://codeforamerica.github.io/ohana-api-docs/'
       }
     render json: hash, status: 404
+  end
+
+  def user_not_authorized
+    flash[:error] = I18n.t('admin.not_authorized')
+    redirect_to(request.referrer || admin_dashboard_path)
   end
 
   protected

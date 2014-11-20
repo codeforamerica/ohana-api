@@ -1,21 +1,15 @@
-- if @service.errors.any?
-  .alert.alert-danger
-    %h2= "#{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:"
-    %ul
-      - @service.errors.full_messages.each do |msg|
-        %li= msg
+= render 'admin/services/forms/fields', f: f
 
-= render 'admin/services/forms/name', f: f
-= render 'admin/services/forms/description', f: f
-= render 'admin/services/forms/audience', f: f
-= render 'admin/services/forms/eligibility', f: f
-= render 'admin/services/forms/fees', f: f
-= render 'admin/services/forms/how_to_apply', f: f
-= render 'admin/services/forms/keywords', f: f
-= render 'admin/services/forms/service_areas', f: f
-= render 'admin/services/forms/urls', f: f
-= render 'admin/services/forms/wait', f: f
-= render 'admin/services/forms/categories', f: f
+.content-box
+  %h2 Contacts
+  - if @service.contacts.present?
+    Click a Contact below to view and update it:
+    %p
+    - @service.contacts.each do |contact|
+      = link_to contact.name, edit_admin_location_service_contact_path(@location, @service, contact)
+      %br
+  %p
+    = link_to 'Add a new contact', new_admin_location_service_contact_path(@location, @service), class: 'btn btn-primary'
 
 .danger-zone
   %header
@@ -27,11 +21,11 @@
     Once you delete a service, there is no going back. Please be certain.
   %p
     = link_to 'Permanently delete this service', { action: :confirm_delete_service, service_id: @service.id, service_name: @service.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
-#modal-window.modal.fade{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
+.modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
 
 .save-box.navbar-default
   %p
-    = 'Editing'
+    Editing
     %strong
-      = "#{@service.name}"
+      #{@service.name}
   = f.submit 'Save changes & apply edits to database', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

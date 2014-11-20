@@ -19,20 +19,30 @@ Rails.application.routes.draw do
       root to: 'dashboard#index', as: :dashboard
 
       resources :locations, except: :show do
-        resources :services, except: [:show, :index]
+        resources :services, except: [:show, :index] do
+          resources :contacts, except: [:show, :index], controller: 'service_contacts'
+        end
         resources :contacts, except: [:show, :index]
       end
 
-      resources :organizations, except: :show
+      resources :organizations, except: :show do
+        resources :contacts, except: [:show, :index], controller: 'organization_contacts'
+      end
+      resources :programs, except: :show
+      resources :services, only: :index
 
       get 'locations/:location_id/services/confirm_delete_service', to: 'services#confirm_delete_service', as: :confirm_delete_service
       get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
       get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
+      get 'programs/confirm_delete_program', to: 'programs#confirm_delete_program', as: :confirm_delete_program
 
       get 'locations/:location_id/services/:id', to: 'services#edit'
+      get 'locations/:location_id/services/:service_id/contacts/:id', to: 'service_contacts#edit'
       get 'locations/:location_id/contacts/:id', to: 'contacts#edit'
       get 'locations/:id', to: 'locations#edit'
       get 'organizations/:id', to: 'organizations#edit'
+      get 'organizations/:organization_id/contacts/:id', to: 'organization_contacts#edit'
+      get 'programs/:id', to: 'programs#edit'
     end
   end
 
@@ -74,10 +84,6 @@ Rails.application.routes.draw do
         match '*unmatched_route' => 'cors#render_204', via: [:options]
       end
     end
-  end
-
-  constraints(SubdomainConstraints.new(subdomain: ENV['DEV_SUBDOMAIN'])) do
-    get 'docs' => 'api_docs#index'
   end
 
   root to: 'home#index'

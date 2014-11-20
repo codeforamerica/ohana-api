@@ -4,16 +4,16 @@
       = button_tag(type: 'button', class: 'close', data: { dismiss: 'modal' }) do
         %span{ 'aria-hidden' => 'true' }
           &times;
-        %span{ class: 'sr-only' }
+        %span.sr-only
           Close
-      %h4#myModalLabel.modal-title
+      %h4.modal-title#myModalLabel
         Are you ABSOLUTELY sure?
     .modal-body
       %p
-        = 'This action CANNOT be undone. This will delete '
+        This action CANNOT be undone. This will delete
         %strong
           = @org_name
-        = 'and all of its associated locations permanently.'
+        and all of its associated locations permanently.
     .modal-footer
       %button.btn.btn-default{'data-dismiss' => 'modal'} Close
       = link_to 'I understand the consequences, delete this organization', { action: :destroy, id: @org_id }, method: :delete, class: 'btn btn-danger'

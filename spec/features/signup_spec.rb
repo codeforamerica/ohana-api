@@ -37,5 +37,6 @@ feature 'Signing up' do
     sign_up('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(first_email.body).to include('developer')
     expect(first_email.body).to include('documentation')
+    expect(first_email.body).to include('http://codeforamerica.github.io/ohana-api-docs/')
   end
 end

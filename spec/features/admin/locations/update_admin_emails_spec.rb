@@ -15,7 +15,7 @@ feature 'Update admin_emails' do
   scenario 'by adding 2 new admins', :js do
     add_two_admins
     total_admins = page.
-      all(:xpath, "//input[@name='location[admin_emails][]']")
+                   all(:xpath, "//input[@name='location[admin_emails][]']")
     expect(total_admins.length).to eq 2
     delete_all_admins
     expect(page).to have_no_xpath("//input[@name='location[admin_emails][]']")
@@ -41,7 +41,7 @@ feature 'Update admin_emails' do
     visit '/admin/locations/vrs-services'
     find_link('Add a new admin email').trigger('click')
     admin_emails = page.
-        all(:xpath, "//input[@name='location[admin_emails][]']")
+                   all(:xpath, "//input[@name='location[admin_emails][]']")
     fill_in admin_emails[-1][:id], with: 'Alexandria'
     click_button 'Save changes'
     total_fields_with_errors = page.all(:css, '.field_with_errors')

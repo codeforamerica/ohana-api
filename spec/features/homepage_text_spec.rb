@@ -16,9 +16,9 @@ feature 'Visit home page after signing in' do
     visit '/'
   end
 
-  it 'includes a link to the Docs page in the navigation' do
+  it 'does not include a link to the Docs page in the navigation' do
     within '.navbar' do
-      expect(page).to have_link 'Docs', href: docs_path
+      expect(page).to_not have_link 'Docs'
     end
   end
 
@@ -42,8 +42,8 @@ feature 'Visit home page after signing in' do
     end
   end
 
-  scenario "click 'create a new application' link" do
-    click_link 'Create a new application'
+  scenario "click 'Register a new application' link" do
+    click_link 'Register a new application'
     expect(page).to have_content 'Register a new application'
   end
 

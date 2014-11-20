@@ -86,49 +86,35 @@ the JSON response so it is easier to read in the browser.
 
 - [Prepare your data][prepare] in a format compatible with Ohana API.
 
-- Place your JSON file in the `data` folder.
+- Place your CSV files in the `data` folder.
 
-- Open `lib/tasks/setup_db.rake`, and replace `sample_data.json` on line 9
-with your JSON file.
+- From the command line, run `script/reset` to reset the database.
 
-- Run `script/reset` from the command line.
+- Run `script/import` to import your CSV files.
 
-If the script fails because of `Geocoder::OverQueryLimitError`, try increasing
-the sleep value on line 34 in `setup_db.rake `. Alternatively,
-use a different geocoding service that allows more requests per second.
-See the [geocoding configuration][geocode] section in the Wiki for more details.
-
-If any locations contain invalid data, the script will output the following line:
+If your Location entries don't already include a latitude and longitude, the
+script will geocode them for you, but this can cause the script to fail with
+`Geocoder::OverQueryLimitError`. If you get that error, set a sleep time to
+slow down the script:
 ```
-Some locations failed to load. Check data/invalid_records.json.
+script/import 0.2
 ```
-Check `data/invalid_records.json` to see which fields need to be fixed.
-Each line will identify the location by its name and will specify the invalid
-fields. For example:
+
+Alternatively, cache requests and/or use a different geocoding service that
+allows more requests per second. See the [geocoding configuration][geocode]
+section in the Wiki for more details.
+
+If any entries contain invalid data, the script will output the CSV row
+containing the error(s):
 ```
-{"Redwood City Free Medical Clinic":{"errors":{"contacts.name":["can't be blank for Contact"]}}}
+Importing your organizations...
+Line 2: Organization name can't be blank.
 ```
-At this point, your local database is populated with all of the locations from your
-JSON file, except for the invalid ones. Therefore, to avoid populating the database
-and geocoding the addresses all over again, follow these steps:
 
-1. For each location in `invalid_records.json`, find the corresponding location
-in your original JSON file, then copy and paste that location (from your
-original JSON file, not `invalid_records.json`) into a new `.json` file.
+Open the CSV file containing the error, fix it, save it to the `data` folder,
+then run `script/import`. Repeat until your data is error-free.
 
-2. Fix the invalid data in this new file.
-
-3. Set this new file on line 9 of `setup_db.rake`.
-
-4. Delete `invalid_records.json`. The script appends to it, so you want to
-delete it before running the script to start fresh each time.
-
-5. Run `bin/rake load_data`
-
-6. If the script outputs `Some locations failed to load.`, repeat steps 1 - 5
-until your data is clean.
-
-[prepare]: https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file
+[prepare]: https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-OpenReferral-compliant-CSV-files
 [geocode]: https://github.com/codeforamerica/ohana-api/wiki/Customizing-the-geocoding-configuration
 
 ### Export the database
@@ -138,28 +124,38 @@ and much faster to import, whether on your local machine, or on Heroku.
 Run this command to export the database:
 
 ```
-script/export
+script/export_prod_db
 ```
-This will create a filed called `ohana_api_development.dump` in the data folder.
+This will create a filed called `ohana_api_production.dump` in the data folder.
+This will also automatically remove all test users and admins before the export.
 
 ### Import the database locally
 
-To reset your local database and populate it again with your clean data:
+To restore your local database from your clean data:
 ```
-script/import
+script/restore_prod_db
 ```
 
 ### User and Admin authentication (for the developer portal and admin interface)
+
+To access the developer portal, visit [http://localhost:8080/](http://localhost:8080/).
+
+To access the admin interface, visit [http://localhost:8080/admin/](http://localhost:8080/admin/).
 
 The app automatically sets up users and admins you can sign in with.
 Their username and password are stored in [db/seeds.rb][seeds].
 
 [seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb
 
+The third admin in the seeds file is automatically set as a Super Admin. If you
+would like to set additional admins as super admins, you will need to do it
+manually for security reasons.
+
 To set an admin as a Super Admin:
 
     psql ohana_api_development
-    UPDATE "admins" SET super_admin = true WHERE id = 3;
+    UPDATE "admins" SET super_admin = true WHERE email = 'masteradmin@ohanapi.org';
     \q
 
-To access the admin interface, visit [http://localhost:8080/admin/](http://localhost:8080/admin/).
+Replace `masteradmin@ohanapi.org` in the command above with the email of the
+admin you want to set as a super admin.

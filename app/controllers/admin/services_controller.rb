@@ -1,18 +1,21 @@
 class Admin
   class ServicesController < ApplicationController
+    include Taggable
+
     before_action :authenticate_admin!
     layout 'admin'
+
+    def index
+      @services = Kaminari.paginate_array(policy_scope(Service)).
+                  page(params[:page]).per(params[:per_page])
+    end
 
     def edit
       @location = Location.find(params[:location_id])
       @service = Service.find(params[:id])
-      @admin_decorator = AdminDecorator.new(current_admin)
       @oe_ids = @service.categories.pluck(:oe_id)
 
-      unless @admin_decorator.allowed_to_access_location?(@location)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @location
     end
 
     def update
@@ -20,60 +23,46 @@ class Admin
       @location = Location.find(params[:location_id])
       @oe_ids = @service.categories.pluck(:oe_id)
 
-      keywords = params[:service][:keywords]
-      params[:service][:keywords] = keywords.shift.split(',')
+      preprocess_service
 
-      respond_to do |format|
-        if @service.update(params[:service])
-          format.html do
-            redirect_to [:admin, @location, @service],
-                        notice: 'Service was successfully updated.'
-          end
-        else
-          format.html { render :edit }
-        end
+      if @service.update(params[:service])
+        redirect_to [:admin, @location, @service],
+                    notice: 'Service was successfully updated.'
+      else
+        render :edit
       end
     end
 
     def new
-      @admin_decorator = AdminDecorator.new(current_admin)
       @location = Location.find(params[:location_id])
       @oe_ids = []
 
-      unless @admin_decorator.allowed_to_access_location?(@location)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @location
 
       @service = Service.new
     end
 
     def create
-      keywords = params[:service][:keywords]
-      params[:service][:keywords] = keywords.shift.split(',')
+      preprocess_service_params
 
       @location = Location.find(params[:location_id])
       @service = @location.services.new(params[:service])
       @oe_ids = []
 
-      respond_to do |format|
-        if @service.save
-          format.html do
-            redirect_to admin_location_path(@location),
-                        notice: "Service '#{@service.name}' was successfully created."
-          end
-        else
-          format.html { render :new }
-        end
+      add_program_to_service_if_authorized
+
+      if @service.save
+        redirect_to admin_location_path(@location),
+                    notice: "Service '#{@service.name}' was successfully created."
+      else
+        render :new
       end
     end
 
     def destroy
       service = Service.find(params[:id])
       service.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_locations_path }
-      end
+      redirect_to admin_locations_path
     end
 
     def confirm_delete_service
@@ -83,6 +72,30 @@ class Admin
         format.html
         format.js
       end
+    end
+
+    private
+
+    def preprocess_service
+      preprocess_service_params
+      add_program_to_service_if_authorized
+    end
+
+    def preprocess_service_params
+      shift_and_split_params(params[:service], :funding_sources, :keywords)
+    end
+
+    def add_program_to_service_if_authorized
+      prog_id = params[:service][:program_id]
+      @service.program = nil and return if prog_id.blank?
+
+      if program_ids_for(@service).select { |id| id == prog_id.to_i }.present?
+        @service.program_id = prog_id
+      end
+    end
+
+    def program_ids_for(service)
+      service.location.organization.programs.pluck(:id)
     end
   end
 end

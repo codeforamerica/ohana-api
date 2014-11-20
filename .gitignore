@@ -43,8 +43,8 @@ dump.rdb
 /data/keywords.json
 /data/ohana_airs_8-26.json
 /data/null_address.json
+/data/ohana_api_production.dump
 /data/ohana-api-smc_development.dump
-/data/ohana_api_development.dump
 /data/big.json
 
 script/backup_mongo

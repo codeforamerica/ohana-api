@@ -7,11 +7,10 @@ describe 'POST /locations/:location_id/services' do
 
   before(:each) do
     @service_attributes = {
-      fees: 'new fees',
-      audience: 'new audience',
-      keywords: %w(food youth),
       name: 'test service',
-      description: 'test description'
+      description: 'test description',
+      how_to_apply: 'walk in',
+      status: 'active'
     }
   end
 
@@ -25,16 +24,16 @@ describe 'POST /locations/:location_id/services' do
       @service_attributes
     )
     expect(response.status).to eq(201)
-    expect(json['fees']).to eq(@service_attributes[:fees])
+    expect(json['name']).to eq(@service_attributes[:name])
   end
 
   it "doesn't create a service with invalid attributes" do
     post(
       api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
-      urls: ['belmont']
+      website: 'belmont'
     )
     expect(response.status).to eq(422)
-    expect(json['errors'].first['urls']).to eq(['belmont is not a valid URL'])
+    expect(json['errors'].first['website']).to eq(['belmont is not a valid URL'])
   end
 
   it "doesn't allow creating a service without a valid token" do

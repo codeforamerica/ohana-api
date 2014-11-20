@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Phone do
   subject { build(:phone) }
 
-  it { is_expected.to be_valid }
+  it { is_expected.to_not be_valid }
 
   it { is_expected.to allow_mass_assignment_of(:country_prefix) }
   it { is_expected.to allow_mass_assignment_of(:department) }
@@ -14,6 +14,8 @@ describe Phone do
 
   it { is_expected.to belong_to(:location).touch(true) }
   it { is_expected.to belong_to(:contact).touch(true) }
+  it { is_expected.to belong_to(:service).touch(true) }
+  it { is_expected.to belong_to(:organization) }
 
   it do
     is_expected.to validate_presence_of(:number).
@@ -27,6 +29,11 @@ describe Phone do
       with_message('703- is not a valid US phone or fax number')
   end
 
+  it { is_expected.to allow_value('fax', 'hotline', 'tty', 'voice').for(:number_type) }
+  it { is_expected.not_to allow_value('Voice').for(:number_type) }
+
+  it { is_expected.to validate_numericality_of(:extension) }
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       phone = build(:phone_with_extra_whitespace)
@@ -34,7 +41,7 @@ describe Phone do
       expect(phone.country_prefix).to eq('+33')
       expect(phone.department).to eq('Information')
       expect(phone.number).to eq('650 851-1210')
-      expect(phone.extension).to eq('x2000')
+      expect(phone.extension).to eq('2000')
       expect(phone.vanity_number).to eq('800-FLY-AWAY')
     end
   end

@@ -1,10 +1,11 @@
 class Location < ActiveRecord::Base
-  attr_accessible :accessibility, :admin_emails, :alternate_name, :description,
-                  :emails, :hours, :languages, :latitude, :longitude, :name,
-                  :short_desc, :transportation, :urls, :virtual,
-                  :address_attributes, :contacts_attributes,
+  attr_accessible :accessibility, :active, :admin_emails, :alternate_name,
+                  :description, :email, :languages, :latitude,
+                  :longitude, :name, :short_desc, :transportation, :website,
+                  :virtual, :address_attributes, :contacts_attributes,
                   :mail_address_attributes, :phones_attributes,
-                  :services_attributes
+                  :services_attributes, :regular_schedules_attributes,
+                  :holiday_schedules_attributes
 
   belongs_to :organization
   accepts_nested_attributes_for :organization
@@ -26,8 +27,13 @@ class Location < ActiveRecord::Base
   has_many :services, dependent: :destroy
   accepts_nested_attributes_for :services, allow_destroy: true
 
-  # has_many :schedules, dependent: :destroy
-  # accepts_nested_attributes_for :schedules
+  has_many :regular_schedules, dependent: :destroy
+  accepts_nested_attributes_for :regular_schedules,
+                                allow_destroy: true, reject_if: :all_blank
+
+  has_many :holiday_schedules, dependent: :destroy
+  accepts_nested_attributes_for :holiday_schedules,
+                                allow_destroy: true, reject_if: :all_blank
 
   validates :address,
             presence: {
@@ -52,16 +58,14 @@ class Location < ActiveRecord::Base
   ## displayed in the ohana-web-search client to suit your needs.
   # validates :short_desc, length: { maximum: 200 }
 
-  # Custom validation for values within arrays.
-  # For example, the urls field is an array that can contain multiple URLs.
-  # To be able to validate each URL in the array, we have to use a
-  # custom array validator. See app/validators/array_validator.rb
-  validates :urls, array: { url: true }
+  validates :website, url: true, allow_blank: true
 
-  validates :emails, :admin_emails, array: { email: true }
+  validates :languages, pg_array: true
 
-  # Only call Google's geocoding service if the address has changed
-  # to avoid unnecessary requests that affect our rate limit.
+  validates :admin_emails, array: { email: true }
+
+  validates :email, email: true, allow_blank: true
+
   after_validation :geocode, if: :needs_geocoding?
 
   geocoded_by :full_physical_address
@@ -80,15 +84,10 @@ class Location < ActiveRecord::Base
   # Admin emails can be added to a location via the Admin interface.
   serialize :admin_emails, Array
 
-  serialize :emails, Array
+  auto_strip_attributes :description, :email, :name, :short_desc,
+                        :transportation, :website
 
-  serialize :urls, Array
-
-  auto_strip_attributes :description, :hours, :name, :short_desc,
-                        :transportation
-
-  auto_strip_attributes :admin_emails, :emails, :languages, :urls,
-                        reject_blank: true, nullify: false
+  auto_strip_attributes :admin_emails, reject_blank: true, nullify: false
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]
@@ -116,14 +115,13 @@ class Location < ActiveRecord::Base
     "#{address.street_1}, #{address.city}, #{address.state} #{address.postal_code}"
   end
 
-  def coordinates
-    [longitude, latitude] if longitude.present? && latitude.present?
+  def needs_geocoding?
+    return false if address.blank? || new_record_with_coordinates?
+    address.changed?
   end
 
-  def needs_geocoding?
-    return false if address.blank?
-    return false if address.marked_for_destruction?
-    address.changed? || latitude.nil? || longitude.nil?
+  def new_record_with_coordinates?
+    new_record? && latitude.present? && longitude.present?
   end
 
   # See app/models/concerns/search.rb

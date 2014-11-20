@@ -2,12 +2,14 @@ AllCops:
   Include:
     - 'Gemfile'
     - 'Rakefile'
+    - 'lib/tasks/*'
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
     - 'db/seeds.rb'
     - 'db/migrate/*'
     - 'config/initializers/generators.rb'
+    - 'config/unicorn.rb'
 
 # Allow dots at the end of lines when chaining methods
 # that span multiple lines
@@ -33,3 +35,11 @@ Style/GuardClause:
 
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Rails/ScopeArgs:
+  Enabled: false
+
+Style/AndOr:
+  # Whether `and` and `or` are banned only in conditionals (conditionals)
+  # or completely (always).
+  EnforcedStyle: conditionals

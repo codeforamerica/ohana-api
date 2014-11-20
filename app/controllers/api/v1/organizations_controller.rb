@@ -6,7 +6,8 @@ module Api
       include CustomErrors
 
       def index
-        orgs = Organization.page(params[:page]).per(params[:per_page])
+        orgs = Organization.includes(:contacts, :phones).
+               page(params[:page]).per(params[:per_page])
         render json: orgs, status: 200
         generate_pagination_headers(orgs)
       end
@@ -35,9 +36,8 @@ module Api
 
       def locations
         org = Organization.find(params[:organization_id])
-        locations = org.locations.
-                       includes(:address, :phones).
-                       page(params[:page]).per(params[:per_page])
+        locations = org.locations.includes(:address, :phones).
+                    page(params[:page]).per(params[:per_page])
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
       end

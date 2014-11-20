@@ -1,0 +1,4 @@
+.content-box
+  %h2 #{@contact.try(:name)} / #{@service.name}
+= form_for [:admin, @service.location, @service, @contact], html: { class: 'edit_entry' } do |f|
+  = render 'admin/contacts/form', f: f

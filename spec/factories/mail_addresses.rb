@@ -8,20 +8,15 @@ FactoryGirl.define do
     state 'CA'
     postal_code '90210'
     country_code 'US'
+    association :location, factory: :no_address
+  end
 
-    factory :po_box do
-      street_1 'P.O Box 123'
-      city 'La Honda'
-      postal_code '94020'
-    end
-
-    factory :mail_address_with_extra_whitespace do
-      attention '   Moncef '
-      street_1 '8875     La Honda Road'
-      city 'La Honda  '
-      state ' CA '
-      postal_code ' 94020'
-      country_code ' US '
-    end
+  factory :mail_address_with_extra_whitespace, class: MailAddress do
+    attention '   Moncef '
+    street_1 '8875     La Honda Road'
+    city 'La Honda  '
+    state ' CA '
+    postal_code ' 94020'
+    country_code ' US '
   end
 end

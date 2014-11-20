@@ -1,0 +1,8 @@
+= render 'admin/contacts/forms/fields', f: f
+
+.save-box.navbar-default
+  %p
+    Creating contact for
+    %strong
+      #{@organization.name}
+  = f.submit 'Create contact', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

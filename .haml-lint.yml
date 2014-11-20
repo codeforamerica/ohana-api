@@ -1,3 +1,6 @@
 linters:
   LineLength:
     max: 300
+
+  ConsecutiveSilentScripts:
+    enabled: false

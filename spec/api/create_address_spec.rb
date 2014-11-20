@@ -8,7 +8,7 @@ describe 'POST /locations/:location_id/address' do
 
     before(:each) do
       @attrs = { street_1: 'foo', city: 'bar', state: 'CA',
-        postal_code: '90210', country_code: 'US' }
+                 postal_code: '90210', country_code: 'US' }
     end
 
     after(:all) do
@@ -57,7 +57,7 @@ describe 'POST /locations/:location_id/address' do
 
     before(:each) do
       @attrs = { street_1: 'foo', city: 'bar', state: 'CA',
-        postal_code: '90210', country_code: 'US' }
+                 postal_code: '90210', country_code: 'US' }
       post api_location_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']), @attrs
     end
 

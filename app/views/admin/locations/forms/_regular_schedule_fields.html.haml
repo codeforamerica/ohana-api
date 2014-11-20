@@ -1,0 +1,9 @@
+= field_set_tag do
+  = f.select :weekday, weekday_select_field, include_blank: 'Day'
+  Opens at:
+  = f.time_select :opens_at, minute_step: 15, prompt: true, ampm: true
+  Closes at:
+  = f.time_select :closes_at, minute_step: 15, prompt: true, ampm: true
+
+  = f.hidden_field :_destroy
+  = link_to 'x', '#', class: 'btn-sm btn-danger delete_association'

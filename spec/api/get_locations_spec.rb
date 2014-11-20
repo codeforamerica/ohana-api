@@ -57,12 +57,12 @@ describe 'GET /locations' do
       expect(json.first.keys).to_not include('accessibility')
     end
 
-    it 'does not include the alternate_name attribute' do
-      expect(json.first.keys).to_not include('alternate_name')
+    it 'includes the alternate_name attribute' do
+      expect(json.first.keys).to include('alternate_name')
     end
 
     it 'includes the coordinates attribute' do
-      expect(json.first['coordinates']).to eq(@location.coordinates)
+      expect(json.first['coordinates']).to eq([@location.longitude, @location.latitude])
     end
 
     it 'includes the description attribute' do
@@ -97,8 +97,8 @@ describe 'GET /locations' do
       expect(json.first.keys).to include('admin_emails')
     end
 
-    it 'does not include the emails attribute' do
-      expect(json.first.keys).to_not include('emails')
+    it 'does not include the email attribute' do
+      expect(json.first.keys).to_not include('email')
     end
 
     it 'does not include the hours attribute' do
@@ -113,8 +113,8 @@ describe 'GET /locations' do
       expect(json.first.keys).to_not include('transportation')
     end
 
-    it 'includes the urls attribute' do
-      expect(json.first.keys).to include('urls')
+    it 'includes the website attribute' do
+      expect(json.first.keys).to include('website')
     end
 
     it 'includes the address association' do
@@ -159,8 +159,17 @@ describe 'GET /locations' do
       expect(json.first['phones']).to eq(serialized_phones)
     end
 
-    it 'includes the organization association' do
-      expect(json.first.keys).to include('organization')
+    it 'includes a summarized organization association' do
+      expect(json.first['organization'].keys).
+        to eq(%w(id accreditations alternate_name date_incorporated
+                 description email funding_sources licenses name
+                 website slug url locations_url))
+    end
+
+    it 'does not include contacts within Organization' do
+      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+      org_keys = json.first['organization'].keys
+      expect(org_keys).to_not include('contacts')
     end
 
     it 'includes the correct url attribute' do
@@ -169,16 +178,6 @@ describe 'GET /locations' do
       get loc_url
       json = JSON.parse(response.body)
       expect(json['name']).to eq(@location.name)
-    end
-
-    it 'includes the contacts_url attribute' do
-      expect(json.first['contacts_url']).
-        to eq(api_location_contacts_url(@location))
-    end
-
-    it 'includes the services_url attribute' do
-      expect(json.first['services_url']).
-        to eq(api_location_services_url(@location))
     end
 
     xit 'displays mail_address when present' do
@@ -256,6 +255,36 @@ describe 'GET /locations' do
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
       location_keys = json.first.keys
       expect(location_keys).to include('coordinates')
+    end
+  end
+
+  context 'when location has no active services' do
+    it 'sets the active field to false' do
+      location = create(:location)
+
+      attrs =  attributes_for(:service)
+
+      location.services.create!(attrs.merge(status: 'inactive'))
+      location.services.create!(attrs.merge(status: 'inactive'))
+
+      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+
+      expect(json.first['active']).to eq false
+    end
+  end
+
+  context 'when location has at least one active service' do
+    it 'sets the active field to true' do
+      location = create(:location)
+
+      attrs =  attributes_for(:service)
+
+      location.services.create!(attrs)
+      location.services.create!(attrs.merge(status: 'inactive'))
+
+      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+
+      expect(json.first['active']).to eq true
     end
   end
 end

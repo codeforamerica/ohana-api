@@ -4,26 +4,20 @@ class Admin
     layout 'admin'
 
     def index
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @locations = Kaminari.paginate_array(@admin_decorator.locations).
-                           page(params[:page]).per(params[:per_page])
+      @locations = Kaminari.paginate_array(policy_scope(Location)).
+                   page(params[:page]).per(params[:per_page])
     end
 
     def edit
-      @admin_decorator = AdminDecorator.new(current_admin)
       @location = Location.find(params[:id])
       @org = @location.organization
 
-      unless @admin_decorator.allowed_to_access_location?(@location)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @location
     end
 
     def update
       @location = Location.find(params[:id])
       @org = @location.organization
-      @admin_decorator = AdminDecorator.new(current_admin)
 
       respond_to do |format|
         if @location.update(params[:location])
@@ -39,32 +33,18 @@ class Admin
 
     def new
       @location = Location.new
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @orgs = @admin_decorator.orgs
-
-      unless @orgs.present?
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @location
     end
 
     def create
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @orgs = @admin_decorator.orgs
-      org_id = params[:location][:organization_id]
-
       @location = Location.new(params[:location])
 
-      if @orgs.select { |org| org[0] == org_id.to_i }.present?
-        @location.organization = Organization.find(org_id)
-      end
+      assign_location_to_org(policy_scope(Organization))
 
-      respond_to do |format|
-        if @location.save
-          format.html { redirect_to admin_locations_url, notice: 'Location was successfully created.' }
-        else
-          format.html { render :new }
-        end
+      if @location.save
+        redirect_to admin_locations_url, notice: 'Location was successfully created.'
+      else
+        render :new
       end
     end
 
@@ -83,6 +63,16 @@ class Admin
       respond_to do |format|
         format.html
         format.js
+      end
+    end
+
+    private
+
+    def assign_location_to_org(admin_orgs)
+      org_id = params[:location][:organization_id]
+
+      if admin_orgs.select { |org| org[0] == org_id.to_i }.present?
+        @location.organization = Organization.find(org_id)
       end
     end
   end

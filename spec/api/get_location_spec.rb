@@ -28,11 +28,16 @@ describe 'GET /locations/:id' do
     end
 
     it 'includes the coordinates attribute' do
-      expect(json['coordinates']).to eq(@location.coordinates)
+      expect(json['coordinates']).
+        to eq([@location.longitude, @location.latitude])
     end
 
     it 'includes the description attribute' do
       expect(json['description']).to eq(@location.description)
+    end
+
+    it 'does not include the hours attribute' do
+      expect(json.keys).not_to include('hours')
     end
 
     it 'includes the latitude attribute' do
@@ -77,26 +82,54 @@ describe 'GET /locations/:id' do
     end
 
     it 'includes the serialized services association' do
-      service_formatted_time = @location.services.first.updated_at.
-        strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
+      @service.regular_schedules.create!(attributes_for(:regular_schedule))
+      @service.holiday_schedules.create!(attributes_for(:holiday_schedule))
+
+      service_formatted_time = @service.reload.updated_at.
+                               strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
+
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
 
       serialized_services =
         [{
-          'id'              => @location.services.reload.first.id,
-          'audience'        => nil,
-          'description'     => @location.services.first.description,
-          'eligibility'     => nil,
-          'fees'            => nil,
-          'funding_sources' => [],
-          'how_to_apply'    => nil,
-          'keywords'        => @location.services.first.keywords,
-          'name'            => @location.services.first.name,
-          'service_areas'   => [],
-          'short_desc'      => nil,
-          'urls'            => [],
-          'wait'            => nil,
-          'updated_at'      => service_formatted_time,
-          'categories'      => []
+          'id'                 => @location.services.reload.first.id,
+          'accepted_payments'  => [],
+          'alternate_name'     => nil,
+          'audience'           => nil,
+          'description'        => @location.services.first.description,
+          'eligibility'        => nil,
+          'email'              => nil,
+          'fees'               => nil,
+          'funding_sources'    => [],
+          'how_to_apply'       => @location.services.first.how_to_apply,
+          'keywords'           => @location.services.first.keywords,
+          'languages'          => [],
+          'name'               => @location.services.first.name,
+          'required_documents' => [],
+          'service_areas'      => [],
+          'status'             => @location.services.first.status,
+          'website'            => nil,
+          'wait_time'          => nil,
+          'updated_at'         => service_formatted_time,
+          'categories'         => [],
+          'contacts'           => [],
+          'phones'             => [],
+          'regular_schedules'  => [
+            {
+              'weekday'   => 1,
+              'opens_at'  => '2000-01-01T09:30:00.000Z',
+              'closes_at' => '2000-01-01T17:00:00.000Z'
+            }
+          ],
+          'holiday_schedules'  => [
+            {
+              'closed'     => true,
+              'start_date' => '2014-12-24',
+              'end_date'   => '2014-12-24',
+              'opens_at'   => nil,
+              'closes_at'  => nil
+            }
+          ]
         }]
 
       expect(json['services']).to eq(serialized_services)
@@ -104,20 +137,14 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized organization association' do
       org = @location.organization
-      locations_url = api_org_locations_url(org)
 
       serialized_organization =
         {
           'id'                => @location.organization.id,
           'alternate_name'    => nil,
-          'date_incorporated' => nil,
-          'description'       => 'Organization created for testing purposes',
-          'email'             => nil,
-          'locations_url'     => locations_url,
           'name'              => 'Parent Agency',
           'slug'              => 'parent-agency',
-          'url'               => api_organization_url(org),
-          'website'           => nil
+          'url'               => api_organization_url(org)
         }
 
       expect(json['organization']).to eq(serialized_organization)
@@ -172,6 +199,34 @@ describe 'GET /locations/:id' do
       )
     end
 
+    it 'includes the serialized regular_schedules association' do
+      @location.regular_schedules.create!(attributes_for(:regular_schedule))
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+
+      serialized_regular_schedule =
+        {
+          'weekday'   => 1,
+          'opens_at'  => '2000-01-01T09:30:00.000Z',
+          'closes_at' => '2000-01-01T17:00:00.000Z'
+        }
+      expect(json['regular_schedules'].first).to eq(serialized_regular_schedule)
+    end
+
+    it 'includes the serialized holiday_schedules association' do
+      @location.holiday_schedules.create!(attributes_for(:holiday_schedule))
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+
+      serialized_holiday_schedule =
+        {
+          'closed'   => true,
+          'start_date'  => '2014-12-24',
+          'end_date' => '2014-12-24',
+          'opens_at'   => nil,
+          'closes_at'  => nil
+        }
+      expect(json['holiday_schedules'].first).to eq(serialized_holiday_schedule)
+    end
+
     it 'is json' do
       expect(response.content_type).to eq('application/json')
     end
@@ -213,9 +268,8 @@ describe 'GET /locations/:id' do
 
     it 'returns nil fields when visiting one location' do
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      keys = json.keys
-      %w(admin_emails emails accessibility hours).each do |key|
-        expect(keys).to include(key)
+      %w(admin_emails email accessibility).each do |key|
+        expect(json.keys).to include(key)
       end
     end
   end

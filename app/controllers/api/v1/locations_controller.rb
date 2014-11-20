@@ -4,20 +4,25 @@ module Api
       include TokenValidator
       include PaginationHeaders
       include CustomErrors
+      include Cacheable
 
       def index
         locations = Location.includes(:organization, :address, :phones).
-                            page(params[:page]).per(params[:per_page]).
-                            order('created_at DESC')
+                    page(params[:page]).per(params[:per_page]).
+                    order('created_at DESC')
 
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
       end
 
       def show
-        location = Location.includes(contacts: :phones, services: :categories).find(params[:id])
+        location = Location.includes(
+          contacts: :phones,
+          services: [:categories, :contacts, :phones, :regular_schedules,
+                     :holiday_schedules]
+          ).find(params[:id])
         render json: location, status: 200
-        expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true
+        expires_in cache_time, public: true
       end
 
       def update

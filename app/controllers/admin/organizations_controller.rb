@@ -3,9 +3,10 @@ class Admin
     before_action :authenticate_admin!
     layout 'admin'
 
+    include Taggable
+
     def index
-      @admin_decorator = AdminDecorator.new(current_admin)
-      @all_orgs = @admin_decorator.orgs
+      @all_orgs = policy_scope(Organization)
       @orgs = Kaminari.paginate_array(@all_orgs).page(params[:page])
 
       respond_to do |format|
@@ -17,17 +18,16 @@ class Admin
     end
 
     def edit
-      @admin_decorator = AdminDecorator.new(current_admin)
       @organization = Organization.find(params[:id])
 
-      unless @admin_decorator.allowed_to_access_organization?(@organization)
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
+      authorize @organization
     end
 
     def update
       @organization = Organization.find(params[:id])
+
+      shift_and_split_params(
+        params[:organization], :accreditations, :funding_sources, :licenses)
 
       respond_to do |format|
         if @organization.update(params[:organization])
@@ -42,15 +42,14 @@ class Admin
     end
 
     def new
-      unless current_admin.super_admin?
-        redirect_to admin_dashboard_path,
-                    alert: "Sorry, you don't have access to that page."
-      end
-
       @organization = Organization.new
+      authorize @organization
     end
 
     def create
+      shift_and_split_params(
+        params[:organization], :accreditations, :funding_sources, :licenses)
+
       @organization = Organization.new(params[:organization])
 
       respond_to do |format|

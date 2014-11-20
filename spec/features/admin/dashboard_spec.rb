@@ -53,6 +53,20 @@ feature 'Admin Home page' do
       end
     end
 
+    it 'includes a link to services in the body' do
+      within '.content' do
+        expect(page).
+          to have_link 'Services', href: admin_services_path
+      end
+    end
+
+    it 'includes a link to programs in the body' do
+      within '.content' do
+        expect(page).
+          to have_link 'Programs', href: admin_programs_path
+      end
+    end
+
     it 'does not include a link to the sign up page in the navigation' do
       within '.navbar' do
         expect(page).not_to have_link 'Sign up'
@@ -97,12 +111,22 @@ feature 'Admin Home page' do
       end
     end
 
+    it 'includes a link to services in the navigation' do
+      within '.navbar' do
+        expect(page).to have_link 'Services', href: admin_services_path
+      end
+    end
+
     it 'does not display a link to add a new organization' do
       expect(page).not_to have_link 'Add a new organization', new_admin_organization_path
     end
 
-    it 'does not display a link to add a new location' do
-      expect(page).not_to have_link 'Add a new location', new_admin_location_path
+    it 'displays a link to add a new location' do
+      expect(page).to have_link 'Add a new location', new_admin_location_path
+    end
+
+    it 'displays a link to add a new program' do
+      expect(page).to have_link 'Add a new program', new_admin_program_path
     end
   end
 
@@ -118,6 +142,10 @@ feature 'Admin Home page' do
 
     it 'displays a link to add a new location' do
       expect(page).to have_link 'Add a new location', new_admin_location_path
+    end
+
+    it 'displays a link to add a new program' do
+      expect(page).to have_link 'Add a new program', new_admin_program_path
     end
   end
 end

@@ -4,8 +4,6 @@ module PaginationHeaders
   # @param coll ActiveRecord::Relation
   # @return various pagination-related HTTP Headers
   def generate_pagination_headers(coll)
-    params = request.params.except(:controller, :format, :action, :subdomain)
-
     pages = pages(coll)
 
     links = links(pages, params)
@@ -14,6 +12,10 @@ module PaginationHeaders
 
     response.headers['Link'] = links.join(', ') unless links.blank?
     response.headers['X-Total-Count'] = "#{coll.total_count}"
+  end
+
+  def params
+    request.params.except(:controller, :format, :action, :subdomain)
   end
 
   def url
