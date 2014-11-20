@@ -4,7 +4,6 @@ FactoryGirl.define do
   factory :location do
     name 'VRS Services'
     description 'Provides jobs training'
-    short_desc 'short description'
     kind :other
     accessibility [:tape_braille, :disabled_parking]
     latitude 37.583939
@@ -36,7 +35,6 @@ FactoryGirl.define do
   factory :nearby_loc, class: Location do
     name 'Library'
     description 'great books about jobs'
-    short_desc 'short description'
     kind :human_services
     importance 2
     accessibility [:elevator]
@@ -50,7 +48,6 @@ FactoryGirl.define do
   factory :no_address, class: Location do
     name 'No Address'
     description 'no coordinates'
-    short_desc 'short description'
     kind :other
     association :mail_address, factory: :po_box
     organization
@@ -59,7 +56,6 @@ FactoryGirl.define do
   factory :farmers_market_loc, class: Location do
     name 'Belmont Farmers Market'
     description 'yummy food about jobs'
-    short_desc 'short description'
     market_match true
     payments %w(Credit WIC SFMNP SNAP)
     products %w(Cheese Flowers Eggs Seafood Herbs)
@@ -74,7 +70,6 @@ FactoryGirl.define do
   factory :far_loc, class: Location do
     name 'Belmont Farmers Market'
     description 'yummy food'
-    short_desc 'short description'
     kind :other
     latitude 37.6047797
     longitude(-122.3984501)
@@ -86,7 +81,6 @@ FactoryGirl.define do
   factory :loc_with_nil_fields, class: Location do
     name 'Belmont Farmers Market with cat'
     description 'yummy food and flute performers'
-    short_desc 'short description'
     kind :farmers_markets
     address
     organization
@@ -97,7 +91,6 @@ FactoryGirl.define do
   factory :soup_kitchen, class: Location do
     name 'Soup Kitchen'
     description 'daily hot soups'
-    short_desc 'short description'
     kind :human_services
     latitude 37.3180168
     longitude(-122.2743951)

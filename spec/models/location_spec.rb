@@ -27,8 +27,6 @@ describe Location do
   it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Location") }
   it { is_expected.to validate_presence_of(:organization).with_message("can't be blank for Location") }
 
-  it { is_expected.to ensure_length_of(:short_desc).is_at_most(200) }
-
   # Validations
   it { is_expected.to allow_value('http://monfresh.com').for(:urls) }
 

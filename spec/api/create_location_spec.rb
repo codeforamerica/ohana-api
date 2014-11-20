@@ -10,7 +10,6 @@ describe 'Create a location (POST /locations/)' do
       name: 'new location',
       kind: 'human_services',
       description: 'description',
-      short_desc: 'short_desc',
       address_attributes: {
         street: 'main', city: 'utopia', state: 'CA', zip: '12345' },
       organization_id: @org.id

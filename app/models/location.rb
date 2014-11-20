@@ -50,13 +50,13 @@ class Location < ActiveRecord::Base
   validates :kind, :organization, :name,
             presence: { message: I18n.t('errors.messages.blank_for_location') }
 
-  validates :description, :short_desc,
+  validates :description,
             presence: { message: I18n.t('errors.messages.blank_for_location') },
             unless: proc { |loc| loc.kind == 'farmers_markets' }
 
   ## Currently, the short description field is limited to 200 characters.
   ## Change the value below to increase or decrease the limit.
-  validates :short_desc, length: { maximum: 200 }
+  # validates :short_desc, length: { maximum: 200 }
 
   # Custom validation for values within arrays.
   # For example, the urls field is an array that can contain multiple URLs.

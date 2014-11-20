@@ -27,7 +27,6 @@ feature 'Create a new location' do
     click_button 'Create location'
     expect(page).to have_content "Organization can't be blank for Location"
     expect(page).to have_content "Description can't be blank for Location"
-    expect(page).to have_content "Short desc can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
     expect(page).to have_content "Kind can't be blank for Location"
     expect(page).to have_content 'A location must have at least one address type'
