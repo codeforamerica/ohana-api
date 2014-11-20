@@ -2,10 +2,9 @@
 
   .alert.alert-warning
     Notice that this page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
-
   .jumbotron{style: "min-height:600px;position:relative;padding: 30px"}
     .row
-      .col-lg-1
+      .col-lg-1{style:'border-right: solid 1px rgb(204, 204, 204)'}
         =render partial: 'welcome/sidebar'
       .col-lg-8
         =image_tag "http://ohanapi.org/img/ohana-logo.png", width: 340
