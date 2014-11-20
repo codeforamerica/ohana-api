@@ -10,7 +10,7 @@ class OrganizationImporter < EntityImporter
   def import
     organizations.each(&:save!) if valid?
   end
-
+  
   def required_headers
     %w(id accreditations alternate_name date_incorporated
        description email funding_sources legal_status

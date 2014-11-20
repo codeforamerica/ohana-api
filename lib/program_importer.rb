@@ -16,7 +16,7 @@ class ProgramImporter < EntityImporter
   end
 
   protected
-
+  
   def programs
     @programs ||= csv_entries.map(&:to_hash).map do |p|
       ProgramPresenter.new(p).to_program

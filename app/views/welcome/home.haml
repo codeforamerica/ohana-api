@@ -3,11 +3,15 @@
   .alert.alert-warning
     Notice that this page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
 
-  .jumbotron{style: "min-height:600px;position:relative"}
+  .jumbotron{style: "min-height:600px;position:relative;padding: 30px"}
     .row
-      .col-lg-4{style: 'max-width:350px'}
+      .col-lg-1
         =render partial: 'welcome/sidebar'
       .col-lg-8
+        =image_tag "http://ohanapi.org/img/ohana-logo.png", width: 340
+        %br
+        %br
+
         =render partial: 'welcome/content'
     .clearfix{style: 'position:absolute;bottom:10px;right:10px'}
       .btn-group.pull-right

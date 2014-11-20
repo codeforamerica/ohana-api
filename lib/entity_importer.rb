@@ -15,7 +15,7 @@ class EntityImporter < Struct.new(:content)
   def header_errors
     missing_headers.map { |header| "#{header.to_s.humanize} column is missing" }
   end
-
+  
   def missing_headers
     required_headers - headers
   end
