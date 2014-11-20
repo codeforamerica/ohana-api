@@ -14,9 +14,5 @@ describe Category do
     is_expected.to validate_presence_of(:name).
       with_message("can't be blank for Category")
   end
-
-  it do
-    is_expected.to validate_presence_of(:oe_id).
-      with_message("can't be blank for Category")
-  end
+  
 end

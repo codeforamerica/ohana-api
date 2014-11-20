@@ -673,6 +673,37 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
+-- Name: welcome_tokens; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE welcome_tokens (
+    id integer NOT NULL,
+    code character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: welcome_tokens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE welcome_tokens_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: welcome_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE welcome_tokens_id_seq OWNED BY welcome_tokens.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -775,6 +806,13 @@ ALTER TABLE ONLY services ALTER COLUMN id SET DEFAULT nextval('services_id_seq':
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY welcome_tokens ALTER COLUMN id SET DEFAULT nextval('welcome_tokens_id_seq'::regclass);
 
 
 --
@@ -895,6 +933,14 @@ ALTER TABLE ONLY services
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: welcome_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY welcome_tokens
+    ADD CONSTRAINT welcome_tokens_pkey PRIMARY KEY (id);
 
 
 --
@@ -1314,6 +1360,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140629181523');
 INSERT INTO schema_migrations (version) VALUES ('20140630171418');
 
 INSERT INTO schema_migrations (version) VALUES ('20140829154350');
+
+INSERT INTO schema_migrations (version) VALUES ('20140906233732');
 
 INSERT INTO schema_migrations (version) VALUES ('20140909031145');
 
