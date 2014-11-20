@@ -104,12 +104,6 @@ class Location < ActiveRecord::Base
   serialize :ask_for, Array
   serialize :emails, Array
 
-  serialize :languages, Array
-  # enumerize :languages, in: [:arabic, :cantonese, :french, :german,
-  #   :mandarin, :polish, :portuguese, :russian, :spanish, :tagalog, :urdu,
-  #   :vietnamese,
-  #    ], multiple: true, scope: true
-
   serialize :products, Array
   serialize :payments, Array
   serialize :urls, Array

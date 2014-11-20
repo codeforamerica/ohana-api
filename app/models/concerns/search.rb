@@ -2,7 +2,6 @@ module Search
   extend ActiveSupport::Concern
 
   included do
-    scope :language, ->(language) { where('languages @@ :q', q: language) }
     scope :keyword, ->(keyword) { keyword_search(keyword) }
     scope :category, ->(category) { joins(services: :categories).where(categories: { name: category }) }
 
@@ -95,6 +94,10 @@ module Search
 
   module ClassMethods
     require 'exceptions'
+
+    def language(lang)
+      where('languages && ARRAY[?]', lang)
+    end
 
     def text_search(params = {})
       allowed_params(params).reduce(self) do |relation, (scope_name, value)|

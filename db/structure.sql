@@ -23,6 +23,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -348,7 +362,7 @@ CREATE TABLE locations (
     kind text NOT NULL,
     latitude double precision,
     longitude double precision,
-    languages text,
+    languages text[] DEFAULT '{}'::text[],
     market_match boolean DEFAULT false,
     name text NOT NULL,
     payments text,
@@ -892,6 +906,13 @@ CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USIN
 
 
 --
+-- Name: index_locations_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_locations_on_languages ON locations USING gin (languages);
+
+
+--
 -- Name: index_locations_on_latitude_and_longitude; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -997,13 +1018,6 @@ CREATE INDEX locations_kind ON locations USING gin (to_tsvector('english'::regco
 
 
 --
--- Name: locations_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX locations_languages ON locations USING gin (to_tsvector('english'::regconfig, languages));
-
-
---
 -- Name: locations_market_match_false; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1106,4 +1120,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140508194831');
 INSERT INTO schema_migrations (version) VALUES ('20140629181523');
 
 INSERT INTO schema_migrations (version) VALUES ('20140630171418');
+
+INSERT INTO schema_migrations (version) VALUES ('20141120172313');
 
