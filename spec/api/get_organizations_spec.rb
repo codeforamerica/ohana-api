@@ -85,7 +85,7 @@ describe 'GET /organizations' do
 
       it 'returns nil fields within Organization' do
         get api_organizations_url(subdomain: ENV['API_SUBDOMAIN'])
-        expect(json.first.keys).to include('urls')
+        expect(json.first.keys).to include('website')
       end
     end
   end

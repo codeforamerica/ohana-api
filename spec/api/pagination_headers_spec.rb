@@ -7,12 +7,13 @@ describe 'Pagination Headers' do
 
   context 'when on page 1 of 2' do
     before(:all) do
-      create_list(:location, 2)
+      create(:location)
+      create(:nearby_loc)
     end
 
     before(:each) do
       get api_search_index_url(
-        keyword: 'parent', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do
@@ -25,9 +26,9 @@ describe 'Pagination Headers' do
 
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
-        "<#{@prefix}?keyword=parent&page=2" \
+        "<#{@prefix}?keyword=jobs&page=2" \
         "&per_page=1>; rel=\"last\", " \
-        "<#{@prefix}?keyword=parent&page=2" \
+        "<#{@prefix}?keyword=jobs&page=2" \
         "&per_page=1>; rel=\"next\""
       )
     end
@@ -53,12 +54,13 @@ describe 'Pagination Headers' do
 
   context 'when on page 2 of 2' do
     before(:all) do
-      create_list(:location, 2)
+      create(:location)
+      create(:nearby_loc)
     end
 
     before(:each) do
       get api_search_index_url(
-        keyword: 'parent', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do
@@ -67,9 +69,9 @@ describe 'Pagination Headers' do
 
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
-        "<#{@prefix}?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=jobs&page=1" \
         "&per_page=1>; rel=\"first\", " \
-        "<#{@prefix}?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=jobs&page=1" \
         "&per_page=1>; rel=\"prev\""
       )
     end
@@ -83,12 +85,14 @@ describe 'Pagination Headers' do
 
   context 'when on page 2 of 3' do
     before(:all) do
-      original_create_list(:location, 3)
+      create(:location)
+      create(:nearby_loc)
+      create(:farmers_market_loc)
     end
 
     before(:each) do
       get api_search_index_url(
-        keyword: 'parent', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do
@@ -97,13 +101,13 @@ describe 'Pagination Headers' do
 
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
-        "<#{@prefix}?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=jobs&page=1" \
         "&per_page=1>; rel=\"first\", " \
-        "<#{@prefix}?keyword=parent&page=1" \
+        "<#{@prefix}?keyword=jobs&page=1" \
         "&per_page=1>; rel=\"prev\", " \
-        "<#{@prefix}?keyword=parent&page=3" \
+        "<#{@prefix}?keyword=jobs&page=3" \
         "&per_page=1>; rel=\"last\", " \
-        "<#{@prefix}?keyword=parent&page=3" \
+        "<#{@prefix}?keyword=jobs&page=3" \
         "&per_page=1>; rel=\"next\""
       )
     end
@@ -117,7 +121,9 @@ describe 'Pagination Headers' do
 
   context 'when on page higher than max' do
     before(:all) do
-      original_create_list(:location, 3)
+      create(:location)
+      create(:nearby_loc)
+      create(:far_loc)
     end
 
     before(:each) do
@@ -149,7 +155,7 @@ describe 'Pagination Headers' do
     it 'does not return a Link header' do
       create(:location)
       get api_search_index_url(
-        keyword: 'parent', subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers.keys).not_to include 'Link'
     end
   end

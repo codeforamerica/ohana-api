@@ -113,7 +113,7 @@ describe 'GET /locations/:id' do
           'name'          => 'Parent Agency',
           'slug'          => 'parent-agency',
           'url'           => api_organization_url(org),
-          'urls'          => []
+          'website'       => nil
         }
 
       expect(json['organization']).to eq(serialized_organization)

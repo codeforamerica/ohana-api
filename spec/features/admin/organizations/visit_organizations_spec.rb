@@ -39,12 +39,14 @@ feature 'Organizations page' do
       create(:location_for_org_admin)
       visit '/admin/organizations'
       expect(page).not_to have_link 'Food Stamps'
-      expect(page).to have_link 'Parent Agency'
+      expect(page).to have_link 'Far Org'
     end
   end
 
   context 'when signed in as super admin' do
     before :each do
+      @loc = create(:nearby_loc)
+      create(:location_for_org_admin)
       login_super_admin
       visit '/admin/organizations'
     end
@@ -54,19 +56,19 @@ feature 'Organizations page' do
     end
 
     it 'shows all organizations' do
-      create(:nearby_loc)
-      create(:location_for_org_admin)
-      visit '/admin/organizations'
       expect(page).to have_link 'Food Stamps'
-      expect(page).to have_link 'Parent Agency'
+      expect(page).to have_link 'Far Org'
     end
 
     it 'sorts organizations alphabetically by name' do
-      create(:nearby_loc)
-      create(:location_for_org_admin)
-      visit '/admin/organizations'
       expect(page.all('a')[7][:href]).
-        to eq '/admin/organizations/food-stamps/edit'
+        to eq '/admin/organizations/far-org/edit'
+    end
+
+    it 'takes you to the right organization when clicked' do
+      click_link 'Food Stamps'
+      expect(current_path).
+        to eq edit_admin_organization_path(@loc.organization)
     end
   end
 end
