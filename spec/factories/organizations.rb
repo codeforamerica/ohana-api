@@ -4,10 +4,6 @@ FactoryGirl.define do
   factory :organization do
     name 'Parent Agency'
     description 'Organization created for testing purposes'
-
-    factory :org_with_website do
-      website 'http://monfresh.com'
-    end
   end
 
   factory :nearby_org, class: Organization do
