@@ -13,11 +13,13 @@ FactoryGirl.define do
 
     factory :location_with_admin do
       admin_emails ['moncef@smcgov.org']
+      association :organization, factory: :nearby_org
     end
 
     factory :location_for_org_admin do
       name 'Samaritan House'
       urls ['http://samaritanhouse.com']
+      association :organization, factory: :far_org
     end
 
     factory :loc_with_extra_whitespace do
@@ -51,7 +53,7 @@ FactoryGirl.define do
     description 'no coordinates'
     kind :other
     association :mail_address, factory: :po_box
-    organization
+    association :organization, factory: :no_address_org
   end
 
   factory :farmers_market_loc, class: Location do
@@ -77,7 +79,7 @@ FactoryGirl.define do
     longitude(-122.3984501)
     association :address, factory: :far
     languages %w(Spanish Arabic)
-    organization
+    association :organization, factory: :far_org
   end
 
   factory :loc_with_nil_fields, class: Location do
@@ -85,9 +87,9 @@ FactoryGirl.define do
     description 'yummy food and flute performers'
     kind :farmers_markets
     address
-    organization
     latitude 37.568272
     longitude(-122.3250474)
+    association :organization, factory: :far_org
   end
 
   factory :soup_kitchen, class: Location do

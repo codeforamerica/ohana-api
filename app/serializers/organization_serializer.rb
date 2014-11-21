@@ -1,5 +1,5 @@
 class OrganizationSerializer < ActiveModel::Serializer
-  attributes :id, :name, :slug, :urls, :url, :locations_url
+  attributes :id, :name, :slug, :website, :url, :locations_url
 
   def url
     api_organization_url(object)

@@ -1,0 +1,7 @@
+.inst-box
+  %header
+    = f.label :website, "#{f.object.class} Website"
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.url_field :website, required: false, maxlength: 255, class: 'form-control'

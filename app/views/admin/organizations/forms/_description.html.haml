@@ -1,0 +1,7 @@
+.inst-box
+  %header
+    = f.label :description, 'Description'
+    %span.desc
+      A description of what the organization does.
+  = field_set_tag do
+    = f.text_area :description, required: false, class: 'form-control', rows: 10

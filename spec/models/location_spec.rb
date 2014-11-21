@@ -157,7 +157,7 @@ describe Location do
     end
 
     context "without a description but is a Farmers' Market" do
-      subject { build(:location, description: nil, kind: 'farmers_markets') }
+      subject { build(:farmers_market_loc, description: nil) }
       it { should be_valid }
     end
   end

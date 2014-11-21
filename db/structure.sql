@@ -439,10 +439,20 @@ ALTER SEQUENCE mail_addresses_id_seq OWNED BY mail_addresses.id;
 CREATE TABLE organizations (
     id integer NOT NULL,
     name text NOT NULL,
-    urls text,
     slug text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    alternate_name character varying(255),
+    date_incorporated date,
+    description text,
+    email character varying(255),
+    legal_status character varying(255),
+    tax_id character varying(255),
+    tax_status character varying(255),
+    website character varying(255),
+    funding_sources character varying(255)[] DEFAULT '{}'::character varying[],
+    accreditations character varying(255)[] DEFAULT '{}'::character varying[],
+    licenses character varying(255)[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -1122,4 +1132,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140629181523');
 INSERT INTO schema_migrations (version) VALUES ('20140630171418');
 
 INSERT INTO schema_migrations (version) VALUES ('20141120172313');
+
+INSERT INTO schema_migrations (version) VALUES ('20141120210007');
 
