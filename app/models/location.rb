@@ -2,20 +2,16 @@ class Location < ActiveRecord::Base
   attr_accessible :accessibility, :active, :admin_emails, :alternate_name,
                   :description, :email, :languages, :latitude,
                   :longitude, :name, :short_desc, :transportation, :website,
-                  :virtual, :address_attributes, :contacts_attributes,
-                  :mail_address_attributes, :phones_attributes,
-                  :services_attributes, :regular_schedules_attributes,
+                  :virtual, :address_attributes, :mail_address_attributes,
+                  :phones_attributes, :regular_schedules_attributes,
                   :holiday_schedules_attributes
 
   belongs_to :organization
-  accepts_nested_attributes_for :organization
 
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, allow_destroy: true
 
   has_many :contacts, dependent: :destroy
-  accepts_nested_attributes_for :contacts,
-                                allow_destroy: true, reject_if: :all_blank
 
   has_one :mail_address, dependent: :destroy
   accepts_nested_attributes_for :mail_address, allow_destroy: true
@@ -25,7 +21,6 @@ class Location < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   has_many :services, dependent: :destroy
-  accepts_nested_attributes_for :services, allow_destroy: true
 
   has_many :regular_schedules, dependent: :destroy
   accepts_nested_attributes_for :regular_schedules,
