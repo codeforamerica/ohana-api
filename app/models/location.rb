@@ -1,15 +1,14 @@
 class Location < ActiveRecord::Base
   attr_accessible :accessibility, :address, :admin_emails, :ask_for, :contacts,
-                  :description, :emails, :faxes, :hours, :importance, :kind,
+                  :description, :email, :faxes, :hours, :importance, :kind,
                   :languages, :latitude, :longitude, :mail_address,
                   :market_match, :name, :payments, :phones, :products,
-                  :short_desc, :transportation, :urls,
+                  :short_desc, :transportation, :website,
                   :address_attributes, :contacts_attributes, :faxes_attributes,
                   :mail_address_attributes, :phones_attributes,
-                  :services_attributes, :organization_id
+                  :services_attributes
 
   belongs_to :organization
-  accepts_nested_attributes_for :organization
 
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, allow_destroy: true

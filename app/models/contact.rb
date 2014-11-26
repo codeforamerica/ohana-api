@@ -5,6 +5,8 @@ class Contact < ActiveRecord::Base
 
   belongs_to :location, touch: true
 
+  has_many :phones, dependent: :destroy
+
   validates :name, :title,
             presence: { message: I18n.t('errors.messages.blank_for_contact') }
 

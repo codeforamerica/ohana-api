@@ -1,7 +1,7 @@
 class Service < ActiveRecord::Base
   attr_accessible :audience, :description, :eligibility, :fees,
                   :funding_sources, :how_to_apply, :keywords, :name,
-                  :service_areas, :short_desc, :urls, :wait, :category_ids,
+                  :service_areas, :wait_time, :website, :category_ids,
                   :location_id
 
   belongs_to :location, touch: true
@@ -28,7 +28,7 @@ class Service < ActiveRecord::Base
   end)
 
   auto_strip_attributes :audience, :description, :eligibility, :fees,
-                        :how_to_apply, :name, :short_desc, :wait
+                        :how_to_apply, :name, :wait_time, :website
 
   auto_strip_attributes :funding_sources, :keywords, :service_areas, :urls,
                         reject_blank: true, nullify: false

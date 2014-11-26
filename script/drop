@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+echo 'Dropping dev and test DBs...'
+dropdb ohana_api_smc_development
+dropdb ohana_api_smc_test
+echo 'All done!'
