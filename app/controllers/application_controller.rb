@@ -35,14 +35,8 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def missing_template(exception)
-    if exception.is_a?(ActionView::MissingTemplate) &&
-       !Collector.new(collect_mimes_from_class_level).negotiate_format(request)
-      render nothing: true, status: 406
-    else
-      logger.error(exception)
-      render_500
-    end
+  def missing_template
+    render nothing: true, status: 406
   end
 
   def render_not_found
