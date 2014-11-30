@@ -55,7 +55,13 @@ gem 'friendly_id', '~> 5.0.3'
 
 gem 'rack-timeout'
 
-group :production, :staging do
+# Caching
+gem 'rack-cache'
+gem 'dalli'
+gem 'kgio'
+gem 'memcachier'
+
+group :production do
   # Heroku recommended
   gem 'rails_12factor'
 end
