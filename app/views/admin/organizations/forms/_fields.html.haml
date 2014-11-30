@@ -1,0 +1,20 @@
+- if @organization.errors.any?
+  .alert.alert-danger
+    %h2 #{pluralize(@organization.errors.count, 'error')} prohibited this organization from being saved:
+    %ul
+      - @organization.errors.full_messages.each do |msg|
+        %li= msg
+
+= render 'admin/shared/forms/name', f: f
+= render 'admin/shared/forms/alternate_name', f: f
+= render 'admin/organizations/forms/accreditations', f: f
+= render 'admin/organizations/forms/date_incorporated', f: f
+= render 'admin/organizations/forms/description', f: f
+= render 'admin/shared/forms/email', f: f
+= render 'admin/organizations/forms/funding_sources', f: f
+= render 'admin/organizations/forms/legal_status', f: f
+= render 'admin/organizations/forms/licenses', f: f
+= render 'admin/organizations/forms/tax_id', f: f
+= render 'admin/organizations/forms/tax_status', f: f
+= render 'admin/shared/forms/website', f: f
+= render 'admin/locations/forms/phones', f: f

@@ -19,23 +19,23 @@ feature 'Visiting a specific organization' do
     admin = create(:admin_with_generic_email)
     login_as_admin(admin)
     visit('/admin/organizations/parent-agency')
-    expect(page).to have_content "Sorry, you don't have access to that page"
+    expect(page).to have_content I18n.t('admin.not_authorized')
     expect(current_path).to eq(admin_dashboard_path)
   end
 
   scenario 'when admin has unmatched custom domain name' do
     login_admin
     visit('/admin/organizations/parent-agency')
-    expect(page).to have_content "Sorry, you don't have access to that page"
+    expect(page).to have_content I18n.t('admin.not_authorized')
     expect(current_path).to eq(admin_dashboard_path)
   end
 
   scenario 'when admin has matched custom domain name' do
-    @location.update!(urls: ['http://samaritanhouse.com'])
+    @location.update!(website: 'http://samaritanhouse.com')
     login_admin
     visit('/admin/organizations/parent-agency')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
-    @location.update!(urls: [])
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
+    @location.update!(website: '')
   end
 
   scenario 'when admin is location admin' do
@@ -43,7 +43,7 @@ feature 'Visiting a specific organization' do
     @location.update!(admin_emails: [new_admin.email])
     login_as_admin(new_admin)
     visit('/admin/organizations/parent-agency')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
     @location.update!(admin_emails: [])
   end
 
@@ -51,21 +51,21 @@ feature 'Visiting a specific organization' do
     login_admin
     @location.update!(admin_emails: [@admin.email])
     visit('/admin/organizations/parent-agency')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
     @location.update!(admin_emails: [])
   end
 
   scenario 'when admin is super admin' do
     login_super_admin
     visit('/admin/organizations/parent-agency')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
   end
 
   context 'when admin is not super admin' do
     it 'denies access to create a new organization' do
       login_admin
       visit('/admin/organizations/new')
-      expect(page).to have_content "Sorry, you don't have access to that page"
+      expect(page).to have_content I18n.t('admin.not_authorized')
       expect(current_path).to eq(admin_dashboard_path)
       visit('/admin/organizations')
       expect(page).to_not have_link 'Add a new organization'

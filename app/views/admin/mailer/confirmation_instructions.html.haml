@@ -1,4 +1,4 @@
 %p Hi #{@resource.name}!
-%p Thanks for signing up for an account on #{t('titles.main', brand: t('titles.brand'))}.
+%p Thanks for signing up for an account on #{t('titles.admin', brand: t('titles.brand'))}.
 %p Please confirm your account email through the link below:
 %p= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token, subdomain: ENV['ADMIN_SUBDOMAIN'])

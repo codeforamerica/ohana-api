@@ -17,23 +17,23 @@ feature 'Visiting a specific location' do
     admin = create(:admin_with_generic_email)
     login_as_admin(admin)
     visit('/admin/locations/vrs-services')
-    expect(page).to have_content "Sorry, you don't have access to that page"
+    expect(page).to have_content I18n.t('admin.not_authorized')
     expect(current_path).to eq(admin_dashboard_path)
   end
 
   scenario "when location doesn't include domain name" do
     login_admin
     visit('/admin/locations/vrs-services')
-    expect(page).to have_content "Sorry, you don't have access to that page"
+    expect(page).to have_content I18n.t('admin.not_authorized')
     expect(current_path).to eq(admin_dashboard_path)
   end
 
   scenario 'when location includes domain name' do
-    @location.update!(urls: ['http://samaritanhouse.com'])
+    @location.update!(website: 'http://samaritanhouse.com')
     login_admin
     visit('/admin/locations/vrs-services')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
-    @location.update!(urls: [])
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
+    @location.update!(website: '')
   end
 
   scenario 'when admin is location admin' do
@@ -41,7 +41,7 @@ feature 'Visiting a specific location' do
     @location.update!(admin_emails: [new_admin.email])
     login_as_admin(new_admin)
     visit('/admin/locations/vrs-services')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
     @location.update!(admin_emails: [])
   end
 
@@ -49,21 +49,21 @@ feature 'Visiting a specific location' do
     login_admin
     @location.update!(admin_emails: [@admin.email])
     visit('/admin/locations/vrs-services')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
     @location.update!(admin_emails: [])
   end
 
   scenario 'when admin is super admin' do
     login_super_admin
     visit('/admin/locations/vrs-services')
-    expect(page).to_not have_content "Sorry, you don't have access to that page"
+    expect(page).to_not have_content I18n.t('admin.not_authorized')
   end
 
   context "when admin doesn't belong to any locations" do
     it 'denies access to create a new location' do
       login_admin
       visit('/admin/locations/new')
-      expect(page).to have_content "Sorry, you don't have access to that page"
+      expect(page).to have_content I18n.t('admin.not_authorized')
       expect(current_path).to eq(admin_dashboard_path)
       visit('/admin/locations')
       expect(page).to_not have_link 'Add a new location'

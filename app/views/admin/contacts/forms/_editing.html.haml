@@ -1,0 +1,6 @@
+.save-box.navbar-default
+  %p
+    Editing
+    %strong
+      #{@contact.name}
+  = f.submit 'Save changes & apply edits to database', class: 'btn btn-success', data: { disable_with: 'Please wait...' }

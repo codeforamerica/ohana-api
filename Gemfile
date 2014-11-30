@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.1.3'
 gem 'rails', '~> 4.1.1'
 
 gem 'pg'
@@ -18,6 +18,7 @@ gem 'protected_attributes'
 # Front end
 gem 'jquery-rails'
 gem 'haml-rails', '~> 0.5.3'
+gem 'select2-rails'
 
 # Geocoding
 gem 'geocoder'
@@ -31,7 +32,10 @@ gem 'kaminari'
 gem 'active_model_serializers', '~> 0.8.0'
 
 # Authentication
-gem 'devise'
+gem 'devise', '~> 3.4'
+
+# Authorization
+gem 'pundit'
 
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
@@ -47,7 +51,7 @@ gem 'ancestry'
 
 gem 'friendly_id', '~> 5.0.3'
 
-gem 'rabl-rails'
+gem 'rabl'
 
 gem 'rack-timeout', '~> 0.1'
 
@@ -64,7 +68,8 @@ group :production, :staging do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-rails', '~> 3.1.0'
+  gem 'rspec-its'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
 end

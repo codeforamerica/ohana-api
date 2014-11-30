@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    = f.label :date_incorporated, 'Date of Incorporation'
+    %span.desc
+      The date the organization was incorporated.
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.date_select :date_incorporated, include_blank: true, start_year: 1970, class: 'form-control'

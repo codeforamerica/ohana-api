@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    %strong
+      Funding Sources
+    %p.desc
+      How is this organization funded? (You can enter multiple terms in this box by pressing the comma key after each one.)
+
+  = field_set_tag do
+    = text_field_tag 'organization[funding_sources][]', @organization.funding_sources.join(','), id: 'organization_funding_sources', class: 'form-control'

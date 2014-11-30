@@ -12,6 +12,8 @@
  *
  *= require_tree .
  *= require_self
+ *= require select2
+ *= require select2-bootstrap
  */
 
 // creates styles for text in the navbar that is not a link
@@ -90,6 +92,16 @@
 .add_fields, .add_array_fields
 {
   margin: 10px 0px 15px 10px;
+}
+
+// Adds a red border around invalid input fields after form submission.
+.field_with_errors
+{
+  input, select, textarea
+  {
+    border-color: red;
+    border-width: 2px;
+  }
 }
 
 .accessibility

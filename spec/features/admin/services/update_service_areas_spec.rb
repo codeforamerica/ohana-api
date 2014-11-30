@@ -2,59 +2,39 @@ require 'rails_helper'
 
 feature 'Update service areas' do
   background do
-    create_service
+    location = create(:location)
+    @service = location.services.
+               create!(attributes_for(:service).merge(keywords: []))
     login_super_admin
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
   end
 
-  scenario 'when no service areas exist' do
-    expect(page).to have_no_xpath("//input[@name='service[service_areas][]']")
+  scenario 'when no service areas exist', :js do
+    expect(page).to have_no_css('.select2-search-choice-close')
   end
 
-  scenario 'by adding 2 new service areas', :js do
-    add_two_service_areas
-    expect(find_field('service_service_areas_0').value).to eq 'Belmont'
-    delete_all_service_areas
-    expect(page).to have_no_xpath("//input[@name='service[service_areas][]']")
+  scenario 'with one service area', :js do
+    select2('Belmont', 'service_service_areas', multiple: true)
+    click_button 'Save changes'
+    expect(@service.reload.service_areas).to eq ['Belmont']
   end
 
-  scenario 'with 2 service_areas but one is empty', :js do
-    @service.update!(service_areas: ['Belmont'])
+  scenario 'with two service areas', :js do
+    select2('Belmont', 'service_service_areas', multiple: true)
+    select2('Atherton', 'service_service_areas', multiple: true)
+    click_button 'Save changes'
+    expect(@service.reload.service_areas).to eq %w(Atherton Belmont)
+  end
+
+  scenario 'removing a service area', :js do
+    @service.update!(service_areas: %w(Atherton Belmont))
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
-    click_link 'Add a new service area'
+    within '#s2id_service_service_areas' do
+      first('.select2-search-choice-close').click
+    end
     click_button 'Save changes'
-    total_service_areas = all(:xpath, "//input[@name='service[service_areas][]']")
-    expect(total_service_areas.length).to eq 1
-  end
-
-  scenario 'with invalid service area' do
-    @service.update!(service_areas: ['Belmont'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    fill_in 'service_service_areas_0', with: 'Fairfax'
-    click_button 'Save changes'
-    expect(page).
-      to have_content 'At least one service area is improperly formatted'
-  end
-
-  scenario 'with valid service area' do
-    @service.update!(service_areas: ['Belmont'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    fill_in 'service_service_areas_0', with: 'Atherton'
-    click_button 'Save changes'
-    expect(find_field('service_service_areas_0').value).
-      to eq 'Atherton'
-  end
-
-  scenario 'clearing out existing service area' do
-    @service.update!(service_areas: ['Belmont'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    fill_in 'service_service_areas_0', with: ''
-    click_button 'Save changes'
-    expect(page).not_to have_field('service_service_areas_0')
+    expect(@service.reload.service_areas).to eq ['Belmont']
   end
 end

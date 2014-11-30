@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-describe 'Create a location (POST /locations/)' do
+describe 'Create a location (POST /organizations/:organization_id/locations/)' do
   before(:all) do
     @org = create(:organization)
   end
 
   before(:each) do
-    @required_attributes = {
+    @location_attributes = {
       name: 'new location',
       kind: 'human_services',
       description: 'description',
       address_attributes: {
-        street: 'main', city: 'utopia', state: 'CA', zip: '12345' },
-      organization_id: @org.id
+        street_1: 'main', city: 'utopia', state_province: 'CA', postal_code: '12345',
+        country_code: 'US' }
     }
   end
 
@@ -22,25 +22,25 @@ describe 'Create a location (POST /locations/)' do
 
   it 'creates a location with valid attributes' do
     post(
-      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
-      @required_attributes
+      api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      @location_attributes
     )
     expect(response.status).to eq(201)
-    expect(json['name']).to eq(@required_attributes[:name])
+    expect(json['name']).to eq(@location_attributes[:name])
   end
 
   it 'returns a limited payload after creation' do
     post(
-      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
-      @required_attributes
+      api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      @location_attributes
     )
     expect(json.keys).to eq(%w(id name slug))
   end
 
   it 'returns a Location header with the URL to the new location' do
     post(
-      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
-      @required_attributes
+      api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      @location_attributes
     )
     expect(headers['Location']).
       to eq(api_location_url('new-location', subdomain: ENV['API_SUBDOMAIN']))
@@ -48,7 +48,7 @@ describe 'Create a location (POST /locations/)' do
 
   it "doesn't create a location with invalid attributes" do
     post(
-      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
+      api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN']),
       name: nil
     )
     expect(response.status).to eq(422)
@@ -57,8 +57,8 @@ describe 'Create a location (POST /locations/)' do
 
   it "doesn't allow creating a location without a valid token" do
     post(
-      api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
-      @required_attributes,
+      api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN']),
+      @location_attributes,
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
     expect(response.status).to eq(401)

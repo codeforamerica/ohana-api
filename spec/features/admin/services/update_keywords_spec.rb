@@ -2,44 +2,39 @@ require 'rails_helper'
 
 feature 'Update keywords' do
   background do
-    create_service
+    location = create(:location)
+    @service = location.services.create!(
+      attributes_for(:service).merge(keywords: []))
     login_super_admin
-  end
-
-  scenario 'when no keywords exist' do
-    @service.update!(keywords: [])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
-    expect(page).to have_no_xpath("//input[@name='service[keywords][]']")
   end
 
-  scenario 'by adding 2 new keywords', :js do
-    @service.update!(keywords: [])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    add_two_keywords
-    expect(find_field('service_keywords_0').value).to eq 'homeless'
-    delete_all_keywords
-    expect(page).to have_no_xpath("//input[@name='service[keywords][]']")
+  scenario 'when no keywords exist', :js do
+    expect(page).to have_no_css('.select2-search-choice-close')
   end
 
-  scenario 'with 2 keywords but one is empty', :js do
-    @service.update!(keywords: ['education'])
-    visit '/admin/locations/vrs-services'
-    click_link 'Literacy Program'
-    click_link 'Add a new keyword'
+  scenario 'with one keyword', :js do
+    select2('ligal', 'service_keywords', multiple: true, tag: true)
     click_button 'Save changes'
-    total_keywords = all(:xpath, "//input[@name='service[keywords][]']")
-    expect(total_keywords.length).to eq 1
+    expect(@service.reload.keywords).to eq ['ligal']
   end
 
-  scenario 'with valid keyword' do
-    @service.update!(keywords: ['health'])
+  scenario 'with two keywords', :js do
+    select2('first', 'service_keywords', multiple: true, tag: true)
+    select2('second', 'service_keywords', multiple: true, tag: true)
+    click_button 'Save changes'
+    expect(@service.reload.keywords).to eq %w(first second)
+  end
+
+  scenario 'removing a keyword', :js do
+    @service.update!(keywords: %w(resume computer))
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
-    fill_in 'service_keywords_0', with: 'food pantry'
+    within '#s2id_service_keywords' do
+      first('.select2-search-choice-close').click
+    end
     click_button 'Save changes'
-    expect(find_field('service_keywords_0').value).
-      to eq 'food pantry'
+    expect(@service.reload.keywords).to eq ['computer']
   end
 end

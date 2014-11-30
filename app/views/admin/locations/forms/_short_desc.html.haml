@@ -3,5 +3,5 @@
     = f.label :short_desc, 'Short Description'
     %span.desc
       A short summary of the description of services.
-  %p
+  = field_set_tag do
     = f.text_area :short_desc, class: 'form-control'

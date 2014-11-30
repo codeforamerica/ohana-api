@@ -1,0 +1,12 @@
+.inst-box
+  %header
+    %strong
+      Status
+    %p.desc
+      Is this service active, inactive, or defunct?
+
+  = field_set_tag do
+    - if f.object.new_record?
+      = f.select :status, Service.status.options, { selected: 'active' }, class: 'form-control'
+    - else
+      = f.select :status, Service.status.options, {}, class: 'form-control'

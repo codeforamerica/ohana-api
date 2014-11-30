@@ -8,16 +8,16 @@ module Api
       before_action :validate_service_areas, only: [:update, :create]
 
       def index
-        location = Location.find(params[:location_id])
+        location = Location.includes(
+          services: [:categories, :contacts, :phones, :regular_schedules,
+                     :holiday_schedules]).find(params[:location_id])
         services = location.services
         render json: services, status: 200
       end
 
       def update
         service = Service.find(params[:id])
-        location = Location.find(params[:location_id])
-
-        service.update!(params.merge(location_id: location.id))
+        service.update!(params)
         render json: service, status: 200
       end
 

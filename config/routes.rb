@@ -15,18 +15,35 @@ Rails.application.routes.draw do
       root to: 'dashboard#index', as: :dashboard
 
       resources :locations, except: :show do
-        resources :services, except: [:show, :index]
+        resources :services, except: [:show, :index] do
+          resources :contacts, except: [:show, :index], controller: 'service_contacts'
+        end
+        resources :contacts, except: [:show, :index]
       end
 
-      resources :organizations, except: :show
+      resources :organizations, except: :show do
+        resources :contacts, except: [:show, :index], controller: 'organization_contacts'
+      end
+      resources :programs, except: :show
+      # Because the data was imported long before new Open Referral rules
+      # were defined, some data is currently invalid. For example, most services
+      # don't have names or descriptions. Until the data is updated, the
+      # link to Services in the admin dashboard and navigation bar should be
+      # removed.
+      # resources :services, only: :index
 
       get 'locations/:location_id/services/confirm_delete_service', to: 'services#confirm_delete_service', as: :confirm_delete_service
       get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
       get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
+      get 'programs/confirm_delete_program', to: 'programs#confirm_delete_program', as: :confirm_delete_program
 
       get 'locations/:location_id/services/:id', to: 'services#edit'
+      get 'locations/:location_id/services/:service_id/contacts/:id', to: 'service_contacts#edit'
+      get 'locations/:location_id/contacts/:id', to: 'contacts#edit'
       get 'locations/:id', to: 'locations#edit'
       get 'organizations/:id', to: 'organizations#edit'
+      get 'organizations/:organization_id/contacts/:id', to: 'organization_contacts#edit'
+      get 'programs/:id', to: 'programs#edit'
     end
   end
 
@@ -38,21 +55,29 @@ Rails.application.routes.draw do
       scope module: :v1, constraints: ApiConstraints.new(version: 1) do
         get '/' => 'root#index'
         get '.well-known/status' => 'status#check_status'
+
+        resources :organizations do
+          resources :locations, only: :create
+        end
+        get 'organizations/:organization_id/locations', to: 'organizations#locations', as: :org_locations
+
         resources :locations do
           resources :address, except: [:index, :show]
           resources :mail_address, except: [:index, :show]
-          resources :contacts, except: [:show]
-          resources :faxes, except: [:show]
-          resources :phones, except: [:show]
+          resources :contacts, except: [:show] do
+            resources :phones, except: [:show, :index], path: '/phones', controller: 'contact_phones'
+          end
+          resources :phones, except: [:show], path: '/phones', controller: 'location_phones'
           resources :services
         end
+
         resources :search, only: :index
+
         resources :categories, only: :index
-        resources :organizations
+
         put 'services/:service_id/categories', to: 'services#update_categories', as: :service_categories
         get 'categories/:oe_id/children', to: 'categories#children', as: :category_children
         get 'locations/:location_id/nearby', to: 'search#nearby', as: :location_nearby
-        get 'organizations/:organization_id/locations', to: 'organizations#locations', as: :organization_locations
 
         match '*unmatched_route' => 'errors#raise_not_found!', via: [:get, :delete, :patch, :post, :put]
 
@@ -60,10 +85,6 @@ Rails.application.routes.draw do
         match '*unmatched_route' => 'cors#render_204', via: [:options]
       end
     end
-  end
-
-  constraints(SubdomainConstraints.new(subdomain: ENV['DEV_SUBDOMAIN'])) do
-    get 'docs' => 'api_docs#index'
   end
 
   root to: 'home#index'

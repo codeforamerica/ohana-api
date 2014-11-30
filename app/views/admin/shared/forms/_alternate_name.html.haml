@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    = f.label :alternate_name, 'Alternate Name'
+    %span.desc
+      Is this #{f.object.class.to_s.downcase} known by another name?
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.text_field :alternate_name, required: false, maxlength: 255, class: 'form-control'

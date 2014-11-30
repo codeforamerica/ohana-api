@@ -90,10 +90,10 @@ SET default_with_oids = false;
 CREATE TABLE addresses (
     id integer NOT NULL,
     location_id integer,
-    street text NOT NULL,
-    city text NOT NULL,
-    state text NOT NULL,
-    zip text NOT NULL,
+    street text,
+    city text,
+    state text,
+    zip text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     country_code character varying(255),
@@ -256,7 +256,7 @@ CREATE TABLE contacts (
     id integer NOT NULL,
     location_id integer,
     name text NOT NULL,
-    title text NOT NULL,
+    title text,
     email text,
     fax text,
     phone text,
@@ -452,10 +452,10 @@ CREATE TABLE mail_addresses (
     id integer NOT NULL,
     location_id integer,
     attention text,
-    street text NOT NULL,
-    city text NOT NULL,
-    state text NOT NULL,
-    zip text NOT NULL,
+    street text,
+    city text,
+    state text,
+    zip text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     country_code character varying(255),
@@ -1486,4 +1486,10 @@ INSERT INTO schema_migrations (version) VALUES ('20141126015749');
 INSERT INTO schema_migrations (version) VALUES ('20141126020150');
 
 INSERT INTO schema_migrations (version) VALUES ('20141126023421');
+
+INSERT INTO schema_migrations (version) VALUES ('20141127025419');
+
+INSERT INTO schema_migrations (version) VALUES ('20141127025633');
+
+INSERT INTO schema_migrations (version) VALUES ('20141127025735');
 

@@ -1,0 +1,4 @@
+.content-box
+  %h2 #{@program.organization.try(:name)} / #{@program.name}
+= form_for [:admin, @program], html: { class: 'edit_entry' } do |f|
+  = render 'admin/programs/form', f: f

@@ -1,0 +1,10 @@
+.danger-zone
+  %header
+    %strong
+      Danger Zone
+  %h4
+    Delete this contact
+  %p
+    Once you delete a contact, there is no going back. Please be certain.
+  %p
+    = link_to 'Permanently delete this contact', { action: :destroy, id: @contact.id }, method: :delete, class: 'boxed-action'

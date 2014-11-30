@@ -2,11 +2,10 @@
   %header
     %strong
       Phone Numbers
-    %p.desc
-      %em
-        10 digits only please, in this format: 650-802-7922.
-        %br
-        If the phone number belongs to a contact, please move it to the existing contact, or add a new contact.
+    - unless f.object.class == Contact
+      %p.desc
+        %em
+          If the phone number belongs to a contact, please move it to the existing contact, or add a new contact.
   = f.fields_for :phones do |builder|
     = render 'admin/locations/forms/phone_fields', f: builder
   = link_to_add_fields 'Add a new phone number', f, :phones

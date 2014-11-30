@@ -1,0 +1,6 @@
+.inst-box.languages
+  %header
+    %strong
+      Languages this service is provided in.
+  = field_set_tag do
+    = f.select :languages, SETTINGS.try(:[], :languages), {}, multiple: true, class: 'form-control'

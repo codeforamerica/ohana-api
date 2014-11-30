@@ -14,9 +14,7 @@ FactoryGirl.define do
       name 'Foo '
       title ' Bar'
       email '  foo@bar.com '
-      fax '123-456-7890 '
-      phone '  123-456-7890 '
-      extension 'x1234  '
+      department 'Screening  '
     end
   end
 end

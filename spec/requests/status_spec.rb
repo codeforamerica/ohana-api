@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'GET /.well-known/status' do
+describe 'GET /api/.well-known/status' do
   context 'when everything is ok' do
     before(:each) do
       create(:loc_with_nil_fields)

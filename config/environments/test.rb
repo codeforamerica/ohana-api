@@ -44,5 +44,14 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.bullet_logger = true
     Bullet.raise = true
+    Bullet.add_whitelist(
+      type: :n_plus_one_query, class_name: 'Phone', association: :contact
+    )
+    Bullet.add_whitelist(
+      type: :n_plus_one_query, class_name: 'Phone', association: :service
+    )
+    Bullet.add_whitelist(
+      type: :n_plus_one_query, class_name: 'Phone', association: :organization
+    )
   end
 end

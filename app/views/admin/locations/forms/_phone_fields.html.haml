@@ -3,19 +3,22 @@
     = f.label :number, 'Number'
     .row
       .col-md-4
-        = f.telephone_field :number, maxlength: 12, class: 'form-control'
+        = f.telephone_field :number, maxlength: 14, class: 'form-control'
   .form-group
     = f.label :vanity_number, 'Vanity Number (for example: 650-123-HELP)'
     .row
       .col-md-4
-        = f.telephone_field :vanity_number, maxlength: 12, class: 'form-control'
+        = f.telephone_field :vanity_number, maxlength: 14, class: 'form-control'
   .form-group
-    = f.label :number_type, 'Number Type (to identify TTY numbers)'
+    = f.label :number_type, 'Number Type (Fax, Hotline, Voice, or TTY)'
     .row
       .col-md-4
-        = f.select :number_type, [['Not a TTY number', ''], ['TTY number', 'TTY']], {}, class: 'form-control'
+        - if f.object.new_record?
+          = f.select :number_type, Phone.number_type.options, { prompt: 'Choose an option' }, class: 'form-control'
+        - else
+          = f.select :number_type, Phone.number_type.options, {}, class: 'form-control'
   .form-group
-    = f.label :extension, 'Extension (for example: x101)'
+    = f.label :extension, 'Extension (numbers only)'
     .row
       .col-md-4
         = f.text_field :extension, maxlength: 8, class: 'form-control'

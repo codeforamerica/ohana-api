@@ -1,0 +1,6 @@
+.inst-box.payments
+  %header
+    %strong
+      Accepted Payments
+  = field_set_tag do
+    = f.select :accepted_payments, SETTINGS.try(:[], :accepted_payments), {}, multiple: true, class: 'form-control'

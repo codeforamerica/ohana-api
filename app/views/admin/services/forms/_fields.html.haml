@@ -1,0 +1,29 @@
+- if @service.errors.any?
+  .alert.alert-danger
+    %h2 #{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:
+    %ul
+      - @service.errors.full_messages.each do |msg|
+        %li= msg
+
+= render 'admin/services/forms/program', f: f
+= render 'admin/shared/forms/name', f: f
+= render 'admin/shared/forms/alternate_name', f: f
+= render 'admin/services/forms/description', f: f
+= render 'admin/services/forms/audience', f: f
+= render 'admin/services/forms/eligibility', f: f
+= render 'admin/shared/forms/email', f: f
+= render 'admin/services/forms/fees', f: f
+= render 'admin/services/forms/accepted_payments', f: f
+= render 'admin/services/forms/funding_sources', f: f
+= render 'admin/shared/forms/hours', f: f
+= render 'admin/shared/forms/holiday_hours', f: f
+= render 'admin/services/forms/how_to_apply', f: f
+= render 'admin/services/forms/languages', f: f
+= render 'admin/locations/forms/phones', f: f
+= render 'admin/services/forms/required_documents', f: f
+= render 'admin/services/forms/service_areas', f: f
+= render 'admin/services/forms/status', f: f
+= render 'admin/shared/forms/website', f: f
+= render 'admin/services/forms/wait', f: f
+= render 'admin/services/forms/categories', f: f
+= render 'admin/services/forms/keywords', f: f

@@ -1,5 +1,7 @@
 .content-box
   %h1 Create a new location
+  %p
+    You'll be able to add Contacts and Services to this location after you create it.
 
 = form_for [:admin, @location], url: admin_locations_path, html: { method: :post, class: 'edit_entry' } do |f|
   = render 'admin/locations/forms/new_location_form', f: f

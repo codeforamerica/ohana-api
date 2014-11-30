@@ -78,15 +78,24 @@ the JSON response so it is easier to read in the browser.
 
 ### User and Admin authentication (for the developer portal and admin interface)
 
+To access the developer portal, visit [http://localhost:8080/](http://localhost:8080/).
+
+To access the admin interface, visit [http://localhost:8080/admin/](http://localhost:8080/admin/).
+
 The app automatically sets up users and admins you can sign in with.
 Their username and password are stored in [db/seeds.rb][seeds].
 
 [seeds]: https://github.com/smcgov/ohana-api-smc/blob/master/db/seeds.rb
 
+The third admin in the seeds file is automatically set as a Super Admin. If you
+would like to set additional admins as super admins, you will need to do it
+manually for security reasons.
+
 To set an admin as a Super Admin:
 
-    psql ohana_api_smc_development
-    UPDATE "admins" SET super_admin = true WHERE id = 3;
+    psql ohana_api_development
+    UPDATE "admins" SET super_admin = true WHERE email = 'masteradmin@ohanapi.org';
     \q
 
-To access the admin interface, visit [http://localhost:8080/admin/](http://localhost:8080/admin/).
+Replace `masteradmin@ohanapi.org` in the command above with the email of the
+admin you want to set as a super admin.

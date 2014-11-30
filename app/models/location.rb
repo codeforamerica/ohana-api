@@ -1,12 +1,11 @@
 class Location < ActiveRecord::Base
-  attr_accessible :accessibility, :address, :admin_emails, :ask_for, :contacts,
-                  :description, :email, :faxes, :hours, :importance, :kind,
-                  :languages, :latitude, :longitude, :mail_address,
-                  :market_match, :name, :payments, :phones, :products,
-                  :short_desc, :transportation, :website,
-                  :address_attributes, :contacts_attributes, :faxes_attributes,
-                  :mail_address_attributes, :phones_attributes,
-                  :services_attributes
+  attr_accessible :accessibility, :active, :admin_emails, :alternate_name,
+                  :description, :email, :hours, :importance, :kind,
+                  :languages, :latitude, :longitude, :market_match, :name,
+                  :payments, :products, :short_desc, :transportation, :website,
+                  :virtual, :address_attributes, :mail_address_attributes,
+                  :phones_attributes, :regular_schedules_attributes,
+                  :holiday_schedules_attributes
 
   belongs_to :organization
 
@@ -14,12 +13,7 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :address, allow_destroy: true
 
   has_many :contacts, dependent: :destroy
-  accepts_nested_attributes_for :contacts,
-                                allow_destroy: true, reject_if: :all_blank
-
   has_many :faxes, dependent: :destroy
-  accepts_nested_attributes_for :faxes,
-                                allow_destroy: true, reject_if: :all_blank
 
   has_one :mail_address, dependent: :destroy
   accepts_nested_attributes_for :mail_address, allow_destroy: true
@@ -29,22 +23,20 @@ class Location < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   has_many :services, dependent: :destroy
-  accepts_nested_attributes_for :services, allow_destroy: true
 
-  # has_many :schedules, dependent: :destroy
-  # accepts_nested_attributes_for :schedules
+  has_many :regular_schedules, dependent: :destroy
+  accepts_nested_attributes_for :regular_schedules,
+                                allow_destroy: true, reject_if: :all_blank
 
-  validates :mail_address,
-            presence: {
-              message: I18n.t('errors.messages.no_address')
-            },
-            unless: proc { |loc| loc.address.present? }
+  has_many :holiday_schedules, dependent: :destroy
+  accepts_nested_attributes_for :holiday_schedules,
+                                allow_destroy: true, reject_if: :all_blank
 
   validates :address,
             presence: {
               message: I18n.t('errors.messages.no_address')
             },
-            unless: proc { |loc| loc.mail_address.present? }
+            unless: ->(location) { location.virtual? }
 
   validates :kind, :organization, :name,
             presence: { message: I18n.t('errors.messages.blank_for_location') }
@@ -57,25 +49,15 @@ class Location < ActiveRecord::Base
   ## Change the value below to increase or decrease the limit.
   # validates :short_desc, length: { maximum: 200 }
 
-  # Custom validation for values within arrays.
-  # For example, the urls field is an array that can contain multiple URLs.
-  # To be able to validate each URL in the array, we have to use a
-  # custom array validator. See app/validators/array_validator.rb
-  validates :urls, array: {
-    format: { with: %r{\Ahttps?://([^\s:@]+:[^\s:@]*@)?[A-Za-z\d\-]+(\.[A-Za-z\d\-]+)+\.?(:\d{1,5})?([\/?]\S*)?\z}i,
-              message: "%{value} #{I18n.t('errors.messages.invalid_url')}",
-              allow_blank: true } }
+  validates :website, url: true, allow_blank: true
 
-  validates :emails, :admin_emails, array: {
-    format: { with: /\A([^@\s]+)@((?:(?!-)[-a-z0-9]+(?<!-)\.)+[a-z]{2,})\z/i,
-              message: "%{value} #{I18n.t('errors.messages.invalid_email')}",
-              allow_blank: true } }
+  validates :languages, pg_array: true
 
-  # Only call Google's geocoding service if the address has changed
-  # to avoid unnecessary requests that affect our rate limit.
+  validates :admin_emails, array: { email: true }
+
+  validates :email, email: true, allow_blank: true
+
   after_validation :geocode, if: :needs_geocoding?
-
-  after_validation :reset_coordinates, if: proc { |l| l.address.blank? }
 
   geocoded_by :full_physical_address
 
@@ -86,8 +68,7 @@ class Location < ActiveRecord::Base
   enumerize :accessibility,
             in: [:cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp,
                  :restroom, :tape_braille, :tty, :wheelchair, :wheelchair_van],
-            multiple: true,
-            scope: true
+            multiple: true
 
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
@@ -107,11 +88,10 @@ class Location < ActiveRecord::Base
   serialize :payments, Array
   serialize :urls, Array
 
-  auto_strip_attributes :description, :hours, :name, :short_desc,
-                        :transportation
+  auto_strip_attributes :description, :email, :name, :short_desc,
+                        :transportation, :website
 
-  auto_strip_attributes :admin_emails, :emails, :urls,
-                        reject_blank: true, nullify: false
+  auto_strip_attributes :admin_emails, reject_blank: true, nullify: false
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]
@@ -127,7 +107,7 @@ class Location < ActiveRecord::Base
   end
 
   def address_street
-    address.street if address.present?
+    address.street_1 if address.present?
   end
 
   def mail_address_city
@@ -136,16 +116,16 @@ class Location < ActiveRecord::Base
 
   def full_physical_address
     return unless address.present?
-    "#{address.street}, #{address.city}, #{address.state} #{address.zip}"
-  end
-
-  def reset_coordinates
-    self.latitude = nil
-    self.longitude = nil
+    "#{address.street_1}, #{address.city}, #{address.state_province} #{address.postal_code}"
   end
 
   def needs_geocoding?
-    address.changed? || latitude.nil? || longitude.nil? if address.present?
+    return false if address.blank? || new_record_with_coordinates?
+    address.changed?
+  end
+
+  def new_record_with_coordinates?
+    new_record? && latitude.present? && longitude.present?
   end
 
   # See app/models/concerns/search.rb

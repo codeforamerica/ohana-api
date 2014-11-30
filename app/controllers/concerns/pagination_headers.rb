@@ -4,20 +4,18 @@ module PaginationHeaders
   # @param coll ActiveRecord::Relation
   # @return various pagination-related HTTP Headers
   def generate_pagination_headers(coll)
-    params = request.params.except(:controller, :format, :action, :subdomain)
-
     pages = pages(coll)
 
     links = links(pages, params)
 
-    links.delete_if { |v| v.blank? }
+    links.delete_if(&:blank?)
 
     response.headers['Link'] = links.join(', ') unless links.blank?
     response.headers['X-Total-Count'] = "#{coll.total_count}"
-    response.headers['X-Total-Pages'] = "#{coll.total_pages}"
-    response.headers['X-Current-Page'] = "#{coll.current_page}" unless coll.empty?
-    response.headers['X-Next-Page'] = "#{coll.next_page}" unless coll.next_page.nil?
-    response.headers['X-Previous-Page'] = "#{pages[:prev]}" unless coll.prev_page.nil?
+  end
+
+  def params
+    request.params.except(:controller, :format, :action, :subdomain)
   end
 
   def url
