@@ -115,13 +115,13 @@
 #
 #############
 # This setting defines how long, in minutes, API responses will be cached in
-# a web client, such as Ohana Web Search:
-# https://github.com/codeforamerica/ohana-web-search
-# For example, if you set EXPIRES_IN to '5', when you do a search or
-# visit a specific location in Ohana Web Search, the app won't make that same
-# API request until 5 minutes have passed since the request was first made.
-# This greatly improves the performance of Ohana Web Search, and also reduces
-# the load on the API.
+# Rack::Cache. During that time interval, any API requests for that same
+# query (after the initial request) will be served by Rack::Cache instead
+# of the app, thereby reducing the load on the API and serving responses
+# quickly.
+# Read more about HTTP Caching:
+# http://railscasts.com/episodes/321-http-caching?view=asciicast
+# https://devcenter.heroku.com/articles/http-caching-ruby-rails
 
 ######################################
 #
@@ -189,7 +189,7 @@ production:
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
   MAX_PER_PAGE: '50'
-  EXPIRES_IN: '5'
+  EXPIRES_IN: '1'
   TLD_LENGTH: '2'
   ENABLE_HTTPS: yes
 
