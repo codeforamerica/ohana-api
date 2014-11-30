@@ -3,12 +3,12 @@
     = f.label :number, 'Number'
     .row
       .col-md-4
-        = f.telephone_field :number, maxlength: 12, class: 'form-control'
+        = f.telephone_field :number, maxlength: 14, class: 'form-control'
   .form-group
     = f.label :vanity_number, 'Vanity Number (for example: 650-123-HELP)'
     .row
       .col-md-4
-        = f.telephone_field :vanity_number, maxlength: 12, class: 'form-control'
+        = f.telephone_field :vanity_number, maxlength: 14, class: 'form-control'
   .form-group
     = f.label :number_type, 'Number Type (Fax, Hotline, Voice, or TTY)'
     .row
@@ -28,7 +28,7 @@
       .col-md-4
         = f.text_field :department, maxlength: 50, class: 'form-control'
   .form-group
-    = f.label :country_prefix, 'Country Prefix Code (for example: +1)'
+    = f.label :country_prefix, 'Country Prefix Code (for example: 1)'
     .row
       .col-md-4
         = f.telephone_field :country_prefix, maxlength: 4, class: 'form-control'
