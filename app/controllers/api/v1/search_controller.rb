@@ -33,7 +33,9 @@ module Api
       end
 
       def cache_key(scope)
-        "#{scope.to_sql}-#{scope.maximum(:updated_at)}-#{scope.total_count}"
+        Digest::MD5.hexdigest(
+          "#{scope.to_sql}-#{scope.maximum(:updated_at)}-#{scope.total_count}"
+        )
       end
 
       def locations_near(location)
