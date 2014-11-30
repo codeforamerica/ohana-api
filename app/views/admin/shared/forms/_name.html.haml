@@ -1,0 +1,7 @@
+.inst-box
+  %header
+    = f.label :name, "#{f.object.class} Name"
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.text_field :name, required: false, maxlength: 255, class: 'form-control'

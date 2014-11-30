@@ -1,5 +1,332 @@
 # Note that changes to this file require a server restart to take effect.
 
+############################
+#
+# ADMIN INTERFACE SETTINGS
+#
+############################
+#
+# These will be the values that admin interface users will choose from when
+# updating a Service's accepted methods of payment.
+#
+# The list below should remain alphabetical, and should encompass all possible
+# payment methods across all services.
+accepted_payments:
+- 'Cash'
+- 'Check'
+- 'Credit Card'
+- 'EBT Card'
+- 'Medicare'
+
+# The email address that admin interface users should send questions/issues to.
+# This link appears when an admin views their locations and organizations.
+# See app/views/admin/locations/index.html.haml and
+# app/views/admin/organizations/index.html.haml.
+#
+# Please make sure to change this to your own email address.
+admin_support_email: ohanapi@codeforamerica.org
+
+# An array of email domain names used by the admin interface to determine which
+# users get to access which locations. For convenience, the API allows a client
+# to retrieve locations that match a particular domain name. This means that
+# when someone signs in to the admin interface with an organization email
+# address, like "moncef@codeforamerica.org", then they will have access to all
+# locations that match "codeforamerica.org". This works for these types of
+# organization domain names, but if we allowed the same lookup for people with
+# generic email addresses that end in "@gmail.com" for example, then they would
+# be able to access all locations with "gmail.com" in the "email" field.
+# To prevent that, the API compares the domain name with the list of generic
+# domains that you define below, and if it finds it, then it looks for an exact
+# match of the full email address.
+#
+# Depending on the email addresses present in your data, you might need to add
+# domains to the list below. For example, in San Mateo County, many employees
+# have a generic "@smcgov.org" email, even though they work in different
+# departments, and should only be able to access their specific locations.
+#
+# This setting is used in 'app/models/concerns/search.rb'.
+generic_domains:
+  - gmail.com
+  - aol.com
+  - sbcglobal.net
+  - hotmail.com
+  - yahoo.com
+  - comcast.net
+
+# These will be the values that admin interface users will choose from when
+# updating a Location's or a Service's languages. The list below should remain
+# in alphabetical order.
+languages:
+- 'American Sign Language'
+- 'Amharic'
+- 'Arabic'
+- 'Aramaic'
+- 'Armenian'
+- 'Assyrian'
+- 'Bengali'
+- 'Bosnian'
+- 'Burmese'
+- 'Cambodian'
+- 'Cantonese'
+- 'Cebuano'
+- 'Chinese'
+- 'Creole'
+- 'Croatian'
+- 'Czech'
+- 'Danish'
+- 'Dutch'
+- 'Fijian'
+- 'Filipino'
+- 'Finnish'
+- 'French'
+- 'Fulani'
+- 'Gaelic'
+- 'German'
+- 'Greek'
+- 'Gujarati'
+- 'Hausa'
+- 'Hebrew'
+- 'Hiligaynon'
+- 'Hindi'
+- 'Hmong'
+- 'Hungarian'
+- 'Igbo'
+- 'Ilocano'
+- 'Indonesian'
+- 'Italian'
+- 'Japanese'
+- 'Kapampangan'
+- 'Khmer'
+- 'Kinyarwanda'
+- 'Korean'
+- 'Krio'
+- 'Lao'
+- 'Latvian'
+- 'Maltese'
+- 'Mandarin'
+- 'Marathi'
+- 'Mende'
+- 'Mien'
+- 'Mongolian'
+- 'Ningbo'
+- 'Norwegian'
+- 'Oromo'
+- 'Pangasinan'
+- 'Persian'
+- 'Polish'
+- 'Portuguese'
+- 'Punjabi'
+- 'Romanian'
+- 'Russian'
+- 'Samoan'
+- 'Serbo-Croatian'
+- 'Shanghainese'
+- 'Sindhi'
+- 'Sinhalese'
+- 'Somali'
+- 'Spanish'
+- 'Swahili'
+- 'Swedish'
+- 'Tagalog'
+- 'Taiwanese'
+- 'Tamil'
+- 'Telugu'
+- 'Temne'
+- 'Thai'
+- 'Tibetan'
+- 'Tigrinya'
+- 'Tongan'
+- 'Ukrainian'
+- 'Urdu'
+- 'Vietnamese'
+- 'Yiddish'
+- 'Yoruba'
+
+# These will be the values that admin interface users will choose from when
+# updating a Service's required documents. The list below should remain
+# in alphabetical order.
+required_documents:
+- 'Bank statements (last 3 months)'
+- 'Government-issued picture identification'
+
+# If your data contains a service_areas field that identifies which particular
+# areas of a city or county are eligible for the services provided by an
+# organization, and if you want to make sure that the service areas are always
+# spelled the same way, then enter them below, one per line preceded by a dash
+# and a space, just like the generic_domains above. Make sure to preserve the
+# 2-space indentation. For example:
+# valid_service_areas:
+#   - 'Alameda County'
+#   - 'Oakland'
+#
+# These will be the values that admin interface users will choose from when
+# updating a Service's service areas.
+valid_service_areas:
+  - Alameda County
+  - Alaska
+  - Almaden Valley
+  - Alum Rock
+  - Alviso
+  - Arizona
+  - Atherton
+  - Belmont
+  - Berryessa
+  - Brisbane
+  - British Columbia
+  - Broadmoor
+  - Burlingame
+  - Calaveras County
+  - California
+  - California Statewide
+  - Campbell
+  - Canada
+  - Castro Valley
+  - Central California
+  - Central San Mateo County
+  - Colma
+  - Contra Costa County
+  - Coyote
+  - Cupertino
+  - Daly City
+  - Del Norte County
+  - Dublin
+  - East Menlo Park
+  - East Palo Alto
+  - El Granada
+  - Evergreen
+  - Fairfield
+  - Foster City
+  - Fremont
+  - Fresno
+  - Fresno County
+  - Gilroy
+  - Guam
+  - Half Moon Bay
+  - Hawaii
+  - Hayward
+  - Hillsborough
+  - Humboldt County
+  - Idaho
+  - Inyo
+  - Japan
+  - Kern County
+  - Kings County
+  - La Honda
+  - Lake County
+  - Loma Mar
+  - Los Altos
+  - Los Altos Hills
+  - Los Angeles County
+  - Los Gatos
+  - Madera County
+  - Marin County
+  - Mendocino County
+  - Menlo Park
+  - Merced County
+  - Millbrae
+  - Milpitas
+  - Miramar
+  - Montara
+  - Monte Sereno
+  - Monte Vista
+  - Monterey
+  - Monterey County
+  - Morgan Hill
+  - Moss Beach
+  - Mountain View
+  - Napa County
+  - Nevada
+  - Newark
+  - North Fair Oaks
+  - North Santa Clara County
+  - Northern California
+  - Northern San Mateo County
+  - Northern Santa Clara County
+  - Orange County
+  - Oregon
+  - Pacifica
+  - Palo Alto
+  - Pescadero
+  - Placer County
+  - Pleasanton
+  - Portola Valley
+  - Princeton
+  - Redwood City
+  - Redwood Shores
+  - Sacramento
+  - Sacramento County
+  - San Benito County
+  - San Bruno
+  - San Carlos
+  - San Francisco County
+  - San Gregorio
+  - San Joaquin County
+  - San Jose
+  - San Leandro
+  - San Lorenzo
+  - San Luis Obispo
+  - San Luis Obispo County
+  - San Martin
+  - San Mateo
+  - San Mateo County
+  - San Ramon
+  - Santa Clara
+  - Santa Clara County
+  - Santa Cruz County
+  - Saratoga
+  - Silver Creek
+  - Siskiyou County
+  - Solano County
+  - Sonoma County
+  - South San Francisco
+  - Stanford
+  - Stanislaus County
+  - Sunnyvale
+  - Sutter County
+  - Trinity County
+  - Tulare County
+  - Tunitas
+  - Tuolumne County
+  - Union City
+  - Utah
+  - Washington
+  - West San Jose
+  - Willow Glen
+  - Woodside
+  - Yolo
+  - Yolo County
+  - Yuba
+  - East San Jose
+  - Nationwide
+  - Statewide
+  - Unincorporated San Mateo County
+  - Western U.S.
+  - Western United States
+  - Worldwide
+
+############################
+#
+# DATE SETTINGS
+#
+############################
+#
+# The date format to use for the Organization `date_incorporated` field,
+# and for the Holiday Schedule `start_date` and `end_date` fields.
+# The default format is the US-style month/day/year. To use the day/month
+# style, change the value below to '%d/%m/'.
+date_format: '%m/%d/'
+
+############################
+#
+# EMAIL DELIVERY SETTINGS
+#
+############################
+#
+# The email address that confirmation emails are sent from after user signup,
+# for the Developer and Admin portals.
+# Please make sure to change this to your own email address.
+confirmation_email: ohanapi@codeforamerica.org
+
 ###############################
 #
 # GEOGRAPHICAL BOUNDS SETTINGS
@@ -24,71 +351,59 @@
 # Make sure to change the coordinates to match your preferred search area.
 #
 # This setting is used in 'app/models/concerns/search.rb'.
-bounds: [[25.7084, -124.085], [48.9084, -67.085]]
+bounds: [[37.1074, -122.521], [37.7084, -122.085]]
 
-###############################
+##################
 #
-# SETTINGS FOR ADMIN INTERFACE
+# SEARCH SETTINGS
 #
-###############################
+##################
 #
-# An array of email domain names used by the admin interface to determine which
-# users get to access which locations. For convenience, the API allows a client
-# to retrieve locations that match a particular domain name. This means that
-# when someone signs in to the admin interface with an organization email
-# address, like "moncef@codeforamerica.org", then they will have access to all
-# locations that match "codeforamerica.org". This works for these types of
-# organization domain names, but if we allowed the same lookup for people with
-# generic email addresses that end in "@gmail.com" for example, then they would
-# be able to access all locations with "gmail.com" in the "emails" field.
-# To prevent that, the API compares the domain name with the list of generic
-# domains that you define below, and if it finds it, then it looks for an exact
-# match of the full email address.
-#
-# Depending on the email addresses present in your data, you might need to add
-# domains to the list below. For example, in San Mateo County, many employees
-# have a generic "@smcgov.org" email, even though they work in different
-# departments, and should only be able to access their specific locations.
-#
-# This setting is used in 'app/models/concerns/search.rb'.
-generic_domains:
-  - gmail.com
-  - aol.com
-  - sbcglobal.net
-  - hotmail.com
-  - yahoo.com
-  - comcast.net
-
-# The email address that admin interface users should send questions/issues to.
-# This link appears when an admin views their locations and organizations.
-# See app/views/admin/locations/index.html.haml and
-# app/views/admin/organizations/index.html.haml.
-#
-# Please make sure to change this to your own email address.
-admin_support_email: ohanapi@codeforamerica.org
-
-# The email address that confirmation emails are sent from after user signup.
-# Please make sure to change this to your own email address.
-confirmation_email: ohanapi@codeforamerica.org
-
-#########################
-#
-# SERVICE AREAS SETTINGS
-#
-#########################
-#
-# If your data contains a service_areas field that identifies which particular
-# areas of a city or county are eligible for the services provided by an
-# organization, and if you want to make sure that the service areas are always
-# spelled the same way, then enter them below, one per line preceded by a dash
-# and a space, just like the generic_domains above. Make sure to preserve the
-# 2-space indentation. For example:
-# valid_service_areas:
-#   - Alameda County
-#   - Oakland
-#
-# This setting is used in 'app/models/service.rb'.
-valid_service_areas:
+# Used to narrow the search down to locations that serve San Mateo County,
+# because the database contains locations that serve other areas as well.
+# This filter is used in app/models/concerns/search.rb.
+smc_service_areas:
+  - San Mateo County
+  - Atherton
+  - Belmont
+  - Brisbane
+  - Burlingame
+  - Colma
+  - Daly City
+  - East Palo Alto
+  - Foster City
+  - Half Moon Bay
+  - Hillsborough
+  - Menlo Park
+  - Millbrae
+  - Pacifica
+  - Portola Valley
+  - Redwood City
+  - San Bruno
+  - San Carlos
+  - San Mateo
+  - South San Francisco
+  - Woodside
+  - Broadmoor
+  - Burlingame Hills
+  - Devonshire
+  - El Granada
+  - Emerald Lake Hills
+  - Highlands-Baywood Park
+  - Kings Mountain
+  - Ladera
+  - La Honda
+  - Loma Mar
+  - Menlo Oaks
+  - Montara
+  - Moss Beach
+  - North Fair Oaks
+  - Palomar Park
+  - Pescadero
+  - Princeton-by-the-Sea
+  - San Gregorio
+  - Sky Londa
+  - West Menlo Park
 
 ###########################################
 #
@@ -96,10 +411,27 @@ valid_service_areas:
 #
 ###########################################
 test:
-  valid_service_areas:
-  - Belmont
-  - Atherton
-
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
 
   confirmation_email: registration@ohanapi.org
+
+  date_format: '%m/%d/'
+
+  languages:
+  - 'Arabic'
+  - 'French'
+  - 'Spanish'
+
+  required_documents:
+  - 'Bank Statement'
+  - 'Picture ID'
+
+  smc_service_areas:
+  - Atherton
+  - Belmont
+
+  valid_service_areas:
+  - Alaska
+  - Arizona
+  - Atherton
+  - Belmont

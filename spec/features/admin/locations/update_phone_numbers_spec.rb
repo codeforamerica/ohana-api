@@ -19,9 +19,9 @@ feature 'Update phones' do
   scenario 'by adding a new phone', :js do
     add_phone(
       number: '123-456-7890',
-      number_type: 'TTY number',
+      number_type: 'TTY',
       department: 'Director of Development',
-      extension: 'x1234',
+      extension: '1234',
       vanity_number: '123-ABC-DEFG'
     )
     click_button 'Save changes'
@@ -31,13 +31,13 @@ feature 'Update phones' do
       to eq '123-456-7890'
 
     expect(find_field('location_phones_attributes_0_number_type').value).
-      to eq 'TTY'
+      to eq 'tty'
 
     expect(find_field('location_phones_attributes_0_department').value).
       to eq 'Director of Development'
 
     expect(find_field('location_phones_attributes_0_extension').value).
-      to eq 'x1234'
+      to eq '1234'
 
     expect(find_field('location_phones_attributes_0_vanity_number').value).
       to eq '123-ABC-DEFG'
@@ -53,7 +53,8 @@ feature 'Update phones' do
   scenario 'with 2 phones but one is empty', :js do
     add_phone(
       number: '123-456-7890',
-      department: 'Director of Development'
+      department: 'Director of Development',
+      number_type: 'Voice'
     )
     click_link 'Add a new phone number'
     click_button 'Save changes'
@@ -67,7 +68,8 @@ feature 'Update phones' do
   scenario 'with 2 phones but second one is invalid', :js do
     add_phone(
       number: '123-456-7890',
-      department: 'Director of Development'
+      department: 'Director of Development',
+      number_type: 'Voice'
     )
     click_link 'Add a new phone number'
     within('.phones') do
@@ -85,10 +87,10 @@ feature 'Update phones' do
     # To test this, we need to make sure neither of the phones we are trying
     # to delete have an id of 1, so we need to create 3 phones first and
     # test with the last 2.
-    @location.phones.create!(number: '124-456-7890', department: 'Ruby')
+    @location.phones.create!(attributes_for(:phone))
     new_loc = create(:nearby_loc)
-    new_loc.phones.create!(number: '123-456-7890', department: 'Python')
-    new_loc.phones.create!(number: '456-123-7890', department: 'JS')
+    new_loc.phones.create!(attributes_for(:phone).merge!(number: '123-456-7890'))
+    new_loc.phones.create!(attributes_for(:phone))
 
     visit '/admin/locations/library'
 
@@ -106,7 +108,7 @@ end
 feature 'Update phones' do
   before(:all) do
     @location = create(:location)
-    @location.phones.create!(number: '123-456-7890', department: 'Ruby')
+    @location.phones.create!(attributes_for(:phone).merge!(extension: ''))
   end
 
   before(:each) do
@@ -120,7 +122,12 @@ feature 'Update phones' do
 
   scenario 'initial state of phone type' do
     expect(find_field('location_phones_attributes_0_number_type')).
-        to have_text 'Not a TTY number'
+      to have_text 'Voice'
+  end
+
+  scenario 'select options for number type' do
+    expect(page).
+      to have_select 'location_phones_attributes_0_number_type', with_options: %w(TTY Voice Fax Hotline)
   end
 
   scenario 'with an empty number' do
@@ -132,6 +139,18 @@ feature 'Update phones' do
   scenario 'with an invalid number' do
     update_phone(number: '703')
     click_button 'Save changes'
-    expect(page).to have_content 'is not a valid US phone number'
+    expect(page).to have_content 'is not a valid US phone or fax number'
+  end
+
+  scenario 'with an invalid extension' do
+    update_phone(number: '703-555-1212', extension: 'x200')
+    click_button 'Save changes'
+    expect(page).to have_content 'extension is not a number'
+  end
+
+  scenario 'with an empty extension' do
+    update_phone(number: '703-555-1212', extension: '')
+    click_button 'Save changes'
+    expect(page).to_not have_content 'extension is not a number'
   end
 end

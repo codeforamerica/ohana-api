@@ -1,19 +1,27 @@
 require 'rails_helper'
 
 describe "GET 'nearby'" do
-  before :all do
+  before :each do
     @loc = create(:location)
-    create(:nearby_loc)
+    @nearby = create(:nearby_loc)
     create(:far_loc)
-  end
-
-  after(:all) do
-    Organization.find_each(&:destroy)
   end
 
   it 'is paginated' do
     get api_location_nearby_url(@loc, page: 2, per_page: 1, radius: 5, subdomain: ENV['API_SUBDOMAIN'])
     expect(json.first['name']).to eq('Belmont Farmers Market')
+  end
+
+  it 'returns a summarized JSON representation' do
+    get api_location_nearby_url(@loc, radius: 2, subdomain: ENV['API_SUBDOMAIN'])
+    expect(json.first.keys).
+      to eq %w(id alternate_name latitude longitude name slug address)
+  end
+
+  it 'only returns active locations' do
+    @nearby.update(active: false)
+    get api_location_nearby_url(@loc, per_page: 2, radius: 5, subdomain: ENV['API_SUBDOMAIN'])
+    expect(json.length).to eq(1)
   end
 
   context 'with no radius' do

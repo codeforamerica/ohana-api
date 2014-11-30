@@ -32,4 +32,102 @@ feature 'Create a new organization' do
 
     expect(find_field('organization_website').value).to eq 'http://ruby.com'
   end
+
+  scenario 'when adding an alternate name' do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    fill_in 'organization_alternate_name', with: 'AKA'
+    click_button 'Create organization'
+    click_link 'new org'
+
+    expect(find_field('organization_alternate_name').value).to eq 'AKA'
+  end
+
+  scenario 'when adding an email' do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    fill_in 'organization_email', with: 'foo@bar.com'
+    click_button 'Create organization'
+    click_link 'new org'
+
+    expect(find_field('organization_email').value).to eq 'foo@bar.com'
+  end
+
+  scenario 'when adding a legal status' do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    fill_in 'organization_legal_status', with: 'non-profit'
+    click_button 'Create organization'
+    click_link 'new org'
+
+    expect(find_field('organization_legal_status').value).to eq 'non-profit'
+  end
+
+  scenario 'when adding a tax id' do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    fill_in 'organization_tax_id', with: '12-1234567'
+    click_button 'Create organization'
+    click_link 'new org'
+
+    expect(find_field('organization_tax_id').value).to eq '12-1234567'
+  end
+
+  scenario 'when adding a tax status' do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    fill_in 'organization_tax_status', with: '501(c)(3)'
+    click_button 'Create organization'
+    click_link 'new org'
+
+    expect(find_field('organization_tax_status').value).to eq '501(c)(3)'
+  end
+
+  scenario 'with date incorporated' do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    select_date(Date.today, from: 'organization_date_incorporated')
+    click_button 'Create organization'
+    click_link 'new org'
+
+    expect(find_field('organization_date_incorporated_1i').value).
+      to eq Date.today.year.to_s
+    expect(find_field('organization_date_incorporated_2i').value).
+      to eq Date.today.month.to_s
+    expect(find_field('organization_date_incorporated_3i').value).
+      to eq Date.today.day.to_s
+  end
+
+  scenario 'when adding multiple funding_sources', :js do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    select2('first', 'organization_funding_sources', multiple: true, tag: true)
+    select2('second', 'organization_funding_sources', multiple: true, tag: true)
+    click_button 'Create organization'
+
+    organization = Organization.find_by_name('new org')
+    expect(organization.funding_sources).to eq %w(first second)
+  end
+
+  scenario 'when adding multiple accreditations', :js do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    select2('first', 'organization_accreditations', multiple: true, tag: true)
+    select2('second', 'organization_accreditations', multiple: true, tag: true)
+    click_button 'Create organization'
+
+    organization = Organization.find_by_name('new org')
+    expect(organization.accreditations).to eq %w(first second)
+  end
+
+  scenario 'when adding multiple licenses', :js do
+    fill_in 'organization_name', with: 'new org'
+    fill_in 'organization_description', with: 'description for new org'
+    select2('first', 'organization_licenses', multiple: true, tag: true)
+    select2('second', 'organization_licenses', multiple: true, tag: true)
+    click_button 'Create organization'
+
+    organization = Organization.find_by_name('new org')
+    expect(organization.licenses).to eq %w(first second)
+  end
 end

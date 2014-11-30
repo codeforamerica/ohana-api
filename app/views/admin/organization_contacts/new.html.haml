@@ -1,0 +1,5 @@
+.content-box
+  %h1 Create a new contact
+
+= form_for [:admin, @organization, @contact], html: { method: :post, class: 'edit_entry' } do |f|
+  = render 'admin/contacts/forms/new_org_contact', f: f

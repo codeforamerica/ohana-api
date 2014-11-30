@@ -23,15 +23,13 @@ describe ApiApplication do
   end
 
   it do
-    is_expected.not_to allow_value('http://').
-    for(:main_url).
-    with_message('http:// is not a valid URL')
+    is_expected.not_to allow_value('http://').for(:main_url).
+      with_message('http:// is not a valid URL')
   end
 
   it do
-    is_expected.not_to allow_value('http://foo').
-    for(:callback_url).
-    with_message('http://foo is not a valid URL')
+    is_expected.not_to allow_value('http://foo').for(:callback_url).
+      with_message('http://foo is not a valid URL')
   end
 
   describe 'auto_strip_attributes' do

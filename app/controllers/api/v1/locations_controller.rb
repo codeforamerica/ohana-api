@@ -4,13 +4,14 @@ module Api
       include TokenValidator
       include PaginationHeaders
       include CustomErrors
+      include Cacheable
+
+      after_action :set_cache_control, only: [:index, :show]
 
       respond_to :xml
 
       def index
-        @locations = Location.includes(tables).
-                              page(params[:page]).per(params[:per_page]).
-                              order('created_at DESC')
+        @locations = Location.includes(tables).paginated_and_sorted(params)
 
         respond_to do |format|
           format.json { render json: @locations, each_serializer: LocationsSerializer, status: 200 }
@@ -21,9 +22,11 @@ module Api
       end
 
       def show
-        location = Location.find(params[:id])
-
-        expires_in ENV['EXPIRES_IN'].to_i.minutes, public: true
+        location = Location.includes(
+          contacts: :phones,
+          services: [:categories, :contacts, :phones, :regular_schedules,
+                     :holiday_schedules]
+          ).find(params[:id])
         render json: location, status: 200 if stale?(location, public: true)
       end
 
@@ -34,7 +37,8 @@ module Api
       end
 
       def create
-        location = Location.create!(params)
+        org = Organization.find(params[:organization_id])
+        location = org.locations.create!(params)
         response_hash = {
           id: location.id,
           name: location.name,
@@ -53,8 +57,12 @@ module Api
 
       def tables
         return [:organization, :address, :phones] unless request.format == Mime::XML
-        [:address, :contacts, :faxes, :mail_address, :organization, :phones,
-         :services]
+        [:address, :mail_address, :services, :organization,
+         { contacts: :phones, services: common_tables }] + common_tables
+      end
+
+      def common_tables
+        [:contacts, :phones, :regular_schedules, :holiday_schedules]
       end
     end
   end

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "GET 'search'" do
   context 'with valid keyword only' do
     before :all do
-      @locations = [create(:nearby_loc), create(:location)]
+      @locations = [create(:location), create(:nearby_loc)]
     end
 
     before :each do
@@ -29,7 +29,7 @@ describe "GET 'search'" do
     it 'is a paginated resource' do
       get api_search_index_url(keyword: 'jobs', per_page: 1, page: 2, subdomain: ENV['API_SUBDOMAIN'])
       expect(json.length).to eq(1)
-      expect(json.first['name']).to eq(@locations.last.name)
+      expect(json.first['name']).to eq('VRS Services')
     end
 
     it 'returns an X-Total-Count header' do
@@ -263,49 +263,6 @@ describe "GET 'search'" do
     end
   end
 
-  context 'with category parameter' do
-    before(:each) do
-      create(:nearby_loc)
-      create(:farmers_market_loc)
-      cat = create(:jobs)
-      create_service
-      @service.category_ids = [cat.id]
-      @service.save
-    end
-
-    it 'only returns locations whose category name matches the query' do
-      get api_search_index_url(category: 'Jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '1'
-      expect(json.first['name']).to eq('VRS Services')
-    end
-
-    it 'only finds exact spelling matches for the category' do
-      get api_search_index_url(category: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '0'
-    end
-  end
-
-  context 'with category and keyword parameters' do
-    before(:each) do
-      loc1 = create(:nearby_loc)
-      loc2 = create(:farmers_market_loc)
-      loc3 = create(:location)
-
-      cat = create(:jobs)
-      [loc1, loc2, loc3].each do |loc|
-        loc.services.create!(attributes_for(:service))
-        service = loc.services.first
-        service.category_ids = [cat.id]
-        service.save
-      end
-    end
-
-    it 'returns unique locations when keyword matches the query' do
-      get api_search_index_url(category: 'Jobs', keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
-      expect(headers['X-Total-Count']).to eq '3'
-    end
-  end
-
   context 'with org_name parameter' do
     before(:each) do
       create(:nearby_loc)
@@ -340,63 +297,63 @@ describe "GET 'search'" do
 
   context 'when email parameter contains custom domain' do
     it "finds domain name when url contains 'www'" do
-      create(:location, urls: ['http://www.smchsa.org'])
-      create(:nearby_loc, emails: ['info@cfa.org'])
+      create(:location, website: 'http://www.smchsa.org')
+      create(:nearby_loc, email: 'info@cfa.org')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds naked domain name' do
-      create(:location, urls: ['http://smchsa.com'])
-      create(:nearby_loc, emails: ['hello@cfa.com'])
+      create(:location, website: 'http://smchsa.com')
+      create(:nearby_loc, email: 'hello@cfa.com')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.com"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds long domain name in both url and email' do
-      create(:location, urls: ['http://smchsa.org'])
-      create(:nearby_loc, emails: ['info@smchsa.org'])
+      create(:location, website: 'http://smchsa.org')
+      create(:nearby_loc, email: 'info@smchsa.org')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '2'
     end
 
     it 'finds domain name when URL contains path' do
-      create(:location, urls: ['http://www.smchealth.org/mcah'])
-      create(:nearby_loc, emails: ['org@mcah.org'])
+      create(:location, website: 'http://www.smchealth.org/mcah')
+      create(:nearby_loc, email: 'org@mcah.org')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchealth.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains multiple paths' do
-      create(:location, urls: ['http://www.smchsa.org/portal/site/planning'])
-      create(:nearby_loc, emails: ['sanmateo@ca.us'])
+      create(:location, website: 'http://www.smchsa.org/portal/site/planning')
+      create(:nearby_loc, email: 'sanmateo@ca.us')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@smchsa.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains a dash' do
-      create(:location, urls: ['http://www.childsup-connect.ca.gov'])
-      create(:nearby_loc, emails: ['gov@childsup-connect.gov'])
+      create(:location, website: 'http://www.childsup-connect.ca.gov')
+      create(:nearby_loc, email: 'gov@childsup-connect.gov')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@childsup-connect.ca.gov"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'finds domain name when URL contains a number' do
-      create(:location, urls: ['http://www.prenatalto3.org'])
-      create(:nearby_loc, emails: ['info@rwc2020.org'])
+      create(:location, website: 'http://www.prenatalto3.org')
+      create(:nearby_loc, email: 'info@rwc2020.org')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@prenatalto3.org"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
-    it 'returns locations where either emails or admins fields match' do
-      create(:location, emails: ['moncef@smcgov.org'])
+    it 'returns locations where either email or admins fields match' do
+      create(:location, email: 'moncef@smcgov.org')
       create(:location_with_admin)
       get api_search_index_url(email: 'moncef@smcgov.org', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '2'
     end
 
     it 'does not return locations if email prefix is the only match' do
-      create(:location, emails: ['moncef@smcgov.org'])
+      create(:location, email: 'moncef@smcgov.org')
       create(:location_with_admin)
       get api_search_index_url(email: 'moncef@gmail.com', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '0'
@@ -405,37 +362,37 @@ describe "GET 'search'" do
 
   context 'when email parameter contains generic domain' do
     it "doesn't return results for gmail domain" do
-      create(:location, emails: ['info@gmail.com'])
+      create(:location, email: 'info@gmail.com')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@gmail.com"
       expect(headers['X-Total-Count']).to eq '0'
     end
 
     it "doesn't return results for aol domain" do
-      create(:location, emails: ['info@aol.com'])
+      create(:location, email: 'info@aol.com')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@aol.com"
       expect(headers['X-Total-Count']).to eq '0'
     end
 
     it "doesn't return results for hotmail domain" do
-      create(:location, emails: ['info@hotmail.com'])
+      create(:location, email: 'info@hotmail.com')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@hotmail.com"
       expect(headers['X-Total-Count']).to eq '0'
     end
 
     it "doesn't return results for yahoo domain" do
-      create(:location, emails: ['info@yahoo.com'])
+      create(:location, email: 'info@yahoo.com')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@yahoo.com"
       expect(headers['X-Total-Count']).to eq '0'
     end
 
     it "doesn't return results for sbcglobal domain" do
-      create(:location, emails: ['info@sbcglobal.net'])
+      create(:location, email: 'info@sbcglobal.net')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@sbcglobal.net"
       expect(headers['X-Total-Count']).to eq '0'
     end
 
     it 'does not return locations if domain is the only match' do
-      create(:location, emails: ['moncef@gmail.com'], admin_emails: ['moncef@gmail.com'])
+      create(:location, email: 'moncef@gmail.com', admin_emails: ['moncef@gmail.com'])
       get api_search_index_url(email: 'foo@gmail.com', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '0'
     end
@@ -446,8 +403,8 @@ describe "GET 'search'" do
       expect(headers['X-Total-Count']).to eq '1'
     end
 
-    it 'returns results if emails match parameter' do
-      create(:location, emails: ['info@sbcglobal.net'])
+    it 'returns results if email matches parameter' do
+      create(:location, email: 'info@sbcglobal.net')
       get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=info@sbcglobal.net"
       expect(headers['X-Total-Count']).to eq '1'
     end
@@ -455,7 +412,7 @@ describe "GET 'search'" do
 
   context 'when email parameter only contains generic domain name' do
     it "doesn't return results" do
-      create(:location, emails: ['info@gmail.com'])
+      create(:location, email: 'info@gmail.com')
       get api_search_index_url(email: 'gmail.com', subdomain: ENV['API_SUBDOMAIN'])
       expect(headers['X-Total-Count']).to eq '0'
     end
@@ -584,7 +541,7 @@ describe "GET 'search'" do
     end
   end
 
-  context 'with payments parameter' do
+  context 'with payment parameter' do
     before(:each) do
       create(:farmers_market_loc)
       create(:location,
@@ -593,13 +550,13 @@ describe "GET 'search'" do
     end
 
     it "only returns farmers' markets who accept SFMNP" do
-      get 'api/search?payments=SFMNP'
+      get 'api/search?payment=SFMNP'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'Belmont Farmers Market'
     end
   end
 
-  context 'with products parameter' do
+  context 'with product parameter' do
     before(:each) do
       create(:farmers_market_loc)
       create(:location,
@@ -608,13 +565,13 @@ describe "GET 'search'" do
     end
 
     it "only returns farmers' markets who sell Baked Goods" do
-      get 'api/search?products=baked%20goods'
+      get 'api/search?product=baked%20goods'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'No Cheese'
     end
 
     it 'finds a match when query is capitalized' do
-      get 'api/search?products=Baked%20Goods'
+      get 'api/search?product=Baked%20Goods'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'No Cheese'
     end

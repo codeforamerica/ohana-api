@@ -2,6 +2,7 @@ AllCops:
   Include:
     - 'Gemfile'
     - 'Rakefile'
+    - 'lib/tasks/*'
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
@@ -25,7 +26,7 @@ MethodLength:
   CountComments: false
   Max: 15
 
-Style/ClassLength:
+Metrics/ClassLength:
   CountComments: false
   Max: 101
 
@@ -34,3 +35,11 @@ Style/GuardClause:
 
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Rails/ScopeArgs:
+  Enabled: false
+
+Style/AndOr:
+  # Whether `and` and `or` are banned only in conditionals (conditionals)
+  # or completely (always).
+  EnforcedStyle: conditionals

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Updating a location's address" do
+feature 'Add a street address' do
   before(:each) do
     @location = create(:no_address)
     login_super_admin
@@ -8,23 +8,19 @@ feature "Updating a location's address" do
   end
 
   scenario 'adding a new street address with valid values', :js do
-    add_street_address(street: '123', city: 'Vienn', state: 'VA', zip: '12345')
+    add_street_address(street_1: '123', city: 'Vienn', state_province: 'VA',
+                       postal_code: '12345')
     visit '/admin/locations/no-address'
 
-    expect(find_field('location_address_attributes_street').value).to eq '123'
+    expect(find_field('location_address_attributes_street_1').value).to eq '123'
     expect(find_field('location_address_attributes_city').value).to eq 'Vienn'
-    expect(find_field('location_address_attributes_state').value).to eq 'VA'
-    expect(find_field('location_address_attributes_zip').value).to eq '12345'
+    expect(find_field('location_address_attributes_state_province').value).to eq 'VA'
+    expect(find_field('location_address_attributes_postal_code').value).to eq '12345'
+    expect(@location.reload.address.country_code).to eq 'US'
 
     remove_street_address
     visit '/admin/locations/no-address'
     expect(page).to have_link 'Add a street address'
-  end
-
-  scenario 'when leaving location without address or mail address', :js do
-    remove_mail_address
-    expect(page).
-      to have_content 'A location must have at least one address type'
   end
 end
 
@@ -43,38 +39,58 @@ feature "Updating a location's address with invalid values" do
   end
 
   scenario 'with an empty street' do
-    update_street_address(street: '', city: 'fair', state: 'VA', zip: '12345')
+    update_street_address(street_1: '', city: 'fair', state_province: 'VA',
+                          postal_code: '12345')
     click_button 'Save changes'
-    expect(page).to have_content "street can't be blank for Address"
+    expect(page).to have_content "street 1 can't be blank"
   end
 
   scenario 'with an empty city' do
-    update_street_address(street: '123', city: '', state: 'VA', zip: '12345')
+    update_street_address(street_1: '123', city: '', state_province: 'VA',
+                          postal_code: '12345')
     click_button 'Save changes'
-    expect(page).to have_content "city can't be blank for Address"
+    expect(page).to have_content "city can't be blank"
   end
 
   scenario 'with an empty state' do
-    update_street_address(street: '123', city: 'fair', state: '', zip: '12345')
+    update_street_address(street_1: '123', city: 'fair', state_province: '',
+                          postal_code: '12345')
     click_button 'Save changes'
-    expect(page).to have_content "state can't be blank for Address"
+    expect(page).to have_content "State can't be blank"
   end
 
   scenario 'with an empty zip' do
-    update_street_address(street: '123', city: 'Belmont', state: 'CA', zip: '')
+    update_street_address(street_1: '123', city: 'Belmont', state_province: 'CA',
+                          postal_code: '')
     click_button 'Save changes'
-    expect(page).to have_content "zip can't be blank for Address"
+    expect(page).to have_content "postal code can't be blank"
   end
 
   scenario 'with an invalid state' do
-    update_street_address(street: '123', city: 'Par', state: 'V', zip: '12345')
+    update_street_address(street_1: '123', city: 'Par', state_province: 'V',
+                          postal_code: '12345')
     click_button 'Save changes'
-    expect(page).to have_content 'valid 2-letter state abbreviation'
+    expect(page).to have_content 'too short'
   end
 
   scenario 'with an invalid zip' do
-    update_street_address(street: '123', city: 'Ald', state: 'VA', zip: '1234')
+    update_street_address(street_1: '123', city: 'Ald', state_province: 'VA',
+                          postal_code: '1234')
     click_button 'Save changes'
     expect(page).to have_content 'valid ZIP code'
+  end
+end
+
+feature 'Remove a street address' do
+  before(:each) do
+    @location = create(:location)
+    login_super_admin
+    visit '/admin/locations/vrs-services'
+  end
+
+  scenario 'from a non-virtual location', :js do
+    remove_street_address
+    expect(page).
+      to have_content "Unless it's virtual, a location must have an address."
   end
 end

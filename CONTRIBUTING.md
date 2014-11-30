@@ -79,3 +79,34 @@ plugin and set it to [Trim On Save][trim_on_save]._
 [trailing_spaces]: https://github.com/SublimeText/TrailingSpaces
 [trim_on_save]: https://github.com/SublimeText/TrailingSpaces#trim-on-save
 [string_quoting_style]: https://github.com/bbatsov/ruby-style-guide#consistent-string-literals
+
+### Updating the sample data
+This mainly applies to maintainers of this project.
+
+1. Pull the latest code and run `script/bootstrap`.
+2. Create a new branch.
+3. [Sign in](http://localhost:8080/admin/sign_in) to the admin interface as a
+[super admin](https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L42-43).
+4. Make changes.
+5. Export the DB: `script/export`
+6. Commit the new `ohana_api_development.dump`, push, and submit a PR.
+
+#### Pushing updated sample data to the demo and test apps on Heroku
+If you have access to the `ohana-api-demo` and `ohana-api-test` Heroku apps,
+you can restore their DBs by following these steps:
+
+1. Upload `ohana_api_development.dump` somewhere on the web, such as Amazon S3, and make it readable by everyone.
+
+2. Restore the DB on Heroku.
+
+For the demo API:
+```
+heroku pgbackups:restore HEROKU_POSTGRESQL_TEAL_URL 'url_to_ohana_api_development.dump' -a ohana-api-demo --confirm ohana-api-demo
+```
+
+For the test API:
+```
+heroku pgbackups:restore HEROKU_POSTGRESQL_COPPER_URL 'url_to_ohana_api_development.dump' -a ohana-api-test --confirm ohana-api-test
+```
+
+Replace `url_to_ohana_api_development.dump` with the actual URL to the dump file.

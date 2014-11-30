@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    = f.label :legal_status, 'Legal Status'
+    %span.desc
+      The conditions this organization is operating under (e.g. non-profit, private corporation or a government organization).
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.text_field :legal_status, required: false, maxlength: 255, class: 'form-control'

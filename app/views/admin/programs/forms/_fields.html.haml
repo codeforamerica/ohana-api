@@ -1,0 +1,10 @@
+- if @program.errors.any?
+  .alert.alert-danger
+    %h2 #{pluralize(@program.errors.count, 'error')} prohibited this program from being saved:
+    %ul
+      - @program.errors.full_messages.each do |msg|
+        %li= msg
+
+= render 'admin/shared/forms/choose_org', f: f
+= render 'admin/shared/forms/name', f: f
+= render 'admin/shared/forms/alternate_name', f: f

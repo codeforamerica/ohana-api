@@ -90,12 +90,17 @@ SET default_with_oids = false;
 CREATE TABLE addresses (
     id integer NOT NULL,
     location_id integer,
-    street text NOT NULL,
-    city text NOT NULL,
-    state text NOT NULL,
-    zip text NOT NULL,
+    street text,
+    city text,
+    state text,
+    zip text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    country_code character varying(255),
+    street_1 character varying(255),
+    street_2 character varying(255),
+    postal_code character varying(255),
+    state_province character varying(255)
 );
 
 
@@ -249,15 +254,18 @@ CREATE TABLE categories_services (
 
 CREATE TABLE contacts (
     id integer NOT NULL,
-    location_id integer NOT NULL,
+    location_id integer,
     name text NOT NULL,
-    title text NOT NULL,
+    title text,
     email text,
     fax text,
     phone text,
     extension text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    organization_id integer,
+    service_id integer,
+    department character varying(255)
 );
 
 
@@ -346,6 +354,41 @@ ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
 
 
 --
+-- Name: holiday_schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE holiday_schedules (
+    id integer NOT NULL,
+    location_id integer,
+    service_id integer,
+    closed boolean NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    opens_at time without time zone,
+    closes_at time without time zone
+);
+
+
+--
+-- Name: holiday_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE holiday_schedules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: holiday_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE holiday_schedules_id_seq OWNED BY holiday_schedules.id;
+
+
+--
 -- Name: locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -373,7 +416,12 @@ CREATE TABLE locations (
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    tsv_body tsvector
+    tsv_body tsvector,
+    alternate_name character varying(255),
+    virtual boolean DEFAULT false,
+    active boolean DEFAULT true,
+    email character varying(255),
+    website character varying(255)
 );
 
 
@@ -404,12 +452,17 @@ CREATE TABLE mail_addresses (
     id integer NOT NULL,
     location_id integer,
     attention text,
-    street text NOT NULL,
-    city text NOT NULL,
-    state text NOT NULL,
-    zip text NOT NULL,
+    street text,
+    city text,
+    state text,
+    zip text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    country_code character varying(255),
+    street_1 character varying(255),
+    street_2 character varying(255),
+    postal_code character varying(255),
+    state_province character varying(255)
 );
 
 
@@ -481,14 +534,18 @@ ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
 
 CREATE TABLE phones (
     id integer NOT NULL,
-    location_id integer NOT NULL,
+    location_id integer,
     number text NOT NULL,
     department text,
     extension text,
     number_type text,
     vanity_number text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    organization_id integer,
+    service_id integer,
+    contact_id integer,
+    country_prefix character varying(255)
 );
 
 
@@ -509,6 +566,72 @@ CREATE SEQUENCE phones_id_seq
 --
 
 ALTER SEQUENCE phones_id_seq OWNED BY phones.id;
+
+
+--
+-- Name: programs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE programs (
+    id integer NOT NULL,
+    organization_id integer,
+    name character varying(255),
+    alternate_name character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: programs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE programs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: programs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
+
+
+--
+-- Name: regular_schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE regular_schedules (
+    id integer NOT NULL,
+    weekday integer,
+    opens_at time without time zone,
+    closes_at time without time zone,
+    service_id integer,
+    location_id integer
+);
+
+
+--
+-- Name: regular_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE regular_schedules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: regular_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE regular_schedules_id_seq OWNED BY regular_schedules.id;
 
 
 --
@@ -533,14 +656,22 @@ CREATE TABLE services (
     fees text,
     how_to_apply text,
     name text,
-    short_desc text,
     urls text,
     wait text,
     funding_sources text,
     service_areas text[] DEFAULT '{}'::text[],
     keywords text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    accepted_payments character varying(255)[] DEFAULT '{}'::character varying[],
+    alternate_name character varying(255),
+    email character varying(255),
+    languages character varying(255)[] DEFAULT '{}'::character varying[],
+    required_documents character varying(255)[] DEFAULT '{}'::character varying[],
+    status character varying(255) DEFAULT 'active'::character varying,
+    website character varying(255),
+    wait_time character varying(255),
+    program_id integer
 );
 
 
@@ -661,6 +792,13 @@ ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY holiday_schedules ALTER COLUMN id SET DEFAULT nextval('holiday_schedules_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq'::regclass);
 
 
@@ -683,6 +821,20 @@ ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organization
 --
 
 ALTER TABLE ONLY phones ALTER COLUMN id SET DEFAULT nextval('phones_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY programs ALTER COLUMN id SET DEFAULT nextval('programs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY regular_schedules ALTER COLUMN id SET DEFAULT nextval('regular_schedules_id_seq'::regclass);
 
 
 --
@@ -756,6 +908,14 @@ ALTER TABLE ONLY friendly_id_slugs
 
 
 --
+-- Name: holiday_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY holiday_schedules
+    ADD CONSTRAINT holiday_schedules_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -785,6 +945,22 @@ ALTER TABLE ONLY organizations
 
 ALTER TABLE ONLY phones
     ADD CONSTRAINT phones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY programs
+    ADD CONSTRAINT programs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: regular_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY regular_schedules
+    ADD CONSTRAINT regular_schedules_pkey PRIMARY KEY (id);
 
 
 --
@@ -888,6 +1064,20 @@ CREATE INDEX index_contacts_on_location_id ON contacts USING btree (location_id)
 
 
 --
+-- Name: index_contacts_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_contacts_on_organization_id ON contacts USING btree (organization_id);
+
+
+--
+-- Name: index_contacts_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_contacts_on_service_id ON contacts USING btree (service_id);
+
+
+--
 -- Name: index_faxes_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -913,6 +1103,27 @@ CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING 
 --
 
 CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
+
+
+--
+-- Name: index_holiday_schedules_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_holiday_schedules_on_location_id ON holiday_schedules USING btree (location_id);
+
+
+--
+-- Name: index_holiday_schedules_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_holiday_schedules_on_service_id ON holiday_schedules USING btree (service_id);
+
+
+--
+-- Name: index_locations_on_active; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_locations_on_active ON locations USING btree (active);
 
 
 --
@@ -965,6 +1176,13 @@ CREATE UNIQUE INDEX index_organizations_on_slug ON organizations USING btree (sl
 
 
 --
+-- Name: index_phones_on_contact_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_phones_on_contact_id ON phones USING btree (contact_id);
+
+
+--
 -- Name: index_phones_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -972,10 +1190,80 @@ CREATE INDEX index_phones_on_location_id ON phones USING btree (location_id);
 
 
 --
+-- Name: index_phones_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_phones_on_organization_id ON phones USING btree (organization_id);
+
+
+--
+-- Name: index_phones_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_phones_on_service_id ON phones USING btree (service_id);
+
+
+--
+-- Name: index_programs_on_organization_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_programs_on_organization_id ON programs USING btree (organization_id);
+
+
+--
+-- Name: index_regular_schedules_on_closes_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_closes_at ON regular_schedules USING btree (closes_at);
+
+
+--
+-- Name: index_regular_schedules_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_location_id ON regular_schedules USING btree (location_id);
+
+
+--
+-- Name: index_regular_schedules_on_opens_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_opens_at ON regular_schedules USING btree (opens_at);
+
+
+--
+-- Name: index_regular_schedules_on_service_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_service_id ON regular_schedules USING btree (service_id);
+
+
+--
+-- Name: index_regular_schedules_on_weekday; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_regular_schedules_on_weekday ON regular_schedules USING btree (weekday);
+
+
+--
+-- Name: index_services_on_languages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_services_on_languages ON services USING gin (languages);
+
+
+--
 -- Name: index_services_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_services_on_location_id ON services USING btree (location_id);
+
+
+--
+-- Name: index_services_on_program_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_services_on_program_id ON services USING btree (program_id);
 
 
 --
@@ -1011,6 +1299,13 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 --
 
 CREATE INDEX locations_admin_emails ON locations USING gin (to_tsvector('english'::regconfig, admin_emails));
+
+
+--
+-- Name: locations_email_with_varchar_pattern_ops; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX locations_email_with_varchar_pattern_ops ON locations USING btree (email varchar_pattern_ops);
 
 
 --
@@ -1060,6 +1355,13 @@ CREATE INDEX locations_products ON locations USING gin (to_tsvector('english'::r
 --
 
 CREATE INDEX locations_urls ON locations USING gin (to_tsvector('english'::regconfig, urls));
+
+
+--
+-- Name: locations_website_with_varchar_pattern_ops; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX locations_website_with_varchar_pattern_ops ON locations USING btree (website varchar_pattern_ops);
 
 
 --
@@ -1134,4 +1436,60 @@ INSERT INTO schema_migrations (version) VALUES ('20140630171418');
 INSERT INTO schema_migrations (version) VALUES ('20141120172313');
 
 INSERT INTO schema_migrations (version) VALUES ('20141120210007');
+
+INSERT INTO schema_migrations (version) VALUES ('20141122030534');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125195452');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125195559');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125201017');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125202506');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125205056');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125210027');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125210144');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125210253');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125210416');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125213424');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125213525');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125213856');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125213938');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125214746');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125215019');
+
+INSERT INTO schema_migrations (version) VALUES ('20141125215624');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126014531');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126015110');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126015321');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126015551');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126015654');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126015749');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126020150');
+
+INSERT INTO schema_migrations (version) VALUES ('20141126023421');
+
+INSERT INTO schema_migrations (version) VALUES ('20141127025419');
+
+INSERT INTO schema_migrations (version) VALUES ('20141127025633');
+
+INSERT INTO schema_migrations (version) VALUES ('20141127025735');
 

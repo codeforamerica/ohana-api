@@ -1,0 +1,6 @@
+.inst-box.documents
+  %header
+    %strong
+      The documents required to receive this service.
+  = field_set_tag do
+    = f.select :required_documents, SETTINGS.try(:[], :required_documents), {}, multiple: true, class: 'form-control'

@@ -1,18 +1,27 @@
-%h3 Ohana API SMC Developers
+%h3= t('titles.developer', brand: t('titles.brand'))
 
 - if user_signed_in?
   %p
-    Welcome back #{@user.name}! #{link_to 'Create a new application', new_api_application_path} or #{link_to 'view', api_applications_path} your existing ones.
+    Welcome back, #{@user.name}!
+    #{link_to 'Register a new application', new_api_application_path} or
+    #{link_to 'view', api_applications_path} your existing ones.
 - else
   %p
-    Welcome to the Ohana API SMC developer portal!
+    Welcome to the #{t('titles.brand')} developer portal!
   %p
-    This particular instance of the API exposes information about various
-    organizations in San Mateo County. Most of the organizations provide
-    human services, but the API also includes farmers' markets, museums, parks,
-    libraries, hobby clubs, educators, government services, and other types of
-    organizations.
+    This particular instance of the Ohana API exposes information about various
+    organizations in #{t('admin.api_location')}. Most of the organizations
+    provide human services, but the API also includes farmers' markets, museums,
+    parks, libraries, hobby clubs, educators, government services, and other
+    types of organizations.
   %p
-    We want you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.). Read the #{link_to 'documentation', docs_url} to learn more.
+    We'd love for you to build something that will connect underprivileged
+    residents with the help they need (food, shelter, medical care, etc.).
   %p
-    #{link_to 'Sign up', new_user_registration_path} for a developer account, or #{link_to 'sign in', new_user_session_path}.
+    Read the #{link_to 'documentation', 'http://codeforamerica.github.io/ohana-api-docs/'} to learn more.
+    If you're a Ruby developer, we encourage you to use the official
+    #{link_to 'Ohanakapa', 'https://github.com/codeforamerica/ohanakapa-ruby'}
+    Ruby library.
+  %p
+    #{link_to 'Sign up', new_user_registration_path} for a developer account,
+    or #{link_to 'sign in', new_user_session_path}.

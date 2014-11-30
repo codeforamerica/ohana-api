@@ -20,6 +20,16 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    attributes:
+      address:
+        state_province: 'State'
+      mail_address:
+        state_province: 'State'
+  admin:
+    api_location: 'San Mateo County'
+    not_authorized: 'You are not authorized to perform this action.'
+
   enumerize:
     location:
       accessibility:
@@ -46,29 +56,40 @@ en:
         other: "Other"
         parks: "Parks"
         sports: "Sports"
+    phone:
+      number_type:
+        fax: "Fax"
+        hotline: "Hotline"
+        voice: "Voice"
+        tty: "TTY"
 
   errors:
     messages:
       blank_for_address: "can't be blank for Address"
       blank_for_category: "can't be blank for Category"
       blank_for_contact: "can't be blank for Contact"
-      blank_for_fax: "can't be blank for Fax"
+      blank_for_hs: "can't be blank for Holiday Schedule"
+      blank_for_hs_open: "can't be blank for Holiday Schedule when open on that day"
       blank_for_location: "can't be blank for Location"
       blank_for_mail_address: "can't be blank for Mail Address"
       blank_for_org: "can't be blank for Organization"
       blank_for_phone: "can't be blank for Phone"
+      blank_for_program: "can't be blank for Program"
+      blank_for_rs: "can't be blank for Regular Schedule"
       blank_for_service: "can't be blank for Service"
       invalid_date: 'is not a valid date'
       invalid_email: 'is not a valid email'
       invalid_fax: 'is not a valid US fax number'
-      invalid_phone: 'is not a valid US phone number'
-      invalid_state: 'Please enter a valid 2-letter state abbreviation'
+      invalid_phone: 'is not a valid US phone or fax number'
+      invalid_service_area: 'is not a valid service area'
+      invalid_state_province: 'Please enter a valid 2-letter state abbreviation'
       invalid_url: 'is not a valid URL'
+      invalid_weekday: 'is not a valid weekday'
       invalid_zip: 'is not a valid ZIP code'
-      no_address: 'A location must have at least one address type.'
+      no_address: "Unless it's virtual, a location must have an address."
       not_an_array: 'is not an Array.'
 
   titles:
-    brand: "SMC Connect"
-    main: "%{brand} Admin"
-    welcome: "Welcome to %{brand} Admin!"
+    brand: "SMC-Connect"
+    admin: "%{brand} Admin"
+    developer: "%{brand} Developers"

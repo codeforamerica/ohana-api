@@ -5,7 +5,7 @@ describe 'GET /locations/:location_id/contacts' do
     before :all do
       @loc = create(:location)
       @first_contact = @loc.contacts.
-        create!(attributes_for(:contact_with_extra_whitespace))
+                       create!(attributes_for(:contact_with_extra_whitespace))
     end
 
     before :each do
@@ -36,16 +36,12 @@ describe 'GET /locations/:location_id/contacts' do
       expect(json.first['email']).to eq(@first_contact.email)
     end
 
-    it 'includes the fax attribute in the serialization' do
-      expect(json.first['fax']).to eq(@first_contact.fax)
+    it 'includes the department attribute in the serialization' do
+      expect(json.first['department']).to eq(@first_contact.department)
     end
 
-    it 'includes the phone attribute in the serialization' do
-      expect(json.first['phone']).to eq(@first_contact.phone)
-    end
-
-    it 'includes the extension attribute in the serialization' do
-      expect(json.first['extension']).to eq(@first_contact.extension)
+    it 'includes the phones attribute in the serialization' do
+      expect(json.first['phones']).to eq(@first_contact.phones)
     end
   end
 

@@ -3,21 +3,15 @@
 FactoryGirl.define do
   factory :phone do
     number '650 851-1210'
-    department 'Information'
-    extension 'x2000'
-    vanity_number '800-FLY-AWAY'
-  end
-
-  factory :phone_with_missing_fields, class: Phone do
-    number '650 851-1210'
-    department 'Information'
+    number_type 'voice'
+    extension '200'
   end
 
   factory :phone_with_extra_whitespace, class: Phone do
+    country_prefix '33 '
     number '650  851-1210 '
     department ' Information '
-    extension 'x2000 '
+    extension '2000 '
     vanity_number ' 800-FLY-AWAY '
-    number_type ' TTY '
   end
 end

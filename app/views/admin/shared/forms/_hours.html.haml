@@ -1,0 +1,7 @@
+.inst-box.hours
+  %header
+    %strong
+      Hours of operation
+  = f.fields_for :regular_schedules do |builder|
+    = render 'admin/locations/forms/regular_schedule_fields', f: builder
+  = link_to_add_fields 'Add hours of operation', f, :regular_schedules

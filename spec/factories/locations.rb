@@ -18,19 +18,18 @@ FactoryGirl.define do
 
     factory :location_for_org_admin do
       name 'Samaritan House'
-      urls ['http://samaritanhouse.com']
+      website 'http://samaritanhouse.com'
       association :organization, factory: :far_org
     end
 
     factory :loc_with_extra_whitespace do
       description ' Provides job training'
-      hours ' Monday-Friday 10am-3pm '
       name 'VRS   Services '
       short_desc 'Provides job training. '
       transportation ' BART stop 1 block away.'
-      urls [' http://samaritanhouse.com  ', 'http://samaritanhouse.com']
+      website ' http://samaritanhouse.com  '
       admin_emails [' foo@bar.com  ', 'foo@bar.com']
-      emails [' bar@foo.com  ', 'bar@foo.com']
+      email ' bar@foo.com  '
       languages [' English', 'Vietnamese ']
     end
   end
@@ -52,7 +51,7 @@ FactoryGirl.define do
     name 'No Address'
     description 'no coordinates'
     kind :other
-    association :mail_address, factory: :po_box
+    virtual true
     association :organization, factory: :no_address_org
   end
 

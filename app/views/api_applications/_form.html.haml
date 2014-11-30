@@ -1,7 +1,7 @@
 = form_for @api_application do |f|
   - if @api_application.errors.any?
     .alert.alert-danger
-      %h2= "#{pluralize(@api_application.errors.count, 'error')} prohibited this application from being saved:"
+      %h2 #{pluralize(@api_application.errors.count, 'error')} prohibited this application from being saved:
       %ul
         - @api_application.errors.full_messages.each do |msg|
           %li= msg

@@ -4,14 +4,6 @@
       Service Areas
     %p.desc
       What city or county does the location serve?
-      %em
-        Can either be city names or county names. Each word must be capitalized.
 
-  - if @service.service_areas.present?
-    - @service.service_areas.each_with_index do |service_area, i|
-      = field_set_tag do
-        = text_field_tag 'service[service_areas][]', service_area, class: 'form-control', id: "service_service_areas_#{i}"
-        = link_to 'Delete this service area permanently', '#', class: 'btn btn-danger delete_attribute'
-        %hr
-  = link_to_add_array_fields 'Add a new service area', :services, :service_area
-
+  = field_set_tag do
+    = f.select :service_areas, SETTINGS.try(:[], :valid_service_areas), {}, multiple: true, class: 'form-control'

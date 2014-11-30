@@ -41,8 +41,4 @@ describe 'GET /categories' do
   it 'includes the parent_id attribute in the serialization' do
     expect(json.first['parent_id']).to eq(@food.parent_id)
   end
-
-  it 'includes the slug attribute in the serialization' do
-    expect(json.first['slug']).to eq(@food.slug)
-  end
 end

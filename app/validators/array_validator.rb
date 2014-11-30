@@ -1,7 +1,7 @@
 # This custom validator allows you to validate each element in an Array field.
 # Source: https://gist.github.com/ssimeonov/6519423
 # See app/models/location.rb for usage. Here's an example:
-# validates :emails, array: {
+# validates :admin_emails, array: {
 #                      format: { with: /some regex/,
 #                                 message: "Please enter a valid email" } }
 class ArrayValidator < ActiveModel::EachValidator
@@ -46,9 +46,7 @@ class ArrayValidator < ActiveModel::EachValidator
   def create_validator(key, args)
     opts = { attributes: attributes }
     opts.merge!(args) if args.is_a?(Hash)
-    validator_class(key).new(opts).tap do |validator|
-      validator.check_validity!
-    end
+    validator_class(key).new(opts).tap(&:check_validity!)
   end
 
   def validator_class(key)
