@@ -52,10 +52,10 @@ _Note: Installation and preparation can take several minutes to complete!_
 ### Set up the environment variables & customizable settings
 
 Inside the `config` folder, you will find a file named `application.example.yml`.
-Copy its contents to a new file called `application.yml` and read through the instructions carefully.
+Copy its contents to a new file called `application.yml`.
 
 Inside the `config` folder, you will also find a file called `settings.yml`.
-In that file, there are 4 variables you can customize. They are already
+In that file, there are various settings you can customize. They are already
 properly configured for San Mateo County data, but if you wish to make changes,
 please read through the instructions in that file carefully.
 
@@ -67,9 +67,9 @@ Start the app locally on port 8080:
 
 ### Verify the app is returning JSON
 
-[http://localhost:8080/api/locations](http://localhost:8080/api/locations)
+[http://api.lvh.me:8080/locations](http://api.lvh.me:8080/locations)
 
-[http://localhost:8080/api/search?keyword=food](http://localhost:8080/api/search?keyword=food)
+[http://api.lvh.me:8080/search?keyword=food](http://api.lvh.me:8080/search?keyword=food)
 
 We recommend the [JSONView][jsonview] Google Chrome extension for formatting
 the JSON response so it is easier to read in the browser.
@@ -78,9 +78,9 @@ the JSON response so it is easier to read in the browser.
 
 ### User and Admin authentication (for the developer portal and admin interface)
 
-To access the developer portal, visit [http://localhost:8080/](http://localhost:8080/).
+To access the developer portal, visit [http://developer.lvh.me:8080/](http://developer.lvh.me:8080/).
 
-To access the admin interface, visit [http://localhost:8080/admin/](http://localhost:8080/admin/).
+To access the admin interface, visit [http://admin.lvh.me:8080/](http://admin.lvh.me:8080/).
 
 The app automatically sets up users and admins you can sign in with.
 Their username and password are stored in [db/seeds.rb][seeds].

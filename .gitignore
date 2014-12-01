@@ -52,7 +52,6 @@ dump.rdb
 
 script/backup_mongo
 script/import_to_staging
-script/restore
 
 # Zeus
 .zeus.sock

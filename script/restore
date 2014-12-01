@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+echo "===> Restoring the DB from test data..."
+heroku pgbackups:capture --expire -a smc-ohana-api-test
+
+curl -o data/latest.dump `heroku pgbackups:url -a smc-ohana-api-test`
+
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -d ohana_api_smc_development data/latest.dump
+echo "===> Done restoring the DB."
