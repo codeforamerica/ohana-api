@@ -27,6 +27,13 @@ feature 'Admin Home page' do
         expect(page).not_to have_link 'Locations', href: admin_locations_path
       end
     end
+
+    it 'uses the admin layout' do
+      within '.navbar' do
+        expect(page).
+          to have_content I18n.t('titles.admin', brand: I18n.t('titles.brand'))
+      end
+    end
   end
 
   context 'when signed in' do

@@ -57,12 +57,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def layout_by_resource
-    if devise_controller? && resource_name == :user
-      'application'
-    elsif devise_controller? && resource_name == :admin
-      'admin'
-    else
-      'application'
-    end
+    return 'application' unless devise_controller? && resource_name == :admin
+    'admin'
   end
 end
