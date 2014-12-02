@@ -295,7 +295,7 @@ DEPENDENCIES
   geocoder
   haml-lint
   haml-rails (~> 0.5.3)
-  jquery-rails
+  jquery-rails (~> 3.0)
   kaminari
   kgio
   listen (~> 1.0)
