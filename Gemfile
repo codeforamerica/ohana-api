@@ -89,5 +89,5 @@ group :development do
   gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'listen', '~> 1.0'
+  gem 'spring-watcher-listen'
 end
