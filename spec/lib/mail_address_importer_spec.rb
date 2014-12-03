@@ -131,12 +131,12 @@ describe MailAddressImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a mail_address' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_mail_address.csv')
-          MailAddressImporter.import_file(path)
+          MailAddressImporter.check_and_import_file(path)
         end.to change(MailAddress, :count)
       end
     end
@@ -145,8 +145,26 @@ describe MailAddressImporter do
       it 'does not create a mail_address' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_mail_address.csv')
-          MailAddressImporter.import_file(path)
+          MailAddressImporter.check_and_import_file(path)
         end.not_to change(MailAddress, :count)
+      end
+    end
+
+    context 'when file is missing but not required' do
+      it 'does not raise an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/mail_addresses.csv')
+          MailAddressImporter.check_and_import_file(path)
+        end.not_to raise_error
+      end
+    end
+
+    context 'when file is empty but not required' do
+      it 'does not raise an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/mail_addresses.csv')
+          MailAddressImporter.check_and_import_file(path)
+        end.not_to raise_error
       end
     end
   end

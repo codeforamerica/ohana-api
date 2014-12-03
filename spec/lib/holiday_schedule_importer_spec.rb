@@ -184,12 +184,12 @@ describe HolidayScheduleImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a holiday_schedule' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv')
-          HolidayScheduleImporter.import_file(path)
+          HolidayScheduleImporter.check_and_import_file(path)
         end.to change(HolidaySchedule, :count)
       end
     end
@@ -198,8 +198,26 @@ describe HolidayScheduleImporter do
       it 'does not create a holiday_schedule' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv')
-          HolidayScheduleImporter.import_file(path)
+          HolidayScheduleImporter.check_and_import_file(path)
         end.not_to change(HolidaySchedule, :count)
+      end
+    end
+
+    context 'when file is missing but required' do
+      it 'raises an error' do
+        path = Rails.root.join('spec/support/data/holiday_schedules.csv')
+        expect do
+          HolidayScheduleImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when file is empty and required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/holiday_schedules.csv')
+          HolidayScheduleImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
       end
     end
   end

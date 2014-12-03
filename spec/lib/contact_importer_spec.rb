@@ -160,12 +160,12 @@ describe ContactImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a contact' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_location_contact.csv')
-          ContactImporter.import_file(path)
+          ContactImporter.check_and_import_file(path)
         end.to change(Contact, :count)
       end
     end
@@ -174,8 +174,26 @@ describe ContactImporter do
       it 'does not create a contact' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_contact.csv')
-          ContactImporter.import_file(path)
+          ContactImporter.check_and_import_file(path)
         end.not_to change(Contact, :count)
+      end
+    end
+
+    context 'when file is missing but not required' do
+      it 'does not raise an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/contacts.csv')
+          ContactImporter.check_and_import_file(path)
+        end.not_to raise_error
+      end
+    end
+
+    context 'when file is empty but not required' do
+      it 'does not raise an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/contacts.csv')
+          ContactImporter.check_and_import_file(path)
+        end.not_to raise_error
       end
     end
   end

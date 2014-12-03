@@ -159,13 +159,13 @@ describe LocationImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a location' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_location.csv')
           address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
-          LocationImporter.import_file(path, address_path)
+          LocationImporter.check_and_import_file(path, address_path)
         end.to change(Location, :count)
       end
     end
@@ -175,7 +175,7 @@ describe LocationImporter do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_location.csv')
           address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
-          LocationImporter.import_file(path, address_path)
+          LocationImporter.check_and_import_file(path, address_path)
         end.not_to change(Location, :count)
       end
     end
@@ -185,8 +185,74 @@ describe LocationImporter do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_location.csv')
           address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
-          LocationImporter.import_file(path, address_path)
+          LocationImporter.check_and_import_file(path, address_path)
         end.not_to change(Location, :count)
+      end
+    end
+
+    context 'when address is missing' do
+      it 'raises an error' do
+        path = Rails.root.join('spec/support/fixtures/valid_location.csv')
+        address_path = Rails.root.join('spec/support/data/addresses.csv')
+
+        expect do
+          LocationImporter.check_and_import_file(path, address_path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when address is empty' do
+      it 'raises an error' do
+        path = Rails.root.join('spec/support/fixtures/valid_location.csv')
+        address_path = Rails.root.join('spec/support/fixtures/addresses.csv')
+
+        expect do
+          LocationImporter.check_and_import_file(path, address_path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when location is missing' do
+      it 'raises an error' do
+        path = Rails.root.join('spec/support/data/locations.csv')
+        address_path = Rails.root.join('spec/support/data/valid_address.csv')
+
+        expect do
+          LocationImporter.check_and_import_file(path, address_path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when location is empty' do
+      it 'raises an error' do
+        path = Rails.root.join('spec/support/fixtures/locations.csv')
+        address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
+
+        expect do
+          LocationImporter.check_and_import_file(path, address_path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when both are missing' do
+      it 'raises an error' do
+        path = Rails.root.join('spec/support/data/locations.csv')
+        address_path = Rails.root.join('spec/support/data/addresses.csv')
+
+        expect do
+          LocationImporter.check_and_import_file(path, address_path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when both are empty' do
+      it 'raises an error' do
+        path = Rails.root.join('spec/support/fixtures/locations.csv')
+        address_path = Rails.root.join('spec/support/fixtures/addresses.csv')
+
+        expect do
+          LocationImporter.check_and_import_file(path, address_path)
+        end.to raise_error(/missing or empty/)
       end
     end
   end

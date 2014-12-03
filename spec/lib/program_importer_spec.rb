@@ -126,12 +126,12 @@ describe ProgramImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a program' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_program.csv')
-          ProgramImporter.import_file(path)
+          ProgramImporter.check_and_import_file(path)
         end.to change(Program, :count)
       end
     end
@@ -140,8 +140,26 @@ describe ProgramImporter do
       it 'does not create a program' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_program.csv')
-          ProgramImporter.import_file(path)
+          ProgramImporter.check_and_import_file(path)
         end.not_to change(Program, :count)
+      end
+    end
+
+    context 'when file is missing but not required' do
+      it 'does not raise an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/programs.csv')
+          ProgramImporter.check_and_import_file(path)
+        end.not_to raise_error
+      end
+    end
+
+    context 'when file is empty but not required' do
+      it 'does not raise an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/programs.csv')
+          ProgramImporter.check_and_import_file(path)
+        end.not_to raise_error
       end
     end
   end

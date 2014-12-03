@@ -154,12 +154,12 @@ describe ServiceImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a service' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_service.csv')
-          ServiceImporter.import_file(path)
+          ServiceImporter.check_and_import_file(path)
         end.to change(Service, :count)
       end
     end
@@ -168,8 +168,26 @@ describe ServiceImporter do
       it 'does not create a service' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
-          ServiceImporter.import_file(path)
+          ServiceImporter.check_and_import_file(path)
         end.not_to change(Service, :count)
+      end
+    end
+
+    context 'when file is missing but required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/services.csv')
+          ServiceImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when file is empty and required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/services.csv')
+          ServiceImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
       end
     end
   end
