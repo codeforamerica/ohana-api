@@ -56,16 +56,6 @@ class Admin
       end
     end
 
-    def confirm_delete_location
-      @loc_name = params[:loc_name]
-      @org_name = params[:org_name]
-      @location_id = params[:location_id]
-      respond_to do |format|
-        format.html
-        format.js
-      end
-    end
-
     private
 
     def assign_location_to_org(admin_orgs)

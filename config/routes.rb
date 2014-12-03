@@ -27,11 +27,6 @@ Rails.application.routes.draw do
       resources :programs, except: :show
       resources :services, only: :index
 
-      get 'locations/:location_id/services/confirm_delete_service', to: 'services#confirm_delete_service', as: :confirm_delete_service
-      get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
-      get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
-      get 'programs/confirm_delete_program', to: 'programs#confirm_delete_program', as: :confirm_delete_program
-
       get 'locations/:location_id/services/:id', to: 'services#edit'
       get 'locations/:location_id/services/:service_id/contacts/:id', to: 'service_contacts#edit'
       get 'locations/:location_id/contacts/:id', to: 'contacts#edit'
