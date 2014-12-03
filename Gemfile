@@ -61,6 +61,9 @@ gem 'dalli'
 gem 'kgio'
 gem 'memcachier'
 
+# Monitoring
+gem 'skylight'
+
 group :production, :staging do
   gem 'unicorn'
   gem 'rails_12factor'
