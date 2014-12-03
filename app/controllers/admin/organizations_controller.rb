@@ -71,14 +71,5 @@ class Admin
         format.html { redirect_to admin_organizations_path }
       end
     end
-
-    def confirm_delete_organization
-      @org_name = params[:org_name]
-      @org_id = params[:org_id]
-      respond_to do |format|
-        format.html
-        format.js
-      end
-    end
   end
 end

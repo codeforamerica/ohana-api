@@ -65,15 +65,6 @@ class Admin
       redirect_to admin_locations_path
     end
 
-    def confirm_delete_service
-      @service_name = params[:service_name]
-      @service_id = params[:service_id]
-      respond_to do |format|
-        format.html
-        format.js
-      end
-    end
-
     private
 
     def preprocess_service

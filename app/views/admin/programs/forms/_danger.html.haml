@@ -7,5 +7,6 @@
   %p
     Once you delete a program, there is no going back. All of the program's services will be deleted as well. Please be certain.
   %p
-    = link_to 'Permanently delete this program', { action: :confirm_delete_program, program_id: @program.id, program_name: @program.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
+    = link_to 'Permanently delete this program', {}, href: '', data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
 .modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
+  = render 'admin/programs/confirm_delete_program', program_id: @program.id, program_name: @program.name
