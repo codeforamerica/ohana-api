@@ -61,13 +61,11 @@ gem 'dalli'
 gem 'kgio'
 gem 'memcachier'
 
-# Monitoring
-gem 'skylight'
-
-group :production, :staging do
+group :production do
   gem 'unicorn'
   gem 'rails_12factor'
   gem 'newrelic_rpm'
+  gem 'skylight'
 end
 
 group :test, :development do

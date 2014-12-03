@@ -1,6 +1,0 @@
----
-# The Skylight ID for the application.
-application: '<%= ENV["SKYLIGHT_ID"] %>'
-
-# The authentication token for the application.
-authentication: '<%= ENV["SKYLIGHT_TOKEN"] %>'
