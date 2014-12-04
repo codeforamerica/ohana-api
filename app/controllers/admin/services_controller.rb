@@ -82,7 +82,7 @@ class Admin
     end
 
     def preprocess_service_params
-      shift_and_split_params(params[:service], :funding_sources, :keywords)
+      shift_and_split_params(params[:service], :keywords)
     end
 
     def add_program_to_service_if_authorized

@@ -86,14 +86,13 @@ feature 'Create a new service' do
     expect(find(:css, 'select#service_accepted_payments').value).to eq(['Cash'])
   end
 
-  scenario 'when adding multiple funding_sources', :js do
+  scenario 'when adding a funding source', :js do
     fill_in_required_service_fields
-    select2('first', 'service_funding_sources', multiple: true, tag: true)
-    select2('second', 'service_funding_sources', multiple: true, tag: true)
+    select2('County', 'service_funding_sources', multiple: true)
     click_button 'Create service'
+    click_link 'New VRS Services service'
 
-    service = Service.find_by_name('New VRS Services service')
-    expect(service.funding_sources).to eq %w(first second)
+    expect(find(:css, 'select#service_funding_sources').value).to eq(['County'])
   end
 
   scenario 'with how_to_apply' do

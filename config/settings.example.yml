@@ -26,6 +26,35 @@ accepted_payments:
 # Please make sure to change this to your own email address.
 admin_support_email: ohanapi@codeforamerica.org
 
+# These will be the values that admin interface users will choose from when
+# updating a Service's funding sources. The list below should remain
+# in alphabetical order.
+funding_sources:
+- 'CPMC Foundation'
+- 'City'
+- 'Community Health Charities'
+- 'County'
+- 'Donations'
+- 'Dues'
+- 'Endowments'
+- 'Federal'
+- 'Fees'
+- 'Foundation'
+- 'Fundraising'
+- 'Grants'
+- 'Joint Powers Agency'
+- 'Sales'
+- 'School District'
+- 'Special District'
+- 'Sponsorships'
+- 'Stanford University'
+- 'State'
+- 'Taxes'
+- 'Tuition'
+- 'United Way'
+- 'United Way Silicon Valley'
+- 'United Way of San Benito County'
+
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
 # to retrieve locations that match a particular domain name. This means that
@@ -51,6 +80,8 @@ generic_domains:
   - sbcglobal.net
   - hotmail.com
   - yahoo.com
+  - co.sanmateo.ca.us
+  - smcgov.org
   - comcast.net
 
 # These will be the values that admin interface users will choose from when
@@ -351,7 +382,7 @@ confirmation_email: ohanapi@codeforamerica.org
 # Make sure to change the coordinates to match your preferred search area.
 #
 # This setting is used in 'app/models/concerns/search.rb'.
-bounds: [[37.1074, -122.521], [37.7084, -122.085]]
+bounds: [[37.1074,-122.521], [37.7084,-122.085]]
 
 ##################
 #
@@ -411,11 +442,19 @@ smc_service_areas:
 #
 ###########################################
 test:
+  accepted_payments:
+  - 'Cash'
+  - 'Check'
+
   bounds: [[37.1074, -122.521], [37.7084, -122.085]]
 
   confirmation_email: registration@ohanapi.org
 
   date_format: '%m/%d/'
+
+  funding_sources:
+  - 'State'
+  - 'County'
 
   languages:
   - 'Arabic'
