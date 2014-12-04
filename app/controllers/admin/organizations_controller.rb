@@ -74,7 +74,7 @@ class Admin
 
     def preprocess_organization_params
       shift_and_split_params(
-        params[:organization], :accreditations, :funding_sources, :licenses)
+        params[:organization], :accreditations, :licenses)
     end
   end
 end

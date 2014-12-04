@@ -98,15 +98,15 @@ feature 'Create a new organization' do
       to eq Date.today.day.to_s
   end
 
-  scenario 'when adding multiple funding_sources', :js do
+  scenario 'when adding a funding source', :js do
     fill_in 'organization_name', with: 'new org'
     fill_in 'organization_description', with: 'description for new org'
-    select2('first', 'organization_funding_sources', multiple: true, tag: true)
-    select2('second', 'organization_funding_sources', multiple: true, tag: true)
+    select2('State', 'organization_funding_sources', multiple: true)
     click_button 'Create organization'
+    click_link 'new org'
 
-    organization = Organization.find_by_name('new org')
-    expect(organization.funding_sources).to eq %w(first second)
+    expect(find(:css, 'select#organization_funding_sources').value).
+      to eq(['State'])
   end
 
   scenario 'when adding multiple accreditations', :js do
