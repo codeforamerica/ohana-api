@@ -4,8 +4,7 @@
     %meta{content: 'width=device-width, initial-scale=1.0', name: 'viewport'}
       %title= content_for?(:title) ? yield(:title) : t('titles.admin', brand: t('titles.brand'))
       %meta{content: content_for?(:description) ? yield(:description) : "Admin Interface for #{t('titles.brand')}", name: 'description'}
-        = stylesheet_link_tag 'application', media: 'all'
-        = javascript_include_tag 'application'
+        = stylesheet_link_tag 'admin/application', media: 'all'
         = csrf_meta_tags
         = yield(:head)
   %body{class: "#{controller_name} #{action_name}"}
@@ -16,3 +15,4 @@
           .row
             = render 'shared/messages'
             = yield
+    = javascript_include_tag 'admin/application'
