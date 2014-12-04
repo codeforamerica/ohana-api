@@ -6,6 +6,21 @@ class EntityImporter < Struct.new(:content)
     new(content).tap(&:import)
   end
 
+  def self.check_and_import_file(path)
+    file = FileChecker.new(path)
+
+    return process_import(path) if file.available? && file.entries?
+
+    if file.required_but_missing? || file.required_but_empty?
+      fail "#{file.filename} is required but is missing or empty"
+    end
+  end
+
+  def self.process_import(path)
+    importer = import_file(path)
+    importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
+  end
+
   def valid_headers?
     missing_headers.empty?
   end
