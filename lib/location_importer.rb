@@ -1,8 +1,33 @@
 class LocationImporter < Struct.new(:content, :addresses)
   def self.import_file(path, addresses_path)
     content = File.read(path)
-    addresses = AddressExtractor.extract_addresses(addresses_path)
-    new(content, addresses).tap(&:import)
+    new(content, addresses_for(addresses_path)).tap(&:import)
+  end
+
+  def self.check_and_import_file(locations_path, addresses_path)
+    file = FileChecker.new(locations_path)
+
+    if file.available? && file.entries?
+      return process_import(locations_path, addresses_path)
+    end
+
+    if file.required_but_missing? || file.required_but_empty?
+      Kernel.raise("#{file.filename} is required but is missing or empty")
+    end
+  end
+
+  def self.process_import(locations_path, addresses_path)
+    importer = import_file(locations_path, addresses_path)
+    importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
+  end
+
+  def self.addresses_for(addresses_path)
+    file = FileChecker.new(addresses_path)
+    if file.missing? || !file.entries?
+      Kernel.raise("#{file.filename} is required but is missing or empty")
+    else
+      AddressExtractor.extract_addresses(addresses_path)
+    end
   end
 
   def valid_headers?

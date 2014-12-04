@@ -12,11 +12,11 @@
       %p
         This action CANNOT be undone. This will delete
         %strong
-          = @loc_name
+          = loc_name
         and all of its associated services from
         %strong
-          = @org_name
+          = org_name
         permanently.
     .modal-footer
       %button.btn.btn-default{'data-dismiss' => 'modal'} Close
-      = link_to 'I understand the consequences, delete this location', { action: :destroy, id: @location_id }, method: :delete, class: 'btn btn-danger'
+      = link_to 'I understand the consequences, delete this location', { action: :destroy, id: location_id }, method: :delete, class: 'btn btn-danger'

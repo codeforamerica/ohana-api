@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  attr_accessible :name, :oe_id
+  attr_accessible :name, :oe_id, :tid
 
   has_and_belongs_to_many :services, -> { uniq }
 

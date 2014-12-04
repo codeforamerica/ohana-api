@@ -3,8 +3,8 @@ class Service < ActiveRecord::Base
                   :eligibility, :email, :fees, :funding_sources, :how_to_apply,
                   :keywords, :languages, :name, :required_documents,
                   :service_areas, :status, :website, :wait_time, :category_ids,
-                  :contacts_attributes, :regular_schedules_attributes,
-                  :holiday_schedules_attributes, :phones_attributes
+                  :regular_schedules_attributes, :holiday_schedules_attributes,
+                  :phones_attributes
 
   belongs_to :location, touch: true
   belongs_to :program
@@ -20,8 +20,6 @@ class Service < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   has_many :contacts, dependent: :destroy
-  accepts_nested_attributes_for :contacts,
-                                allow_destroy: true, reject_if: :all_blank
 
   has_many :phones, dependent: :destroy
   accepts_nested_attributes_for :phones,

@@ -198,7 +198,8 @@ CREATE TABLE categories (
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    ancestry character varying(255)
+    ancestry character varying(255),
+    tid integer
 );
 
 
@@ -1416,4 +1417,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141109021540');
 INSERT INTO schema_migrations (version) VALUES ('20141109022202');
 
 INSERT INTO schema_migrations (version) VALUES ('20141118132537');
+
+INSERT INTO schema_migrations (version) VALUES ('20141204184510');
 

@@ -180,12 +180,12 @@ describe PhoneImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a phone' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_location_phone.csv')
-          PhoneImporter.import_file(path)
+          PhoneImporter.check_and_import_file(path)
         end.to change(Phone, :count)
       end
     end
@@ -194,8 +194,26 @@ describe PhoneImporter do
       it 'does not create a phone' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_phone.csv')
-          PhoneImporter.import_file(path)
+          PhoneImporter.check_and_import_file(path)
         end.not_to change(Phone, :count)
+      end
+    end
+
+    context 'when file is missing but required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/phones.csv')
+          PhoneImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when file is empty and required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/phones.csv')
+          PhoneImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
       end
     end
   end

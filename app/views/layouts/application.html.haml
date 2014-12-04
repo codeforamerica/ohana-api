@@ -5,7 +5,6 @@
       %title= content_for?(:title) ? yield(:title) : 'Ohana API'
       %meta{content: content_for?(:description) ? yield(:description) : 'An open-source API of human services, farmers markets, parks, libraries, museums, and other organizations in San Mateo County', name: 'description'}
         = stylesheet_link_tag 'application', media: 'all'
-        = javascript_include_tag 'application'
         = csrf_meta_tags
         = yield(:head)
   %body{class: "#{controller_name} #{action_name}"}
@@ -16,3 +15,4 @@
           .row
             = render 'shared/messages'
             = yield
+    = javascript_include_tag 'application'

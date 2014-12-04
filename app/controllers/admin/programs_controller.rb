@@ -59,15 +59,6 @@ class Admin
       end
     end
 
-    def confirm_delete_program
-      @program_name = params[:program_name]
-      @program_id = params[:program_id]
-      respond_to do |format|
-        format.html
-        format.js
-      end
-    end
-
     private
 
     def add_org_to_program_if_authorized

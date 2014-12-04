@@ -38,7 +38,7 @@ describe Phone do
     it 'strips extra whitespace before validation' do
       phone = build(:phone_with_extra_whitespace)
       phone.valid?
-      expect(phone.country_prefix).to eq('+33')
+      expect(phone.country_prefix).to eq('33')
       expect(phone.department).to eq('Information')
       expect(phone.number).to eq('650 851-1210')
       expect(phone.extension).to eq('2000')

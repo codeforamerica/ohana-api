@@ -30,6 +30,9 @@ then
   echo "Installing Mandrill by MailChimp"
   heroku addons:add mandrill --app $herokuApp
 
+  echo "Installing Memcachier"
+  heroku addons:add memcachier --app $herokuApp
+
   echo "All done setting up env vars and add-ons."
   echo "Pushing code to Heroku now. This will take a few minutes..."
   git push heroku master

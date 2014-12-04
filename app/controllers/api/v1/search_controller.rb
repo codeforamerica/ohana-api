@@ -5,13 +5,16 @@ module Api
       include CustomErrors
       include Cacheable
 
+      after_action :set_cache_control, only: :index
+
       def index
         locations = Location.search(params).page(params[:page]).
                     per(params[:per_page])
 
-        render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
-        generate_pagination_headers(locations)
-        expires_in cache_time, public: true
+        if stale?(etag: cache_key(locations), public: true)
+          generate_pagination_headers(locations)
+          render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
+        end
       end
 
       def nearby
@@ -26,16 +29,18 @@ module Api
       private
 
       def tables
-        if params[:org_name].present? && params[:location].present?
-          [:address, :phones]
-        else
-          [:organization, :address, :phones]
-        end
+        [:organization, :address, :phones]
       end
 
       def locations_near(location)
         location.nearbys(params[:radius]).status('active').
           page(params[:page]).per(params[:per_page]).includes(:address)
+      end
+
+      def cache_key(scope)
+        Digest::MD5.hexdigest(
+          "#{scope.to_sql}-#{scope.maximum(:updated_at)}-#{scope.total_count}"
+        )
       end
     end
   end

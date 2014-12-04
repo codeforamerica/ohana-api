@@ -341,7 +341,7 @@ describe "GET 'search'" do
       expect(headers['X-Total-Count']).to eq '1'
     end
 
-    it 'returns locations where either email o admins fields match' do
+    it 'returns locations where either email or admins fields match' do
       create(:location, email: 'moncef@smcgov.org')
       create(:location_with_admin)
       get api_search_index_url(email: 'moncef@smcgov.org', subdomain: ENV['API_SUBDOMAIN'])
