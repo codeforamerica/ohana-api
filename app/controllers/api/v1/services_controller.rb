@@ -3,6 +3,7 @@ module Api
     class ServicesController < ApplicationController
       include TokenValidator
       include CustomErrors
+      include CategoryIdCollector
 
       before_action :validate_token!, only: [:update, :destroy, :create, :update_categories]
 
@@ -38,13 +39,6 @@ module Api
         service.save!
 
         render json: service, status: 200
-      end
-
-      private
-
-      def cat_ids(taxonomy_ids)
-        return [] unless taxonomy_ids.present?
-        Category.where(taxonomy_id: taxonomy_ids).pluck(:id)
       end
     end
   end

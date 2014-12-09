@@ -1,6 +1,7 @@
 namespace :import do
-  task all: [:organizations, :programs, :locations, :services, :mail_addresses,
-             :contacts, :phones, :regular_schedules, :holiday_schedules]
+  task all: [:organizations, :programs, :locations, :taxonomy, :services,
+             :mail_addresses, :contacts, :phones, :regular_schedules,
+             :holiday_schedules]
 
   desc 'Imports organizations'
   task :organizations, [:path] => :environment do |_, args|
@@ -24,6 +25,13 @@ namespace :import do
       addresses_path: Rails.root.join('data/addresses.csv')
     )
     LocationImporter.check_and_import_file(args[:path], args[:addresses_path])
+  end
+
+  desc 'Imports taxonomy'
+  task :taxonomy, [:path] => :environment do |_, args|
+    Kernel.puts('Importing your taxonomy...')
+    args.with_defaults(path: Rails.root.join('data/taxonomy.csv'))
+    CategoryImporter.check_and_import_file(args[:path])
   end
 
   desc 'Imports services'
@@ -66,12 +74,5 @@ namespace :import do
     Kernel.puts('Importing your holiday_schedules...')
     args.with_defaults(path: Rails.root.join('data/holiday_schedules.csv'))
     HolidayScheduleImporter.check_and_import_file(args[:path])
-  end
-
-  desc 'Imports taxonomy'
-  task :taxonomy, [:path] => :environment do |_, args|
-    Kernel.puts('Importing your taxonomy...')
-    args.with_defaults(path: Rails.root.join('data/taxonomy.csv'))
-    CategoryImporter.check_and_import_file(args[:path])
   end
 end

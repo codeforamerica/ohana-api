@@ -128,6 +128,23 @@ describe ServiceImporter do
       end
     end
 
+    context 'when the service belongs to a category' do
+      before do
+        create(:category)
+        create(:health)
+      end
+
+      let(:content) { valid_content }
+
+      describe 'the service' do
+        before { importer.import }
+
+        subject { Service.first }
+
+        its('categories.count') { is_expected.to eq 2 }
+      end
+    end
+
     context 'when one of the fields required for a service is blank' do
       let(:content) { invalid_content }
 
