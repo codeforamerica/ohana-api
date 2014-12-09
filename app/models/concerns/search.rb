@@ -80,7 +80,7 @@ module Search
     end
 
     def language(lang)
-      where('languages && ARRAY[?]', lang)
+      where('locations.languages && ARRAY[?]', lang)
     end
 
     def text_search(params = {})
