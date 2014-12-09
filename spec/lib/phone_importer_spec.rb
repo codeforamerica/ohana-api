@@ -58,7 +58,7 @@ describe PhoneImporter do
     context 'when the phone headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('Number type column is missing') }
+      its(:errors) { is_expected.to include('number_type column is missing') }
     end
 
     context 'when the headers are valid' do

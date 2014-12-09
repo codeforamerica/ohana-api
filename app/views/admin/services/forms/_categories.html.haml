@@ -6,4 +6,4 @@
       What categories best describe this service?
   = hidden_field_tag 'service[category_ids][]', nil
   = field_set_tag nil, id: 'categories' do
-    = nested_categories(Category.arrange(order: :oe_id))
+    = nested_categories(Category.arrange(order: :taxonomy_id))

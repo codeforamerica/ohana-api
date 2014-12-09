@@ -4,5 +4,4 @@ set -e
 
 echo Resetting the database...
 bin/rake db:reset
-bin/rake create_categories
 echo Done resetting the database.

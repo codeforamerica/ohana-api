@@ -67,4 +67,11 @@ namespace :import do
     args.with_defaults(path: Rails.root.join('data/holiday_schedules.csv'))
     HolidayScheduleImporter.check_and_import_file(args[:path])
   end
+
+  desc 'Imports taxonomy'
+  task :taxonomy, [:path] => :environment do |_, args|
+    Kernel.puts('Importing your taxonomy...')
+    args.with_defaults(path: Rails.root.join('data/taxonomy.csv'))
+    CategoryImporter.check_and_import_file(args[:path])
+  end
 end

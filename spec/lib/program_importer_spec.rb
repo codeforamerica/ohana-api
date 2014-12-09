@@ -55,7 +55,7 @@ describe ProgramImporter do
     context 'when the program headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('Alternate name column is missing') }
+      its(:errors) { is_expected.to include('alternate_name column is missing') }
     end
 
     context 'when the headers are valid' do
