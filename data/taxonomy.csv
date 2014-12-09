@@ -1,0 +1,291 @@
+taxonomy_id,name,parent_id,parent_name
+101,Emergency,,
+101-01,Disaster Response,101,Emergency
+101-02,Emergency Cash,101,Emergency
+101-02-01,Help Pay for Food,101-02,Emergency Cash
+101-02-02,Help Pay for Healthcare,101-02,Emergency Cash
+101-02-03,Help Pay for Housing,101-02,Emergency Cash
+101-02-04,Help Pay for Gas,101-02,Emergency Cash
+101-02-05,Help Pay for School,101-02,Emergency Cash
+101-02-06,Help Pay for Utilities,101-02,Emergency Cash
+101-03,Emergency Food,101,Emergency
+101-04,Emergency Shelter,101,Emergency
+101-05,Help Find Missing Persons,101,Emergency
+101-06,Immediate Safety,101,Emergency
+101-06-01,Help Escape Violence,101-06,Immediate Safety
+101-06-02,Safe Housing,101-06,Immediate Safety
+101-07,Psychiatric Emergency Services,101,Emergency
+102,Food,,
+102-01,Community Gardens,102,Food
+102-02,Emergency Food,102,Food
+102-03,Food Delivery,102,Food
+102-04,Food Pantry,102,Food
+102-05,Free Meals,102,Food
+102-06,Help Pay for Food,102,Food
+102-06-02,Food Benefits,102-06,Help Pay for Food
+102-07,Nutrition,102,Food
+103,Housing,,
+103-01,Emergency Shelter,103,Housing
+103-02,Help Find Housing,103,Housing
+103-03,Help Pay for Housing,103,Housing
+103-03-02,Help Pay for Utilities,103-03,Help Pay for Housing
+103-03-03,Home & Renters Insurance,103-03,Help Pay for Housing
+103-03-04,Housing Vouchers,103-03,Help Pay for Housing
+103-03-05,Maintenance & Repairs,103-03,Help Pay for Housing
+103-04,Housing Advice,103,Housing
+103-04-01,Foreclosure Counseling,103-04,Housing Advice
+103-04-02,Homebuyer Education,103-04,Housing Advice
+103-05,Residential Housing,103,Housing
+103-05-02,Long-Term Housing,103-05,Residential Housing
+103-05-02-01,Assisted Living,103-05-02,Long-Term Housing
+103-05-02-02,Independent Living,103-05-02,Long-Term Housing
+103-05-02-03,Nursing Home,103-05-02,Long-Term Housing
+103-05-02-04,Public Housing,103-05-02,Long-Term Housing
+103-05-03,Safe Housing,103-05,Residential Housing
+103-05-04,Short-Term Housing,103-05,Residential Housing
+103-05-04-01,Nursing Home,103-05-04,Short-Term Housing
+103-05-04-02,Sober Living,103-05-04,Short-Term Housing
+104,Goods,,
+104-01,Baby Supplies,104,Goods
+104-01-01,Baby Clothes,104-01,Baby Supplies
+104-01-02,Diapers & Formula,104-01,Baby Supplies
+104-02,Clothing,104,Goods
+104-02-01,Baby Clothes,104-02,Clothing
+104-02-02,Clothes for School,104-02,Clothing
+104-02-03,Clothes for Work,104-02,Clothing
+104-02-04,Clothing Vouchers,104-02,Clothing
+104-03,Home Goods,104,Goods
+104-03-01,Blankets & Fans,104-03,Home Goods
+104-03-02,Books,104-03,Home Goods
+104-03-03,Furniture,104-03,Home Goods
+104-03-04,Personal Care Items,104-03,Home Goods
+104-03-05,Supplies for Work,104-03,Home Goods
+104-04,Medical Supplies,104,Goods
+104-05-01,Assistive Technology,104-04,Medical Supplies
+104-06,Toys & Gifts,104,Goods
+105,Transit,,
+105-01,Help Pay for Transit,105,Transit
+105-01-01,Bus Passes,105-01,Help Pay for Transit
+105-01-02,Help Pay for Gas,105-01,Help Pay for Transit
+105-02,Transportation,105,Transit
+105-02-01,Transportation for Healthcare,105-02,Transportation
+105-02-02,Transportation for School,105-02,Transportation
+106,Health,,
+106-01,Addiction & Recovery,106,Health
+106-01-01,12-Step,106-01,Addiction & Recovery
+106-01-02,Detox,106-01,Addiction & Recovery
+106-01-04,Outpatient Treatment,106-01,Addiction & Recovery
+106-01-05,Residential Treatment,106-01,Addiction & Recovery
+106-01-06,Sober Living,106-01,Addiction & Recovery
+106-02,Dental Care,106,Health
+106-03,End-of-Life Care,106,Health
+106-03-01,Bereavement,106-03,End-of-Life Care
+106-03-02,Burial & Funeral Help,106-03,End-of-Life Care
+106-03-03,Hospice,106-03,End-of-Life Care
+106-03-04,Pain Management,106-03,End-of-Life Care
+106-04,Health Education,106,Health
+106-04-01,Daily Life Skills,106-04,Health Education
+106-04-02,Disease Management,106-04,Health Education
+106-04-03,Family Planning,106-04,Health Education
+106-04-04,Nutrition,106-04,Health Education
+106-04-05,Parenting Education,106-04,Health Education
+106-04-06,Sex Education,106-04,Health Education
+106-04-07,Understand Disability,106-04,Health Education
+106-04-08,Understand Mental Health,106-04,Health Education
+106-05,Help Pay for Healthcare,106,Health
+106-05-02,Disability Benefits,106-05,Help Pay for Healthcare
+106-05-03,Discounted Healthcare,106-05,Help Pay for Healthcare
+106-05-04,Health Insurance,106-05,Help Pay for Healthcare
+106-05-05,Medical Supplies,106-05,Help Pay for Healthcare
+106-05-06,Prescription Assistance,106-05,Help Pay for Healthcare
+106-05-07,Transportation for Healthcare,106-05,Help Pay for Healthcare
+106-06,Medical Care,106,Health
+106-06-01,Alternative Medicine,106-06,Medical Care
+106-06-02,Assistive Technology,106-06,Medical Care
+106-06-03,Birth Control,106-06,Medical Care
+106-06-04,Checkup & Test,106-06,Medical Care
+106-06-04-01,Disability Screening,106-06-04,Checkup & Test
+106-06-04-02,Disease Screening,106-06-04,Checkup & Test
+106-06-04-03,Hearing Tests,106-06-04,Checkup & Test
+106-06-04-04,Mental Health Evaluation,106-06-04,Checkup & Test
+106-06-04-05,Pregnancy Tests,106-06-04,Checkup & Test
+106-06-04-06,Vision Tests,106-06-04,Checkup & Test
+106-06-05,Maternity Care,106-06,Medical Care
+106-06-06,Personal Hygiene,106-06,Medical Care
+106-06-07,Prevent & Treat,106-06,Medical Care
+106-06-07-01,Counseling,106-06-07,Prevent & Treat
+106-06-07-02,HIV Treatment,106-06-07,Prevent & Treat
+106-06-07-03,Pain Management,106-06-07,Prevent & Treat
+106-06-07-04,Disease Management,106-06-07,Prevent & Treat
+106-06-07-05,Nursing Home,106-06-07,Prevent & Treat
+106-06-07-06,Physical Therapy,106-06-07,Prevent & Treat
+106-06-07-07,Specialized Therapy,106-06-07,Prevent & Treat
+106-06-07-08,Vaccinations,106-06-07,Prevent & Treat
+106-06-07-09,In-Home Support,106-06-07,Prevent & Treat
+106-06-07-10,Residential Treatment,106-06-07,Prevent & Treat
+106-06-07-11,Outpatient Treatment,106-06-07,Prevent & Treat
+106-06-08,Psychiatric Emergency Services,106-06,Medical Care
+106-06-09,Primary Care,106-06,Medical Care
+107,Money,,
+107-02,Financial Assistance,107,Money
+107-02-01,Help Pay for Childcare,107-02,Financial Assistance
+107-02-02,Help Pay for Food,107-02,Financial Assistance
+107-02-02-01,Food Benefits,107-02-02,Help Pay for Food
+107-02-03,Help Pay for Healthcare,107-02,Financial Assistance
+107-02-03-02,Disability Benefits,107-02-03,Help Pay for Healthcare
+107-02-03-03,Discounted Healthcare,107-02-03,Help Pay for Healthcare
+107-02-03-04,Health Insurance,107-02-03,Help Pay for Healthcare
+107-02-03-05,Medical Supplies,107-02-03,Help Pay for Healthcare
+107-02-03-06,Prescription Assistance,107-02-03,Help Pay for Healthcare
+107-02-03-07,Transportation for Healthcare,107-02-03,Help Pay for Healthcare
+107-02-04,Help Pay for Housing,107-02,Financial Assistance
+107-02-04-02,Help Pay for Utilities,107-02-04,Help Pay for Housing
+107-02-04-03,Home & Renters Insurance,107-02-04,Help Pay for Housing
+107-02-04-05,Maintenance & Repairs,107-02-04,Help Pay for Housing
+107-02-05,Help Pay for School,107-02,Financial Assistance
+107-02-05-01,Books,107-02-05,Help Pay for School
+107-02-05-03,Clothes for School,107-02-05,Help Pay for School
+107-02-05-04,Financial Aid & Loans,107-02-05,Help Pay for School
+107-02-05-05,Transportation for School,107-02-05,Help Pay for School
+107-02-06,Help Pay for Transit,107-02,Financial Assistance
+107-02-06-01,Help Pay for Gas,107-02-06,Help Pay for Transit
+107-02-06-02,Bus Passes,107-02-06,Help Pay for Transit
+107-02-07,Help Pay for Work Expenses,107-02,Financial Assistance
+107-03,Government Benefits,107,Money
+107-03-01,Disability Benefits,107-03,Government Benefits
+107-03-02,Food Benefits,107-03,Government Benefits
+107-03-03,Retirement Benefits,107-03,Government Benefits
+107-03-04,Understand Government Programs,107-03,Government Benefits
+107-03-05,Unemployment Benefits,107-03,Government Benefits
+107-05,Financial Education,107,Money
+107-05-01,Credit Counseling,107-05,Financial Education
+107-05-02,Foreclosure Counseling,107-05,Financial Education
+107-05-03,Homebuyer Education,107-05,Financial Education
+107-05-04,Savings Program,107-05,Financial Education
+107-06,Insurance,107,Money
+107-06-01,Health Insurance,107-06,Insurance
+107-06-02,Home & Renters Insurance,107-06,Insurance
+107-07,Tax Preparation,107,Money
+108,Care,,
+108-01,Adoption & Foster Care,108,Care
+108-01-01,Adoption & Foster Placement,108-01,Adoption & Foster Care
+108-01-02,Adoption & Foster Parenting,108-01,Adoption & Foster Care
+108-01-03,Adoption Planning,108-01,Adoption & Foster Care
+108-01-04,Post-Adoption Support,108-01,Adoption & Foster Care
+108-02,Animal Welfare,108,Care
+108-03,Daytime Care,108,Care
+108-03-01,Adult Daycare,108-03,Daytime Care
+108-03-02,Afterschool Care,108-03,Daytime Care
+108-03-03,Childcare,108-03,Daytime Care
+108-03-03-02,Help Find Childcare,108-03-03,Childcare
+108-03-03-04,Help Pay for Childcare,108-03-03,Childcare
+108-03-04,Day Camp,108-03,Daytime Care
+108-03-05,Preschool,108-03,Daytime Care
+108-03-06,Recreation,108-03,Daytime Care
+108-03-07,Relief for Caregivers,108-03,Daytime Care
+108-04,End-of-Life Care,108,Care
+108-04-01,Bereavement,108-04,End-of-Life Care
+108-04-02,Burial & Funeral Help,108-04,End-of-Life Care
+108-04-03,Hospice,108-04,End-of-Life Care
+108-04-04,Pain Management,108-04,End-of-Life Care
+108-05,Navigating the System,108,Care
+108-05-01,Help Fill out Forms,108-05,Navigating the System
+108-05-02,Help Find Childcare,108-05,Navigating the System
+108-05-03,Help Find Housing,108-05,Navigating the System
+108-05-04,Help Find School,108-05,Navigating the System
+108-05-05,Help Find Work,108-05,Navigating the System
+108-06,Residential Care,108,Care
+108-06-01,Assisted Living,108-06,Residential Care
+108-06-02,Residential Treatment,108-06,Residential Care
+108-06-03,Nursing Home,108-06,Residential Care
+108-06-04,Overnight Camp,108-06,Residential Care
+108-07,Support Network,108,Care
+108-07-01,Counseling,108-07,Support Network
+108-07-02,Help Hotlines,108-07,Support Network
+108-07-03,Home Visiting,108-07,Support Network
+108-07-04,In-Home Support,108-07,Support Network
+108-07-05,Mentoring,108-07,Support Network
+108-07-06,One-on-One Support,108-07,Support Network
+108-07-07,Peer Support,108-07,Support Network
+108-07-08,Spiritual Support,108-07,Support Network
+108-07-09,Support Groups,108-07,Support Network
+108-07-09-01,12-Step,108-07-09,Support Groups
+108-07-09-02,Bereavement,108-07-09,Support Groups
+108-07-09-03,Parenting Education,108-07-09,Support Groups
+108-07-10,Virtual Support,108-07,Support Network
+109,Education,,
+109-01,Help Find School,109,Education
+109-02,Help Pay for School,109,Education
+109-02-01,Books,109-02,Help Pay for School
+109-02-03,Clothes for School,109-02,Help Pay for School
+109-02-04,Financial Aid & Loans,109-02,Help Pay for School
+109-02-05,Transportation for School,109-02,Help Pay for School
+109-03,More Education,109,Education
+109-03-01,Alternative Education,109-03,More Education
+109-03-02,Disaster Preparedness & Response,109-03,More Education
+109-03-03,English as a Second Language (ESL),109-03,More Education
+109-03-04,Financial Education,109-03,More Education
+109-03-04-01,Credit Counseling,109-03-04,Financial Education
+109-03-04-02,Foreclosure Counseling,109-03-04,Financial Education
+109-03-04-03,Homebuyer Education,109-03-04,Financial Education
+109-03-05,Foreign Languages,109-03,More Education
+109-03-06,GED/High-School Equivalency,109-03,More Education
+109-03-07,Health Education,109-03,More Education
+109-03-07-01,Disease Management,109-03-07,Health Education
+109-03-07-02,Family Planning,109-03-07,Health Education
+109-03-07-03,Nutrition Education,109-03-07,Health Education
+109-03-07-04,Parenting Education,109-03-07,Health Education
+109-03-07-05,Sex Education,109-03-07,Health Education
+109-03-07-06,Understand Disability,109-03-07,Health Education
+109-03-07-07,Understand Mental Health,109-03-07,Health Education
+109-03-08,Supported Employment,109-03,More Education
+109-03-09,Special Education,109-03,More Education
+109-03-10,Tutoring,109-03,More Education
+109-04,Preschool,109,Education
+109-05,Screening & Exams,109,Education
+109-05-01,Citizenship & Immigration,109-05,Screening & Exams
+109-05-02,GED/High-School Equivalency,109-05,Screening & Exams
+109-05-03,English as a Second Language (ESL),109-05,Screening & Exams
+109-06,Skills & Training,109,Education
+109-06-01,Basic Literacy,109-06,Skills & Training
+109-06-02,Computer Class,109-06,Skills & Training
+109-06-04,Interview Training,109-06,Skills & Training
+109-06-05,Resume Development,109-06,Skills & Training
+109-06-06,Skills Assessment,109-06,Skills & Training
+109-06-07,Specialized Training,109-06,Skills & Training
+110,Work,,
+110-01,Help Find Work,110,Work
+110-01-01,Job Placement,110-01,Help Find Work
+110-01-02,Supported Employment,110-01,Help Find Work
+110-02,Help Pay for Work Expenses,110,Work
+110-02-01,Clothes for Work,110-02,Help Pay for Work Expenses
+110-02-02,Retirement Benefits,110-02,Help Pay for Work Expenses
+110-02-03,Supplies for Work,110-02,Help Pay for Work Expenses
+110-02-04,Unemployment Benefits,110-02,Help Pay for Work Expenses
+110-03,Skills & Training,110,Work
+110-03-01,Basic Literacy,110-03,Skills & Training
+110-03-02,Computer Class,110-03,Skills & Training
+110-03-03,GED/High-School Equivalency,110-03,Skills & Training
+110-03-04,Interview Training,110-03,Skills & Training
+110-03-05,Resume Development,110-03,Skills & Training
+110-03-06,Skills Assessment,110-03,Skills & Training
+110-03-07,Specialized Training,110-03,Skills & Training
+110-04,Supported Employment,110,Work
+110-05,Workplace Rights,110,Work
+111,Legal,,
+111-01,Advocacy & Legal Aid,111,Legal
+111-01-01,Adoption & Foster Care,111-01,Advocacy & Legal Aid
+111-01-01-01,Adoption & Foster Placement,111-01-01,Adoption & Foster Care
+111-01-01-02,Adoption & Foster Parenting,111-01-01,Adoption & Foster Care
+111-01-01-03,Adoption Planning,111-01-01,Adoption & Foster Care
+111-01-01-04,Post-Adoption Support,111-01-01,Adoption & Foster Care
+111-01-02,Citizenship & Immigration,111-01,Advocacy & Legal Aid
+111-01-03,Discrimination & Civil Rights,111-01,Advocacy & Legal Aid
+111-01-04,Guardianship,111-01,Advocacy & Legal Aid
+111-01-05,Identification Recovery,111-01,Advocacy & Legal Aid
+111-01-06,Understand Government Programs,111-01,Advocacy & Legal Aid
+111-01-07,Workplace Rights,111-01,Advocacy & Legal Aid
+111-02,Mediation,111,Legal
+111-03,Notary,111,Legal
+111-04,Representation,111,Legal
+111-05,Translation & Interpretation,111,Legal

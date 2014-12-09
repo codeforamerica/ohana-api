@@ -3,13 +3,13 @@ require 'rails_helper'
 describe 'GET /categories/:category_id/children' do
   context 'when category has children' do
     before :all do
-      @food = Category.create!(name: 'Food', oe_id: '101')
+      @food = Category.create!(name: 'Food', taxonomy_id: '101')
       @food_child = @food.children.
-                    create!(name: 'Emergency Food', oe_id: '101-01')
+                    create!(name: 'Emergency Food', taxonomy_id: '101-01')
     end
 
     before :each do
-      get api_category_children_url(@food.oe_id, subdomain: ENV['API_SUBDOMAIN'])
+      get api_category_children_url(@food.taxonomy_id, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do
@@ -28,8 +28,8 @@ describe 'GET /categories/:category_id/children' do
       expect(json.first['depth']).to eq(@food_child.depth)
     end
 
-    it 'includes the oe_id attribute in the serialization' do
-      expect(json.first['oe_id']).to eq(@food_child.oe_id)
+    it 'includes the taxonomy_id attribute in the serialization' do
+      expect(json.first['taxonomy_id']).to eq(@food_child.taxonomy_id)
     end
 
     it 'includes the name attribute in the serialization' do
@@ -43,11 +43,11 @@ describe 'GET /categories/:category_id/children' do
 
   context "when category doesn't have children" do
     before :all do
-      @food = Category.create!(name: 'Food', oe_id: '101')
+      @food = Category.create!(name: 'Food', taxonomy_id: '101')
     end
 
     before :each do
-      get api_category_children_url(@food.oe_id, subdomain: ENV['API_SUBDOMAIN'])
+      get api_category_children_url(@food.taxonomy_id, subdomain: ENV['API_SUBDOMAIN'])
     end
 
     after(:all) do

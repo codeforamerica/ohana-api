@@ -66,7 +66,7 @@ Rails.application.routes.draw do
         resources :categories, only: :index
 
         put 'services/:service_id/categories', to: 'services#update_categories', as: :service_categories
-        get 'categories/:oe_id/children', to: 'categories#children', as: :category_children
+        get 'categories/:taxonomy_id/children', to: 'categories#children', as: :category_children
         get 'locations/:location_id/nearby', to: 'search#nearby', as: :location_nearby
 
         match '*unmatched_route' => 'errors#raise_not_found!', via: [:get, :delete, :patch, :post, :put]

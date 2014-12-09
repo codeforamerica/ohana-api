@@ -13,7 +13,7 @@ As a winner of the Knight News Challenge (Health edition), the Ohana project rec
 
 We've fulfilled most of the deliverables defined in our agreement with the Knight Foundation, which ends in January 2015. Our remaining tasks are listed in the [Issues](https://github.com/codeforamerica/ohana-api/issues) section of this repo.
 
-Please note that between now and January 2015, there could be breaking changes in the API as we update it to support the [OpenReferral spec](https://github.com/codeforamerica/OpenReferral). The spec is currently at version 0.2, and version 1.0 is scheduled to be released in early January 2015.
+Please note that between now and January 2015, there could be breaking changes in the API as we update it to support the [OpenReferral spec](https://github.com/codeforamerica/OpenReferral). The spec is currently at version 0.8, and version 1.0 is scheduled to be released in early January 2015.
 
 ## Stack Overview
 
@@ -21,6 +21,12 @@ Please note that between now and January 2015, there could be breaking changes i
 * Rails version 4.1.8
 * Postgres
 * Testing Frameworks: RSpec, Factory Girl, Capybara
+
+## Local Installation
+
+Follow the instructions in [INSTALL.md][install].
+
+[install]: https://github.com/codeforamerica/ohana-api/blob/master/INSTALL.md
 
 ## Demo
 You can see a running version of the different parts of the application here:
@@ -56,21 +62,14 @@ If you've built one, let us know and we'll add it here.
 [ohanakapa]: https://github.com/codeforamerica/ohanakapa
 
 ## Taxonomy
-By default, this project uses the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/codeforamerica/ohana-api/blob/master/app/models/category.rb).
-If you would like to use your own taxonomy, feel free to update this rake task to [create your own hierarchy or tree structure](https://github.com/codeforamerica/ohana-api/blob/master/lib/tasks/oe.rake). Then run `rake create_categories`.
-
-The easiest way to assign categories to a service is to use the Admin interface. Here's a screenshot:
-
-![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
+Out of the box, this project supports the [Open Eligibility](http://openeligibility.org)
+taxonomy. If you would like to use your own taxonomy, or add more categories to
+the Open Eligibility taxonomy, read our Wiki article on [taxonomy basics](https://github.com/codeforamerica/ohana-api/wiki/Taxonomy-basics).
 
 ## Deploying to Heroku
 See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account).
 
-## Local Installation
 
-Follow the instructions in [INSTALL.md][install].
-
-[install]: https://github.com/codeforamerica/ohana-api/blob/master/INSTALL.md
 
 ## Running the tests
 

@@ -55,7 +55,7 @@ describe ServiceImporter do
     context 'when the service headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('Name column is missing') }
+      its(:errors) { is_expected.to include('name column is missing') }
     end
 
     context 'when the headers are valid' do

@@ -81,7 +81,7 @@ describe LocationImporter do
       let(:content) { invalid_header_content }
       let(:address) { valid_address }
 
-      its(:errors) { is_expected.to include('Name column is missing') }
+      its(:errors) { is_expected.to include('name column is missing') }
     end
 
     context 'when the headers are valid' do

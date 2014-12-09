@@ -59,7 +59,7 @@ describe HolidayScheduleImporter do
     context 'when the holiday_schedule headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('Closed column is missing') }
+      its(:errors) { is_expected.to include('closed column is missing') }
     end
 
     context 'when the headers are valid' do

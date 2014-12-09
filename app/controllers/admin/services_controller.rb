@@ -13,7 +13,7 @@ class Admin
     def edit
       @location = Location.find(params[:location_id])
       @service = Service.find(params[:id])
-      @oe_ids = @service.categories.pluck(:oe_id)
+      @taxonomy_ids = @service.categories.pluck(:taxonomy_id)
 
       authorize @location
     end
@@ -21,7 +21,7 @@ class Admin
     def update
       @service = Service.find(params[:id])
       @location = Location.find(params[:location_id])
-      @oe_ids = @service.categories.pluck(:oe_id)
+      @taxonomy_ids = @service.categories.pluck(:taxonomy_id)
 
       preprocess_service
 
@@ -35,7 +35,7 @@ class Admin
 
     def new
       @location = Location.find(params[:location_id])
-      @oe_ids = []
+      @taxonomy_ids = []
 
       authorize @location
 
@@ -47,7 +47,7 @@ class Admin
 
       @location = Location.find(params[:location_id])
       @service = @location.services.new(params[:service])
-      @oe_ids = []
+      @taxonomy_ids = []
 
       add_program_to_service_if_authorized
 

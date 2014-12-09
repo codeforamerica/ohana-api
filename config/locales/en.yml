@@ -58,6 +58,7 @@ en:
       blank_for_program: "can't be blank for Program"
       blank_for_rs: "can't be blank for Regular Schedule"
       blank_for_service: "can't be blank for Service"
+      duplicate_taxonomy_id: 'id has already been taken'
       invalid_date: 'is not a valid date'
       invalid_email: 'is not a valid email'
       invalid_fax: 'is not a valid US fax number'

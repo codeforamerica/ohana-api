@@ -3,10 +3,10 @@ require 'rails_helper'
 feature 'Update categories' do
   background do
     create_service
-    emergency = Category.create!(name: 'Emergency', oe_id: '101')
-    emergency.children.create!(name: 'Disaster Response', oe_id: '101-01')
-    emergency.children.create!(name: 'Subcategory 2', oe_id: '101-02')
-    emergency.children.create!(name: 'Subcategory 3', oe_id: '101-03')
+    emergency = Category.create!(name: 'Emergency', taxonomy_id: '101')
+    emergency.children.create!(name: 'Disaster Response', taxonomy_id: '101-01')
+    emergency.children.create!(name: 'Subcategory 2', taxonomy_id: '101-02')
+    emergency.children.create!(name: 'Subcategory 3', taxonomy_id: '101-03')
 
     login_super_admin
     visit '/admin/locations/vrs-services'
