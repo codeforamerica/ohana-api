@@ -128,16 +128,16 @@ feature 'Admin Home page' do
       expect(page).not_to have_link 'Add a new organization', new_admin_organization_path
     end
 
-    it 'displays a link to add a new location' do
-      expect(page).to have_link 'Add a new location', new_admin_location_path
+    it 'does not display a link to add a new location' do
+      expect(page).to_not have_link 'Add a new location', new_admin_location_path
     end
 
-    it 'displays a link to add a new program' do
-      expect(page).to have_link 'Add a new program', new_admin_program_path
+    it 'does not display a link to add a new program' do
+      expect(page).to_not have_link 'Add a new program', new_admin_program_path
     end
   end
 
-  context 'when signed in as super admin' do
+  context 'when signed in as super admin and no orgs exist' do
     before :each do
       login_super_admin
       visit '/admin'
@@ -145,6 +145,22 @@ feature 'Admin Home page' do
 
     it 'displays a link to add a new organization' do
       expect(page).to have_link 'Add a new organization', new_admin_organization_path
+    end
+
+    it 'does not display a link to add a new location' do
+      expect(page).to_not have_link 'Add a new location', new_admin_location_path
+    end
+
+    it 'does not display a link to add a new program' do
+      expect(page).to_not have_link 'Add a new program', new_admin_program_path
+    end
+  end
+
+  context 'when signed in as super admin and orgs exist' do
+    before :each do
+      create(:organization)
+      login_super_admin
+      visit '/admin'
     end
 
     it 'displays a link to add a new location' do
