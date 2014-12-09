@@ -10,10 +10,10 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_self
- *= require framework_and_overrides
  *= require select2
  *= require select2-bootstrap
+ *= require framework_and_overrides
+ *= require_self
  */
 
 // creates styles for text in the navbar that is not a link
