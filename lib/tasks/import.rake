@@ -1,8 +1,15 @@
 namespace :import do
   task all: [:organizations, :programs, :locations, :taxonomy, :services,
              :mail_addresses, :contacts, :phones, :regular_schedules,
-             :holiday_schedules]
+             :holiday_schedules, :categories]
 
+  desc 'Imports categories'
+  task :categories, [:path] => :environment do |_, args|
+    Kernel.puts('Importing your categories...')
+    args.with_defaults(path: Rails.root.join('data/categories.csv'))
+    CategoryImporter.check_and_import_file(args[:path])
+  end
+  
   desc 'Imports organizations'
   task :organizations, [:path] => :environment do |_, args|
     Kernel.puts('Importing your organizations...')
