@@ -215,7 +215,6 @@ describe 'GET /locations' do
   end
 
   context 'with nil fields' do
-
     before(:all) do
       @loc = create(:loc_with_nil_fields)
     end

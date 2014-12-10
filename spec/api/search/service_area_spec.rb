@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe "GET 'search'" do
-
   context 'with service_area parameter' do
     before(:each) do
       create(:nearby_loc)

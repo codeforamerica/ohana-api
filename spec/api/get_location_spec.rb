@@ -237,7 +237,6 @@ describe 'GET /locations/:id' do
   end
 
   context 'with invalid id' do
-
     before :each do
       get api_location_url(1, subdomain: ENV['API_SUBDOMAIN'])
     end
@@ -261,7 +260,6 @@ describe 'GET /locations/:id' do
   end
 
   context 'with nil fields' do
-
     before(:each) do
       @loc = create(:loc_with_nil_fields)
     end
