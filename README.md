@@ -17,7 +17,7 @@ Please note that between now and January 2015, there could be breaking changes i
 
 ## Stack Overview
 
-* Ruby version 2.1.3
+* Ruby version 2.1.5
 * Rails version 4.1.8
 * Postgres
 * Testing Frameworks: RSpec, Factory Girl, Capybara
