@@ -3,6 +3,7 @@ require 'rails_helper'
 describe CategoryImporter do
   let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_category_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_category.csv').read }
+  let(:invalid_parent) { Rails.root.join('spec/support/fixtures/invalid_parent_category.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_category.csv').read }
   let(:existing_content) { Rails.root.join('spec/support/fixtures/existing_category.csv').read }
 
@@ -57,6 +58,14 @@ describe CategoryImporter do
 
     context 'when the category content is not valid' do
       let(:content) { invalid_content }
+
+      errors = ["Line 2: Name can't be blank for Category"]
+
+      its(:errors) { is_expected.to eq(errors) }
+    end
+
+    context 'when the parent category is not valid' do
+      let(:content) { invalid_parent }
 
       errors = ["Line 2: Name can't be blank for Category"]
 

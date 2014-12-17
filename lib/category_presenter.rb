@@ -1,7 +1,8 @@
 class CategoryPresenter < Struct.new(:row)
   def to_category
-    return parent_category(row).children.create(row) if row[:parent_id].present?
-    Category.create(row)
+    return Category.create(row) if row[:parent_id].blank?
+    return parent_category(row) unless parent_category(row).valid?
+    return parent_category(row).children.create(row)
   end
 
   def parent_category(row)
