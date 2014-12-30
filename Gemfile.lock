@@ -247,7 +247,7 @@ GEM
     simplecov-html (0.8.0)
     slop (3.6.0)
     spring (1.2.0)
-    spring-commands-rspec (1.0.3)
+    spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     spring-watcher-listen (1.0.0)
       listen (~> 1.0)
