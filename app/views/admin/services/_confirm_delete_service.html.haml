@@ -14,5 +14,5 @@
         %strong
           #{service_name || service_id}.
     .modal-footer
-      %button.btn.btn-default{'data-dismiss' => 'modal'}  Close
+      %button.btn.btn-default{ 'data-dismiss' => 'modal' }  Close
       = link_to 'I understand the consequences, delete this service', { action: :destroy, id: service_id, name: service_name }, method: :delete, class: 'btn btn-danger'

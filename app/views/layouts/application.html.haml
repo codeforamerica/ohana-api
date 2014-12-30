@@ -1,15 +1,15 @@
 !!!
 %html
   %head
-    %meta{content: 'width=device-width, initial-scale=1.0', name: 'viewport'}
+    %meta{ content: 'width=device-width, initial-scale=1.0', name: 'viewport' }
       %title= content_for?(:title) ? yield(:title) : 'Ohana API'
-      %meta{content: content_for?(:description) ? yield(:description) : 'An open-source API of human services, farmers markets, parks, libraries, museums, and other organizations in San Mateo County', name: 'description'}
+      %meta{ content: content_for?(:description) ? yield(:description) : 'An open-source API of human services, farmers markets, parks, libraries, museums, and other organizations in San Mateo County', name: 'description' }
         = stylesheet_link_tag 'application', media: 'all'
         = csrf_meta_tags
         = yield(:head)
-  %body{class: "#{controller_name} #{action_name}"}
+  %body{ class: "#{controller_name} #{action_name}" }
     = render 'shared/navigation'
-    #main{role: 'main'}
+    #main{ role: 'main' }
       .content
         .container
           .row
