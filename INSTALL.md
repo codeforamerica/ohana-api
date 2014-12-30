@@ -43,12 +43,6 @@ Clone it on your computer and navigate to the project's directory:
 
 [fork]: http://help.github.com/fork-a-repo/
 
-### Install the dependencies and populate the database with sample data:
-
-    script/bootstrap
-
-_Note: Installation and preparation can take several minutes to complete!_
-
 ### Set up the environment variables & customizable settings
 
 #### Configure environment variables
@@ -64,6 +58,12 @@ Inside the `config` folder, you will also find a file called `settings.yml`.
 In that file, there are many settings you can, and should, customize.
 Read through the documentation to learn how you can customize the app to suit
 your needs.
+
+### Install the dependencies and populate the database with sample data:
+
+    script/bootstrap
+
+_Note: Installation and preparation can take several minutes to complete!_
 
 ### Run the app
 
