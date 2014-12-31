@@ -170,9 +170,9 @@ feature 'Create a new service' do
   end
 
   scenario 'when adding categories', :js do
-    emergency = Category.create!(name: 'Emergency', oe_id: '101')
-    emergency.children.create!(name: 'Disaster Response', oe_id: '101-01')
-    emergency.children.create!(name: 'Subcategory 2', oe_id: '101-02')
+    emergency = Category.create!(name: 'Emergency', taxonomy_id: '101')
+    emergency.children.create!(name: 'Disaster Response', taxonomy_id: '101-01')
+    emergency.children.create!(name: 'Subcategory 2', taxonomy_id: '101-02')
     visit('/admin/locations/vrs-services/services/new')
 
     fill_in_required_service_fields

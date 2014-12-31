@@ -1,0 +1,191 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require select2
+ *= require select2-bootstrap
+ *= require framework_and_overrides
+ *= require_self
+ */
+
+// creates styles for text in the navbar that is not a link
+.navbar-default .navbar-nav > li > a.logged-in
+{
+  color:#DE9292;
+}
+
+.content-box
+{
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+
+  border:1px solid #DE9292;
+  margin-bottom:10px;
+  padding:20px;
+
+  h1
+  {
+    color:#DE9292;
+    font-size:14px;
+    margin:0;
+    padding:0;
+    text-transform: uppercase;
+  }
+  p { padding-top: 10px; }
+}
+
+.inst-box
+{
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+
+  border:1px solid #C8D4E8;
+  margin-bottom:20px;
+  header
+  {
+  background:#cbe0f3;
+  margin-bottom:10px;
+  padding:10px;
+
+    .desc
+    {
+      font-size:14px;
+      display:inline;
+
+      em
+      {
+        color:#b5121b;
+      }
+    }
+    label {font-weight: bold; font-size:16px;}
+  }
+  input, textarea
+  {
+    margin:0px 0px 20px 0px;
+  }
+
+  p
+  {
+    padding:0px 10px 0px 10px;
+  }
+  fieldset
+  {
+    padding: 10px;
+  }
+
+  hr
+  {
+    margin-left:-10px;
+  }
+}
+
+.add_fields, .add_array_fields
+{
+  margin: 10px 0px 15px 10px;
+}
+
+// Adds a red border around invalid input fields after form submission.
+.field_with_errors
+{
+  input, select, textarea
+  {
+    border-color: red;
+    border-width: 2px;
+  }
+}
+
+.accessibility
+{
+  input { margin-top: 4px; }
+
+  label { margin-bottom: 7px; }
+}
+
+#categories
+{
+  label { padding-left: 5px; margin-bottom: 7px; }
+  input { margin: 4px 0px 0px -20px; }
+}
+
+// margin added to accommodate for floating footer
+// This needs to be added to the last form element before the save button
+.edit_entry, .new_entry
+{
+  margin-bottom: 60px;
+}
+
+.danger-zone
+{
+  border:1px solid #DE9292;
+  margin-bottom:20px;
+  color:white;
+
+  header
+  {
+    background:#df3e3e;
+    margin-bottom:10px;
+    padding:10px;
+  }
+
+  p
+  {
+    padding:10px;
+    color: #000000;
+  }
+
+  h4
+  {
+    font-weight: bold;
+    color: #000000;
+    padding:10px 0 0 10px;
+  }
+}
+
+a.boxed-action,a.boxed-action:link,a.boxed-action:visited
+{
+  display:inline-block;
+  color: #df3e3e;
+  border:1px solid #C8E8CA;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #fcfcfc;
+  text-decoration:none;
+}
+
+a.boxed-action:hover, a.boxed-action:active
+{
+  background-color: #df3e3e;
+  color: #fff;
+}
+
+.save-box
+{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  text-align:center;
+
+  input
+  {
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+  p
+  {
+    display:inline-block;
+    margin-top:20px;
+    margin-right:20px;
+    margin-bottom:0px;
+  }
+}

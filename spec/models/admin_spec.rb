@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Admin do
-
   before(:each) do
     @attr = {
       name: 'Example User',
@@ -62,7 +61,6 @@ describe Admin do
   end
 
   describe 'password validations' do
-
     it 'requires a matching password confirmation' do
       expect(Admin.new(@attr.merge(password_confirmation: 'invalid'))).
         not_to be_valid
@@ -70,7 +68,6 @@ describe Admin do
   end
 
   describe 'password encryption' do
-
     before(:each) do
       @user = Admin.create!(@attr)
     end

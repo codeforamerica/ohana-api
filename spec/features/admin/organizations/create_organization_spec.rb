@@ -105,7 +105,8 @@ feature 'Create a new organization' do
     click_button 'Create organization'
     click_link 'new org'
 
-    expect(find(:css, 'select#organization_funding_sources').value).to eq(['State'])
+    expect(find(:css, 'select#organization_funding_sources').value).
+      to eq(['State'])
   end
 
   scenario 'when adding multiple accreditations', :js do

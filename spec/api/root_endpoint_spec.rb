@@ -10,8 +10,8 @@ describe 'API Root Endpoint' do
         '/locations{?page,per_page}',
       'locations_url' => "#{api_locations_url}{?page,per_page}",
       'location_url' => "#{api_locations_url}/{location}",
-      'location_search_url' => "#{api_search_index_url}{?category,keyword,"\
-        'language,lat_lng,location,market_match,payment,product,'\
+      'location_search_url' => "#{api_search_index_url}{?category,email,"\
+        'keyword,language,lat_lng,location,market_match,payment,product,'\
         'org_name,radius,service_area,status,page,per_page}'
     }
     expect(json).to eq(hash)

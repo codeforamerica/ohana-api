@@ -27,8 +27,8 @@ accepted_payments:
 admin_support_email: ohanapi@codeforamerica.org
 
 # These will be the values that admin interface users will choose from when
-# updating a Service's funding sources. The list below should remain
-# in alphabetical order.
+# updating an Organization's or Service's funding sources.
+# The list below should remain in alphabetical order.
 funding_sources:
 - 'CPMC Foundation'
 - 'City'

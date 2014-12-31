@@ -44,13 +44,13 @@ class Admin
       check_box_tag(
         'service[category_ids][]',
         category.id,
-        @oe_ids.include?(category.oe_id),
-        id: "category_#{category.oe_id}"
+        @taxonomy_ids.include?(category.taxonomy_id),
+        id: "category_#{category.taxonomy_id}"
       )
     end
 
     def label_tag_for(category)
-      label_tag "category_#{category.oe_id}", category.name
+      label_tag "category_#{category.taxonomy_id}", category.name
     end
 
     def error_class_for(model, attribute, field)

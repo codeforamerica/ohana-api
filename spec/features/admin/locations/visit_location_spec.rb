@@ -69,4 +69,13 @@ feature 'Visiting a specific location' do
       expect(page).to_not have_link 'Add a new location'
     end
   end
+
+  context 'when admin is super_admin' do
+    it 'allows access to create a new location' do
+      Organization.find_each(&:destroy)
+      login_super_admin
+      visit('/admin/locations/new')
+      expect(page).to have_content 'Choose an organization'
+    end
+  end
 end

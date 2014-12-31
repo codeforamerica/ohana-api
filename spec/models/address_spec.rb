@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Address do
-
   subject { build(:address) }
 
   it { is_expected.to be_valid }

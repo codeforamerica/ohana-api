@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe ApiApplicationsController do
   describe 'routing' do
-
     it 'routes to #index' do
       expect(get('/api_applications')).to route_to('api_applications#index')
     end
@@ -34,6 +33,5 @@ describe ApiApplicationsController do
       expect(delete('/api_applications/1'))
         .to route_to('api_applications#destroy', id: '1')
     end
-
   end
 end

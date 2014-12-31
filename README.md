@@ -28,9 +28,9 @@ to be released in early January 2015.
 
 ## Stack Overview
 
-* Ruby version 2.1.3
+* Ruby version 2.1.5
 * Rails version 4.1.8
-* Postgres
+* Postgres version 9.3
 * Redis
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 

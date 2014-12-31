@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Organization do
-
   subject { build(:organization) }
 
   it { is_expected.to be_valid }

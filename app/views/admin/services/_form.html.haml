@@ -20,8 +20,9 @@
   %p
     Once you delete a service, there is no going back. Please be certain.
   %p
-    = link_to 'Permanently delete this service', { action: :confirm_delete_service, service_id: @service.id, service_name: @service.name }, remote: true, data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
+    = link_to 'Permanently delete this service', {}, href: '', data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
 .modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
+  = render 'admin/services/confirm_delete_service', service_id: @service.id, service_name: @service.name
 
 .save-box.navbar-default
   %p

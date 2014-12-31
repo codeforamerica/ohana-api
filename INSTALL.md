@@ -43,12 +43,6 @@ Clone it on your computer and navigate to the project's directory:
 
 [fork]: http://help.github.com/fork-a-repo/
 
-### Install the dependencies and populate the database with sample data:
-
-    script/bootstrap
-
-_Note: Installation and preparation can take several minutes to complete!_
-
 ### Set up the environment variables & customizable settings
 
 Inside the `config` folder, you will find a file named `application.example.yml`.
@@ -58,6 +52,12 @@ Inside the `config` folder, you will also find a file called `settings.yml`.
 In that file, there are various settings you can customize. They are already
 properly configured for San Mateo County data, but if you wish to make changes,
 please read through the instructions in that file carefully.
+
+### Install the dependencies and populate the database with sample data:
+
+    script/bootstrap
+
+_Note: Installation and preparation can take several minutes to complete!_
 
 ### Run the app
 
