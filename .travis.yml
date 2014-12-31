@@ -1,5 +1,6 @@
 bundler_args: --without assets:development:production
 language: ruby
+cache: bundler
 rvm:
   - 2.1.5
 addons:
@@ -8,17 +9,9 @@ before_script:
   - psql -c 'create database ohana_api_test;' -U postgres
   - psql -U postgres -q -d ohana_api_test -f db/structure.sql
   - cp config/database.travis.yml config/database.yml
-install: "bin/wad"
+sudo: false
 script: "bundle exec rake"
 notifications:
-  campfire:
-    rooms:
-    - secure: |-
-        eEuzoYFXLPeIMt+zHGzZp6XCvbfxRDe8FA3kVwrNRB0zoOktPRZXD9O8ng2z
-        x2Yg8C7i1unstuW0bjPvwphpdxJOTFSxliw6P4Xk1Y9HnTYQqqUbDat/zL9c
-        AyjYezuRQgYFSBP2BgNZ2RL9RiLSyLQBWhcHGB0yBS6rsheKWbk=
-    on_success: never
-    on_failure: always
   webhooks: http://cfa-project-monitor.herokuapp.com/projects/f4e235b6-734e-4d63-a19b-32426335c047/status
 env:
   global:
