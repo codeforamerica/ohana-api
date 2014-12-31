@@ -1,5 +1,6 @@
 bundler_args: "--without assets:development:production"
 language: ruby
+cache: bundler
 rvm:
   - 2.1.5
 addons:
@@ -8,14 +9,8 @@ before_script:
 - psql -c 'create database ohana_api_smc_test;' -U postgres
 - psql -U postgres -q -d ohana_api_smc_test -f db/structure.sql
 - cp config/database.travis.yml config/database.yml
-install: bin/wad
+sudo: false
 script: bundle exec rake
-notifications:
-  campfire:
-    rooms:
-    - secure: TyZdyfY2Wpl3Temx1S/L+UWNmlNRWltqAFkuPNrG3y0WJIjhGqliLc2utRQH4hxtZK4fwxVaTMBIXm4Lo6aIc8kS7CsWiirxuB78IHGXOn8qtjF/Mj5kGOJSCFNXuN4bkoRnbmlkEhp45NO/Ihv9NaY3O+pyUMBZOlXPXULeFms=
-    on_success: never
-    on_failure: always
 env:
   global:
   - S3_BUCKET_NAME=gems-for-travis
