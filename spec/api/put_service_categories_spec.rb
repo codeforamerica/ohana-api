@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'PUT /services/:service_id/categories' do
   before(:all) do
     create_service
-    @food = Category.create!(name: 'Food', oe_id: '101')
+    @food = Category.create!(name: 'Food', taxonomy_id: '101')
   end
 
   after(:all) do
@@ -11,22 +11,22 @@ describe 'PUT /services/:service_id/categories' do
     Category.find_each(&:destroy)
   end
 
-  context 'when the passed in oe_id exists' do
+  context 'when the passed in taxonomy_id exists' do
     it "updates a service's categories" do
       put(
         api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
-        oe_ids: ['101']
+        taxonomy_ids: ['101']
       )
       expect(response).to be_success
       expect(json['categories'].first['name']).to eq('Food')
     end
   end
 
-  context "when the passed in oe_id doesn't exist" do
+  context "when the passed in taxonomy_id doesn't exist" do
     it 'ignores it' do
       put(
         api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
-        oe_ids: ['102']
+        taxonomy_ids: ['102']
       )
       expect(response.status).to eq(200)
       expect(json['categories']).to eq([])
@@ -37,7 +37,7 @@ describe 'PUT /services/:service_id/categories' do
     it 'returns a 401 error' do
       put(
         api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
-        { oe_ids: ['101'] },
+        { taxonomy_ids: ['101'] },
         'HTTP_X_API_TOKEN' => 'foo'
       )
       expect(response.status).to eq(401)

@@ -28,7 +28,7 @@ describe Service do
 
   # This is no longer working in Rails 4.1.2. I opened an issue:
   # https://github.com/thoughtbot/shoulda-matchers/issues/549
-  xit { is_expected.to have_and_belong_to_many(:categories).order('oe_id asc') }
+  xit { is_expected.to have_and_belong_to_many(:categories).order('taxonomy_id asc') }
 
   it { is_expected.to have_many(:regular_schedules).dependent(:destroy) }
   it { is_expected.to accept_nested_attributes_for(:regular_schedules).allow_destroy(true) }

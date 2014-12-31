@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe 'GET /categories' do
   before :all do
-    @food = Category.create!(name: 'Food', oe_id: '101')
-    @emergency = Category.create!(name: 'Emergency', oe_id: '103')
+    @food = Category.create!(name: 'Food', taxonomy_id: '101')
+    @emergency = Category.create!(name: 'Emergency', taxonomy_id: '103')
   end
 
   before :each do
@@ -30,8 +30,8 @@ describe 'GET /categories' do
     expect(json.first['depth']).to eq(@food.depth)
   end
 
-  it 'includes the oe_id attribute in the serialization' do
-    expect(json.first['oe_id']).to eq(@food.oe_id)
+  it 'includes the taxonomy_id attribute in the serialization' do
+    expect(json.first['taxonomy_id']).to eq(@food.taxonomy_id)
   end
 
   it 'includes the name attribute in the serialization' do

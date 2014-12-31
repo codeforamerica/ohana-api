@@ -211,7 +211,7 @@ ALTER SEQUENCE api_applications_id_seq OWNED BY api_applications.id;
 CREATE TABLE categories (
     id integer NOT NULL,
     name text NOT NULL,
-    oe_id text NOT NULL,
+    taxonomy_id text NOT NULL,
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -1492,4 +1492,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141127025419');
 INSERT INTO schema_migrations (version) VALUES ('20141127025633');
 
 INSERT INTO schema_migrations (version) VALUES ('20141127025735');
+
+INSERT INTO schema_migrations (version) VALUES ('20141208165502');
 

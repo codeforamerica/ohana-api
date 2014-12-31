@@ -9,7 +9,7 @@ class Service < ActiveRecord::Base
   belongs_to :location, touch: true
   belongs_to :program
 
-  has_and_belongs_to_many :categories, -> { order('oe_id asc').uniq }
+  has_and_belongs_to_many :categories, -> { order('taxonomy_id asc').uniq }
 
   has_many :regular_schedules, dependent: :destroy
   accepts_nested_attributes_for :regular_schedules,

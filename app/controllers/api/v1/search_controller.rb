@@ -32,15 +32,15 @@ module Api
         [:organization, :address, :phones]
       end
 
+      def locations_near(location)
+        location.nearbys(params[:radius]).status('active').
+          page(params[:page]).per(params[:per_page]).includes(:address)
+      end
+
       def cache_key(scope)
         Digest::MD5.hexdigest(
           "#{scope.to_sql}-#{scope.maximum(:updated_at)}-#{scope.total_count}"
         )
-      end
-
-      def locations_near(location)
-        location.nearbys(params[:radius]).status('active').
-          page(params[:page]).per(params[:per_page]).includes(:address)
       end
     end
   end

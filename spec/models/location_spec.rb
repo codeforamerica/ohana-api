@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Location do
-
   subject { build(:location) }
 
   it { is_expected.to be_valid }

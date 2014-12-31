@@ -35,7 +35,7 @@ module Api
 
       def update_categories
         service = Service.find(params[:service_id])
-        service.category_ids = cat_ids(params[:oe_ids])
+        service.category_ids = cat_ids(params[:taxonomy_ids])
         service.save!
 
         render json: service, status: 200
@@ -43,9 +43,9 @@ module Api
 
       private
 
-      def cat_ids(oe_ids)
-        return [] unless oe_ids.present?
-        Category.where(oe_id: oe_ids).pluck(:id)
+      def cat_ids(taxonomy_ids)
+        return [] unless taxonomy_ids.present?
+        Category.where(taxonomy_id: taxonomy_ids).pluck(:id)
       end
 
       def validate_service_areas

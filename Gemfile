@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.3'
+ruby '2.1.5'
 gem 'rails', '~> 4.1.1'
 
 gem 'pg'
@@ -8,7 +8,7 @@ gem 'pg'
 gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.3.0'
 
 # Rails 4
 gem 'protected_attributes'
@@ -16,8 +16,8 @@ gem 'protected_attributes'
 # gem 'rails-perftest'
 
 # Front end
-gem 'jquery-rails'
-gem 'haml-rails', '~> 0.5.3'
+gem 'jquery-rails', '~> 3.0'
+gem 'haml-rails'
 gem 'select2-rails'
 
 # Geocoding
@@ -91,5 +91,5 @@ group :development do
   gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'listen', '~> 1.0'
+  gem 'spring-watcher-listen'
 end
