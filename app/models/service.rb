@@ -1,10 +1,10 @@
 class Service < ActiveRecord::Base
   attr_accessible :accepted_payments, :alternate_name, :audience, :description,
                   :eligibility, :email, :fees, :funding_sources, :how_to_apply,
-                  :keywords, :languages, :name, :required_documents,
-                  :service_areas, :status, :website, :wait_time, :category_ids,
-                  :regular_schedules_attributes, :holiday_schedules_attributes,
-                  :phones_attributes
+                  :interpretation_services, :keywords, :languages, :name,
+                  :required_documents, :service_areas, :status, :website,
+                  :wait_time, :category_ids, :regular_schedules_attributes,
+                  :holiday_schedules_attributes, :phones_attributes
 
   belongs_to :location, touch: true
   belongs_to :program
@@ -37,8 +37,8 @@ class Service < ActiveRecord::Base
   validates :website, url: true, allow_blank: true
 
   auto_strip_attributes :alternate_name, :audience, :description, :eligibility,
-                        :email, :fees, :how_to_apply, :name, :wait_time, :status,
-                        :website
+                        :email, :fees, :how_to_apply, :interpretation_services,
+                        :name, :wait_time, :status, :website
 
   auto_strip_attributes :funding_sources, :keywords, :service_areas,
                         reject_blank: true, nullify: false
