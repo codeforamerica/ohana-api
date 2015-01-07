@@ -604,7 +604,8 @@ CREATE TABLE services (
     required_documents character varying(255)[] DEFAULT '{}'::character varying[],
     status character varying(255) DEFAULT 'active'::character varying NOT NULL,
     website character varying(255),
-    program_id integer
+    program_id integer,
+    interpretation_services text
 );
 
 
@@ -1370,4 +1371,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141109022202');
 INSERT INTO schema_migrations (version) VALUES ('20141118132537');
 
 INSERT INTO schema_migrations (version) VALUES ('20141208165502');
+
+INSERT INTO schema_migrations (version) VALUES ('20150107163352');
 

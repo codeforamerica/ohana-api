@@ -97,6 +97,15 @@ feature 'Create a new service' do
     expect(find_field('service_how_to_apply').value).to eq 'Low-income residents.'
   end
 
+  scenario 'when adding interpretation services' do
+    fill_in_required_service_fields
+    fill_in 'service_interpretation_services', with: 'CTS LanguageLink'
+    click_button 'Create service'
+    click_link 'New VRS Services service'
+
+    expect(find_field('service_interpretation_services').value).to eq 'CTS LanguageLink'
+  end
+
   scenario 'with status' do
     fill_in_required_service_fields
     select 'Inactive', from: 'service_status'
