@@ -13,7 +13,7 @@ As a winner of the Knight News Challenge (Health edition), the Ohana project rec
 
 We've fulfilled most of the deliverables defined in our agreement with the Knight Foundation, which ends in January 2015. Our remaining tasks are listed in the [Issues](https://github.com/codeforamerica/ohana-api/issues) section of this repo.
 
-Please note that between now and January 2015, there could be breaking changes in the API as we update it to support the [OpenReferral spec](https://github.com/codeforamerica/OpenReferral). The spec is currently at version 0.8, and version 1.0 is scheduled to be released in early January 2015.
+Please note that between now and January 2015, there could be breaking changes in the API as we update it to support the [OpenReferral spec](https://github.com/codeforamerica/OpenReferral). The spec is currently at version 0.8, and version 1.0 is scheduled to be released by late January 2015.
 
 ## Stack Overview
 
@@ -24,7 +24,7 @@ Please note that between now and January 2015, there could be breaking changes i
 
 ## Local Installation
 
-Follow the instructions in [INSTALL.md][install].
+Follow the instructions in [INSTALL.md][install] to get the app up and running, and to learn how to import your data.
 
 [install]: https://github.com/codeforamerica/ohana-api/blob/master/INSTALL.md
 
@@ -42,15 +42,12 @@ You can see a running version of the different parts of the application here:
 [developer_portal_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L10-L23
 [admin_interface_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L25-45
 
-## Data Schema
-If you would like to try out the current version of the project, please read the Wiki article about [Populating the Postgres DB from a JSON file](https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-a-JSON-file). That article documents the current schema and data dictionary, but please note that this will be in flux as we are working with various interested parties to define a [Human Services Data Specification](https://github.com/codeforamerica/OpenReferral).
-
 ## API documentation (work in progress)
 [http://codeforamerica.github.io/ohana-api-docs/](http://codeforamerica.github.io/ohana-api-docs/)
 
 As the API is updated to match the [OpenReferral specification](https://github.com/codeforamerica/OpenReferral), the
 documentation will be updated as well. Version 1.0 of the spec is scheduled
-to be released in early January 2015.
+to be released by the end of January 2015.
 
 ## Client libraries
 
@@ -68,8 +65,6 @@ the Open Eligibility taxonomy, read our Wiki article on [taxonomy basics](https:
 
 ## Deploying to Heroku
 See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account).
-
-
 
 ## Running the tests
 
