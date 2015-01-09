@@ -29,7 +29,11 @@ describe Phone do
       with_message('703- is not a valid US phone or fax number')
   end
 
-  it { is_expected.to allow_value('fax', 'hotline', 'tty', 'voice').for(:number_type) }
+  it do
+    is_expected.to allow_value('fax', 'hotline', 'sms', 'tty', 'voice').
+      for(:number_type)
+  end
+
   it { is_expected.not_to allow_value('Voice').for(:number_type) }
 
   it { is_expected.to validate_numericality_of(:extension) }

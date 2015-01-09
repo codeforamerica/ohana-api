@@ -10,7 +10,7 @@
       .col-md-4
         = f.telephone_field :vanity_number, maxlength: 14, class: 'form-control'
   .form-group
-    = f.label :number_type, 'Number Type (Fax, Hotline, Voice, or TTY)'
+    = f.label :number_type, 'Number Type (Fax, Hotline, Voice, SMS, or TTY)'
     .row
       .col-md-4
         - if f.object.new_record?

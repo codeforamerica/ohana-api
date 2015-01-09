@@ -103,7 +103,8 @@ feature 'Update phones' do
 
   scenario 'select options for number type' do
     expect(page).
-      to have_select 'organization_phones_attributes_0_number_type', with_options: %w(TTY Voice Fax Hotline)
+      to have_select 'organization_phones_attributes_0_number_type',
+                     with_options: %w(TTY Voice Fax Hotline SMS)
   end
 
   scenario 'with an empty number' do
