@@ -1,20 +1,13 @@
 .container
 
-  .alert.alert-warning
-    Notice that this page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
-  .jumbotron{style: "min-height:600px;position:relative;padding: 30px"}
+  .alert.alert-warning.fade.in
+    .label.label-warning NOTE
+    This page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
+    .fa.fa-times.pull-right.close{'data-dismiss'=>'alert'}
+  .jumbotron{style: 'min-height:600px;position:relative;padding: 30px'}
+    =image_tag 'welcome/ohana-logo.png', width: 240, style: 'margin-top:-10px;margin-bottom:20px'
     .row
       .col-lg-1{style:'border-right: solid 1px rgb(204, 204, 204)'}
         =render partial: 'welcome/sidebar'
-      .col-lg-8
-        =image_tag "http://ohanapi.org/img/ohana-logo.png", width: 340
-        %br
-        %br
-
+      .col-lg-11
         =render partial: 'welcome/content'
-    .clearfix{style: 'position:absolute;bottom:10px;right:10px'}
-      .btn-group.pull-right
-        %a.btn.btn-default Prev
-        %a.btn.btn-default Next
-
-

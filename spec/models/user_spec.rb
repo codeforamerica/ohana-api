@@ -2,7 +2,6 @@ require 'rails_helper'
 # Uses the nifty shoulda-matchers
 # https://github.com/thoughtbot/shoulda-matchers
 describe User do
-
   before(:each) do
     @attr = {
       name: 'Example User',
@@ -65,7 +64,6 @@ describe User do
   end
 
   describe 'password validations' do
-
     it 'requires a matching password confirmation' do
       expect(User.new(@attr.merge(password_confirmation: 'invalid'))).
         not_to be_valid
@@ -73,7 +71,6 @@ describe User do
   end
 
   describe 'password encryption' do
-
     before(:each) do
       @user = User.create!(@attr)
     end

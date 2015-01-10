@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.3'
+ruby '2.1.5'
 gem 'rails', '~> 4.1.1'
 
 gem 'pg'
@@ -8,7 +8,7 @@ gem 'pg'
 gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.3.0'
 gem 'font-awesome-rails'
 
 # Rails 4
@@ -17,8 +17,8 @@ gem 'protected_attributes'
 # gem 'rails-perftest'
 
 # Front end
-gem 'jquery-rails'
-gem 'haml-rails', '~> 0.5.3'
+gem 'jquery-rails', '~> 3.0'
+gem 'haml-rails'
 gem 'select2-rails'
 
 # Server for deployment
@@ -56,7 +56,13 @@ gem 'friendly_id', '~> 5.0.3'
 
 gem 'rack-timeout'
 
-group :production, :staging do
+# Caching
+gem 'rack-cache'
+gem 'dalli'
+gem 'kgio'
+gem 'memcachier'
+
+group :production do
   # Heroku recommended
   gem 'rails_12factor'
 end
@@ -85,8 +91,5 @@ group :development do
   gem 'binding_of_caller', '>= 0.7.1', platforms: [:mri_19, :rbx]
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'listen', '~> 1.0'
-  gem "guard"
-  gem "guard-livereload", require: false
-  gem "rack-livereload"
+  gem 'spring-watcher-listen'
 end

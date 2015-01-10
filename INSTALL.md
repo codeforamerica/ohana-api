@@ -43,12 +43,6 @@ Clone it on your computer and navigate to the project's directory:
 
 [fork]: http://help.github.com/fork-a-repo/
 
-### Install the dependencies and populate the database with sample data:
-
-    script/bootstrap
-
-_Note: Installation and preparation can take several minutes to complete!_
-
 ### Set up the environment variables & customizable settings
 
 #### Configure environment variables
@@ -64,6 +58,12 @@ Inside the `config` folder, you will also find a file called `settings.yml`.
 In that file, there are many settings you can, and should, customize.
 Read through the documentation to learn how you can customize the app to suit
 your needs.
+
+### Install the dependencies and populate the database with sample data:
+
+    script/bootstrap
+
+_Note: Installation and preparation can take several minutes to complete!_
 
 ### Run the app
 
@@ -91,6 +91,12 @@ the JSON response so it is easier to read in the browser.
 - From the command line, run `script/reset` to reset the database.
 
 - Run `script/import` to import your CSV files.
+
+If your data doesn't already include a taxonomy, and if you want to use the Open
+Eligibility taxonomy, you can create the categories with this command:
+```
+bin/rake create_categories
+```
 
 If your Location entries don't already include a latitude and longitude, the
 script will geocode them for you, but this can cause the script to fail with

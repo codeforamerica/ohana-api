@@ -1,5 +1,6 @@
 class LocationPolicy < ApplicationPolicy
   def new?
+    return true if user.super_admin?
     Pundit.policy_scope!(user, Organization).present?
   end
 

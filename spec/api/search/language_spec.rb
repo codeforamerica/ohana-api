@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe "GET 'search'" do
-
   context 'with language parameter' do
     before(:each) do
       create(:nearby_loc)
@@ -20,6 +19,11 @@ describe "GET 'search'" do
     it 'finds matching locations when language is an Array' do
       get 'api/search?language[]=Spanish&language[]=French'
       expect(json.length).to eq(2)
+    end
+
+    it 'finds matching locations when category parameter is present' do
+      get 'api/search?language=Spanish&category=Food'
+      expect(json.length).to eq(0)
     end
   end
 end

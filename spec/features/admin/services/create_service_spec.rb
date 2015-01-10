@@ -79,14 +79,13 @@ feature 'Create a new service' do
     expect(find(:css, 'select#service_accepted_payments').value).to eq(['Cash'])
   end
 
-  scenario 'when adding multiple funding_sources', :js do
+  scenario 'when adding a funding source', :js do
     fill_in_required_service_fields
-    select2('first', 'service_funding_sources', multiple: true, tag: true)
-    select2('second', 'service_funding_sources', multiple: true, tag: true)
+    select2('County', 'service_funding_sources', multiple: true)
     click_button 'Create service'
+    click_link 'New VRS Services service'
 
-    service = Service.find_by_name('New VRS Services service')
-    expect(service.funding_sources).to eq %w(first second)
+    expect(find(:css, 'select#service_funding_sources').value).to eq(['County'])
   end
 
   scenario 'with how_to_apply' do
@@ -96,6 +95,15 @@ feature 'Create a new service' do
     click_link 'New VRS Services service'
 
     expect(find_field('service_how_to_apply').value).to eq 'Low-income residents.'
+  end
+
+  scenario 'when adding interpretation services' do
+    fill_in_required_service_fields
+    fill_in 'service_interpretation_services', with: 'CTS LanguageLink'
+    click_button 'Create service'
+    click_link 'New VRS Services service'
+
+    expect(find_field('service_interpretation_services').value).to eq 'CTS LanguageLink'
   end
 
   scenario 'with status' do
@@ -164,9 +172,9 @@ feature 'Create a new service' do
   end
 
   scenario 'when adding categories', :js do
-    emergency = Category.create!(name: 'Emergency', oe_id: '101')
-    emergency.children.create!(name: 'Disaster Response', oe_id: '101-01')
-    emergency.children.create!(name: 'Subcategory 2', oe_id: '101-02')
+    emergency = Category.create!(name: 'Emergency', taxonomy_id: '101')
+    emergency.children.create!(name: 'Disaster Response', taxonomy_id: '101-01')
+    emergency.children.create!(name: 'Subcategory 2', taxonomy_id: '101-02')
     visit('/admin/locations/vrs-services/services/new')
 
     fill_in_required_service_fields

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   controller :welcome do
     get "/welcome" => "welcome#home", as: :welcome
+    post "/welcome/upload" => "welcome#upload", as: :welcome_upload
   end
 
   devise_for :users, controllers: { registrations: 'user/registrations' }
@@ -30,11 +31,6 @@ Rails.application.routes.draw do
       end
       resources :programs, except: :show
       resources :services, only: :index
-
-      get 'locations/:location_id/services/confirm_delete_service', to: 'services#confirm_delete_service', as: :confirm_delete_service
-      get 'organizations/confirm_delete_organization', to: 'organizations#confirm_delete_organization', as: :confirm_delete_organization
-      get 'locations/confirm_delete_location', to: 'locations#confirm_delete_location', as: :confirm_delete_location
-      get 'programs/confirm_delete_program', to: 'programs#confirm_delete_program', as: :confirm_delete_program
 
       get 'locations/:location_id/services/:id', to: 'services#edit'
       get 'locations/:location_id/services/:service_id/contacts/:id', to: 'service_contacts#edit'
@@ -75,7 +71,7 @@ Rails.application.routes.draw do
         resources :categories, only: :index
 
         put 'services/:service_id/categories', to: 'services#update_categories', as: :service_categories
-        get 'categories/:oe_id/children', to: 'categories#children', as: :category_children
+        get 'categories/:taxonomy_id/children', to: 'categories#children', as: :category_children
         get 'locations/:location_id/nearby', to: 'search#nearby', as: :location_nearby
 
         match '*unmatched_route' => 'errors#raise_not_found!', via: [:get, :delete, :patch, :post, :put]

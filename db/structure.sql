@@ -194,11 +194,12 @@ ALTER SEQUENCE api_applications_id_seq OWNED BY api_applications.id;
 CREATE TABLE categories (
     id integer NOT NULL,
     name text,
-    oe_id text,
+    taxonomy_id text,
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    ancestry character varying(255)
+    ancestry character varying(255),
+    tid integer
 );
 
 
@@ -604,7 +605,8 @@ CREATE TABLE services (
     required_documents character varying(255)[] DEFAULT '{}'::character varying[],
     status character varying(255) DEFAULT 'active'::character varying NOT NULL,
     website character varying(255),
-    program_id integer
+    program_id integer,
+    interpretation_services text
 );
 
 
@@ -1416,4 +1418,10 @@ INSERT INTO schema_migrations (version) VALUES ('20141109021540');
 INSERT INTO schema_migrations (version) VALUES ('20141109022202');
 
 INSERT INTO schema_migrations (version) VALUES ('20141118132537');
+
+INSERT INTO schema_migrations (version) VALUES ('20141204184510');
+
+INSERT INTO schema_migrations (version) VALUES ('20141208165502');
+
+INSERT INTO schema_migrations (version) VALUES ('20150107163352');
 

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Contact do
-
   subject { build(:contact) }
 
   it { is_expected.to_not be_valid }

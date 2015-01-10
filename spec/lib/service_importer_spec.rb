@@ -55,7 +55,7 @@ describe ServiceImporter do
     context 'when the service headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('Name column is missing') }
+      its(:errors) { is_expected.to include('name column is missing') }
     end
 
     context 'when the headers are valid' do
@@ -128,6 +128,23 @@ describe ServiceImporter do
       end
     end
 
+    context 'when the service belongs to a category' do
+      before do
+        create(:category)
+        create(:health)
+      end
+
+      let(:content) { valid_content }
+
+      describe 'the service' do
+        before { importer.import }
+
+        subject { Service.first }
+
+        its('categories.count') { is_expected.to eq 2 }
+      end
+    end
+
     context 'when one of the fields required for a service is blank' do
       let(:content) { invalid_content }
 
@@ -154,12 +171,12 @@ describe ServiceImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a service' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_service.csv')
-          ServiceImporter.import_file(path)
+          ServiceImporter.check_and_import_file(path)
         end.to change(Service, :count)
       end
     end
@@ -168,8 +185,26 @@ describe ServiceImporter do
       it 'does not create a service' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
-          ServiceImporter.import_file(path)
+          ServiceImporter.check_and_import_file(path)
         end.not_to change(Service, :count)
+      end
+    end
+
+    context 'when file is missing but required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/services.csv')
+          ServiceImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when file is empty and required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/services.csv')
+          ServiceImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
       end
     end
   end

@@ -1,3 +1,3 @@
 class CategorySerializer < ActiveModel::Serializer
-  attributes :id, :depth, :oe_id, :name, :parent_id
+  attributes :id, :depth, :taxonomy_id, :name, :parent_id
 end

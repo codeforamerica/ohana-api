@@ -1,19 +1,60 @@
 .tab-content
   #upload.tab-pane.fade.active.in
-    %h2 Build your data on Google Docs
-    %p You can use <a>this Google Doc</a> as a template to structure your data.
-    %p
-      .input-group
-        %input.input-lg.form-control{placeholder:"Enter your google doc url", value:'https://docs.google.com/spreadsheets/d/1xBJANeJubgSV8lSFsNJTDCH9lSjZc0yrPu5vrQDmeqg/edit?usp=sharing'}
-        .input-group-addon
-          %a.fa.fa-google.c
-    %p
-      .btn-group.btn-group-lg
-        %a.btn.btn-primary
-          %span.fa.fa-upload
-          Upload data
-    .alert.alert-info#validationErrors
-      Fields
+    %table.table.text-center.EntityTable
+      %tr.Feedback
+        %td.bg-danger.text-left{colspan: 3}
+          %b.text-danger Errors
+          %p Line 2: Holiday Schedule must belong to either a Location or Service
+      %tr
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Addresses
+            
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Contacts
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Holiday schedules
+      %tr
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Locations
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Mail addresses
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Organizations
+      %tr
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Phones
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Programs
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Regular Schedules
+      %tr
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Services
+        %td.Entity
+          =render partial: 'welcome/btn_upload_file'
+          %p
+            Taxonomy
+
 
 
   #users.tab-pane.fade

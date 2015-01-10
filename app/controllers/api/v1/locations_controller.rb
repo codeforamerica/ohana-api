@@ -6,6 +6,8 @@ module Api
       include CustomErrors
       include Cacheable
 
+      after_action :set_cache_control, only: [:index, :show]
+
       def index
         locations = Location.includes(:organization, :address, :phones).
                     page(params[:page]).per(params[:per_page]).
@@ -21,8 +23,7 @@ module Api
           services: [:categories, :contacts, :phones, :regular_schedules,
                      :holiday_schedules]
           ).find(params[:id])
-        render json: location, status: 200
-        expires_in cache_time, public: true
+        render json: location, status: 200 if stale?(location, public: true)
       end
 
       def update

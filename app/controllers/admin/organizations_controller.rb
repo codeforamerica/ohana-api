@@ -26,8 +26,7 @@ class Admin
     def update
       @organization = Organization.find(params[:id])
 
-      shift_and_split_params(
-        params[:organization], :accreditations, :funding_sources, :licenses)
+      preprocess_organization_params
 
       respond_to do |format|
         if @organization.update(params[:organization])
@@ -47,8 +46,7 @@ class Admin
     end
 
     def create
-      shift_and_split_params(
-        params[:organization], :accreditations, :funding_sources, :licenses)
+      preprocess_organization_params
 
       @organization = Organization.new(params[:organization])
 
@@ -72,13 +70,11 @@ class Admin
       end
     end
 
-    def confirm_delete_organization
-      @org_name = params[:org_name]
-      @org_id = params[:org_id]
-      respond_to do |format|
-        format.html
-        format.js
-      end
+    private
+
+    def preprocess_organization_params
+      shift_and_split_params(
+        params[:organization], :accreditations, :licenses)
     end
   end
 end

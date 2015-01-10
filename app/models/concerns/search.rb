@@ -41,7 +41,7 @@ module Search
     end
 
     def language(lang)
-      where('languages && ARRAY[?]', lang)
+      where('locations.languages && ARRAY[?]', lang)
     end
 
     def service_area(sa)

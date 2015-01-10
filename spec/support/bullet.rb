@@ -1,5 +1,4 @@
 RSpec.configure do |config|
-
   if Bullet.enable?
     config.before(:each) do
       Bullet.start_request

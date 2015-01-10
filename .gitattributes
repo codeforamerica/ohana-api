@@ -1,0 +1,6 @@
+* text eol=lf
+*.csv  eol=crlf
+*.dump binary
+*.png  binary
+*.jpg  binary
+*.gif  binary

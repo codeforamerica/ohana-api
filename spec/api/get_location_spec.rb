@@ -92,29 +92,30 @@ describe 'GET /locations/:id' do
 
       serialized_services =
         [{
-          'id'                 => @location.services.reload.first.id,
-          'accepted_payments'  => [],
-          'alternate_name'     => nil,
-          'audience'           => nil,
-          'description'        => @location.services.first.description,
-          'eligibility'        => nil,
-          'email'              => nil,
-          'fees'               => nil,
-          'funding_sources'    => [],
-          'how_to_apply'       => @location.services.first.how_to_apply,
-          'keywords'           => @location.services.first.keywords,
-          'languages'          => [],
-          'name'               => @location.services.first.name,
-          'required_documents' => [],
-          'service_areas'      => [],
-          'status'             => @location.services.first.status,
-          'website'            => nil,
-          'wait_time'          => nil,
-          'updated_at'         => service_formatted_time,
-          'categories'         => [],
-          'contacts'           => [],
-          'phones'             => [],
-          'regular_schedules'  => [
+          'id'                      => @location.services.reload.first.id,
+          'accepted_payments'       => [],
+          'alternate_name'          => nil,
+          'audience'                => nil,
+          'description'             => @location.services.first.description,
+          'eligibility'             => nil,
+          'email'                   => nil,
+          'fees'                    => nil,
+          'funding_sources'         => [],
+          'how_to_apply'            => @location.services.first.how_to_apply,
+          'interpretation_services' => @location.services.first.interpretation_services,
+          'keywords'                => @location.services.first.keywords,
+          'languages'               => [],
+          'name'                    => @location.services.first.name,
+          'required_documents'      => [],
+          'service_areas'           => [],
+          'status'                  => @location.services.first.status,
+          'website'                 => nil,
+          'wait_time'               => nil,
+          'updated_at'              => service_formatted_time,
+          'categories'              => [],
+          'contacts'                => [],
+          'phones'                  => [],
+          'regular_schedules'       => [
             {
               'weekday'   => 1,
               'opens_at'  => '2000-01-01T09:30:00.000Z',
@@ -237,7 +238,6 @@ describe 'GET /locations/:id' do
   end
 
   context 'with invalid id' do
-
     before :each do
       get api_location_url(1, subdomain: ENV['API_SUBDOMAIN'])
     end
@@ -261,7 +261,6 @@ describe 'GET /locations/:id' do
   end
 
   context 'with nil fields' do
-
     before(:each) do
       @loc = create(:loc_with_nil_fields)
     end

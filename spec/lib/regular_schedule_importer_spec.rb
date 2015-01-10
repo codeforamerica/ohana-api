@@ -56,7 +56,7 @@ describe RegularScheduleImporter do
     context 'when the regular_schedule headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('Closes at column is missing') }
+      its(:errors) { is_expected.to include('closes_at column is missing') }
     end
 
     context 'when the headers are valid' do
@@ -146,12 +146,12 @@ describe RegularScheduleImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
       it 'creates a regular_schedule' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv')
-          RegularScheduleImporter.import_file(path)
+          RegularScheduleImporter.check_and_import_file(path)
         end.to change(RegularSchedule, :count)
       end
     end
@@ -160,8 +160,26 @@ describe RegularScheduleImporter do
       it 'does not create a regular_schedule' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv')
-          RegularScheduleImporter.import_file(path)
+          RegularScheduleImporter.check_and_import_file(path)
         end.not_to change(RegularSchedule, :count)
+      end
+    end
+
+    context 'when file is missing but required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/regular_schedules.csv')
+          RegularScheduleImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when file is empty and required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/regular_schedules.csv')
+          RegularScheduleImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
       end
     end
   end

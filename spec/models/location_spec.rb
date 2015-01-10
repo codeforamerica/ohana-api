@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Location do
-
   subject { build(:location) }
 
   it { is_expected.to be_valid }
@@ -31,10 +30,8 @@ describe Location do
   it { is_expected.to have_many(:holiday_schedules).dependent(:destroy) }
 
   it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
-  it { is_expected.to accept_nested_attributes_for(:contacts).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:mail_address).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
-  it { is_expected.to accept_nested_attributes_for(:services).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:regular_schedules).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:holiday_schedules).allow_destroy(true) }
 

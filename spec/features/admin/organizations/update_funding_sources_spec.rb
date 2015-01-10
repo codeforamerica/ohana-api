@@ -7,32 +7,31 @@ feature 'Update funding_sources' do
     visit '/admin/organizations/parent-agency'
   end
 
-  scenario 'when no funding_sources exist', :js do
-    within '#s2id_organization_funding_sources' do
-      expect(page).to have_no_css('.select2-search-choice-close')
-    end
+  scenario 'with no funding_sources' do
+    click_button 'Save changes'
+    expect(@organization.reload.funding_sources).to eq []
   end
 
-  scenario 'with one funding_source', :js do
-    select2('Knight Foundation Grant', 'organization_funding_sources', multiple: true, tag: true)
+  scenario 'with one funding source', :js do
+    select2('State', 'organization_funding_sources', multiple: true)
     click_button 'Save changes'
-    expect(@organization.reload.funding_sources).to eq ['Knight Foundation Grant']
+    expect(@organization.reload.funding_sources).to eq ['State']
   end
 
   scenario 'with two funding_sources', :js do
-    select2('first', 'organization_funding_sources', multiple: true, tag: true)
-    select2('second', 'organization_funding_sources', multiple: true, tag: true)
+    select2('State', 'organization_funding_sources', multiple: true)
+    select2('County', 'organization_funding_sources', multiple: true)
     click_button 'Save changes'
-    expect(@organization.reload.funding_sources).to eq %w(first second)
+    expect(@organization.reload.funding_sources).to eq %w(State County)
   end
 
-  scenario 'removing a funding_source', :js do
-    @organization.update!(funding_sources: %w(County Donations))
+  scenario 'removing a funding source', :js do
+    @organization.update!(funding_sources: %w(State County))
     visit '/admin/organizations/parent-agency'
     within '#s2id_organization_funding_sources' do
       first('.select2-search-choice-close').click
     end
     click_button 'Save changes'
-    expect(@organization.reload.funding_sources).to eq ['Donations']
+    expect(@organization.reload.funding_sources).to eq ['County']
   end
 end

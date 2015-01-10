@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe MailAddress do
-
   subject { build(:mail_address) }
 
   it { is_expected.to be_valid }

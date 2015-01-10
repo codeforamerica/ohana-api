@@ -2,27 +2,20 @@
 @import "font-awesome";
 @import "bootstrap/variables";
 
-.welcome.home{
-  .c{
-    cursor: pointer;
+.c{ cursor: pointer; }
+
+#welcomeTabs{
+  border: none;
+
+  li{
+    border-bottom:solid 1px transparent;
   }
-  .title{
-    margin-top:10px;
+  .active{
+    border-bottom:solid 1px #ccc;
   }
-
-  #welcomeTabs{
-    border: none;
-
-    li{
-      border-bottom:solid 1px transparent;
-    }
-    .active{
-      border-bottom:solid 1px #ccc;
-    }
-    a:hover{
-      text-decoration: none;
-    }
+  a:hover{
+    text-decoration: none;
   }
-
-
 }
+
+.Entity{ width: 33%;}

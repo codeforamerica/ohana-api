@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   factory :phone_with_extra_whitespace, class: Phone do
-    country_prefix '+33 '
+    country_prefix '33 '
     number '650  851-1210 '
     department ' Information '
     extension '2000 '

@@ -48,7 +48,7 @@ describe OrganizationImporter do
     context 'when the org headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('Name column is missing') }
+      its(:errors) { is_expected.to include('name column is missing') }
     end
 
     context 'when the headers are valid' do
@@ -152,22 +152,40 @@ describe OrganizationImporter do
     end
   end
 
-  describe '.import_file' do
+  describe '.check_and_import_file' do
     context 'with valid data' do
-      it 'creates a org' do
+      it 'creates an org' do
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_org.csv')
-          OrganizationImporter.import_file(path)
+          OrganizationImporter.check_and_import_file(path)
         end.to change(Organization, :count)
       end
     end
 
     context 'with invalid data' do
-      it 'does not create a org' do
+      it 'does not create an org' do
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_org.csv')
-          OrganizationImporter.import_file(path)
+          OrganizationImporter.check_and_import_file(path)
         end.not_to change(Organization, :count)
+      end
+    end
+
+    context 'when file is missing but required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/data/organizations.csv')
+          OrganizationImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
+      end
+    end
+
+    context 'when file is empty and required' do
+      it 'raises an error' do
+        expect do
+          path = Rails.root.join('spec/support/fixtures/organizations.csv')
+          OrganizationImporter.check_and_import_file(path)
+        end.to raise_error(/missing or empty/)
       end
     end
   end
