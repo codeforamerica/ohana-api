@@ -30,6 +30,8 @@
 
 .Entity.NotUploaded .Uploaded{ display:none; }
 .Entity.Uploaded .NotUploaded{ display:none; }
+
+
 .Entity.Disabled { opacity: 0.4; a{cursor: default;} }
 
 .EntityCluster{
@@ -37,4 +39,8 @@
 }
 .EntityTable td:first-child{
   border-right: solid 1px #ccc;
+}
+
+.Entity.Uploaded[data-entity='location'] li{
+  color: $text-muted;
 }

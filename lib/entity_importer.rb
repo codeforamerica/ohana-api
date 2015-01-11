@@ -11,7 +11,7 @@ class EntityImporter < Struct.new(:content)
 
     return process_import(path) if file.available? && file.entries?
 
-    if file.required_but_missing? || file.required_but_empty?
+    if !file.available? || !file.entries?
       fail "#{file.filename} is required but is missing or empty"
     end
   end

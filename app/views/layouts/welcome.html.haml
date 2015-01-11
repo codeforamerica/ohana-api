@@ -2,10 +2,4 @@
 %html
   = render 'admin/shared/head'
   %body{class: "#{controller_name} #{action_name}"}
-    = render 'admin/shared/navigation'
-    #main{role: 'main'}
-      .content
-        .container
-          .row
-            = render 'shared/messages'
-            = yield
+    = yield
