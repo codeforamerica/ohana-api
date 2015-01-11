@@ -47,7 +47,11 @@ RSpec.describe WelcomeController, :type => :controller do
     context 'uploading files to the server' do
       let(:token) { create(:welcome_token) }
       let(:valid_content) { fixture_file_upload('/valid_org.csv','text/csv') }
+      let(:valid_content_mail_address) { fixture_file_upload('/valid_mail_address.csv','text/csv') }
+      let(:valid_locations) { fixture_file_upload('/valid_location.csv','text/csv') }
+      let(:valid_addresses) { fixture_file_upload('/valid_address.csv','text/csv') }
       let(:invalid_content) { fixture_file_upload('/invalid_org.csv','text/csv') }
+      let(:invalid_content_type) { fixture_file_upload('/invalid_org.csv','application/pdf') }
       let(:valid_entity) { 'organization' }
       let(:invalid_entity) { 'something' }
 
@@ -59,46 +63,110 @@ RSpec.describe WelcomeController, :type => :controller do
         end
       end
       context 'with the right code' do
+        before(:each) do
+          allow(Kernel).to receive(:puts).and_return(nil)
+        end
+        it 'should handle underscores in the entity name' do
+          post :upload, code: token.code, files: [valid_content_mail_address], entity: 'mail_address'
+          expect(json['message']).to match_array "Line 2: Location can't be blank for Mail Address"
+        end
+
         context 'without an entity name' do
           it 'should fail' do
-            post :upload, code: token.code, file: valid_content, entity: nil
-            expect(response).to have_http_status(400)
+            post :upload, code: token.code, files: [valid_content], entity: nil
+            expect(json['status']).to eql(400)
           end
           it 'should return an error message' do
-            post :upload, code: token.code, file: valid_content, entity: nil
+            post :upload, code: token.code, files: [valid_content], entity: nil
             expect(json['message']).to eql 'Not a valid entity.'
           end
         end
         context 'with an invalid entity name' do
           it 'should fail' do
-            post :upload, code: token.code, file: valid_content, entity: invalid_entity
-            expect(response).to have_http_status(400)
+            post :upload, code: token.code, files: [valid_content], entity: invalid_entity
+            expect(json['status']).to eql(400)
           end
           it 'should have an appropriate error message' do
-            post :upload, code: token.code, file: valid_content, entity: invalid_entity
+            post :upload, code: token.code, files: [valid_content], entity: invalid_entity
             expect(json['message']).to eql 'Not a valid entity.'
           end
         end
+
         context 'with valid content' do
           it 'should be successful' do
-            post :upload, code: token.code, file: valid_content, entity: valid_entity
+            post :upload, code: token.code, files: [valid_content], entity: valid_entity
             expect(response).to have_http_status(200)
           end
           it 'should have an appropriate feedback message' do
-            post :upload, code: token.code, file: valid_content, entity: valid_entity
-            expect(json['message']).to eql 'Success.'
+            post :upload, code: token.code, files: [valid_content], entity: valid_entity
+            expect(json['message']).to eql 'Successfully uploaded.'
           end
         end
-        context 'with invalid content' do
+
+        context 'with empty file' do
           it 'should fail' do
-            post :upload, code: token.code, file: invalid_content, entity: valid_entity
-            expect(response).to have_http_status(400)
+            post :upload, code: token.code, files: [nil], entity: valid_entity
+            expect(json['status']).to eql(400)
           end
           it 'should have an appropriate error message' do
-            post :upload, code: token.code, file: invalid_content, entity: valid_entity
+            post :upload, code: token.code, files: [nil], entity: valid_entity
+            expect(json['message']).to eql 'Only CSV files are accepted.'
+          end
+        end
+
+        context 'with invalid file type' do
+          it 'should fail' do
+            post :upload, code: token.code, files: [invalid_content_type], entity: valid_entity
+            expect(json['status']).to eql(400)
+          end
+          it 'should have an appropriate error message' do
+            post :upload, code: token.code, files: [invalid_content_type], entity: valid_entity
+            expect(json['message']).to eql 'Only CSV files are accepted.'
+          end
+        end
+
+        context 'with multiple file' do
+          before(:example) do
+            create(:organization, id: 1)
+          end
+          it 'should succeed' do
+            post :upload, code: token.code, files: [valid_locations, valid_addresses], entity: 'location'
+            expect(json['status']).to eql(200)
+          end
+          it 'should have an appropriate feedback message' do
+            post :upload, code: token.code, files: [valid_locations, valid_addresses], entity: 'location'
+            expect(json['message']).to eql 'Successfully uploaded.'
+          end
+        end
+        
+        context 'with invalid content' do
+          before(:each) do
+            allow(Kernel).to receive(:puts).and_return(nil)
+          end
+          it 'should fail' do
+            post :upload, code: token.code, files: [invalid_content], entity: valid_entity
+            expect(json['status']).to eql(400)
+          end
+          it 'should have an appropriate error message' do
+            post :upload, code: token.code, files: [invalid_content], entity: valid_entity
             expect(json['message']).to match_array ["Line 2: Name can't be blank for Organization"]
           end
         end
+
+        context 'with invalid headers' do
+          before(:each) do
+            allow(Kernel).to receive(:puts).and_return(nil)
+          end
+          it 'should fail' do
+            post :upload, code: token.code, files: [invalid_content], entity: 'mail_address'
+            expect(json['status']).to eql(400)
+          end
+          it 'should have an appropriate error message' do
+            post :upload, code: token.code, files: [invalid_content], entity: 'mail_address'
+            expect(json['message']).to include "city column is missing"
+          end
+        end
+
       end
     end
   end

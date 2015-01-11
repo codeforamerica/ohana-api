@@ -1,9 +1,10 @@
 .container
 
-  .alert.alert-warning.fade.in
-    .label.label-warning NOTE
-    This page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
-    .fa.fa-times.pull-right.close{'data-dismiss'=>'alert'}
+  - if !cookies[:welcome_notice]
+    .WelcomeNotice.alert.alert-warning.fade.in
+      .label.label-warning NOTE
+      This page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
+      .fa.fa-times.pull-right.close{'data-dismiss'=>'alert'}
   .jumbotron{style: 'min-height:600px;position:relative;padding: 30px'}
     =image_tag 'welcome/ohana-logo.png', width: 240, style: 'margin-top:-10px;margin-bottom:20px'
     .row

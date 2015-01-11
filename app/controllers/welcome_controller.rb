@@ -8,27 +8,35 @@ class WelcomeController < ApplicationController
 
   def upload
     token = WelcomeToken.first
-    message = 'Not a valid entity.'
+    entity = params[:entity]
     status = 400
 
-    if params[:entity].present? and WelcomeToken::ENTITIES.include? params[:entity]
-      importer_class = "#{params[:entity].titleize}Importer".constantize
+    if entity.present? and WelcomeToken::ENTITIES.include? entity
+      begin
+        importer_class = "#{entity.camelcase}Importer".constantize
+        if params[:files].present? and params[:files].compact.present? and params[:files].compact.all?{|f| f.content_type == 'text/csv'}
+          # see: http://stackoverflow.com/a/4612440/32816
+          # Feed the content to the entity importer.
+          files = params[:files].map{|f| f.tempfile.path }
+          errors = importer_class.check_and_import_file(*files)
 
-      # Feed the content to the entity importer.
-      importer = importer_class.new(params[:file]).tap(&:import)
-      errors = []
-      importer.errors.each { |e| errors << e } unless importer.valid?
-      
-      if importer.valid?
-        message = 'Success.'
-        status = 200
-      else
-        message = errors
-        status = 400
+          if errors.blank?
+            message = 'Successfully uploaded.'
+            status = 200
+          else
+            message = errors
+          end
+        else
+          message = 'Only CSV files are accepted.'
+        end
+      rescue NameError => e
+        message = 'Not a valid entity.'
       end
+    else
+      message = 'Not a valid entity.'
     end
 
-    render json: {message: message}, status: status
+    render json: {status: status, message: message, entity: entity}, status: 200
   end
 
   private

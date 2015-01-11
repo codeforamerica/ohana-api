@@ -18,18 +18,22 @@ class EntityImporter < Struct.new(:content)
 
   def self.process_import(path)
     importer = import_file(path)
-    importer.errors.each { |e| Kernel.puts(e) } unless importer.valid?
+    if !importer.valid? and importer.valid_headers?
+      importer.errors.each { |e| Kernel.puts(e) }
+    else
+      importer.header_errors.each { |e| Kernel.puts(e) }
+    end
   end
 
   def valid_headers?
     missing_headers.empty?
   end
 
-  protected
-
   def header_errors
     missing_headers.map { |header| "#{header} column is missing" }
   end
+
+  protected
 
   def missing_headers
     required_headers - headers

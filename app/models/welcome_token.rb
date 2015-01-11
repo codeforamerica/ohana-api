@@ -2,16 +2,15 @@ class WelcomeToken < ActiveRecord::Base
   after_create :set_code
 
   ENTITIES = %W{
-    address
-    location
-    phone
-    service
-    contact
-    mail_address
-    program
-    taxonomy
-    holiday_schedule
     organization
+    location
+    service
+    program
+    category
+    contact
+    phone
+    mail_address
+    holiday_schedule
     regular_schedule
   }
 
