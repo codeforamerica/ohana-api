@@ -60,11 +60,6 @@
       "generator": "secret",
       "required": true
     },
-    "SECRET_TOKEN": {
-      "description": "Rails secret token",
-      "generator": "secret",
-      "required": true
-    },
     "MAILER_URL": {
       "description": "Must have the format http://APPNAME.herokuapp.com/",
       "required": true
