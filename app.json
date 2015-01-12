@@ -11,7 +11,7 @@
   "logo": "https://pbs.twimg.com/profile_images/423584474803093504/yBactGKA_400x400.png",
   "success_url": "/welcome",
   "scripts": {
-    "postdeploy": "sh script/setup_prod_db"
+    "postdeploy": "sh script/setup_prod_db && bundle exec rake db:seed"
   },
   "env": {
     "API_PATH": {
