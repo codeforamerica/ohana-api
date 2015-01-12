@@ -198,8 +198,7 @@ CREATE TABLE categories (
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    ancestry character varying(255),
-    tid integer
+    ancestry character varying(255)
 );
 
 
@@ -681,6 +680,7 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 CREATE TABLE welcome_tokens (
     id integer NOT NULL,
     code character varying(255),
+    is_active boolean DEFAULT true,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -1418,8 +1418,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141109021540');
 INSERT INTO schema_migrations (version) VALUES ('20141109022202');
 
 INSERT INTO schema_migrations (version) VALUES ('20141118132537');
-
-INSERT INTO schema_migrations (version) VALUES ('20141204184510');
 
 INSERT INTO schema_migrations (version) VALUES ('20141208165502');
 

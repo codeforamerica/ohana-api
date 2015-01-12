@@ -9,7 +9,7 @@ class WelcomeController < ApplicationController
   def sign_in_first_time
     admin = Admin.first
     # Only destroy the token in production.
-    WelcomeToken.destroy_all if Rails.env.production?
+    WelcomeToken.first.disable if Rails.env.production?
     sign_in_and_redirect :admin, admin
   end
 
@@ -79,6 +79,8 @@ class WelcomeController < ApplicationController
       path = if token.blank?
         token = WelcomeToken.create
         welcome_path(code: token.code)
+      elsif !token.is_active
+        root_path
       elsif params[:code].blank?
         root_path
       elsif params[:code] != token.code

@@ -18,4 +18,8 @@ class WelcomeToken < ActiveRecord::Base
     # Create a unique hash for this token
     update_attribute :code, SecureRandom.uuid
   end
+  
+  def disable
+    update_attribute :is_active, false
+  end
 end

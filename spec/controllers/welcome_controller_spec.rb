@@ -14,11 +14,11 @@ RSpec.describe WelcomeController, :type => :controller do
         post :sign_in_first_time, code: token.code
         expect(response).to redirect_to admin_dashboard_path
       end
-      it 'should destroy the token in production' do
+      it 'should disable the token in production' do
         token
         allow(Rails.env).to receive(:production?).and_return(true)
         post :sign_in_first_time, code: token.code
-        expect(WelcomeToken.count).to eql 0
+        expect(WelcomeToken.first.is_active).to be false
       end
     end
 
@@ -90,6 +90,13 @@ RSpec.describe WelcomeController, :type => :controller do
       context 'with the wrong code' do
         it 'should redirect to the root path' do
           create(:welcome_token)
+          post :upload, code: 12345
+          expect(response).to redirect_to(root_path)
+        end
+      end
+      context 'with inactive code' do
+        it 'should redirect to the root path' do
+          create(:welcome_token, is_active: false)
           post :upload, code: 12345
           expect(response).to redirect_to(root_path)
         end
