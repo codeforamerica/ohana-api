@@ -3,7 +3,39 @@ require 'rails_helper'
 RSpec.describe WelcomeController, :type => :controller do
   include Requests::RequestHelpers
 
-  describe 'Admin user' do
+  describe 'A visitor' do
+    context '#sign_in_first_time' do
+      let(:token) { create(:welcome_token) }
+      before(:each) do
+        create(:admin)
+      end
+      it 'should redirect to the root page' do
+        token
+        post :sign_in_first_time, code: token.code
+        expect(response).to redirect_to admin_dashboard_path
+      end
+      it 'should destroy the token in production' do
+        token
+        allow(Rails.env).to receive(:production?).and_return(true)
+        post :sign_in_first_time, code: token.code
+        expect(WelcomeToken.count).to eql 0
+      end
+    end
+
+    context '#start_over' do
+      let(:token) { create(:welcome_token) }
+      it 'should destroy all organizations' do
+        token
+        post :start_over, code: token.code
+        expect(Organization.count).to eql 0
+      end
+      it 'should reset the primary key sequence of some entities' do
+        token
+        expect(ActiveRecord::Base.connection).to receive(:reset_pk_sequence!).exactly(7).times
+        post :start_over, code: token.code
+      end
+    end
+
     context 'visiting welcome home' do
       context 'when there is no welcome token in the system' do
         before(:example) do
@@ -138,7 +170,7 @@ RSpec.describe WelcomeController, :type => :controller do
             expect(json['message']).to eql 'Successfully uploaded.'
           end
         end
-        
+
         context 'with invalid content' do
           before(:each) do
             allow(Kernel).to receive(:puts).and_return(nil)
