@@ -66,7 +66,7 @@ the Open Eligibility taxonomy, read our Wiki article on [taxonomy basics](https:
 ## Deploying to Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-  
+
 See the [Wiki](https://github.com/codeforamerica/ohana-api/wiki/How-to-deploy-the-Ohana-API-to-your-Heroku-account) for manual setup or use the one-click deploy button above.
 
 ## Running the tests

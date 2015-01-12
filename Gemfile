@@ -61,7 +61,7 @@ gem 'rack-cache'
 gem 'dalli'
 gem 'kgio'
 gem 'memcachier'
-  
+
 gem "jquery-fileupload-rails"
 
 group :production do
