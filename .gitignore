@@ -52,3 +52,6 @@ script/import_to_staging
 
 # Zeus
 .zeus.sock
+
+# Ignore image archive files
+.DS_Store
