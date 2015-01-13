@@ -69,6 +69,7 @@
   },
   "addons": [
     "heroku-postgresql",
-    "mandrill"
+    "mandrill",
+    "memcachier"
   ]
 }
