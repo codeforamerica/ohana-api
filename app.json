@@ -16,11 +16,13 @@
   "env": {
     "API_PATH": {
       "value": "api",
-      "required": true
+      "required": true,
+      "description": "(required) The path your API will be served from."
     },
     "ADMIN_PATH": {
       "value": "admin",
-      "required": true
+      "required": true,
+      "description": "(required) The path your Admin console will live."
     },
     "ADMIN_SUPPORT_EMAIL": {
       "description": "(required) The email address that admin interface users should send questions/issues to.",
