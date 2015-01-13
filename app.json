@@ -1,0 +1,75 @@
+{
+  "name": "Ohana API",
+  "description": "The open source API directory of community social services.",
+  "keywords": [
+    "social services",
+    "api",
+    "code for america"
+  ],
+  "website": "http://ohanapi.org/",
+  "repository": "https://github.com/codeforamerica/ohana-api",
+  "logo": "https://pbs.twimg.com/profile_images/423584474803093504/yBactGKA_400x400.png",
+  "success_url": "/welcome",
+  "scripts": {
+    "postdeploy": "sh script/setup_prod_db && bundle exec rake db:seed"
+  },
+  "env": {
+    "API_PATH": {
+      "value": "api",
+      "required": true,
+      "description": "(required) The path your API will be served from."
+    },
+    "ADMIN_PATH": {
+      "value": "admin",
+      "required": true,
+      "description": "(required) The path your Admin console will live."
+    },
+    "ADMIN_SUPPORT_EMAIL": {
+      "description": "(required) The email address that admin interface users should send questions/issues to.",
+      "required": true
+    },
+    "CONFIRMATION_EMAIL": {
+      "description": "(required) The email address that confirmation emails are sent from after user signup.",
+      "required": true
+    },
+    "DEFAULT_PER_PAGE": {
+      "description": "(required) This setting controls how many results you want to the API to return per page by default.",
+      "value": "30",
+      "required": true
+    },
+    "MAX_PER_PAGE": {
+      "description": "(required) This setting controls the maximum amount of results you want to the API to return per page.",
+      "value": "50",
+      "required": true
+    },
+    "EXPIRES_IN": {
+      "description": "(required) This setting defines how long, in minutes, API responses will be cached in Ohana Web Search",
+      "value": "5",
+      "required": true
+    },
+    "SECRET_TOKEN": {
+      "description": "(required) A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret",
+      "required": true
+    },
+    "WEB_CONCURRENCY": {
+      "description": "(required) The number of processes to run.",
+      "value": "5",
+      "required": true
+    },
+    "DEVISE_SECRET_KEY": {
+      "description": "(required) Devise secret token",
+      "generator": "secret",
+      "required": true
+    },
+    "MAILER_URL": {
+      "description": "(required) This is the URL of your app. It must have the format http://APPNAME.herokuapp.com/",
+      "required": true
+    }
+  },
+  "addons": [
+    "heroku-postgresql",
+    "mandrill",
+    "memcachier"
+  ]
+}

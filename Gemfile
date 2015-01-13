@@ -9,6 +9,7 @@ gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass', '~> 3.3.0'
+gem 'font-awesome-rails'
 
 # Rails 4
 gem 'protected_attributes'
@@ -61,6 +62,8 @@ gem 'dalli'
 gem 'kgio'
 gem 'memcachier'
 
+gem "jquery-fileupload-rails"
+
 group :production do
   # Heroku recommended
   gem 'rails_12factor'
@@ -71,6 +74,7 @@ group :test, :development do
   gem 'rspec-its'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
+  gem 'pry-rails'
 end
 
 group :test do

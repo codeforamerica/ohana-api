@@ -1,0 +1,26 @@
+- if !cookies[:welcome_notice]
+  .WelcomeNotice.alert.alert-warning.fade.in{style: 'margin-bottom:0'}
+    .label.label-warning NOTE
+    This page has a unique url. If you dont' complete the configuration now, you can continue if you come back with the same url.
+    .fa.fa-times.pull-right.close{'data-dismiss'=>'alert'}
+.jumbotron{style: 'min-height:600px;position:relative;padding: 30px;margin-bottom:0'}
+  .row
+    .col-lg-4
+      =image_tag 'welcome/ohana-logo.png', width: 240, style: 'margin-top:-10px;margin-bottom:20px'
+    .col-lg-8
+
+      .btn-group.pull-right
+        =form_tag '/welcome/sign_in', method: :post, class: 'pull-right' do
+          =hidden_field_tag 'code', params[:code]
+          %button.btn.btn-lg.btn-primary.SignInAs{type: 'submit'}
+            Get started
+            .fa.fa-sign-in
+
+        =link_to start_over_path(code: params[:code]), method: :post, class: 'pull-right', data: {confirm: 'Are you sure?'}, style: 'margin-right:10px' do
+          .btn.btn-danger.btn-lg
+            Start over
+            .fa.fa-trash
+
+  .row
+    .col-lg-12
+      =render partial: 'welcome/content'

@@ -204,6 +204,20 @@ production:
   ENABLE_HTTPS: yes
   TIMEOUT: '10'
 
+
+# The email address that admin interface users should send questions/issues to.
+# This link appears when an admin views their locations and organizations.
+# See app/views/admin/locations/index.html.haml and
+# app/views/admin/organizations/index.html.haml.
+#
+# Please make sure to change this to your own email address.
+ADMIN_SUPPORT_EMAIL: ohanapi@codeforamerica.org
+
+# The email address that confirmation emails are sent from after user signup.
+# Please make sure to change this to your own email address.
+CONFIRMATION_EMAIL: ohanapi@codeforamerica.org
+
+
 ###########################################
 #
 # SETTINGS FOR TESTS. PLEASE DO NOT MODIFY.

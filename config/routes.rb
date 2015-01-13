@@ -7,6 +7,13 @@ Rails.application.routes.draw do
   # See how all your routes lay out with 'rake routes'.
   # Read more about routing: http://guides.rubyonrails.org/routing.html
 
+  controller :welcome do
+    get "/welcome" => "welcome#home", as: :welcome
+    post "/welcome/upload" => "welcome#upload", as: :welcome_upload
+    post "/welcome/sign_in" => "welcome#sign_in_first_time"
+    post "/welcome/start_over" => "welcome#start_over", as: :start_over
+  end
+
   devise_for :users, controllers: { registrations: 'user/registrations' }
   devise_for :admins, path: ENV['ADMIN_PATH'] || '/', controllers: { registrations: 'admin/registrations' }
 

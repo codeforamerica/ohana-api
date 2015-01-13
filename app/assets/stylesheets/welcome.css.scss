@@ -1,0 +1,45 @@
+// = require jquery.fileupload
+
+@import "font-awesome";
+@import "bootstrap/variables";
+  
+.c{ cursor: pointer; }
+
+#welcomeTabs{
+  border: none;
+
+  li{
+    border-bottom:solid 1px transparent;
+  }
+  .active{
+    border-bottom:solid 1px #ccc;
+  }
+  a:hover{
+    text-decoration: none;
+  }
+}
+
+.EntityTable td{ border-top: none !important; }
+.Entity{ width: 33%;}
+.FeedbackMessage{ padding: 10px 10px 0; }
+
+.progress{ display: none;}
+.current .progress{ display: block;}
+
+
+.Entity.NotUploaded .Uploaded{ display:none; }
+.Entity.Uploaded .NotUploaded{ display:none; }
+
+
+.Entity.Disabled { opacity: 0.4; a{cursor: default;} }
+
+.EntityCluster{
+  border-top: solid 1px #ccc;
+}
+.EntityTable td:first-child{
+  border-right: solid 1px #ccc;
+}
+
+.Entity.Uploaded[data-entity='location'] li{
+  color: $text-muted;
+}

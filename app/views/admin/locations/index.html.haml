@@ -1,6 +1,6 @@
 %p
   Below you should see a list of locations that you are allowed to administer based on your email address.
-  If there are any locations missing, please #{mail_to "#{SETTINGS[:admin_support_email]}", 'let us know'}.
+  If there are any locations missing, please #{mail_to "#{ENV['ADMIN_SUPPORT_EMAIL']}", 'let us know'}.
 %p
   To start updating, click on one of the links, which will take you to the details page
   for the location.

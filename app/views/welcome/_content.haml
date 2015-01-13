@@ -1,0 +1,75 @@
+%table.table.text-center.EntityTable
+  %tr
+    %td.Feedback.hide.alert.text-left.fade.in{colspan: 3}
+      .fa.fa-times.close
+      .FeedbackMessage
+
+      .fileinput-button
+        %input#MultiFileEntityUploadFactory{type: 'file', name: "files[]", multiple: true}
+      .fileinput-button
+        %input#EntityUploadFactory{type: 'file', name: "files[]", multiple: false}
+  %tr
+    %td.Entity{class: "#{Category.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'category'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Taxonomy
+  %tr.EntityCluster
+    %td.Entity.Organization{class: "#{Organization.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'organization'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Organizations
+    %td.Entity{class: "#{Program.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'program', depends_on: 'organization'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Programs
+
+    %td.Entity{class: "#{Phone.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'phone', depends_on: 'organization and contact and location and service'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Phones
+  %tr
+    %td.Entity{class: "#{Location.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'location', depends_on: 'organization'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Addresses and Locations
+      %ul.small.fa-ul.text-left.center-block.FilesList{style: 'width:55px;margin-left:auto'}
+        %li.AddressesFile
+          .fa.fa-file-o.fa-li
+          addresses.csv
+        %li.LocationsFile
+          .fa.fa-file-o.fa-li
+          locations.csv
+
+    %td.Entity{class: "#{Contact.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'contact', depends_on: 'location and organization and service'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Contacts
+
+    %td.Entity{class: "#{Service.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'service', depends_on: 'location and organization'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Services
+  %tr
+
+    %td
+
+
+    %td.Entity{class: "#{HolidaySchedule.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'holiday_schedule', depends_on: 'location and service'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Holiday schedules
+
+    %td.Entity{class: "#{RegularSchedule.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'regular_schedule', depends_on: 'location and service'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Regular Schedules
+  %tr
+    %td
+
+    %td.Entity{class: "#{MailAddress.count == 0 ? 'NotUploaded' : 'Uploaded'}", data: {entity: 'mail_address', depends_on: 'location'}}
+      =render partial: 'welcome/btn_upload_file'
+      %p
+        Mail addresses
+
+
+
