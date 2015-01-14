@@ -7,7 +7,7 @@ then
   herokuApp="$1"
 
   echo "Getting ready to set environment variables for $herokuApp"
-  figaro heroku:set -e production
+  figaro heroku:set -e production --app $herokuApp
 
   echo "Setting MAILER_URL"
   heroku config:set MAILER_URL=$herokuApp.herokuapp.com --app $herokuApp
@@ -37,7 +37,8 @@ then
   echo "Pushing code to Heroku now. This will take a few minutes..."
   git push heroku master
 
-  heroku run script/setup_prod_db --app $herokuApp
+  echo "Setting up the Heroku database"
+  heroku run rake db:migrate -a $herokuApp
 else
   echo "Please add your Heroku app name to the end of the command."
   echo "Usage: setup_heroku your_app_name"

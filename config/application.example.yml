@@ -201,7 +201,7 @@ production:
   MAX_PER_PAGE: '50'
   EXPIRES_IN: '1'
   TLD_LENGTH: '2'
-  ENABLE_HTTPS: yes
+  ENABLE_HTTPS: 'yes'
   TIMEOUT: '10'
 
 ###########################################
