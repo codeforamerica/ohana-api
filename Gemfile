@@ -51,7 +51,7 @@ gem 'pg_search'
 # Nested categories for OpenEligibility
 gem 'ancestry'
 
-gem 'friendly_id', '~> 5.0.3'
+gem 'friendly_id', '~> 5.0'
 
 gem 'rack-timeout'
 
