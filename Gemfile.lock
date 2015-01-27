@@ -37,6 +37,9 @@ GEM
       parser (>= 2.2.0.pre.3, < 3.0)
     auto_strip_attributes (2.0.6)
       activerecord (>= 3.0)
+    autoprefixer-rails (5.0.0.3)
+      execjs
+      json
     bcrypt (3.1.9)
     better_errors (2.1.0)
       coderay (>= 1.0.0)
@@ -44,8 +47,9 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.3.1.0)
-      sass (~> 3.2)
+    bootstrap-sass (3.3.3)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     builder (3.2.2)
     bullet (4.14.0)
       activesupport (>= 3.0.0)
