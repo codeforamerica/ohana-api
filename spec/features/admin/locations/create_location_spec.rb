@@ -203,7 +203,8 @@ feature 'Create a new location' do
     click_button 'Create location'
     click_link 'New Parent Agency location'
 
-    expect(find_field('location_languages').value).to eq %w(French Spanish)
+    expect(find_field('location_languages', visible: false).value).
+      to eq %w(French Spanish)
   end
 end
 
