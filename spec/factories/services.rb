@@ -18,6 +18,7 @@ FactoryGirl.define do
     fees 'none '
     funding_sources ['County ', 'County']
     how_to_apply '  in  person'
+    interpretation_services 'CTS LanguageLink '
     keywords ['health ', ' yoga', 'yoga']
     languages ['French ', ' English']
     name 'Benefits '

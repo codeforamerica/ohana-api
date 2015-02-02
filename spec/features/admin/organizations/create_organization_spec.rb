@@ -105,7 +105,7 @@ feature 'Create a new organization' do
     click_button 'Create organization'
     click_link 'new org'
 
-    expect(find(:css, 'select#organization_funding_sources').value).
+    expect(find('#organization_funding_sources', visible: false).value).
       to eq(['State'])
   end
 

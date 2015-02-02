@@ -11,7 +11,6 @@ We encourage third-party developers to build additional applications on top of t
 
 ## Taxonomy
 We are currently using the [Open Eligibility](http://openeligibility.org) taxonomy to assign Services to [Categories](https://github.com/smcgov/ohana-api-smc/blob/master/app/models/category.rb).
-
 The easiest way to assign categories to a service is to use the Admin interface. Here's a screenshot:
 
 ![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
@@ -21,7 +20,7 @@ The easiest way to assign categories to a service is to use the Admin interface.
 
 As the API is updated to match the [OpenReferral specification](https://github.com/codeforamerica/OpenReferral), the
 documentation will be updated as well. Version 1.0 of the spec is scheduled
-to be released in early January 2015.
+to be released by the end of February 2015.
 
 ## Ruby wrapper
 [https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
@@ -35,13 +34,11 @@ to be released in early January 2015.
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
 ## Local Installation
-
 Follow the instructions in [INSTALL.md][install].
 
 [install]: https://github.com/smcgov/ohana-api-smc/blob/master/INSTALL.md
 
-### Running the tests
-
+## Running the tests
 Run tests locally with this simple command:
 
     script/test

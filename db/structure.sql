@@ -671,7 +671,8 @@ CREATE TABLE services (
     status character varying(255) DEFAULT 'active'::character varying,
     website character varying(255),
     wait_time character varying(255),
-    program_id integer
+    program_id integer,
+    interpretation_services text
 );
 
 
@@ -1494,4 +1495,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141127025633');
 INSERT INTO schema_migrations (version) VALUES ('20141127025735');
 
 INSERT INTO schema_migrations (version) VALUES ('20141208165502');
+
+INSERT INTO schema_migrations (version) VALUES ('20150107163352');
 

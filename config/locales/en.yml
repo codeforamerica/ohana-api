@@ -60,8 +60,9 @@ en:
       number_type:
         fax: "Fax"
         hotline: "Hotline"
-        voice: "Voice"
+        sms: "SMS"
         tty: "TTY"
+        voice: "Voice"
 
   errors:
     messages:

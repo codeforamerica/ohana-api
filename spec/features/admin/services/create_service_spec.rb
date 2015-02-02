@@ -83,7 +83,8 @@ feature 'Create a new service' do
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find(:css, 'select#service_accepted_payments').value).to eq(['Cash'])
+    expect(find('#service_accepted_payments', visible: false).value).
+      to eq(['Cash'])
   end
 
   scenario 'when adding a funding source', :js do
@@ -92,7 +93,8 @@ feature 'Create a new service' do
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find(:css, 'select#service_funding_sources').value).to eq(['County'])
+    expect(find('#service_funding_sources', visible: false).value).
+      to eq(['County'])
   end
 
   scenario 'with how_to_apply' do
@@ -102,6 +104,15 @@ feature 'Create a new service' do
     click_link 'New VRS Services service'
 
     expect(find_field('service_how_to_apply').value).to eq 'Low-income residents.'
+  end
+
+  scenario 'when adding interpretation services' do
+    fill_in_required_service_fields
+    fill_in 'service_interpretation_services', with: 'CTS LanguageLink'
+    click_button 'Create service'
+    click_link 'New VRS Services service'
+
+    expect(find_field('service_interpretation_services').value).to eq 'CTS LanguageLink'
   end
 
   scenario 'with status' do
@@ -130,7 +141,9 @@ feature 'Create a new service' do
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find(:css, 'select#service_languages').value).to eq(['French'])
+    service = Service.find_by_name('New VRS Services service')
+    expect(service.languages).to eq ['French']
+    expect(find('#service_languages', visible: false).value).to eq(['French'])
   end
 
   scenario 'when adding a required document', :js do
@@ -139,7 +152,8 @@ feature 'Create a new service' do
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find(:css, 'select#service_required_documents').value).to eq(['Picture ID'])
+    expect(find('#service_required_documents', visible: false).value).
+      to eq(['Picture ID'])
   end
 
   scenario 'when adding a service area', :js do
@@ -148,7 +162,8 @@ feature 'Create a new service' do
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find(:css, 'select#service_service_areas').value).to eq(['Belmont'])
+    expect(find('#service_service_areas', visible: false).value).
+      to eq(['Belmont'])
   end
 
   scenario 'when adding a website' do
