@@ -151,7 +151,7 @@ GEM
       activerecord (>= 3.1)
       activesupport (>= 3.1)
       arel
-    poltergeist (1.5.1)
+    poltergeist (1.6.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
@@ -282,7 +282,9 @@ GEM
     uniform_notifier (1.6.2)
     warden (1.2.3)
       rack (>= 1.0)
-    websocket-driver (0.3.3)
+    websocket-driver (0.5.1)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
