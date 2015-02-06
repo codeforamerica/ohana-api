@@ -1,6 +1,6 @@
 require 'csv'
 
-class EntityImporter < Struct.new(:content)
+EntityImporter = Struct.new(:content) do
   def self.import_file(path)
     content = File.read(path)
     new(content).tap(&:import)

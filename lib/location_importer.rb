@@ -1,4 +1,4 @@
-class LocationImporter < Struct.new(:content, :addresses)
+LocationImporter = Struct.new(:content, :addresses) do
   def self.import_file(path, addresses_path)
     content = File.read(path)
     new(content, addresses_for(addresses_path)).tap(&:import)

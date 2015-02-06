@@ -173,15 +173,15 @@ describe 'GET /locations/:id' do
       get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['contacts']).
         to eq(
-        [{
-          'id'        => @location.contacts.first.id,
-          'email'     => nil,
-          'name'      => @location.contacts.first.name,
-          'department'     => nil,
-          'title'     => @location.contacts.first.title,
-          'phones'    => @location.contacts.first.phones
-        }]
-      )
+          [{
+            'id'        => @location.contacts.first.id,
+            'email'     => nil,
+            'name'      => @location.contacts.first.name,
+            'department'     => nil,
+            'title'     => @location.contacts.first.title,
+            'phones'    => @location.contacts.first.phones
+          }]
+        )
     end
 
     it 'displays phones when present' do
@@ -189,15 +189,15 @@ describe 'GET /locations/:id' do
       get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
       expect(json['phones']).
         to eq(
-        [{
-          'id'            => @location.phones.first.id,
-          'department'    => @location.phones.first.department,
-          'extension'     => @location.phones.first.extension,
-          'number'        => @location.phones.first.number,
-          'number_type'   => @location.phones.first.number_type,
-          'vanity_number' => @location.phones.first.vanity_number
-        }]
-      )
+          [{
+            'id'            => @location.phones.first.id,
+            'department'    => @location.phones.first.department,
+            'extension'     => @location.phones.first.extension,
+            'number'        => @location.phones.first.number,
+            'number_type'   => @location.phones.first.number_type,
+            'vanity_number' => @location.phones.first.vanity_number
+          }]
+        )
     end
 
     it 'includes the serialized regular_schedules association' do

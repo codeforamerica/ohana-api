@@ -1,4 +1,4 @@
-class CategoryPresenter < Struct.new(:row)
+CategoryPresenter = Struct.new(:row) do
   def to_category
     return Category.create(row) if row[:parent_id].blank?
     return parent_category(row) unless parent_category(row).valid?

@@ -1,6 +1,6 @@
 include ParentAssigner
 
-class PhonePresenter < Struct.new(:row)
+PhonePresenter = Struct.new(:row) do
   def to_phone
     phone = Phone.find_or_initialize_by(id: row[:id].to_i)
     phone.attributes = row

@@ -1,4 +1,4 @@
-class AddressExtractor < Struct.new(:content)
+AddressExtractor = Struct.new(:content) do
   def self.extract_addresses(path)
     content = File.read(path)
     new(content).addresses

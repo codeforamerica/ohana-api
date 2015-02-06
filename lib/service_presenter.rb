@@ -2,7 +2,7 @@ include EntityPresenter
 include ParentAssigner
 include CategoryIdCollector
 
-class ServicePresenter < Struct.new(:row)
+ServicePresenter = Struct.new(:row) do
   def to_service
     service = Service.find_or_initialize_by(id: row[:id].to_i)
     to_array(row, :accepted_payments, :funding_sources, :keywords, :languages,
