@@ -50,14 +50,16 @@ Inside the `config` folder, you will find a file named `application.example.yml`
 Copy its contents to a new file called `application.yml`, and read through the documentation.
 
 #### Adjust customizable settings
-_This step is only necessary if you are planning on customizing the app with_
-_the intent of deploying it. If you just want to submit a pull request, you can_
-_use the default `settings.yml`._
-
 Inside the `config` folder, you will also find a file called `settings.yml`.
 In that file, there are many settings you can, and should, customize.
 Read through the documentation to learn how you can customize the app to suit
 your needs.
+
+To customize the text the appears throughout the website
+(such as error messages, titles, labels, branding), edit `config/locales/en.yml`.
+You can also translate the text by copying and pasting the contents of `en.yml`
+into a new locale for your language. Find out how in the
+[Rails Internationalization Guide](http://guides.rubyonrails.org/i18n.html).
 
 ### Install the dependencies and populate the database with sample data:
 
