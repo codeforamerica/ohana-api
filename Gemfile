@@ -41,7 +41,7 @@ gem 'auto_strip_attributes', '~> 2.0'
 gem 'enumerize'
 
 # App config and ENV variables for heroku
-gem 'figaro', '~> 1.0.0'
+gem 'figaro', '~> 1.0'
 
 # Search
 gem 'pg_search'
@@ -69,7 +69,7 @@ group :production do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 3.1.0'
+  gem 'rspec-rails', '~> 3.1'
   gem 'rspec-its'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
