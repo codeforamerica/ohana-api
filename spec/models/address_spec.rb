@@ -21,7 +21,7 @@ describe Address do
   it { is_expected.to validate_presence_of(:country_code).with_message("can't be blank for Address") }
 
   it do
-    is_expected.to ensure_length_of(:state).
+    is_expected.to validate_length_of(:state).
       is_at_least(2).
       is_at_most(2).
       with_short_message('is too short (minimum is 2 characters)').
@@ -29,7 +29,7 @@ describe Address do
   end
 
   it do
-    is_expected.to ensure_length_of(:country_code).
+    is_expected.to validate_length_of(:country_code).
       is_at_least(2).
       is_at_most(2).
       with_short_message('is too short (minimum is 2 characters)').
