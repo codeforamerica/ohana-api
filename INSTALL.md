@@ -46,12 +46,19 @@ Clone it on your computer and navigate to the project's directory:
 ### Set up the environment variables & customizable settings
 
 Inside the `config` folder, you will find a file named `application.example.yml`.
-Copy its contents to a new file called `application.yml`.
+Copy its contents to a new file called `application.yml`, and read through the documentation.
 
+#### Adjust customizable settings
 Inside the `config` folder, you will also find a file called `settings.yml`.
 In that file, there are various settings you can customize. They are already
 properly configured for San Mateo County data, but if you wish to make changes,
 please read through the instructions in that file carefully.
+
+To customize the text the appears throughout the website
+(such as error messages, titles, labels, branding), edit `config/locales/en.yml`.
+You can also translate the text by copying and pasting the contents of `en.yml`
+into a new locale for your language. Find out how in the
+[Rails Internationalization Guide](http://guides.rubyonrails.org/i18n.html).
 
 ### Install the dependencies and populate the database with sample data:
 
