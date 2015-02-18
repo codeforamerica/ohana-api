@@ -62,7 +62,7 @@ gem 'kgio'
 gem 'memcachier'
 
 group :production do
-  gem 'unicorn'
+  gem 'puma'
   gem 'rails_12factor'
   gem 'newrelic_rpm'
   gem 'skylight'
