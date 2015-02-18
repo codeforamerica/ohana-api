@@ -10,9 +10,8 @@ feature 'Create a new location' do
   scenario 'with all required fields', :js do
     fill_in_all_required_fields
     click_button 'Create location'
-    expect(current_path).to eq admin_locations_path
-    click_link 'New Parent Agency location'
 
+    expect(current_path).to eq '/admin/locations/new-parent-agency-location'
     expect(find_field('location_name').value).to eq 'New Parent Agency location'
     expect(find_field('location_description').value).to eq 'new description'
     expect(find_field('location_address_attributes_street_1').value).
@@ -43,7 +42,6 @@ feature 'Create a new location' do
       country_code: 'US'
     )
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_mail_address_attributes_attention').value).
       to eq 'moncef'
@@ -67,7 +65,6 @@ feature 'Create a new location' do
       vanity_number: '123-ABC-DEFG'
     )
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_phones_attributes_0_number').value).
       to eq '123-456-7890'
@@ -90,7 +87,6 @@ feature 'Create a new location' do
     fill_in 'location_email', with: 'moncefbelyamani@samaritanhousesanmateo.org'
 
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_email').value).
       to eq 'moncefbelyamani@samaritanhousesanmateo.org'
@@ -104,7 +100,6 @@ feature 'Create a new location' do
       closes_at_hour: '5 PM', closes_at_minute: '45'
     )
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     prefix = 'location_regular_schedules_attributes_0'
 
@@ -127,7 +122,6 @@ feature 'Create a new location' do
       closed: 'Closed'
     )
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     prefix = 'location_holiday_schedules_attributes_0'
 
@@ -150,7 +144,6 @@ feature 'Create a new location' do
     fill_in_all_required_fields
     check 'location_accessibility_elevator'
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find('#location_accessibility_elevator')).to be_checked
   end
@@ -159,7 +152,6 @@ feature 'Create a new location' do
     fill_in_all_required_fields
     fill_in 'location_transportation', with: 'SAMTRANS stops within 1/2 mile.'
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_transportation').value).
       to eq 'SAMTRANS stops within 1/2 mile.'
@@ -169,7 +161,6 @@ feature 'Create a new location' do
     fill_in_all_required_fields
     fill_in 'location_website', with: 'http://ruby.com'
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_website').value).to eq 'http://ruby.com'
   end
@@ -178,7 +169,6 @@ feature 'Create a new location' do
     fill_in_all_required_fields
     fill_in 'location_alternate_name', with: 'HSA'
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_alternate_name').value).
       to eq 'HSA'
@@ -190,7 +180,6 @@ feature 'Create a new location' do
     fill_in 'location_description', with: 'new description'
     select('Does not have a physical address', from: 'location_virtual')
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_virtual').value).
       to eq 'true'
@@ -201,7 +190,6 @@ feature 'Create a new location' do
     select2('French', 'location_languages', multiple: true)
     select2('Spanish', 'location_languages', multiple: true)
     click_button 'Create location'
-    click_link 'New Parent Agency location'
 
     expect(find_field('location_languages', visible: false).value).
       to eq %w(French Spanish)
