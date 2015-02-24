@@ -72,8 +72,7 @@ class Location < ActiveRecord::Base
   enumerize :accessibility,
             in: [:cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp,
                  :restroom, :tape_braille, :tty, :wheelchair, :wheelchair_van],
-            multiple: true,
-            scope: true
+            multiple: true
 
   # List of admin emails that should have access to edit a location's info.
   # Admin emails can be added to a location via the Admin interface.
