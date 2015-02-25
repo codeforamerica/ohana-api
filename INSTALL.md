@@ -1,4 +1,4 @@
-# Running Ohana API on your computer
+ # Running Ohana API on your computer
 
 ## Install Prerequisites
 
@@ -43,11 +43,17 @@ Clone it on your computer and navigate to the project's directory:
 
 [fork]: http://help.github.com/fork-a-repo/
 
+### Install the dependencies and populate the database with sample data:
+
+    script/bootstrap
+
+_Note: Installation and preparation can take several minutes to complete!_
+
 ### Set up the environment variables & customizable settings
 
 #### Configure environment variables
-Inside the `config` folder, you will find a file named `application.example.yml`.
-Copy its contents to a new file called `application.yml`, and read through the documentation.
+Inside the `config` folder, you will find a file named `application.yml`.
+Read through it to learn how to customize it to suit your needs.
 
 #### Adjust customizable settings
 Inside the `config` folder, you will also find a file called `settings.yml`.
@@ -60,12 +66,6 @@ To customize the text the appears throughout the website
 You can also translate the text by copying and pasting the contents of `en.yml`
 into a new locale for your language. Find out how in the
 [Rails Internationalization Guide](http://guides.rubyonrails.org/i18n.html).
-
-### Install the dependencies and populate the database with sample data:
-
-    script/bootstrap
-
-_Note: Installation and preparation can take several minutes to complete!_
 
 ### Run the app
 
