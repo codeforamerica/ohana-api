@@ -45,8 +45,8 @@ feature 'Organizations page' do
 
   context 'when signed in as super admin' do
     before :each do
-      @loc = create(:nearby_loc)
       create(:location_for_org_admin)
+      @loc = create(:location)
       login_super_admin
       visit '/admin/organizations'
     end
@@ -56,7 +56,7 @@ feature 'Organizations page' do
     end
 
     it 'shows all organizations' do
-      expect(page).to have_link 'Food Stamps'
+      expect(page).to have_link 'Parent Agency'
       expect(page).to have_link 'Far Org'
     end
 
@@ -66,7 +66,7 @@ feature 'Organizations page' do
     end
 
     it 'takes you to the right organization when clicked' do
-      click_link 'Food Stamps'
+      click_link 'Parent Agency'
       expect(current_path).
         to eq edit_admin_organization_path(@loc.organization)
     end
