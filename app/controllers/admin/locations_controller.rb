@@ -42,7 +42,7 @@ class Admin
       assign_location_to_org(policy_scope(Organization))
 
       if @location.save
-        redirect_to admin_locations_url, notice: 'Location was successfully created.'
+        redirect_to [:admin, @location], notice: 'Location was successfully created.'
       else
         render :new
       end

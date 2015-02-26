@@ -76,5 +76,10 @@ feature 'Services page' do
       expect(current_path).
         to eq edit_admin_location_service_path(@nearby.id, @service)
     end
+
+    xit 'sorts services alphabetically by name' do
+      expect(page.all('a')[8][:href]).
+        to eq "/admin/locations/#{@nearby.id}/services/#{@service.id}/edit"
+    end
   end
 end
