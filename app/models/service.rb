@@ -1,6 +1,6 @@
 class Service < ActiveRecord::Base
   attr_accessible :accepted_payments, :alternate_name, :audience, :description,
-                  :eligibility, :email, :fees, :funding_sources, :how_to_apply,
+                  :eligibility, :email, :fees, :funding_sources, :application_process,
                   :interpretation_services, :keywords, :languages, :name,
                   :required_documents, :service_areas, :status, :website,
                   :wait_time, :category_ids, :regular_schedules_attributes,
@@ -29,7 +29,7 @@ class Service < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
 
-  validates :name, :description, :how_to_apply, :location, :status,
+  validates :name, :description, :application_process, :location, :status,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
   validates :service_areas, array: { service_area: true }
@@ -37,7 +37,7 @@ class Service < ActiveRecord::Base
   validates :website, url: true, allow_blank: true
 
   auto_strip_attributes :alternate_name, :audience, :description, :eligibility,
-                        :email, :fees, :how_to_apply, :interpretation_services,
+                        :email, :fees, :application_process, :interpretation_services,
                         :name, :wait_time, :status, :website
 
   auto_strip_attributes :funding_sources, :keywords, :service_areas,

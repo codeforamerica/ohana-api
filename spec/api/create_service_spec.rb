@@ -9,7 +9,7 @@ describe 'POST /locations/:location_id/services' do
     @service_attributes = {
       name: 'test service',
       description: 'test description',
-      how_to_apply: 'walk in',
+      application_process: 'walk in',
       status: 'active'
     }
   end

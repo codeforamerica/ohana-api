@@ -16,7 +16,7 @@ describe ServicePresenter do
       location_id: '1',
       name: 'Literacy Program',
       description: 'Example description',
-      how_to_apply: 'Call',
+      application_process: 'Call',
       status: 'active'
     }
   end
@@ -65,7 +65,7 @@ describe ServicePresenter do
           location_id: '1',
           name: 'Literacy Program',
           description: 'Example description',
-          how_to_apply: 'Call',
+          application_process: 'Call',
           status: 'active',
           accepted_payments: 'one ,two',
           funding_sources: 'donations, grants ',
