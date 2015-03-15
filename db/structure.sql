@@ -589,7 +589,7 @@ CREATE TABLE services (
     description text NOT NULL,
     eligibility text,
     fees text,
-    application_process text NOT NULL,
+    application_process text,
     name text,
     wait_time text,
     funding_sources text,
@@ -1375,4 +1375,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141208165502');
 INSERT INTO schema_migrations (version) VALUES ('20150107163352');
 
 INSERT INTO schema_migrations (version) VALUES ('20150314204202');
+
+INSERT INTO schema_migrations (version) VALUES ('20150315202808');
 

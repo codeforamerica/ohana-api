@@ -29,7 +29,7 @@ class Service < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
 
-  validates :name, :description, :application_process, :location, :status,
+  validates :name, :description, :location, :status,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
   validates :service_areas, array: { service_area: true }
