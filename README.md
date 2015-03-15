@@ -8,17 +8,10 @@ This is the API + Admin Interface portion of the [Ohana API](http://ohanapi.org)
 
 The Ohana project also comes with a [web-based search interface](https://github.com/codeforamerica/ohana-web-search) that allows anyone to easily find services that are available in a particular community.
 
-## Development Road Map for 2014
-As a winner of the Knight News Challenge (Health edition), the Ohana project received a [grant from the Knight Foundation](http://www.knightfoundation.org/grants/201447979/), which allowed us to improve the project, and prepare it for broader installation by a variety of organizations and governments.
-
-We've fulfilled most of the deliverables defined in our agreement with the Knight Foundation, which ends in January 2015. Our remaining tasks are listed in the [Issues](https://github.com/codeforamerica/ohana-api/issues) section of this repo.
-
-Please note that between now and January 2015, there could be breaking changes in the API as we update it to support the [OpenReferral spec](https://github.com/codeforamerica/OpenReferral). The spec is currently at version 0.8, and version 1.0 is scheduled to be released by late January 2015.
-
 ## Stack Overview
 
 * Ruby version 2.1.5
-* Rails version 4.1.8
+* Rails version 4.1.9
 * Postgres
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 
