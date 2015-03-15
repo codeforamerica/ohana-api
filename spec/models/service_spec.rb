@@ -41,8 +41,8 @@ describe Service do
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:application_process).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
+  it { is_expected.to validate_presence_of(:status).with_message("can't be blank for Service") }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
   it { is_expected.to serialize(:keywords).as(Array) }

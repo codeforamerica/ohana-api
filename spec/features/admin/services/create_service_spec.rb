@@ -15,14 +15,12 @@ feature 'Create a new service' do
 
     expect(find_field('service_name').value).to eq 'New VRS Services service'
     expect(find_field('service_description').value).to eq 'new description'
-    expect(find_field('service_application_process').value).to eq 'new application process'
   end
 
   scenario 'without any required fields' do
     click_button 'Create service'
     expect(page).to have_content "Description can't be blank for Service"
     expect(page).to have_content "Name can't be blank for Service"
-    expect(page).to have_content "Application process can't be blank for Service"
   end
 
   scenario 'with alternate_name' do

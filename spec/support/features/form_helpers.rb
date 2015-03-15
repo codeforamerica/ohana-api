@@ -163,7 +163,6 @@ module Features
     def fill_in_required_service_fields
       fill_in 'service_name', with: 'New VRS Services service'
       fill_in 'service_description', with: 'new description'
-      fill_in 'service_application_process', with: 'new application process'
       select 'Active', from: 'service_status'
     end
   end
