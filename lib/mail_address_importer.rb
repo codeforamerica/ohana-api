@@ -12,8 +12,8 @@ class MailAddressImporter < EntityImporter
   end
 
   def required_headers
-    %w(id location_id attention street_1 street_2 city state postal_code
-       country_code).map(&:to_sym)
+    %w(id location_id attention address_1 address_2 city state_province postal_code
+       country).map(&:to_sym)
   end
 
   protected

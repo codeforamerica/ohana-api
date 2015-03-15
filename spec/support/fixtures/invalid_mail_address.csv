@@ -1,2 +1,2 @@
-id,location_id,attention,street_1,street_2,city,state,postal_code,country_code
+id,location_id,attention,address_1,address_2,city,state_province,postal_code,country
 1,1,John Smith,,Suite 101,Fairfax,VA,22031,US

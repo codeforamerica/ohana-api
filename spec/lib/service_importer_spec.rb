@@ -100,7 +100,7 @@ describe ServiceImporter do
         its(:eligibility) { is_expected.to eq 'Homeless and low-income residents.' }
         its(:email) { is_expected.to eq 'info@service.org' }
         its(:funding_sources) { is_expected.to eq ['DC Government', 'Donations'] }
-        its(:how_to_apply) { is_expected.to eq 'Call or apply in person' }
+        its(:application_process) { is_expected.to eq 'Call or apply in person' }
         its(:keywords) { is_expected.to eq ['hot meels', 'hungry'] }
         its(:languages) { is_expected.to eq %w(English Spanish Tagalog) }
         its(:name) { is_expected.to eq 'Harvest Food Bank of Palo Alto' }

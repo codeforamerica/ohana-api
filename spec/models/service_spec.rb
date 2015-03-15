@@ -13,7 +13,7 @@ describe Service do
   it { is_expected.to allow_mass_assignment_of(:email) }
   it { is_expected.to allow_mass_assignment_of(:fees) }
   it { is_expected.to allow_mass_assignment_of(:funding_sources) }
-  it { is_expected.to allow_mass_assignment_of(:how_to_apply) }
+  it { is_expected.to allow_mass_assignment_of(:application_process) }
   it { is_expected.to allow_mass_assignment_of(:interpretation_services) }
   it { is_expected.to allow_mass_assignment_of(:keywords) }
   it { is_expected.to allow_mass_assignment_of(:languages) }
@@ -41,7 +41,7 @@ describe Service do
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:how_to_apply).with_message("can't be blank for Service") }
+  it { is_expected.to validate_presence_of(:application_process).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
@@ -103,7 +103,7 @@ describe Service do
       expect(service.email).to eq('foo@example.com')
       expect(service.fees).to eq('none')
       expect(service.funding_sources).to eq(['County'])
-      expect(service.how_to_apply).to eq('in person')
+      expect(service.application_process).to eq('in person')
       expect(service.interpretation_services).to eq('CTS LanguageLink')
       expect(service.keywords).to eq(%w(health yoga))
       expect(service.languages).to eq(%w(French English))

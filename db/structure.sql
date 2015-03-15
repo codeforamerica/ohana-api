@@ -76,14 +76,14 @@ SET default_with_oids = false;
 CREATE TABLE addresses (
     id integer NOT NULL,
     location_id integer,
-    street_1 text,
+    address_1 text,
     city text,
-    state text,
+    state_province text,
     postal_code text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    country_code character varying(255) NOT NULL,
-    street_2 character varying(255)
+    country character varying(255) NOT NULL,
+    address_2 character varying(255)
 );
 
 
@@ -390,14 +390,14 @@ CREATE TABLE mail_addresses (
     id integer NOT NULL,
     location_id integer,
     attention text,
-    street_1 text,
+    address_1 text,
     city text,
-    state text,
+    state_province text,
     postal_code text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    country_code character varying(255) NOT NULL,
-    street_2 character varying(255)
+    country character varying(255) NOT NULL,
+    address_2 character varying(255)
 );
 
 
@@ -589,7 +589,7 @@ CREATE TABLE services (
     description text NOT NULL,
     eligibility text,
     fees text,
-    how_to_apply text NOT NULL,
+    application_process text NOT NULL,
     name text,
     wait_time text,
     funding_sources text,
@@ -1373,4 +1373,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141118132537');
 INSERT INTO schema_migrations (version) VALUES ('20141208165502');
 
 INSERT INTO schema_migrations (version) VALUES ('20150107163352');
+
+INSERT INTO schema_migrations (version) VALUES ('20150314204202');
 

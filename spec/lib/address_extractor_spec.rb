@@ -7,12 +7,12 @@ describe AddressExtractor do
         address_hash = {
           id: '1',
           location_id: '1',
-          street_1: '123 Main Street',
-          street_2: 'Suite 101',
+          address_1: '123 Main Street',
+          address_2: 'Suite 101',
           city: 'Fairfax',
-          state: 'VA',
+          state_province: 'VA',
           postal_code: '22031',
-          country_code: 'US'
+          country: 'US'
         }
 
         path = Rails.root.join('spec/support/fixtures/valid_address.csv')
@@ -25,12 +25,12 @@ describe AddressExtractor do
         address_hash = {
           id: '1',
           location_id: '1',
-          street_1: '123 Main Street',
-          street_2: 'Suite 101',
+          address_1: '123 Main Street',
+          address_2: 'Suite 101',
           city: nil,
-          state: 'VA',
+          state_province: 'VA',
           postal_code: '22031',
-          country_code: 'US'
+          country: 'US'
         }
 
         path = Rails.root.join('spec/support/fixtures/invalid_address.csv')

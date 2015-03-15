@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(version: 20140425033933) do
     t.text     "description"
     t.text     "eligibility"
     t.text     "fees"
-    t.text     "how_to_apply"
+    t.text     "application_process"
     t.text     "name"
     t.text     "short_desc"
     t.text     "urls"

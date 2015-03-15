@@ -72,10 +72,10 @@ describe 'GET /locations/:id' do
       serialized_address =
         {
           'id'     => @location.address.id,
-          'street_1' => @location.address.street_1,
-          'street_2' => nil,
+          'address_1' => @location.address.address_1,
+          'address_2' => nil,
           'city'   => @location.address.city,
-          'state'  => @location.address.state,
+          'state_province'  => @location.address.state_province,
           'postal_code'    => @location.address.postal_code
         }
       expect(json['address']).to eq(serialized_address)
@@ -101,7 +101,7 @@ describe 'GET /locations/:id' do
           'email'                   => nil,
           'fees'                    => nil,
           'funding_sources'         => [],
-          'how_to_apply'            => @location.services.first.how_to_apply,
+          'application_process'            => @location.services.first.application_process,
           'interpretation_services' => @location.services.first.interpretation_services,
           'keywords'                => @location.services.first.keywords,
           'languages'               => [],
@@ -159,10 +159,10 @@ describe 'GET /locations/:id' do
         {
           'id'        => @location.mail_address.id,
           'attention' => @location.mail_address.attention,
-          'street_1'    => @location.mail_address.street_1,
-          'street_2' => nil,
+          'address_1'    => @location.mail_address.address_1,
+          'address_2' => nil,
           'city'      => @location.mail_address.city,
-          'state'     => @location.mail_address.state,
+          'state_province'     => @location.mail_address.state_province,
           'postal_code'       => @location.mail_address.postal_code
         }
       expect(json['mail_address']).to eq(serialized_mail_address)

@@ -55,7 +55,7 @@ describe MailAddressImporter do
     context 'when the mail_address headers are invalid' do
       let(:content) { invalid_header_content }
 
-      its(:errors) { is_expected.to include('street_1 column is missing') }
+      its(:errors) { is_expected.to include('address_1 column is missing') }
     end
 
     context 'when the headers are valid' do
@@ -67,7 +67,7 @@ describe MailAddressImporter do
     context 'when the mail_address content is not valid' do
       let(:content) { invalid_content }
 
-      errors = ["Line 2: Street 1 can't be blank for Mail Address"]
+      errors = ["Line 2: Address 1 can't be blank for Mail Address"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -95,12 +95,12 @@ describe MailAddressImporter do
         subject { MailAddress.first }
 
         its(:attention) { is_expected.to eq 'John Smith' }
-        its(:street_1) { is_expected.to eq '123 Main Street' }
-        its(:street_2) { is_expected.to eq 'Suite 101' }
+        its(:address_1) { is_expected.to eq '123 Main Street' }
+        its(:address_2) { is_expected.to eq 'Suite 101' }
         its(:city) { is_expected.to eq 'Fairfax' }
-        its(:state) { is_expected.to eq 'VA' }
+        its(:state_province) { is_expected.to eq 'VA' }
         its(:postal_code) { is_expected.to eq '22031' }
-        its(:country_code) { is_expected.to eq 'US' }
+        its(:country) { is_expected.to eq 'US' }
         its(:location_id) { is_expected.to eq 1 }
       end
     end
