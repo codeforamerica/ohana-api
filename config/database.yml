@@ -3,7 +3,7 @@ default: &default
   encoding: utf8
   host: localhost
   port: 5432
-  pool: 5
+  pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 5 %>
   timeout: 5000
 
 development:
@@ -18,5 +18,5 @@ test:
   database: ohana_api_test
 
 production:
-  <<: *default
-  database: ohana_api_production
+  pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 5 %>
+  url: <%= ENV['DATABASE_URL'] %>
