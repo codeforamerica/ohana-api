@@ -10,7 +10,7 @@ The Ohana project also comes with a [web-based search interface](https://github.
 
 ## Stack Overview
 
-* Ruby version 2.1.5
+* Ruby version 2.2.1
 * Rails version 4.1.9
 * Postgres
 * Testing Frameworks: RSpec, Factory Girl, Capybara
