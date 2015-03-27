@@ -2,7 +2,7 @@ bundler_args: --without assets:development:production
 language: ruby
 cache: bundler
 rvm:
-  - 2.1.5
+  - 2.2.1
 addons:
   postgresql: "9.3"
 before_script:
