@@ -6,7 +6,9 @@ Ohana API is a Ruby on Rails application that makes it easy for communities to p
 
 This is the API + Admin Interface portion of the [Ohana API](http://ohanapi.org) project, developed by [@monfresh](https://github.com/monfresh), [@spara](https://github.com/spara), and [@anselmbradford](https://github.com/anselmbradford) during their Code for America Fellowship in 2013, in partnership with San Mateo County's Human Services Agency.
 
-The Ohana project also comes with a [web-based search interface](https://github.com/codeforamerica/ohana-web-search) that allows anyone to easily find services that are available in a particular community.
+Apps built on top of Ohana API include a [web-based search interface](https://github.com/codeforamerica/ohana-web-search) and an [SMS app] that allow anyone to easily find services that are available in a particular community.
+
+[SMS app]: https://github.com/monfresh/ohana-sms
 
 ## Stack Overview
 
@@ -35,12 +37,8 @@ You can see a running version of the different parts of the application here:
 [developer_portal_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L10-L23
 [admin_interface_seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb#L25-45
 
-## API documentation (work in progress)
+## API documentation
 [http://codeforamerica.github.io/ohana-api-docs/](http://codeforamerica.github.io/ohana-api-docs/)
-
-As the API is updated to match the [OpenReferral specification](https://github.com/codeforamerica/OpenReferral), the
-documentation will be updated as well. Version 1.0 of the spec is scheduled
-to be released by the end of January 2015.
 
 ## Client libraries
 
