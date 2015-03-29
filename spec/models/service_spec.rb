@@ -115,4 +115,34 @@ describe Service do
       expect(service.wait_time).to eq('2 days')
     end
   end
+
+  describe 'association callbacks' do
+    before do
+      create_service
+      @old_timestamp = @location.updated_at
+      @food = create(:category)
+      @health = create(:health)
+      @service.category_ids = [@food.id]
+      @service.save!
+    end
+
+    it 'calls .touch_location when category is added' do
+      expect(@service).to receive(:touch_location).once.with(@health)
+      @service.category_ids = [@food.id, @health.id]
+    end
+
+    it 'calls .touch_location when category is removed' do
+      expect(@service).to receive(:touch_location).once.with(@food)
+      @service.category_ids = []
+    end
+
+    it 'calls .touch_location twice when category is replaced' do
+      expect(@service).to receive(:touch_location).twice
+      @service.category_ids = [@health.id]
+    end
+
+    it 'touches location when category is added' do
+      expect(@location.updated_at).to_not eq @old_timestamp
+    end
+  end
 end

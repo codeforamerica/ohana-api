@@ -76,7 +76,8 @@ describe RegularScheduleImporter do
     context 'when a parent does not exist' do
       let(:content) { no_parent }
 
-      errors = ['Line 2: Regular Schedule must belong to either a Location or Service']
+      errors = ['Line 2: Regular Schedule is missing a parent: Location or ' \
+        'Service']
 
       its(:errors) { is_expected.to eq(errors) }
     end

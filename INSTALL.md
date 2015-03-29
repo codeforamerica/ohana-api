@@ -76,7 +76,7 @@ into a new locale for your language. Find out how in the
 
 Start the app locally on port 8080:
 
-    rails s -p 8080
+    puma -p 8080
 
 ### Verify the app is returning JSON
 

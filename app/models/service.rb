@@ -9,7 +9,9 @@ class Service < ActiveRecord::Base
   belongs_to :location, touch: true
   belongs_to :program
 
-  has_and_belongs_to_many :categories, -> { order('taxonomy_id asc').uniq }
+  has_and_belongs_to_many :categories, -> { order('taxonomy_id asc').uniq },
+                          after_add: :touch_location,
+                          after_remove: :touch_location
 
   has_many :regular_schedules, dependent: :destroy
   accepts_nested_attributes_for :regular_schedules,
@@ -65,5 +67,9 @@ class Service < ActiveRecord::Base
 
   def location_services_active?
     location.services.pluck(:status).include?('active')
+  end
+
+  def touch_location(_category)
+    location.update_column(:updated_at, Time.now) if persisted?
   end
 end

@@ -13,7 +13,7 @@ Apps built on top of Ohana API include a [web-based search interface](https://gi
 ## Stack Overview
 
 * Ruby version 2.2.1
-* Rails version 4.1.9
+* Rails version 4.2.1
 * Postgres
 * Testing Frameworks: RSpec, Factory Girl, Capybara
 

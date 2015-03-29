@@ -77,7 +77,7 @@ describe ContactImporter do
     context 'when a parent does not exist' do
       let(:content) { no_parent }
 
-      errors = ['Line 2: Contact must belong to either a Location, ' \
+      errors = ['Line 2: Contact is missing a parent: Location or ' \
         'Organization or Service']
 
       its(:errors) { is_expected.to eq(errors) }

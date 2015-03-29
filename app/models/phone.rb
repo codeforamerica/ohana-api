@@ -1,4 +1,6 @@
 class Phone < ActiveRecord::Base
+  include ParentPresenceValidatable
+
   default_scope { order('id ASC') }
 
   attr_accessible :country_prefix, :department, :extension, :number,
@@ -18,18 +20,9 @@ class Phone < ActiveRecord::Base
 
   validates :extension, numericality: { allow_nil: true }
 
-  validate :parent_presence
-
   auto_strip_attributes :country_prefix, :department, :extension, :number,
                         :vanity_number, squish: true
 
   extend Enumerize
   enumerize :number_type, in: [:fax, :hotline, :sms, :tty, :voice]
-
-  private
-
-  def parent_presence
-    return if [contact, location, organization, service].any?(&:present?)
-    errors[:base] << 'Phone must belong to either a Contact, Location, Organization or Service'
-  end
 end

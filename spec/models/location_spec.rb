@@ -63,16 +63,16 @@ describe Location do
   it { is_expected.not_to allow_value('moncef.blahcom').for(:email) }
   it { is_expected.not_to allow_value(' foo @bar.com').for(:email) }
 
-  it { is_expected.to allow_value('moncef@blah.com').for(:admin_emails) }
+  it { is_expected.to allow_value(%w(moncef@blah.com)).for(:admin_emails) }
 
   it do
-    is_expected.not_to allow_value('moncef@blahcom').
+    is_expected.not_to allow_value(%w(moncef@blahcom)).
       for(:admin_emails).
       with_message('moncef@blahcom is not a valid email')
   end
 
-  it { is_expected.not_to allow_value('moncef.blahcom').for(:admin_emails) }
-  it { is_expected.not_to allow_value(' foo @bar.com').for(:admin_emails) }
+  it { is_expected.not_to allow_value(%w(moncef.blahcom)).for(:admin_emails) }
+  it { is_expected.not_to allow_value([' foo @bar.com']).for(:admin_emails) }
 
   it do
     is_expected.to enumerize(:accessibility).
