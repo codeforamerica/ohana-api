@@ -31,7 +31,7 @@ describe "GET 'search'" do
     end
 
     it 'finds locations that match either category name' do
-      get 'api/search?category[]=Jobs&category[]=Health'
+      get '/api/search?category[]=Jobs&category[]=Health'
       expect(json.length).to eq 2
     end
   end

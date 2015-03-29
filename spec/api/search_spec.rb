@@ -245,11 +245,11 @@ describe "GET 'search'" do
   context 'when keyword matches category name' do
     before(:each) do
       create(:far_loc)
-      create(:farmers_market_loc)
+      create(:loc_with_nil_fields)
       cat = create(:category)
       create_service
       @service.category_ids = [cat.id]
-      @service.save
+      @service.save!
     end
 
     it 'boosts location whose services category name matches the query' do

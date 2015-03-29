@@ -19,7 +19,7 @@ describe 'PATCH /locations/:id)' do
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), admin_emails: ''
     expect(response.status).to eq(422)
     expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['errors'][0]['admin_emails']).to eq [' is not a valid email']
+    expect(json['error']).to include 'Attribute was supposed to be an Array'
   end
 
   it 'returns 422 if languages is set to empty string' do

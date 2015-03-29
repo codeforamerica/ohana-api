@@ -78,8 +78,8 @@ describe PhoneImporter do
     context 'when a parent does not exist' do
       let(:content) { no_parent }
 
-      errors = ['Line 2: Phone must belong to either a Contact, Location, ' \
-        'Organization or Service']
+      errors = ['Line 2: Phone is missing a parent: Location or Contact or ' \
+        'Service or Organization']
 
       its(:errors) { is_expected.to eq(errors) }
     end

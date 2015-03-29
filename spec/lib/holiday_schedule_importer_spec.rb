@@ -71,7 +71,8 @@ describe HolidayScheduleImporter do
     context 'when the holiday_schedule content is not valid' do
       let(:content) { invalid_content }
 
-      errors = ["Line 2: Closes at can't be blank for Holiday Schedule when open on that day"]
+      errors = ["Line 2: Closes at can't be blank for Holiday Schedule when " \
+        'open on that day']
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -79,7 +80,8 @@ describe HolidayScheduleImporter do
     context 'when a parent does not exist' do
       let(:content) { no_parent }
 
-      errors = ['Line 2: Holiday Schedule must belong to either a Location or Service']
+      errors = ['Line 2: Holiday Schedule is missing a parent: Location or ' \
+        'Service']
 
       its(:errors) { is_expected.to eq(errors) }
     end
