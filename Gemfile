@@ -16,7 +16,7 @@ gem 'protected_attributes'
 # gem 'rails-perftest'
 
 # Front end
-gem 'jquery-rails', '~> 3.0'
+gem 'jquery-rails', '~> 4.0'
 gem 'haml-rails'
 gem 'select2-rails'
 
