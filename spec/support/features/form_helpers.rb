@@ -25,7 +25,7 @@ module Features
     end
 
     def update_street_address(options = {})
-      fill_in 'location_address_attributes_street_1', with: options[:street_1]
+      fill_in 'location_address_attributes_address_1', with: options[:address_1]
       fill_in 'location_address_attributes_city', with: options[:city]
       fill_in 'location_address_attributes_state_province', with: options[:state_province]
       fill_in 'location_address_attributes_postal_code', with: options[:postal_code]
@@ -40,7 +40,7 @@ module Features
 
     def update_mailing_address(options = {})
       fill_in 'location_mail_address_attributes_attention', with: options[:attention]
-      fill_in 'location_mail_address_attributes_street_1', with: options[:street_1]
+      fill_in 'location_mail_address_attributes_address_1', with: options[:address_1]
       fill_in 'location_mail_address_attributes_city', with: options[:city]
       fill_in 'location_mail_address_attributes_state_province', with: options[:state_province]
       fill_in 'location_mail_address_attributes_postal_code', with: options[:postal_code]
@@ -77,7 +77,7 @@ module Features
       fill_in 'location_description', with: 'new description'
       select 'Human Services', from: 'location_kind'
       click_link 'Add a street address'
-      fill_in 'location_address_attributes_street_1', with: '123 Main St.'
+      fill_in 'location_address_attributes_address_1', with: '123 Main St.'
       fill_in 'location_address_attributes_city', with: 'Belmont'
       fill_in 'location_address_attributes_state_province', with: 'CA'
       fill_in 'location_address_attributes_postal_code', with: '12345'
@@ -161,7 +161,6 @@ module Features
     def fill_in_required_service_fields
       fill_in 'service_name', with: 'New VRS Services service'
       fill_in 'service_description', with: 'new description'
-      fill_in 'service_how_to_apply', with: 'new application process'
       select 'Active', from: 'service_status'
     end
   end

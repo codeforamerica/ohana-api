@@ -15,12 +15,11 @@ feature 'Create a new service' do
 
     expect(find_field('service_name').value).to eq 'New VRS Services service'
     expect(find_field('service_description').value).to eq 'new description'
-    expect(find_field('service_how_to_apply').value).to eq 'new application process'
   end
 
   scenario 'without any required fields when location is not human service' do
     click_button 'Create service'
-    expect(page).to have_content "How to apply can't be blank for Service"
+    expect(page).to have_content 'successfully created'
   end
 
   scenario 'without any required fields when location is human service' do
@@ -97,13 +96,13 @@ feature 'Create a new service' do
       to eq(['County'])
   end
 
-  scenario 'with how_to_apply' do
+  scenario 'with application_process' do
     fill_in_required_service_fields
-    fill_in 'service_how_to_apply', with: 'Low-income residents.'
+    fill_in 'service_application_process', with: 'Low-income residents.'
     click_button 'Create service'
     click_link 'New VRS Services service'
 
-    expect(find_field('service_how_to_apply').value).to eq 'Low-income residents.'
+    expect(find_field('service_application_process').value).to eq 'Low-income residents.'
   end
 
   scenario 'when adding interpretation services' do

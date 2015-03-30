@@ -90,17 +90,17 @@ SET default_with_oids = false;
 CREATE TABLE addresses (
     id integer NOT NULL,
     location_id integer,
-    street text,
     city text,
-    state text,
-    zip text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     country_code character varying(255),
     street_1 character varying(255),
     street_2 character varying(255),
     postal_code character varying(255),
-    state_province character varying(255)
+    state_province character varying(255),
+    address_1 character varying,
+    address_2 character varying,
+    country character varying
 );
 
 
@@ -258,9 +258,6 @@ CREATE TABLE contacts (
     name text NOT NULL,
     title text,
     email text,
-    fax text,
-    phone text,
-    extension text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     organization_id integer,
@@ -286,39 +283,6 @@ CREATE SEQUENCE contacts_id_seq
 --
 
 ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
-
-
---
--- Name: faxes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE faxes (
-    id integer NOT NULL,
-    location_id integer NOT NULL,
-    number text NOT NULL,
-    department text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: faxes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE faxes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: faxes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE faxes_id_seq OWNED BY faxes.id;
 
 
 --
@@ -399,7 +363,6 @@ CREATE TABLE locations (
     admin_emails text,
     ask_for text,
     description text,
-    emails text,
     hours text,
     importance integer DEFAULT 1,
     kind text NOT NULL,
@@ -412,7 +375,6 @@ CREATE TABLE locations (
     products text,
     short_desc text,
     transportation text,
-    urls text,
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -452,17 +414,17 @@ CREATE TABLE mail_addresses (
     id integer NOT NULL,
     location_id integer,
     attention text,
-    street text,
     city text,
-    state text,
-    zip text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     country_code character varying(255),
     street_1 character varying(255),
     street_2 character varying(255),
     postal_code character varying(255),
-    state_province character varying(255)
+    state_province character varying(255),
+    address_1 character varying,
+    address_2 character varying,
+    country character varying
 );
 
 
@@ -656,8 +618,6 @@ CREATE TABLE services (
     fees text,
     how_to_apply text,
     name text,
-    urls text,
-    wait text,
     funding_sources text,
     service_areas text[] DEFAULT '{}'::text[],
     keywords text,
@@ -672,7 +632,8 @@ CREATE TABLE services (
     website character varying(255),
     wait_time character varying(255),
     program_id integer,
-    interpretation_services text
+    interpretation_services text,
+    application_process text
 );
 
 
@@ -773,13 +734,6 @@ ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_s
 --
 
 ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY faxes ALTER COLUMN id SET DEFAULT nextval('faxes_id_seq'::regclass);
 
 
 --
@@ -890,14 +844,6 @@ ALTER TABLE ONLY categories
 
 ALTER TABLE ONLY contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
-
-
---
--- Name: faxes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY faxes
-    ADD CONSTRAINT faxes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1076,13 +1022,6 @@ CREATE INDEX index_contacts_on_organization_id ON contacts USING btree (organiza
 --
 
 CREATE INDEX index_contacts_on_service_id ON contacts USING btree (service_id);
-
-
---
--- Name: index_faxes_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_faxes_on_location_id ON faxes USING btree (location_id);
 
 
 --
@@ -1310,13 +1249,6 @@ CREATE INDEX locations_email_with_varchar_pattern_ops ON locations USING btree (
 
 
 --
--- Name: locations_emails; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX locations_emails ON locations USING gin (to_tsvector('english'::regconfig, emails));
-
-
---
 -- Name: locations_kind; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1349,13 +1281,6 @@ CREATE INDEX locations_payments ON locations USING gin (to_tsvector('english'::r
 --
 
 CREATE INDEX locations_products ON locations USING gin (to_tsvector('english'::regconfig, products));
-
-
---
--- Name: locations_urls; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX locations_urls ON locations USING gin (to_tsvector('english'::regconfig, urls));
 
 
 --
@@ -1497,4 +1422,12 @@ INSERT INTO schema_migrations (version) VALUES ('20141127025735');
 INSERT INTO schema_migrations (version) VALUES ('20141208165502');
 
 INSERT INTO schema_migrations (version) VALUES ('20150107163352');
+
+INSERT INTO schema_migrations (version) VALUES ('20150329222001');
+
+INSERT INTO schema_migrations (version) VALUES ('20150329222833');
+
+INSERT INTO schema_migrations (version) VALUES ('20150329230646');
+
+INSERT INTO schema_migrations (version) VALUES ('20150329231859');
 

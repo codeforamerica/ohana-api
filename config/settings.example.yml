@@ -7,7 +7,9 @@
 ############################
 #
 # These will be the values that admin interface users will choose from when
-# updating a Service's accepted methods of payment.
+# updating a Service's accepted methods of payment. Make sure to update
+# these values to match the ones in your data, as well as any additional
+# ones you want to use that might not already be in your data.
 #
 # The list below should remain alphabetical, and should encompass all possible
 # payment methods across all services.
@@ -27,7 +29,10 @@ accepted_payments:
 admin_support_email: ohanapi@codeforamerica.org
 
 # These will be the values that admin interface users will choose from when
-# updating an Organization's or Service's funding sources.
+# updating an Organization's or Service's funding sources. Make sure to update
+# these values to match the ones in your data, as well as any additional
+# ones you want to use that might not already be in your data.
+#
 # The list below should remain in alphabetical order.
 funding_sources:
 - 'CPMC Foundation'
@@ -85,8 +90,11 @@ generic_domains:
   - comcast.net
 
 # These will be the values that admin interface users will choose from when
-# updating a Location's or a Service's languages. The list below should remain
-# in alphabetical order.
+# updating a Location's or a Service's languages. Make sure to update
+# these values to match the ones in your data, as well as any additional
+# ones you want to use that might not already be in your data.
+#
+# The list below should remain in alphabetical order.
 languages:
 - 'American Sign Language'
 - 'Amharic'
@@ -174,8 +182,11 @@ languages:
 - 'Yoruba'
 
 # These will be the values that admin interface users will choose from when
-# updating a Service's required documents. The list below should remain
-# in alphabetical order.
+# updating a Service's required documents. Make sure to update
+# these values to match the ones in your data, as well as any additional
+# ones you want to use that might not already be in your data.
+#
+# The list below should remain in alphabetical order.
 required_documents:
 - 'Bank statements (last 3 months)'
 - 'Government-issued picture identification'
@@ -191,7 +202,11 @@ required_documents:
 #   - 'Oakland'
 #
 # These will be the values that admin interface users will choose from when
-# updating a Service's service areas.
+# updating a Service's service areas. Make sure to update
+# these values to match the ones in your data, as well as any additional
+# ones you want to use that might not already be in your data.
+#
+# The list below should remain in alphabetical order.
 valid_service_areas:
   - Alameda County
   - Alaska

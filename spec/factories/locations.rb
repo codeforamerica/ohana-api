@@ -88,7 +88,7 @@ FactoryGirl.define do
     address
     latitude 37.568272
     longitude(-122.3250474)
-    association :organization, factory: :far_org
+    association :organization, factory: :no_address_org
   end
 
   factory :soup_kitchen, class: Location do

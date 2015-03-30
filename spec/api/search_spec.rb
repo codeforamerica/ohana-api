@@ -249,11 +249,11 @@ describe "GET 'search'" do
   context 'when keyword matches category name' do
     before(:each) do
       create(:far_loc)
-      create(:farmers_market_loc, importance: 1)
+      create(:loc_with_nil_fields)
       cat = create(:category)
       create_service
       @service.category_ids = [cat.id]
-      @service.save
+      @service.save!
     end
 
     it 'boosts location whose services category name matches the query' do
@@ -449,35 +449,35 @@ describe "GET 'search'" do
     end
 
     it 'finds farmers markets' do
-      get "api/search?kind[]=farmers'%20markets"
+      get "/api/search?kind[]=farmers'%20markets"
       expect(json.length).to eq 1
       expect(json.first['name']).to eq 'Belmont Farmers Market'
     end
 
     it 'finds human services' do
-      get 'api/search?kind[]=Human%20services'
+      get '/api/search?kind[]=Human%20services'
       expect(json.length).to eq 1
       expect(json.first['name']).to eq 'Library'
     end
 
     it 'finds other' do
-      get 'api/search?kind[]=other'
+      get '/api/search?kind[]=other'
       expect(json.length).to eq 1
       expect(json.first['name']).to eq 'VRS Services'
     end
 
     it 'allows multiple kinds' do
-      get 'api/search?kind[]=Other&kind[]=human%20Services'
+      get '/api/search?kind[]=Other&kind[]=human%20Services'
       expect(headers['X-Total-Count']).to eq '2'
     end
 
     it 'allows single kind' do
-      get 'api/search?kind=human%20Services'
+      get '/api/search?kind=human%20Services'
       expect(headers['X-Total-Count']).to eq '1'
     end
 
     it 'allows sorting by kind (default order is asc)' do
-      get 'api/search?kind[]=Other&kind[]=human%20services&' \
+      get '/api/search?kind[]=Other&kind[]=human%20services&' \
         'kind[]=farmers_markets&sort=kind'
       expect(headers['X-Total-Count']).to eq '3'
       expect(json.first['name']).to eq 'Belmont Farmers Market'
@@ -486,7 +486,7 @@ describe "GET 'search'" do
     end
 
     it 'allows sorting by kind and ordering desc' do
-      get 'api/search?kind[]=Other&kind[]=human%20services&' \
+      get '/api/search?kind[]=Other&kind[]=human%20services&' \
         'kind[]=farmers_markets&sort=kind&order=desc'
       expect(headers['X-Total-Count']).to eq '3'
       expect(json.first['name']).to eq 'VRS Services'
@@ -508,13 +508,13 @@ describe "GET 'search'" do
     end
 
     it 'only returns locations with SMC service areas when param = smc' do
-      get 'api/search?service_area=smc'
+      get '/api/search?service_area=smc'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'VRS Services'
     end
 
     it 'allows searching for specific service areas' do
-      get 'api/search?service_area=Arizona'
+      get '/api/search?service_area=Arizona'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'Library'
     end
@@ -529,13 +529,13 @@ describe "GET 'search'" do
     end
 
     it "only returns farmers' markets who participate in Market Match" do
-      get 'api/search?market_match=1'
+      get '/api/search?market_match=1'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'Belmont Farmers Market'
     end
 
     it "only returns markets who don't participate in Market Match" do
-      get 'api/search?market_match=0'
+      get '/api/search?market_match=0'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'Not Participating'
     end
@@ -550,7 +550,7 @@ describe "GET 'search'" do
     end
 
     it "only returns farmers' markets who accept SFMNP" do
-      get 'api/search?payment=SFMNP'
+      get '/api/search?payment=SFMNP'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'Belmont Farmers Market'
     end
@@ -565,13 +565,13 @@ describe "GET 'search'" do
     end
 
     it "only returns farmers' markets who sell Baked Goods" do
-      get 'api/search?product=baked%20goods'
+      get '/api/search?product=baked%20goods'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'No Cheese'
     end
 
     it 'finds a match when query is capitalized' do
-      get 'api/search?product=Baked%20Goods'
+      get '/api/search?product=Baked%20Goods'
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq 'No Cheese'
     end
@@ -586,14 +586,14 @@ describe "GET 'search'" do
       end
 
       it 'boosts entries with importance = 2 (human services)' do
-        get 'api/search?keyword=jobs'
+        get '/api/search?keyword=jobs'
         expect(headers['X-Total-Count']).to eq '2'
         expect(json.first['name']).to eq 'Library'
       end
 
       it 'boosts entries with importance = 3 (SMC HSA locations)' do
         create(:farmers_market_loc)
-        get 'api/search?keyword=jobs'
+        get '/api/search?keyword=jobs'
         expect(headers['X-Total-Count']).to eq '3'
         expect(json.first['name']).to eq 'Belmont Farmers Market'
       end

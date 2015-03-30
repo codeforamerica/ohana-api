@@ -15,20 +15,18 @@ The easiest way to assign categories to a service is to use the Admin interface.
 
 ![Editing categories in Ohana API Admin](https://github.com/codeforamerica/ohana-api/raw/master/categories-in-ohana-api-admin.png)
 
-## API documentation (work in progress)
+## API documentation
 [http://codeforamerica.github.io/ohana-api-docs/](http://codeforamerica.github.io/ohana-api-docs/)
 
-As the API is updated to match the [OpenReferral specification](https://github.com/codeforamerica/OpenReferral), the
-documentation will be updated as well. Version 1.0 of the spec is scheduled
-to be released by the end of February 2015.
+## Client libraries
 
 ## Ruby wrapper
 [https://github.com/codeforamerica/ohanakapa](https://github.com/codeforamerica/ohanakapa)
 
 ## Stack Overview
 
-* Ruby version 2.1.5
-* Rails version 4.1.8
+* Ruby version 2.2.1
+* Rails version 4.2.1
 * Postgres version 9.3
 * Redis
 * Testing Frameworks: RSpec, Factory Girl, Capybara

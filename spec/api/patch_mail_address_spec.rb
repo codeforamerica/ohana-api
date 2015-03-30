@@ -4,8 +4,8 @@ describe 'PATCH mail_address' do
   before(:each) do
     @mail_address = create(:mail_address)
     @loc = @mail_address.location
-    @attrs = { street_1: 'foo', city: 'bar', state_province: 'CA', postal_code: '90210',
-               country_code: 'US' }
+    @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA', postal_code: '90210',
+               country: 'US' }
   end
 
   describe 'PATCH /locations/:location/mail_address' do
@@ -31,7 +31,7 @@ describe 'PATCH mail_address' do
         @attrs
       )
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json['mail_address']['street_1']).to eq 'foo'
+      expect(json['mail_address']['address_1']).to eq 'foo'
     end
 
     it "doesn't add a new mail_address" do
@@ -55,12 +55,12 @@ describe 'PATCH mail_address' do
     it 'returns 422 when attribute is invalid' do
       patch(
         api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
-        @attrs.merge!(street_1: '')
+        @attrs.merge!(address_1: '')
       )
       expect(response.status).to eq(422)
       expect(json['message']).to eq('Validation failed for resource.')
       expect(json['errors'].first).
-        to eq('street_1' => ["can't be blank for Mail Address"])
+        to eq('address_1' => ["can't be blank for Mail Address"])
     end
 
     it "doesn't allow updating a mail_address without a valid token" do

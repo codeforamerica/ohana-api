@@ -7,8 +7,8 @@ describe 'POST /locations/:location_id/mail_address' do
     end
 
     before(:each) do
-      @attrs = { street_1: 'foo', city: 'bar', state_province: 'CA',
-                 postal_code: '90210', country_code: 'US' }
+      @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA',
+                 postal_code: '90210', country: 'US' }
     end
 
     after(:all) do
@@ -21,7 +21,7 @@ describe 'POST /locations/:location_id/mail_address' do
         @attrs
       )
       expect(response).to have_http_status(201)
-      expect(json['street_1']).to eq(@attrs[:street_1])
+      expect(json['address_1']).to eq(@attrs[:address_1])
     end
 
     it 'creates the mail_address for the right location' do
@@ -30,16 +30,16 @@ describe 'POST /locations/:location_id/mail_address' do
         @attrs
       )
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json['mail_address']['street_1']).to eq(@attrs[:street_1])
+      expect(json['mail_address']['address_1']).to eq(@attrs[:address_1])
     end
 
     it "doesn't create an mail_address with invalid attributes" do
       post(
         api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
-        street_1: nil
+        address_1: nil
       )
       expect(response).to have_http_status(422)
-      expect(json['errors'].first['street_1']).
+      expect(json['errors'].first['address_1']).
         to eq(["can't be blank for Mail Address"])
     end
 
@@ -56,8 +56,8 @@ describe 'POST /locations/:location_id/mail_address' do
   context 'when location already has a mail_address' do
     before(:each) do
       @loc = create(:mail_address).location
-      @attrs = { street_1: 'foo', city: 'bar', state_province: 'CA',
-                 postal_code: '90210', country_code: 'US' }
+      @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA',
+                 postal_code: '90210', country: 'US' }
 
       post(
         api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
@@ -71,7 +71,7 @@ describe 'POST /locations/:location_id/mail_address' do
 
     it "doesn't change the location's current mail_address" do
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json['mail_address']['street_1']).to eq '1 davis dr'
+      expect(json['mail_address']['address_1']).to eq '1 davis dr'
     end
   end
 end
