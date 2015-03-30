@@ -13,7 +13,7 @@ describe Service do
   it { is_expected.to allow_mass_assignment_of(:email) }
   it { is_expected.to allow_mass_assignment_of(:fees) }
   it { is_expected.to allow_mass_assignment_of(:funding_sources) }
-  it { is_expected.to allow_mass_assignment_of(:how_to_apply) }
+  it { is_expected.to allow_mass_assignment_of(:application_process) }
   it { is_expected.to allow_mass_assignment_of(:interpretation_services) }
   it { is_expected.to allow_mass_assignment_of(:keywords) }
   it { is_expected.to allow_mass_assignment_of(:languages) }
@@ -41,12 +41,11 @@ describe Service do
 
   it { is_expected.to_not validate_presence_of(:name).with_message("can't be blank for Service") }
   it { is_expected.to_not validate_presence_of(:description).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:how_to_apply).with_message("can't be blank for Service") }
+  it { is_expected.to_not validate_presence_of(:application_process).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
   it { is_expected.to serialize(:keywords).as(Array) }
-  it { is_expected.to serialize(:urls).as(Array) }
 
   it { is_expected.not_to allow_value('codeforamerica.org').for(:email) }
   it { is_expected.not_to allow_value('codeforamerica@org').for(:email) }
@@ -96,7 +95,7 @@ describe Service do
 
     it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
     it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
-    it { is_expected.to validate_presence_of(:how_to_apply).with_message("can't be blank for Service") }
+    it { is_expected.to_not validate_presence_of(:application_process).with_message("can't be blank for Service") }
     it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
     it { is_expected.not_to allow_value('Active').for(:status) }
   end
@@ -113,7 +112,7 @@ describe Service do
       expect(service.email).to eq('foo@example.com')
       expect(service.fees).to eq('none')
       expect(service.funding_sources).to eq(['County'])
-      expect(service.how_to_apply).to eq('in person')
+      expect(service.application_process).to eq('in person')
       expect(service.interpretation_services).to eq('CTS LanguageLink')
       expect(service.keywords).to eq(%w(health yoga))
       expect(service.languages).to eq(%w(French English))
@@ -123,6 +122,36 @@ describe Service do
       expect(service.status).to eq('active')
       expect(service.website).to eq('http://www.monfresh.com')
       expect(service.wait_time).to eq('2 days')
+    end
+  end
+
+  describe 'association callbacks' do
+    before do
+      create_service
+      @old_timestamp = @location.updated_at
+      @food = create(:category)
+      @health = create(:health)
+      @service.category_ids = [@food.id]
+      @service.save!
+    end
+
+    it 'calls .touch_location when category is added' do
+      expect(@service).to receive(:touch_location).once.with(@health)
+      @service.category_ids = [@food.id, @health.id]
+    end
+
+    it 'calls .touch_location when category is removed' do
+      expect(@service).to receive(:touch_location).once.with(@food)
+      @service.category_ids = []
+    end
+
+    it 'calls .touch_location twice when category is replaced' do
+      expect(@service).to receive(:touch_location).twice
+      @service.category_ids = [@health.id]
+    end
+
+    it 'touches location when category is added' do
+      expect(@location.updated_at).to_not eq @old_timestamp
     end
   end
 end

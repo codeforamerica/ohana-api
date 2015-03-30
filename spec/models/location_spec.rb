@@ -64,16 +64,16 @@ describe Location do
   it { is_expected.not_to allow_value('moncef.blahcom').for(:email) }
   it { is_expected.not_to allow_value(' foo @bar.com').for(:email) }
 
-  it { is_expected.to allow_value('moncef@blah.com').for(:admin_emails) }
+  it { is_expected.to allow_value(%w(moncef@blah.com)).for(:admin_emails) }
 
   it do
-    is_expected.not_to allow_value('moncef@blahcom').
+    is_expected.not_to allow_value(%w(moncef@blahcom)).
       for(:admin_emails).
       with_message('moncef@blahcom is not a valid email')
   end
 
-  it { is_expected.not_to allow_value('moncef.blahcom').for(:admin_emails) }
-  it { is_expected.not_to allow_value(' foo @bar.com').for(:admin_emails) }
+  it { is_expected.not_to allow_value(%w(moncef.blahcom)).for(:admin_emails) }
+  it { is_expected.not_to allow_value([' foo @bar.com']).for(:admin_emails) }
 
   it do
     is_expected.to enumerize(:accessibility).
@@ -84,8 +84,6 @@ describe Location do
   end
 
   it { is_expected.to serialize(:admin_emails).as(Array) }
-  it { is_expected.to serialize(:emails).as(Array) }
-  it { is_expected.to serialize(:urls).as(Array) }
 
   describe 'invalidations' do
     context 'non-virtual and without an address' do
@@ -112,8 +110,8 @@ describe Location do
   # Instance methods
   it { is_expected.to respond_to(:address_street) }
   describe '#address_street' do
-    it 'returns address.street_1' do
-      expect(subject.address_street).to eq(subject.address.street_1)
+    it 'returns address.address_1' do
+      expect(subject.address_street).to eq(subject.address.address_1)
     end
   end
 
@@ -128,7 +126,7 @@ describe Location do
   it { is_expected.to respond_to(:full_physical_address) }
   describe '#full_physical_address' do
     it 'joins all address elements into one string' do
-      combined = "#{subject.address.street_1}, " \
+      combined = "#{subject.address.address_1}, " \
         "#{subject.address.city}, #{subject.address.state_province} " \
         "#{subject.address.postal_code}"
 
@@ -186,8 +184,8 @@ describe Location do
 
     it 'geocodes when address has changed' do
       address = {
-        street_1: '1 davis drive', city: 'belmont', state_province: 'CA',
-        postal_code: '94002', country_code: 'US'
+        address_1: '1 davis drive', city: 'belmont', state_province: 'CA',
+        postal_code: '94002', country: 'US'
       }
       coords = [@loc.longitude, @loc.latitude]
 

@@ -1,10 +1,8 @@
 class LocationSerializer < LocationsSerializer
-  attributes :accessibility, :email, :emails, :hours, :languages,
-             :market_match, :payments, :products,
-             :transportation, :urls, :website
+  attributes :accessibility, :email, :hours, :languages, :market_match,
+             :payments, :products, :transportation, :website
 
   has_many :contacts
-  has_many :faxes
   has_one :mail_address
   has_many :regular_schedules
   has_many :holiday_schedules

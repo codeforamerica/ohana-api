@@ -16,11 +16,11 @@ node(:products) { |loc| loc.products if loc.kind == 'farmers_markets' }
 node(:market_match) { |loc| loc.market_match if loc.kind == 'farmers_markets' }
 
 child(:address) do
-  attributes :street_1, :street_2, :city, :state_province, :postal_code
+  attributes :address_1, :address_2, :city, :state_province, :postal_code
 end
 
 child(:mail_address) do
-  attributes :attention, :street_1, :street_2, :city, :state_province,
+  attributes :attention, :address_1, :address_2, :city, :state_province,
              :postal_code
 end
 
@@ -34,7 +34,7 @@ child(:holiday_schedules) { extends 'holiday_schedules/holiday_schedule' }
 
 child(:services) do
   attributes :accepted_payments, :alternate_name, :audience, :description,
-             :eligibility, :email, :fees, :how_to_apply, :languages, :name,
+             :eligibility, :email, :fees, :application_process, :languages, :name,
              :required_documents, :service_areas, :status, :website, :wait_time
   child(:phones) { extends 'phones/phone' }
   child(:contacts) { extends 'contacts/contact'}

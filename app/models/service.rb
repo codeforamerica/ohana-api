@@ -1,6 +1,6 @@
 class Service < ActiveRecord::Base
   attr_accessible :accepted_payments, :alternate_name, :audience, :description,
-                  :eligibility, :email, :fees, :funding_sources, :how_to_apply,
+                  :eligibility, :email, :fees, :funding_sources, :application_process,
                   :interpretation_services, :keywords, :languages, :name,
                   :required_documents, :service_areas, :status, :website,
                   :wait_time, :category_ids, :regular_schedules_attributes,
@@ -9,7 +9,9 @@ class Service < ActiveRecord::Base
   belongs_to :location, touch: true
   belongs_to :program
 
-  has_and_belongs_to_many :categories, -> { order('taxonomy_id asc').uniq }
+  has_and_belongs_to_many :categories, -> { order('taxonomy_id asc').uniq },
+                          after_add: :touch_location,
+                          after_remove: :touch_location
 
   has_many :regular_schedules, dependent: :destroy
   accepts_nested_attributes_for :regular_schedules,
@@ -29,7 +31,7 @@ class Service < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
 
-  validates :how_to_apply, :location,
+  validates :location,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
   validates :name, :description, :status,
@@ -41,7 +43,7 @@ class Service < ActiveRecord::Base
   validates :website, url: true, allow_blank: true
 
   auto_strip_attributes :alternate_name, :audience, :description, :eligibility,
-                        :email, :fees, :how_to_apply, :interpretation_services,
+                        :email, :fees, :application_process, :interpretation_services,
                         :name, :wait_time, :status, :website
 
   auto_strip_attributes :funding_sources, :keywords, :service_areas,
@@ -49,7 +51,6 @@ class Service < ActiveRecord::Base
 
   serialize :funding_sources, Array
   serialize :keywords, Array
-  serialize :urls, Array
 
   extend Enumerize
   enumerize :status, in: [:active, :defunct, :inactive]
@@ -69,5 +70,9 @@ class Service < ActiveRecord::Base
 
   def location_services_active?
     location.services.pluck(:status).include?('active')
+  end
+
+  def touch_location(_category)
+    location.update_column(:updated_at, Time.now) if persisted?
   end
 end

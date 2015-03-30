@@ -7,8 +7,8 @@ describe 'POST /locations/:location_id/address' do
     end
 
     before(:each) do
-      @attrs = { street_1: 'foo', city: 'bar', state_province: 'CA',
-                 postal_code: '90210', country_code: 'US' }
+      @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA',
+                 postal_code: '90210', country: 'US' }
     end
 
     after(:all) do
@@ -20,7 +20,7 @@ describe 'POST /locations/:location_id/address' do
            @attrs
 
       expect(response).to have_http_status(201)
-      expect(json['street_1']).to eq(@attrs[:street_1])
+      expect(json['address_1']).to eq(@attrs[:address_1])
     end
 
     it 'creates the address for the right location' do
@@ -28,16 +28,16 @@ describe 'POST /locations/:location_id/address' do
            @attrs
 
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json['address']['street_1']).to eq(@attrs[:street_1])
+      expect(json['address']['address_1']).to eq(@attrs[:address_1])
     end
 
     it "doesn't create an address with invalid attributes" do
       post api_location_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
-           street_1: nil
+           address_1: nil
 
       expect(response).to have_http_status(422)
-      expect(json['errors'].first['street_1']).
-        to eq(["can't be blank"])
+      expect(json['errors'].first['address_1']).
+        to eq(["can't be blank for Address"])
     end
 
     it "doesn't allow creating a address without a valid token" do
@@ -56,8 +56,8 @@ describe 'POST /locations/:location_id/address' do
     end
 
     before(:each) do
-      @attrs = { street_1: 'foo', city: 'bar', state_province: 'CA',
-                 postal_code: '90210', country_code: 'US' }
+      @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA',
+                 postal_code: '90210', country: 'US' }
       post api_location_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']), @attrs
     end
 
@@ -71,7 +71,7 @@ describe 'POST /locations/:location_id/address' do
 
     it "does not change the location's current address" do
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      expect(json['address']['street_1']).to eq '1800 Easton Drive'
+      expect(json['address']['address_1']).to eq '1800 Easton Drive'
     end
   end
 end

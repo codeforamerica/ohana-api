@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
-gem 'rails', '~> 4.1.1'
+ruby '2.2.1'
+gem 'rails', '~> 4.2'
 
 gem 'pg'
 
@@ -16,7 +16,7 @@ gem 'protected_attributes'
 # gem 'rails-perftest'
 
 # Front end
-gem 'jquery-rails', '~> 3.0'
+gem 'jquery-rails', '~> 4.0'
 gem 'haml-rails'
 gem 'select2-rails'
 

@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :service do
     name 'Literacy Program'
     description 'yoga classes'
-    how_to_apply 'By phone.'
+    application_process 'By phone.'
     keywords ['library', 'food pantries', 'stood famps', 'emergency']
     status 'active'
     location
@@ -17,7 +17,7 @@ FactoryGirl.define do
     email ' foo@example.com '
     fees 'none '
     funding_sources ['County ', 'County']
-    how_to_apply '  in  person'
+    application_process '  in  person'
     interpretation_services 'CTS LanguageLink '
     keywords ['health ', ' yoga', 'yoga']
     languages ['French ', ' English']

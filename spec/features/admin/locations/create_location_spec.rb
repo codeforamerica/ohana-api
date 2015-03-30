@@ -14,7 +14,7 @@ feature 'Create a new location' do
     expect(current_path).to eq '/admin/locations/new-parent-agency-location'
     expect(find_field('location_name').value).to eq 'New Parent Agency location'
     expect(find_field('location_description').value).to eq 'new description'
-    expect(find_field('location_address_attributes_street_1').value).
+    expect(find_field('location_address_attributes_address_1').value).
       to eq '123 Main St.'
     expect(find_field('location_address_attributes_city').value).
       to eq 'Belmont'
@@ -37,7 +37,7 @@ feature 'Create a new location' do
     click_link 'Add a mailing address'
     update_mailing_address(
       attention: 'moncef',
-      street_1: '123',
+      address_1: '123',
       city: 'Vienna',
       state_province: 'VA',
       postal_code: '12345'
@@ -46,7 +46,7 @@ feature 'Create a new location' do
 
     expect(find_field('location_mail_address_attributes_attention').value).
       to eq 'moncef'
-    expect(find_field('location_mail_address_attributes_street_1').value).
+    expect(find_field('location_mail_address_attributes_address_1').value).
       to eq '123'
     expect(find_field('location_mail_address_attributes_city').value).
       to eq 'Vienna'
@@ -56,7 +56,7 @@ feature 'Create a new location' do
       to eq '12345'
 
     location = Location.find('new-parent-agency-location')
-    expect(location.mail_address.country_code).to eq 'US'
+    expect(location.mail_address.country).to eq 'US'
   end
 
   scenario 'with valid phone number', :js do

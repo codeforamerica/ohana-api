@@ -11,8 +11,8 @@ describe 'Create a location (POST /organizations/:organization_id/locations/)' d
       kind: 'human_services',
       description: 'description',
       address_attributes: {
-        street_1: 'main', city: 'utopia', state_province: 'CA', postal_code: '12345',
-        country_code: 'US' }
+        address_1: 'main', city: 'utopia', state_province: 'CA', postal_code: '12345',
+        country: 'US' }
     }
   end
 

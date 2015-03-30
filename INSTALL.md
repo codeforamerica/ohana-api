@@ -3,13 +3,17 @@
 ## Install Prerequisites
 
 Before you can run Ohana API, you'll need to have the following software
-packages installed on your computer: Git, Ruby 2.1+, RVM, Postgres, and Redis. If you're on a Linux machine, you'll also need Node.js and libpq-dev.
+packages installed on your computer: Git, Ruby 2.1+, RVM (or rbenv), Postgres,
+and Redis. If you're on a Linux machine, you'll also need Node.js and libpq-dev.
 
 If you already have all of the prerequisites installed, you can go straight
-to the [Ohana Installation](#install-ohana-api). Otherwise, there are two ways
+to the [Ohana Installation](#install-ohana-api). Otherwise, there are three ways
 you can install the tools:
 
-1. Use our Vagrant [virtual machine][dev-box], which has everything set up for
+1. If you're on a Mac, the easiest way to install all the tools is to use
+@monfresh's [laptop] script.
+
+2. Use our Vagrant [virtual machine][dev-box], which has everything set up for
 you. This is the recommended method for Windows users.
 
 [dev-box]: https://github.com/codeforamerica/ohana-api-dev-box
@@ -17,6 +21,7 @@ you. This is the recommended method for Windows users.
 2. Install everything manually: [Build tools][build-tools], [Ruby with RVM][ruby],
 [Postgres][postgres], [Redis][redis], and [Node.js][node] (Linux only).
 
+[laptop]: https://github.com/monfresh/laptop
 [build-tools]: https://github.com/codeforamerica/howto/blob/master/Build-Tools.md
 [ruby]: https://github.com/codeforamerica/howto/blob/master/Ruby.md
 [postgres]: https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md
@@ -29,7 +34,8 @@ On Linux, PostgreSQL authentication can be [set to _Trust_](http://www.postgresq
 
     $ sudo -u postgres createuser --createdb --no-superuser --no-createrole `whoami`
 
-On Mac with Postgres.app, this setup is provided by default.
+On a Mac with Postgres.app or a Homebrew Postgres installation, this setup is
+provided by default.
 
 ## Install Ohana API
 
@@ -71,7 +77,7 @@ into a new locale for your language. Find out how in the
 
 Start the app locally on port 8080:
 
-    rails s -p 8080
+    puma -p 8080
 
 ### Verify the app is returning JSON
 

@@ -85,7 +85,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     end
 
     it 'does not allow access to non-whitelisted endpoints' do
-      options url_for('api/foo'), {},
+      options url_for('/api/foo'), {},
               'HTTP_ORIGIN' => 'http://cors.example.com',
               'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
               'REQUEST_METHOD' => 'OPTIONS'

@@ -13,7 +13,6 @@ class Location < ActiveRecord::Base
   accepts_nested_attributes_for :address, allow_destroy: true
 
   has_many :contacts, dependent: :destroy
-  has_many :faxes, dependent: :destroy
 
   has_one :mail_address, dependent: :destroy
   accepts_nested_attributes_for :mail_address, allow_destroy: true
@@ -82,11 +81,8 @@ class Location < ActiveRecord::Base
   serialize :admin_emails, Array
 
   serialize :ask_for, Array
-  serialize :emails, Array
-
   serialize :products, Array
   serialize :payments, Array
-  serialize :urls, Array
 
   auto_strip_attributes :description, :email, :name, :short_desc,
                         :transportation, :website
@@ -107,7 +103,7 @@ class Location < ActiveRecord::Base
   end
 
   def address_street
-    address.street_1 if address.present?
+    address.address_1 if address.present?
   end
 
   def mail_address_city
@@ -116,7 +112,7 @@ class Location < ActiveRecord::Base
 
   def full_physical_address
     return unless address.present?
-    "#{address.street_1}, #{address.city}, #{address.state_province} #{address.postal_code}"
+    "#{address.address_1}, #{address.city}, #{address.state_province} #{address.postal_code}"
   end
 
   def needs_geocoding?
