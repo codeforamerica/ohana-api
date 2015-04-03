@@ -52,9 +52,6 @@ gem 'pg_search'
 gem 'ancestry'
 
 gem 'friendly_id', '~> 5.0'
-
-gem 'rack-timeout'
-
 # Caching
 gem 'rack-cache'
 gem 'dalli'

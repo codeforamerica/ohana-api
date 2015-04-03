@@ -160,15 +160,6 @@
 # 4. Tell the developer to send the same token in their app via the
 # `X-Api-Token` HTTP header.
 
-###########
-#
-# TIMEOUT
-#
-###########
-# The number of seconds before Rack::Timeout aborts a request that is taking
-# too long. See the rack-timeout gem for more details:
-# https://github.com/heroku/rack-timeout
-
 ###########################
 #
 # SETTINGS FOR DEVELOPMENT
@@ -182,7 +173,6 @@ development:
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
   MAX_PER_PAGE: '50'
-  TIMEOUT: '30'
 
 ###############################################################################
 #
@@ -202,7 +192,6 @@ production:
   EXPIRES_IN: '1'
   TLD_LENGTH: '2'
   ENABLE_HTTPS: 'yes'
-  TIMEOUT: '10'
 
 ###########################################
 #
