@@ -53,8 +53,6 @@ gem 'friendly_id', '~> 5.0'
 
 gem 'rabl'
 
-gem 'rack-timeout', '~> 0.1'
-
 # Caching
 gem 'rack-cache'
 gem 'dalli'
