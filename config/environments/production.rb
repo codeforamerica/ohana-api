@@ -71,7 +71,8 @@ Rails.application.configure do
   # NGINX, varnish or squid.
   config.action_dispatch.rack_cache = {
     metastore:   client,
-    entitystore: client
+    entitystore: client,
+    verbose: false
   }
   config.static_cache_control = 'public, max-age=2592000'
   # --------------------------------------------------------------------------
