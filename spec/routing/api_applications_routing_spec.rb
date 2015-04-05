@@ -11,13 +11,13 @@ describe ApiApplicationsController do
     end
 
     it 'routes to #show' do
-      expect(get('/api_applications/1'))
-        .to route_to('api_applications#edit', id: '1')
+      expect(get('/api_applications/1')).
+        to route_to('api_applications#edit', id: '1')
     end
 
     it 'routes to #edit' do
-      expect(get('/api_applications/1/edit'))
-        .to route_to('api_applications#edit', id: '1')
+      expect(get('/api_applications/1/edit')).
+        to route_to('api_applications#edit', id: '1')
     end
 
     it 'routes to #create' do
@@ -25,13 +25,13 @@ describe ApiApplicationsController do
     end
 
     it 'routes to #update' do
-      expect(put('/api_applications/1'))
-        .to route_to('api_applications#update', id: '1')
+      expect(put('/api_applications/1')).
+        to route_to('api_applications#update', id: '1')
     end
 
     it 'routes to #destroy' do
-      expect(delete('/api_applications/1'))
-        .to route_to('api_applications#destroy', id: '1')
+      expect(delete('/api_applications/1')).
+        to route_to('api_applications#destroy', id: '1')
     end
   end
 end
