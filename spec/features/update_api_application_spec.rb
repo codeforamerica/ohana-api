@@ -25,6 +25,7 @@ feature 'Update an existing API Application' do
     update_api_app('my awesome app', 'http://cfa.org', 'http://cfa.org')
     expect(page).to have_content 'Application was successfully updated.'
     expect(page).to have_content 'API Token'
+    expect(current_path).to eq edit_api_application_path(ApiApplication.last.id)
   end
 
   scenario 'with blank fields' do

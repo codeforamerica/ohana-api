@@ -19,15 +19,11 @@ class Admin
       @location = Location.find(params[:id])
       @org = @location.organization
 
-      respond_to do |format|
-        if @location.update(params[:location])
-          format.html do
-            redirect_to [:admin, @location],
-                        notice: 'Location was successfully updated.'
-          end
-        else
-          format.html { render :edit }
-        end
+      if @location.update(params[:location])
+        redirect_to [:admin, @location],
+                    notice: 'Location was successfully updated.'
+      else
+        render :edit
       end
     end
 

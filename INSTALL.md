@@ -51,7 +51,7 @@ Clone it on your computer and navigate to the project's directory:
 
 ### Install the dependencies and populate the database with sample data:
 
-    script/bootstrap
+    bin/setup
 
 _Note: Installation and preparation can take several minutes to complete!_
 

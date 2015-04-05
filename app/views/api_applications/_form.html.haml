@@ -20,4 +20,4 @@
   - else
     .actions
       = f.submit 'Update application', class: 'btn btn-success'
-      = link_to 'Delete application', @api_application, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+      = link_to 'Delete application', { action: :destroy, id: @api_application.id }, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

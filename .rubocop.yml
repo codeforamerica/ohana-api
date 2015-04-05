@@ -9,37 +9,78 @@ AllCops:
     - 'db/seeds.rb'
     - 'db/migrate/*'
     - 'config/initializers/generators.rb'
-    - 'config/unicorn.rb'
 
-# Allow dots at the end of lines when chaining methods
-# that span multiple lines
-DotPosition:
+Metrics/ClassLength:
+  Description: Avoid classes longer than 100 lines of code.
+  Enabled: true
+  CountComments: false
+  Max: 100
+
+Metrics/LineLength:
+  Description: Limit lines to 80 characters.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#80-character-limits
   Enabled: false
+  Max: 80
+  AllowURI: true
+  URISchemes:
+  - http
+  - https
 
-LineLength:
-  Enabled: false
-
-Documentation:
-  Enabled: false
-
-MethodLength:
+Metrics/MethodLength:
+  Description: Avoid methods longer than 10 lines of code.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#short-methods
+  Enabled: true
   CountComments: false
   Max: 15
 
-Metrics/ClassLength:
-  CountComments: false
-  Max: 101
-
-Style/GuardClause:
-  MinBodyLength: 3
-
 Rails/HasAndBelongsToMany:
-  Enabled: false
+  Description: Prefer has_many :through to has_and_belongs_to_many.
+  Enabled: true
+  Exclude:
+  - app/models/service.rb
+  - app/models/category.rb
 
 Rails/ScopeArgs:
-  Enabled: false
+  Description: Checks the arguments of ActiveRecord scopes.
+  Enabled: true
+  Exclude:
+  - app/models/concerns/search.rb
+  Include:
+  - app/models/**/*.rb
 
 Style/AndOr:
-  # Whether `and` and `or` are banned only in conditionals (conditionals)
-  # or completely (always).
+  Description: Use &&/|| instead of and/or.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-and-or-or
+  Enabled: true
   EnforcedStyle: conditionals
+  SupportedStyles:
+  - always
+  - conditionals
+
+Style/Documentation:
+  Description: Document classes and non-namespace modules.
+  Enabled: false
+
+Style/DotPosition:
+  Description: Checks the position of the dot in multi-line method calls.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#consistent-multi-line-chains
+  Enabled: true
+  EnforcedStyle: trailing
+  SupportedStyles:
+  - leading
+  - trailing
+
+Style/GuardClause:
+  Description: Check for conditionals that can be replaced with guard clauses
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-nested-conditionals
+  Enabled: true
+  MinBodyLength: 3
+
+Style/StringLiterals:
+  Description: Checks if uses of quotes match the configured preference.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#consistent-string-literals
+  Enabled: true
+  EnforcedStyle: single_quotes
+  SupportedStyles:
+  - single_quotes
+  - double_quotes

@@ -60,7 +60,9 @@ describe ApiApplicationsController do
 
       it 'redirects to the created api_application' do
         post :create, api_application: valid_attributes
-        expect(response).to redirect_to(@user.reload.api_applications.last)
+        new_app = @user.reload.api_applications.last
+        expect(response).
+          to redirect_to edit_api_application_path(new_app)
       end
 
       it 'generates an access token' do
@@ -109,7 +111,8 @@ describe ApiApplicationsController do
           id: api_application.to_param,
           api_application: valid_attributes
         )
-        expect(response).to redirect_to(api_application)
+        expect(response).
+          to redirect_to edit_api_application_path(api_application)
       end
     end
 
