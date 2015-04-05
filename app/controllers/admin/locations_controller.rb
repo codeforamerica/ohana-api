@@ -19,15 +19,11 @@ class Admin
       @location = Location.find(params[:id])
       @org = @location.organization
 
-      respond_to do |format|
-        if @location.update(params[:location])
-          format.html do
-            redirect_to [:admin, @location],
-                        notice: 'Location was successfully updated.'
-          end
-        else
-          format.html { render :edit }
-        end
+      if @location.update(params[:location])
+        redirect_to [:admin, @location],
+                    notice: 'Location was successfully updated.'
+      else
+        render :edit
       end
     end
 
@@ -51,9 +47,7 @@ class Admin
     def destroy
       location = Location.find(params[:id])
       location.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_locations_path }
-      end
+      redirect_to admin_locations_path
     end
 
     private

@@ -86,7 +86,7 @@ feature 'Signing in' do
   scenario 'with an unconfirmed admin' do
     unconfirmed_admin = create(:unconfirmed_admin)
     sign_in_admin(unconfirmed_admin.email, unconfirmed_admin.password)
-    expect(page)
-      .to have_content 'You have to confirm your account before continuing.'
+    expect(page).
+      to have_content 'You have to confirm your account before continuing.'
   end
 end

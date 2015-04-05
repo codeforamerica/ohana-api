@@ -17,15 +17,11 @@ class Admin
     def update
       @program = Program.find(params[:id])
 
-      respond_to do |format|
-        if @program.update(params[:program])
-          format.html do
-            redirect_to [:admin, @program],
-                        notice: 'Program was successfully updated.'
-          end
-        else
-          format.html { render :edit }
-        end
+      if @program.update(params[:program])
+        redirect_to [:admin, @program],
+                    notice: 'Program was successfully updated.'
+      else
+        render :edit
       end
     end
 
@@ -39,24 +35,18 @@ class Admin
 
       add_org_to_program_if_authorized
 
-      respond_to do |format|
-        if @program.save
-          format.html do
-            redirect_to admin_programs_url,
-                        notice: 'Program was successfully created.'
-          end
-        else
-          format.html { render :new }
-        end
+      if @program.save
+        redirect_to admin_programs_url,
+                    notice: 'Program was successfully created.'
+      else
+        render :new
       end
     end
 
     def destroy
       program = Program.find(params[:id])
       program.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_programs_path }
-      end
+      redirect_to admin_programs_path
     end
 
     private
