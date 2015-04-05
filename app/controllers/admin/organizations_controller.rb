@@ -28,15 +28,11 @@ class Admin
 
       preprocess_organization_params
 
-      respond_to do |format|
-        if @organization.update(params[:organization])
-          format.html do
-            redirect_to [:admin, @organization],
-                        notice: 'Organization was successfully updated.'
-          end
-        else
-          format.html { render :edit }
-        end
+      if @organization.update(params[:organization])
+        redirect_to [:admin, @organization],
+                    notice: 'Organization was successfully updated.'
+      else
+        render :edit
       end
     end
 
@@ -50,31 +46,24 @@ class Admin
 
       @organization = Organization.new(params[:organization])
 
-      respond_to do |format|
-        if @organization.save
-          format.html do
-            redirect_to admin_organizations_url,
-                        notice: 'Organization was successfully created.'
-          end
-        else
-          format.html { render :new }
-        end
+      if @organization.save
+        redirect_to admin_organizations_url,
+                    notice: 'Organization was successfully created.'
+      else
+        render :new
       end
     end
 
     def destroy
       organization = Organization.find(params[:id])
       organization.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_organizations_path }
-      end
+      redirect_to admin_organizations_path
     end
 
     private
 
     def preprocess_organization_params
-      shift_and_split_params(
-        params[:organization], :accreditations, :licenses)
+      shift_and_split_params(params[:organization], :accreditations, :licenses)
     end
   end
 end
