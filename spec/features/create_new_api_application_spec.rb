@@ -28,6 +28,7 @@ feature 'Creating a new API Application' do
     expect(page).to have_content 'Application was successfully created.'
     expect(page).to_not have_content 'API token is already taken'
     expect(page.text).to match(/API Token: \w+/)
+    expect(current_path).to eq edit_api_application_path(ApiApplication.last.id)
   end
 
   scenario 'with blank fields' do

@@ -33,9 +33,9 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = (ENV['ENABLE_HTTPS'] == 'yes')
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
+  # Use the info log level to ensure that sensitive information
+  # in SQL statements is not saved.
+  config.log_level = :info
 
   # Add user agent and subdomain information to the log
   # config.log_tags = [:subdomain, ->(request) { request.user_agent }]
@@ -71,7 +71,8 @@ Rails.application.configure do
   # NGINX, varnish or squid.
   config.action_dispatch.rack_cache = {
     metastore:   client,
-    entitystore: client
+    entitystore: client,
+    verbose: false
   }
   config.static_cache_control = 'public, max-age=2592000'
   # --------------------------------------------------------------------------
