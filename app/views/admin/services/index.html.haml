@@ -1,5 +1,5 @@
 %p
-  Below you should see a list of services that you are allowed to administer.
+  Below you should see a list of services (and their corresponding location) that you are allowed to administer.
   If there are any entries missing, please #{mail_to "#{SETTINGS[:admin_support_email]}", 'let us know'}.
 %p
   To start updating, click on one of the links, which will take you to the details page
@@ -12,5 +12,6 @@
 %p
   - @services.each do |service|
     %ul
-      = link_to service[2], edit_admin_location_service_path(service[0], service[1])
+      - location_name ||= Location.find(service[0]).name
+      = link_to "#{service[2]} / #{location_name}", edit_admin_location_service_path(service[0], service[1])
   = paginate @services
