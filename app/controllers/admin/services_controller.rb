@@ -11,18 +11,15 @@ class Admin
     end
 
     def edit
-      @location = Location.find(params[:location_id])
-      @service = Service.find(params[:id])
-      @taxonomy_ids = @service.categories.pluck(:taxonomy_id)
+      assign_location_service_and_taxonomy_ids
 
       authorize @location
     end
 
     def update
-      @service = Service.find(params[:id])
-      @location = Location.find(params[:location_id])
-      @taxonomy_ids = @service.categories.pluck(:taxonomy_id)
+      assign_location_service_and_taxonomy_ids
 
+      preprocess_service_params
       preprocess_service
 
       if @service.update(params[:service])
@@ -49,7 +46,7 @@ class Admin
       @service = @location.services.new(params[:service])
       @taxonomy_ids = []
 
-      add_program_to_service_if_authorized
+      preprocess_service
 
       if @service.save
         redirect_to admin_location_path(@location),
@@ -68,8 +65,8 @@ class Admin
     private
 
     def preprocess_service
-      preprocess_service_params
       add_program_to_service_if_authorized
+      add_service_to_location_if_authorized
     end
 
     def preprocess_service_params
@@ -87,6 +84,31 @@ class Admin
 
     def program_ids_for(service)
       service.location.organization.programs.pluck(:id)
+    end
+
+    def add_service_to_location_if_authorized
+      return unless location_ids.present?
+
+      location_ids.each do |id|
+        Location.find(id.to_i).services.create!(params[:service])
+      end
+    end
+
+    def location_ids
+      return unless params[:service][:locations].present?
+      params[:service][:locations].reject do |id|
+        !location_ids_for(@service).include?(id.to_i)
+      end
+    end
+
+    def location_ids_for(service)
+      @ids ||= service.location.organization.locations.pluck(:id)
+    end
+
+    def assign_location_service_and_taxonomy_ids
+      @service = Service.find(params[:id])
+      @location = Location.find(params[:location_id])
+      @taxonomy_ids = @service.categories.pluck(:taxonomy_id)
     end
   end
 end
