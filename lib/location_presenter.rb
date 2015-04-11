@@ -26,6 +26,6 @@ LocationPresenter = Struct.new(:row, :addresses) do
   end
 
   def matching_address(id)
-    addresses.select { |a| a[:location_id] == id }.first
+    addresses.find { |a| a[:location_id] == id }
   end
 end

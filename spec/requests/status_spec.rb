@@ -20,7 +20,7 @@ describe 'GET /api/.well-known/status' do
     end
 
     it "returns 'updated' attribute set to current time" do
-      expect(json['updated']).to eq(Time.now.to_i)
+      expect(json['updated']).to eq(Time.zone.now.to_i)
     end
   end
 
@@ -42,7 +42,7 @@ describe 'GET /api/.well-known/status' do
     end
 
     it "returns 'updated' attribute set to current time" do
-      expect(json['updated']).to eq(Time.now.to_i)
+      expect(json['updated']).to eq(Time.zone.now.to_i)
     end
   end
 end

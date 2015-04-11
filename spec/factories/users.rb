@@ -7,7 +7,7 @@ FactoryGirl.define do
     password 'mong01dtest'
     password_confirmation 'mong01dtest'
     # required if the Devise Confirmable module is used
-    confirmed_at Time.now
+    confirmed_at Time.zone.now
 
     factory :user_with_app do
       after(:create) do |user|

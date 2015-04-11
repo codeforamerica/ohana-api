@@ -5,7 +5,7 @@ FactoryGirl.define do
     email 'moncef@samaritanhouse.com'
     password 'ohanatest'
     password_confirmation 'ohanatest'
-    confirmed_at Time.now
+    confirmed_at Time.zone.now
 
     factory :super_admin do
       name 'Super Admin'
@@ -25,6 +25,6 @@ FactoryGirl.define do
     email 'moncef@gmail.com'
     password 'ohanatest'
     password_confirmation 'ohanatest'
-    confirmed_at Time.now
+    confirmed_at Time.zone.now
   end
 end
