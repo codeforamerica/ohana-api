@@ -46,6 +46,20 @@ feature 'Programs page' do
       expect(page).not_to have_link 'Nearby Program'
       expect(page).to have_link 'Collection of Services'
     end
+
+    it 'does not show add new program button if admin has no organizations' do
+      create(:nearby_loc)
+      visit '/admin/programs'
+
+      expect(page).not_to have_content 'Add a new program'
+    end
+
+    it 'shows add new program button if admin has an organization' do
+      create(:location_for_org_admin)
+      visit '/admin/programs'
+
+      expect(page).to have_link 'Add a new program'
+    end
   end
 
   context 'when signed in as super admin' do
@@ -79,6 +93,10 @@ feature 'Programs page' do
     it 'sorts programs alphabetically by name' do
       expect(page.all('a')[9][:href]).
         to eq "/admin/programs/#{@program.id}/edit"
+    end
+
+    it 'shows the add new program button' do
+      expect(page).to have_link 'Add a new program'
     end
   end
 end
