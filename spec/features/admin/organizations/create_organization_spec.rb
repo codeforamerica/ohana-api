@@ -86,16 +86,16 @@ feature 'Create a new organization' do
   scenario 'with date incorporated' do
     fill_in 'organization_name', with: 'new org'
     fill_in 'organization_description', with: 'description for new org'
-    select_date(Date.today, from: 'organization_date_incorporated')
+    select_date(Time.zone.today, from: 'organization_date_incorporated')
     click_button 'Create organization'
     click_link 'new org'
 
     expect(find_field('organization_date_incorporated_1i').value).
-      to eq Date.today.year.to_s
+      to eq Time.zone.today.year.to_s
     expect(find_field('organization_date_incorporated_2i').value).
-      to eq Date.today.month.to_s
+      to eq Time.zone.today.month.to_s
     expect(find_field('organization_date_incorporated_3i').value).
-      to eq Date.today.day.to_s
+      to eq Time.zone.today.day.to_s
   end
 
   scenario 'when adding a funding source', :js do

@@ -1,0 +1,16 @@
+- if @location.organization.locations.size > 1
+  .content-box
+    %h2 Copy this service to other Locations
+    %p
+      If this service is offered at other locations, you can copy it to those
+      locations. Then, make sure to update the service at the other locations
+      with any information that is different, such as the hours of operation.
+
+    - locs ||= @location.organization.locations.pluck(:id, :name)
+
+    - locs.each do |loc|
+      - next if loc.first == @location.id
+      - next if Location.find(loc.first).services.pluck(:name).include?(@service.name)
+      = check_box_tag 'service[locations][]', loc.first, false, id: loc.first
+      = label_tag loc.first, loc.second
+      %br

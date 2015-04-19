@@ -15,4 +15,5 @@
       = link_to program.second, edit_admin_program_path(program.first)
   = paginate @programs
 
-  = link_to 'Add a new program', new_admin_program_path, class: 'btn btn-primary'
+  - if Pundit.policy_scope!(current_admin, Organization).present?
+    = link_to 'Add a new program', new_admin_program_path, class: 'btn btn-primary'

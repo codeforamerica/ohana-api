@@ -4,7 +4,7 @@ AllCops:
     - 'Rakefile'
     - 'lib/tasks/*'
   Exclude:
-    - 'bin/*'
+    - 'bin/**/*'
     - 'db/schema.rb'
     - 'db/seeds.rb'
     - 'db/migrate/*'
@@ -47,6 +47,15 @@ Rails/ScopeArgs:
   - app/models/concerns/search.rb
   Include:
   - app/models/**/*.rb
+
+Rails/TimeZone:
+  # The value `always` means that `Time` should be used with `zone`.
+  # The value `acceptable` allows usage of `in_time_zone` instead of `zone`.
+  Enabled: false
+  EnforcedStyle: always
+  SupportedStyles:
+    - always
+    - acceptable
 
 Style/AndOr:
   Description: Use &&/|| instead of and/or.

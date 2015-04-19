@@ -47,9 +47,7 @@ class Admin
     def destroy
       location = Location.find(params[:id])
       location.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_locations_path }
-      end
+      redirect_to admin_locations_path
     end
 
     private

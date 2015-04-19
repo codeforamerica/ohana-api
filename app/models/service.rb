@@ -73,6 +73,6 @@ class Service < ActiveRecord::Base
   end
 
   def touch_location(_category)
-    location.update_column(:updated_at, Time.now) if persisted?
+    location.update_column(:updated_at, Time.zone.now) if persisted?
   end
 end
