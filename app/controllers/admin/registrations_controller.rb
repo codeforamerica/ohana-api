@@ -2,6 +2,8 @@ class Admin
   class RegistrationsController < Devise::RegistrationsController
     before_action :configure_permitted_parameters
 
+    include PrivateRegistration
+
     protected
 
     def configure_permitted_parameters
