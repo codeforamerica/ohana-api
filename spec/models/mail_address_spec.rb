@@ -22,14 +22,6 @@ describe MailAddress do
   it { is_expected.to validate_presence_of(:country).with_message("can't be blank for Mail Address") }
 
   it do
-    is_expected.to validate_length_of(:state_province).
-      is_at_least(2).
-      is_at_most(2).
-      with_short_message('is too short (minimum is 2 characters)').
-      with_long_message('is too long (maximum is 2 characters)')
-  end
-
-  it do
     is_expected.to validate_length_of(:country).
       is_at_least(2).
       is_at_most(2).
@@ -61,6 +53,47 @@ describe MailAddress do
       expect(address.state_province).to eq('CA')
       expect(address.postal_code).to eq('94020')
       expect(address.country).to eq('US')
+    end
+  end
+
+  describe 'state_province validations' do
+    context 'when country is US' do
+      it 'validates length is 2 characters' do
+        mail_address = build(:mail_address, country: 'US', state_province: 'California')
+        mail_address.save
+
+        expect(mail_address.errors[:state_province].first).
+          to eq t('errors.messages.invalid_state_province')
+      end
+    end
+
+    context 'when country is CA' do
+      it 'validates length is 2 characters' do
+        mail_address = build(:mail_address, country: 'CA', state_province: 'Ontario')
+        mail_address.save
+
+        expect(mail_address.errors[:state_province].first).
+          to eq t('errors.messages.invalid_state_province')
+      end
+    end
+
+    context 'when country is not CA or US' do
+      it 'does not validate length' do
+        mail_address = build(:mail_address, country: 'UK', state_province: 'Kent')
+        mail_address.save
+
+        expect(mail_address.errors[:state_province]).to be_empty
+      end
+    end
+
+    context 'when country is not CA or US' do
+      it 'validates presence' do
+        mail_address = build(:mail_address, country: 'UK', state_province: '')
+        mail_address.save
+
+        expect(mail_address.errors[:state_province].first).
+          to eq t('errors.messages.blank_for_mail_address')
+      end
     end
   end
 end

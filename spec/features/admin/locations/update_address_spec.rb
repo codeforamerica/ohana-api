@@ -76,7 +76,7 @@ feature "Updating a location's address with invalid values" do
     update_street_address(address_1: '123', city: 'Par', state_province: 'V',
                           postal_code: '12345', country: 'US')
     click_button 'Save changes'
-    expect(page).to have_content 'too short'
+    expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
   scenario 'with an invalid zip' do
