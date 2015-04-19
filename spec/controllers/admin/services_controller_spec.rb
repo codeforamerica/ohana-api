@@ -55,4 +55,44 @@ describe Admin::ServicesController do
       end
     end
   end
+
+  describe 'PATCH update' do
+    before(:each) do
+      @loc = create(:location_for_org_admin)
+      @service = @loc.services.create!(attributes_for(:service))
+      @new_loc = create(:far_loc, organization_id: @loc.organization.id)
+      @restricted_loc = create(:location)
+    end
+
+    context 'when location does not belong to organization' do
+      it 'does not copy the service to the location' do
+        log_in_as_admin(:admin)
+
+        attrs = {
+          name: 'Service',
+          description: 'Description',
+          locations: [@restricted_loc.id],
+          keywords: ['']
+        }
+        patch :update, location_id: @loc.id, id: @service.id, service: attrs
+
+        expect(@restricted_loc.reload.services.pluck(:name)).to eq []
+      end
+    end
+
+    context 'when location_ids are empty' do
+      it 'successfully updates the service' do
+        log_in_as_admin(:admin)
+
+        attrs = {
+          name: 'Service',
+          description: 'Description',
+          keywords: ['']
+        }
+        patch :update, location_id: @loc.id, id: @service.id, service: attrs
+
+        expect(flash[:notice]).to include('successfully updated')
+      end
+    end
+  end
 end

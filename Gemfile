@@ -44,7 +44,7 @@ gem 'enumerize'
 gem 'figaro', '~> 1.0'
 
 # Search
-gem 'pg_search'
+gem 'pg_search', '~> 0.7'
 
 # Nested categories for OpenEligibility
 gem 'ancestry'
@@ -90,4 +90,5 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'spring-watcher-listen'
+  gem 'letter_opener'
 end

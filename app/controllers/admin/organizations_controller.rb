@@ -57,9 +57,7 @@ class Admin
     def destroy
       organization = Organization.find(params[:id])
       organization.destroy
-      respond_to do |format|
-        format.html { redirect_to admin_organizations_path }
-      end
+      redirect_to admin_organizations_path
     end
 
     private

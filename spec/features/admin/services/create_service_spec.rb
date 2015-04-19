@@ -260,6 +260,17 @@ feature 'Create a new service' do
     expect(find_field("#{prefix}_closes_at_4i").value).to eq ''
     expect(find_field("#{prefix}_closes_at_5i").value).to eq ''
   end
+
+  scenario 'when copying the service to other locations' do
+    @new_loc = create(:far_loc, organization_id: @loc.organization.id)
+    visit('/admin/locations/vrs-services/services/new')
+    fill_in_required_service_fields
+    check 'Belmont Farmers Market'
+    click_button 'Create service'
+
+    expect(page).to have_content 'successfully created'
+    expect(@new_loc.reload.services.pluck(:name)).to eq ['New VRS Services service']
+  end
 end
 
 describe 'when admin does not have access to the location' do
