@@ -135,6 +135,14 @@ feature 'Admin Home page' do
     it 'does not display a link to add a new program' do
       expect(page).to_not have_link 'Add a new program', new_admin_program_path
     end
+
+    it 'does not display a link to download CSV' do
+      expect(page).to_not have_content 'CSV Downloads'
+      expect(page).
+        to_not have_link(
+          'Download all addresses as CSV',
+          admin_csv_addresses_path)
+    end
   end
 
   context 'when signed in as super admin and no orgs exist' do
@@ -169,6 +177,48 @@ feature 'Admin Home page' do
 
     it 'displays a link to add a new program' do
       expect(page).to have_link 'Add a new program', new_admin_program_path
+    end
+
+    it 'displays links to download CSV files' do
+      expect(page).to have_content 'CSV Downloads'
+
+      expect(page).
+        to have_link('Download all addresses as CSV', admin_csv_addresses_path)
+
+      expect(page).
+        to have_link('Download all contacts as CSV', admin_csv_contacts_path)
+
+      expect(page).
+        to have_link(
+          'Download all holiday schedules as CSV',
+          admin_csv_holiday_schedules_path)
+
+      expect(page).
+        to have_link('Download all locations as CSV', admin_csv_locations_path)
+
+      expect(page).
+        to have_link(
+          'Download all mail addresses as CSV',
+          admin_csv_mail_addresses_path)
+
+      expect(page).
+        to have_link(
+          'Download all organizations as CSV',
+          admin_csv_organizations_path)
+
+      expect(page).
+        to have_link('Download all phones as CSV', admin_csv_phones_path)
+
+      expect(page).
+        to have_link('Download all programs as CSV', admin_csv_programs_path)
+
+      expect(page).
+        to have_link(
+          'Download all regular schedules as CSV',
+          admin_csv_regular_schedules_path)
+
+      expect(page).
+        to have_link('Download all services as CSV', admin_csv_services_path)
     end
   end
 end

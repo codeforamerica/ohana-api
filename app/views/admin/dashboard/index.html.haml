@@ -18,3 +18,18 @@
       = link_to 'Add a new location', new_admin_location_path, class: 'btn btn-primary'
     %p
       = link_to 'Add a new program', new_admin_program_path, class: 'btn btn-primary'
+
+  - if current_admin.super_admin?
+    %h2 CSV Downloads
+    %p= link_to 'Download all addresses as CSV', admin_csv_addresses_path, class: 'btn btn-primary'
+    %p= link_to 'Download all contacts as CSV', admin_csv_contacts_path, class: 'btn btn-primary'
+    %p= link_to 'Download all holiday schedules as CSV', admin_csv_holiday_schedules_path, class: 'btn btn-primary'
+    %p= link_to 'Download all locations as CSV', admin_csv_locations_path, class: 'btn btn-primary'
+    %p= link_to 'Download all mail addresses as CSV', admin_csv_mail_addresses_path, class: 'btn btn-primary'
+    %p= link_to 'Download all organizations as CSV', admin_csv_organizations_path, class: 'btn btn-primary'
+    %p= link_to 'Download all phones as CSV', admin_csv_phones_path, class: 'btn btn-primary'
+    %p= link_to 'Download all programs as CSV', admin_csv_programs_path, class: 'btn btn-primary'
+    %p= link_to 'Download all regular schedules as CSV', admin_csv_regular_schedules_path, class: 'btn btn-primary'
+    %p= link_to 'Download all services as CSV', admin_csv_services_path, class: 'btn btn-primary'
+
+
