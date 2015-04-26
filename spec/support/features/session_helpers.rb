@@ -80,5 +80,9 @@ module Features
       visit('/api_applications')
       click_link "#{name} (#{main_url})"
     end
+
+    def csv
+      CSV.parse(page.html)
+    end
   end
 end

@@ -1,0 +1,12 @@
+csv.headers :id, :location_id, :service_id, :start_date, :end_date, :closed,
+            :opens_at, :closes_at
+
+csv.rows HolidaySchedule.find_each do |csv, hs|
+  csv.cells :id, :location_id, :service_id, :start_date, :end_date, :closed,
+            :opens_at, :closes_at
+
+  csv.cell :start_date, hs.start_date.strftime('%B %d, %Y')
+  csv.cell :end_date, hs.end_date.strftime('%B %d, %Y')
+  csv.cell :opens_at, hs.opens_at.strftime('%H:%M') if hs.opens_at
+  csv.cell :closes_at, hs.closes_at.strftime('%H:%M') if hs.closes_at
+end

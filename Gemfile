@@ -58,6 +58,8 @@ gem 'dalli'
 gem 'kgio'
 gem 'memcachier'
 
+gem 'csv_shaper'
+
 group :production do
   # Heroku recommended
   gem 'rails_12factor'

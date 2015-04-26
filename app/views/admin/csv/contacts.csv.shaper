@@ -1,0 +1,7 @@
+csv.headers :id, :location_id, :organization_id, :service_id, :name, :title,
+            :email, :department
+
+csv.rows Contact.find_each do |csv, contact|
+  csv.cells :id, :location_id, :organization_id, :service_id, :name, :title,
+            :email, :department
+end

@@ -101,7 +101,7 @@ describe 'GET /locations/:id' do
           'email'                   => nil,
           'fees'                    => nil,
           'funding_sources'         => [],
-          'application_process'            => @location.services.first.application_process,
+          'application_process'     => @location.services.first.application_process,
           'interpretation_services' => @location.services.first.interpretation_services,
           'keywords'                => @location.services.first.keywords,
           'languages'               => [],
@@ -117,7 +117,7 @@ describe 'GET /locations/:id' do
           'phones'                  => [],
           'regular_schedules'       => [
             {
-              'weekday'   => 1,
+              'weekday' => 7,
               'opens_at'  => '2000-01-01T09:30:00.000Z',
               'closes_at' => '2000-01-01T17:00:00.000Z'
             }
@@ -159,7 +159,7 @@ describe 'GET /locations/:id' do
         {
           'id'        => @location.mail_address.id,
           'attention' => @location.mail_address.attention,
-          'address_1'    => @location.mail_address.address_1,
+          'address_1' => @location.mail_address.address_1,
           'address_2' => nil,
           'city'      => @location.mail_address.city,
           'state_province'     => @location.mail_address.state_province,
@@ -206,7 +206,7 @@ describe 'GET /locations/:id' do
 
       serialized_regular_schedule =
         {
-          'weekday'   => 1,
+          'weekday' => 7,
           'opens_at'  => '2000-01-01T09:30:00.000Z',
           'closes_at' => '2000-01-01T17:00:00.000Z'
         }
@@ -270,6 +270,57 @@ describe 'GET /locations/:id' do
       %w(admin_emails email accessibility).each do |key|
         expect(json.keys).to include(key)
       end
+    end
+  end
+
+  describe 'ordering service categories by taxonomy_id' do
+    before :each do
+      @food = create(:category)
+      @food_child = @food.children.
+                    create!(name: 'Community Gardens', taxonomy_id: '101-01')
+      @health = create(:health)
+      @health_child = @health.children.
+                      create!(name: 'Orthodontics', taxonomy_id: '102-01')
+      create_service
+      @service.category_ids = [
+        @food.id, @food_child.id, @health.id, @health_child.id]
+    end
+
+    it 'orders the categories by taxonomy_id' do
+      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+
+      categories = [
+        {
+          'id' => @food.id,
+          'depth' => 0,
+          'taxonomy_id' => '101',
+          'name' => 'Food',
+          'parent_id' => nil
+        },
+        {
+          'id' => @food_child.id,
+          'depth' => 1,
+          'taxonomy_id' => '101-01',
+          'name' => 'Community Gardens',
+          'parent_id' => @food.id
+        },
+        {
+          'id' => @health.id,
+          'depth' => 0,
+          'taxonomy_id' => '102',
+          'name' => 'Health',
+          'parent_id' => nil
+        },
+        {
+          'id' => @health_child.id,
+          'depth' => 1,
+          'taxonomy_id' => '102-01',
+          'name' => 'Orthodontics',
+          'parent_id' => @health.id
+        }
+      ]
+
+      expect(json['services'].first['categories']).to eq(categories)
     end
   end
 end
