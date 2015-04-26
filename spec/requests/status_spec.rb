@@ -19,8 +19,9 @@ describe 'GET /api/.well-known/status' do
       expect(json['status']).to eq('ok')
     end
 
-    it "returns 'updated' attribute set to current time" do
-      expect(json['updated']).to eq(Time.zone.now.to_i)
+    it "returns 'updated' attribute set to current time as integer" do
+      expect(json['updated'].is_a?(Integer)).to eq true
+      expect(json['updated'].to_s.length).to eq 10
     end
   end
 
@@ -41,8 +42,9 @@ describe 'GET /api/.well-known/status' do
       expect(json['dependencies']).to eq(%w(Mandrill Postgres))
     end
 
-    it "returns 'updated' attribute set to current time" do
-      expect(json['updated']).to eq(Time.zone.now.to_i)
+    it "returns 'updated' attribute set to current time as integer" do
+      expect(json['updated'].is_a?(Integer)).to eq true
+      expect(json['updated'].to_s.length).to eq 10
     end
   end
 end
