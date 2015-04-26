@@ -1,5 +1,37 @@
 # Change Log
 
+## [v1.1.0](https://github.com/codeforamerica/ohana-api/tree/v1.1.0) (2015-04-26)
+
+[Full Changelog](https://github.com/codeforamerica/ohana-api/compare/v1.0...v1.1.0)
+
+**Implemented enhancements:**
+
+- Backup to CSV [\#304](https://github.com/codeforamerica/ohana-api/issues/304)
+
+**Fixed bugs:**
+
+- Admin with no ties to any entities should not see the "Add a new program" button. [\#308](https://github.com/codeforamerica/ohana-api/issues/308)
+
+**Closed issues:**
+
+- Add ability to copy a Service to other Locations [\#313](https://github.com/codeforamerica/ohana-api/issues/313)
+
+**Merged pull requests:**
+
+- Provide CSV downloads of table contents [\#325](https://github.com/codeforamerica/ohana-api/pull/325) ([monfresh](https://github.com/monfresh))
+
+- Only validate state\_province length for US and CA [\#321](https://github.com/codeforamerica/ohana-api/pull/321) ([monfresh](https://github.com/monfresh))
+
+- Prevent discovery of existing email addresses [\#320](https://github.com/codeforamerica/ohana-api/pull/320) ([monfresh](https://github.com/monfresh))
+
+- Hide add new program for admin without access [\#318](https://github.com/codeforamerica/ohana-api/pull/318) ([monfresh](https://github.com/monfresh))
+
+- Allow services to be copied to other locations. [\#317](https://github.com/codeforamerica/ohana-api/pull/317) ([monfresh](https://github.com/monfresh))
+
+- Add Hound config and fix offenses. [\#316](https://github.com/codeforamerica/ohana-api/pull/316) ([monfresh](https://github.com/monfresh))
+
+- Update Rails to version 4.2.1 [\#315](https://github.com/codeforamerica/ohana-api/pull/315) ([monfresh](https://github.com/monfresh))
+
 ## [v1.0](https://github.com/codeforamerica/ohana-api/tree/v1.0) (2015-03-27)
 
 [Full Changelog](https://github.com/codeforamerica/ohana-api/compare/v0.3.1.0...v1.0)
