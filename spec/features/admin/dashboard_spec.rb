@@ -221,4 +221,29 @@ feature 'Admin Home page' do
         to have_link('Download all services as CSV', admin_csv_services_path)
     end
   end
+
+  describe 'Ohana API version' do
+    before do
+      allow(File).to receive(:read).with('VERSION').and_return('1.0.0')
+    end
+    let(:prefix) { 'https://github.com/codeforamerica/ohana-api/blob/master/' }
+
+    context 'super admin' do
+      it 'displays Ohana API version number' do
+        login_super_admin
+        visit '/admin'
+
+        expect(page).to have_link 'v1.0.0', href: "#{prefix}CHANGELOG.md"
+      end
+    end
+
+    context 'regular admin' do
+      it 'does not display Ohana API version number' do
+        login_admin
+        visit '/admin'
+
+        expect(page).to_not have_link 'v1.0.0', href: "#{prefix}CHANGELOG.md"
+      end
+    end
+  end
 end
