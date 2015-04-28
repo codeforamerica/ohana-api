@@ -79,6 +79,10 @@ Style/DotPosition:
   - leading
   - trailing
 
+Style/ExtraSpacing:
+  Description: Do not use unnecessary spacing.
+  Enabled: false
+
 Style/GuardClause:
   Description: Check for conditionals that can be replaced with guard clauses
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-nested-conditionals
