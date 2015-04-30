@@ -183,6 +183,7 @@ describe ServiceImporter do
 
     context 'with invalid data' do
       it 'does not create a service' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
           ServiceImporter.check_and_import_file(path)

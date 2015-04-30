@@ -192,6 +192,7 @@ describe PhoneImporter do
 
     context 'with invalid data' do
       it 'does not create a phone' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_phone.csv')
           PhoneImporter.check_and_import_file(path)

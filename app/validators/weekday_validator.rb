@@ -39,6 +39,6 @@ class WeekdayValidator < ActiveModel::EachValidator
   end
 
   def wday_name_to_int(value)
-    DateTime.parse(value).strftime('%u').to_i
+    DateTime.parse(value).strftime('%u').to_i # rubocop:disable Rails/TimeZone
   end
 end

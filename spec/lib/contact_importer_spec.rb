@@ -172,6 +172,7 @@ describe ContactImporter do
 
     context 'with invalid data' do
       it 'does not create a contact' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_contact.csv')
           ContactImporter.check_and_import_file(path)

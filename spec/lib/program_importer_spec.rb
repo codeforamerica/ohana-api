@@ -138,6 +138,7 @@ describe ProgramImporter do
 
     context 'with invalid data' do
       it 'does not create a program' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_program.csv')
           ProgramImporter.check_and_import_file(path)

@@ -164,6 +164,7 @@ describe OrganizationImporter do
 
     context 'with invalid data' do
       it 'does not create an org' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_org.csv')
           OrganizationImporter.check_and_import_file(path)

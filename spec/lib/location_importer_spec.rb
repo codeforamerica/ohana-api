@@ -172,6 +172,7 @@ describe LocationImporter do
 
     context 'with invalid data' do
       it 'does not create a location' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_location.csv')
           address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
@@ -182,6 +183,7 @@ describe LocationImporter do
 
     context 'when only address is invalid' do
       it 'does not create a location' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/valid_location.csv')
           address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')

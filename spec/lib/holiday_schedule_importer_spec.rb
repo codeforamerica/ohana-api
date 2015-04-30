@@ -112,8 +112,8 @@ describe HolidayScheduleImporter do
         its(:closed) { is_expected.to eq false }
         its(:start_date) { is_expected.to eq Date.parse('January 11, 2014') }
         its(:end_date) { is_expected.to eq Date.parse('November 27, 2014') }
-        its(:opens_at) { is_expected.to eq DateTime.parse('January 1, 2000, 10:00') }
-        its(:closes_at) { is_expected.to eq DateTime.parse('January 1, 2000, 15:00') }
+        its(:opens_at) { is_expected.to eq Time.utc(2000, 1, 1, 10, 00, 0) }
+        its(:closes_at) { is_expected.to eq Time.utc(2000, 1, 1, 15, 00, 0) }
         its(:location_id) { is_expected.to eq 1 }
       end
     end
@@ -198,6 +198,7 @@ describe HolidayScheduleImporter do
 
     context 'with invalid data' do
       it 'does not create a holiday_schedule' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv')
           HolidayScheduleImporter.check_and_import_file(path)

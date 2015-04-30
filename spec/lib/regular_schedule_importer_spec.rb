@@ -97,8 +97,8 @@ describe RegularScheduleImporter do
         subject { RegularSchedule.first }
 
         its(:weekday) { is_expected.to eq 1 }
-        its(:opens_at) { is_expected.to eq DateTime.parse('January 1, 2000, 9:30') }
-        its(:closes_at) { is_expected.to eq DateTime.parse('January 1, 2000, 17:00') }
+        its(:opens_at) { is_expected.to eq Time.utc(2000, 1, 1, 9, 30, 0) }
+        its(:closes_at) { is_expected.to eq Time.utc(2000, 1, 1, 17, 00, 0) }
         its(:location_id) { is_expected.to eq 1 }
       end
     end
@@ -159,6 +159,7 @@ describe RegularScheduleImporter do
 
     context 'with invalid data' do
       it 'does not create a regular_schedule' do
+        allow_any_instance_of(IO).to receive(:puts)
         expect do
           path = Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv')
           RegularScheduleImporter.check_and_import_file(path)
