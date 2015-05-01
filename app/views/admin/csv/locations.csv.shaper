@@ -4,8 +4,7 @@ csv.headers :id, :organization_id, :accessibility, :admin_emails,
             :website, :virtual
 
 csv.rows Location.find_each do |csv, location|
-  csv.cells :id, :organization_id, :accessibility, :admin_emails,
-            :alternate_name, :description, :email, :languages,
+  csv.cells :id, :organization_id, :alternate_name, :description, :email,
             :latitude, :longitude, :name, :short_desc, :transportation,
             :website, :virtual
 

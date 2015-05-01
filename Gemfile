@@ -59,6 +59,8 @@ gem 'kgio'
 gem 'memcachier'
 
 gem 'csv_shaper'
+gem 'rubyzip'
+gem 'sucker_punch'
 
 group :production do
   # Heroku recommended
@@ -80,6 +82,7 @@ group :test do
   gem 'coveralls', require: false
   gem 'rubocop'
   gem 'haml-lint'
+  gem 'webmock'
 end
 
 group :development do

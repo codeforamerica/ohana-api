@@ -179,46 +179,25 @@ feature 'Admin Home page' do
       expect(page).to have_link 'Add a new program', new_admin_program_path
     end
 
-    it 'displays links to download CSV files' do
+    it 'displays link to generate zip file' do
       expect(page).to have_content 'CSV Downloads'
 
       expect(page).
-        to have_link('Download all addresses as CSV', admin_csv_addresses_path)
+        to have_link('Generate zip file', admin_csv_all_path)
+    end
 
-      expect(page).
-        to have_link('Download all contacts as CSV', admin_csv_contacts_path)
+    it 'displays a notice while the zip is being generated' do
+      click_link 'Generate zip file'
 
-      expect(page).
-        to have_link(
-          'Download all holiday schedules as CSV',
-          admin_csv_holiday_schedules_path)
+      expect(page).to have_content 'Your zip file is being generated.'
+    end
 
-      expect(page).
-        to have_link('Download all locations as CSV', admin_csv_locations_path)
+    it 'changes the button text when the zip is ready' do
+      tmp_file_name = "#{Rails.root}/tmp/archive.zip"
+      allow(File).to receive(:exist?).with(tmp_file_name).and_return true
+      visit '/admin'
 
-      expect(page).
-        to have_link(
-          'Download all mail addresses as CSV',
-          admin_csv_mail_addresses_path)
-
-      expect(page).
-        to have_link(
-          'Download all organizations as CSV',
-          admin_csv_organizations_path)
-
-      expect(page).
-        to have_link('Download all phones as CSV', admin_csv_phones_path)
-
-      expect(page).
-        to have_link('Download all programs as CSV', admin_csv_programs_path)
-
-      expect(page).
-        to have_link(
-          'Download all regular schedules as CSV',
-          admin_csv_regular_schedules_path)
-
-      expect(page).
-        to have_link('Download all services as CSV', admin_csv_services_path)
+      expect(page).to have_link 'Download zip file'
     end
   end
 

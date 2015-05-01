@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       resources :programs, except: :show
       resources :services, only: :index
 
-      namespace :csv, defaults: { format: 'csv' } do
+      namespace :csv do
         get 'addresses'
         get 'contacts'
         get 'holiday_schedules'
@@ -38,6 +38,8 @@ Rails.application.routes.draw do
         get 'programs'
         get 'regular_schedules'
         get 'services'
+        get 'all'
+        get 'download_zip'
       end
 
       get 'locations/:location_id/services/:id', to: 'services#edit'
