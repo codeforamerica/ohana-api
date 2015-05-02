@@ -1,0 +1,9 @@
+csv.headers :id, :contact_id, :location_id, :organization_id, :service_id,
+            :country_prefix, :department, :extension, :number, :number_type,
+            :vanity_number
+
+csv.rows Phone.find_each do |csv, phone|
+  csv.cells :id, :contact_id, :location_id, :organization_id, :service_id,
+            :country_prefix, :department, :extension, :number, :number_type,
+            :vanity_number
+end

@@ -12,7 +12,9 @@ class MailAddress < ActiveRecord::Base
             :location,
             presence: { message: I18n.t('errors.messages.blank_for_mail_address') }
 
-  validates :state_province, length: { maximum: 2, minimum: 2 }
+  validates :state_province,
+            presence: { message: I18n.t('errors.messages.blank_for_address') },
+            state_province: true
 
   validates :country, length: { maximum: 2, minimum: 2 }
 

@@ -1,9 +1,9 @@
 class ServiceSerializer < ActiveModel::Serializer
-  attributes :id, :accepted_payments, :alternate_name, :audience, :description,
-             :eligibility, :email, :fees, :funding_sources, :how_to_apply,
-             :application_process, :interpretation_services, :keywords,
-             :languages, :name, :required_documents, :service_areas, :status,
-             :website, :wait_time, :updated_at
+  attributes :id, :accepted_payments, :alternate_name, :application_process,
+             :audience, :description, :eligibility, :email, :fees,
+             :funding_sources, :interpretation_services, :keywords, :languages,
+             :name, :required_documents, :service_areas, :status, :website,
+             :wait_time, :updated_at
 
   # embed :ids, include: true
   has_many :categories

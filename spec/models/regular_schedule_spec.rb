@@ -78,7 +78,7 @@ describe RegularSchedule do
         create(attributes_for(:regular_schedule))
       second_rs = create(:nearby_loc).regular_schedules.
                   create(attributes_for(:regular_schedule))
-      expect(second_rs.weekday).to eq(1)
+      expect(second_rs.weekday).to eq(7)
     end
   end
 end

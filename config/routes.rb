@@ -32,6 +32,19 @@ Rails.application.routes.draw do
       # removed.
       # resources :services, only: :index
 
+      namespace :csv, defaults: { format: 'csv' } do
+        get 'addresses'
+        get 'contacts'
+        get 'holiday_schedules'
+        get 'locations'
+        get 'mail_addresses'
+        get 'organizations'
+        get 'phones'
+        get 'programs'
+        get 'regular_schedules'
+        get 'services'
+      end
+
       get 'locations/:location_id/services/:id', to: 'services#edit'
       get 'locations/:location_id/services/:service_id/contacts/:id', to: 'service_contacts#edit'
       get 'locations/:location_id/contacts/:id', to: 'contacts#edit'

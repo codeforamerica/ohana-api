@@ -34,6 +34,7 @@ FactoryGirl.define do
   factory :org_with_extra_whitespace, class: Organization do
     accreditations ['BBB ', ' AAA']
     alternate_name 'AKA '
+    date_incorporated 'April 25, 2001'
     description 'Organization created for testing purposes '
     email 'foo@bar.org '
     funding_sources ['County ', ' State ']

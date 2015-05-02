@@ -1,0 +1,7 @@
+csv.headers :id, :location_id, :attention, :address_1, :address_2, :city,
+            :state_province, :postal_code, :country
+
+csv.rows MailAddress.find_each do |csv, mail_address|
+  csv.cells :id, :location_id, :attention, :address_1, :address_2, :city,
+            :state_province, :postal_code, :country
+end

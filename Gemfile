@@ -59,6 +59,8 @@ gem 'dalli'
 gem 'kgio'
 gem 'memcachier'
 
+gem 'csv_shaper'
+
 group :production do
   gem 'puma'
   gem 'rails_12factor'

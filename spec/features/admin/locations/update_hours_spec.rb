@@ -31,7 +31,7 @@ feature 'Update hours' do
     visit '/admin/locations/vrs-services'
 
     prefix = 'location_regular_schedules_attributes_0'
-    expect(find_field("#{prefix}_weekday").value).to eq '1'
+    expect(find_field("#{prefix}_weekday").value).to eq '7'
 
     within '.hours' do
       click_link 'x'
