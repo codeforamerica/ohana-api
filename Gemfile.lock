@@ -111,7 +111,7 @@ GEM
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
     ffi (1.9.8)
-    figaro (1.1.0)
+    figaro (1.1.1)
       thor (~> 0.14)
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
