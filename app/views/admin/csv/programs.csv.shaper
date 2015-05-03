@@ -1,0 +1,6 @@
+csv.headers :id, :organization_id, :alternate_name, :name
+
+csv.rows Program.find_each do |csv, _|
+  csv.cells :id, :organization_id, :alternate_name, :name
+end
+

@@ -124,8 +124,6 @@ describe 'GET /locations' do
           'id'             => @location.address.id,
           'address_1'      => @location.address.address_1,
           'address_2'      => nil,
-          'street_1'       => @location.address.street_1,
-          'street_2'       => nil,
           'city'           => @location.address.city,
           'state_province' => @location.address.state_province,
           'postal_code'    => @location.address.postal_code

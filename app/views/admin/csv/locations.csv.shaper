@@ -1,0 +1,18 @@
+csv.headers :id, :organization_id, :accessibility, :admin_emails,
+            :alternate_name, :description, :email, :hours, :kind, :languages,
+            :latitude, :longitude, :market_match, :name, :payments, :products,
+            :short_desc, :transportation, :website, :virtual
+
+csv.rows Location.find_each do |csv, location|
+  csv.cells :id, :organization_id, :accessibility, :admin_emails,
+            :alternate_name, :description, :email, :hours, :kind, :languages,
+            :latitude, :longitude, :market_match, :name, :payments, :products,
+            :short_desc, :transportation, :website, :virtual
+
+  csv.cell :accessibility, location.accessibility.map(&:text).join(', ')
+  csv.cell :admin_emails, location.admin_emails.join(', ')
+  csv.cell :kind, location.kind.text
+  csv.cell :languages, location.languages.try(:join, ', ')
+  csv.cell :payments, location.payments.try(:join, ', ')
+  csv.cell :products, location.products.try(:join, ', ')
+end
