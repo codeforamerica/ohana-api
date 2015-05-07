@@ -127,7 +127,7 @@ Line 2: Organization name can't be blank.
 Open the CSV file containing the error, fix it, save it to the `data` folder,
 then run `script/import`. Repeat until your data is error-free.
 
-[prepare]: https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-OpenReferral-compliant-CSV-files
+[prepare]:https://github.com/codeforamerica/ohana-api/wiki/Populating-the-Postgres-database-from-the-Human-Services-Data-Specification-%28HSDS%29-compliant-CSV-files
 [geocode]: https://github.com/codeforamerica/ohana-api/wiki/Customizing-the-geocoding-configuration
 
 ### Export the database
