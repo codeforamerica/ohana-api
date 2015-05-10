@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe CategoryImporter do
-  let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_category_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_category.csv').read }
   let(:invalid_parent) { Rails.root.join('spec/support/fixtures/invalid_parent_category.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_category.csv').read }
@@ -9,29 +8,9 @@ describe CategoryImporter do
 
   subject(:importer) { CategoryImporter.new(content) }
 
-  describe '#valid_headers?' do
-    context 'when the category headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      it { is_expected.not_to be_valid_headers }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      it { is_expected.to be_valid_headers }
-    end
-  end
-
   describe '#valid?' do
     context 'when the category content is invalid' do
       let(:content) { invalid_content }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when the category headers are invalid' do
-      let(:content) { invalid_header_content }
 
       it { is_expected.not_to be_valid }
     end
@@ -44,18 +23,6 @@ describe CategoryImporter do
   end
 
   describe '#errors' do
-    context 'when the category headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      its(:errors) { is_expected.to include('parent_id column is missing') }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      its(:errors) { is_expected.to be_empty }
-    end
-
     context 'when the category content is not valid' do
       let(:content) { invalid_content }
 
@@ -120,6 +87,18 @@ describe CategoryImporter do
   end
 
   describe '.check_and_import_file' do
+    it 'calls FileChecker' do
+      path = Rails.root.join('spec/support/fixtures/valid_category.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(FileChecker).to receive(:new).
+        with(path, CategoryImporter.required_headers).and_return(file)
+
+      CategoryImporter.check_and_import_file(path)
+    end
+
     context 'with valid data' do
       it 'creates a category' do
         expect do
@@ -138,23 +117,12 @@ describe CategoryImporter do
         end.not_to change(Category, :count)
       end
     end
+  end
 
-    context 'when file is missing but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/data/taxonomy.csv')
-          CategoryImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
-    end
-
-    context 'when file is empty but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/taxonomy.csv')
-          CategoryImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
+  describe '.required_headers' do
+    it 'matches required headers in Wiki' do
+      expect(CategoryImporter.required_headers).
+        to eq %w(taxonomy_id name parent_id parent_name)
     end
   end
 end

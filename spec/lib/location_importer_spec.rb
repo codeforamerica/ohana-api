@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe LocationImporter do
-  let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_location_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_location.csv').read }
   let(:invalid_org) { Rails.root.join('spec/support/fixtures/invalid_location_org.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location.csv').read }
@@ -30,22 +29,6 @@ describe LocationImporter do
 
   subject(:importer) { LocationImporter.new(content, address) }
 
-  describe '#valid_headers?' do
-    context 'when the location headers are invalid' do
-      let(:content) { invalid_header_content }
-      let(:address) { valid_address }
-
-      it { is_expected.not_to be_valid_headers }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-      let(:address) { valid_address }
-
-      it { is_expected.to be_valid_headers }
-    end
-  end
-
   describe '#valid?' do
     context 'when the location content is invalid' do
       let(:content) { invalid_content }
@@ -61,13 +44,6 @@ describe LocationImporter do
       it { is_expected.not_to be_valid }
     end
 
-    context 'when the location headers are invalid' do
-      let(:content) { invalid_header_content }
-      let(:address) { valid_address }
-
-      it { is_expected.not_to be_valid }
-    end
-
     context 'when the content is valid' do
       let(:content) { valid_content }
       let(:address) { valid_address }
@@ -77,20 +53,6 @@ describe LocationImporter do
   end
 
   describe '#errors' do
-    context 'when the location headers are invalid' do
-      let(:content) { invalid_header_content }
-      let(:address) { valid_address }
-
-      its(:errors) { is_expected.to include('name column is missing') }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-      let(:address) { valid_address }
-
-      its(:errors) { is_expected.to be_empty }
-    end
-
     context 'when the location content is not valid' do
       let(:content) { invalid_content }
       let(:address) { valid_address }
@@ -160,6 +122,23 @@ describe LocationImporter do
   end
 
   describe '.check_and_import_file' do
+    it 'calls FileChecker' do
+      path = Rails.root.join('spec/support/fixtures/valid_location.csv')
+      address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(FileChecker).to receive(:new).ordered.
+        with(path, LocationImporter.required_headers).and_return(file)
+
+      expect(FileChecker).to receive(:new).ordered.
+        with(address_path, LocationImporter.required_address_headers).
+        and_return(file)
+
+      LocationImporter.check_and_import_file(path, address_path)
+    end
+
     context 'with valid data' do
       it 'creates a location' do
         expect do
@@ -191,71 +170,22 @@ describe LocationImporter do
         end.not_to change(Location, :count)
       end
     end
+  end
 
-    context 'when address is missing' do
-      it 'raises an error' do
-        path = Rails.root.join('spec/support/fixtures/valid_location.csv')
-        address_path = Rails.root.join('spec/support/data/addresses.csv')
-
-        expect do
-          LocationImporter.check_and_import_file(path, address_path)
-        end.to raise_error(/missing or empty/)
-      end
+  describe '.required_headers' do
+    it 'matches required headers in Wiki' do
+      expect(LocationImporter.required_headers).
+        to eq %w(id organization_id accessibility admin_emails alternate_name
+                 latitude longitude description email languages name
+                 transportation virtual website)
     end
+  end
 
-    context 'when address is empty' do
-      it 'raises an error' do
-        path = Rails.root.join('spec/support/fixtures/valid_location.csv')
-        address_path = Rails.root.join('spec/support/fixtures/addresses.csv')
-
-        expect do
-          LocationImporter.check_and_import_file(path, address_path)
-        end.to raise_error(/missing or empty/)
-      end
-    end
-
-    context 'when location is missing' do
-      it 'raises an error' do
-        path = Rails.root.join('spec/support/data/locations.csv')
-        address_path = Rails.root.join('spec/support/data/valid_address.csv')
-
-        expect do
-          LocationImporter.check_and_import_file(path, address_path)
-        end.to raise_error(/missing or empty/)
-      end
-    end
-
-    context 'when location is empty' do
-      it 'raises an error' do
-        path = Rails.root.join('spec/support/fixtures/locations.csv')
-        address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
-
-        expect do
-          LocationImporter.check_and_import_file(path, address_path)
-        end.to raise_error(/missing or empty/)
-      end
-    end
-
-    context 'when both are missing' do
-      it 'raises an error' do
-        path = Rails.root.join('spec/support/data/locations.csv')
-        address_path = Rails.root.join('spec/support/data/addresses.csv')
-
-        expect do
-          LocationImporter.check_and_import_file(path, address_path)
-        end.to raise_error(/missing or empty/)
-      end
-    end
-
-    context 'when both are empty' do
-      it 'raises an error' do
-        path = Rails.root.join('spec/support/fixtures/locations.csv')
-        address_path = Rails.root.join('spec/support/fixtures/addresses.csv')
-
-        expect do
-          LocationImporter.check_and_import_file(path, address_path)
-        end.to raise_error(/missing or empty/)
-      end
+  describe '.required_address_headers' do
+    it 'matches required headers in Wiki' do
+      expect(LocationImporter.required_address_headers).
+        to eq %w(id location_id address_1 address_2 city state_province
+                 postal_code country)
     end
   end
 end

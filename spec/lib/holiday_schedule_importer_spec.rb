@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe HolidayScheduleImporter do
-  let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_holiday_schedule_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv').read }
   let(:invalid_date) { Rails.root.join('spec/support/fixtures/hs_with_invalid_date.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv').read }
@@ -21,29 +20,9 @@ describe HolidayScheduleImporter do
 
   subject(:importer) { HolidayScheduleImporter.new(content) }
 
-  describe '#valid_headers?' do
-    context 'when the holiday_schedule headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      it { is_expected.not_to be_valid_headers }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      it { is_expected.to be_valid_headers }
-    end
-  end
-
   describe '#valid?' do
     context 'when the holiday_schedule content is invalid' do
       let(:content) { invalid_content }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when the holiday_schedule headers are invalid' do
-      let(:content) { invalid_header_content }
 
       it { is_expected.not_to be_valid }
     end
@@ -56,18 +35,6 @@ describe HolidayScheduleImporter do
   end
 
   describe '#errors' do
-    context 'when the holiday_schedule headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      its(:errors) { is_expected.to include('closed column is missing') }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      its(:errors) { is_expected.to be_empty }
-    end
-
     context 'when the holiday_schedule content is not valid' do
       let(:content) { invalid_content }
 
@@ -187,6 +154,18 @@ describe HolidayScheduleImporter do
   end
 
   describe '.check_and_import_file' do
+    it 'calls FileChecker' do
+      path = Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(FileChecker).to receive(:new).
+        with(path, HolidayScheduleImporter.required_headers).and_return(file)
+
+      HolidayScheduleImporter.check_and_import_file(path)
+    end
+
     context 'with valid data' do
       it 'creates a holiday_schedule' do
         expect do
@@ -205,23 +184,13 @@ describe HolidayScheduleImporter do
         end.not_to change(HolidaySchedule, :count)
       end
     end
+  end
 
-    context 'when file is missing but required' do
-      it 'raises an error' do
-        path = Rails.root.join('spec/support/data/holiday_schedules.csv')
-        expect do
-          HolidayScheduleImporter.check_and_import_file(path)
-        end.to raise_error(/missing or empty/)
-      end
-    end
-
-    context 'when file is empty and required' do
-      it 'raises an error' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/holiday_schedules.csv')
-          HolidayScheduleImporter.check_and_import_file(path)
-        end.to raise_error(/missing or empty/)
-      end
+  describe '.required_headers' do
+    it 'matches required headers in Wiki' do
+      expect(HolidayScheduleImporter.required_headers).
+        to eq %w(id location_id service_id closed start_date end_date opens_at
+                 closes_at)
     end
   end
 end
