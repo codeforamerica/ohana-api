@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ServiceImporter do
-  let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_service_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_service.csv').read }
   let(:invalid_location) { Rails.root.join('spec/support/fixtures/invalid_service_location.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_service.csv').read }
@@ -17,29 +16,9 @@ describe ServiceImporter do
 
   subject(:importer) { ServiceImporter.new(content) }
 
-  describe '#valid_headers?' do
-    context 'when the service headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      it { is_expected.not_to be_valid_headers }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      it { is_expected.to be_valid_headers }
-    end
-  end
-
   describe '#valid?' do
     context 'when the service content is invalid' do
       let(:content) { invalid_content }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when the service headers are invalid' do
-      let(:content) { invalid_header_content }
 
       it { is_expected.not_to be_valid }
     end
@@ -52,18 +31,6 @@ describe ServiceImporter do
   end
 
   describe '#errors' do
-    context 'when the service headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      its(:errors) { is_expected.to include('name column is missing') }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      its(:errors) { is_expected.to be_empty }
-    end
-
     context 'when the service content is not valid' do
       let(:content) { invalid_content }
 
@@ -172,6 +139,18 @@ describe ServiceImporter do
   end
 
   describe '.check_and_import_file' do
+    it 'calls FileChecker' do
+      path = Rails.root.join('spec/support/fixtures/valid_service.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(FileChecker).to receive(:new).
+        with(path, ServiceImporter.required_headers).and_return(file)
+
+      ServiceImporter.check_and_import_file(path)
+    end
+
     context 'with valid data' do
       it 'creates a service' do
         expect do
@@ -190,23 +169,15 @@ describe ServiceImporter do
         end.not_to change(Service, :count)
       end
     end
+  end
 
-    context 'when file is missing but required' do
-      it 'raises an error' do
-        expect do
-          path = Rails.root.join('spec/support/data/services.csv')
-          ServiceImporter.check_and_import_file(path)
-        end.to raise_error(/missing or empty/)
-      end
-    end
-
-    context 'when file is empty and required' do
-      it 'raises an error' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/services.csv')
-          ServiceImporter.check_and_import_file(path)
-        end.to raise_error(/missing or empty/)
-      end
+  describe '.required_headers' do
+    it 'matches required headers in Wiki' do
+      expect(ServiceImporter.required_headers).
+        to eq %w(id location_id program_id accepted_payments alternate_name
+                 description eligibility email fees funding_sources
+                 application_process languages name required_documents
+                 service_areas status website wait_time)
     end
   end
 end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ContactImporter do
-  let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_contact_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_contact.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_contact.csv').read }
   let(:valid_service_contact) { Rails.root.join('spec/support/fixtures/valid_service_contact.csv').read }
@@ -19,29 +18,9 @@ describe ContactImporter do
 
   subject(:importer) { ContactImporter.new(content) }
 
-  describe '#valid_headers?' do
-    context 'when the contact headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      it { is_expected.not_to be_valid_headers }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      it { is_expected.to be_valid_headers }
-    end
-  end
-
   describe '#valid?' do
     context 'when the contact content is invalid' do
       let(:content) { invalid_content }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when the contact headers are invalid' do
-      let(:content) { invalid_header_content }
 
       it { is_expected.not_to be_valid }
     end
@@ -54,18 +33,6 @@ describe ContactImporter do
   end
 
   describe '#errors' do
-    context 'when the contact headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      its(:errors) { is_expected.to include('name column is missing') }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      its(:errors) { is_expected.to be_empty }
-    end
-
     context 'when the contact content is not valid' do
       let(:content) { invalid_content }
 
@@ -161,6 +128,18 @@ describe ContactImporter do
   end
 
   describe '.check_and_import_file' do
+    it 'calls FileChecker' do
+      path = Rails.root.join('spec/support/fixtures/valid_location_contact.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(FileChecker).to receive(:new).
+        with(path, ContactImporter.required_headers).and_return(file)
+
+      ContactImporter.check_and_import_file(path)
+    end
+
     context 'with valid data' do
       it 'creates a contact' do
         expect do
@@ -179,23 +158,13 @@ describe ContactImporter do
         end.not_to change(Contact, :count)
       end
     end
+  end
 
-    context 'when file is missing but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/data/contacts.csv')
-          ContactImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
-    end
-
-    context 'when file is empty but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/contacts.csv')
-          ContactImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
+  describe '.required_headers' do
+    it 'matches required headers in Wiki' do
+      expect(ContactImporter.required_headers).
+        to eq %w(id location_id organization_id service_id department email name
+                 title)
     end
   end
 end

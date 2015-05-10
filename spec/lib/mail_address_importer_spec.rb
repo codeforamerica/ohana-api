@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe MailAddressImporter do
-  let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_mail_address_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_mail_address.csv').read }
   let(:invalid_location) { Rails.root.join('spec/support/fixtures/invalid_mail_address_location.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_mail_address.csv').read }
@@ -17,29 +16,9 @@ describe MailAddressImporter do
 
   subject(:importer) { MailAddressImporter.new(content) }
 
-  describe '#valid_headers?' do
-    context 'when the mail_address headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      it { is_expected.not_to be_valid_headers }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      it { is_expected.to be_valid_headers }
-    end
-  end
-
   describe '#valid?' do
     context 'when the mail_address content is invalid' do
       let(:content) { invalid_content }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when the mail_address headers are invalid' do
-      let(:content) { invalid_header_content }
 
       it { is_expected.not_to be_valid }
     end
@@ -52,18 +31,6 @@ describe MailAddressImporter do
   end
 
   describe '#errors' do
-    context 'when the mail_address headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      its(:errors) { is_expected.to include('address_1 column is missing') }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      its(:errors) { is_expected.to be_empty }
-    end
-
     context 'when the mail_address content is not valid' do
       let(:content) { invalid_content }
 
@@ -132,6 +99,18 @@ describe MailAddressImporter do
   end
 
   describe '.check_and_import_file' do
+    it 'calls FileChecker' do
+      path = Rails.root.join('spec/support/fixtures/valid_mail_address.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(FileChecker).to receive(:new).
+        with(path, MailAddressImporter.required_headers).and_return(file)
+
+      MailAddressImporter.check_and_import_file(path)
+    end
+
     context 'with valid data' do
       it 'creates a mail_address' do
         expect do
@@ -150,23 +129,13 @@ describe MailAddressImporter do
         end.not_to change(MailAddress, :count)
       end
     end
+  end
 
-    context 'when file is missing but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/data/mail_addresses.csv')
-          MailAddressImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
-    end
-
-    context 'when file is empty but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/mail_addresses.csv')
-          MailAddressImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
+  describe '.required_headers' do
+    it 'matches required headers in Wiki' do
+      expect(MailAddressImporter.required_headers).
+        to eq %w(id location_id attention address_1 address_2 city
+                 state_province postal_code country)
     end
   end
 end

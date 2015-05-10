@@ -5,15 +5,9 @@ LocationImporter = Struct.new(:content, :addresses) do
   end
 
   def self.check_and_import_file(locations_path, addresses_path)
-    file = FileChecker.new(locations_path)
+    FileChecker.new(locations_path, required_headers).validate
 
-    if file.available? && file.entries?
-      return process_import(locations_path, addresses_path)
-    end
-
-    if file.required_but_missing? || file.required_but_empty?
-      Kernel.raise("#{file.filename} is required but is missing or empty")
-    end
+    process_import(locations_path, addresses_path)
   end
 
   def self.process_import(locations_path, addresses_path)
@@ -22,24 +16,17 @@ LocationImporter = Struct.new(:content, :addresses) do
   end
 
   def self.addresses_for(addresses_path)
-    file = FileChecker.new(addresses_path)
-    if file.missing? || !file.entries?
-      Kernel.raise("#{file.filename} is required but is missing or empty")
-    else
-      AddressExtractor.extract_addresses(addresses_path)
-    end
-  end
+    FileChecker.new(addresses_path, required_address_headers).validate
 
-  def valid_headers?
-    missing_headers.empty?
+    AddressExtractor.extract_addresses(addresses_path)
   end
 
   def valid?
-    @valid ||= valid_headers? && locations.all?(&:valid?)
+    @valid ||= locations.all?(&:valid?)
   end
 
   def errors
-    header_errors + ImporterErrors.messages_for(locations)
+    ImporterErrors.messages_for(locations)
   end
 
   def import
@@ -59,26 +46,19 @@ LocationImporter = Struct.new(:content, :addresses) do
     end
   end
 
-  def header_errors
-    missing_headers.map { |header| "#{header} column is missing" }
-  end
-
-  def missing_headers
-    required_headers - headers
-  end
-
   def csv_entries
     @csv_entries ||= CSV.new(content, headers: true, header_converters: :symbol).entries
   end
 
-  def headers
-    @headers ||= csv_entries.first.headers
-  end
-
-  def required_headers
+  def self.required_headers
     %w(id organization_id accessibility admin_emails
        alternate_name latitude longitude description email
        languages name transportation virtual
-       website).map(&:to_sym)
+       website)
+  end
+
+  def self.required_address_headers
+    %w(id location_id address_1 address_2 city state_province postal_code
+       country)
   end
 end

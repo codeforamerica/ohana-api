@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ProgramImporter do
-  let(:invalid_header_content) { Rails.root.join('spec/support/fixtures/invalid_program_headers.csv').read }
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_program.csv').read }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_program.csv').read }
   let(:no_parent) { Rails.root.join('spec/support/fixtures/program_with_no_parent.csv').read }
@@ -17,29 +16,9 @@ describe ProgramImporter do
 
   subject(:importer) { ProgramImporter.new(content) }
 
-  describe '#valid_headers?' do
-    context 'when the program headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      it { is_expected.not_to be_valid_headers }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      it { is_expected.to be_valid_headers }
-    end
-  end
-
   describe '#valid?' do
     context 'when the program content is invalid' do
       let(:content) { invalid_content }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when the program headers are invalid' do
-      let(:content) { invalid_header_content }
 
       it { is_expected.not_to be_valid }
     end
@@ -52,18 +31,6 @@ describe ProgramImporter do
   end
 
   describe '#errors' do
-    context 'when the program headers are invalid' do
-      let(:content) { invalid_header_content }
-
-      its(:errors) { is_expected.to include('alternate_name column is missing') }
-    end
-
-    context 'when the headers are valid' do
-      let(:content) { valid_content }
-
-      its(:errors) { is_expected.to be_empty }
-    end
-
     context 'when the program content is not valid' do
       let(:content) { invalid_content }
 
@@ -127,6 +94,18 @@ describe ProgramImporter do
   end
 
   describe '.check_and_import_file' do
+    it 'calls FileChecker' do
+      path = Rails.root.join('spec/support/fixtures/valid_program.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(FileChecker).to receive(:new).
+        with(path, ProgramImporter.required_headers).and_return(file)
+
+      ProgramImporter.check_and_import_file(path)
+    end
+
     context 'with valid data' do
       it 'creates a program' do
         expect do
@@ -145,23 +124,12 @@ describe ProgramImporter do
         end.not_to change(Program, :count)
       end
     end
+  end
 
-    context 'when file is missing but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/data/programs.csv')
-          ProgramImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
-    end
-
-    context 'when file is empty but not required' do
-      it 'does not raise an error' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/programs.csv')
-          ProgramImporter.check_and_import_file(path)
-        end.not_to raise_error
-      end
+  describe '.required_headers' do
+    it 'matches required headers in Wiki' do
+      expect(ProgramImporter.required_headers).
+        to eq %w(id organization_id name alternate_name)
     end
   end
 end
