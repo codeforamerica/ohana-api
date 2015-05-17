@@ -37,9 +37,14 @@ class Organization < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:history]
 
-  after_save :touch_locations, if: :name_changed?
+  after_save :touch_locations, if: :needs_touch?
 
   private
+
+  def needs_touch?
+    return false if locations.count == 0
+    name_changed?
+  end
 
   def touch_locations
     locations.find_each(&:touch)

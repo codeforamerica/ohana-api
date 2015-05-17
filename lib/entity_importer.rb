@@ -7,9 +7,12 @@ EntityImporter = Struct.new(:content) do
   end
 
   def self.check_and_import_file(path)
-    FileChecker.new(path, required_headers).validate
+    check = FileChecker.new(path, required_headers).validate
 
-    process_import(path)
+    if check != 'skip import'
+      Kernel.puts("\n===> Importing #{path.to_s.split('/').last}")
+      process_import(path)
+    end
   end
 
   def self.process_import(path)

@@ -8,7 +8,7 @@ class CategoryImporter < EntityImporter
   end
 
   def import
-    categories.each(&:save!) if valid?
+    categories.each(&:save)
   end
 
   protected

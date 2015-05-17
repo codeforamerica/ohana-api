@@ -30,9 +30,8 @@ LocationImporter = Struct.new(:content, :addresses) do
   end
 
   def import
-    return unless valid?
     locations.each do |location|
-      location.save!
+      location.save
       # Slows down the geocoding. See INSTALL.md for more details.
       sleep ENV['sleep'].to_i if ENV['sleep'].present?
     end
@@ -41,7 +40,7 @@ LocationImporter = Struct.new(:content, :addresses) do
   protected
 
   def locations
-    csv_entries.map(&:to_hash).map do |p|
+    @locations ||= csv_entries.map(&:to_hash).map do |p|
       LocationPresenter.new(p, addresses).to_location
     end
   end

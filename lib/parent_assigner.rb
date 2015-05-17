@@ -9,6 +9,6 @@ module ParentAssigner
   end
 
   def foreign_keys_in(row)
-    row.keys.select { |key| key.to_s.include?('_id') }
+    row.keys.select { |key| key.to_s == 'id' || key.to_s.include?('_id') }
   end
 end

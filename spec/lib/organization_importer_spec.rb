@@ -52,8 +52,9 @@ describe OrganizationImporter do
       describe 'the org' do
         before { importer.import }
 
-        subject { Organization.first }
+        subject { Organization.find(2) }
 
+        its(:id) { is_expected.to eq 2 }
         its(:accreditations) { is_expected.to eq ['BBB', 'State Board of Education'] }
         its(:alternate_name) { is_expected.to eq 'HFB' }
         its(:date_incorporated) { is_expected.to eq Date.parse('January 2, 1970') }
@@ -96,15 +97,15 @@ describe OrganizationImporter do
     context 'when one of the fields required for a org is blank' do
       let(:content) { invalid_content }
 
-      it 'does not create a org' do
-        expect { importer.import }.to change(Organization, :count).by(0)
+      it 'saves the valid entries and skips invalid ones' do
+        expect { importer.import }.to change(Organization, :count).by(1)
       end
     end
 
     context 'when the org already exists' do
       before do
         DatabaseCleaner.clean_with(:truncation)
-        create(:organization)
+        importer.import
       end
 
       let(:content) { valid_content }
@@ -126,28 +127,25 @@ describe OrganizationImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_org.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, OrganizationImporter.required_headers).and_return(file)
 
       OrganizationImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates an org' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_org.csv')
-          OrganizationImporter.check_and_import_file(path)
-        end.to change(Organization, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create an org' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_org.csv')
-          OrganizationImporter.check_and_import_file(path)
-        end.not_to change(Organization, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_org.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Name can't be blank for Organization")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_org.csv')
+        OrganizationImporter.check_and_import_file(path)
       end
     end
   end

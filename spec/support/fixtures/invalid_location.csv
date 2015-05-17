@@ -1,2 +1,3 @@
 id,organization_id,accessibility,admin_emails,alternate_name,description,email,languages,latitude,longitude,name,transportation,virtual,website
 1,1,"disabled_parking, elevator, wheelchair","admin@example.org, john@example.org",,The Palo Alto location of the Harvest Food Bank distributes canned goods only.,info@location.org,"English, Spanish, Tagalog",37.7726402,-122.4099154,,,,http://www.example.org
+3,1,,,,The Atherton location of the Harvest Food Bank distributes canned goods only.,info@location.org,,,,Harvest Food Bank of Atherton,SAMTrans stops 1 block away,false,http://www.example.org

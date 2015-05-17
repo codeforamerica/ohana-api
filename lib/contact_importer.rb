@@ -8,7 +8,7 @@ class ContactImporter < EntityImporter
   end
 
   def import
-    contacts.each(&:save!) if valid?
+    contacts.each(&:save)
   end
 
   protected

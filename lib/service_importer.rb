@@ -8,7 +8,7 @@ class ServiceImporter < EntityImporter
   end
 
   def import
-    services.each(&:save!) if valid?
+    services.each(&:save)
   end
 
   protected

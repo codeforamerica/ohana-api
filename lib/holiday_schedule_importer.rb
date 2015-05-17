@@ -8,7 +8,7 @@ class HolidayScheduleImporter < EntityImporter
   end
 
   def import
-    holiday_schedules.each(&:save!) if valid?
+    holiday_schedules.each(&:save)
   end
 
   protected

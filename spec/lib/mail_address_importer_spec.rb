@@ -61,6 +61,7 @@ describe MailAddressImporter do
 
         subject { MailAddress.first }
 
+        its(:id) { is_expected.to eq 2 }
         its(:attention) { is_expected.to eq 'John Smith' }
         its(:address_1) { is_expected.to eq '123 Main Street' }
         its(:address_2) { is_expected.to eq 'Suite 101' }
@@ -75,15 +76,14 @@ describe MailAddressImporter do
     context 'when one of the fields required for a mail_address is blank' do
       let(:content) { invalid_content }
 
-      it 'does not create a mail_address' do
-        expect { importer.import }.to change(MailAddress, :count).by(0)
+      it 'saves the valid entries and skips invalid ones' do
+        expect { importer.import }.to change(MailAddress, :count).by(1)
       end
     end
 
     context 'when the mail_address already exists' do
       before do
-        DatabaseCleaner.clean_with(:truncation)
-        create(:mail_address)
+        importer.import
       end
 
       let(:content) { valid_content }
@@ -105,28 +105,25 @@ describe MailAddressImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_mail_address.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, MailAddressImporter.required_headers).and_return(file)
 
       MailAddressImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates a mail_address' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_mail_address.csv')
-          MailAddressImporter.check_and_import_file(path)
-        end.to change(MailAddress, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create a mail_address' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_mail_address.csv')
-          MailAddressImporter.check_and_import_file(path)
-        end.not_to change(MailAddress, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_mail_address.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Address 1 can't be blank for Mail Address")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_mail_address.csv')
+        MailAddressImporter.check_and_import_file(path)
       end
     end
   end

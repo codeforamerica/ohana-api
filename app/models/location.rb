@@ -110,12 +110,9 @@ class Location < ActiveRecord::Base
   end
 
   def needs_geocoding?
-    return false if address.blank? || new_record_with_coordinates?
-    address.changed?
-  end
-
-  def new_record_with_coordinates?
-    new_record? && latitude.present? && longitude.present?
+    return false if address.blank? || address.marked_for_destruction?
+    return true if latitude.blank? && longitude.blank?
+    address.changed? && !address.new_record?
   end
 
   # See app/models/concerns/search.rb
