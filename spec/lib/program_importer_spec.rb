@@ -61,6 +61,7 @@ describe ProgramImporter do
 
         subject { Program.first }
 
+        its(:id) { is_expected.to eq 2 }
         its(:name) { is_expected.to eq 'Defeat Hunger' }
         its(:alternate_name) { is_expected.to be_nil }
         its(:organization_id) { is_expected.to eq 1 }
@@ -70,15 +71,14 @@ describe ProgramImporter do
     context 'when one of the fields required for a program is blank' do
       let(:content) { invalid_content }
 
-      it 'does not create a program' do
-        expect { importer.import }.to change(Program, :count).by(0)
+      it 'saves the valid entries and skips invalid ones' do
+        expect { importer.import }.to change(Program, :count).by(1)
       end
     end
 
     context 'when the program already exists' do
       before do
-        DatabaseCleaner.clean_with(:truncation)
-        create(:program)
+        importer.import
       end
 
       let(:content) { valid_content }
@@ -100,28 +100,25 @@ describe ProgramImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_program.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, ProgramImporter.required_headers).and_return(file)
 
       ProgramImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates a program' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_program.csv')
-          ProgramImporter.check_and_import_file(path)
-        end.to change(Program, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create a program' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_program.csv')
-          ProgramImporter.check_and_import_file(path)
-        end.not_to change(Program, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_program.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Name can't be blank for Program")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_program.csv')
+        ProgramImporter.check_and_import_file(path)
       end
     end
   end

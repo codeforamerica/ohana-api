@@ -5,6 +5,7 @@ class FileChecker
   end
 
   def validate
+    return 'skip import' if missing_or_empty_but_not_required?
     if missing_or_empty?
       abort "Aborting because #{filename} is required, but is missing or empty."
     elsif invalid_headers?
@@ -21,16 +22,24 @@ class FileChecker
     !File.file?(@path)
   end
 
+  def empty?
+    csv_entries.all?(&:blank?)
+  end
+
   def required_but_missing?
     required? && missing?
   end
 
   def required_but_empty?
-    required? && csv_entries.blank?
+    required? && empty?
   end
 
   def missing_or_empty?
     required_but_missing? || required_but_empty?
+  end
+
+  def missing_or_empty_but_not_required?
+    !required? && (missing? || empty?)
   end
 
   def invalid_headers?

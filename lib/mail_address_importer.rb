@@ -8,7 +8,7 @@ class MailAddressImporter < EntityImporter
   end
 
   def import
-    mail_addresses.each(&:save!) if valid?
+    mail_addresses.each(&:save)
   end
 
   protected

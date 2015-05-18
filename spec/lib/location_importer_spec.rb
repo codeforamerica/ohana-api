@@ -99,6 +99,10 @@ describe LocationImporter do
         expect { importer.import }.to change(Location, :count).by(1)
       end
 
+      it 'creates an address' do
+        expect { importer.import }.to change(Address, :count).by(1)
+      end
+
       describe 'the location' do
         before { importer.import }
 
@@ -109,14 +113,50 @@ describe LocationImporter do
         its(:longitude) { is_expected.to eq(-122.4099154) }
         its(:organization_id) { is_expected.to eq 1 }
       end
+
+      describe 'the address' do
+        before { importer.import }
+
+        subject { Address.first }
+
+        its(:address_1) { is_expected.to eq '123 Main Street' }
+        its(:address_2) { is_expected.to eq 'Suite 101' }
+        its(:city) { is_expected.to eq 'Fairfax' }
+        its(:state_province) { is_expected.to eq 'VA' }
+        its(:postal_code) { is_expected.to eq '22031' }
+        its(:country) { is_expected.to eq 'US' }
+      end
     end
 
     context 'when one of the fields required for a location is blank' do
       let(:content) { invalid_content }
       let(:address) { valid_address }
 
-      it 'does not create a location' do
-        expect { importer.import }.to change(Location, :count).by(0)
+      it 'saves the valid locations and skips invalid ones' do
+        expect { importer.import }.to change(Location, :count).by(1)
+      end
+
+      it 'saves the valid addresses and skips invalid ones' do
+        expect { importer.import }.to change(Address, :count).by(1)
+      end
+    end
+
+    context 'when the address already exists' do
+      before { importer.import }
+
+      let(:content) { valid_content }
+      let(:address) { valid_address }
+
+      it 'does not create a new contact' do
+        expect { importer.import }.to_not change(Address, :count)
+      end
+
+      it 'does not generate errors' do
+        expect(importer.errors).to eq []
+      end
+
+      it 'does not generate errors' do
+        expect(importer.errors).to eq []
       end
     end
   end
@@ -139,35 +179,40 @@ describe LocationImporter do
       LocationImporter.check_and_import_file(path, address_path)
     end
 
-    context 'with valid data' do
-      it 'creates a location' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_location.csv')
-          address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
-          LocationImporter.check_and_import_file(path, address_path)
-        end.to change(Location, :count)
-      end
+    it 'calls process_import' do
+      path = Rails.root.join('spec/support/fixtures/valid_location.csv')
+      address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
+
+      file = double('FileChecker')
+      allow(file).to receive(:validate).and_return true
+
+      expect(LocationImporter).to receive(:process_import).with(path, address_path)
+
+      LocationImporter.check_and_import_file(path, address_path)
     end
 
     context 'with invalid data' do
-      it 'does not create a location' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_location.csv')
-          address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
-          LocationImporter.check_and_import_file(path, address_path)
-        end.not_to change(Location, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).ordered.
+          with("Line 2: Address city can't be blank for Address, Name can't be blank for Location")
+
+        expect(Kernel).to receive(:puts).ordered.
+          with("Line 3: Address Unless it's virtual, a location must have an address.")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_location.csv')
+        address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
+        LocationImporter.check_and_import_file(path, address_path)
       end
     end
 
     context 'when only address is invalid' do
-      it 'does not create a location' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_location.csv')
-          address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
-          LocationImporter.check_and_import_file(path, address_path)
-        end.not_to change(Location, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Address city can't be blank for Address")
+
+        path = Rails.root.join('spec/support/fixtures/valid_location.csv')
+        address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
+        LocationImporter.check_and_import_file(path, address_path)
       end
     end
   end

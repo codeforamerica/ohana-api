@@ -153,5 +153,21 @@ describe ServicePresenter do
         expect(service.attributes['service_areas']).to eq []
       end
     end
+
+    context 'ids are not sequential' do
+      let(:properties) do
+        {
+          location_id: '1',
+          id: '2',
+          name: 'Example Service',
+          description: 'Example description'
+        }
+      end
+
+      it 'sets id to the id in the CSV' do
+        service = presenter.to_service
+        expect(service.id).to eq 2
+      end
+    end
   end
 end

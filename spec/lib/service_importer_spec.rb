@@ -145,28 +145,25 @@ describe ServiceImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_service.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, ServiceImporter.required_headers).and_return(file)
 
       ServiceImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates a service' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_service.csv')
-          ServiceImporter.check_and_import_file(path)
-        end.to change(Service, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create a service' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
-          ServiceImporter.check_and_import_file(path)
-        end.not_to change(Service, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_service.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Name can't be blank for Service")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
+        ServiceImporter.check_and_import_file(path)
       end
     end
   end

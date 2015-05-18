@@ -8,7 +8,7 @@ class ProgramImporter < EntityImporter
   end
 
   def import
-    programs.each(&:save!) if valid?
+    programs.each(&:save)
   end
 
   protected

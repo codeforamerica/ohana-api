@@ -8,13 +8,13 @@ class OrganizationImporter < EntityImporter
   end
 
   def import
-    organizations.each(&:save!) if valid?
+    organizations.each(&:save)
   end
 
   protected
 
   def organizations
-    csv_entries.map(&:to_hash).map do |p|
+    @organizations ||= csv_entries.map(&:to_hash).map do |p|
       OrganizationPresenter.new(p).to_org
     end
   end

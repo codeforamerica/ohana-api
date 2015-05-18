@@ -155,6 +155,22 @@ describe FileChecker do
       end
     end
 
+    context 'when file is missing but not required' do
+      let(:path) { missing_not_required }
+
+      it 'returns skip prompt' do
+        expect(checker.validate).to eq 'skip import'
+      end
+    end
+
+    context 'when file is empty but not required' do
+      let(:path) { empty_not_required }
+
+      it 'returns skip prompt' do
+        expect(checker.validate).to eq 'skip import'
+      end
+    end
+
     context 'when file is required but empty' do
       let(:path) { required_but_empty }
 

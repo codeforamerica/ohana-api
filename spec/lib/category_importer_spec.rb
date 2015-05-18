@@ -62,8 +62,8 @@ describe CategoryImporter do
     context 'when one of the fields required for a category is blank' do
       let(:content) { invalid_content }
 
-      it 'does not create a category' do
-        expect { importer.import }.to change(Category, :count).by(0)
+      it 'saves the valid categories and skips invalid ones' do
+        expect { importer.import }.to change(Category, :count).by(1)
       end
     end
 
@@ -93,28 +93,25 @@ describe CategoryImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_category.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, CategoryImporter.required_headers).and_return(file)
 
       CategoryImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates a category' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_category.csv')
-          CategoryImporter.check_and_import_file(path)
-        end.to change(Category, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create a category' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_category.csv')
-          CategoryImporter.check_and_import_file(path)
-        end.not_to change(Category, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_category.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Name can't be blank for Category")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_category.csv')
+        CategoryImporter.check_and_import_file(path)
       end
     end
   end

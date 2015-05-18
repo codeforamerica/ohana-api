@@ -8,7 +8,7 @@ class PhoneImporter < EntityImporter
   end
 
   def import
-    phones.each(&:save!) if valid?
+    phones.each(&:save)
   end
 
   protected

@@ -8,7 +8,7 @@ class RegularScheduleImporter < EntityImporter
   end
 
   def import
-    regular_schedules.each(&:save!) if valid?
+    regular_schedules.each(&:save)
   end
 
   protected

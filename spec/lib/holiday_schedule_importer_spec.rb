@@ -76,6 +76,7 @@ describe HolidayScheduleImporter do
 
         subject { HolidaySchedule.first }
 
+        its(:id) { is_expected.to eq 2 }
         its(:closed) { is_expected.to eq false }
         its(:start_date) { is_expected.to eq Date.parse('January 11, 2014') }
         its(:end_date) { is_expected.to eq Date.parse('November 27, 2014') }
@@ -129,16 +130,14 @@ describe HolidayScheduleImporter do
     context 'when required field for a holiday_schedule is blank' do
       let(:content) { invalid_content }
 
-      it 'does not create a holiday_schedule' do
-        expect { importer.import }.to change(HolidaySchedule, :count).by(0)
+      it 'saves the valid entries and skips invalid ones' do
+        expect { importer.import }.to change(HolidaySchedule, :count).by(1)
       end
     end
 
     context 'when the holiday_schedule already exists' do
       before do
-        DatabaseCleaner.clean_with(:truncation)
-        create(:location).holiday_schedules.
-          create!(attributes_for(:holiday_schedule))
+        importer.import
       end
 
       let(:content) { valid_content }
@@ -160,28 +159,25 @@ describe HolidayScheduleImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_location_holiday_schedule.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, HolidayScheduleImporter.required_headers).and_return(file)
 
       HolidayScheduleImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates a holiday_schedule' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv')
-          HolidayScheduleImporter.check_and_import_file(path)
-        end.to change(HolidaySchedule, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create a holiday_schedule' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv')
-          HolidayScheduleImporter.check_and_import_file(path)
-        end.not_to change(HolidaySchedule, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_holiday_schedule.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Closes at can't be blank for Holiday Schedule when open on that day")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv')
+        HolidayScheduleImporter.check_and_import_file(path)
       end
     end
   end

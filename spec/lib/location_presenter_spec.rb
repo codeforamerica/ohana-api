@@ -19,9 +19,12 @@ describe LocationPresenter do
     }
   end
 
+  let(:path) { Rails.root.join('spec/support/fixtures/valid_location.csv') }
+
+  let(:address_path) { Rails.root.join('spec/support/fixtures/valid_address.csv') }
+
   let(:addresses) do
-    path = Rails.root.join('spec/support/fixtures/valid_address.csv')
-    AddressExtractor.extract_addresses(path)
+    AddressExtractor.extract_addresses(address_path)
   end
 
   let(:missing_addresses) do
@@ -161,18 +164,42 @@ describe LocationPresenter do
     end
 
     context 'when there is a matching address' do
+      it 'sets address attributes' do
+        location = presenter.to_location
+        expect(location.address).to_not be_nil
+      end
+    end
+
+    context 'when there is an existing matching address' do
+      it 'updates the existing address' do
+        LocationImporter.check_and_import_file(path, address_path)
+        location = Location.first
+
+        expect(presenter).to receive(:update_address_for).with(location)
+        presenter.to_location
+      end
+    end
+
+    context 'when there is not an existing matching address' do
+      it 'creates a new address' do
+        expect(presenter).to_not receive(:update_address_for)
+        presenter.to_location
+      end
+    end
+
+    context 'ids are not sequential' do
       let(:properties) do
         {
           organization_id: '1',
-          id: '1',
+          id: '2',
           name: 'Example Location',
           description: 'Example description'
         }
       end
 
-      it 'sets address attributes' do
+      it 'sets id to the id in the CSV' do
         location = presenter.to_location
-        expect(location.address).to_not be_nil
+        expect(location.id).to eq 2
       end
     end
   end

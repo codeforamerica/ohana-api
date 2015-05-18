@@ -65,6 +65,7 @@ describe PhoneImporter do
 
         subject { Phone.first }
 
+        its(:id) { is_expected.to eq 2 }
         its(:department) { is_expected.to eq 'Food Pantry' }
         its(:extension) { is_expected.to eq '123' }
         its(:number) { is_expected.to eq '703-555-1212' }
@@ -124,15 +125,14 @@ describe PhoneImporter do
     context 'when one of the fields required for a phone is blank' do
       let(:content) { invalid_content }
 
-      it 'does not create a phone' do
-        expect { importer.import }.to change(Phone, :count).by(0)
+      it 'saves the valid entries and skips invalid ones' do
+        expect { importer.import }.to change(Phone, :count).by(1)
       end
     end
 
     context 'when the phone already exists' do
       before do
-        DatabaseCleaner.clean_with(:truncation)
-        create(:location).phones.create!(attributes_for(:phone))
+        importer.import
       end
 
       let(:content) { valid_content }
@@ -154,28 +154,25 @@ describe PhoneImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_location_phone.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, PhoneImporter.required_headers).and_return(file)
 
       PhoneImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates a phone' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_location_phone.csv')
-          PhoneImporter.check_and_import_file(path)
-        end.to change(Phone, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create a phone' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_phone.csv')
-          PhoneImporter.check_and_import_file(path)
-        end.not_to change(Phone, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_phone.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Number type can't be blank for Phone")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_phone.csv')
+        PhoneImporter.check_and_import_file(path)
       end
     end
   end

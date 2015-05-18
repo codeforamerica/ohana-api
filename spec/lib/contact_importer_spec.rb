@@ -64,6 +64,7 @@ describe ContactImporter do
 
         subject { Contact.first }
 
+        its(:id) { is_expected.to eq 2 }
         its(:department) { is_expected.to eq 'Food Pantry' }
         its(:email) { is_expected.to eq 'john@example.org' }
         its(:name) { is_expected.to eq 'John Smith' }
@@ -104,15 +105,14 @@ describe ContactImporter do
     context 'when one of the fields required for a contact is blank' do
       let(:content) { invalid_content }
 
-      it 'does not create a contact' do
-        expect { importer.import }.to change(Contact, :count).by(0)
+      it 'saves the valid contacts and skips invalid ones' do
+        expect { importer.import }.to change(Contact, :count).by(1)
       end
     end
 
     context 'when the contact already exists' do
       before do
-        DatabaseCleaner.clean_with(:truncation)
-        create(:location).contacts.create!(attributes_for(:contact))
+        importer.import
       end
 
       let(:content) { valid_content }
@@ -134,28 +134,25 @@ describe ContactImporter do
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
 
+      expect(Kernel).to receive(:puts).
+        with("\n===> Importing valid_location_contact.csv")
+
       expect(FileChecker).to receive(:new).
         with(path, ContactImporter.required_headers).and_return(file)
 
       ContactImporter.check_and_import_file(path)
     end
 
-    context 'with valid data' do
-      it 'creates a contact' do
-        expect do
-          path = Rails.root.join('spec/support/fixtures/valid_location_contact.csv')
-          ContactImporter.check_and_import_file(path)
-        end.to change(Contact, :count)
-      end
-    end
-
     context 'with invalid data' do
-      it 'does not create a contact' do
-        allow_any_instance_of(IO).to receive(:puts)
-        expect do
-          path = Rails.root.join('spec/support/fixtures/invalid_contact.csv')
-          ContactImporter.check_and_import_file(path)
-        end.not_to change(Contact, :count)
+      it 'outputs error message' do
+        expect(Kernel).to receive(:puts).
+          with("\n===> Importing invalid_contact.csv")
+
+        expect(Kernel).to receive(:puts).
+          with("Line 2: Name can't be blank for Contact")
+
+        path = Rails.root.join('spec/support/fixtures/invalid_contact.csv')
+        ContactImporter.check_and_import_file(path)
       end
     end
   end
