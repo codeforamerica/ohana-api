@@ -167,7 +167,9 @@ The third admin in the seeds file is automatically set as a Super Admin. If you
 would like to set additional admins as super admins, you will need to do it
 manually for security reasons.
 
-To set an admin as a Super Admin:
+#### Setting an admin as a Super Admin
+
+##### Locally:
 
     psql ohana_api_development
     UPDATE "admins" SET super_admin = true WHERE email = 'masteradmin@ohanapi.org';
@@ -175,3 +177,7 @@ To set an admin as a Super Admin:
 
 Replace `masteradmin@ohanapi.org` in the command above with the email of the
 admin you want to set as a super admin.
+
+##### On Heroku:
+Follow the same steps above, but replace `psql ohana_api_development` with
+`heroku pg:psql -a your-heroku-app-name`.
