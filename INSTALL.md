@@ -158,6 +158,9 @@ To access the admin interface, visit [http://localhost:8080/admin/](http://local
 The app automatically sets up users and admins you can sign in with.
 Their username and password are stored in [db/seeds.rb][seeds].
 
+If you deleted these test users and admins (by running `script/export_prod_db`
+for example), you can restore them by running `script/users`.
+
 [seeds]: https://github.com/codeforamerica/ohana-api/blob/master/db/seeds.rb
 
 The third admin in the seeds file is automatically set as a Super Admin. If you
