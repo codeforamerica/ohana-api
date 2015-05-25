@@ -4,6 +4,7 @@ default: &default
   host: localhost
   port: 5432
   pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 5 %>
+  url: <%= ENV['DATABASE_URL'] %>
   timeout: 5000
 
 development:
