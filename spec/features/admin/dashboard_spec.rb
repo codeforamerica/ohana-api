@@ -140,8 +140,8 @@ feature 'Admin Home page' do
       expect(page).to_not have_content 'CSV Downloads'
       expect(page).
         to_not have_link(
-          'Download all addresses as CSV',
-          admin_csv_addresses_path)
+          t('admin.buttons.generate_zip_file'),
+          admin_csv_all_path)
     end
   end
 
@@ -183,13 +183,13 @@ feature 'Admin Home page' do
       expect(page).to have_content 'CSV Downloads'
 
       expect(page).
-        to have_link('Generate zip file', admin_csv_all_path)
+        to have_link(t('admin.buttons.generate_zip_file'), admin_csv_all_path)
     end
 
     it 'displays a notice while the zip is being generated' do
-      click_link 'Generate zip file'
+      click_link t('admin.buttons.generate_zip_file')
 
-      expect(page).to have_content 'Your zip file is being generated.'
+      expect(page).to have_content t('admin.notices.zip_file_generation')
     end
 
     it 'changes the button text when the zip is ready' do
@@ -197,7 +197,7 @@ feature 'Admin Home page' do
       allow(File).to receive(:exist?).with(tmp_file_name).and_return true
       visit '/admin'
 
-      expect(page).to have_link 'Download zip file'
+      expect(page).to have_link t('admin.buttons.download_zip_file')
     end
   end
 

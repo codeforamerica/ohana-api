@@ -35,10 +35,7 @@ class Admin
 
     def all
       redirect_to :back,
-                  notice: 'Your zip file is being generated. Please refresh ' \
-                  "the page in a few seconds. Once it's ready, " \
-                  'the button at the bottom will change from ' \
-                  "'Generate zip file' to 'Download zip file'."
+                  notice: I18n.t('admin.notices.zip_file_generation')
       ZipDownloadJob.new.async.later(2, tmp_file_name, url_prefix)
     end
 
@@ -52,7 +49,7 @@ class Admin
         ZipDeleteJob.new.async.later(60, tmp_file_name)
       else
         redirect_to admin_dashboard_url,
-                    notice: 'Please wait while the zip file is being generated'
+                    notice: I18n.t('admin.notices.wait_for_zip_file')
       end
     end
 
