@@ -1,7 +1,5 @@
 class Admin
   class CsvController < ApplicationController
-    before_action :set_filename
-
     # The CSV content for each action is defined in
     # app/views/admin/csv/{action_name}.csv.shaper
 
@@ -35,10 +33,38 @@ class Admin
     def services
     end
 
+    def all
+      redirect_to :back,
+                  notice: I18n.t('admin.notices.zip_file_generation')
+      ZipDownloadJob.new.async.later(2, tmp_file_name, url_prefix)
+    end
+
+    def download_zip
+      if File.exist?(tmp_file_name)
+        send_file tmp_file_name,
+                  type: 'application/zip',
+                  filename: zip_file_name,
+                  x_sendfile: true
+
+        ZipDeleteJob.new.async.later(60, tmp_file_name)
+      else
+        redirect_to admin_dashboard_url,
+                    notice: I18n.t('admin.notices.wait_for_zip_file')
+      end
+    end
+
     private
 
-    def set_filename
-      @filename = "All #{action_name} - #{Time.zone.today.to_formatted_s}.csv"
+    def tmp_file_name
+      @tmp_file_name ||= "#{Rails.root}/tmp/archive.zip"
+    end
+
+    def zip_file_name
+      "archive-#{Time.zone.today.to_formatted_s}.zip"
+    end
+
+    def url_prefix
+      @url_prefix ||= "#{admin_dashboard_url(subdomain: ENV['ADMIN_SUBDOMAIN'])}/csv/"
     end
   end
 end

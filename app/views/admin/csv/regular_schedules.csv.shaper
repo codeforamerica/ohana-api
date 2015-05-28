@@ -1,9 +1,9 @@
 csv.headers :id, :location_id, :service_id, :weekday, :opens_at, :closes_at
 
 csv.rows RegularSchedule.find_each do |csv, rs|
-  csv.cells :id, :location_id, :service_id, :weekday, :opens_at, :closes_at
+  csv.cells :id, :location_id, :service_id
 
+  csv.cell :weekday, rs.weekday == 7 ? 'Sunday' : Date::DAYNAMES[rs.weekday]
   csv.cell :opens_at, rs.opens_at.strftime('%H:%M')
   csv.cell :closes_at, rs.closes_at.strftime('%H:%M')
-  csv.cell :weekday, rs.weekday == 7 ? 'Sunday' : Date::DAYNAMES[rs.weekday]
 end

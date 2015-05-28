@@ -3,9 +3,8 @@ csv.headers :id, :accreditations, :alternate_name, :date_incorporated,
             :name, :tax_id, :tax_status, :website
 
 csv.rows Organization.find_each do |csv, org|
-  csv.cells :id, :accreditations, :alternate_name, :date_incorporated,
-            :description, :email, :funding_sources, :legal_status, :licenses,
-            :name, :tax_id, :tax_status, :website
+  csv.cells :id, :alternate_name, :description, :email, :legal_status, :name,
+            :tax_id, :tax_status, :website
 
   csv.cell :accreditations, org.accreditations.try(:join, ', ')
   csv.cell :date_incorporated, org.date_incorporated.try(:strftime, '%B %d, %Y')

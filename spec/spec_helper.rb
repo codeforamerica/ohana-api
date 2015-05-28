@@ -18,6 +18,10 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = :random
 
+  config.after(:suite) do
+    File.delete("#{Rails.root}/tmp/archive.zip")
+  end
+
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
