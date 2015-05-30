@@ -19,7 +19,9 @@ RSpec.configure do |config|
   config.order = :random
 
   config.after(:suite) do
-    File.delete("#{Rails.root}/tmp/archive.zip")
+    if File.exist?("#{Rails.root}/tmp/archive.zip")
+      File.delete("#{Rails.root}/tmp/archive.zip")
+    end
   end
 
   # Print the 10 slowest examples and example groups at the
