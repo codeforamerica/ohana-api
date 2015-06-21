@@ -89,7 +89,7 @@ GEM
       thor (~> 0.19.1)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
-    csv_shaper (1.1.1)
+    csv_shaper (1.2.0)
       activesupport (>= 3.0.0)
     dalli (2.7.4)
     database_cleaner (1.4.1)
