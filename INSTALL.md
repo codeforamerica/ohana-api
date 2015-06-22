@@ -101,15 +101,24 @@ Their username and password are stored in [db/seeds.rb][seeds].
 
 [seeds]: https://github.com/smcgov/ohana-api-smc/blob/master/db/seeds.rb
 
+If you deleted these test users and admins, you can restore them by running
+`script/users`.
+
 The third admin in the seeds file is automatically set as a Super Admin. If you
 would like to set additional admins as super admins, you will need to do it
 manually for security reasons.
 
-To set an admin as a Super Admin:
+#### Setting an admin as a Super Admin
 
-    psql ohana_api_development
+##### Locally:
+
+    psql ohana_api_smc_development
     UPDATE "admins" SET super_admin = true WHERE email = 'masteradmin@ohanapi.org';
     \q
 
 Replace `masteradmin@ohanapi.org` in the command above with the email of the
 admin you want to set as a super admin.
+
+##### On Heroku:
+Follow the same steps above, but replace `psql ohana_api_smc_development` with
+`heroku pg:psql -a ohana-api-smc`.

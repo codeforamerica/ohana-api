@@ -33,6 +33,14 @@ Metrics/MethodLength:
   CountComments: false
   Max: 15
 
+Metrics/ModuleLength:
+  Description: Avoid modules longer than 100 lines of code.
+  Enabled: true
+  CountComments: false
+  Max: 100
+  Exclude:
+  - spec/support/features/form_helpers.rb
+
 Rails/HasAndBelongsToMany:
   Description: Prefer has_many :through to has_and_belongs_to_many.
   Enabled: true

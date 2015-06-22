@@ -6,12 +6,10 @@ csv.headers :id, :location_id, :program_id, :accepted_payments,
             :taxonomy_ids
 
 csv.rows Service.find_each do |csv, service|
-  csv.cells :id, :location_id, :program_id, :accepted_payments,
-            :alternate_name, :application_process, :audience, :description,
-            :eligibility, :email, :fees, :funding_sources,
-            :interpretation_services, :keywords, :languages, :name,
-            :required_documents, :service_areas, :status, :wait_time, :website,
-            :category_ids
+  csv.cells :id, :location_id, :program_id, :alternate_name,
+            :application_process, :audience, :description, :eligibility,
+            :email, :fees, :interpretation_services, :name, :status,
+            :wait_time, :website
 
   csv.cell :accepted_payments, service.accepted_payments.try(:join, ', ')
   csv.cell :funding_sources, service.funding_sources.try(:join, ', ')

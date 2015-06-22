@@ -56,7 +56,7 @@ feature "Updating a location's address with invalid values" do
     update_street_address(address_1: '123', city: 'fair', state_province: '',
                           postal_code: '12345')
     click_button 'Save changes'
-    expect(page).to have_content "State can't be blank for Address"
+    expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
   scenario 'with an empty zip' do
