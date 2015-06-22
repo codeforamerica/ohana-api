@@ -8,7 +8,7 @@ csv.rows Location.find_each do |csv, location|
             :latitude, :longitude, :name, :short_desc, :transportation,
             :website, :virtual
 
-  csv.cell :accessibility, location.accessibility.map(&:text).join(', ')
+  csv.cell :accessibility, location.accessibility.join(', ')
   csv.cell :admin_emails, location.admin_emails.join(', ')
   csv.cell :languages, location.languages.try(:join, ', ')
 end

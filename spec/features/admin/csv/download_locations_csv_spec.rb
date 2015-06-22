@@ -19,7 +19,7 @@ feature 'Downloading Locations CSV' do
     it 'converts arrays to comma-separated strings' do
       expect(csv.second).to eq [
         @loc.id.to_s, @loc.organization_id.to_s,
-        'Information on tape or in Braille, Disabled Parking',
+        'tape_braille, disabled_parking',
         'foo@bar.com', nil, 'Provides job training', 'bar@foo.com',
         'English, Vietnamese', '37.583939', '-122.3715745', 'VRS Services',
         'Provides job training.', 'BART stop 1 block away.',
