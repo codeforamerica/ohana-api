@@ -13,10 +13,8 @@ sudo: false
 script: bundle exec rake
 env:
   global:
-  - S3_BUCKET_NAME=gems-for-travis
-  - ADMIN_APP_TOKEN=testing123
-  - ADMIN_PATH=admin
-  - API_PATH=api
-  - DEFAULT_PER_PAGE=30
-  - MAX_PER_PAGE=50
-  - secure: Gx3lTrS/ZFNsMugglRKgXmcu5/OznBKYBqXlS0nYpSsQIYi+fL4GNsQ4UAQrR78L8oy9rCBSY8s9phiR2wff8aY7OecBhm11ehWV+0BLFW8SSVKtd/Znty65sW9eMtzlxCNPfZiLqtgAkEkp46aFakLTWOM30V4ECKDKHll8hzo=
+    - ADMIN_APP_TOKEN=testing123
+    - API_PATH=api
+    - ADMIN_PATH=admin
+    - DEFAULT_PER_PAGE=30
+    - MAX_PER_PAGE=50

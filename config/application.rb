@@ -5,6 +5,7 @@ require 'active_record/railtie'
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'sprockets/railtie'
+require 'yaml'
 
 SETTINGS = YAML.load(File.read(File.expand_path('../settings.yml', __FILE__)))
 SETTINGS.merge! SETTINGS.fetch(Rails.env, {})
@@ -58,5 +59,7 @@ module OhanaApi
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.active_job.queue_adapter = :sucker_punch
   end
 end

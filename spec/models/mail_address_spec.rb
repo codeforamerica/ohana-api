@@ -17,7 +17,10 @@ describe MailAddress do
 
   it { is_expected.to validate_presence_of(:address_1).with_message("can't be blank for Mail Address") }
   it { is_expected.to validate_presence_of(:city).with_message("can't be blank for Mail Address") }
-  it { is_expected.to validate_presence_of(:state_province).with_message("can't be blank for Mail Address") }
+  it do
+    is_expected.to validate_presence_of(:state_province).
+      with_message(t('errors.messages.invalid_state_province'))
+  end
   it { is_expected.to validate_presence_of(:postal_code).with_message("can't be blank for Mail Address") }
   it { is_expected.to validate_presence_of(:country).with_message("can't be blank for Mail Address") }
 
@@ -87,12 +90,11 @@ describe MailAddress do
     end
 
     context 'when country is not CA or US' do
-      it 'validates presence' do
+      it 'does not validate presence' do
         mail_address = build(:mail_address, country: 'UK', state_province: '')
         mail_address.save
 
-        expect(mail_address.errors[:state_province].first).
-          to eq t('errors.messages.blank_for_mail_address')
+        expect(mail_address.errors[:state_province]).to be_empty
       end
     end
   end

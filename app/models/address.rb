@@ -6,14 +6,11 @@ class Address < ActiveRecord::Base
 
   validates :address_1,
             :city,
-            :state_province,
             :postal_code,
             :country,
             presence: { message: I18n.t('errors.messages.blank_for_address') }
 
-  validates :state_province,
-            presence: { message: I18n.t('errors.messages.blank_for_address') },
-            state_province: true
+  validates :state_province, state_province: true
 
   validates :country, length: { maximum: 2, minimum: 2 }
 

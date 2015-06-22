@@ -105,4 +105,36 @@ describe Organization do
       end
     end
   end
+
+  describe 'touching locations' do
+    context 'when does not have locations' do
+      it 'does not touch locations' do
+        org = build(:organization)
+
+        expect(org).to_not receive(:touch_locations)
+
+        org.save
+      end
+    end
+
+    context 'when name has not changed' do
+      it 'does not touch locations' do
+        org = create(:location).organization
+
+        expect(org).to_not receive(:touch_locations)
+
+        org.update(description: 'foo')
+      end
+    end
+
+    context 'when name has changed and org has locations' do
+      it 'touches locations' do
+        org = create(:location).organization
+
+        expect(org).to receive(:touch_locations)
+
+        org.update(name: 'foo')
+      end
+    end
+  end
 end

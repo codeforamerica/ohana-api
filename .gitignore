@@ -26,7 +26,6 @@ dump.rdb
 # Ignore test-related files
 /coverage.data
 /coverage/
-.rspec
 
 # CIP data
 /data/cip_mvp.json

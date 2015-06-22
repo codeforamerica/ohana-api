@@ -177,9 +177,40 @@ describe Location do
     before(:each) { @loc = create(:location) }
 
     it "doesn't geocode when address hasn't changed" do
-      @loc.update(name: 'new name')
+      @loc.name = 'new name'
       expect(@loc).not_to receive(:geocode)
       @loc.save!
+    end
+
+    it "doesn't geocode when location is new and has coordinates" do
+      loc = build(:location_with_admin)
+      expect(loc).not_to receive(:geocode)
+      loc.save!
+    end
+
+    it "doesn't geocode when location is virtual and has coordinates" do
+      loc = build(:location_with_admin, virtual: true)
+      expect(loc).not_to receive(:geocode)
+      loc.save!
+    end
+
+    it "doesn't geocode when location has coordinates but no address" do
+      loc = build(:no_address, latitude: 37.5808591, longitude: -122.343072)
+      expect(loc).not_to receive(:geocode)
+      loc.save!
+    end
+
+    it "doesn't geocode when location has neither address nor coordinates" do
+      org = create(:nearby_org)
+      loc = Location.new(
+        name: 'foo',
+        description: 'bar',
+        virtual: true,
+        kind: :other
+      )
+      loc.organization_id = org.id
+      expect(loc).not_to receive(:geocode)
+      loc.save!
     end
 
     it 'geocodes when address has changed' do
@@ -193,13 +224,45 @@ describe Location do
       expect(@loc.reload.latitude).to_not eq(coords.second)
     end
 
+    it 'does not geocode when address is added to location with coords' do
+      loc = create(:no_address, latitude: 37.5808591, longitude: -122.343072)
+
+      expect(loc).to_not receive(:geocode)
+
+      loc.update!(address_attributes: attributes_for(:address))
+    end
+
+    it 'geocodes when address is added to virtual location that did not have one' do
+      loc = create(:no_address)
+      expect(loc.latitude).to be_nil
+
+      loc.update!(address_attributes: attributes_for(:address))
+
+      expect(loc.reload.latitude).to be_present
+    end
+
+    it 'geocodes when location is new, has an address, but no coordinates' do
+      org = create(:nearby_org)
+      loc = Location.new(
+        name: 'foo',
+        description: 'bar',
+        address_attributes: attributes_for(:address)
+      )
+      loc.organization_id = org.id
+
+      expect(loc).to receive(:geocode)
+
+      loc.save
+    end
+
     it 'resets coordinates when address is removed' do
-      @loc.update(
+      expect(@loc).not_to receive(:geocode)
+
+      @loc.update!(
         virtual: true,
         address_attributes: { id: @loc.address.id, _destroy: '1' }
       )
-      expect(@loc).not_to receive(:geocode)
-      @loc.save!
+
       expect(@loc.reload.latitude).to be_nil
       expect(@loc.reload.longitude).to be_nil
     end

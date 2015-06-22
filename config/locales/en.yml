@@ -28,7 +28,16 @@ en:
         state_province: 'State'
   admin:
     api_location: 'San Mateo County'
+    buttons:
+      download_zip_file: 'Download zip file'
+      generate_zip_file: 'Generate zip file'
     not_authorized: 'You are not authorized to perform this action.'
+    notices:
+      zip_file_generation: >
+        Your zip file is being generated. Please refresh the page in a few
+        seconds. Once it's ready, the button at the bottom will change from
+        'Generate zip file' to 'Download zip file'.
+      wait_for_zip_file: 'Please wait while the zip file is being generated.'
 
   enumerize:
     location:
