@@ -105,7 +105,7 @@ GEM
     docile (1.1.5)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
-    enumerize (0.11.0)
+    enumerize (1.0.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
     execjs (2.5.2)
