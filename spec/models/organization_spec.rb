@@ -70,6 +70,15 @@ describe Organization do
       with_message('24/2/2014 is not a valid date')
   end
 
+  it do
+    allow_any_instance_of(DateValidator).to receive(:month_day?).and_return(false)
+    allow_any_instance_of(DateValidator).to receive(:day_month?).and_return(true)
+
+    is_expected.not_to allow_value('2/24/2014').
+      for(:date_incorporated).
+      with_message('2/24/2014 is not a valid date')
+  end
+
   describe 'auto_strip_attributes' do
     it 'strips extra whitespace before validation' do
       org = build(:org_with_extra_whitespace)
