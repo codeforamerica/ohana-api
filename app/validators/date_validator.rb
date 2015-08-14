@@ -16,9 +16,9 @@ class DateValidator < ActiveModel::EachValidator
   private
 
   def date_valid?(date)
-    return true unless date.include?('/')
-    return Date.valid_date?(year(date), month(date), day(date)) if month_day?
-    return Date.valid_date?(year(date), day(date), month(date)) if day_month?
+    return false unless date.include?('/') || date.include?(',')
+    return Date.valid_date?(*split_date(date).rotate(2)) if month_day? || date.include?(',')
+    return Date.valid_date?(*split_date(date).reverse) if day_month?
   end
 
   def month_day?
@@ -30,19 +30,13 @@ class DateValidator < ActiveModel::EachValidator
   end
 
   def split_date(date)
-    date.split('/')
-  end
-
-  def year(date)
-    split_date(date).last.to_i
-  end
-
-  def month(date)
-    split_date(date).first.to_i
-  end
-
-  def day(date)
-    split_date(date).second.to_i
+    if date.include?('/')
+      date.split('/').map(&:to_i)
+    else
+      date.tr(',', '').split(' ').map.with_index do |e, i|
+        i == 0 ? Date::MONTHNAMES.index(e) || 0 : e.to_i
+      end
+    end
   end
 
   def convert_value_to_date(record, attribute, value)
@@ -50,7 +44,9 @@ class DateValidator < ActiveModel::EachValidator
   end
 
   def parse_date(date)
-    Date.strptime(date, date_format_for(date)) rescue Date.parse(date)
+    return Date.parse(date) if date.include?(',')
+
+    Date.strptime(date, date_format_for(date))
   end
 
   def date_format_for(date)
