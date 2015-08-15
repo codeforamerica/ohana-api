@@ -30,7 +30,8 @@ module Search
       sanitized = ActiveRecord::Base.sanitize(query)
 
       where("locations.tsv_body @@ plainto_tsquery('english', ?)", query).
-        order("ts_rank(locations.tsv_body, plainto_tsquery('english', #{sanitized})) DESC")
+        order("ts_rank(locations.tsv_body, plainto_tsquery('english', #{sanitized})) DESC,
+              locations.updated_at DESC")
     end
 
     def language(lang)
