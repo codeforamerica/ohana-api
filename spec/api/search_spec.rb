@@ -3,7 +3,10 @@ require 'rails_helper'
 describe "GET 'search'" do
   context 'with valid keyword only' do
     before :all do
-      @locations = [create(:location), create(:nearby_loc)]
+      @loc = create(:location)
+      @nearby = create(:nearby_loc)
+      @loc.update(updated_at: Time.zone.now - 1.day)
+      @nearby.update(updated_at: Time.zone.now - 1.hour)
     end
 
     before :each do
@@ -23,13 +26,12 @@ describe "GET 'search'" do
     end
 
     it 'returns locations' do
-      expect(json.first['name']).to eq('Library')
+      expect(json.first.keys).to include('coordinates')
     end
 
     it 'is a paginated resource' do
       get api_search_index_url(keyword: 'jobs', per_page: 1, page: 2, subdomain: ENV['API_SUBDOMAIN'])
       expect(json.length).to eq(1)
-      expect(json.first['name']).to eq('VRS Services')
     end
 
     it 'returns an X-Total-Count header' do
@@ -40,6 +42,10 @@ describe "GET 'search'" do
 
     it 'includes kind' do
       expect(json.first['kind']).to eq 'Human Services'
+    end
+
+    it 'sorts by updated_at when results have same full text search rank' do
+      expect(json.first['name']).to eq @nearby.name
     end
   end
 
@@ -579,23 +585,26 @@ describe "GET 'search'" do
 
   describe 'sorting search results' do
     context 'general keyword search' do
-      before(:each) do
-        create(:location)
-        create(:nearby_loc)
-        create(:no_address)
-      end
-
       it 'boosts entries with importance = 2 (human services)' do
+        create(:nearby_loc)
+        create(:location)
+
         get '/api/search?keyword=jobs'
+
         expect(headers['X-Total-Count']).to eq '2'
-        expect(json.first['name']).to eq 'Library'
+        expect(json[0]['name']).to eq 'Library'
       end
 
       it 'boosts entries with importance = 3 (SMC HSA locations)' do
         create(:farmers_market_loc)
+        create(:nearby_loc)
+        create(:location)
+
         get '/api/search?keyword=jobs'
+
         expect(headers['X-Total-Count']).to eq '3'
-        expect(json.first['name']).to eq 'Belmont Farmers Market'
+        expect(json[0]['name']).to eq 'Belmont Farmers Market'
+        expect(json[1]['name']).to eq 'Library'
       end
     end
   end

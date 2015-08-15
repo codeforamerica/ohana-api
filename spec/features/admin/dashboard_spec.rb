@@ -201,9 +201,7 @@ feature 'Admin Home page' do
   end
 
   describe 'Ohana API version' do
-    before do
-      allow(File).to receive(:read).with('VERSION').and_return('1.0.0')
-    end
+    let(:version) { File.read('VERSION').chomp }
     let(:prefix) { 'https://github.com/codeforamerica/ohana-api/blob/master/' }
 
     context 'super admin' do
@@ -211,7 +209,7 @@ feature 'Admin Home page' do
         login_super_admin
         visit '/admin'
 
-        expect(page).to have_link 'v1.0.0', href: "#{prefix}CHANGELOG.md"
+        expect(page).to have_link "v#{version}", href: "#{prefix}CHANGELOG.md"
       end
     end
 
@@ -220,7 +218,7 @@ feature 'Admin Home page' do
         login_admin
         visit '/admin'
 
-        expect(page).to_not have_link 'v1.0.0', href: "#{prefix}CHANGELOG.md"
+        expect(page).to_not have_link "v#{version}", href: "#{prefix}CHANGELOG.md"
       end
     end
   end

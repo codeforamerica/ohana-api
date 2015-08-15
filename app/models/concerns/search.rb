@@ -10,7 +10,6 @@ module Search
       super(r)
     end
 
-    scope :keyword, ->(keyword) { keyword_search(keyword) }
     scope :category, ->(category) { joins(services: :categories).where(categories: { name: category }) }
 
     scope :is_near, LocationFilter.new(self)
@@ -58,25 +57,22 @@ module Search
         order('kind ASC')
       end
     end)
-
-    include PgSearch
-
-    pg_search_scope :keyword_search,
-                    against: :tsv_body,
-                    using: {
-                      tsearch: {
-                        dictionary: 'english',
-                        any_word: false,
-                        prefix: true,
-                        tsvector_column: 'tsv_body'
-                      }
-                    },
-                    ranked_by: 'importance + :tsearch'
   end
 
   module ClassMethods
     def status(param)
       param == 'active' ? where(active: true) : where(active: false)
+    end
+
+    def keyword(query)
+      sanitized = ActiveRecord::Base.sanitize(query)
+
+      rank = <<-RANK
+        ts_rank(locations.tsv_body, plainto_tsquery('english', #{sanitized}))
+      RANK
+
+      where("locations.tsv_body @@ plainto_tsquery('english', ?)", query).
+        order("locations.importance + #{rank} DESC, locations.updated_at DESC")
     end
 
     def language(lang)
@@ -95,8 +91,7 @@ module Search
         is_near(params[:location], params[:lat_lng], params[:radius]).
         has_market_match(params[:market_match]).
         has_kind(params[:kind]).
-        sort_by_kind(params[:sort], params[:order]).
-        uniq
+        sort_by_kind(params[:sort], params[:order])
     end
 
     def paginated_and_sorted(params)
