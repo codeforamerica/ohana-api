@@ -20,7 +20,7 @@ Metrics/LineLength:
   Description: Limit lines to 80 characters.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#80-character-limits
   Enabled: false
-  Max: 80
+  Max: 100
   AllowURI: true
   URISchemes:
   - http

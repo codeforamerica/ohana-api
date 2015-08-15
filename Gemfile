@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.1'
+ruby '2.2.2'
 gem 'rails', '~> 4.2'
 
 gem 'pg'
@@ -42,9 +42,6 @@ gem 'enumerize'
 
 # App config and ENV variables for heroku
 gem 'figaro', '~> 1.0'
-
-# Search
-gem 'pg_search', '~> 0.7'
 
 # Nested categories for OpenEligibility
 gem 'ancestry'
