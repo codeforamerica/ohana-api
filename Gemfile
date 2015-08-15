@@ -92,4 +92,9 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'spring-watcher-listen'
   gem 'letter_opener'
+
+  # For profiling the app's performance and memory usage.
+  gem 'derailed'
+  gem 'rack-mini-profiler'
+  gem 'flamegraph'
 end
