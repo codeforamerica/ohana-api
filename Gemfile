@@ -64,7 +64,6 @@ group :production do
   gem 'puma'
   gem 'rails_12factor'
   gem 'newrelic_rpm'
-  gem 'skylight'
 end
 
 group :test, :development do
