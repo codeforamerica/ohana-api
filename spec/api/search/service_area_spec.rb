@@ -12,11 +12,13 @@ describe "GET 'search'" do
 
     it 'only returns locations with matching service areas' do
       get api_search_index_url(service_area: 'Atherton', subdomain: ENV['API_SUBDOMAIN'])
+
       expect(json.length).to eq 1
     end
 
     it 'does not return locations when no matching service areas exist' do
       get api_search_index_url(service_area: 'Belmont', subdomain: ENV['API_SUBDOMAIN'])
+
       expect(json.length).to eq 0
     end
 
@@ -28,7 +30,27 @@ describe "GET 'search'" do
         location: 'Burlingame',
         subdomain: ENV['API_SUBDOMAIN']
       )
+
       expect(json.length).to eq 1
+    end
+  end
+
+  context 'when location has multiple services' do
+    it 'does not duplicate results when all services match service_area parameter' do
+      location = create(:location)
+      location.services.create!(attributes_for(:service).
+        merge(service_areas: ['Belmont']))
+      location.services.create!(attributes_for(:service).
+        merge(name: 'Second Service', service_areas: ['Belmont']))
+
+      get api_search_index_url(
+        service_area: 'Belmont',
+        keyword: 'jobs',
+        location: 'Burlingame',
+        subdomain: ENV['API_SUBDOMAIN']
+      )
+
+      expect(headers['X-Total-Count']).to eq '1'
     end
   end
 end
