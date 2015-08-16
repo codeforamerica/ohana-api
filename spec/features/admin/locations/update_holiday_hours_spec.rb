@@ -15,7 +15,7 @@ feature 'Update holiday schedule' do
       end_day: '2',
       closed: 'Closed'
     )
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
 
     prefix = 'location_holiday_schedules_attributes_0'
 
@@ -44,7 +44,7 @@ feature 'Update holiday schedule' do
       opens_at_hour: '10 AM', opens_at_minute: '30',
       closes_at_hour: '3 PM', closes_at_minute: '45'
     )
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
 
     prefix = 'location_holiday_schedules_attributes_0'
 
@@ -70,8 +70,8 @@ feature 'Update holiday schedule' do
     prefix = 'location_holiday_schedules_attributes_0'
     expect(find_field("#{prefix}_closed").value).to eq 'true'
 
-    click_link 'Remove this holiday schedule'
-    click_button 'Save changes'
+    click_link I18n.t('admin.buttons.remove_holiday_schedule')
+    click_button I18n.t('admin.buttons.save_changes')
 
     expect(page).to have_no_field("#{prefix}_closed")
   end

@@ -10,7 +10,7 @@ feature 'Update alternate name' do
 
   scenario 'with valid alternate_name' do
     fill_in 'program_alternate_name', with: 'Youth Counseling'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Program was successfully updated.'
     expect(find_field('program_alternate_name').value).to eq 'Youth Counseling'
   end

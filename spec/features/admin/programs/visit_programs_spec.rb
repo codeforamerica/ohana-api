@@ -17,7 +17,7 @@ feature 'Programs page' do
 
     it 'does not include a link to programs in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'programs', href: admin_programs_path
+        expect(page).not_to have_link I18n.t('admin.buttons.programs'), href: admin_programs_path
       end
     end
   end
@@ -51,14 +51,14 @@ feature 'Programs page' do
       create(:nearby_loc)
       visit '/admin/programs'
 
-      expect(page).not_to have_content 'Add a new program'
+      expect(page).not_to have_content I18n.t('admin.buttons.add_program')
     end
 
     it 'shows add new program button if admin has an organization' do
       create(:location_for_org_admin)
       visit '/admin/programs'
 
-      expect(page).to have_link 'Add a new program'
+      expect(page).to have_link I18n.t('admin.buttons.add_program')
     end
   end
 
@@ -96,7 +96,7 @@ feature 'Programs page' do
     end
 
     it 'shows the add new program button' do
-      expect(page).to have_link 'Add a new program'
+      expect(page).to have_link I18n.t('admin.buttons.add_program')
     end
   end
 end

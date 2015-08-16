@@ -9,7 +9,7 @@ feature 'Update virtual attribute' do
 
   scenario 'setting to true' do
     select('Does not have a physical address', from: 'location_virtual')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(find_field('location_virtual').value).to eq 'true'
   end
 end

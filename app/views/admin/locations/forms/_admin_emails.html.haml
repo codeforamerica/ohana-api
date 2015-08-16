@@ -13,6 +13,6 @@
         .row
           %div{ class: "col-sm-6 #{error_class_for(@location, :admin_emails, admin)}" }
             = email_field_tag 'location[admin_emails][]', admin, class: 'form-control', id: "location_admin_emails_#{i}"
-        = link_to 'Delete this admin permanently', '#', class: 'btn btn-danger delete_attribute'
+        = link_to t('admin.buttons.delete_admin'), '#', class: 'btn btn-danger delete_attribute'
         %hr
-  = link_to_add_array_fields 'Add a new admin email', :locations, :admin_email
+  = link_to_add_array_fields t('admin.buttons.add_admin'), :locations, :admin_email

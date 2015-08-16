@@ -9,13 +9,13 @@ feature 'Update description' do
 
   scenario 'with empty organization description' do
     fill_in 'organization_description', with: ''
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "Description can't be blank for Organization"
   end
 
   scenario 'with valid organization description' do
     fill_in 'organization_description', with: 'Juvenile Sexual Responsibility Program'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(find_field('organization_description').value).
       to eq 'Juvenile Sexual Responsibility Program'
   end

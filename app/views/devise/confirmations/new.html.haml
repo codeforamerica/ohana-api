@@ -5,6 +5,6 @@
     .form-group
       = f.label :email
       = f.email_field :email, autofocus: true, class: 'form-control'
-    = f.submit 'Resend confirmation instructions', class: 'button center'
+    = f.submit t('buttons.resend_confirmation_instructions'), class: 'button center'
     %br
   = render 'devise/shared/links'

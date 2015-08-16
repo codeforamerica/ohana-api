@@ -7,13 +7,13 @@ feature 'Visiting the Sign in page' do
 
   it 'includes a link to the sign in page in the navigation' do
     within '.navbar' do
-      expect(page).not_to have_link 'Sign in', href: new_admin_session_path
+      expect(page).not_to have_link I18n.t('navigation.sign_in'), href: new_admin_session_path
     end
   end
 
   it 'includes a link to the sign up page in the navigation' do
     within '.navbar' do
-      expect(page).not_to have_link 'Sign up', href: new_admin_registration_path
+      expect(page).not_to have_link I18n.t('navigation.sign_in'), href: new_admin_registration_path
     end
   end
 
@@ -47,27 +47,27 @@ feature 'Signing in' do
 
     it 'does not include a link to the sign up page in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'Sign up'
+        expect(page).not_to have_link I18n.t('navigation.sign_up')
       end
     end
 
     it 'does not include a link to the sign in page in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'Sign in'
+        expect(page).not_to have_link I18n.t('navigation.sign_in')
       end
     end
 
     it 'includes a link to sign out in the navigation' do
       within '.navbar' do
         expect(page).
-          to have_link 'Sign out', href: destroy_admin_session_path
+          to have_link I18n.t('navigation.sign_out'), href: destroy_admin_session_path
       end
     end
 
     it 'includes a link to the Edit Account page in the navigation' do
       within '.navbar' do
         expect(page).
-          to have_link 'Edit account', href: edit_admin_registration_path
+          to have_link I18n.t('navigation.edit_account'), href: edit_admin_registration_path
       end
     end
 

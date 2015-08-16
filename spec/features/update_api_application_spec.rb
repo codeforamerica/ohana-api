@@ -32,7 +32,7 @@ feature 'Update an existing API Application' do
     update_api_app('', '', '')
     expect(page).to have_content "Name can't be blank"
     expect(page).to have_content "Main url can't be blank"
-    expect(page).to have_button 'Update application'
+    expect(page).to have_button I18n.t('buttons.update_application')
     expect(page).to have_content 'API Token'
   end
 end

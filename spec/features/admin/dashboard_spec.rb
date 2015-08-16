@@ -12,7 +12,7 @@ feature 'Admin Home page' do
 
     it 'includes a link to the sign up page' do
       within '#main' do
-        expect(page).to have_link 'Sign up', href: new_admin_registration_path
+        expect(page).to have_link I18n.t('navigation.sign_up'), href: new_admin_registration_path
       end
     end
 
@@ -24,7 +24,7 @@ feature 'Admin Home page' do
 
     it 'does not include a link to Your locations in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'Locations', href: admin_locations_path
+        expect(page).not_to have_link I18n.t('admin.navigation.locations'), href: admin_locations_path
       end
     end
 
@@ -49,54 +49,54 @@ feature 'Admin Home page' do
     it 'includes a link to organizations in the body' do
       within '.content' do
         expect(page).
-          to have_link 'Organizations', href: admin_organizations_path
+          to have_link I18n.t('admin.buttons.organizations'), href: admin_organizations_path
       end
     end
 
     it 'includes a link to locations in the body' do
       within '.content' do
         expect(page).
-          to have_link 'Locations', href: admin_locations_path
+          to have_link I18n.t('admin.buttons.locations'), href: admin_locations_path
       end
     end
 
     it 'includes a link to services in the body' do
       within '.content' do
         expect(page).
-          to have_link 'Services', href: admin_services_path
+          to have_link I18n.t('admin.buttons.services'), href: admin_services_path
       end
     end
 
     it 'includes a link to programs in the body' do
       within '.content' do
         expect(page).
-          to have_link 'Programs', href: admin_programs_path
+          to have_link I18n.t('admin.buttons.programs'), href: admin_programs_path
       end
     end
 
     it 'does not include a link to the sign up page in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'Sign up'
+        expect(page).not_to have_link I18n.t('navigation.sign_up')
       end
     end
 
     it 'does not include a link to the sign in page in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'Sign in'
+        expect(page).not_to have_link I18n.t('navigation.sign_in')
       end
     end
 
     it 'includes a link to sign out in the navigation' do
       within '.navbar' do
         expect(page).
-          to have_link 'Sign out', href: destroy_admin_session_path
+          to have_link I18n.t('navigation.sign_out'), href: destroy_admin_session_path
       end
     end
 
     it 'includes a link to the Edit Account page in the navigation' do
       within '.navbar' do
         expect(page).
-          to have_link 'Edit account', href: edit_admin_registration_path
+          to have_link I18n.t('navigation.edit_account'), href: edit_admin_registration_path
       end
     end
 
@@ -108,32 +108,32 @@ feature 'Admin Home page' do
 
     it 'includes a link to locations in the navigation' do
       within '.navbar' do
-        expect(page).to have_link 'Locations', href: admin_locations_path
+        expect(page).to have_link I18n.t('admin.buttons.locations'), href: admin_locations_path
       end
     end
 
     it 'includes a link to organizations in the navigation' do
       within '.navbar' do
-        expect(page).to have_link 'Organizations', href: admin_organizations_path
+        expect(page).to have_link I18n.t('admin.buttons.organizations'), href: admin_organizations_path
       end
     end
 
     it 'includes a link to services in the navigation' do
       within '.navbar' do
-        expect(page).to have_link 'Services', href: admin_services_path
+        expect(page).to have_link I18n.t('admin.buttons.services'), href: admin_services_path
       end
     end
 
     it 'does not display a link to add a new organization' do
-      expect(page).not_to have_link 'Add a new organization', new_admin_organization_path
+      expect(page).not_to have_link I18n.t('admin.buttons.add_organization'), new_admin_organization_path
     end
 
     it 'does not display a link to add a new location' do
-      expect(page).to_not have_link 'Add a new location', new_admin_location_path
+      expect(page).to_not have_link I18n.t('admin.buttons.add_location'), new_admin_location_path
     end
 
     it 'does not display a link to add a new program' do
-      expect(page).to_not have_link 'Add a new program', new_admin_program_path
+      expect(page).to_not have_link I18n.t('admin.buttons.add_program'), new_admin_program_path
     end
 
     it 'does not display a link to download CSV' do
@@ -152,15 +152,15 @@ feature 'Admin Home page' do
     end
 
     it 'displays a link to add a new organization' do
-      expect(page).to have_link 'Add a new organization', new_admin_organization_path
+      expect(page).to have_link I18n.t('admin.buttons.add_organization'), new_admin_organization_path
     end
 
     it 'does not display a link to add a new location' do
-      expect(page).to_not have_link 'Add a new location', new_admin_location_path
+      expect(page).to_not have_link I18n.t('admin.buttons.add_location'), new_admin_location_path
     end
 
     it 'does not display a link to add a new program' do
-      expect(page).to_not have_link 'Add a new program', new_admin_program_path
+      expect(page).to_not have_link I18n.t('admin.buttons.add_program'), new_admin_program_path
     end
   end
 
@@ -172,11 +172,11 @@ feature 'Admin Home page' do
     end
 
     it 'displays a link to add a new location' do
-      expect(page).to have_link 'Add a new location', new_admin_location_path
+      expect(page).to have_link I18n.t('admin.buttons.add_location'), new_admin_location_path
     end
 
     it 'displays a link to add a new program' do
-      expect(page).to have_link 'Add a new program', new_admin_program_path
+      expect(page).to have_link I18n.t('admin.buttons.add_program'), new_admin_program_path
     end
 
     it 'displays link to generate zip file' do

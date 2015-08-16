@@ -2,7 +2,7 @@
 
 - if user_signed_in?
   %p
-    Welcome back, #{@user.name}! #{link_to 'Register a new application', new_api_application_path} or #{link_to 'view', api_applications_path} your existing ones.
+    Welcome back, #{@user.name}! #{link_to t('links.register_a_new_application'), new_api_application_path} or #{link_to t('links.view'), api_applications_path} your existing ones.
 - else
   %p
     Welcome to the #{t('titles.brand')} developer portal!
@@ -14,4 +14,4 @@
     Read the #{link_to 'documentation', 'http://codeforamerica.github.io/ohana-api-docs/'} to learn more.
     If you're a Ruby developer, we encourage you to use the official #{link_to 'Ohanakapa', 'https://github.com/codeforamerica/ohanakapa-ruby'} Ruby library.
   %p
-    #{link_to 'Sign up', new_user_registration_path} for a developer account, or #{link_to 'sign in', new_user_session_path}.
+    #{link_to t('navigation.sign_up'), new_user_registration_path} for a developer account, or #{link_to t('navigation.sign_in'), new_user_session_path}.

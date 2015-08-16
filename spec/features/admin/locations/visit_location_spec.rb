@@ -66,7 +66,7 @@ feature 'Visiting a specific location' do
       expect(page).to have_content I18n.t('admin.not_authorized')
       expect(current_path).to eq(admin_dashboard_path)
       visit('/admin/locations')
-      expect(page).to_not have_link 'Add a new location'
+      expect(page).to_not have_link I18n.t('admin.buttons.add_location')
     end
   end
 

@@ -33,5 +33,5 @@
       .col-md-4
         = f.telephone_field :country_prefix, maxlength: 4, class: 'form-control'
   = f.hidden_field :_destroy
-  = link_to 'Delete this phone permanently', '#', class: 'btn btn-danger delete_association'
+  = link_to t('admin.buttons.delete_phone'), '#', class: 'btn btn-danger delete_association'
   %hr

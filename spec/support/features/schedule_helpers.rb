@@ -1,7 +1,7 @@
 module Features
   module ScheduleHelpers
     def add_hour(options = {})
-      click_link 'Add hours of operation'
+      click_link I18n.t('admin.buttons.add_hours_of_operation')
       update_hours(options)
     end
 
@@ -14,7 +14,7 @@ module Features
     end
 
     def add_holiday_schedule(options = {})
-      click_link 'Add holiday schedule'
+      click_link I18n.t('admin.buttons.add_holiday_schedule')
       update_holiday_schedule(options)
     end
 

@@ -10,13 +10,13 @@ feature 'Update email' do
 
   scenario 'with invalid email' do
     fill_in 'service_email', with: 'foobar.com'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'is not a valid email'
   end
 
   scenario 'with valid email' do
     fill_in 'service_email', with: 'ruby@good.com'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Service was successfully updated.'
     expect(find_field('service_email').value).to eq 'ruby@good.com'
   end
