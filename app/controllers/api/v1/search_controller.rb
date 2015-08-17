@@ -1,9 +1,12 @@
+require 'new_relic/agent/method_tracer'
+
 module Api
   module V1
     class SearchController < ApplicationController
       include PaginationHeaders
       include CustomErrors
       include Cacheable
+      include ::NewRelic::Agent::MethodTracer
 
       after_action :set_cache_control, only: :index
 
@@ -16,6 +19,8 @@ module Api
           render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
         end
       end
+
+      add_method_tracer :index, 'SearchController/index'
 
       def nearby
         location = Location.find(params[:location_id])

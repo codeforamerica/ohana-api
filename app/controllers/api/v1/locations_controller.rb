@@ -1,3 +1,5 @@
+require 'new_relic/agent/method_tracer'
+
 module Api
   module V1
     class LocationsController < ApplicationController
@@ -5,6 +7,7 @@ module Api
       include PaginationHeaders
       include CustomErrors
       include Cacheable
+      include ::NewRelic::Agent::MethodTracer
 
       after_action :set_cache_control, only: [:index, :show]
 
@@ -29,6 +32,8 @@ module Api
         ).find(params[:id])
         render json: location, status: 200 if stale?(location, public: true)
       end
+
+      add_method_tracer :show, 'LocationsController/show'
 
       def update
         location = Location.find(params[:id])
