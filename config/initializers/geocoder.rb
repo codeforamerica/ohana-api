@@ -1,10 +1,13 @@
-require 'redis'
+require 'readthis'
 
-REDIS = Redis.connect(url: ENV['REDISTOGO_URL'])
+cache = Readthis::Cache.new(
+  ENV.fetch('REDISCLOUD_URL', 'redis://localhost:6379'),
+  driver: :hiredis,
+  expires_in: 2.weeks.to_i)
 
 Geocoder.configure(
   lookup: :google,
-  cache: REDIS,
+  cache: cache,
   always_raise: [
     Geocoder::OverQueryLimitError,
     Geocoder::RequestDenied,

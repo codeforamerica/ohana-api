@@ -10,18 +10,17 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
 
   # Uncomment the section below to test HTTP caching in development.
-  # You'll need to install memcached if you don't already have it:
-  # brew install memcached
+  # You'll need to install redis if you don't already have it:
+  # brew install redis
   #
   # config.action_controller.perform_caching = true
-  # config.cache_store = :dalli_store
-  # client = Dalli::Client.new
   # config.action_dispatch.rack_cache = {
-  #   metastore: client,
-  #   entitystore: client
+  #   metastore: "#{ENV.fetch('REDISCLOUD_URL')}/1/metastore",
+  #   entitystore: "#{ENV.fetch('REDISCLOUD_URL')}/1/entitystore",
+  #   use_native_ttl: true
   # }
 
   # Don't care if the mailer can't send.
