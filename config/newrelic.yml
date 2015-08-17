@@ -204,6 +204,11 @@ common: &default_settings
   # you are running multi-threaded.  Please let us know.
   # multi_threaded = false
 
+  # Ignore assets path so New Relic won't report asset request times that might
+  # bring down averages and be misleading.
+  rules:
+    ignore_url_regexes: ["^/assets"]
+
 # Application Environments
 # ------------------------------------------
 # Environment specific settings are in this section.
