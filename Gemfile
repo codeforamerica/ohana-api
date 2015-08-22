@@ -60,10 +60,11 @@ gem 'csv_shaper'
 gem 'rubyzip'
 gem 'sucker_punch'
 
+gem 'newrelic_rpm'
+
 group :production do
   gem 'puma'
   gem 'rails_12factor'
-  gem 'newrelic_rpm'
 end
 
 group :test, :development do
