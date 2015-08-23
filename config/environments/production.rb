@@ -66,8 +66,8 @@ Rails.application.configure do
   # }
 
   config.action_dispatch.rack_cache = {
-    metastore: "#{ENV.fetch('REDISCLOUD_URL')}/1/metastore",
-    entitystore: "#{ENV.fetch('REDISCLOUD_URL')}/1/entitystore",
+    metastore: "#{ENV.fetch('REDISCLOUD_URL')}/0/metastore",
+    entitystore: "#{ENV.fetch('REDISCLOUD_URL')}/0/entitystore",
     use_native_ttl: true
   }
   # --------------------------------------------------------------------------
