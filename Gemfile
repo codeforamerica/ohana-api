@@ -60,7 +60,7 @@ gem 'csv_shaper'
 gem 'rubyzip'
 gem 'sucker_punch'
 
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', require: false
 
 group :production do
   gem 'puma'

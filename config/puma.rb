@@ -12,4 +12,9 @@ on_worker_boot do
   # Worker specific setup for Rails 4.1+
   # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
   ActiveRecord::Base.establish_connection
+
+  # Enable New Relic RPM
+  # https://github.com/puma/puma/issues/128#issuecomment-21050609
+  require 'newrelic_rpm'
+  NewRelic::Agent.manual_start
 end
