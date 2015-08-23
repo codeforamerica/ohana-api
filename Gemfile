@@ -51,10 +51,7 @@ gem 'friendly_id', '~> 5.0'
 gem 'rabl'
 
 # Caching
-gem 'rack-cache'
-gem 'dalli'
-gem 'kgio'
-gem 'memcachier'
+gem 'redis-rack-cache', github: 'monfresh/redis-rack-cache', branch: 'readthis-compatibility'
 
 gem 'csv_shaper'
 gem 'rubyzip'

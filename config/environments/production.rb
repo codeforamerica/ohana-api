@@ -44,11 +44,15 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # --------------------------------------------------------------------------
-  # CACHING SETUP FOR RACK:CACHE AND MEMCACHIER ON HEROKU
-  # https://devcenter.heroku.com/articles/rack-cache-memcached-rails31
-  # ------------------------------------------------------------------
+  # CACHING SETUP FOR REDISCLOUD ON HEROKU
+  # --------------------------------------------------------------------------
 
   config.serve_static_files = true
+
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+  # config.action_controller.asset_host = ENV['FASTLY_CDN_URL']
+
+  config.static_cache_control = 'public, s-maxage=2592000, maxage=86400'
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
@@ -56,29 +60,17 @@ Rails.application.configure do
 
   config.action_controller.perform_caching = true
 
-  config.cache_store = :dalli_store
-  client = Dalli::Client.new((ENV['MEMCACHIER_SERVERS'] || '').split(','),
-                             username: ENV['MEMCACHIER_USERNAME'],
-                             password: ENV['MEMCACHIER_PASSWORD'],
-                             failover: true,
-                             socket_timeout: 1.5,
-                             socket_failure_delay: 0.2,
-                             value_max_bytes: 10_485_760)
+  # config.cache_store = :readthis_store, ENV.fetch('REDISCLOUD_URL'), {
+  #   expires_in: 2.weeks.to_i,
+  #   namespace: 'cache'
+  # }
 
-  # Enable Rack::Cache to put a simple HTTP cache in front of your application.
-  # Add `rack-cache` to your Gemfile before enabling this.
-  # For large-scale production use, consider using a caching reverse proxy like
-  # NGINX, varnish or squid.
   config.action_dispatch.rack_cache = {
-    metastore:   client,
-    entitystore: client,
-    verbose: false
+    metastore: "#{ENV.fetch('REDISCLOUD_URL')}/1/metastore",
+    entitystore: "#{ENV.fetch('REDISCLOUD_URL')}/1/entitystore",
+    use_native_ttl: true
   }
-  config.static_cache_control = 'public, max-age=2592000'
   # --------------------------------------------------------------------------
-
-  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = 'http://assets.example.com'
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

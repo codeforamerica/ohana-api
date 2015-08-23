@@ -173,6 +173,8 @@ development:
   DEV_SUBDOMAIN: developer
   DEFAULT_PER_PAGE: '30'
   MAX_PER_PAGE: '50'
+  READTHIS_DRIVER: 'hiredis'
+  REDISCLOUD_URL: 'redis://localhost:6379'
 
 ###############################################################################
 #
@@ -192,6 +194,7 @@ production:
   EXPIRES_IN: '1'
   TLD_LENGTH: '1'
   ENABLE_HTTPS: no
+  READTHIS_DRIVER: 'hiredis'
 
 ###########################################
 #

@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/monfresh/redis-rack-cache.git
+  revision: 4a1323a010a722854cf93f499dbde073c859a48e
+  branch: readthis-compatibility
+  specs:
+    redis-rack-cache (1.2.2)
+      hiredis
+      rack-cache
+      readthis
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -82,6 +92,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1)
+    connection_pool (2.2.0)
     coveralls (0.8.2)
       json (~> 1.8)
       rest-client (>= 1.6.8, < 2)
@@ -92,7 +103,6 @@ GEM
       safe_yaml (~> 1.0.0)
     csv_shaper (1.2.0)
       activesupport (>= 3.0.0)
-    dalli (2.7.4)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     derailed (0.1.0)
@@ -149,6 +159,7 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
+    hiredis (0.6.0)
     hitimes (1.2.2)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
@@ -166,7 +177,6 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kgio (2.9.3)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -178,7 +188,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    memcachier (0.0.2)
     memory_profiler (0.9.4)
     mime-types (2.6.1)
     mini_portile (0.6.2)
@@ -251,6 +260,9 @@ GEM
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    readthis (0.7.0)
+      connection_pool (~> 2.1)
+      redis (~> 3.0)
     redis (3.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
@@ -364,7 +376,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   coveralls
   csv_shaper
-  dalli
   database_cleaner (>= 1.0.0.RC1)
   derailed
   devise (~> 3.4)
@@ -378,9 +389,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails (~> 4.0)
   kaminari
-  kgio
   letter_opener
-  memcachier
   newrelic_rpm
   pg
   poltergeist
@@ -389,12 +398,12 @@ DEPENDENCIES
   pundit
   quiet_assets (>= 1.0.2)
   rabl
-  rack-cache
   rack-cors
   rack-mini-profiler
   rails (~> 4.2)
   rails_12factor
   redis
+  redis-rack-cache!
   rspec-its
   rspec-rails (~> 3.1)
   rubocop
