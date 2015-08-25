@@ -7,7 +7,6 @@ module Api
       include PaginationHeaders
       include CustomErrors
       include Cacheable
-      extend ::NewRelic::Agent::MethodTracer
 
       after_action :set_cache_control, only: [:index, :show]
 
@@ -31,9 +30,7 @@ module Api
                      :holiday_schedules]
         ).find(params[:id])
 
-        self.class.trace_execution_scoped(['Custom/locations_show/beginning_work']) do
-          render json: location, status: 200 if stale?(location, public: true)
-        end
+        render json: location, status: 200 if stale?(location, public: true)
       end
 
       def update

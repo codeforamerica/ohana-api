@@ -6,7 +6,6 @@ module Api
       include PaginationHeaders
       include CustomErrors
       include Cacheable
-      extend ::NewRelic::Agent::MethodTracer
 
       after_action :set_cache_control, only: :index
 
@@ -14,11 +13,9 @@ module Api
         locations = Location.search(params).
                     page(params[:page]).per(params[:per_page])
 
-        self.class.trace_execution_scoped(['Custom/search_index/beginning_work']) do
-          if stale?(etag: cache_key(locations), public: true)
-            generate_pagination_headers(locations)
-            render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
-          end
+        if stale?(etag: cache_key(locations), public: true)
+          generate_pagination_headers(locations)
+          render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
         end
       end
 
