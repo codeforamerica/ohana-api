@@ -60,16 +60,17 @@ Rails.application.configure do
 
   config.action_controller.perform_caching = true
 
-  # config.cache_store = :readthis_store, ENV.fetch('REDISCLOUD_URL'), {
+  # config.cache_store = :readthis_store, {
+  #   redis: { url: ENV.fetch('REDISCLOUD_URL'), driver: :hiredis },
   #   expires_in: 2.weeks.to_i,
   #   namespace: 'cache'
   # }
 
-  config.action_dispatch.rack_cache = {
-    metastore: "#{ENV.fetch('REDISCLOUD_URL')}/0/metastore",
-    entitystore: "#{ENV.fetch('REDISCLOUD_URL')}/0/entitystore",
-    use_native_ttl: true
-  }
+  # config.action_dispatch.rack_cache = {
+  #   metastore: "#{ENV.fetch('REDISCLOUD_URL')}/0/metastore",
+  #   entitystore: "#{ENV.fetch('REDISCLOUD_URL')}/0/entitystore",
+  #   use_native_ttl: true
+  # }
   # --------------------------------------------------------------------------
 
   # Ignore bad email addresses and do not raise email delivery errors.
