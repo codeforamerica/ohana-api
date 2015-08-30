@@ -16,8 +16,8 @@
     = f.text_field :callback_url, class: 'form-control'
   - if f.object.new_record?
     .actions
-      = f.submit 'Register application', class: 'btn btn-primary'
+      = f.submit t('buttons.register_application'), class: 'btn btn-primary'
   - else
     .actions
-      = f.submit 'Update application', class: 'btn btn-success'
-      = link_to 'Delete application', { action: :destroy, id: @api_application.id }, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+      = f.submit t('buttons.update_application'), class: 'btn btn-success'
+      = link_to t('buttons.delete_application'), { action: :destroy, id: @api_application.id }, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

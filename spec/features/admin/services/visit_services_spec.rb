@@ -17,7 +17,7 @@ feature 'Services page' do
 
     it 'does not include a link to services in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link 'Services', href: admin_services_path
+        expect(page).not_to have_link I18n.t('admin.buttons.services'), href: admin_services_path
       end
     end
   end

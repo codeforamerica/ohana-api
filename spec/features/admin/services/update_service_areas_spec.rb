@@ -16,14 +16,14 @@ feature 'Update service areas' do
 
   scenario 'with one service area', :js do
     select2('Belmont', 'service_service_areas', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.service_areas).to eq ['Belmont']
   end
 
   scenario 'with two service areas', :js do
     select2('Belmont', 'service_service_areas', multiple: true)
     select2('Atherton', 'service_service_areas', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.service_areas).to eq %w(Atherton Belmont)
   end
 
@@ -34,7 +34,7 @@ feature 'Update service areas' do
     within '#s2id_service_service_areas' do
       first('.select2-search-choice-close').click
     end
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.service_areas).to eq ['Belmont']
   end
 end

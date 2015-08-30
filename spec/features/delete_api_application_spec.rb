@@ -10,7 +10,7 @@ feature 'Delete an API Application' do
   end
 
   it 'deletes the application when the delete button is clicked' do
-    click_link 'Delete application'
+    click_link I18n.t('buttons.delete_application')
 
     expect(page).to have_content 'Application was successfully deleted.'
     expect(current_path).to eq api_applications_path

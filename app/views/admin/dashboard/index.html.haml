@@ -2,22 +2,22 @@
   %p
     Welcome back, #{current_admin.name}!
   %p
-    = link_to 'Organizations', admin_organizations_path, class: 'btn btn-primary'
+    = link_to t('admin.buttons.organizations'), admin_organizations_path, class: 'btn btn-primary'
   %p
-    = link_to 'Locations', admin_locations_path, class: 'btn btn-primary'
+    = link_to t('admin.buttons.locations'), admin_locations_path, class: 'btn btn-primary'
   %p
-    = link_to 'Services', admin_services_path, class: 'btn btn-primary'
+    = link_to t('admin.buttons.services'), admin_services_path, class: 'btn btn-primary'
   %p
-    = link_to 'Programs', admin_programs_path, class: 'btn btn-primary'
+    = link_to t('admin.buttons.programs'), admin_programs_path, class: 'btn btn-primary'
 
   - if current_admin.super_admin?
     %p
-      = link_to 'Add a new organization', new_admin_organization_path, class: 'btn btn-primary'
+      = link_to t('admin.buttons.add_organization'), new_admin_organization_path, class: 'btn btn-primary'
   - if @orgs.present?
     %p
-      = link_to 'Add a new location', new_admin_location_path, class: 'btn btn-primary'
+      = link_to t('admin.buttons.add_location'), new_admin_location_path, class: 'btn btn-primary'
     %p
-      = link_to 'Add a new program', new_admin_program_path, class: 'btn btn-primary'
+      = link_to t('admin.buttons.add_program'), new_admin_program_path, class: 'btn btn-primary'
 
   - if current_admin.super_admin?
     %h2 CSV Downloads

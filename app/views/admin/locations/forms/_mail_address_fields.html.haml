@@ -35,4 +35,4 @@
       .col-sm-2
         = f.text_field :country, maxlength: 2, class: 'form-control'
   = f.hidden_field :_destroy
-  = link_to 'Delete this mailing address permanently', '#', class: 'btn btn-danger delete_association'
+  = link_to t('admin.buttons.delete_mailing_address'), '#', class: 'btn btn-danger delete_association'

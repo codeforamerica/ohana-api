@@ -9,7 +9,7 @@ feature 'Update date incorporated' do
 
   scenario 'with date incorporated' do
     select_date(Time.zone.today, from: 'organization_date_incorporated')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
 
     expect(find_field('organization_date_incorporated_1i').value).
       to eq Time.zone.today.year.to_s

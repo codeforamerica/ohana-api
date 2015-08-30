@@ -11,7 +11,7 @@ feature 'Delete contact' do
   end
 
   scenario 'when deleting contact' do
-    find_link('Permanently delete this contact').click
+    find_link(I18n.t('admin.buttons.delete_contact')).click
     using_wait_time 1 do
       expect(current_path).to eq admin_location_service_path(@location, @service)
       expect(page).not_to have_link 'Moncef Belyamani'

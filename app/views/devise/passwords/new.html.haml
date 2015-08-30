@@ -7,6 +7,6 @@
     .form-group
       = f.label :email
       = f.email_field :email, autofocus: true, class: 'form-control'
-    = f.submit 'Send me reset password instructions', class: 'button center'
+    = f.submit t('buttons.send_reset_password_instructions'), class: 'button center'
     %br
   = render 'devise/shared/links'

@@ -25,7 +25,7 @@ describe 'Copy service to other locations' do
 
     it 'allows copying the service to another location when authorized' do
       check 'Belmont Farmers Market'
-      click_button 'Save changes'
+      click_button I18n.t('admin.buttons.save_changes')
       expect(page).to have_content 'successfully updated'
       expect(@new_loc.reload.services.pluck(:name)).to eq ['Literacy Program']
     end
