@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 describe HolidayScheduleImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv').read }
-  let(:invalid_date) { Rails.root.join('spec/support/fixtures/hs_with_invalid_date.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv').read }
-  let(:valid_service_holiday_schedule) { Rails.root.join('spec/support/fixtures/valid_service_holiday_schedule.csv').read }
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/holiday_schedule_with_no_parent.csv').read }
-  let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/hs_with_spelled_out_date.csv').read }
-  let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/hs_with_2_digit_year.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv') }
+  let(:invalid_date) { Rails.root.join('spec/support/fixtures/hs_with_invalid_date.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv') }
+  let(:valid_service_holiday_schedule) { Rails.root.join('spec/support/fixtures/valid_service_holiday_schedule.csv') }
+  let(:no_parent) { Rails.root.join('spec/support/fixtures/holiday_schedule_with_no_parent.csv') }
+  let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/hs_with_spelled_out_date.csv') }
+  let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/hs_with_2_digit_year.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)

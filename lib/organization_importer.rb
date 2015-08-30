@@ -8,14 +8,19 @@ class OrganizationImporter < EntityImporter
   end
 
   def import
-    organizations.each(&:save)
+    ActiveRecord::Base.no_touching do
+      organizations.each(&:save)
+    end
   end
 
   protected
 
   def organizations
-    @organizations ||= csv_entries.map(&:to_hash).map do |p|
-      OrganizationPresenter.new(p).to_org
+    @organizations ||= csv_entries.inject([]) do |orgs, chunks|
+      chunks.each do |row|
+        orgs << OrganizationPresenter.new(row).to_org
+      end
+      orgs
     end
   end
 

@@ -97,7 +97,7 @@ the JSON response so it is easier to read in the browser.
 
 - From the command line, run `script/reset` to reset the database.
 
-- Run `script/import` to import your CSV files.
+- Run `script/import` to import your CSV files, but first read the notes below.
 
 If your data doesn't already include a taxonomy, and if you want to use the Open
 Eligibility taxonomy, you can create the categories with this command:

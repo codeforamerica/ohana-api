@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe PhoneImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_phone.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_phone.csv').read }
-  let(:valid_service_phone) { Rails.root.join('spec/support/fixtures/valid_service_phone.csv').read }
-  let(:valid_org_phone) { Rails.root.join('spec/support/fixtures/valid_org_phone.csv').read }
-  let(:valid_contact_phone) { Rails.root.join('spec/support/fixtures/valid_contact_phone.csv').read }
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/phone_with_no_parent.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_phone.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_phone.csv') }
+  let(:valid_service_phone) { Rails.root.join('spec/support/fixtures/valid_service_phone.csv') }
+  let(:valid_org_phone) { Rails.root.join('spec/support/fixtures/valid_org_phone.csv') }
+  let(:valid_contact_phone) { Rails.root.join('spec/support/fixtures/valid_contact_phone.csv') }
+  let(:no_parent) { Rails.root.join('spec/support/fixtures/phone_with_no_parent.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)

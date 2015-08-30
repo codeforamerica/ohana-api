@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe MailAddressImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_mail_address.csv').read }
-  let(:invalid_location) { Rails.root.join('spec/support/fixtures/invalid_mail_address_location.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_mail_address.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_mail_address.csv') }
+  let(:invalid_location) { Rails.root.join('spec/support/fixtures/invalid_mail_address_location.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_mail_address.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)

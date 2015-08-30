@@ -1,9 +1,8 @@
 require 'csv'
 
-EntityImporter = Struct.new(:content) do
+EntityImporter = Struct.new(:path) do
   def self.import_file(path)
-    content = File.read(path)
-    new(content).tap(&:import)
+    new(path).tap(&:import)
   end
 
   def self.check_and_import_file(path)
@@ -23,6 +22,6 @@ EntityImporter = Struct.new(:content) do
   protected
 
   def csv_entries
-    @csv_entries ||= CSV.new(content, headers: true, header_converters: :symbol).entries
+    @csv_entries ||= SmarterCSV.process(path, chunk_size: 100)
   end
 end

@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe RegularScheduleImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv').read }
-  let(:valid_service_regular_schedule) { Rails.root.join('spec/support/fixtures/valid_service_regular_schedule.csv').read }
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/regular_schedule_with_no_parent.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv') }
+  let(:valid_service_regular_schedule) { Rails.root.join('spec/support/fixtures/valid_service_regular_schedule.csv') }
+  let(:no_parent) { Rails.root.join('spec/support/fixtures/regular_schedule_with_no_parent.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)

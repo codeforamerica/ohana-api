@@ -8,14 +8,19 @@ class PhoneImporter < EntityImporter
   end
 
   def import
-    phones.each(&:save)
+    ActiveRecord::Base.no_touching do
+      phones.each(&:save)
+    end
   end
 
   protected
 
   def phones
-    @phones ||= csv_entries.map(&:to_hash).map do |p|
-      PhonePresenter.new(p).to_phone
+    @phones ||= csv_entries.inject([]) do |result, chunks|
+      chunks.each do |row|
+        result << PhonePresenter.new(row).to_phone
+      end
+      result
     end
   end
 

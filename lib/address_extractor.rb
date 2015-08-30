@@ -1,16 +1,9 @@
-AddressExtractor = Struct.new(:content) do
+AddressExtractor = Struct.new(:path) do
   def self.extract_addresses(path)
-    content = File.read(path)
-    new(content).addresses
+    new(path).csv_entries
   end
-
-  def addresses
-    @addresses ||= csv_entries.map(&:to_hash)
-  end
-
-  protected
 
   def csv_entries
-    @csv_entries ||= CSV.new(content, headers: true, header_converters: :symbol).entries
+    @csv_entries ||= SmarterCSV.process(path, convert_values_to_numeric: false)
   end
 end

@@ -8,14 +8,19 @@ class MailAddressImporter < EntityImporter
   end
 
   def import
-    mail_addresses.each(&:save)
+    ActiveRecord::Base.no_touching do
+      mail_addresses.each(&:save)
+    end
   end
 
   protected
 
   def mail_addresses
-    @mail_addresses ||= csv_entries.map(&:to_hash).map do |p|
-      MailAddressPresenter.new(p).to_mail_address
+    @mail_addresses ||= csv_entries.inject([]) do |result, chunks|
+      chunks.each do |row|
+        result << MailAddressPresenter.new(row).to_mail_address
+      end
+      result
     end
   end
 

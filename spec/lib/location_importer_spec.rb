@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe LocationImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_location.csv').read }
-  let(:invalid_org) { Rails.root.join('spec/support/fixtures/invalid_location_org.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_location.csv') }
+  let(:invalid_org) { Rails.root.join('spec/support/fixtures/invalid_location_org.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location.csv') }
 
   let(:valid_address) do
     path = Rails.root.join('spec/support/fixtures/valid_address.csv')

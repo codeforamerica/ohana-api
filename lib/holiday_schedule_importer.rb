@@ -8,14 +8,19 @@ class HolidayScheduleImporter < EntityImporter
   end
 
   def import
-    holiday_schedules.each(&:save)
+    ActiveRecord::Base.no_touching do
+      holiday_schedules.each(&:save)
+    end
   end
 
   protected
 
   def holiday_schedules
-    @holiday_schedules ||= csv_entries.map(&:to_hash).map do |p|
-      HolidaySchedulePresenter.new(p).to_holiday_schedule
+    @holiday_schedules ||= csv_entries.inject([]) do |result, chunks|
+      chunks.each do |row|
+        result << HolidaySchedulePresenter.new(row).to_holiday_schedule
+      end
+      result
     end
   end
 

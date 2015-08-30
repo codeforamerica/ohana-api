@@ -6,8 +6,8 @@ CategoryPresenter = Struct.new(:row) do
   end
 
   def parent_category(row)
-    Category.find_or_create_by(name: row[:parent_name],
-                               taxonomy_id: row[:parent_id])
+    @category ||= Category.find_or_create_by(name: row[:parent_name],
+                                             taxonomy_id: row[:parent_id])
   end
 
   def child_category(row)

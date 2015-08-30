@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe ProgramImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_program.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_program.csv').read }
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/program_with_no_parent.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_program.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_program.csv') }
+  let(:no_parent) { Rails.root.join('spec/support/fixtures/program_with_no_parent.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
