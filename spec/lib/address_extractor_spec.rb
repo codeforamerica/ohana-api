@@ -32,7 +32,6 @@ describe AddressExtractor do
           location_id: '1',
           address_1: '123 Main Street',
           address_2: 'Suite 101',
-          city: nil,
           state_province: 'VA',
           postal_code: '22031',
           country: 'US'

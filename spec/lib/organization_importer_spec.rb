@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe OrganizationImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_org.csv').read }
-  let(:invalid_date) { Rails.root.join('spec/support/fixtures/org_with_invalid_date.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_org.csv').read }
-  let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/org_with_spelled_out_date.csv').read }
-  let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/org_with_2_digit_year.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_org.csv') }
+  let(:invalid_date) { Rails.root.join('spec/support/fixtures/org_with_invalid_date.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_org.csv') }
+  let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/org_with_spelled_out_date.csv') }
+  let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/org_with_2_digit_year.csv') }
 
   subject(:importer) { OrganizationImporter.new(content) }
 

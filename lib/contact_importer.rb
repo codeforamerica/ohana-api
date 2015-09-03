@@ -8,14 +8,19 @@ class ContactImporter < EntityImporter
   end
 
   def import
-    contacts.each(&:save)
+    ActiveRecord::Base.no_touching do
+      contacts.each(&:save)
+    end
   end
 
   protected
 
   def contacts
-    @contacts ||= csv_entries.map(&:to_hash).map do |p|
-      ContactPresenter.new(p).to_contact
+    @contacts ||= csv_entries.inject([]) do |result, chunks|
+      chunks.each do |row|
+        result << ContactPresenter.new(row).to_contact
+      end
+      result
     end
   end
 

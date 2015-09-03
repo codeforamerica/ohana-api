@@ -69,6 +69,7 @@ group :test, :development do
   gem 'rspec-its'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
+  gem 'smarter_csv'
 end
 
 group :test do

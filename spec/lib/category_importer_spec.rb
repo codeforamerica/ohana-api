@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe CategoryImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_category.csv').read }
-  let(:invalid_parent) { Rails.root.join('spec/support/fixtures/invalid_parent_category.csv').read }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_category.csv').read }
-  let(:existing_content) { Rails.root.join('spec/support/fixtures/existing_category.csv').read }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_category.csv') }
+  let(:invalid_parent) { Rails.root.join('spec/support/fixtures/invalid_parent_category.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_category.csv') }
+  let(:existing_content) { Rails.root.join('spec/support/fixtures/existing_category.csv') }
 
   subject(:importer) { CategoryImporter.new(content) }
 

@@ -1,7 +1,7 @@
 namespace :import do
   task all: [:organizations, :programs, :locations, :taxonomy, :services,
              :mail_addresses, :contacts, :phones, :regular_schedules,
-             :holiday_schedules]
+             :holiday_schedules, :touch_locations]
 
   desc 'Imports organizations'
   task :organizations, [:path] => :environment do |_, args|
@@ -65,5 +65,11 @@ namespace :import do
   task :holiday_schedules, [:path] => :environment do |_, args|
     args.with_defaults(path: Rails.root.join('data/holiday_schedules.csv'))
     HolidayScheduleImporter.check_and_import_file(args[:path])
+  end
+
+  desc 'Touch locations'
+  task :touch_locations, [:path] => :environment do
+    Kernel.puts "\n===> Updating the full-text search index"
+    Location.update_all(updated_at: Time.zone.now)
   end
 end

@@ -60,16 +60,12 @@ class FileChecker
     %w(organizations.csv locations.csv addresses.csv services.csv phones.csv)
   end
 
-  def content
-    File.read(@path)
-  end
-
   def csv_entries
-    @csv_entries ||= CSV.new(content, headers: true).entries
+    @csv_entries ||= SmarterCSV.process(@path, chunk_size: 100)
   end
 
   def headers
-    @headers ||= csv_entries.first.headers
+    @headers ||= CSV.open(@path, 'r') { |csv| csv.first }.to_a
   end
 
   def missing_headers

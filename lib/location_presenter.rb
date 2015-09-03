@@ -30,10 +30,10 @@ LocationPresenter = Struct.new(:row, :addresses) do
   end
 
   def address_attributes_for(id)
-    matching_address(id).except(:id)
+    @attributes ||= matching_address(id).except(:id)
   end
 
   def matching_address(id)
-    addresses.find { |a| a[:location_id] == id }
+    @matching_address ||= addresses.detect { |a| a[:location_id] == id }
   end
 end

@@ -8,14 +8,19 @@ class RegularScheduleImporter < EntityImporter
   end
 
   def import
-    regular_schedules.each(&:save)
+    ActiveRecord::Base.no_touching do
+      regular_schedules.each(&:save)
+    end
   end
 
   protected
 
   def regular_schedules
-    @regular_schedules ||= csv_entries.map(&:to_hash).map do |p|
-      RegularSchedulePresenter.new(p).to_regular_schedule
+    @regular_schedules ||= csv_entries.inject([]) do |result, chunks|
+      chunks.each do |row|
+        result << RegularSchedulePresenter.new(row).to_regular_schedule
+      end
+      result
     end
   end
 
