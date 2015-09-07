@@ -15,6 +15,6 @@ on_worker_boot do
 
   # Enable New Relic RPM
   # https://github.com/puma/puma/issues/128#issuecomment-21050609
-  require 'newrelic_rpm'
-  NewRelic::Agent.manual_start
+  # require 'newrelic_rpm'
+  # NewRelic::Agent.manual_start
 end
