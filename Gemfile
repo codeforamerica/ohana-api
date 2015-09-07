@@ -13,7 +13,6 @@ gem 'bootstrap-sass', '~> 3.3.0'
 # Rails 4
 gem 'protected_attributes'
 # gem 'rails-observers'
-# gem 'rails-perftest'
 
 # Front end
 gem 'jquery-rails', '~> 4.0'

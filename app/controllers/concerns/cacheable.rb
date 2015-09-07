@@ -1,6 +1,6 @@
 module Cacheable
   def cache_time
-    ENV['EXPIRES_IN'].to_i.minutes
+    @cache_time ||= ENV['EXPIRES_IN'].to_i.minutes
   end
 
   def set_cache_control

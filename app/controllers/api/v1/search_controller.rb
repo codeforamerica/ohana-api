@@ -1,5 +1,3 @@
-require 'new_relic/agent/method_tracer'
-
 module Api
   module V1
     class SearchController < ApplicationController
@@ -31,7 +29,7 @@ module Api
       private
 
       def tables
-        [:organization, :address, :phones]
+        @tables ||= [:organization, :address, :phones]
       end
 
       def locations_near(location)

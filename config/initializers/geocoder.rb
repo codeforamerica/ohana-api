@@ -1,9 +1,12 @@
 require 'readthis'
 
 cache = Readthis::Cache.new(
-  ENV.fetch('REDISCLOUD_URL', 'redis://localhost:6379'),
-  driver: :hiredis,
-  expires_in: 2.weeks.to_i)
+  redis: {
+    url: ENV.fetch('REDISCLOUD_URL', 'redis://localhost:6379'),
+    driver: :hiredis
+  },
+  expires_in: 2.weeks.to_i
+)
 
 Geocoder.configure(
   lookup: :google,

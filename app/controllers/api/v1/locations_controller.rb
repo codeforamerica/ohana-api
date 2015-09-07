@@ -1,5 +1,3 @@
-require 'new_relic/agent/method_tracer'
-
 module Api
   module V1
     class LocationsController < ApplicationController
@@ -24,11 +22,7 @@ module Api
       end
 
       def show
-        location = Location.includes(
-          contacts: :phones,
-          services: [:categories, :contacts, :phones, :regular_schedules,
-                     :holiday_schedules]
-        ).find(params[:id])
+        location = Location.includes(show_tables).find(params[:id])
 
         render json: location, status: 200 if stale?(location, public: true)
       end
@@ -65,7 +59,16 @@ module Api
       end
 
       def common_tables
-        [:contacts, :phones, :regular_schedules, :holiday_schedules]
+        @common_tables ||= [:contacts, :phones, :regular_schedules, :holiday_schedules]
+      end
+
+      def show_tables
+        @show_tables ||= [
+          {
+            contacts: :phones,
+            services: [:categories, :contacts, :phones, :regular_schedules, :holiday_schedules]
+          }
+        ]
       end
     end
   end
