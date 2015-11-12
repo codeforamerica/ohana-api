@@ -18,7 +18,7 @@ gem 'protected_attributes'
 # Front end
 gem 'jquery-rails', '~> 4.0'
 gem 'haml-rails'
-gem 'select2-rails'
+gem 'select2-rails', '~> 3.5'
 
 # Server for deployment
 gem 'puma'

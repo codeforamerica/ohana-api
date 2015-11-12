@@ -409,7 +409,7 @@ DEPENDENCIES
   rubocop
   rubyzip
   sass-rails (~> 5.0)
-  select2-rails
+  select2-rails (~> 3.5)
   shoulda-matchers
   smarter_csv
   spring
