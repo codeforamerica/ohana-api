@@ -62,7 +62,7 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
     builder (3.2.2)
-    bullet (4.14.7)
+    bullet (4.14.10)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.9.0)
     capybara (2.4.4)
