@@ -16,11 +16,8 @@ class CategoryImporter < EntityImporter
   protected
 
   def categories
-    @categories ||= csv_entries.inject([]) do |result, chunks|
-      chunks.each do |row|
-        result << CategoryPresenter.new(row).to_category
-      end
-      result
+    @categories ||= csv_entries.each_with_object([]) do |chunks, result|
+      chunks.each { |row| result << CategoryPresenter.new(row).to_category }
     end
   end
 

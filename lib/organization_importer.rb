@@ -16,11 +16,8 @@ class OrganizationImporter < EntityImporter
   protected
 
   def organizations
-    @organizations ||= csv_entries.inject([]) do |orgs, chunks|
-      chunks.each do |row|
-        orgs << OrganizationPresenter.new(row).to_org
-      end
-      orgs
+    @organizations ||= csv_entries.each_with_object([]) do |chunks, orgs|
+      chunks.each { |row| orgs << OrganizationPresenter.new(row).to_org }
     end
   end
 

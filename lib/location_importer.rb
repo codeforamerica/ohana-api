@@ -41,11 +41,8 @@ LocationImporter = Struct.new(:path, :addresses) do
   protected
 
   def locations
-    @locations ||= csv_entries.inject([]) do |locs, chunks|
-      chunks.each do |row|
-        locs << LocationPresenter.new(row, addresses).to_location
-      end
-      locs
+    @locations ||= csv_entries.each_with_object([]) do |chunks, locs|
+      chunks.each { |row| locs << LocationPresenter.new(row, addresses).to_location }
     end
   end
 

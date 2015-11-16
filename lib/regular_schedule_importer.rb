@@ -16,11 +16,8 @@ class RegularScheduleImporter < EntityImporter
   protected
 
   def regular_schedules
-    @regular_schedules ||= csv_entries.inject([]) do |result, chunks|
-      chunks.each do |row|
-        result << RegularSchedulePresenter.new(row).to_regular_schedule
-      end
-      result
+    @regular_schedules ||= csv_entries.each_with_object([]) do |chunks, result|
+      chunks.each { |row| result << RegularSchedulePresenter.new(row).to_regular_schedule }
     end
   end
 

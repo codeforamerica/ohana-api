@@ -65,7 +65,7 @@ class FileChecker
   end
 
   def headers
-    @headers ||= CSV.open(@path, 'r') { |csv| csv.first }.to_a
+    @headers ||= CSV.open(@path, 'r', &:first).to_a
   end
 
   def missing_headers
