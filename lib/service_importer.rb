@@ -16,11 +16,8 @@ class ServiceImporter < EntityImporter
   protected
 
   def services
-    @services ||= csv_entries.inject([]) do |result, chunks|
-      chunks.each do |row|
-        result << ServicePresenter.new(row).to_service
-      end
-      result
+    @services ||= csv_entries.each_with_object([]) do |chunks, result|
+      chunks.each { |row| result << ServicePresenter.new(row).to_service }
     end
   end
 

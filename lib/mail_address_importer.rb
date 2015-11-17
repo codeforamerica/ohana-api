@@ -16,11 +16,8 @@ class MailAddressImporter < EntityImporter
   protected
 
   def mail_addresses
-    @mail_addresses ||= csv_entries.inject([]) do |result, chunks|
-      chunks.each do |row|
-        result << MailAddressPresenter.new(row).to_mail_address
-      end
-      result
+    @mail_addresses ||= csv_entries.each_with_object([]) do |chunks, result|
+      chunks.each { |row| result << MailAddressPresenter.new(row).to_mail_address }
     end
   end
 

@@ -66,25 +66,18 @@ describe Service do
 
   it { is_expected.to allow_value(%w(Belmont Atherton)).for(:service_areas) }
 
-  it { is_expected.to allow_value('active', 'defunct', 'inactive').for(:status) }
-  it { is_expected.not_to allow_value('Active').for(:status) }
+  it { is_expected.to enumerize(:status).in(:active, :defunct, :inactive) }
 
-  it do
-    is_expected.not_to allow_value('BBB').
-      for(:accepted_payments).
-      with_message('BBB is not an Array.')
-  end
+  describe 'array validations' do
+    it 'raises an error when the attribute is not an array' do
+      service = build(
+        :service, accepted_payments: 'AAA', required_documents: 'BBB', languages: 'CCC')
+      service.save
 
-  it do
-    is_expected.not_to allow_value('BBB').
-      for(:required_documents).
-      with_message('BBB is not an Array.')
-  end
-
-  it do
-    is_expected.not_to allow_value('BBB').
-      for(:languages).
-      with_message('BBB is not an Array.')
+      expect(service.errors[:accepted_payments].first).to eq('AAA is not an Array.')
+      expect(service.errors[:required_documents].first).to eq('BBB is not an Array.')
+      expect(service.errors[:languages].first).to eq('CCC is not an Array.')
+    end
   end
 
   describe 'auto_strip_attributes' do

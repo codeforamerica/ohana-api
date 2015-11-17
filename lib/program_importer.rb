@@ -16,11 +16,8 @@ class ProgramImporter < EntityImporter
   protected
 
   def programs
-    @programs ||= csv_entries.inject([]) do |result, chunks|
-      chunks.each do |row|
-        result << ProgramPresenter.new(row).to_program
-      end
-      result
+    @programs ||= csv_entries.each_with_object([]) do |chunks, result|
+      chunks.each { |row| result << ProgramPresenter.new(row).to_program }
     end
   end
 

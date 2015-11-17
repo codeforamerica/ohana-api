@@ -30,7 +30,7 @@ describe Organization do
       with_message("can't be blank for Organization")
   end
 
-  it { is_expected.to validate_uniqueness_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
 
   it { is_expected.not_to allow_value('codeforamerica.org').for(:email) }
   it { is_expected.not_to allow_value('codeforamerica@org').for(:email) }
@@ -46,37 +46,38 @@ describe Organization do
       with_message('http:// is not a valid URL')
   end
 
-  it do
-    is_expected.not_to allow_value('BBB').
-      for(:accreditations).
-      with_message('BBB is not an Array.')
+  describe 'conversion of string date to Date object' do
+    context 'when app expects day/month format' do
+      it 'raises an error when the format is month/day' do
+        allow_any_instance_of(DateValidator).to receive(:month_day?).and_return(false)
+        allow_any_instance_of(DateValidator).to receive(:day_month?).and_return(true)
+
+        org = build(:organization, date_incorporated: '2/24/2014')
+        org.save
+
+        expect(org.errors[:date_incorporated].first).to eq('2/24/2014 is not a valid date')
+      end
+    end
+
+    context 'when app expects month/day format' do
+      it 'raises an error when the format is day/month' do
+        org = build(:organization, date_incorporated: '24/2/2014')
+        org.save
+
+        expect(org.errors[:date_incorporated].first).to eq('24/2/2014 is not a valid date')
+      end
+    end
   end
 
-  it do
-    is_expected.not_to allow_value('BBB').
-      for(:funding_sources).
-      with_message('BBB is not an Array.')
-  end
+  describe 'array validations' do
+    it 'raises an error when the attribute is not an array' do
+      org = build(:organization, accreditations: 'AAA', funding_sources: 'BBB', licenses: 'CCC')
+      org.save
 
-  it do
-    is_expected.not_to allow_value('BBB').
-      for(:licenses).
-      with_message('BBB is not an Array.')
-  end
-
-  it do
-    is_expected.not_to allow_value('24/2/2014').
-      for(:date_incorporated).
-      with_message('24/2/2014 is not a valid date')
-  end
-
-  it do
-    allow_any_instance_of(DateValidator).to receive(:month_day?).and_return(false)
-    allow_any_instance_of(DateValidator).to receive(:day_month?).and_return(true)
-
-    is_expected.not_to allow_value('2/24/2014').
-      for(:date_incorporated).
-      with_message('2/24/2014 is not a valid date')
+      expect(org.errors[:accreditations].first).to eq('AAA is not an Array.')
+      expect(org.errors[:funding_sources].first).to eq('BBB is not an Array.')
+      expect(org.errors[:licenses].first).to eq('CCC is not an Array.')
+    end
   end
 
   describe 'auto_strip_attributes' do

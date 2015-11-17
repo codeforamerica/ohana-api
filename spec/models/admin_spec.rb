@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Admin do
-  before(:each) do
-    @attr = {
+  def admin_attrs
+    {
       name: 'Example User',
       email: 'user@example.com',
       password: 'changeme',
@@ -10,9 +10,7 @@ describe Admin do
     }
   end
 
-  it 'creates a new instance given a valid attribute' do
-    Admin.create!(@attr)
-  end
+  subject { build(:admin, admin_attrs) }
 
   it { is_expected.to allow_mass_assignment_of(:name) }
   it { is_expected.to allow_mass_assignment_of(:email) }
@@ -51,29 +49,28 @@ describe Admin do
     ).for(:email)
   end
 
-  it { is_expected.to validate_uniqueness_of(:email) }
+  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
 
   it 'rejects email addresses identical up to case' do
-    upcased_email = @attr[:email].upcase
-    Admin.create!(@attr.merge(email: upcased_email))
-    user_with_duplicate_email = Admin.new(@attr)
+    upcased_email = admin_attrs[:email].upcase
+    Admin.create!(admin_attrs.merge(email: upcased_email))
+    user_with_duplicate_email = Admin.new(admin_attrs)
+
     expect(user_with_duplicate_email).not_to be_valid
   end
 
   describe 'password validations' do
     it 'requires a matching password confirmation' do
-      expect(Admin.new(@attr.merge(password_confirmation: 'invalid'))).
+      expect(Admin.new(admin_attrs.merge(password_confirmation: 'invalid'))).
         not_to be_valid
     end
   end
 
   describe 'password encryption' do
-    before(:each) do
-      @user = Admin.create!(@attr)
-    end
-
     it 'should set the encrypted password attribute' do
-      expect(@user.encrypted_password).not_to be_blank
+      user = Admin.create!(admin_attrs)
+
+      expect(user.encrypted_password).not_to be_blank
     end
   end
 end

@@ -16,11 +16,8 @@ class HolidayScheduleImporter < EntityImporter
   protected
 
   def holiday_schedules
-    @holiday_schedules ||= csv_entries.inject([]) do |result, chunks|
-      chunks.each do |row|
-        result << HolidaySchedulePresenter.new(row).to_holiday_schedule
-      end
-      result
+    @holiday_schedules ||= csv_entries.each_with_object([]) do |chunks, result|
+      chunks.each { |row| result << HolidaySchedulePresenter.new(row).to_holiday_schedule }
     end
   end
 

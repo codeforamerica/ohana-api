@@ -16,11 +16,8 @@ class PhoneImporter < EntityImporter
   protected
 
   def phones
-    @phones ||= csv_entries.inject([]) do |result, chunks|
-      chunks.each do |row|
-        result << PhonePresenter.new(row).to_phone
-      end
-      result
+    @phones ||= csv_entries.each_with_object([]) do |chunks, result|
+      chunks.each { |row| result << PhonePresenter.new(row).to_phone }
     end
   end
 
