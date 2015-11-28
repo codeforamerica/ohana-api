@@ -21,9 +21,9 @@ module Search
     scope :service_area, (lambda do |sa|
       if sa == 'smc'
         joins(:services).
-        where('services.service_areas && ARRAY[?]', SETTINGS[:smc_service_areas])
+        where('services.service_areas && ARRAY[?]', SETTINGS[:smc_service_areas]).uniq
       else
-        joins(:services).where('services.service_areas @> ARRAY[?]', sa)
+        joins(:services).where('services.service_areas @> ARRAY[?]', sa).uniq
       end
     end)
 
@@ -97,7 +97,7 @@ module Search
 
       return res unless params[:keyword] && params[:service_area]
 
-      res.select("locations.*, #{rank_for(params[:keyword])}")
+      res.select("locations.*, locations.importance + #{rank_for(params[:keyword])}")
     end
 
     def paginated_and_sorted(params)

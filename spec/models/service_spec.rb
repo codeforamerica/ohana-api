@@ -87,7 +87,6 @@ describe Service do
     it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
     it { is_expected.to_not validate_presence_of(:application_process).with_message("can't be blank for Service") }
     it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
-    it { is_expected.not_to allow_value('Active').for(:status) }
   end
 
   describe 'auto_strip_attributes' do
