@@ -1,7 +1,7 @@
 module Features
   module ContactHelpers
     def add_contact(options = {})
-      click_link 'Add a new contact'
+      click_link I18n.t('admin.buttons.add_contact')
       update_contact(options)
     end
 
@@ -31,8 +31,8 @@ module Features
     end
 
     def delete_contact
-      click_link 'Delete this contact permanently'
-      click_button 'Save changes'
+      click_link I18n.t('admin.buttons.delete_contact')
+      click_button I18n.t('admin.buttons.save_changes')
     end
   end
 end

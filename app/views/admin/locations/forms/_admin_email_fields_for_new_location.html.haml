@@ -1,5 +1,5 @@
 = field_set_tag do
   = text_field_tag 'location[admin_emails][]', current_admin.email, class: 'form-control'
   %br
-  = link_to 'Delete this admin permanently', '#', class: 'btn btn-danger delete_attribute'
+  = link_to t('admin.buttons.delete_admin'), '#', class: 'btn btn-danger delete_attribute'
   %hr

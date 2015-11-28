@@ -2,5 +2,5 @@
   .row
     .col-sm-6
       = email_field_tag 'location[admin_emails][]', '', class: 'form-control'
-  = link_to 'Delete this admin permanently', '#', class: 'btn btn-danger delete_attribute'
+  = link_to t('admin.buttons.delete_admin'), '#', class: 'btn btn-danger delete_attribute'
   %hr

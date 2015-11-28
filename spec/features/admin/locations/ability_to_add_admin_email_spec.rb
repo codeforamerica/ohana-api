@@ -9,7 +9,7 @@ describe 'ability to add an admin to a location' do
     it "doesn't allow adding an admin" do
       login_admin
       visit '/admin/locations/vrs-services'
-      expect(page).to_not have_content 'Add a new admin email'
+      expect(page).to_not have_content I18n.t('admin.buttons.add_admin')
     end
   end
 
@@ -17,7 +17,7 @@ describe 'ability to add an admin to a location' do
     it 'allows adding an admin' do
       login_super_admin
       visit '/admin/locations/vrs-services'
-      expect(page).to have_content 'Add a new admin email'
+      expect(page).to have_content I18n.t('admin.buttons.add_admin')
     end
   end
 
@@ -26,7 +26,7 @@ describe 'ability to add an admin to a location' do
       create(:location_for_org_admin)
       login_admin
       visit '/admin/locations/samaritan-house'
-      expect(page).to have_content 'Add a new admin email'
+      expect(page).to have_content I18n.t('admin.buttons.add_admin')
     end
   end
 
@@ -36,7 +36,7 @@ describe 'ability to add an admin to a location' do
       @location.update!(admin_emails: ['moncef@gmail.com'])
       login_as_admin(new_admin)
       visit '/admin/locations/vrs-services'
-      expect(page).to have_content 'Add a new admin email'
+      expect(page).to have_content I18n.t('admin.buttons.add_admin')
     end
   end
 end

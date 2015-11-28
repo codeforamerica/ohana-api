@@ -16,14 +16,14 @@ feature 'Update keywords' do
 
   scenario 'with one keyword', :js do
     select2('ligal', 'service_keywords', multiple: true, tag: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.keywords).to eq ['ligal']
   end
 
   scenario 'with two keywords', :js do
     select2('first', 'service_keywords', multiple: true, tag: true)
     select2('second', 'service_keywords', multiple: true, tag: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.keywords).to eq %w(first second)
   end
 
@@ -34,7 +34,7 @@ feature 'Update keywords' do
     within '#s2id_service_keywords' do
       first('.select2-search-choice-close').click
     end
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.keywords).to eq ['computer']
   end
 end

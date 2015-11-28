@@ -11,7 +11,7 @@ feature 'Update department' do
 
   scenario 'with valid department' do
     fill_in 'contact_department', with: 'CFO'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Contact was successfully updated.'
     expect(find_field('contact_department').value).to eq 'CFO'
   end

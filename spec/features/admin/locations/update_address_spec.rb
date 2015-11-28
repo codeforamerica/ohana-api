@@ -20,7 +20,7 @@ feature 'Add a street address' do
 
     remove_street_address
     visit '/admin/locations/no-address'
-    expect(page).to have_link 'Add a street address'
+    expect(page).to have_link I18n.t('admin.buttons.add_street_address')
   end
 end
 
@@ -41,42 +41,48 @@ feature "Updating a location's address with invalid values" do
   scenario 'with an empty street' do
     update_street_address(address_1: '', city: 'fair', state_province: 'VA',
                           postal_code: '12345')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content "address 1 can't be blank for Address"
   end
 
   scenario 'with an empty city' do
     update_street_address(address_1: '123', city: '', state_province: 'VA',
                           postal_code: '12345')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content "city can't be blank"
+    expect(page).to have_content "city can't be blank for Address"
   end
 
   scenario 'with an empty state' do
     update_street_address(address_1: '123', city: 'fair', state_province: '',
                           postal_code: '12345')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
   scenario 'with an empty zip' do
     update_street_address(address_1: '123', city: 'Belmont', state_province: 'CA',
                           postal_code: '')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "postal code can't be blank for Address"
   end
 
   scenario 'with an invalid state' do
     update_street_address(address_1: '123', city: 'Par', state_province: 'V',
                           postal_code: '12345')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
   scenario 'with an invalid zip' do
     update_street_address(address_1: '123', city: 'Ald', state_province: 'VA',
                           postal_code: '1234')
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content 'valid ZIP code'
   end
 end

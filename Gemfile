@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.2'
+ruby '2.2.3'
 gem 'rails', '~> 4.2'
 
 gem 'pg'
@@ -17,7 +17,7 @@ gem 'protected_attributes'
 # Front end
 gem 'jquery-rails', '~> 4.0'
 gem 'haml-rails'
-gem 'select2-rails'
+gem 'select2-rails', '~> 3.5'
 
 # Geocoding
 gem 'geocoder'
@@ -68,6 +68,7 @@ group :test, :development do
   gem 'rspec-its'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
+  gem 'smarter_csv'
 end
 
 group :test do

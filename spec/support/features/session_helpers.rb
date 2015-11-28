@@ -27,7 +27,7 @@ module Features
         fill_in 'Email',    with: email
         fill_in 'Password', with: password
       end
-      click_button 'Sign in'
+      click_button I18n.t('navigation.sign_in')
     end
 
     def sign_in_admin(email, password)
@@ -36,7 +36,7 @@ module Features
         fill_in 'admin_email',    with: email
         fill_in 'admin_password', with: password
       end
-      click_button 'Sign in'
+      click_button I18n.t('navigation.sign_in')
     end
 
     def sign_up(name, email, password, confirmation)
@@ -45,7 +45,7 @@ module Features
       fill_in 'user_email',                 with: email
       fill_in 'user_password',              with: password
       fill_in 'user_password_confirmation', with: confirmation
-      click_button 'Sign up'
+      click_button I18n.t('navigation.sign_up')
     end
 
     def sign_up_admin(name, email, password, confirmation)
@@ -54,17 +54,17 @@ module Features
       fill_in 'admin_email',                 with: email
       fill_in 'admin_password',              with: password
       fill_in 'admin_password_confirmation', with: confirmation
-      click_button 'Sign up'
+      click_button I18n.t('navigation.sign_up')
     end
 
     def create_api_app(name, main_url, callback_url)
-      click_link 'Register new application'
+      click_link I18n.t('buttons.register_new_application')
       within('#new_api_application') do
         fill_in 'Name',         with: name
         fill_in 'Main URL',     with: main_url
         fill_in 'Callback URL', with: callback_url
       end
-      click_button 'Register application'
+      click_button I18n.t('buttons.register_application')
     end
 
     def update_api_app(name, main_url, callback_url)
@@ -73,7 +73,7 @@ module Features
         fill_in 'Main URL',     with: main_url
         fill_in 'Callback URL', with: callback_url
       end
-      click_button 'Update application'
+      click_button I18n.t('buttons.update_application')
     end
 
     def visit_app(name, main_url)

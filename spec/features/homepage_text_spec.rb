@@ -34,24 +34,24 @@ feature 'Visit home page after signing in' do
   it 'includes a link to sign out in the navigation' do
     within '.navbar' do
       expect(page).
-        to have_link 'Sign out', href: destroy_user_session_path
+        to have_link I18n.t('navigation.sign_out'), href: destroy_user_session_path
     end
   end
 
   it 'includes a link to the Edit Account page in the navigation' do
     within '.navbar' do
       expect(page).
-        to have_link 'Edit account', href: edit_user_registration_path
+        to have_link I18n.t('navigation.edit_account'), href: edit_user_registration_path
     end
   end
 
   scenario "click 'Register a new application' link" do
-    click_link 'Register a new application'
+    click_link I18n.t('links.register_a_new_application')
     expect(page).to have_content 'Register a new application'
   end
 
   scenario "click 'view' link" do
-    click_link 'view'
+    click_link I18n.t('links.view')
     expect(page).to have_content 'Developer Applications'
   end
 end

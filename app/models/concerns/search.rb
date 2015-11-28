@@ -65,14 +65,16 @@ module Search
     end
 
     def keyword(query)
+      where("locations.tsv_body @@ plainto_tsquery('english', ?)", query).
+        order("locations.importance + #{rank_for(query)} DESC, locations.updated_at DESC")
+    end
+
+    def rank_for(query)
       sanitized = ActiveRecord::Base.sanitize(query)
 
-      rank = <<-RANK
+      <<-RANK
         ts_rank(locations.tsv_body, plainto_tsquery('english', #{sanitized}))
       RANK
-
-      where("locations.tsv_body @@ plainto_tsquery('english', ?)", query).
-        order("locations.importance + #{rank} DESC, locations.updated_at DESC")
     end
 
     def language(lang)
@@ -86,12 +88,16 @@ module Search
     end
 
     def search(params = {})
-      text_search(params).
+      res = text_search(params).
         with_email(params[:email]).
         is_near(params[:location], params[:lat_lng], params[:radius]).
         has_market_match(params[:market_match]).
         has_kind(params[:kind]).
         sort_by_kind(params[:sort], params[:order])
+
+      return res unless params[:keyword] && params[:service_area]
+
+      res.select("locations.*, #{rank_for(params[:keyword])}")
     end
 
     def paginated_and_sorted(params)

@@ -31,4 +31,4 @@
         = f.text_field :postal_code, maxlength: 10, class: 'form-control'
   = f.hidden_field :country, value: 'US'
   = f.hidden_field :_destroy
-  = link_to 'Delete this mailing address permanently', '#', class: 'btn btn-danger delete_association'
+  = link_to t('admin.buttons.delete_mailing_address'), '#', class: 'btn btn-danger delete_association'

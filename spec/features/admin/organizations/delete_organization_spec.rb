@@ -8,8 +8,8 @@ feature 'Delete organization' do
   end
 
   scenario 'when submitting warning', :js do
-    find_link('Permanently delete this organization').click
-    find_link('I understand the consequences, delete this organization').click
+    find_link(I18n.t('admin.buttons.delete_organization')).click
+    find_link(I18n.t('admin.buttons.confirm_delete_organization')).click
     using_wait_time 2 do
       expect(current_path).to eq admin_organizations_path
       expect(page).not_to have_link 'Parent Agency'
@@ -17,7 +17,7 @@ feature 'Delete organization' do
   end
 
   scenario 'when canceling warning', :js do
-    find_link('Permanently delete this organization').click
+    find_link(I18n.t('admin.buttons.delete_organization')).click
     find_button('Close').click
     visit admin_organizations_path
     expect(page).to have_link 'Parent Agency'

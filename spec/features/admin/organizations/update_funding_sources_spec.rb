@@ -8,20 +8,20 @@ feature 'Update funding_sources' do
   end
 
   scenario 'with no funding_sources' do
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@organization.reload.funding_sources).to eq []
   end
 
   scenario 'with one funding source', :js do
     select2('State', 'organization_funding_sources', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@organization.reload.funding_sources).to eq ['State']
   end
 
   scenario 'with two funding_sources', :js do
     select2('State', 'organization_funding_sources', multiple: true)
     select2('County', 'organization_funding_sources', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@organization.reload.funding_sources).to eq %w(State County)
   end
 
@@ -31,7 +31,7 @@ feature 'Update funding_sources' do
     within '#s2id_organization_funding_sources' do
       first('.select2-search-choice-close').click
     end
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@organization.reload.funding_sources).to eq ['County']
   end
 end

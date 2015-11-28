@@ -2,19 +2,20 @@ workers Integer(ENV['WEB_CONCURRENCY'] || 2)
 threads_count = Integer(ENV['MAX_THREADS'] || 5)
 threads threads_count, threads_count
 
-preload_app!
-
 rackup DefaultRackup
 port ENV['PORT'] || 3000
 environment ENV['RACK_ENV'] || 'development'
 
-on_worker_boot do
-  # Worker specific setup for Rails 4.1+
-  # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
-  ActiveRecord::Base.establish_connection
+# If you turn on preloading (via `preload_app!`), you'll need to uncomment the
+# blocks below. The Puma README recommends turning off preloading when the
+# number of workers is low.
 
-  # Enable New Relic RPM
-  # https://github.com/puma/puma/issues/128#issuecomment-21050609
-  # require 'newrelic_rpm'
-  # NewRelic::Agent.manual_start
-end
+# before_fork do
+#   ActiveRecord::Base.connection_pool.disconnect!
+# end
+
+# on_worker_boot do
+#   # Worker specific setup for Rails 4.1+
+#   # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
+#   ActiveRecord::Base.establish_connection
+# end
