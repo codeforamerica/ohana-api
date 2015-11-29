@@ -29,10 +29,48 @@ en:
   admin:
     api_location: 'San Mateo County'
     buttons:
+      organizations: 'Organizations'
+      locations: 'Locations'
+      services: 'Services'
+      programs: 'Programs'
+      add_organization: 'Add a new organization'
+      create_organization: 'Create organization'
+      delete_organization: 'Permanently delete this organization'
+      confirm_delete_organization: 'I understand the consequences, delete this organization'
+      add_location: 'Add a new location'
+      create_location: 'Create location'
+      delete_location: 'Permanently delete this location'
+      confirm_delete_location: 'I understand the consequences, delete this location'
+      add_program: 'Add a new program'
+      create_program: 'Create program'
+      delete_program: 'Permanently delete this program'
+      confirm_delete_program: 'I understand the consequences, delete this program'
+      add_service: 'Add a new service'
+      create_service: 'Create service'
+      delete_service: 'Permanently delete this service'
+      confirm_delete_service: 'I understand the consequences, delete this service'
+      add_contact: 'Add a new contact'
+      create_contact: 'Create contact'
+      delete_contact: 'Permanently delete this contact'
+      add_street_address: 'Add a street address'
+      delete_street_address: 'Delete this address permanently'
+      add_mailing_address: 'Add a mailing address'
+      delete_mailing_address: 'Delete this mailing address permanently'
+      add_phone: 'Add a new phone number'
+      delete_phone: 'Delete this phone permanently'
+      add_hours_of_operation: 'Add hours of operation'
+      add_holiday_schedule: 'Add hoiday schedule'
+      remove_holiday_schedule: 'Remove this holiday schedule'
+      add_admin: 'Add a new admin email'
+      delete_admin: 'Delete this admin permanently'
+      add_keyword: 'Add a new keyword'
+      delete_keyword: 'Delete this keyword permanently'
+      save_changes: 'Save changes & apply edits to database'
+      delete_symbol: 'x'
       download_zip_file: 'Download zip file'
       generate_zip_file: 'Generate zip file'
-    not_authorized: 'You are not authorized to perform this action.'
-    notices:
+      not_authorized: 'You are not authorized to perform this action.'
+      notices:
       zip_file_generation: >
         Your zip file is being generated. Please refresh the page in a few
         seconds. Once it's ready, the button at the bottom will change from
@@ -104,3 +142,28 @@ en:
     brand: "SMC-Connect"
     admin: "%{brand} Admin"
     developer: "%{brand} Developers"
+
+  navigation:
+    edit_account: 'Edit account'
+    your_apps: 'Your apps'
+    sign_in: 'Sign in'
+    sign_in_with: 'Sign in with'
+    sign_up: 'Sign up'
+    sign_out: 'Sign out'
+    forgot_your_password: 'Forgot your password?'
+    no_confirmation_instructions: "Didn't receive confirmation instructions?"
+    no_unlock_instructions: "Didn't receive unlock instructions?"
+  buttons:
+    update: 'Update'
+    cancel_my_account: 'Cancel my account'
+    resend_confirmation_instructions: 'Resend confirmation instructions'
+    send_reset_password_instructions: 'Send me reset password instructions'
+    change_my_password: 'Change my password'
+    register_application: 'Register application'
+    register_new_application: 'Register new application'
+    register_a_new_applicaiton: 'Register a new application'
+    update_application: 'Update application'
+    delete_application: 'Delete application'
+  links:
+    register_a_new_application: 'Register a new application'
+    view: 'view'

@@ -14,7 +14,7 @@ feature 'Update hours' do
       opens_at_hour: '9 AM', opens_at_minute: '30',
       closes_at_hour: '5 PM', closes_at_minute: '45'
     )
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
 
     prefix = 'service_regular_schedules_attributes_0'
 
@@ -36,9 +36,9 @@ feature 'Update hours' do
     expect(find_field("#{prefix}_weekday").value).to eq '7'
 
     within '.hours' do
-      click_link 'x'
+      click_link I18n.t('admin.buttons.delete_symbol')
     end
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
 
     expect(page).to have_no_field("#{prefix}_weekday")
   end

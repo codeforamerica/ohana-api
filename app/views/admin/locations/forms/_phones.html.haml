@@ -8,4 +8,4 @@
           If the phone number belongs to a contact, please move it to the existing contact, or add a new contact.
   = f.fields_for :phones do |builder|
     = render 'admin/locations/forms/phone_fields', f: builder
-  = link_to_add_fields 'Add a new phone number', f, :phones
+  = link_to_add_fields t('admin.buttons.add_phone'), f, :phones

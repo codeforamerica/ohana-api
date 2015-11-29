@@ -1,7 +1,7 @@
 module Features
   module PhoneHelpers
     def add_phone(options = {})
-      click_link 'Add a new phone number'
+      click_link I18n.t('admin.buttons.add_phone')
       update_phone(options)
     end
 
@@ -40,8 +40,8 @@ module Features
     end
 
     def delete_phone
-      click_link 'Delete this phone permanently'
-      click_button 'Save changes'
+      click_link I18n.t('admin.buttons.delete_phone')
+      click_button I18n.t('admin.buttons.save_changes')
     end
   end
 end

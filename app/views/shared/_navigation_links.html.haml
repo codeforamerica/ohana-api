@@ -1,15 +1,15 @@
 - if user_signed_in?
   %li
-    = link_to 'Edit account', edit_user_registration_path
+    = link_to t('navigation.edit_account'), edit_user_registration_path
   %li
-    = link_to 'Your apps', api_applications_path
+    = link_to t('navigation.your_apps'), api_applications_path
   %li
-    = link_to 'Sign out', destroy_user_session_path, method: 'delete'
+    = link_to t('navigation.sign_out'), destroy_user_session_path, method: 'delete'
   %ul.nav.navbar-nav.navbar-right
     %li
       = link_to "Hi, #{current_user.name}", '#', class: 'logged-in'
 - else
   %li
-    = link_to 'Sign in', new_user_session_path
+    = link_to t('navigation.sign_in'), new_user_session_path
   %li
-    = link_to 'Sign up', new_user_registration_path
+    = link_to t('navigation.sign_up'), new_user_registration_path

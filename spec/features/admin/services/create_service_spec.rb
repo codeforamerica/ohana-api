@@ -5,12 +5,12 @@ feature 'Create a new service' do
     @loc = create(:location)
     login_super_admin
     visit('/admin/locations/vrs-services')
-    click_link 'Add a new service'
+    click_link I18n.t('admin.buttons.add_service')
   end
 
   scenario 'with all required fields' do
     fill_in_required_service_fields
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_name').value).to eq 'New VRS Services service'
@@ -26,7 +26,8 @@ feature 'Create a new service' do
     @loc.update!(kind: :human_services)
     visit('/admin/locations/vrs-services')
     click_link 'Add a new service'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
+
     expect(page).to have_content "Description can't be blank for Service"
     expect(page).to have_content "Name can't be blank for Service"
   end
@@ -34,7 +35,7 @@ feature 'Create a new service' do
   scenario 'with alternate_name' do
     fill_in_required_service_fields
     fill_in 'service_alternate_name', with: 'Alternate name'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_alternate_name').value).to eq 'Alternate name'
@@ -43,7 +44,7 @@ feature 'Create a new service' do
   scenario 'with audience' do
     fill_in_required_service_fields
     fill_in 'service_audience', with: 'Low-income residents.'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_audience').value).to eq 'Low-income residents.'
@@ -52,7 +53,7 @@ feature 'Create a new service' do
   scenario 'with eligibility' do
     fill_in_required_service_fields
     fill_in 'service_eligibility', with: 'Low-income residents.'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_eligibility').value).to eq 'Low-income residents.'
@@ -61,7 +62,7 @@ feature 'Create a new service' do
   scenario 'with email' do
     fill_in_required_service_fields
     fill_in 'service_email', with: 'foo@bar.com'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_email').value).to eq 'foo@bar.com'
@@ -70,7 +71,7 @@ feature 'Create a new service' do
   scenario 'with fees' do
     fill_in_required_service_fields
     fill_in 'service_fees', with: 'Low-income residents.'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_fees').value).to eq 'Low-income residents.'
@@ -79,7 +80,7 @@ feature 'Create a new service' do
   scenario 'when adding an accepted payment', :js do
     fill_in_required_service_fields
     select2('Cash', 'service_accepted_payments', multiple: true)
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find('#service_accepted_payments', visible: false).value).
@@ -89,7 +90,7 @@ feature 'Create a new service' do
   scenario 'when adding a funding source', :js do
     fill_in_required_service_fields
     select2('County', 'service_funding_sources', multiple: true)
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find('#service_funding_sources', visible: false).value).
@@ -99,7 +100,7 @@ feature 'Create a new service' do
   scenario 'with application_process' do
     fill_in_required_service_fields
     fill_in 'service_application_process', with: 'Low-income residents.'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_application_process').value).to eq 'Low-income residents.'
@@ -108,7 +109,7 @@ feature 'Create a new service' do
   scenario 'when adding interpretation services' do
     fill_in_required_service_fields
     fill_in 'service_interpretation_services', with: 'CTS LanguageLink'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_interpretation_services').value).to eq 'CTS LanguageLink'
@@ -117,7 +118,7 @@ feature 'Create a new service' do
   scenario 'with status' do
     fill_in_required_service_fields
     select 'Inactive', from: 'service_status'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_status').value).to eq 'inactive'
@@ -127,7 +128,7 @@ feature 'Create a new service' do
     fill_in_required_service_fields
     select2('first', 'service_keywords', multiple: true, tag: true)
     select2('second', 'service_keywords', multiple: true, tag: true)
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     service = Service.find_by_name('New VRS Services service')
@@ -137,7 +138,7 @@ feature 'Create a new service' do
   scenario 'when adding a language', :js do
     fill_in_required_service_fields
     select2('French', 'service_languages', multiple: true)
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     service = Service.find_by_name('New VRS Services service')
@@ -148,7 +149,7 @@ feature 'Create a new service' do
   scenario 'when adding a required document', :js do
     fill_in_required_service_fields
     select2('Picture ID', 'service_required_documents', multiple: true)
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find('#service_required_documents', visible: false).value).
@@ -158,7 +159,7 @@ feature 'Create a new service' do
   scenario 'when adding a service area', :js do
     fill_in_required_service_fields
     select2('Belmont', 'service_service_areas', multiple: true)
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find('#service_service_areas', visible: false).value).
@@ -168,7 +169,7 @@ feature 'Create a new service' do
   scenario 'when adding a website' do
     fill_in_required_service_fields
     fill_in 'service_website', with: 'http://ruby.com'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_website').value).to eq 'http://ruby.com'
@@ -177,7 +178,7 @@ feature 'Create a new service' do
   scenario 'with wait_time' do
     fill_in_required_service_fields
     fill_in 'service_wait_time', with: 'Low-income residents.'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find_field('service_wait_time').value).to eq 'Low-income residents.'
@@ -192,7 +193,7 @@ feature 'Create a new service' do
     fill_in_required_service_fields
     check 'category_101'
     check 'category_101-01'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(find('#category_101-01')).to be_checked
@@ -204,7 +205,7 @@ feature 'Create a new service' do
     visit new_admin_location_service_path(@loc)
     fill_in_required_service_fields
     select 'Collection of Services', from: 'service_program_id'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     expect(page).
@@ -218,7 +219,7 @@ feature 'Create a new service' do
       opens_at_hour: '9 AM', opens_at_minute: '30',
       closes_at_hour: '5 PM', closes_at_minute: '45'
     )
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     prefix = 'service_regular_schedules_attributes_0'
@@ -241,7 +242,7 @@ feature 'Create a new service' do
       end_day: '2',
       closed: 'Closed'
     )
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
     prefix = 'service_holiday_schedules_attributes_0'
@@ -266,7 +267,7 @@ feature 'Create a new service' do
     visit('/admin/locations/vrs-services/services/new')
     fill_in_required_service_fields
     check 'Belmont Farmers Market'
-    click_button 'Create service'
+    click_button I18n.t('admin.buttons.create_service')
 
     expect(page).to have_content 'successfully created'
     expect(@new_loc.reload.services.pluck(:name)).to eq ['New VRS Services service']

@@ -9,6 +9,6 @@
     .form-group
       = f.label :password_confirmation, 'Confirm new password'
       = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
-    = f.submit 'Change my password', class: 'button right'
+    = f.submit t('buttons.change_my_password'), class: 'button right'
     %br
   = render 'devise/shared/links'

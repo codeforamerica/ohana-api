@@ -9,20 +9,20 @@ feature 'Update required_documents' do
   end
 
   scenario 'with no required_documents' do
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.required_documents).to eq []
   end
 
   scenario 'with one required document', :js do
     select2('Bank Statement', 'service_required_documents', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.required_documents).to eq ['Bank Statement']
   end
 
   scenario 'with two required_documents', :js do
     select2('Bank Statement', 'service_required_documents', multiple: true)
     select2('Picture ID', 'service_required_documents', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.required_documents).to eq ['Bank Statement', 'Picture ID']
   end
 
@@ -33,7 +33,7 @@ feature 'Update required_documents' do
     within '#s2id_service_required_documents' do
       first('.select2-search-choice-close').click
     end
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.required_documents).to eq ['Picture ID']
   end
 end

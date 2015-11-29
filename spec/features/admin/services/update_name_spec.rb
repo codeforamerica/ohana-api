@@ -11,7 +11,7 @@ feature 'Update name' do
   scenario 'with empty name and location kind is human_services' do
     @location.update!(kind: 'human_services')
     fill_in 'service_name', with: ''
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "Name can't be blank for Service"
   end
 
@@ -23,7 +23,7 @@ feature 'Update name' do
 
   scenario 'with valid name' do
     fill_in 'service_name', with: 'Youth Counseling'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Service was successfully updated.'
     expect(find_field('service_name').value).to eq 'Youth Counseling'
   end

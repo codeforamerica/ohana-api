@@ -10,7 +10,7 @@ feature 'Update status' do
   scenario 'with valid status' do
     click_link 'Literacy Program'
     select 'Defunct', from: 'service_status'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Service was successfully updated.'
     expect(find_field('service_status').value).to eq 'defunct'
   end

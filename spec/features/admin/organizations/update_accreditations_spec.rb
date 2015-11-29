@@ -15,14 +15,14 @@ feature 'Update accreditations' do
 
   scenario 'with one accreditation', :js do
     select2('Knight Foundation Grant', 'organization_accreditations', multiple: true, tag: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@organization.reload.accreditations).to eq ['Knight Foundation Grant']
   end
 
   scenario 'with two accreditations', :js do
     select2('first', 'organization_accreditations', multiple: true, tag: true)
     select2('second', 'organization_accreditations', multiple: true, tag: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@organization.reload.accreditations).to eq %w(first second)
   end
 
@@ -32,7 +32,7 @@ feature 'Update accreditations' do
     within '#s2id_organization_accreditations' do
       first('.select2-search-choice-close').click
     end
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@organization.reload.accreditations).to eq ['Donations']
   end
 end

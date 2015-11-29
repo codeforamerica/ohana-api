@@ -68,7 +68,7 @@ feature 'Visiting a specific organization' do
       expect(page).to have_content I18n.t('admin.not_authorized')
       expect(current_path).to eq(admin_dashboard_path)
       visit('/admin/organizations')
-      expect(page).to_not have_link 'Add a new organization'
+      expect(page).to_not have_link I18n.t('admin.buttons.add_organization')
     end
   end
 end

@@ -8,20 +8,20 @@ feature 'Update languages' do
   end
 
   scenario 'with no languages' do
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@location.reload.languages).to eq []
   end
 
   scenario 'with one language', :js do
     select2('French', 'location_languages', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@location.reload.languages).to eq ['French']
   end
 
   scenario 'with two languages', :js do
     select2('French', 'location_languages', multiple: true)
     select2('Spanish', 'location_languages', multiple: true)
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@location.reload.languages).to eq %w(French Spanish)
   end
 
@@ -29,7 +29,7 @@ feature 'Update languages' do
     @location.update!(languages: %w(Arabic French))
     visit '/admin/locations/vrs-services'
     first('.select2-search-choice-close').click
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(@location.reload.languages).to eq ['French']
   end
 end

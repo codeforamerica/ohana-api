@@ -7,7 +7,7 @@ feature 'Signing out' do
   end
 
   it 'redirects to the admin sign in page' do
-    click_link 'Sign out'
+    click_link I18n.t('navigation.sign_out')
     expect(current_path).to eq(new_admin_session_path)
   end
 end

@@ -23,7 +23,7 @@ feature "Update a location's accessibility options" do
 
   scenario 'when adding an option' do
     check 'location_accessibility_elevator'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).
       to have_content 'Location was successfully updated.'
     expect(find('#location_accessibility_elevator')).to be_checked
@@ -32,10 +32,10 @@ feature "Update a location's accessibility options" do
 
   scenario 'when removing an option' do
     check 'location_accessibility_restroom'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     visit '/admin/locations/soup-kitchen'
     uncheck 'location_accessibility_restroom'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).
       to have_content 'Location was successfully updated.'
     expect(find('#location_accessibility_restroom')).to_not be_checked

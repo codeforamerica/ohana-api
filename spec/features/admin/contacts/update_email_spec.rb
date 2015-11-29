@@ -11,13 +11,13 @@ feature 'Update email' do
 
   scenario 'with invalid email' do
     fill_in 'contact_email', with: 'foobar'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'is not a valid email'
   end
 
   scenario 'with valid email' do
     fill_in 'contact_email', with: 'foo@bar.com'
-    click_button 'Save changes'
+    click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Contact was successfully updated.'
     expect(find_field('contact_email').value).to eq 'foo@bar.com'
   end
