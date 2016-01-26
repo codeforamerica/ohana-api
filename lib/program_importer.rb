@@ -13,15 +13,15 @@ class ProgramImporter < EntityImporter
     end
   end
 
+  def self.required_headers
+    %w(id organization_id name alternate_name)
+  end
+
   protected
 
   def programs
     @programs ||= csv_entries.each_with_object([]) do |chunks, result|
       chunks.each { |row| result << ProgramPresenter.new(row).to_program }
     end
-  end
-
-  def self.required_headers
-    %w(id organization_id name alternate_name)
   end
 end

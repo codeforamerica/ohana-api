@@ -22,6 +22,6 @@ describe Category do
 
   it do
     is_expected.to validate_uniqueness_of(:taxonomy_id).
-      with_message('id has already been taken')
+      case_insensitive.with_message('id has already been taken')
   end
 end

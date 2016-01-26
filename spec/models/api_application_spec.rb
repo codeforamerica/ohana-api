@@ -12,8 +12,12 @@ describe ApiApplication do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:main_url) }
 
-  it { is_expected.to validate_uniqueness_of(:name) }
-  it { is_expected.to validate_uniqueness_of(:api_token) }
+  it 'validates uniqueness of name and api_token' do
+    api_application = build(:api_application)
+
+    expect(api_application).to validate_uniqueness_of(:name)
+    expect(api_application).to validate_uniqueness_of(:api_token)
+  end
 
   it { is_expected.not_to allow_mass_assignment_of(:api_token) }
 

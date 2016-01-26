@@ -71,12 +71,12 @@ describe 'GET /locations/:id' do
     it 'includes the serialized address association' do
       serialized_address =
         {
-          'id'     => @location.address.id,
+          'id' => @location.address.id,
           'address_1' => @location.address.address_1,
           'address_2' => nil,
-          'city'   => @location.address.city,
-          'state_province'  => @location.address.state_province,
-          'postal_code'    => @location.address.postal_code
+          'city' => @location.address.city,
+          'state_province' => @location.address.state_province,
+          'postal_code' => @location.address.postal_code
         }
       expect(json['address']).to eq(serialized_address)
     end
@@ -122,7 +122,7 @@ describe 'GET /locations/:id' do
               'closes_at' => '2000-01-01T17:00:00.000Z'
             }
           ],
-          'holiday_schedules'  => [
+          'holiday_schedules' => [
             {
               'closed'     => true,
               'start_date' => '2014-12-24',
@@ -162,8 +162,8 @@ describe 'GET /locations/:id' do
           'address_1' => @location.mail_address.address_1,
           'address_2' => nil,
           'city'      => @location.mail_address.city,
-          'state_province'     => @location.mail_address.state_province,
-          'postal_code'       => @location.mail_address.postal_code
+          'state_province' => @location.mail_address.state_province,
+          'postal_code' => @location.mail_address.postal_code
         }
       expect(json['mail_address']).to eq(serialized_mail_address)
     end
@@ -177,7 +177,7 @@ describe 'GET /locations/:id' do
             'id'        => @location.contacts.first.id,
             'email'     => nil,
             'name'      => @location.contacts.first.name,
-            'department'     => nil,
+            'department' => nil,
             'title'     => @location.contacts.first.title,
             'phones'    => @location.contacts.first.phones
           }]
@@ -219,8 +219,8 @@ describe 'GET /locations/:id' do
 
       serialized_holiday_schedule =
         {
-          'closed'   => true,
-          'start_date'  => '2014-12-24',
+          'closed' => true,
+          'start_date' => '2014-12-24',
           'end_date' => '2014-12-24',
           'opens_at'   => nil,
           'closes_at'  => nil

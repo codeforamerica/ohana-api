@@ -1,11 +1,12 @@
 module EntityPresenter
   def to_array(row, *fields)
     fields.each do |field|
-      if row[field].blank?
-        row[field] = []
-      else
-        row[field] = row[field].split(',').map(&:squish)
-      end
+      row[field] =
+        if row[field].blank?
+          []
+        else
+          row[field].split(',').map(&:squish)
+        end
     end
   end
 end

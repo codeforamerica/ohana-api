@@ -38,6 +38,13 @@ LocationImporter = Struct.new(:path, :addresses) do
     end
   end
 
+  def self.required_headers
+    %w(id organization_id accessibility admin_emails
+       alternate_name latitude longitude description email
+       languages name transportation virtual
+       website)
+  end
+
   protected
 
   def locations
@@ -48,13 +55,6 @@ LocationImporter = Struct.new(:path, :addresses) do
 
   def csv_entries
     @csv_entries ||= SmarterCSV.process(path, chunk_size: 100, convert_values_to_numeric: false)
-  end
-
-  def self.required_headers
-    %w(id organization_id accessibility admin_emails
-       alternate_name latitude longitude description email
-       languages name transportation virtual
-       website)
   end
 
   def self.required_address_headers

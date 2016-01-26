@@ -13,15 +13,15 @@ class RegularScheduleImporter < EntityImporter
     end
   end
 
+  def self.required_headers
+    %w(id location_id service_id weekday opens_at closes_at)
+  end
+
   protected
 
   def regular_schedules
     @regular_schedules ||= csv_entries.each_with_object([]) do |chunks, result|
       chunks.each { |row| result << RegularSchedulePresenter.new(row).to_regular_schedule }
     end
-  end
-
-  def self.required_headers
-    %w(id location_id service_id weekday opens_at closes_at)
   end
 end

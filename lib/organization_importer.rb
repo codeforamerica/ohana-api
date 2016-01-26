@@ -13,17 +13,17 @@ class OrganizationImporter < EntityImporter
     end
   end
 
-  protected
+  def self.required_headers
+    %w(id accreditations alternate_name date_incorporated
+       description email funding_sources legal_status
+       licenses name tax_id tax_status website)
+  end
+
+  private
 
   def organizations
     @organizations ||= csv_entries.each_with_object([]) do |chunks, orgs|
       chunks.each { |row| orgs << OrganizationPresenter.new(row).to_org }
     end
-  end
-
-  def self.required_headers
-    %w(id accreditations alternate_name date_incorporated
-       description email funding_sources legal_status
-       licenses name tax_id tax_status website)
   end
 end
