@@ -13,16 +13,16 @@ class MailAddressImporter < EntityImporter
     end
   end
 
+  def self.required_headers
+    %w(id location_id attention address_1 address_2 city state_province postal_code
+       country)
+  end
+
   protected
 
   def mail_addresses
     @mail_addresses ||= csv_entries.each_with_object([]) do |chunks, result|
       chunks.each { |row| result << MailAddressPresenter.new(row).to_mail_address }
     end
-  end
-
-  def self.required_headers
-    %w(id location_id attention address_1 address_2 city state_province postal_code
-       country)
   end
 end

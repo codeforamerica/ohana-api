@@ -120,12 +120,12 @@ describe 'GET /locations' do
     it 'includes the address association' do
       serialized_address =
         {
-          'id'     => @location.address.id,
+          'id' => @location.address.id,
           'address_1' => @location.address.address_1,
           'address_2' => nil,
-          'city'   => @location.address.city,
-          'state_province'  => @location.address.state_province,
-          'postal_code'    => @location.address.postal_code
+          'city' => @location.address.city,
+          'state_province' => @location.address.state_province,
+          'postal_code' => @location.address.postal_code
         }
       expect(json.first['address']).to eq(serialized_address)
     end
@@ -188,10 +188,10 @@ describe 'GET /locations' do
         {
           'id'        => @location.mail_address.id,
           'attention' => @location.mail_address.attention,
-          'address_1'    => @location.mail_address.address_1,
-          'city'      => @location.mail_address.city,
-          'state_province'     => @location.mail_address.state_province,
-          'postal_code'       => @location.mail_address.postal_code
+          'address_1' => @location.mail_address.address_1,
+          'city' => @location.mail_address.city,
+          'state_province' => @location.mail_address.state_province,
+          'postal_code' => @location.mail_address.postal_code
         }
       expect(json.first['mail_address']).to eq(serialized_mail_address)
     end
@@ -208,7 +208,7 @@ describe 'GET /locations' do
           'phone' => nil,
           'email' => nil,
           'extension' => nil,
-          'fax'   => nil
+          'fax' => nil
         }]
       expect(json.first['contacts']).to eq(serialized_contacts)
     end

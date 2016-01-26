@@ -57,13 +57,13 @@ Rails/ScopeArgs:
   - app/models/**/*.rb
 
 Rails/TimeZone:
-  # The value `always` means that `Time` should be used with `zone`.
-  # The value `acceptable` allows usage of `in_time_zone` instead of `zone`.
+  # The value `strict` means that `Time` should be used with `zone`.
+  # The value `flexible` allows usage of `in_time_zone` instead of `zone`.
   Enabled: true
-  EnforcedStyle: always
+  EnforcedStyle: flexible
   SupportedStyles:
-    - always
-    - acceptable
+    - strict
+    - flexible
 
 Style/AndOr:
   Description: Use &&/|| instead of and/or.

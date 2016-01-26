@@ -79,7 +79,7 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'coveralls', require: false
   gem 'rubocop'
-  gem 'haml-lint'
+  gem 'haml_lint'
   gem 'webmock'
 end
 

@@ -7,7 +7,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to "#{t('titles.admin', brand: t('titles.brand'))}", admin_dashboard_path, class: 'navbar-brand'
+      = link_to t('titles.admin', brand: t('titles.brand')), admin_dashboard_path, class: 'navbar-brand'
     %nav.collapse.navbar-collapse
       %ul.nav.navbar-nav
         = render 'admin/shared/navigation_links'

@@ -13,15 +13,15 @@ class CategoryImporter < EntityImporter
     end
   end
 
+  def self.required_headers
+    %w(taxonomy_id name parent_id parent_name)
+  end
+
   protected
 
   def categories
     @categories ||= csv_entries.each_with_object([]) do |chunks, result|
       chunks.each { |row| result << CategoryPresenter.new(row).to_category }
     end
-  end
-
-  def self.required_headers
-    %w(taxonomy_id name parent_id parent_name)
   end
 end
