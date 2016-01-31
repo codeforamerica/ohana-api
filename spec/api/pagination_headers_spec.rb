@@ -27,9 +27,9 @@ describe 'Pagination Headers' do
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
         "<#{@prefix}?keyword=jobs&page=2" \
-        "&per_page=1>; rel=\"last\", " \
+        '&per_page=1>; rel="last", ' \
         "<#{@prefix}?keyword=jobs&page=2" \
-        "&per_page=1>; rel=\"next\""
+        '&per_page=1>; rel="next"'
       )
     end
 
@@ -58,9 +58,9 @@ describe 'Pagination Headers' do
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
         "<#{@prefix}?keyword=jobs&page=1" \
-        "&per_page=1>; rel=\"first\", " \
+        '&per_page=1>; rel="first", ' \
         "<#{@prefix}?keyword=jobs&page=1" \
-        "&per_page=1>; rel=\"prev\""
+        '&per_page=1>; rel="prev"'
       )
     end
   end
@@ -84,13 +84,13 @@ describe 'Pagination Headers' do
     it 'returns a Link header' do
       expect(headers['Link']).to eq(
         "<#{@prefix}?keyword=jobs&page=1" \
-        "&per_page=1>; rel=\"first\", " \
+        '&per_page=1>; rel="first", ' \
         "<#{@prefix}?keyword=jobs&page=1" \
-        "&per_page=1>; rel=\"prev\", " \
+        '&per_page=1>; rel="prev", ' \
         "<#{@prefix}?keyword=jobs&page=3" \
-        "&per_page=1>; rel=\"last\", " \
+        '&per_page=1>; rel="last", ' \
         "<#{@prefix}?keyword=jobs&page=3" \
-        "&per_page=1>; rel=\"next\""
+        '&per_page=1>; rel="next"'
       )
     end
   end
