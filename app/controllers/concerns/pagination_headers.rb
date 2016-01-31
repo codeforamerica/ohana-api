@@ -11,7 +11,7 @@ module PaginationHeaders
     links.delete_if(&:blank?)
 
     response.headers['Link'] = links.join(', ') unless links.blank?
-    response.headers['X-Total-Count'] = "#{coll.total_count}"
+    response.headers['X-Total-Count'] = coll.total_count.to_s
   end
 
   def params

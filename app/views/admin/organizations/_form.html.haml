@@ -28,5 +28,5 @@
   %p
     Editing
     %strong
-      #{@organization.name}
+      = @organization.name
   = f.submit t('admin.buttons.save_changes'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }

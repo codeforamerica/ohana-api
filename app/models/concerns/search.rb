@@ -89,11 +89,11 @@ module Search
 
     def search(params = {})
       res = text_search(params).
-        with_email(params[:email]).
-        is_near(params[:location], params[:lat_lng], params[:radius]).
-        has_market_match(params[:market_match]).
-        has_kind(params[:kind]).
-        sort_by_kind(params[:sort], params[:order])
+            with_email(params[:email]).
+            is_near(params[:location], params[:lat_lng], params[:radius]).
+            has_market_match(params[:market_match]).
+            has_kind(params[:kind]).
+            sort_by_kind(params[:sort], params[:order])
 
       return res unless params[:keyword] && params[:service_area]
 

@@ -75,12 +75,12 @@ describe 'GET /locations/:id' do
     it 'includes the serialized address association' do
       serialized_address =
         {
-          'id'             => @location.address.id,
-          'address_1'      => @location.address.address_1,
-          'address_2'      => nil,
-          'city'           => @location.address.city,
+          'id' => @location.address.id,
+          'address_1' => @location.address.address_1,
+          'address_2' => nil,
+          'city' => @location.address.city,
           'state_province' => @location.address.state_province,
-          'postal_code'    => @location.address.postal_code
+          'postal_code' => @location.address.postal_code
         }
       expect(json['address']).to eq(serialized_address)
     end
@@ -126,7 +126,7 @@ describe 'GET /locations/:id' do
               'closes_at' => '2000-01-01T17:00:00.000Z'
             }
           ],
-          'holiday_schedules'  => [
+          'holiday_schedules' => [
             {
               'closed'     => true,
               'start_date' => '2014-12-24',
@@ -223,8 +223,8 @@ describe 'GET /locations/:id' do
 
       serialized_holiday_schedule =
         {
-          'closed'   => true,
-          'start_date'  => '2014-12-24',
+          'closed' => true,
+          'start_date' => '2014-12-24',
           'end_date' => '2014-12-24',
           'opens_at'   => nil,
           'closes_at'  => nil

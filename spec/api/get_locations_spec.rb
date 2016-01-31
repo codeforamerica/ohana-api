@@ -121,12 +121,12 @@ describe 'GET /locations' do
     it 'includes the address association' do
       serialized_address =
         {
-          'id'             => @location.address.id,
-          'address_1'      => @location.address.address_1,
-          'address_2'      => nil,
-          'city'           => @location.address.city,
+          'id' => @location.address.id,
+          'address_1' => @location.address.address_1,
+          'address_2' => nil,
+          'city' => @location.address.city,
           'state_province' => @location.address.state_province,
-          'postal_code'    => @location.address.postal_code
+          'postal_code' => @location.address.postal_code
         }
       expect(json.first['address']).to eq(serialized_address)
     end

@@ -6,5 +6,5 @@
   %p
     Creating service for
     %strong
-      #{@location.name}
+      = @location.name
   = f.submit t('admin.buttons.create_service'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }
