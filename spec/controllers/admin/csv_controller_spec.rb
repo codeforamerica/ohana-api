@@ -10,7 +10,7 @@ describe Admin::CsvController do
 
       request.env['HTTP_REFERER'] = 'http://example.com'
 
-      expect(ZipDownloadJob).to receive_message_chain(:new, :async, :later).
+      expect(ZipDownloadJob).to receive(:perform_in).
         with(2, tmp_file_name, url_prefix)
 
       get :all
@@ -33,8 +33,7 @@ describe Admin::CsvController do
                filename: zip_file_name,
                x_sendfile: true)
 
-        expect(ZipDeleteJob).to receive_message_chain(:new, :async, :later).
-          with(60, tmp_file_name)
+        expect(ZipDeleteJob).to receive(:perform_in).with(60, tmp_file_name)
 
         get :download_zip
       end
