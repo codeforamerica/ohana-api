@@ -91,11 +91,12 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = {
     port:           '587',
-    address:        'smtp.mandrillapp.com',
-    user_name:      ENV['MANDRILL_USERNAME'],
-    password:       ENV['MANDRILL_APIKEY'],
+    address:        'smtp.sendgrid.net',
+    user_name:      ENV['SENDGRID_USERNAME'],
+    password:       ENV['SENDGRID_PASSWORD'],
     domain:         'heroku.com',
-    authentication: :plain
+    authentication: :plain,
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

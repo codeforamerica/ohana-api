@@ -12,7 +12,7 @@ describe 'GET /api/.well-known/status' do
     end
 
     it 'lists all dependencies' do
-      expect(json['dependencies']).to eq(%w(Mandrill Postgres))
+      expect(json['dependencies']).to eq(%w(SendGrid Postgres))
     end
 
     it "returns 'ok' status" do
@@ -39,7 +39,7 @@ describe 'GET /api/.well-known/status' do
     end
 
     it 'lists all dependencies' do
-      expect(json['dependencies']).to eq(%w(Mandrill Postgres))
+      expect(json['dependencies']).to eq(%w(SendGrid Postgres))
     end
 
     it "returns 'updated' attribute set to current time as integer" do
