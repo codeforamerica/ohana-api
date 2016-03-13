@@ -36,7 +36,7 @@ class Admin
     def all
       redirect_to :back,
                   notice: I18n.t('admin.notices.zip_file_generation')
-      ZipDownloadJob.new.async.later(2, tmp_file_name, url_prefix)
+      ZipDownloadJob.perform_in(2, tmp_file_name, url_prefix)
     end
 
     def download_zip
@@ -46,7 +46,7 @@ class Admin
                   filename: zip_file_name,
                   x_sendfile: true
 
-        ZipDeleteJob.new.async.later(60, tmp_file_name)
+        ZipDeleteJob.perform_in(60, tmp_file_name)
       else
         redirect_to admin_dashboard_url,
                     notice: I18n.t('admin.notices.wait_for_zip_file')
