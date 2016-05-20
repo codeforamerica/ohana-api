@@ -27,8 +27,8 @@ then
   echo "Installing Postgres"
   heroku addons:create heroku-postgresql --app $herokuApp
 
-  echo "Installing Mandrill by MailChimp"
-  heroku addons:create mandrill --app $herokuApp
+  echo "Installing SendGrid"
+  heroku addons:create sendgrid:starter --app $herokuApp
 
   echo "Installing Memcachier"
   heroku addons:create memcachier --app $herokuApp
