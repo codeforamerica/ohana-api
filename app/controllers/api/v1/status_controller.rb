@@ -3,7 +3,7 @@ module Api
     class StatusController < ApplicationController
       def check_status
         response_hash = {}
-        response_hash[:dependencies] = %w(Mandrill Postgres)
+        response_hash[:dependencies] = %w(SendGrid Postgres)
         response_hash[:status] = everything_ok? ? 'ok' : 'NOT OK'
         response_hash[:updated] = Time.zone.now.to_i
 
