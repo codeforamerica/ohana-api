@@ -104,7 +104,7 @@ GEM
       safe_yaml (~> 1.0.0)
     csv_shaper (1.2.0)
       activesupport (>= 3.0.0)
-    database_cleaner (1.5.1)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     derailed (0.1.0)
       derailed_benchmarks
