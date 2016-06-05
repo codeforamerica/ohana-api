@@ -96,4 +96,5 @@ group :development do
   gem 'derailed'
   gem 'rack-mini-profiler'
   gem 'flamegraph'
+  gem 'stackprof'
 end
