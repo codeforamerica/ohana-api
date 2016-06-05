@@ -55,7 +55,7 @@ GEM
     ast (2.2.0)
     auto_strip_attributes (2.0.6)
       activerecord (>= 3.0)
-    autoprefixer-rails (6.3.3.1)
+    autoprefixer-rails (6.3.6.2)
       execjs
     bcrypt (3.1.11)
     benchmark-ips (2.5.0)
@@ -412,6 +412,9 @@ DEPENDENCIES
   sucker_punch
   uglifier (>= 1.3.0)
   webmock
+
+RUBY VERSION
+   ruby 2.2.3p173
 
 BUNDLED WITH
    1.12.5
