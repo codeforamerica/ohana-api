@@ -293,7 +293,7 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     smarter_csv (1.1.0)
-    spring (1.6.4)
+    spring (1.7.1)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     spring-watcher-listen (2.0.0)
