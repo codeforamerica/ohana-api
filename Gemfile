@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.1'
 gem 'rails', '~> 4.2'
 
 gem 'pg'
@@ -96,6 +96,7 @@ group :development do
   gem 'derailed'
   gem 'rack-mini-profiler'
   gem 'flamegraph'
+  gem 'stackprof'
 
   gem 'bummr'
 end
