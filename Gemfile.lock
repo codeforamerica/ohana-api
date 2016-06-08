@@ -307,7 +307,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     stackprof (0.2.9)
-    sucker_punch (2.0.1)
+    sucker_punch (2.0.2)
       concurrent-ruby (~> 1.0.0)
     sysexits (1.2.0)
     term-ansicolor (1.3.2)
