@@ -59,9 +59,9 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.2)
-    bullet (5.0.0)
+    bullet (5.1.0)
       activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.9.0)
+      uniform_notifier (~> 1.10.0)
     bummr (0.1.2)
       colorize
       thor
@@ -328,7 +328,7 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     unicode-display_width (1.0.2)
-    uniform_notifier (1.9.0)
+    uniform_notifier (1.10.0)
     warden (1.2.6)
       rack (>= 1.0)
     webmock (1.24.2)
