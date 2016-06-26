@@ -141,7 +141,8 @@ feature 'Admin Home page' do
       expect(page).
         to_not have_link(
           t('admin.buttons.generate_zip_file'),
-          admin_csv_all_path)
+          admin_csv_all_path
+        )
     end
   end
 

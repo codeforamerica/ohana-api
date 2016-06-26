@@ -13,7 +13,8 @@ describe 'Pagination Headers' do
 
     before(:each) do
       get api_search_index_url(
-        keyword: 'jobs', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', per_page: 1, subdomain: ENV['API_SUBDOMAIN']
+      )
     end
 
     after(:all) do
@@ -48,7 +49,8 @@ describe 'Pagination Headers' do
 
     before(:each) do
       get api_search_index_url(
-        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN']
+      )
     end
 
     after(:all) do
@@ -74,7 +76,8 @@ describe 'Pagination Headers' do
 
     before(:each) do
       get api_search_index_url(
-        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN']
+      )
     end
 
     after(:all) do
@@ -104,7 +107,8 @@ describe 'Pagination Headers' do
 
     before(:each) do
       get api_search_index_url(
-        keyword: 'vrs', page: 3, subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'vrs', page: 3, subdomain: ENV['API_SUBDOMAIN']
+      )
     end
 
     after(:all) do
@@ -124,7 +128,8 @@ describe 'Pagination Headers' do
     it 'does not return a Link header' do
       create(:location)
       get api_search_index_url(
-        keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
+        keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN']
+      )
       expect(headers.keys).not_to include 'Link'
     end
   end

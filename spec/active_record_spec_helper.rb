@@ -7,7 +7,7 @@ RSpec.configure do |config|
   config.around do |example|
     ActiveRecord::Base.transaction do
       example.run
-      fail ActiveRecord::Rollback
+      raise ActiveRecord::Rollback
     end
   end
 end

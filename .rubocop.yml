@@ -91,11 +91,20 @@ Style/ExtraSpacing:
   Description: Do not use unnecessary spacing.
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Style/GuardClause:
   Description: Check for conditionals that can be replaced with guard clauses
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-nested-conditionals
   Enabled: true
   MinBodyLength: 3
+
+Style/NumericLiteralPrefix:
+  EnforcedOctalStyle: zero_only
+  SupportedOctalStyles:
+    - zero_with_o
+    - zero_only
 
 Style/StringLiterals:
   Description: Checks if uses of quotes match the configured preference.

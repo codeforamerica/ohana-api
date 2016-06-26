@@ -40,8 +40,7 @@ describe AddressExtractor do
         path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
         expect(AddressExtractor.extract_addresses(path)).
           to eq [address_hash,
-                 address_hash.merge(id: '2', location_id: '2', city: 'Fairfax')
-                ]
+                 address_hash.merge(id: '2', location_id: '2', city: 'Fairfax')]
       end
     end
   end

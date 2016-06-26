@@ -9,7 +9,8 @@ feature 'Downloading Contacts CSV' do
       :contact_with_extra_whitespace,
       location_id: @location.id,
       organization_id: @org_id,
-      service_id: @service.id)
+      service_id: @service.id
+    )
     visit admin_csv_contacts_path(format: 'csv')
   end
 
@@ -21,6 +22,7 @@ feature 'Downloading Contacts CSV' do
   it 'populates contact attribute values' do
     expect(csv.second).to eq [
       @contact.id.to_s, @location.id.to_s, @org_id.to_s, @service.id.to_s,
-      'Foo', 'Bar', 'foo@bar.com', 'Screening']
+      'Foo', 'Bar', 'foo@bar.com', 'Screening'
+    ]
   end
 end
