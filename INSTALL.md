@@ -1,30 +1,70 @@
- # Running Ohana API on your computer
+# Running Ohana API on your computer
 
-## Install Prerequisites
+## Fork and clone
+
+[Fork this repository to your GitHub account][fork].
+
+Clone it on your computer and navigate to the project's directory:
+
+    git clone https://github.com/<your GitHub username>/ohana-api.git && cd ohana-api
+
+[fork]: http://help.github.com/fork-a-repo/
+
+## Docker Setup (recommended, especially for Windows users)
+
+1. Download, install, and launch [Docker]
+
+1. Set up the Docker image:
+
+        $ script/bootstrap
+
+1. Start the app:
+
+        $ docker-compose up
+
+Once the docker images are up and running, the app will be accessible at
+[http://localhost:8080](http://localhost:8080).
+
+### Verify the app is returning JSON
+
+[http://localhost:8080/api/locations](http://localhost:8080/api/locations)
+
+[http://localhost:8080/api/search?keyword=food](http://localhost:8080/api/search?keyword=food)
+
+We recommend the [JSONView][jsonview] Google Chrome extension for formatting
+the JSON response so it is easier to read in the browser.
+
+[jsonview]: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
+
+### More useful Docker commands
+
+* Stop this running container: `docker-compose stop`
+* Stop and delete the containers: `docker-compose down`
+* Open a shell in the web container: `docker-compose run --rm web bash`
+
+[Docker]: https://docs.docker.com/engine/installation/
+
+## Local Setup
 
 Before you can run Ohana API, you'll need to have the following software
-packages installed on your computer: Git, Ruby 2.1+, RVM (or rbenv), and Postgres.
-If you're on a Linux machine, you'll also need Node.js and libpq-dev.
+packages installed on your computer: Git, PhantomJS, Postgres, Ruby 2.3+,
+and RVM (or rbenv).
+If you're on a Linux machine, you'll also need Node.js and `libpq-dev`.
 
-If you already have all of the prerequisites installed, you can go straight
-to the [Ohana Installation](#install-ohana-api). Otherwise, there are three ways
-you can install the tools:
+If you don't already have all the prerequisites installed, there are two ways
+you can install them:
 
-1. If you're on a Mac, the easiest way to install all the tools is to use
+- If you're on a Mac, the easiest way to install all the tools is to use
 @monfresh's [laptop] script.
 
-2. Use our Vagrant [virtual machine][dev-box], which has everything set up for
-you. This is the recommended method for Windows users.
-
-[dev-box]: https://github.com/codeforamerica/ohana-api-dev-box
-
-3. Install everything manually: [Build tools][build-tools], [Ruby with RVM][ruby],
-[Postgres][postgres], and [Node.js][node] (Linux only).
+- Install everything manually: [Build tools], [Ruby with RVM], [PhantomJS],
+[Postgres], and [Node.js][node] (Linux only).
 
 [laptop]: https://github.com/monfresh/laptop
-[build-tools]: https://github.com/codeforamerica/howto/blob/master/Build-Tools.md
-[ruby]: https://github.com/codeforamerica/howto/blob/master/Ruby.md
-[postgres]: https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md
+[Build tools]: https://github.com/codeforamerica/howto/blob/master/Build-Tools.md
+[Ruby with RVM]: https://github.com/codeforamerica/howto/blob/master/Ruby.md
+[PhantomJS]: https://github.com/jonleighton/poltergeist#installing-phantomjs
+[Postgres]: https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md
 [node]: https://github.com/codeforamerica/howto/blob/master/Node.js.md
 
 ### PostgreSQL Accounts
@@ -36,41 +76,11 @@ On Linux, PostgreSQL authentication can be [set to _Trust_](http://www.postgresq
 On a Mac with Postgres.app or a Homebrew Postgres installation, this setup is
 provided by default.
 
-## Install Ohana API
-
-### Fork and clone
-
-[Fork this repository to your GitHub account][fork].
-
-Clone it on your computer and navigate to the project's directory:
-
-    git clone https://github.com/<your GitHub username>/ohana-api.git && cd ohana-api
-
-[fork]: http://help.github.com/fork-a-repo/
-
 ### Install the dependencies and populate the database with sample data:
 
     bin/setup
 
 _Note: Installation and preparation can take several minutes to complete!_
-
-### Set up the environment variables & customizable settings
-
-#### Configure environment variables
-Inside the `config` folder, you will find a file named `application.yml`.
-Read through it to learn how to customize it to suit your needs.
-
-#### Adjust customizable settings
-Inside the `config` folder, you will also find a file called `settings.yml`.
-In that file, there are many settings you can, and should, customize.
-Read through the documentation to learn how you can customize the app to suit
-your needs.
-
-To customize the text the appears throughout the website
-(such as error messages, titles, labels, branding), edit `config/locales/en.yml`.
-You can also translate the text by copying and pasting the contents of `en.yml`
-into a new locale for your language. Find out how in the
-[Rails Internationalization Guide](http://guides.rubyonrails.org/i18n.html).
 
 ### Run the app
 
@@ -89,7 +99,25 @@ the JSON response so it is easier to read in the browser.
 
 [jsonview]: https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc
 
-### Uploading and validating your own data
+## Set up the environment variables & customizable settings
+
+#### Configure environment variables
+Inside the `config` folder, you will find a file named `application.yml`.
+Read through it to learn how to customize it to suit your needs.
+
+#### Adjust customizable settings
+Inside the `config` folder, you will also find a file called `settings.yml`.
+In that file, there are many settings you can, and should, customize.
+Read through the documentation to learn how you can customize the app to suit
+your needs.
+
+To customize the text the appears throughout the website
+(such as error messages, titles, labels, branding), edit `config/locales/en.yml`.
+You can also translate the text by copying and pasting the contents of `en.yml`
+into a new locale for your language. Find out how in the
+[Rails Internationalization Guide](http://guides.rubyonrails.org/i18n.html).
+
+## Uploading and validating your own data
 
 - [Prepare your data][prepare] in a format compatible with Ohana API.
 
