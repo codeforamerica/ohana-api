@@ -11,7 +11,8 @@ describe 'Create a location (POST /organizations/:organization_id/locations/)' d
       description: 'description',
       address_attributes: {
         address_1: 'main', city: 'utopia', state_province: 'CA', postal_code: '12345',
-        country: 'US' }
+        country: 'US'
+      }
     }
   end
 

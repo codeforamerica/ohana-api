@@ -13,6 +13,7 @@ feature 'Downloading Programs CSV' do
   it 'populates program attribute values' do
     expect(csv.second).to eq [
       @program.id.to_s, @program.organization_id.to_s, 'Also Known As',
-      'Collection of Services']
+      'Collection of Services'
+    ]
   end
 end

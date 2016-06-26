@@ -71,7 +71,8 @@ describe Service do
   describe 'array validations' do
     it 'raises an error when the attribute is not an array' do
       service = build(
-        :service, accepted_payments: 'AAA', required_documents: 'BBB', languages: 'CCC')
+        :service, accepted_payments: 'AAA', required_documents: 'BBB', languages: 'CCC'
+      )
       service.save
 
       expect(service.errors[:accepted_payments].first).to eq('AAA is not an Array.')

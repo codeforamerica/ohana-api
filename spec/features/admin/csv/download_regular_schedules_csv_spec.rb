@@ -16,6 +16,7 @@ feature 'Downloading Regular Schedules CSV' do
   it 'formats the date and time values' do
     expect(csv.second).to eq [
       @regular_schedule.id.to_s, @location.id.to_s, nil, 'Sunday', '09:30',
-      '17:00']
+      '17:00'
+    ]
   end
 end

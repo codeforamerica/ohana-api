@@ -11,15 +11,13 @@ describe ApiApplicationsController do
   let(:valid_attributes) do
     { name: 'test app',
       main_url: 'http://codeforamerica.org',
-      callback_url: 'https://github.com/codeforamerica'
-    }
+      callback_url: 'https://github.com/codeforamerica' }
   end
 
   let(:invalid_attributes) do
     { name: '',
       main_url: 'localhost:8080',
-      callback_url: 'localhost:8080'
-    }
+      callback_url: 'localhost:8080' }
   end
 
   describe 'GET index' do

@@ -8,7 +8,7 @@
 # You can use `rake secret` to generate a secure secret key.
 
 if Rails.env.production? && ENV['SECRET_TOKEN'].blank?
-  fail 'The SECRET_TOKEN environment variable is not set on your production' \
+  raise 'The SECRET_TOKEN environment variable is not set on your production' \
   ' server. To generate a random token, run "rake secret" from the command' \
   ' line, then set it in production. If you\'re using Heroku, you can set it ' \
   'like this: "heroku config:set SECRET_TOKEN=the_token_you_generated".'

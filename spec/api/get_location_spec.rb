@@ -283,7 +283,8 @@ describe 'GET /locations/:id' do
                       create!(name: 'Orthodontics', taxonomy_id: '102-01')
       create_service
       @service.category_ids = [
-        @food.id, @food_child.id, @health.id, @health_child.id]
+        @food.id, @food_child.id, @health.id, @health_child.id
+      ]
     end
 
     it 'orders the categories by taxonomy_id' do

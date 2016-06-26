@@ -8,7 +8,8 @@ feature 'Downloading Services CSV' do
       @jobs = create(:jobs)
       @service = create(
         :service_with_extra_whitespace,
-        category_ids: [@food.id, @health.id, @jobs.id])
+        category_ids: [@food.id, @health.id, @jobs.id]
+      )
       visit admin_csv_services_path(format: 'csv')
     end
 
@@ -19,7 +20,8 @@ feature 'Downloading Services CSV' do
         eligibility email fees funding_sources
         interpretation_services keywords languages name
         required_documents service_areas status wait_time website
-        taxonomy_ids)
+        taxonomy_ids
+      )
     end
 
     it 'converts arrays to comma-separated strings' do

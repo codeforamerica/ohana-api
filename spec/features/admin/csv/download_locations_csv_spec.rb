@@ -5,7 +5,8 @@ feature 'Downloading Locations CSV' do
     before do
       @loc = create(
         :loc_with_extra_whitespace,
-        accessibility: [:tape_braille, :disabled_parking])
+        accessibility: [:tape_braille, :disabled_parking]
+      )
       visit admin_csv_locations_path(format: 'csv')
     end
 
@@ -13,7 +14,8 @@ feature 'Downloading Locations CSV' do
       expect(csv.first).to eq %w(
         id organization_id accessibility admin_emails
         alternate_name description email languages latitude
-        longitude name short_desc transportation website virtual)
+        longitude name short_desc transportation website virtual
+      )
     end
 
     it 'converts arrays to comma-separated strings' do
@@ -31,7 +33,8 @@ feature 'Downloading Locations CSV' do
   context 'location has nil array attributes' do
     before do
       @loc = create(
-        :location, accessibility: nil, languages: nil, admin_emails: nil)
+        :location, accessibility: nil, languages: nil, admin_emails: nil
+      )
       visit admin_csv_locations_path(format: 'csv')
     end
 

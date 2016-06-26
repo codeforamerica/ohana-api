@@ -13,7 +13,7 @@ class LocationFilter
   def validated_radius(radius, custom_radius)
     return custom_radius unless radius.present?
 
-    fail Exceptions::InvalidRadius if radius.to_f == 0.0
+    raise Exceptions::InvalidRadius if radius.to_f == 0.0
 
     # radius must be between 0.1 miles and 50 miles
     [[0.1, radius.to_f].max, 50].min
@@ -34,7 +34,7 @@ class LocationFilter
 
   def validated_coordinates(lat_lng)
     lat, lng = lat_lng.split(',')
-    fail Exceptions::InvalidLatLon if lat.to_f == 0.0 || lng.to_f == 0.0
+    raise Exceptions::InvalidLatLon if lat.to_f == 0.0 || lng.to_f == 0.0
     [Float(lat), Float(lng)]
   end
 end

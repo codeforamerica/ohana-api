@@ -14,6 +14,7 @@ feature 'Downloading Addresses CSV' do
   it 'populates address attribute values' do
     expect(csv.second).to eq [
       @address.id.to_s, @address.location_id.to_s, '1800 Easton Drive', nil,
-      'Burlingame', 'CA', '94010', 'US']
+      'Burlingame', 'CA', '94010', 'US'
+    ]
   end
 end
