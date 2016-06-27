@@ -1,0 +1,8 @@
+linters:
+  Comment:
+    exclude:
+      - 'app/assets/stylesheets/application.css.scss'
+      - 'app/assets/stylesheets/admin/application.css.scss'
+  PlaceholderInExtend:
+    exclude:
+      - 'app/assets/stylesheets/framework_and_overrides.css.scss'
