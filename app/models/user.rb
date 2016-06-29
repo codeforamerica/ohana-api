@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   # Devise checks for presence of email and password by default
   validates :name, presence: true
-  validates :email, uniqueness: { case_sensitive: false }
+  validates :email, email: true, uniqueness: { case_sensitive: false }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
