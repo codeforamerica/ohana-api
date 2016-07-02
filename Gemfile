@@ -58,6 +58,8 @@ gem 'sucker_punch'
 
 # gem 'newrelic_rpm', require: false
 
+gem 'honeybadger', '~> 2.0'
+
 group :production do
   gem 'puma'
   gem 'rails_12factor'
