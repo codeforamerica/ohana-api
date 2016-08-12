@@ -14,6 +14,7 @@ feature 'Downloading Mail Addresses CSV' do
   it 'populates mail address attribute values' do
     expect(csv.second).to eq [
       @mail_address.id.to_s, @mail_address.location_id.to_s, 'Monfresh',
-      '1 davis dr', nil, 'Belmont', 'CA', '90210', 'US']
+      '1 davis dr', nil, 'Belmont', 'CA', '90210', 'US'
+    ]
   end
 end

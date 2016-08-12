@@ -42,7 +42,7 @@ class Organization < ActiveRecord::Base
   private
 
   def needs_touch?
-    return false if locations.count == 0
+    return false if locations.count.zero?
     name_changed?
   end
 

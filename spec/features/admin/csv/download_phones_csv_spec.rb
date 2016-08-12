@@ -9,7 +9,8 @@ feature 'Downloading Phones CSV' do
       :phone,
       location_id: @location.id,
       organization_id: @org_id,
-      service_id: @service.id)
+      service_id: @service.id
+    )
     visit admin_csv_phones_path(format: 'csv')
   end
 
@@ -22,6 +23,7 @@ feature 'Downloading Phones CSV' do
   it 'populates phone attribute values' do
     expect(csv.second).to eq [
       @phone.id.to_s, nil, @location.id.to_s, @org_id.to_s, @service.id.to_s,
-      nil, nil, '200', '650 851-1210', 'voice', nil]
+      nil, nil, '200', '650 851-1210', 'voice', nil
+    ]
   end
 end

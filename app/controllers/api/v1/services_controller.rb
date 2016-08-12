@@ -10,7 +10,8 @@ module Api
       def index
         location = Location.includes(
           services: [:categories, :contacts, :phones, :regular_schedules,
-                     :holiday_schedules]).find(params[:location_id])
+                     :holiday_schedules]
+        ).find(params[:location_id])
         services = location.services
         render json: services, status: 200
       end

@@ -6,13 +6,21 @@ class Admin
       fields = f.fields_for(association, new_object, child_index: id) do |builder|
         render("admin/locations/forms/#{association.to_s.singularize}_fields", f: builder)
       end
-      link_to(name, '#', class: 'add_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') })
+      link_to(
+        name,
+        '#',
+        class: 'add_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') }
+      )
     end
 
     def link_to_add_array_fields(name, model, field)
       id = ''.object_id
       fields = render("admin/#{model}/forms/#{field}_fields")
-      link_to(name, '#', class: 'add_array_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') })
+      link_to(
+        name,
+        '#',
+        class: 'add_array_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') }
+      )
     end
 
     def nested_categories(categories)
@@ -36,7 +44,7 @@ class Admin
     end
 
     def class_name_for(category)
-      return 'depth0 checkbox' if category.depth == 0
+      return 'depth0 checkbox' if category.depth.zero?
       "hide depth#{category.depth} checkbox"
     end
 
@@ -62,6 +70,7 @@ class Admin
       model.errors[attribute].select { |error| error.include?(field) }.present?
     end
 
+    # rubocop:disable Metrics/MethodLength
     def org_autocomplete_field_for(f, admin)
       if admin.super_admin?
         f.hidden_field(
@@ -79,6 +88,7 @@ class Admin
         )
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def program_autocomplete_field_for(f)
       f.select(

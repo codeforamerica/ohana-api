@@ -11,7 +11,7 @@ describe 'GET /organizations/:organization_id/locations' do
         hours: 'Monday-Friday 10am-6pm',
         kind: 'human_services',
         email: 'foo@bar.com',
-        languages: %w(french, arabic),
+        languages: %w(french arabic),
         latitude: 37.583939,
         longitude: -122.3715745,
         name: 'new location',

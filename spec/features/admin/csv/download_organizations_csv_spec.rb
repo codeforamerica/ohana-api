@@ -11,7 +11,8 @@ feature 'Downloading Organizations CSV' do
       expect(csv.first).to eq %w(
         id accreditations alternate_name date_incorporated
         description email funding_sources legal_status licenses
-        name tax_id tax_status website)
+        name tax_id tax_status website
+      )
     end
 
     it 'converts arrays to comma-separated strings' do
@@ -31,7 +32,8 @@ feature 'Downloading Organizations CSV' do
         accreditations: nil,
         date_incorporated: nil,
         funding_sources: nil,
-        licenses: nil)
+        licenses: nil
+      )
       visit admin_csv_organizations_path(format: 'csv')
     end
 

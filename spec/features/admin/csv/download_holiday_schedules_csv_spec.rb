@@ -17,7 +17,8 @@ feature 'Downloading Holiday Schedules CSV' do
     it 'populates holiday_schedule attribute values' do
       expect(csv.second).to eq [
         @holiday_schedule.id.to_s, @location.id.to_s, nil,
-        'December 24, 2014', 'December 24, 2014', 'true', nil, nil]
+        'December 24, 2014', 'December 24, 2014', 'true', nil, nil
+      ]
     end
   end
 
@@ -32,7 +33,8 @@ feature 'Downloading Holiday Schedules CSV' do
     it 'formats the date and time values' do
       expect(csv.second).to eq [
         @holiday_schedule.id.to_s, @location.id.to_s, nil,
-        'December 24, 2014', 'December 24, 2014', 'false', '09:00', '17:00']
+        'December 24, 2014', 'December 24, 2014', 'false', '09:00', '17:00'
+      ]
     end
   end
 end

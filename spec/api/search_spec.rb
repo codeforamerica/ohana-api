@@ -30,7 +30,9 @@ describe "GET 'search'" do
     end
 
     it 'is a paginated resource' do
-      get api_search_index_url(keyword: 'jobs', per_page: 1, page: 2, subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(
+        keyword: 'jobs', per_page: 1, page: 2, subdomain: ENV['API_SUBDOMAIN']
+      )
       expect(json.length).to eq(1)
     end
 
@@ -60,21 +62,27 @@ describe "GET 'search'" do
 
     context 'with radius too small but within range' do
       it 'returns the farmers market name' do
-        get api_search_index_url(location: 'la honda, ca', radius: 0.05, subdomain: ENV['API_SUBDOMAIN'])
+        get api_search_index_url(
+          location: 'la honda, ca', radius: 0.05, subdomain: ENV['API_SUBDOMAIN']
+        )
         expect(json.first['name']).to eq('Belmont Farmers Market')
       end
     end
 
     context 'with radius too big but within range' do
       it 'returns the farmers market name' do
-        get api_search_index_url(location: 'san gregorio, ca', radius: 50, subdomain: ENV['API_SUBDOMAIN'])
+        get api_search_index_url(
+          location: 'san gregorio, ca', radius: 50, subdomain: ENV['API_SUBDOMAIN']
+        )
         expect(json.first['name']).to eq('Belmont Farmers Market')
       end
     end
 
     context 'with radius not within range' do
       it 'returns an empty response array' do
-        get api_search_index_url(location: 'pescadero, ca', radius: 5, subdomain: ENV['API_SUBDOMAIN'])
+        get api_search_index_url(
+          location: 'pescadero, ca', radius: 5, subdomain: ENV['API_SUBDOMAIN']
+        )
         expect(json).to eq([])
       end
     end
@@ -131,7 +139,8 @@ describe "GET 'search'" do
       end
 
       it 'includes an error description' do
-        expect(json['description']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
+        expect(json['description']).
+          to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
       end
     end
 
@@ -145,7 +154,8 @@ describe "GET 'search'" do
       end
 
       it 'includes an error description' do
-        expect(json['description']).to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
+        expect(json['description']).
+          to eq 'lat_lng must be a comma-delimited lat,long pair of floats.'
       end
     end
 
@@ -200,7 +210,9 @@ describe "GET 'search'" do
 
     context 'with keyword and location parameters' do
       it 'only returns locations matching both parameters' do
-        get api_search_index_url(keyword: 'books', location: 'Burlingame', subdomain: ENV['API_SUBDOMAIN'])
+        get api_search_index_url(
+          keyword: 'books', location: 'Burlingame', subdomain: ENV['API_SUBDOMAIN']
+        )
         expect(headers['X-Total-Count']).to eq '1'
         expect(json.first['name']).to eq('Library')
       end
@@ -289,7 +301,10 @@ describe "GET 'search'" do
     end
 
     it 'allows searching for both org_name and location' do
-      get api_search_index_url(org_name: 'stamps', location: '1236 Broadway, Burlingame, CA 94010', subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(
+        org_name: 'stamps',
+        location: '1236 Broadway, Burlingame, CA 94010', subdomain: ENV['API_SUBDOMAIN']
+      )
       expect(headers['X-Total-Count']).to eq '1'
       expect(json.first['name']).to eq('Library')
     end
@@ -338,9 +353,9 @@ describe "GET 'search'" do
     end
 
     it 'finds domain name when URL contains a dash' do
-      create(:location, website: 'http://www.childsup-connect.ca.gov')
+      create(:location, website: 'http://www.bar-connect.ca.gov')
       create(:nearby_loc, email: 'gov@childsup-connect.gov')
-      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@childsup-connect.ca.gov"
+      get "#{api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])}?email=foo@bar-connect.ca.gov"
       expect(headers['X-Total-Count']).to eq '1'
     end
 
@@ -429,7 +444,9 @@ describe "GET 'search'" do
       it 'sorts by distance by default' do
         create(:location)
         create(:nearby_loc)
-        get api_search_index_url(location: '1236 Broadway, Burlingame, CA 94010', subdomain: ENV['API_SUBDOMAIN'])
+        get api_search_index_url(
+          location: '1236 Broadway, Burlingame, CA 94010', subdomain: ENV['API_SUBDOMAIN']
+        )
         expect(json.first['name']).to eq('VRS Services')
       end
     end

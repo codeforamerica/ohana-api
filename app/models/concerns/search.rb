@@ -10,7 +10,9 @@ module Search
       super(r)
     end
 
-    scope :category, ->(category) { joins(services: :categories).where(categories: { name: category }) }
+    scope :category, (lambda do |category|
+      joins(services: :categories).where(categories: { name: category })
+    end)
 
     scope :is_near, LocationFilter.new(self)
 
@@ -87,6 +89,7 @@ module Search
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def search(params = {})
       res = text_search(params).
             with_email(params[:email]).
@@ -99,6 +102,7 @@ module Search
 
       res.select("locations.*, locations.importance + #{rank_for(params[:keyword])}")
     end
+    # rubocop:enable Metrics/AbcSize
 
     def paginated_and_sorted(params)
       page(params[:page]).per(params[:per_page]).order('created_at DESC')
