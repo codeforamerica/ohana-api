@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Pundit
   # Prevent CSRF attacks by raising an exception (with: :exception),
   # or, for APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :null_session
+  protect_from_forgery with: :exception
 
   # This is to prevent the app from returning a 500 Internal Server Error
   # when a valid Accept Header is passed to a non-API URL, such as the
