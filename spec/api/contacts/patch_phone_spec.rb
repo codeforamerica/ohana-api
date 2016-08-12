@@ -18,7 +18,9 @@ describe 'PATCH Contact phone' do
   describe 'PATCH /locations/:location_id/contacts/:contact_id/phones/:id' do
     it 'returns 200 when validations pass' do
       patch(
-        api_location_contact_phone_url(@location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_phone_url(
+          @location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']
+        ),
         @attrs
       )
       expect(response).to have_http_status(200)
@@ -26,7 +28,9 @@ describe 'PATCH Contact phone' do
 
     it 'returns the updated phone when validations pass' do
       patch(
-        api_location_contact_phone_url(@location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_phone_url(
+          @location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']
+        ),
         @attrs
       )
       expect(json['number_type']).to eq 'fax'
@@ -34,7 +38,9 @@ describe 'PATCH Contact phone' do
 
     it "updates the contact's phone" do
       patch(
-        api_location_contact_phone_url(@location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_phone_url(
+          @location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']
+        ),
         @attrs
       )
       get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
@@ -43,7 +49,9 @@ describe 'PATCH Contact phone' do
 
     it "doesn't add a new phone" do
       patch(
-        api_location_contact_phone_url(@location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_phone_url(
+          @location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']
+        ),
         @attrs
       )
       expect(@contact.reload.phones.count).to eq(1)
@@ -61,7 +69,9 @@ describe 'PATCH Contact phone' do
 
     it 'returns 422 when attribute is invalid' do
       patch(
-        api_location_contact_phone_url(@location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_phone_url(
+          @location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']
+        ),
         @attrs.merge!(number: '703')
       )
       expect(response.status).to eq(422)
@@ -72,7 +82,9 @@ describe 'PATCH Contact phone' do
 
     it "doesn't allow updating a phone without a valid token" do
       patch(
-        api_location_contact_phone_url(@location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_phone_url(
+          @location, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']
+        ),
         @attrs,
         'HTTP_X_API_TOKEN' => 'invalid_token'
       )

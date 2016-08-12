@@ -190,7 +190,9 @@ describe FileChecker do
           with('CSV header alternate_name is required, but is missing.')
 
         allow_any_instance_of(Kernel).to receive(:abort).
-          with('invalid_program_headers.csv was not imported. Please fix the headers and try again.')
+          with(
+            'invalid_program_headers.csv was not imported. Please fix the headers and try again.'
+          )
 
         checker.validate
       end

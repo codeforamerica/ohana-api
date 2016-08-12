@@ -2,8 +2,12 @@ require 'rails_helper'
 
 describe RegularScheduleImporter do
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv') }
-  let(:valid_service_regular_schedule) { Rails.root.join('spec/support/fixtures/valid_service_regular_schedule.csv') }
+  let(:valid_content) do
+    Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv')
+  end
+  let(:valid_service_regular_schedule) do
+    Rails.root.join('spec/support/fixtures/valid_service_regular_schedule.csv')
+  end
   let(:no_parent) { Rails.root.join('spec/support/fixtures/regular_schedule_with_no_parent.csv') }
 
   before(:all) do

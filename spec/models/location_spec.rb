@@ -36,8 +36,13 @@ describe Location do
   it { is_expected.to accept_nested_attributes_for(:holiday_schedules).allow_destroy(true) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Location") }
-  it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Location") }
-  it { is_expected.to validate_presence_of(:organization).with_message("can't be blank for Location") }
+
+  it do
+    is_expected.to validate_presence_of(:description).with_message("can't be blank for Location")
+  end
+  it do
+    is_expected.to validate_presence_of(:organization).with_message("can't be blank for Location")
+  end
 
   # Validations
   it { is_expected.to allow_value('http://monfresh.com').for(:website) }

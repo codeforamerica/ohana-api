@@ -17,7 +17,8 @@ feature 'Organizations page' do
 
     it 'does not include a link to organizations in the navigation' do
       within '.navbar' do
-        expect(page).not_to have_link I18n.t('admin.buttons.organizations'), href: admin_organizations_path
+        expect(page).
+          not_to have_link I18n.t('admin.buttons.organizations'), href: admin_organizations_path
       end
     end
   end

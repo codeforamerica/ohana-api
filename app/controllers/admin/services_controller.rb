@@ -39,6 +39,7 @@ class Admin
       @service = Service.new
     end
 
+    # rubocop:disable Metrics/MethodLength
     def create
       preprocess_service_params
 
@@ -55,6 +56,7 @@ class Admin
         render :new
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def destroy
       service = Service.find(params[:id])

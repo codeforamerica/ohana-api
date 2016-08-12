@@ -1,5 +1,9 @@
 class EmailFilter
-  def initialize(model_class)
+  class << self
+    delegate :call, to: :new
+  end
+
+  def initialize(model_class = Location)
     @model_class = model_class
   end
 

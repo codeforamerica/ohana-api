@@ -15,14 +15,27 @@ describe MailAddress do
 
   it { is_expected.to belong_to(:location).touch(true) }
 
-  it { is_expected.to validate_presence_of(:address_1).with_message("can't be blank for Mail Address") }
-  it { is_expected.to validate_presence_of(:city).with_message("can't be blank for Mail Address") }
+  it do
+    is_expected.to validate_presence_of(:address_1).with_message("can't be blank for Mail Address")
+  end
+
+  it do
+    is_expected.to validate_presence_of(:city).with_message("can't be blank for Mail Address")
+  end
+
   it do
     is_expected.to validate_presence_of(:state_province).
       with_message(t('errors.messages.invalid_state_province'))
   end
-  it { is_expected.to validate_presence_of(:postal_code).with_message("can't be blank for Mail Address") }
-  it { is_expected.to validate_presence_of(:country).with_message("can't be blank for Mail Address") }
+
+  it do
+    is_expected.to validate_presence_of(:postal_code).
+      with_message("can't be blank for Mail Address")
+  end
+
+  it do
+    is_expected.to validate_presence_of(:country).with_message("can't be blank for Mail Address")
+  end
 
   it do
     is_expected.to validate_length_of(:country).

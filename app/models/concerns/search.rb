@@ -10,15 +10,17 @@ module Search
       super(r)
     end
 
-    scope :category, ->(category) { joins(services: :categories).where(categories: { name: category }) }
+    scope :category, (lambda do |category|
+      joins(services: :categories).where(categories: { name: category })
+    end)
 
-    scope :is_near, LocationFilter.new(self)
+    scope :is_near, LocationFilter
 
     scope :org_name, (lambda do |org|
       joins(:organization).where('organizations.name @@ :q', q: org)
     end)
 
-    scope :with_email, EmailFilter.new(self)
+    scope :with_email, EmailFilter
   end
 
   module ClassMethods

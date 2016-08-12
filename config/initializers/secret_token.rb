@@ -9,9 +9,9 @@
 
 if Rails.env.production? && ENV['SECRET_TOKEN'].blank?
   raise 'The SECRET_TOKEN environment variable is not set on your production' \
-  ' server. To generate a random token, run "rake secret" from the command' \
-  ' line, then set it in production. If you\'re using Heroku, you can set it ' \
-  'like this: "heroku config:set SECRET_TOKEN=the_token_you_generated".'
+    ' server. To generate a random token, run "rake secret" from the command' \
+    ' line, then set it in production. If you\'re using Heroku, you can set ' \
+    'it like this: "heroku config:set SECRET_TOKEN=the_token_you_generated".'
 end
 
 # Make sure the secrets in this file are kept private

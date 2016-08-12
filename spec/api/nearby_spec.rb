@@ -8,7 +8,9 @@ describe "GET 'nearby'" do
   end
 
   it 'is paginated' do
-    get api_location_nearby_url(@loc, page: 2, per_page: 1, radius: 5, subdomain: ENV['API_SUBDOMAIN'])
+    get api_location_nearby_url(
+      @loc, page: 2, per_page: 1, radius: 5, subdomain: ENV['API_SUBDOMAIN']
+    )
     expect(json.first['name']).to eq('Belmont Farmers Market')
   end
 

@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:error] = I18n.t('admin.not_authorized')
-    redirect_to(request.referrer || admin_dashboard_path)
+    redirect_to(request.referer || admin_dashboard_path)
   end
 
   protected
