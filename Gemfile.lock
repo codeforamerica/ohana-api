@@ -43,7 +43,7 @@ GEM
       activerecord (>= 3.0.0)
     arel (6.0.3)
     ast (2.3.0)
-    auto_strip_attributes (2.0.6)
+    auto_strip_attributes (2.1.0)
       activerecord (>= 3.0)
     autoprefixer-rails (6.3.3.1)
       execjs
