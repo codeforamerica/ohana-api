@@ -15,7 +15,7 @@ user = User.new name: 'First User',
                     password_confirmation: 'mong01dtest'
 user.skip_confirmation!
 user.save
-user.confirm!
+user.confirm
 
 puts 'Setting up second test user...'
 user2 = User.new name: 'Second User',
@@ -24,7 +24,7 @@ user2 = User.new name: 'Second User',
                      password_confirmation: 'mong01dtest'
 user2.skip_confirmation!
 user2.save
-user2.confirm!
+user2.confirm
 
 # Set up test users for the Admin Interface.
 puts 'Setting up first test admin...'
@@ -34,7 +34,7 @@ admin = Admin.new :name => 'admin with custom domain name',
                     :password_confirmation => 'ohanatest'
 admin.skip_confirmation!
 admin.save
-admin.confirm!
+admin.confirm
 
 puts 'Setting up second test admin...'
 admin2 = Admin.new :name => 'admin with generic email',
@@ -43,7 +43,7 @@ admin2 = Admin.new :name => 'admin with generic email',
                      :password_confirmation => 'ohanatest'
 admin2.skip_confirmation!
 admin2.save
-admin2.confirm!
+admin2.confirm
 
 puts 'Setting up test super admin...'
 admin3 = Admin.new :name => 'Super Admin',
@@ -53,4 +53,4 @@ admin3 = Admin.new :name => 'Super Admin',
 admin3.skip_confirmation!
 admin3.super_admin = true
 admin3.save
-admin3.confirm!
+admin3.confirm
