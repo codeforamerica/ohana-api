@@ -24,6 +24,10 @@ RSpec.configure do |config|
     end
   end
 
+  # allows you to run only the failures from the previous run:
+  # rspec --only-failures
+  config.example_status_persistence_file_path = './tmp/rspec-examples.txt'
+
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
