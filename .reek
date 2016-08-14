@@ -1,0 +1,13 @@
+IrresponsibleModule:
+  enabled: false
+'spec':
+  DataClump:
+    enabled: false
+  LongParameterList:
+    enabled: false
+  TooManyStatements:
+    enabled: false
+  UtilityFunction:
+    enabled: false
+exclude_paths:
+  - db/migrate

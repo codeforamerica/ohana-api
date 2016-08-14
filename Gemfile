@@ -100,4 +100,5 @@ group :development do
   gem 'stackprof'
 
   gem 'bummr'
+  gem 'reek'
 end
