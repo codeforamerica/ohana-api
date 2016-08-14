@@ -68,11 +68,6 @@ describe 'GET /organizations/:organization_id/locations' do
       expect(json.first['address']['address_1']).to eq(@location.address.address_1)
     end
 
-    xit 'includes the location mail_address attribute in the serialization' do
-      expect(json.first['mail_address']['city']).
-        to eq(@location.mail_address.city)
-    end
-
     it 'includes the location updated_at attribute in the serialization' do
       expect(json.first.keys).to include('updated_at')
     end
