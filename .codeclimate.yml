@@ -20,6 +20,10 @@ engines:
     enabled: true
   fixme:
     enabled: true
+  reek:
+    enabled: true
+    exclude_paths:
+    - 'db/migrate/*'
   rubocop:
     enabled: true
   scss-lint:
