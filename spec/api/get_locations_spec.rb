@@ -179,39 +179,6 @@ describe 'GET /locations' do
       json = JSON.parse(response.body)
       expect(json['name']).to eq(@location.name)
     end
-
-    xit 'displays mail_address when present' do
-      @location.create_mail_address!(attributes_for(:mail_address))
-      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
-
-      serialized_mail_address =
-        {
-          'id'        => @location.mail_address.id,
-          'attention' => @location.mail_address.attention,
-          'address_1' => @location.mail_address.address_1,
-          'city' => @location.mail_address.city,
-          'state_province' => @location.mail_address.state_province,
-          'postal_code' => @location.mail_address.postal_code
-        }
-      expect(json.first['mail_address']).to eq(serialized_mail_address)
-    end
-
-    xit 'displays contacts when present' do
-      @location.contacts.create!(attributes_for(:contact))
-      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
-
-      serialized_contacts =
-        [{
-          'id'    => @location.contacts.first.id,
-          'name'  => @location.contacts.first.name,
-          'title' => @location.contacts.first.title,
-          'phone' => nil,
-          'email' => nil,
-          'extension' => nil,
-          'fax' => nil
-        }]
-      expect(json.first['contacts']).to eq(serialized_contacts)
-    end
   end
 
   context 'with nil fields' do
