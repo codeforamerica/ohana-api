@@ -3,8 +3,12 @@ require 'rails_helper'
 describe HolidayScheduleImporter do
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv') }
   let(:invalid_date) { Rails.root.join('spec/support/fixtures/hs_with_invalid_date.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv') }
-  let(:valid_service_holiday_schedule) { Rails.root.join('spec/support/fixtures/valid_service_holiday_schedule.csv') }
+  let(:valid_content) do
+    Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv')
+  end
+  let(:valid_service_holiday_schedule) do
+    Rails.root.join('spec/support/fixtures/valid_service_holiday_schedule.csv')
+  end
   let(:no_parent) { Rails.root.join('spec/support/fixtures/holiday_schedule_with_no_parent.csv') }
   let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/hs_with_spelled_out_date.csv') }
   let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/hs_with_2_digit_year.csv') }
@@ -39,7 +43,7 @@ describe HolidayScheduleImporter do
       let(:content) { invalid_content }
 
       errors = ["Line 2: Closes at can't be blank for Holiday Schedule when " \
-        'open on that day']
+        "open on that day"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -56,7 +60,7 @@ describe HolidayScheduleImporter do
     context 'when the date is not valid' do
       let(:content) { invalid_date }
 
-      errors = ['Line 2: End date 13/27/2014 is not a valid date, ' \
+      errors = ["Line 2: End date 13/27/2014 is not a valid date, " \
                 "End date can't be blank for Holiday Schedule"]
 
       its(:errors) { is_expected.to eq(errors) }

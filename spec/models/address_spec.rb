@@ -20,7 +20,9 @@ describe Address do
     is_expected.to validate_presence_of(:state_province).
       with_message(t('errors.messages.invalid_state_province'))
   end
-  it { is_expected.to validate_presence_of(:postal_code).with_message("can't be blank for Address") }
+  it do
+    is_expected.to validate_presence_of(:postal_code).with_message("can't be blank for Address")
+  end
   it { is_expected.to validate_presence_of(:country).with_message("can't be blank for Address") }
 
   it do

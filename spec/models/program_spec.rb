@@ -9,7 +9,9 @@ describe Program do
   it { is_expected.to allow_mass_assignment_of(:alternate_name) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Program") }
-  it { is_expected.to validate_presence_of(:organization).with_message("can't be blank for Program") }
+  it do
+    is_expected.to validate_presence_of(:organization).with_message("can't be blank for Program")
+  end
 
   it { is_expected.to belong_to(:organization) }
   it { is_expected.to have_many(:services).dependent(:destroy) }

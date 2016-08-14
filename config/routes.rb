@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   # Read more about routing: http://guides.rubyonrails.org/routing.html
 
   devise_for :users, controllers: { registrations: 'user/registrations' }
-  devise_for :admins, path: ENV['ADMIN_PATH'] || '/', controllers: { registrations: 'admin/registrations' }
+  devise_for(
+    :admins, path: ENV['ADMIN_PATH'] || '/', controllers: { registrations: 'admin/registrations' }
+  )
 
   constraints(SubdomainConstraints.new(subdomain: ENV['ADMIN_SUBDOMAIN'])) do
     namespace :admin, path: ENV['ADMIN_PATH'] do
@@ -64,13 +66,16 @@ Rails.application.routes.draw do
         resources :organizations do
           resources :locations, only: :create
         end
-        get 'organizations/:organization_id/locations', to: 'organizations#locations', as: :org_locations
+        get 'organizations/:organization_id/locations',
+            to: 'organizations#locations', as: :org_locations
 
         resources :locations do
           resources :address, except: [:index, :show]
           resources :mail_address, except: [:index, :show]
           resources :contacts, except: [:show] do
-            resources :phones, except: [:show, :index], path: '/phones', controller: 'contact_phones'
+            resources :phones,
+                      except: [:show, :index],
+                      path: '/phones', controller: 'contact_phones'
           end
           resources :phones, except: [:show], path: '/phones', controller: 'location_phones'
           resources :services
@@ -80,11 +85,13 @@ Rails.application.routes.draw do
 
         resources :categories, only: :index
 
-        put 'services/:service_id/categories', to: 'services#update_categories', as: :service_categories
+        put 'services/:service_id/categories',
+            to: 'services#update_categories', as: :service_categories
         get 'categories/:taxonomy_id/children', to: 'categories#children', as: :category_children
         get 'locations/:location_id/nearby', to: 'search#nearby', as: :location_nearby
 
-        match '*unmatched_route' => 'errors#raise_not_found!', via: [:get, :delete, :patch, :post, :put]
+        match '*unmatched_route' => 'errors#raise_not_found!',
+              via: [:get, :delete, :patch, :post, :put]
 
         # CORS support
         match '*unmatched_route' => 'cors#render_204', via: [:options]

@@ -2,7 +2,9 @@ require 'rails_helper'
 
 describe MailAddressImporter do
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_mail_address.csv') }
-  let(:invalid_location) { Rails.root.join('spec/support/fixtures/invalid_mail_address_location.csv') }
+  let(:invalid_location) do
+    Rails.root.join('spec/support/fixtures/invalid_mail_address_location.csv')
+  end
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_mail_address.csv') }
 
   before(:all) do

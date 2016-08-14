@@ -36,7 +36,14 @@ describe Service do
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
-  it { is_expected.to validate_presence_of(:description).with_message("can't be blank for Service") }
+  it do
+    is_expected.to validate_presence_of(:description).
+      with_message("can't be blank for Service")
+  end
+  it do
+    is_expected.to_not validate_presence_of(:application_process).
+      with_message("can't be blank for Service")
+  end
   it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
   it { is_expected.to validate_presence_of(:status).with_message("can't be blank for Service") }
 

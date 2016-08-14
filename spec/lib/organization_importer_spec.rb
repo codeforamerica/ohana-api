@@ -58,7 +58,7 @@ describe OrganizationImporter do
         its(:accreditations) { is_expected.to eq ['BBB', 'State Board of Education'] }
         its(:alternate_name) { is_expected.to eq 'HFB' }
         its(:date_incorporated) { is_expected.to eq Date.parse('January 2, 1970') }
-        its(:description) { is_expected.to eq 'Harvest Food Bank provides fresh produce, dairy, and canned goods to food pantries throughout the city.' }
+        its(:description) { is_expected.to match 'Harvest Food Bank' }
         its(:email) { is_expected.to eq 'info@example.org' }
         its(:funding_sources) { is_expected.to eq %w(Donations Grants) }
         its(:legal_status) { is_expected.to eq 'Nonprofit' }
