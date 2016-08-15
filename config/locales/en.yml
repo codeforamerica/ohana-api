@@ -70,7 +70,7 @@ en:
       download_zip_file: 'Download zip file'
       generate_zip_file: 'Generate zip file'
       not_authorized: 'You are not authorized to perform this action.'
-      notices:
+    notices:
       zip_file_generation: >
         Your zip file is being generated. Please refresh the page in a few
         seconds. Once it's ready, the button at the bottom will change from
