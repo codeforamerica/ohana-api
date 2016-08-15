@@ -248,7 +248,7 @@ Devise.setup do |config|
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
   if Rails.env.production? && ENV['DEVISE_SECRET_KEY'].blank?
-    fail 'The DEVISE_SECRET_KEY environment variable is not set on your production' \
+    raise 'The DEVISE_SECRET_KEY environment variable is not set on your production' \
     ' server. To generate a random key, run "rake secret" from the command' \
     ' line, then set it in production. If you\'re using Heroku, you can set it ' \
     'like this: "heroku config:set DEVISE_SECRET_KEY=the_key_you_generated".'

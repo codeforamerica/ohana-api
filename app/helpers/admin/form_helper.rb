@@ -9,7 +9,7 @@ class Admin
       link_to(
         name,
         '#',
-        class: 'add_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') }
+        class: 'add-fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') }
       )
     end
 
@@ -19,12 +19,12 @@ class Admin
       link_to(
         name,
         '#',
-        class: 'add_array_fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') }
+        class: 'add-array-fields btn btn-primary', data: { id: id, fields: fields.gsub('\n', '') }
       )
     end
 
     def nested_categories(categories)
-      cats_and_subcats(categories).map do |category, sub_categories|
+      safe_join(cats_and_subcats(categories).map do |category, sub_categories|
         content_tag(:ul) do
           concat(content_tag(:li, class: class_name_for(category)) do
             concat(checkbox_tag_for(category))
@@ -32,7 +32,7 @@ class Admin
             concat(nested_categories(sub_categories))
           end)
         end
-      end.join.html_safe
+      end)
     end
 
     def cats_and_subcats(categories)

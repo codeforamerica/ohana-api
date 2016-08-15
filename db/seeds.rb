@@ -8,44 +8,44 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Set up test users for the Developer Portal.
-puts 'Setting up first test user...'
+Kernel.puts 'Setting up first test user...'
 user = User.new name: 'First User',
                 email: 'user@example.com',
                 password: 'mong01dtest',
                 password_confirmation: 'mong01dtest'
 user.skip_confirmation!
 user.save
-user.confirm!
+user.confirm
 
-puts 'Setting up second test user...'
+Kernel.puts 'Setting up second test user...'
 user2 = User.new name: 'Second User',
                  email: 'user2@example.com',
                  password: 'mong01dtest',
                  password_confirmation: 'mong01dtest'
 user2.skip_confirmation!
 user2.save
-user2.confirm!
+user2.confirm
 
 # Set up test users for the Admin Interface.
-puts 'Setting up first test admin...'
+Kernel.puts 'Setting up first test admin...'
 admin = Admin.new name: 'admin with custom domain name',
                   email: 'ohana@samaritanhouse.com',
                   password: 'ohanatest',
                   password_confirmation: 'ohanatest'
 admin.skip_confirmation!
 admin.save
-admin.confirm!
+admin.confirm
 
-puts 'Setting up second test admin...'
+Kernel.puts 'Setting up second test admin...'
 admin2 = Admin.new name: 'admin with generic email',
                    email: 'ohana@gmail.com',
                    password: 'ohanatest',
                    password_confirmation: 'ohanatest'
 admin2.skip_confirmation!
 admin2.save
-admin2.confirm!
+admin2.confirm
 
-puts 'Setting up test super admin...'
+Kernel.puts 'Setting up test super admin...'
 admin3 = Admin.new name: 'Super Admin',
                    email: 'masteradmin@ohanapi.org',
                    password: 'ohanatest',
@@ -53,4 +53,4 @@ admin3 = Admin.new name: 'Super Admin',
 admin3.skip_confirmation!
 admin3.super_admin = true
 admin3.save
-admin3.confirm!
+admin3.confirm

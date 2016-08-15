@@ -14,7 +14,7 @@ module Search
       joins(services: :categories).where(categories: { name: category })
     end)
 
-    scope :is_near, LocationFilter.new(self)
+    scope :is_near, LocationFilter
 
     scope :org_name, (lambda do |org|
       joins(:organization).where('organizations.name @@ :q', q: org)
@@ -29,7 +29,7 @@ module Search
       end
     end)
 
-    scope :with_email, EmailFilter.new(self)
+    scope :with_email, EmailFilter
 
     scope :has_market_match, (lambda do |market_match|
       if market_match.present? && market_match == '1'

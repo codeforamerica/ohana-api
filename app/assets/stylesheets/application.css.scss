@@ -14,8 +14,9 @@
  *= require framework_and_overrides
  */
 
+@import 'variables';
+
 // creates styles for text in the navbar that is not a link
-.navbar-default .navbar-nav > li > a.logged-in
-{
-  color:#DE9292;
+.navbar-default .navbar-nav > li > a.logged-in {
+  color: $light-red;
 }
