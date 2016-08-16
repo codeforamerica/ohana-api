@@ -1,5 +1,5 @@
 .content-box
   %h1 Create a new service
 
-= form_for [:admin, @location, @service], html: { method: :post, class: 'edit_entry' } do |f|
+= form_for [:admin, @location, @service], html: { method: :post, class: 'edit-entry' } do |f|
   = render 'admin/services/forms/new_service_form', f: f

@@ -1,5 +1,5 @@
 .content-box
   %h1 Create a new organization
 
-= form_for [:admin, @organization], url: admin_organizations_path, html: { method: :post, class: 'edit_entry' } do |f|
+= form_for [:admin, @organization], url: admin_organizations_path, html: { method: :post, class: 'edit-entry' } do |f|
   = render 'admin/organizations/forms/new_organization_form', f: f

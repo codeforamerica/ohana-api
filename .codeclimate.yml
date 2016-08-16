@@ -1,0 +1,36 @@
+engines:
+  brakeman:
+    enabled: true
+  bundler-audit:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+        # mass_threshold: 30
+      - javascript
+    exclude_paths:
+    - 'spec/**/*'
+    - 'db/migrate/*'
+    - 'db/schema.rb'
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  reek:
+    enabled: true
+    exclude_paths:
+    - 'db/migrate/*'
+  rubocop:
+    enabled: true
+  scss-lint:
+    enabled: true
+
+ratings:
+  paths:
+  - app/**
+  - lib/**
+  - '**.rb'

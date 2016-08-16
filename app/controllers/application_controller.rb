@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
   # Prevent CSRF attacks by raising an exception (with: :exception),
-  # or, for APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   # This is to prevent the app from returning a 500 Internal Server Error
@@ -51,7 +50,7 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:error] = I18n.t('admin.not_authorized')
-    redirect_to(request.referrer || admin_dashboard_path)
+    redirect_to(request.referer || admin_dashboard_path)
   end
 
   protected
