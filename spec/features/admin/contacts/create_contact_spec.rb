@@ -8,51 +8,29 @@ feature 'Create a new contact' do
     click_link I18n.t('admin.buttons.add_contact')
   end
 
-  scenario 'with all required fields' do
+  scenario 'with all fields' do
     fill_in 'contact_name', with: 'New VRS Services contact'
+    fill_in 'contact_email', with: 'foo@bar.com'
+    fill_in 'contact_department', with: 'new department'
+    fill_in 'contact_title', with: 'CTO'
+
+    # Contacts use the same form for adding phone numbers as Locations,
+    # and the form is already tested there. We just need to make sure
+    # that the form is present for Contacts.
+    expect(page).to have_link 'Add a new phone'
+
     click_button I18n.t('admin.buttons.create_contact')
     click_link 'New VRS Services contact'
 
     expect(find_field('contact_name').value).to eq 'New VRS Services contact'
+    expect(find_field('contact_email').value).to eq 'foo@bar.com'
+    expect(find_field('contact_department').value).to eq 'new department'
+    expect(find_field('contact_title').value).to eq 'CTO'
   end
 
   scenario 'without any required fields' do
     click_button I18n.t('admin.buttons.create_contact')
     expect(page).to have_content "Name can't be blank for Contact"
-  end
-
-  scenario 'with email' do
-    fill_in 'contact_name', with: 'New VRS Services contact'
-    fill_in 'contact_email', with: 'foo@bar.com'
-    click_button I18n.t('admin.buttons.create_contact')
-    click_link 'New VRS Services contact'
-
-    expect(find_field('contact_email').value).to eq 'foo@bar.com'
-  end
-
-  scenario 'with department' do
-    fill_in 'contact_name', with: 'New VRS Services contact'
-    fill_in 'contact_department', with: 'new department'
-    click_button I18n.t('admin.buttons.create_contact')
-    click_link 'New VRS Services contact'
-
-    expect(find_field('contact_department').value).to eq 'new department'
-  end
-
-  scenario 'with title' do
-    fill_in 'contact_name', with: 'New VRS Services contact'
-    fill_in 'contact_title', with: 'CTO'
-    click_button I18n.t('admin.buttons.create_contact')
-    click_link 'New VRS Services contact'
-
-    expect(find_field('contact_title').value).to eq 'CTO'
-  end
-
-  # Contacts use the same form for adding phone numbers as Locations,
-  # and the form is already tested there. We just need to make sure
-  # that the form is present for Contacts.
-  scenario 'with phone' do
-    expect(page).to have_link 'Add a new phone'
   end
 end
 
