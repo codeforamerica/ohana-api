@@ -198,7 +198,7 @@ GEM
     orm_adapter (0.5.0)
     parser (2.3.1.4)
       ast (~> 2.2)
-    pg (0.18.4)
+    pg (0.19.0)
     poltergeist (1.10.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
