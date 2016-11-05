@@ -5,8 +5,8 @@ class StateProvinceValidator < ActiveModel::EachValidator
     return unless COUNTRIES_NEEDING_VALIDATION.include?(record.country)
     default_message = I18n.t('errors.messages.invalid_state_province')
 
-    unless value.present? && value.size == 2
-      record.errors[attribute] << (options[:message] || default_message)
-    end
+    return if value.present? && value.size == 2
+
+    record.errors[attribute] << (options[:message] || default_message)
   end
 end

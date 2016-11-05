@@ -3,8 +3,8 @@ class ServiceAreaValidator < ActiveModel::EachValidator
     return if value.blank? || SETTINGS[:valid_service_areas].blank?
     default_message = "#{value} #{I18n.t('errors.messages.invalid_service_area')}"
 
-    unless SETTINGS[:valid_service_areas].include?(value)
-      record.errors[attribute] << (options[:message] || default_message)
-    end
+    return if SETTINGS[:valid_service_areas].include?(value)
+
+    record.errors[attribute] << (options[:message] || default_message)
   end
 end
