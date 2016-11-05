@@ -7,7 +7,7 @@ module Api
       end
 
       def children
-        children = Category.find_by_taxonomy_id(params[:taxonomy_id]).children
+        children = Category.find_by(taxonomy_id: params[:taxonomy_id]).children
         render json: children, status: 200
       end
     end
