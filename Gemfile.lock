@@ -39,7 +39,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    ancestry (2.1.0)
+    ancestry (2.2.2)
       activerecord (>= 3.0.0)
     arel (6.0.3)
     ast (2.3.0)
