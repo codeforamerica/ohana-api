@@ -3,35 +3,25 @@ class Admin
     # The CSV content for each action is defined in
     # app/views/admin/csv/{action_name}.csv.shaper
 
-    def addresses
-    end
+    def addresses; end
 
-    def contacts
-    end
+    def contacts; end
 
-    def holiday_schedules
-    end
+    def holiday_schedules; end
 
-    def locations
-    end
+    def locations; end
 
-    def mail_addresses
-    end
+    def mail_addresses; end
 
-    def organizations
-    end
+    def organizations; end
 
-    def phones
-    end
+    def phones; end
 
-    def programs
-    end
+    def programs; end
 
-    def regular_schedules
-    end
+    def regular_schedules; end
 
-    def services
-    end
+    def services; end
 
     def all
       redirect_to :back,
