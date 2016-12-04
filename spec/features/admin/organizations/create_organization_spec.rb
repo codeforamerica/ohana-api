@@ -116,7 +116,7 @@ feature 'Create a new organization' do
     select2('second', 'organization_accreditations', multiple: true, tag: true)
     click_button I18n.t('admin.buttons.create_organization')
 
-    organization = Organization.find_by_name('new org')
+    organization = Organization.find_by(name: 'new org')
     expect(organization.accreditations).to eq %w(first second)
   end
 
@@ -127,7 +127,7 @@ feature 'Create a new organization' do
     select2('second', 'organization_licenses', multiple: true, tag: true)
     click_button I18n.t('admin.buttons.create_organization')
 
-    organization = Organization.find_by_name('new org')
+    organization = Organization.find_by(name: 'new org')
     expect(organization.licenses).to eq %w(first second)
   end
 end

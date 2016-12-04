@@ -15,7 +15,7 @@ module PrivateRegistration
   private
 
   def resource_valid_except_for_duplicate_email?
-    resource_class.find_by_email(resource.email).present? &&
+    resource_class.find_by(email: resource.email).present? &&
       only_email_error_is_duplicate?
   end
 

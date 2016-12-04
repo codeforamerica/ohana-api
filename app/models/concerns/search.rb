@@ -4,6 +4,7 @@ require 'location_filter'
 module Search
   extend ActiveSupport::Concern
 
+  # rubocop:disable Metrics/BlockLength
   included do
     def nearbys(radius)
       r = LocationFilter.new(self.class).validated_radius(radius, 0.5)
@@ -60,6 +61,7 @@ module Search
       end
     end)
   end
+  # rubocop:enable Metrics/BlockLength
 
   module ClassMethods
     def status(param)

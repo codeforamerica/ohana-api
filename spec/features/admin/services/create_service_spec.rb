@@ -131,7 +131,7 @@ feature 'Create a new service' do
     click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
-    service = Service.find_by_name('New VRS Services service')
+    service = Service.find_by(name: 'New VRS Services service')
     expect(service.keywords).to eq %w(first second)
   end
 
@@ -141,7 +141,7 @@ feature 'Create a new service' do
     click_button I18n.t('admin.buttons.create_service')
     click_link 'New VRS Services service'
 
-    service = Service.find_by_name('New VRS Services service')
+    service = Service.find_by(name: 'New VRS Services service')
     expect(service.languages).to eq ['French']
     expect(find('#service_languages', visible: false).value).to eq(['French'])
   end
