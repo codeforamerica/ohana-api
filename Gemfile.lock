@@ -150,7 +150,7 @@ GEM
     flamegraph (0.9.5)
     friendly_id (5.2.0)
       activerecord (>= 4.0.0)
-    geocoder (1.4.0)
+    geocoder (1.4.1)
     get_process_mem (0.2.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
