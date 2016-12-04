@@ -25,6 +25,20 @@ Metrics/AbcSize:
   Exclude:
   - spec/**/*
 
+Metrics/BlockLength:
+  CountComments: false  # count full line comments?
+  Enabled: true
+  Max: 25
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'config/environments/production.rb'
+    - 'config/environments/test.rb'
+    - 'config/routes.rb'
+    - 'lib/location_presenter.rb'
+    - 'lib/location_importer.rb'
+    - 'spec/**/*.rb'
+
 Metrics/ClassLength:
   Description: Avoid classes longer than 100 lines of code.
   Enabled: true
@@ -69,6 +83,14 @@ Rails/HasAndBelongsToMany:
   Description: 'Prefer has_many :through to has_and_belongs_to_many.'
   StyleGuide: 'https://github.com/bbatsov/rails-style-guide#has-many-through'
   Enabled: false
+
+# This is a Rails 5 feature, so it should be disabled until we upgrade
+Rails/HttpPositionalArguments:
+  Description: 'Use keyword arguments instead of positional arguments in http method calls.'
+  Enabled: false
+  Include:
+    - 'spec/**/*'
+    - 'test/**/*'
 
 Rails/TimeZone:
   # The value `strict` means that `Time` should be used with `zone`.
@@ -152,6 +174,11 @@ Style/FrozenStringLiteralComment:
                  Add the frozen_string_literal comment to the top of files
                  to help transition from Ruby 2.3.0 to Ruby 3.0.
   Enabled: false
+
+# `MinBodyLength` defines the number of lines of the a body of an if / unless
+# needs to have to trigger this cop
+Style/GuardClause:
+  MinBodyLength: 2
 
 Style/IfUnlessModifier:
   Description: Favor modifier if/unless usage when you have a single-line body.
