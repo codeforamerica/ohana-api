@@ -70,7 +70,7 @@ GEM
     bummr (0.1.6)
       rainbow
       thor
-    capybara (2.10.2)
+    capybara (2.12.0)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -207,7 +207,7 @@ GEM
     powerpack (0.1.1)
     protected_attributes (1.1.3)
       activemodel (>= 4.0.1, < 5.0)
-    public_suffix (2.0.4)
+    public_suffix (2.0.5)
     puma (3.6.2)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
