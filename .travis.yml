@@ -5,6 +5,8 @@ rvm:
   - 2.3.3
 addons:
   postgresql: "9.3"
+before_install:
+  - gem update --system
 before_script:
   - psql -c 'create database ohana_api_test;' -U postgres
   - psql -U postgres -q -d ohana_api_test -f db/structure.sql
