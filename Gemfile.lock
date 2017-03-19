@@ -171,7 +171,7 @@ GEM
     hashdiff (0.3.2)
     heapy (0.1.2)
     hiredis (0.6.1)
-    honeybadger (2.7.1)
+    honeybadger (2.7.2)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
       haml (~> 4.0.0)
