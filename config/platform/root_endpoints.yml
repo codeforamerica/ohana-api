@@ -1,0 +1,8 @@
+root_endpoints:
+  urls:
+    organizations_url: '%{host}api/organizations{?page,per_page}'
+    organization_url: '%{host}api/organizations/{organization}'
+    organization_locations_url: '%{host}api/organizations/{organization}/locations{?page,per_page}'
+    locations_url: '%{host}api/locations{?page,per_page}'
+    location_url: '%{host}api/locations/{location}'
+    location_search_url: '%{host}api/search{?category,email,keyword,language,lat_lng,location,org_name,radius,service_area,status,page,per_page}'
