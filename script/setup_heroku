@@ -1,45 +1,49 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
+set -ue
 
-if [ $1 ]
-then
-  herokuApp="$1"
+function create_heroku_addon () {
+	if heroku addons:info "$1" &> /dev/null; then
+		echo "Already installed $1"
+	else
+		echo "Installing $1"
+		heroku addons:create "$@"
+	fi
+}
 
-  echo "Getting ready to set environment variables for $herokuApp"
-  figaro heroku:set -e production --app $herokuApp
-
-  echo "Setting MAILER_URL"
-  heroku config:set MAILER_URL=$herokuApp.herokuapp.com --app $herokuApp
-
-  echo "Setting DEVISE_SECRET_KEY"
-  # generate a random string with 36 characters
-  token1=$(python -c 'import uuid; print (uuid.uuid4())')
-  heroku config:set DEVISE_SECRET_KEY=$token1 --app $herokuApp
-
-  echo "Setting SECRET_TOKEN"
-  # generate a random string with 36 characters
-  token2=$(python -c 'import uuid; print (uuid.uuid4())')
-  heroku config:set SECRET_TOKEN=$token2 --app $herokuApp
-
-  echo "Getting ready to install add-ons for $herokuApp"
-
-  echo "Installing Postgres"
-  heroku addons:create heroku-postgresql --app $herokuApp
-
-  echo "Installing SendGrid"
-  heroku addons:create sendgrid:starter --app $herokuApp
-
-  echo "Installing Memcachier"
-  heroku addons:create memcachier --app $herokuApp
-
-  echo "All done setting up env vars and add-ons."
-  echo "Pushing code to Heroku now. This will take a few minutes..."
-  git push heroku master
-
-  echo "Setting up the Heroku database"
-  heroku run rake db:migrate -a $herokuApp
-else
-  echo "Please add your Heroku app name to the end of the command."
-  echo "Usage: setup_heroku your_app_name"
+if [ $# -eq 0 ]; then
+	echo >&2 "Please add your Heroku app name to the end of the command."
+	echo >&2 "Usage: setup_heroku your_app_name"
+	exit 1
 fi
+
+export HEROKU_APP="$1"
+
+echo "Getting ready to set environment variables for $HEROKU_APP"
+figaro heroku:set -e production
+
+echo "Setting MAILER_URL"
+heroku config:set MAILER_URL="$HEROKU_APP.herokuapp.com"
+
+if [ -z "$(heroku config:get SECRET_TOKEN)" ]; then
+	echo "Setting SECRET_TOKEN"
+	# generate a random string with 36 characters
+	heroku config:set SECRET_TOKEN="$(bin/rake secret)"
+fi
+
+echo "Getting ready to install add-ons for $HEROKU_APP"
+
+create_heroku_addon heroku-postgresql
+
+create_heroku_addon sendgrid:starter
+
+create_heroku_addon memcachier
+
+create_heroku_addon quotaguard:starter
+
+echo "All done setting up env vars and add-ons."
+echo "Pushing code to Heroku now. This will take a few minutes..."
+git push heroku master
+
+echo "Setting up the Heroku database"
+heroku run bin/rake db:migrate
