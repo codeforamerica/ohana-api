@@ -2,6 +2,7 @@
   %header
     = f.label :program_id, 'Service Program'
     %span.desc
-      If this service is associated with a program, enter it below.
+      = t('.description')
+
   %p
     = program_autocomplete_field_for(f)

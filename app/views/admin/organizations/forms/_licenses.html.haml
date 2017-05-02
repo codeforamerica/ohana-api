@@ -3,7 +3,7 @@
     %strong
       Licenses
     %p.desc
-      You can enter multiple terms in this box by pressing the comma key after each one.
+      = t('.description')
 
   = field_set_tag do
     = text_field_tag 'organization[licenses][]', @organization.licenses.join(','), id: 'organization_licenses', class: 'form-control'

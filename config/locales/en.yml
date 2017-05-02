@@ -82,6 +82,18 @@ en:
 
     locations:
       forms:
+        accessibility:
+          description: 'Which accessibility amenities are available at this location?'
+
+        address:
+          description: 'The physical location.'
+
+        admin_emails:
+          description: 'Which email addresses should be allowed to update and delete this location?'
+
+        description:
+          description: "A description of the location's services."
+
         languages:
           placeholder: 'Select one or more languages'
 
@@ -89,33 +101,112 @@ en:
           number_type:
             prompt: 'Choose an option'
 
+        phones:
+          description: 'If the phone number belongs to a contact, please move it to the existing contact, or add a new contact.'
+
         regular_schedule_fields:
           weekday:
             include_blank: 'Day'
+
+        short_desc:
+          description: 'A short summary of the description of services.'
+
+        transportation:
+          description: 'What public transportation options are nearby? (Bus stops, train stations, etc.)'
+
+        virtual:
+          description: 'Does this location have a physical address?'
+
+    organizations:
+      forms:
+        accreditations:
+          description: 'You can enter multiple terms in this box by pressing the comma key after each one.'
+
+        date_incorporated:
+          description: 'The date the organization was incorporated.'
+
+        description:
+          description: 'A description of what the organization does.'
+
+        legal_status:
+          description: 'The conditions this organization is operating under (e.g. non-profit, private corporation or a government organization).'
+
+        licenses:
+          description: 'You can enter multiple terms in this box by pressing the comma key after each one.'
+
+        tax_id:
+          description: 'Tax identifier such as the Federal Employer Identification Number.'
+
+        tax_status:
+          description: 'Internal Revenue Service tax designation, such as 501(c)(3).'
 
     services:
       forms:
         accepted_payments:
           placeholder: 'Select one or more payment methods'
 
+        application_process:
+          description: 'How does a client apply to receive services, if applicable?'
+
+        audience:
+          description: 'What groups are served, if not everyone?'
+
+        categories:
+          description: 'What categories best describe this service?'
+
+        description:
+          description: 'A description of the service.'
+
+        eligibility:
+          description: 'What criteria must served groups meet to receive service?'
+
+        fees:
+          description: 'Are there any fees to receive this service?'
+
+        interpretation_services:
+          description: 'What kind of interpretation services are available?'
+
+        keywords:
+          description: >
+            The best way to ensure a service appears in search results is to write
+            a detailed and accurate service description. If certain words or phrases
+            cannot be part of the description, such as common misspellings, then the
+            keywords field is where you can add them. You can enter multiple
+            keywords in this box by pressing the comma key after each one.
+
         languages:
           placeholder: :admin.locations.forms.languages.placeholder
 
         program:
+          description: 'If this service is associated with a program, enter it below.'
           include_blank: 'This service is not part of any program'
 
         required_documents:
           placeholder: 'Select one or more required documents'
 
         service_areas:
+          description: 'What city or county does the location serve?'
           placeholder: 'Select one or more service areas'
+
+        status:
+          description: 'Is this service active, inactive, or defunct?'
+
+        wait:
+          description: 'How long on average does a client need to wait to receive services?'
 
     shared:
       forms:
+        alternate_name:
+          description: 'Is this %{type} known by another name?'
+
         choose_org:
           placeholder: 'Choose an organization'
 
+        email:
+          description: "The %{type}'s general email."
+
         funding_sources:
+          description: 'How is this %{type} funded?'
           placeholder: 'Select one or more funding sources'
 
   enumerize:

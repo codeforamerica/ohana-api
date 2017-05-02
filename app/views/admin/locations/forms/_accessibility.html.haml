@@ -3,7 +3,8 @@
     %strong
       Accessibility Options
     %p.desc
-      Which accessibility amenities are available at this location?
+      = t('.description')
+
   = field_set_tag nil, class: 'accessibility' do
     = f.collection_check_boxes(:accessibility, Location.accessibility.options, :last, :first) do |b|
       .checkbox

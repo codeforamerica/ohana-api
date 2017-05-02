@@ -2,6 +2,7 @@
   %header
     = f.label :application_process, 'Application process'
     %p.desc
-      How does a client apply to receive services, if applicable?
+      = t('.description')
+
   %p
     = f.text_area :application_process, class: 'form-control'

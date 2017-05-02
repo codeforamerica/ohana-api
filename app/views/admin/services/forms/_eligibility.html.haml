@@ -2,6 +2,7 @@
   %header
     = f.label :eligibility, 'Eligibility'
     %p.desc
-      What criteria must served groups meet to receive service?
+      = t('.description')
+
   %p
     = f.text_area :eligibility, class: 'form-control'
