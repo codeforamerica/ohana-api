@@ -2,6 +2,7 @@
   %header
     = f.label :interpretation_services, 'Interpretation Services'
     %p.desc
-      What kind of interpretation services are available?
+      = t('.description')
+
   %p
     = f.text_area :interpretation_services, class: 'form-control'

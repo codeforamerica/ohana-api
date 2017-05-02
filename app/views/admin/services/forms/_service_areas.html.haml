@@ -3,7 +3,7 @@
     %strong
       Service Areas
     %p.desc
-      What city or county does the location serve?
+      = t('.description')
 
   = field_set_tag do
     = f.select :service_areas, SETTINGS.try(:[], :valid_service_areas), {}, multiple: true, class: 'form-control', data: { placeholder: t('.placeholder') }

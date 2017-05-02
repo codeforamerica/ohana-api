@@ -3,7 +3,7 @@
     %strong
       Add an admin to this location
     %p.desc
-      Which email addresses should be allowed to update and delete this location?
+      = t('.description')
 
   - if f.object.new_record? && !current_admin.super_admin?
     = render 'admin/locations/forms/admin_email_fields_for_new_location'

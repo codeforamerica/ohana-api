@@ -2,6 +2,7 @@
   %header
     = f.label :wait_time, 'Wait Time'
     %p.desc
-      How long on average does a client need to wait to receive services?
+      = t('.description')
+
   %p
     = f.text_area :wait_time, class: 'form-control'
