@@ -24,10 +24,13 @@ en:
     attributes:
       address:
         state_province: 'State'
+
       mail_address:
         state_province: 'State'
+
   admin:
     api_location: 'San Mateo County'
+
     buttons:
       organizations: 'Organizations'
       locations: 'Locations'
@@ -77,6 +80,33 @@ en:
         'Generate zip file' to 'Download zip file'.
       wait_for_zip_file: 'Please wait while the zip file is being generated.'
 
+    locations:
+      forms:
+        languages:
+          placeholder: 'Select one or more languages'
+
+    services:
+      forms:
+        accepted_payments:
+          placeholder: 'Select one or more payment methods'
+
+        languages:
+          placeholder: :admin.locations.forms.languages.placeholder
+
+        required_documents:
+          placeholder: 'Select one or more required documents'
+
+        service_areas:
+          placeholder: 'Select one or more service areas'
+
+    shared:
+      forms:
+        choose_org:
+          placeholder: 'Choose an organization'
+
+        funding_sources:
+          placeholder: 'Select one or more funding sources'
+
   enumerize:
     location:
       accessibility:
@@ -90,6 +120,7 @@ en:
         tty: "TTY"
         wheelchair: "Wheelchair"
         wheelchair_van: "Wheelchair-accessible van"
+
     phone:
       number_type:
         fax: "Fax"
@@ -140,6 +171,7 @@ en:
     forgot_your_password: 'Forgot your password?'
     no_confirmation_instructions: "Didn't receive confirmation instructions?"
     no_unlock_instructions: "Didn't receive unlock instructions?"
+
   buttons:
     update: 'Update'
     cancel_my_account: 'Cancel my account'
@@ -151,6 +183,7 @@ en:
     register_a_new_applicaiton: 'Register a new application'
     update_application: 'Update application'
     delete_application: 'Delete application'
+
   links:
     register_a_new_application: 'Register a new application'
     view: 'view'
