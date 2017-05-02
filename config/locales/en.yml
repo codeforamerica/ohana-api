@@ -85,6 +85,14 @@ en:
         languages:
           placeholder: 'Select one or more languages'
 
+        phone_fields:
+          number_type:
+            prompt: 'Choose an option'
+
+        regular_schedule_fields:
+          weekday:
+            include_blank: 'Day'
+
     services:
       forms:
         accepted_payments:
@@ -92,6 +100,9 @@ en:
 
         languages:
           placeholder: :admin.locations.forms.languages.placeholder
+
+        program:
+          include_blank: 'This service is not part of any program'
 
         required_documents:
           placeholder: 'Select one or more required documents'
