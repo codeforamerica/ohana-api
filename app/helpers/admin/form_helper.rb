@@ -78,7 +78,7 @@ class Admin
           id: 'org-name',
           class: 'form-control',
           data: { 'ajax-url' => admin_organizations_url,
-                  'placeholder' => 'Choose an organization' }
+                  'placeholder' => t('.placeholder') }
         )
       else
         f.select(

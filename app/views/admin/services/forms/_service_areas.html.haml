@@ -6,4 +6,4 @@
       What city or county does the location serve?
 
   = field_set_tag do
-    = f.select :service_areas, SETTINGS.try(:[], :valid_service_areas), {}, multiple: true, class: 'form-control'
+    = f.select :service_areas, SETTINGS.try(:[], :valid_service_areas), {}, multiple: true, class: 'form-control', data: { placeholder: t('.placeholder') }
