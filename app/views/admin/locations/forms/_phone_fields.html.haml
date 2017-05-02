@@ -14,7 +14,7 @@
     .row
       .col-md-4
         - if f.object.new_record?
-          = f.select :number_type, Phone.number_type.options, { prompt: 'Choose an option' }, class: 'form-control'
+          = f.select :number_type, Phone.number_type.options, { prompt: t('.number_type.prompt') }, class: 'form-control'
         - else
           = f.select :number_type, Phone.number_type.options, {}, class: 'form-control'
   .form-group
