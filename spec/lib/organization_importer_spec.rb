@@ -35,7 +35,7 @@ describe OrganizationImporter do
     context 'when the date is not valid' do
       let(:content) { invalid_date }
 
-      errors = ['Line 2: Date incorporated 24/2/70 is not a valid date']
+      errors = ['Line 2: Date of Incorporation 24/2/70 is not a valid date']
 
       its(:errors) { is_expected.to eq(errors) }
     end

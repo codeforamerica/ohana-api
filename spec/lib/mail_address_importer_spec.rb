@@ -36,7 +36,7 @@ describe MailAddressImporter do
     context 'when the mail_address content is not valid' do
       let(:content) { invalid_content }
 
-      errors = ["Line 2: Address 1 can't be blank for Mail Address"]
+      errors = ["Line 2: Street (Line 1) can't be blank for Mail Address"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -122,7 +122,7 @@ describe MailAddressImporter do
           with("\n===> Importing invalid_mail_address.csv")
 
         expect(Kernel).to receive(:puts).
-          with("Line 2: Address 1 can't be blank for Mail Address")
+          with("Line 2: Street (Line 1) can't be blank for Mail Address")
 
         path = Rails.root.join('spec/support/fixtures/invalid_mail_address.csv')
         MailAddressImporter.check_and_import_file(path)

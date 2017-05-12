@@ -77,7 +77,7 @@ feature 'Update phones' do
       fill_in all_phones[-1][:id], with: 'Department'
     end
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "number can't be blank for Phone"
+    expect(page).to have_content "Number can't be blank for Phone"
   end
 
   scenario 'delete second phone', :js do
@@ -134,7 +134,7 @@ feature 'Update phones' do
   scenario 'with an empty number' do
     update_phone(number: '')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "number can't be blank for Phone"
+    expect(page).to have_content "Number can't be blank for Phone"
   end
 
   scenario 'with an invalid number' do

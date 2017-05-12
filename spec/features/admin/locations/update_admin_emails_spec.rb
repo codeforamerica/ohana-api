@@ -44,7 +44,7 @@ feature 'Update admin_emails' do
                    all(:xpath, "//input[@name='location[admin_emails][]']")
     fill_in admin_emails[-1][:id], with: 'Alexandria'
     click_button I18n.t('admin.buttons.save_changes')
-    total_fields_with_errors = page.all(:css, '.field_with_errors')
+    total_fields_with_errors = page.all(:css, '.field_with_errors input')
     expect(total_fields_with_errors.length).to eq 1
   end
 

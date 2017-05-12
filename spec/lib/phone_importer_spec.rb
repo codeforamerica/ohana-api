@@ -37,7 +37,7 @@ describe PhoneImporter do
     context 'when the phone content is not valid' do
       let(:content) { invalid_content }
 
-      errors = ["Line 2: Number type can't be blank for Phone"]
+      errors = ["Line 2: Number Type can't be blank for Phone"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -169,7 +169,7 @@ describe PhoneImporter do
           with("\n===> Importing invalid_phone.csv")
 
         expect(Kernel).to receive(:puts).
-          with("Line 2: Number type can't be blank for Phone")
+          with("Line 2: Number Type can't be blank for Phone")
 
         path = Rails.root.join('spec/support/fixtures/invalid_phone.csv')
         PhoneImporter.check_and_import_file(path)

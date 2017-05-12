@@ -6,13 +6,13 @@
         - @api_application.errors.full_messages.each do |msg|
           %li= msg
   .form-group
-    = f.label :name, 'Application Name'
+    = f.label :name
     = f.text_field :name, class: 'form-control'
   .form-group
-    = f.label :main_url, 'Main URL'
+    = f.label :main_url
     = f.text_field :main_url, class: 'form-control'
   .form-group
-    = f.label :callback_url, 'Callback URL'
+    = f.label :callback_url
     = f.text_field :callback_url, class: 'form-control'
   - if f.object.new_record?
     .actions
