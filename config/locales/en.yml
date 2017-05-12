@@ -62,7 +62,7 @@ en:
       add_phone: 'Add a new phone number'
       delete_phone: 'Delete this phone permanently'
       add_hours_of_operation: 'Add hours of operation'
-      add_holiday_schedule: 'Add hoiday schedule'
+      add_holiday_schedule: 'Add holiday schedule'
       remove_holiday_schedule: 'Remove this holiday schedule'
       add_admin: 'Add a new admin email'
       delete_admin: 'Delete this admin permanently'
