@@ -31,10 +31,8 @@ class Location < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   validates :address,
-            presence: {
-              message: I18n.t('errors.messages.no_address')
-            },
-            unless: ->(location) { location.virtual? }
+            presence: { message: I18n.t('errors.messages.no_address') },
+            unless: :virtual?
 
   validates :description, :organization, :name,
             presence: { message: I18n.t('errors.messages.blank_for_location') }

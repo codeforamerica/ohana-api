@@ -12,9 +12,9 @@ class Address < ActiveRecord::Base
 
   validates :state_province, state_province: true
 
-  validates :country, length: { maximum: 2, minimum: 2 }
+  validates :country, length: { allow_blank: true, maximum: 2, minimum: 2 }
 
-  validates :postal_code, zip: true
+  validates :postal_code, zip: { allow_blank: true }
 
   auto_strip_attributes :address_1, :address_2, :city, :state_province, :postal_code,
                         :country, squish: true
