@@ -66,7 +66,7 @@ describe LocationImporter do
       let(:content) { valid_content }
       let(:address) { invalid_address }
 
-      errors = ["Line 2: Address city can't be blank for Address"]
+      errors = ["Line 2: City can't be blank for Address"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -75,7 +75,7 @@ describe LocationImporter do
       let(:content) { valid_content }
       let(:address) { missing_address }
 
-      errors = ["Line 2: Address Unless it's virtual, a location must have an address."]
+      errors = ['Line 2: Street Address must be provided unless a Location is virtual']
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -194,10 +194,10 @@ describe LocationImporter do
     context 'with invalid data' do
       it 'outputs error message' do
         expect(Kernel).to receive(:puts).ordered.
-          with("Line 2: Address city can't be blank for Address, Name can't be blank for Location")
+          with("Line 2: City can't be blank for Address, Name can't be blank for Location")
 
         expect(Kernel).to receive(:puts).ordered.
-          with("Line 3: Address Unless it's virtual, a location must have an address.")
+          with('Line 3: Street Address must be provided unless a Location is virtual')
 
         path = Rails.root.join('spec/support/fixtures/invalid_location.csv')
         address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
@@ -208,7 +208,7 @@ describe LocationImporter do
     context 'when only address is invalid' do
       it 'outputs error message' do
         expect(Kernel).to receive(:puts).
-          with("Line 2: Address city can't be blank for Address")
+          with("Line 2: City can't be blank for Address")
 
         path = Rails.root.join('spec/support/fixtures/valid_location.csv')
         address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')

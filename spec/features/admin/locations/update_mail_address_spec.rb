@@ -37,7 +37,7 @@ feature 'Updating mailing address' do
   scenario 'when leaving location without address or mail address', :js do
     remove_street_address
     expect(page).
-      to have_content "Unless it's virtual, a location must have an address."
+      to have_content 'Street Address must be provided unless a Location is virtual'
   end
 end
 
@@ -59,14 +59,14 @@ feature 'Updating mailing address with invalid values' do
     update_mailing_address(address_1: '', city: 'fair', state_province: 'VA',
                            postal_code: '12345', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "address 1 can't be blank for Mail Address"
+    expect(page).to have_content "Street (Line 1) can't be blank for Mail Address"
   end
 
   scenario 'with an empty city' do
     update_mailing_address(address_1: '123', city: '', state_province: 'VA',
                            postal_code: '12345', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "city can't be blank for Mail Address"
+    expect(page).to have_content "City can't be blank for Mail Address"
   end
 
   scenario 'with an empty state' do
@@ -80,14 +80,14 @@ feature 'Updating mailing address with invalid values' do
     update_mailing_address(address_1: '123', city: 'Belmont', state_province: 'CA',
                            postal_code: '', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "postal code can't be blank for Mail Address"
+    expect(page).to have_content "ZIP Code can't be blank for Mail Address"
   end
 
   scenario 'with an empty country' do
     update_mailing_address(address_1: '123', city: 'Belmont', state_province: 'CA',
                            postal_code: '12345')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "country can't be blank for Mail Address"
+    expect(page).to have_content "Country Code can't be blank for Mail Address"
   end
 
   scenario 'with an invalid state' do

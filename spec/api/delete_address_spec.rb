@@ -50,7 +50,7 @@ describe 'DELETE /locations/:location/address/:id' do
     )
     expect(response).to have_http_status(422)
     expect(json['errors'].first['address']).
-      to eq(["Unless it's virtual, a location must have an address."])
+      to eq(['must be provided unless a Location is virtual'])
   end
 
   it "doesn't delete the address if the location & address IDs don't match" do

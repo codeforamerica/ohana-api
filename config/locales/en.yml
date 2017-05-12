@@ -22,11 +22,97 @@
 en:
   activerecord:
     attributes:
-      address:
+      address: &address_attributes
+        address_1: 'Street (Line 1)'
+        address_2: 'Street (Line 2)'
+        city: 'City'
+        country: 'Country Code'
+        postal_code: 'ZIP Code'
         state_province: 'State'
 
+      api_application:
+        name: 'Application Name'
+        main_url: 'Main URL'
+        callback_url: 'Callback URL'
+
+      contact:
+        email: 'Contact Email'
+        department: 'Contact Department'
+        phones: 'Phone Numbers'
+        title: 'Contact Title'
+
+      contact/phones:
+        number: :activerecord.attributes.phone.number
+        number_type: :activerecord.attributes.phone.number_type
+
+      holiday_schedule: &holiday_schedule_attributes
+        closed: 'Open/Closed'
+        closes_at: 'Closes At'
+        opens_at: 'Opens At'
+        end_date: 'End Date'
+        start_date: 'Start Date'
+
+      location:
+        accessibility: 'Accessibility Options'
+        address: 'Street Address'
+        admin_emails: 'Admin Emails'
+        alternate_name: 'Alternate Name'
+        phones: 'Phone Numbers'
+        transportation: 'Transportation Options'
+        short_desc: 'Short Description'
+        virtual: 'Type of Location'
+        website: 'Location Website'
+
+      location/holiday_schedules:
+        <<: *holiday_schedule_attributes
+
+      location/phones:
+        number: :activerecord.attributes.phone.number
+        number_type: :activerecord.attributes.phone.number_type
+
+      location/regular_schedules:
+        weekday: 'Weekday'
+
       mail_address:
-        state_province: 'State'
+        <<: *address_attributes
+
+      organization:
+        alternate_name: 'Alternate Name'
+        date_incorporated: 'Date of Incorporation'
+        funding_sources: 'Funding Sources'
+        legal_status: 'Legal Status'
+        phones: 'Phone Numbers'
+        tax_id: 'Tax Identifier'
+        tax_status: 'Tax Status'
+        website: 'Organization Website'
+
+      organization/phones:
+        number: :activerecord.attributes.phone.number
+        number_type: :activerecord.attributes.phone.number_type
+
+      phone:
+        country_prefix: 'Country Prefix Code'
+        number: 'Number'
+        number_type: 'Number Type'
+        vanity_number: 'Vanity Number'
+
+      program:
+        alternate_name: 'Alternate Name'
+
+      service:
+        alternate_name: 'Alternate Name'
+        application_process: 'Application Process'
+        funding_sources: 'Funding Sources'
+        interpretation_services: 'Interpretation Services'
+        phones: 'Phone Numbers'
+        program_id: 'Service Program'
+        service_areas: 'Service Areas'
+        wait_time: 'Wait Time'
+        website: 'Service Website'
+
+      service/phones:
+        number: :activerecord.attributes.phone.number
+        number_type: :activerecord.attributes.phone.number_type
 
   admin:
     api_location: 'San Mateo County'
@@ -103,6 +189,9 @@ en:
 
         phones:
           description: 'If the phone number belongs to a contact, please move it to the existing contact, or add a new contact.'
+
+        holiday_schedule_fields:
+          enter_hours: 'If open, enter the opening and closing hours below'
 
         regular_schedule_fields:
           weekday:
@@ -255,8 +344,43 @@ en:
       invalid_url: 'is not a valid URL'
       invalid_weekday: 'is not a valid weekday'
       invalid_zip: 'is not a valid ZIP code'
-      no_address: "Unless it's virtual, a location must have an address."
+      no_address: "must be provided unless a Location is virtual"
       not_an_array: 'is not an Array.'
+
+  helpers:
+    label:
+      address: &address_helper_labels
+        state_province: 'State (2-letter abbreviation)'
+        country: 'ISO 3361-1 2-letter Country Code'
+
+      holiday_schedule:
+        closed: 'Closed or open during the above dates?'
+
+      location:
+        admin_emails: 'Add an admin to this location'
+        name: 'Location Name'
+
+      mail_address:
+        <<: *address_helper_labels
+
+      organization:
+        name: 'Organization Name'
+
+      phone:
+        country_prefix: 'Country Prefix Code (for example: 1)'
+        extension: 'Extension (numbers only)'
+        number_type: 'Number Type (Fax, Hotline, Voice, SMS, or TTY)'
+        vanity_number: 'Vanity Number (for example: 650-123-HELP)'
+
+      program:
+        name: 'Program Name'
+        organization_id: 'Choose an organization to create this program for.'
+
+      service:
+        name: 'Service Name'
+
+      user:
+        password_confirmation: 'Confirm password'
 
   titles:
     brand: "Ohana API"

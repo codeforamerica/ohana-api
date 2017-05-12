@@ -24,7 +24,7 @@ feature 'Create a new location' do
 
   scenario 'without any required fields' do
     click_button I18n.t('admin.buttons.create_location')
-    expect(page).to have_content "Unless it's virtual, a location must have an address."
+    expect(page).to have_content 'Street Address must be provided unless a Location is virtual'
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
     expect(page).to have_content "Organization can't be blank for Location"

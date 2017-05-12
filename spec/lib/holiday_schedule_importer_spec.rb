@@ -42,7 +42,7 @@ describe HolidayScheduleImporter do
     context 'when the holiday_schedule content is not valid' do
       let(:content) { invalid_content }
 
-      errors = ["Line 2: Closes at can't be blank for Holiday Schedule when " \
+      errors = ["Line 2: Closes At can't be blank for Holiday Schedule when " \
         "open on that day"]
 
       its(:errors) { is_expected.to eq(errors) }
@@ -60,8 +60,8 @@ describe HolidayScheduleImporter do
     context 'when the date is not valid' do
       let(:content) { invalid_date }
 
-      errors = ["Line 2: End date 13/27/2014 is not a valid date, " \
-                "End date can't be blank for Holiday Schedule"]
+      errors = ["Line 2: End Date 13/27/2014 is not a valid date, " \
+                "End Date can't be blank for Holiday Schedule"]
 
       its(:errors) { is_expected.to eq(errors) }
     end
@@ -178,7 +178,7 @@ describe HolidayScheduleImporter do
           with("\n===> Importing invalid_holiday_schedule.csv")
 
         expect(Kernel).to receive(:puts).
-          with("Line 2: Closes at can't be blank for Holiday Schedule when open on that day")
+          with("Line 2: Closes At can't be blank for Holiday Schedule when open on that day")
 
         path = Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv')
         HolidayScheduleImporter.check_and_import_file(path)
