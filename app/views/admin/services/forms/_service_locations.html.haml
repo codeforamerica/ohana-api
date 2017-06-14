@@ -1,4 +1,4 @@
-- if @location.organization.locations.size > 1
+- if @location.organization.location.present?
   .content-box
     %h2 Copy this service to other Locations
     %p
@@ -6,7 +6,7 @@
       locations. Then, make sure to update the service at the other locations
       with any information that is different, such as the hours of operation.
 
-    - locs ||= @location.organization.locations.pluck(:id, :name)
+    - locs ||= [[@location.organization.location.id, @location.organization.location.name]]
 
     - locs.each do |loc|
       - next if loc.first == @location.id

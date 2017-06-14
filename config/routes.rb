@@ -66,8 +66,6 @@ Rails.application.routes.draw do
         resources :organizations do
           resources :locations, only: :create
         end
-        get 'organizations/:organization_id/locations',
-            to: 'organizations#locations', as: :org_locations
 
         resources :locations do
           resources :address, except: [:index, :show]

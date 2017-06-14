@@ -70,6 +70,7 @@ group :test, :development do
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'bullet'
   gem 'smarter_csv'
+  gem 'pry'
 end
 
 group :test do

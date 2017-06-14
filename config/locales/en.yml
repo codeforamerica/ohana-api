@@ -346,6 +346,7 @@ en:
       invalid_zip: 'is not a valid ZIP code'
       no_address: "must be provided unless a Location is virtual"
       not_an_array: 'is not an Array.'
+      duplicate_organization: 'has already assigned a location.'
 
   helpers:
     label:

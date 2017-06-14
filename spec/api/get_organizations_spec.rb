@@ -70,14 +70,6 @@ describe 'GET /organizations' do
       expect(json['name']).to eq(@org.name)
     end
 
-    it 'includes the correct locations_url attribute' do
-      locations_url = json.first['locations_url']
-
-      get locations_url
-      json = JSON.parse(response.body)
-      expect(json.first['organization']['name']).to eq(@org.name)
-    end
-
     context 'with nil fields' do
       before(:each) do
         @loc = create(:loc_with_nil_fields)
