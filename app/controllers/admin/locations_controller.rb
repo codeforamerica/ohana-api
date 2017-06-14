@@ -36,7 +36,6 @@ class Admin
       @location = Location.new(params[:location])
 
       assign_location_to_org(policy_scope(Organization))
-
       if @location.save
         redirect_to [:admin, @location], notice: 'Location was successfully created.'
       else

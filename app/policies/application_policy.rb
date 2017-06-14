@@ -26,7 +26,7 @@ class ApplicationPolicy
       scope
     end
 
-    def location_ids
+    def location_id
       Pundit.policy_scope!(user, Location).map(&:first).flatten
     end
   end

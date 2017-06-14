@@ -6,7 +6,7 @@ class Organization < ActiveRecord::Base
                   :licenses, :name, :tax_id, :tax_status, :website,
                   :phones_attributes
 
-  has_many :locations, dependent: :destroy
+  has_one :location, dependent: :destroy
   has_many :programs, dependent: :destroy
   has_many :contacts, dependent: :destroy
 
@@ -30,8 +30,8 @@ class Organization < ActiveRecord::Base
   auto_strip_attributes :alternate_name, :description, :email, :legal_status,
                         :name, :tax_id, :tax_status, :website
 
-  def self.with_locations(ids)
-    joins(:locations).where('locations.id IN (?)', ids).uniq
+  def self.with_location(id)
+    joins(:location).where('locations.id = (?)', id)
   end
 
   extend FriendlyId
@@ -42,11 +42,11 @@ class Organization < ActiveRecord::Base
   private
 
   def needs_touch?
-    return false if locations.count.zero?
+    return false if location.blank?
     name_changed?
   end
 
   def touch_locations
-    locations.find_each(&:touch)
+    location.touch if location
   end
 end

@@ -3,6 +3,8 @@ require 'rails_helper'
 describe 'Create a location (POST /organizations/:organization_id/locations/)' do
   before(:all) do
     @org = create(:organization)
+    @org_with_location = create(:organization, name: 'Org2')
+    create(:location, organization_id: @org_with_location.id)
   end
 
   before(:each) do
@@ -53,6 +55,14 @@ describe 'Create a location (POST /organizations/:organization_id/locations/)' d
     )
     expect(response.status).to eq(422)
     expect(json['errors'].first['name']).to eq(["can't be blank for Location"])
+  end
+
+  it "doesn't create a location with an organization that has already assigned other location" do
+    post(
+      api_organization_locations_url(@org_with_location, subdomain: ENV['API_SUBDOMAIN']),
+      @location_attributes
+    )
+    expect(response.status).to eq(422)
   end
 
   it "doesn't allow creating a location without a valid token" do

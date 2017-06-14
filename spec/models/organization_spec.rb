@@ -18,7 +18,7 @@ describe Organization do
   it { is_expected.to allow_mass_assignment_of(:tax_status) }
   it { is_expected.to allow_mass_assignment_of(:website) }
 
-  it { is_expected.to have_many(:locations).dependent(:destroy) }
+  it { is_expected.to have_one(:location).dependent(:destroy) }
   it { is_expected.to have_many(:programs).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
 

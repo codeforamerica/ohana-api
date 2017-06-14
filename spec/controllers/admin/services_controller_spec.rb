@@ -60,7 +60,6 @@ describe Admin::ServicesController do
     before(:each) do
       @loc = create(:location_for_org_admin)
       @service = @loc.services.create!(attributes_for(:service))
-      @new_loc = create(:far_loc, organization_id: @loc.organization.id)
       @restricted_loc = create(:location)
     end
 
@@ -80,7 +79,7 @@ describe Admin::ServicesController do
       end
     end
 
-    context 'when location_ids are empty' do
+    context 'when location_id are empty' do
       it 'successfully updates the service' do
         log_in_as_admin(:admin)
 
