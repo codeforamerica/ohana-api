@@ -1,8 +1,8 @@
-- if @program.errors.any?
+- if program.errors.any?
   .alert.alert-danger
-    %h2 #{pluralize(@program.errors.count, 'error')} prohibited this program from being saved:
+    %h2 #{pluralize(program.errors.count, 'error')} prohibited this program from being saved:
     %ul
-      - @program.errors.full_messages.each do |msg|
+      - program.errors.full_messages.each do |msg|
         %li= msg
 
 = render 'admin/shared/forms/choose_org', f: f

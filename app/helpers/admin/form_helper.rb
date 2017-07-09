@@ -98,7 +98,7 @@ class Admin
       )
     end
 
-    WEEKDAYS = %w(Monday Tuesday Wednesday Thursday Friday Saturday Sunday).freeze
+    WEEKDAYS = %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday].freeze
 
     def weekday_select_field
       WEEKDAYS.each_with_index.map { |day, i| [day, i + 1] }

@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 describe ServiceImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_service.csv') }
-  let(:invalid_location) { Rails.root.join('spec/support/fixtures/invalid_service_location.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_service.csv') }
+  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_service.csv') }
+  let(:invalid_location) do
+    Rails.root.join('spec', 'support', 'fixtures', 'invalid_service_location.csv')
+  end
+  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_service.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -69,9 +71,9 @@ describe ServiceImporter do
         its(:funding_sources) { is_expected.to eq ['DC Government', 'Donations'] }
         its(:application_process) { is_expected.to eq 'Call or apply in person' }
         its(:keywords) { is_expected.to eq ['hot meels', 'hungry'] }
-        its(:languages) { is_expected.to eq %w(English Spanish Tagalog) }
+        its(:languages) { is_expected.to eq %w[English Spanish Tagalog] }
         its(:name) { is_expected.to eq 'Harvest Food Bank of Palo Alto' }
-        its(:service_areas) { is_expected.to eq %w(Atherton Belmont) }
+        its(:service_areas) { is_expected.to eq %w[Atherton Belmont] }
         its(:status) { is_expected.to eq 'active' }
         its(:wait_time) { is_expected.to eq 'No wait.' }
         its(:website) { is_expected.to eq 'http://example.org/service' }
@@ -140,7 +142,7 @@ describe ServiceImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_service.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_service.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -162,7 +164,7 @@ describe ServiceImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Name can't be blank for Service")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_service.csv')
         ServiceImporter.check_and_import_file(path)
       end
     end
@@ -171,10 +173,10 @@ describe ServiceImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(ServiceImporter.required_headers).
-        to eq %w(id location_id program_id accepted_payments alternate_name
+        to eq %w[id location_id program_id accepted_payments alternate_name
                  description eligibility email fees funding_sources
                  application_process languages name required_documents
-                 service_areas status website wait_time)
+                 service_areas status website wait_time]
     end
   end
 end

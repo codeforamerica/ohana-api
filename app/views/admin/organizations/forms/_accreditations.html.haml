@@ -6,4 +6,4 @@
       = t('.description')
 
   = field_set_tag do
-    = text_field_tag 'organization[accreditations][]', @organization.accreditations.join(','), id: 'organization_accreditations', class: 'form-control'
+    = text_field_tag 'organization[accreditations][]', organization.accreditations.join(','), id: 'organization_accreditations', class: 'form-control'

@@ -5,12 +5,12 @@ module Api
       include CustomErrors
       include CategoryIdCollector
 
-      before_action :validate_token!, only: [:update, :destroy, :create, :update_categories]
+      before_action :validate_token!, only: %i[update destroy create update_categories]
 
       def index
         location = Location.includes(
-          services: [:categories, :contacts, :phones, :regular_schedules,
-                     :holiday_schedules]
+          services: %i[categories contacts phones regular_schedules
+                       holiday_schedules]
         ).find(params[:location_id])
         services = location.services
         render json: services, status: 200

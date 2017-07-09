@@ -14,9 +14,9 @@ class OrganizationImporter < EntityImporter
   end
 
   def self.required_headers
-    %w(id accreditations alternate_name date_incorporated
+    %w[id accreditations alternate_name date_incorporated
        description email funding_sources legal_status
-       licenses name tax_id tax_status website)
+       licenses name tax_id tax_status website]
   end
 
   private

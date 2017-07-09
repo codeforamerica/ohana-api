@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 describe MailAddressImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_mail_address.csv') }
-  let(:invalid_location) do
-    Rails.root.join('spec/support/fixtures/invalid_mail_address_location.csv')
+  let(:invalid_content) do
+    Rails.root.join('spec', 'support', 'fixtures', 'invalid_mail_address.csv')
   end
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_mail_address.csv') }
+  let(:invalid_location) do
+    Rails.root.join('spec', 'support', 'fixtures', 'invalid_mail_address_location.csv')
+  end
+  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_mail_address.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -102,7 +104,7 @@ describe MailAddressImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_mail_address.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_mail_address.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -124,7 +126,7 @@ describe MailAddressImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Street (Line 1) can't be blank for Mail Address")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_mail_address.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_mail_address.csv')
         MailAddressImporter.check_and_import_file(path)
       end
     end
@@ -133,8 +135,8 @@ describe MailAddressImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(MailAddressImporter.required_headers).
-        to eq %w(id location_id attention address_1 address_2 city
-                 state_province postal_code country)
+        to eq %w[id location_id attention address_1 address_2 city
+                 state_province postal_code country]
     end
   end
 end

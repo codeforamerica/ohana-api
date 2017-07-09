@@ -68,8 +68,8 @@ class Location < ActiveRecord::Base
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
   enumerize :accessibility,
-            in: [:cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp,
-                 :restroom, :tape_braille, :tty, :wheelchair, :wheelchair_van],
+            in: %i[cd deaf_interpreter disabled_parking elevator ramp
+                   restroom tape_braille tty wheelchair wheelchair_van],
             multiple: true
 
   # List of admin emails that should have access to edit a location's info.
@@ -89,8 +89,8 @@ class Location < ActiveRecord::Base
   def slug_candidates
     [
       :name,
-      [:name, :address_street],
-      [:name, :mail_address_city]
+      %i[name address_street],
+      %i[name mail_address_city]
     ]
   end
 
@@ -103,7 +103,7 @@ class Location < ActiveRecord::Base
   end
 
   def full_physical_address
-    return unless address.present?
+    return if address.blank?
     "#{address.address_1}, #{address.city}, #{address.state_province} #{address.postal_code}"
   end
 

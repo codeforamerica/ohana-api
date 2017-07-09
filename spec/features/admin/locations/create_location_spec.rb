@@ -192,7 +192,7 @@ feature 'Create a new location' do
     click_button I18n.t('admin.buttons.create_location')
 
     expect(find_field('location_languages', visible: false).value).
-      to eq %w(French Spanish)
+      to eq %w[French Spanish]
   end
 end
 

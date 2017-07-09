@@ -6,4 +6,4 @@
       = t('.description')
 
   = field_set_tag do
-    = text_field_tag 'service[keywords][]', @service.keywords.join(','), id: 'service_keywords', class: 'form-control'
+    = text_field_tag 'service[keywords][]', service.keywords.join(','), id: 'service_keywords', class: 'form-control'

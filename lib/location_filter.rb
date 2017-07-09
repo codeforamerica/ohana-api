@@ -15,7 +15,7 @@ class LocationFilter
   end
 
   def validated_radius(radius, custom_radius)
-    return custom_radius unless radius.present?
+    return custom_radius if radius.blank?
 
     raise Exceptions::InvalidRadius if radius.to_f == 0.0
 

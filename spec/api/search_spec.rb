@@ -453,7 +453,7 @@ describe "GET 'search'" do
       create(:loc_with_nil_fields)
       get api_search_index_url(keyword: 'belmont', subdomain: ENV['API_SUBDOMAIN'])
       keys = json.first.keys
-      %w(phones address).each do |key|
+      %w[phones address].each do |key|
         expect(keys).to include(key)
       end
     end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Admin::CsvController do
   describe 'GET all' do
-    let(:tmp_file_name) { "#{Rails.root}/tmp/archive.zip" }
+    let(:tmp_file_name) { Rails.root.join('tmp', 'archive.zip') }
     let(:url_prefix) { 'http://test.host/admin/csv/' }
 
     it 'performs the ZipDownload job 2 seconds later' do
@@ -17,7 +17,7 @@ describe Admin::CsvController do
   end
 
   describe 'GET download_zip' do
-    let(:tmp_file_name) { "#{Rails.root}/tmp/archive.zip" }
+    let(:tmp_file_name) { Rails.root.join('tmp', 'archive.zip') }
     let(:zip_file_name) { "archive-#{Time.zone.today.to_formatted_s}.zip" }
 
     context 'when the file exists' do

@@ -34,7 +34,7 @@ describe 'Create a location (POST /organizations/:organization_id/locations/)' d
       api_organization_locations_url(@org, subdomain: ENV['API_SUBDOMAIN']),
       @location_attributes
     )
-    expect(json.keys).to eq(%w(id name slug))
+    expect(json.keys).to eq(%w[id name slug])
   end
 
   it 'returns a Location header with the URL to the new location' do

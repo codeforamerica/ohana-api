@@ -1,11 +1,17 @@
 require 'rails_helper'
 
 describe OrganizationImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_org.csv') }
-  let(:invalid_date) { Rails.root.join('spec/support/fixtures/org_with_invalid_date.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_org.csv') }
-  let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/org_with_spelled_out_date.csv') }
-  let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/org_with_2_digit_year.csv') }
+  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_org.csv') }
+  let(:invalid_date) do
+    Rails.root.join('spec', 'support', 'fixtures', 'org_with_invalid_date.csv')
+  end
+  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_org.csv') }
+  let(:spelled_out_date) do
+    Rails.root.join('spec', 'support', 'fixtures', 'org_with_spelled_out_date.csv')
+  end
+  let(:org_with_2_digit_year) do
+    Rails.root.join('spec', 'support', 'fixtures', 'org_with_2_digit_year.csv')
+  end
 
   subject(:importer) { OrganizationImporter.new(content) }
 
@@ -60,7 +66,7 @@ describe OrganizationImporter do
         its(:date_incorporated) { is_expected.to eq Date.parse('January 2, 1970') }
         its(:description) { is_expected.to match 'Harvest Food Bank' }
         its(:email) { is_expected.to eq 'info@example.org' }
-        its(:funding_sources) { is_expected.to eq %w(Donations Grants) }
+        its(:funding_sources) { is_expected.to eq %w[Donations Grants] }
         its(:legal_status) { is_expected.to eq 'Nonprofit' }
         its(:licenses) { is_expected.to eq ['State Health Inspection License'] }
         its(:name) { is_expected.to eq 'Parent Agency' }
@@ -122,7 +128,7 @@ describe OrganizationImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_org.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_org.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -144,7 +150,7 @@ describe OrganizationImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Name can't be blank for Organization")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_org.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_org.csv')
         OrganizationImporter.check_and_import_file(path)
       end
     end
@@ -153,9 +159,9 @@ describe OrganizationImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(OrganizationImporter.required_headers).
-        to eq %w(id accreditations alternate_name date_incorporated description
+        to eq %w[id accreditations alternate_name date_incorporated description
                  email funding_sources legal_status licenses name tax_id
-                 tax_status website)
+                 tax_status website]
     end
   end
 end

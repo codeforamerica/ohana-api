@@ -1,6 +1,6 @@
 class WeekdayValidator < ActiveModel::EachValidator
-  WEEKDAY_ABBREVIATIONS = %w(Sun Mon Tue Wed Thu Fri Sat).freeze
-  WEEKDAY_STRING_NUMS = %w(1 2 3 4 5 6 7).freeze
+  WEEKDAY_ABBREVIATIONS = %w[Sun Mon Tue Wed Thu Fri Sat].freeze
+  WEEKDAY_STRING_NUMS = %w[1 2 3 4 5 6 7].freeze
 
   def validate_each(record, attribute, value)
     value = record.read_attribute_before_type_cast(attribute)

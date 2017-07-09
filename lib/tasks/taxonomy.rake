@@ -11,7 +11,7 @@ task oe_csv: :environment do
     'data/taxonomy.csv',
     'w',
     write_headers: true,
-    headers: %w(taxonomy_id name parent_id parent_name)
+    headers: %w[taxonomy_id name parent_id parent_name]
   ) do |writer|
     top_levels.each do |hash|
       writer << [hash['@id'], hash['@title'], nil, nil]

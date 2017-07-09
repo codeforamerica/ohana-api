@@ -1,10 +1,10 @@
-= render 'admin/services/forms/fields', f: f
+= render 'admin/services/forms/fields', f: f, service: service
 
-= render 'admin/services/forms/service_locations'
+= render 'admin/services/forms/service_locations', location: location, service: service
 
 .save-box.navbar-default
   %p
     Creating service for
     %strong
-      = @location.name
+      = location.name
   = f.submit t('admin.buttons.create_service'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }

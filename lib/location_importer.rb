@@ -39,10 +39,10 @@ LocationImporter = Struct.new(:path, :addresses) do
   end
 
   def self.required_headers
-    %w(id organization_id accessibility admin_emails
+    %w[id organization_id accessibility admin_emails
        alternate_name latitude longitude description email
        languages name transportation virtual
-       website)
+       website]
   end
 
   protected
@@ -58,7 +58,7 @@ LocationImporter = Struct.new(:path, :addresses) do
   end
 
   def self.required_address_headers
-    %w(id location_id address_1 address_2 city state_province postal_code
-       country)
+    %w[id location_id address_1 address_2 city state_province postal_code
+       country]
   end
 end

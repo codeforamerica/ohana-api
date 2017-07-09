@@ -14,7 +14,7 @@ class Admin
     end
 
     def tmp_file_name
-      "#{Rails.root}/tmp/archive.zip"
+      Rails.root.join('tmp', 'archive.zip')
     end
   end
 end

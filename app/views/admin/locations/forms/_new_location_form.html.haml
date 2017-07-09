@@ -1,3 +1,3 @@
-= render 'admin/locations/forms/fields', f: f
+= render 'admin/locations/forms/fields', f: f, location: location
 
 = f.submit t('admin.buttons.create_location'), class: 'btn btn-primary btn-lg', data: { disable_with: 'Please wait...' }

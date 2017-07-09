@@ -78,32 +78,32 @@ describe ServicePresenter do
 
       it 'transforms accepted_payments' do
         service = presenter.to_service
-        expect(service.attributes['accepted_payments']).to eq %w(one two)
+        expect(service.attributes['accepted_payments']).to eq %w[one two]
       end
 
       it 'transforms funding_sources' do
         service = presenter.to_service
-        expect(service.attributes['funding_sources']).to eq %w(donations grants)
+        expect(service.attributes['funding_sources']).to eq %w[donations grants]
       end
 
       it 'transforms keywords' do
         service = presenter.to_service
-        expect(service.attributes['keywords']).to eq %w(foo bar)
+        expect(service.attributes['keywords']).to eq %w[foo bar]
       end
 
       it 'transforms languages' do
         service = presenter.to_service
-        expect(service.attributes['languages']).to eq %w(English Spanish)
+        expect(service.attributes['languages']).to eq %w[English Spanish]
       end
 
       it 'transforms required_documents' do
         service = presenter.to_service
-        expect(service.attributes['required_documents']).to eq %w(Passport)
+        expect(service.attributes['required_documents']).to eq %w[Passport]
       end
 
       it 'transforms service_areas' do
         service = presenter.to_service
-        expect(service.attributes['service_areas']).to eq %w(Atherton Belmont)
+        expect(service.attributes['service_areas']).to eq %w[Atherton Belmont]
       end
     end
 
