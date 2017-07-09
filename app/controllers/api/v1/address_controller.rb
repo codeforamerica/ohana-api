@@ -12,7 +12,7 @@ module Api
 
       def create
         location = Location.find(params[:location_id])
-        address = location.create_address!(params) unless location.address.present?
+        address = location.create_address!(params) if location.address.blank?
         render json: address, status: 201
       end
 

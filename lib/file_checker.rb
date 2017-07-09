@@ -57,7 +57,7 @@ class FileChecker
   end
 
   def required_files
-    %w(organizations.csv locations.csv addresses.csv services.csv phones.csv)
+    %w[organizations.csv locations.csv addresses.csv services.csv phones.csv]
   end
 
   def csv_entries

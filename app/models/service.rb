@@ -50,7 +50,7 @@ class Service < ActiveRecord::Base
   serialize :service_areas, Array
 
   extend Enumerize
-  enumerize :status, in: [:active, :defunct, :inactive]
+  enumerize :status, in: %i[active defunct inactive]
 
   def self.with_locations(ids)
     joins(:location).where('location_id IN (?)', ids).uniq
@@ -60,16 +60,20 @@ class Service < ActiveRecord::Base
 
   private
 
+  # rubocop:disable Rails/SkipsModelValidations
   def update_location_status
     return if location.active == location_services_active?
     location.update_columns(active: location_services_active?)
   end
+  # rubocop:enable Rails/SkipsModelValidations
 
   def location_services_active?
     location.services.pluck(:status).include?('active')
   end
 
+  # rubocop:disable Rails/SkipsModelValidations
   def touch_location(_category)
     location.update_column(:updated_at, Time.zone.now) if persisted?
   end
+  # rubocop:enable Rails/SkipsModelValidations
 end

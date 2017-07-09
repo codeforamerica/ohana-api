@@ -17,14 +17,14 @@ Rails.application.routes.draw do
       root to: 'dashboard#index', as: :dashboard
 
       resources :locations, except: :show do
-        resources :services, except: [:show, :index] do
-          resources :contacts, except: [:show, :index], controller: 'service_contacts'
+        resources :services, except: %i[show index] do
+          resources :contacts, except: %i[show index], controller: 'service_contacts'
         end
-        resources :contacts, except: [:show, :index]
+        resources :contacts, except: %i[show index]
       end
 
       resources :organizations, except: :show do
-        resources :contacts, except: [:show, :index], controller: 'organization_contacts'
+        resources :contacts, except: %i[show index], controller: 'organization_contacts'
       end
       resources :programs, except: :show
       resources :services, only: :index
@@ -70,11 +70,11 @@ Rails.application.routes.draw do
             to: 'organizations#locations', as: :org_locations
 
         resources :locations do
-          resources :address, except: [:index, :show]
-          resources :mail_address, except: [:index, :show]
+          resources :address, except: %i[index show]
+          resources :mail_address, except: %i[index show]
           resources :contacts, except: [:show] do
             resources :phones,
-                      except: [:show, :index],
+                      except: %i[show index],
                       path: '/phones', controller: 'contact_phones'
           end
           resources :phones, except: [:show], path: '/phones', controller: 'location_phones'
@@ -91,7 +91,7 @@ Rails.application.routes.draw do
         get 'locations/:location_id/nearby', to: 'search#nearby', as: :location_nearby
 
         match '*unmatched_route' => 'errors#raise_not_found!',
-              via: [:get, :delete, :patch, :post, :put]
+              via: %i[get delete patch post put]
 
         # CORS support
         match '*unmatched_route' => 'cors#render_204', via: [:options]

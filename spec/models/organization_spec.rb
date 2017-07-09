@@ -84,11 +84,11 @@ describe Organization do
     it 'strips extra whitespace before validation' do
       org = build(:org_with_extra_whitespace)
       org.valid?
-      expect(org.accreditations).to eq(%w(BBB AAA))
+      expect(org.accreditations).to eq(%w[BBB AAA])
       expect(org.alternate_name).to eq('AKA')
       expect(org.description).to eq('Organization created for testing purposes')
       expect(org.email).to eq('foo@bar.org')
-      expect(org.funding_sources).to eq(%w(County State))
+      expect(org.funding_sources).to eq(%w[County State])
       expect(org.legal_status).to eq('nonprofit')
       expect(org.licenses).to eq(['Health Bureau'])
       expect(org.name).to eq('Food Pantry')

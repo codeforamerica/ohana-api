@@ -4,4 +4,4 @@
     You'll be able to add Contacts and Services to this location after you create it.
 
 = form_for [:admin, @location], url: admin_locations_path, html: { method: :post, class: 'edit-entry' } do |f|
-  = render 'admin/locations/forms/new_location_form', f: f
+  = render 'admin/locations/forms/new_location_form', f: f, location: @location

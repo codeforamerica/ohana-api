@@ -19,8 +19,8 @@ RSpec.configure do |config|
   config.order = :random
 
   config.after(:suite) do
-    if File.exist?("#{Rails.root}/tmp/archive.zip")
-      File.delete("#{Rails.root}/tmp/archive.zip")
+    if File.exist?(Rails.root.join('tmp', 'archive.zip'))
+      File.delete(Rails.root.join('tmp', 'archive.zip'))
     end
   end
 

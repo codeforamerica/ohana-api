@@ -14,8 +14,8 @@ class ContactImporter < EntityImporter
   end
 
   def self.required_headers
-    %w(id location_id organization_id service_id department email name
-       title)
+    %w[id location_id organization_id service_id department email name
+       title]
   end
 
   protected

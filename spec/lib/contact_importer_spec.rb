@@ -1,11 +1,17 @@
 require 'rails_helper'
 
 describe ContactImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_contact.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_contact.csv') }
-  let(:valid_service_contact) { Rails.root.join('spec/support/fixtures/valid_service_contact.csv') }
-  let(:valid_org_contact) { Rails.root.join('spec/support/fixtures/valid_org_contact.csv') }
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/contact_with_no_parent.csv') }
+  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_contact.csv') }
+  let(:valid_content) do
+    Rails.root.join('spec', 'support', 'fixtures', 'valid_location_contact.csv')
+  end
+  let(:valid_service_contact) do
+    Rails.root.join('spec', 'support', 'fixtures', 'valid_service_contact.csv')
+  end
+  let(:valid_org_contact) do
+    Rails.root.join('spec', 'support', 'fixtures', 'valid_org_contact.csv')
+  end
+  let(:no_parent) { Rails.root.join('spec', 'support', 'fixtures', 'contact_with_no_parent.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -129,7 +135,7 @@ describe ContactImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_location_contact.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location_contact.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -151,7 +157,7 @@ describe ContactImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Name can't be blank for Contact")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_contact.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_contact.csv')
         ContactImporter.check_and_import_file(path)
       end
     end
@@ -160,8 +166,8 @@ describe ContactImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(ContactImporter.required_headers).
-        to eq %w(id location_id organization_id service_id department email name
-                 title)
+        to eq %w[id location_id organization_id service_id department email name
+                 title]
     end
   end
 end

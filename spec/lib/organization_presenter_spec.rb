@@ -59,17 +59,17 @@ describe OrganizationPresenter do
 
       it 'transforms accreditations' do
         org = presenter.to_org
-        expect(org.attributes['accreditations']).to eq %w(one two)
+        expect(org.attributes['accreditations']).to eq %w[one two]
       end
 
       it 'transforms funding_sources' do
         org = presenter.to_org
-        expect(org.attributes['funding_sources']).to eq %w(donations grants)
+        expect(org.attributes['funding_sources']).to eq %w[donations grants]
       end
 
       it 'transforms licenses' do
         org = presenter.to_org
-        expect(org.attributes['licenses']).to eq %w(license1 license2)
+        expect(org.attributes['licenses']).to eq %w[license1 license2]
       end
     end
 

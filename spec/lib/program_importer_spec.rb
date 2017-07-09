@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe ProgramImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_program.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_program.csv') }
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/program_with_no_parent.csv') }
+  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_program.csv') }
+  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_program.csv') }
+  let(:no_parent) { Rails.root.join('spec', 'support', 'fixtures', 'program_with_no_parent.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -95,7 +95,7 @@ describe ProgramImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_program.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_program.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -117,7 +117,7 @@ describe ProgramImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Name can't be blank for Program")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_program.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_program.csv')
         ProgramImporter.check_and_import_file(path)
       end
     end
@@ -126,7 +126,7 @@ describe ProgramImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(ProgramImporter.required_headers).
-        to eq %w(id organization_id name alternate_name)
+        to eq %w[id organization_id name alternate_name]
     end
   end
 end

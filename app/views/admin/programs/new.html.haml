@@ -2,4 +2,4 @@
   %h1 Create a new program
 
 = form_for [:admin, @program], url: admin_programs_path, html: { method: :post, class: 'edit-entry' } do |f|
-  = render 'admin/programs/forms/new_program_form', f: f
+  = render 'admin/programs/forms/new_program_form', f: f, program: @program

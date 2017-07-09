@@ -1,17 +1,25 @@
 require 'rails_helper'
 
 describe HolidayScheduleImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv') }
-  let(:invalid_date) { Rails.root.join('spec/support/fixtures/hs_with_invalid_date.csv') }
+  let(:invalid_content) do
+    Rails.root.join('spec', 'support', 'fixtures', 'invalid_holiday_schedule.csv')
+  end
+  let(:invalid_date) { Rails.root.join('spec', 'support', 'fixtures', 'hs_with_invalid_date.csv') }
   let(:valid_content) do
-    Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv')
+    Rails.root.join('spec', 'support', 'fixtures', 'valid_location_holiday_schedule.csv')
   end
   let(:valid_service_holiday_schedule) do
-    Rails.root.join('spec/support/fixtures/valid_service_holiday_schedule.csv')
+    Rails.root.join('spec', 'support', 'fixtures', 'valid_service_holiday_schedule.csv')
   end
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/holiday_schedule_with_no_parent.csv') }
-  let(:spelled_out_date) { Rails.root.join('spec/support/fixtures/hs_with_spelled_out_date.csv') }
-  let(:org_with_2_digit_year) { Rails.root.join('spec/support/fixtures/hs_with_2_digit_year.csv') }
+  let(:no_parent) do
+    Rails.root.join('spec', 'support', 'fixtures', 'holiday_schedule_with_no_parent.csv')
+  end
+  let(:spelled_out_date) do
+    Rails.root.join('spec', 'support', 'fixtures', 'hs_with_spelled_out_date.csv')
+  end
+  let(:org_with_2_digit_year) do
+    Rails.root.join('spec', 'support', 'fixtures', 'hs_with_2_digit_year.csv')
+  end
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -158,7 +166,7 @@ describe HolidayScheduleImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_location_holiday_schedule.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location_holiday_schedule.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -180,7 +188,7 @@ describe HolidayScheduleImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Closes At can't be blank for Holiday Schedule when open on that day")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_holiday_schedule.csv')
         HolidayScheduleImporter.check_and_import_file(path)
       end
     end
@@ -189,8 +197,8 @@ describe HolidayScheduleImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(HolidayScheduleImporter.required_headers).
-        to eq %w(id location_id service_id closed start_date end_date opens_at
-                 closes_at)
+        to eq %w[id location_id service_id closed start_date end_date opens_at
+                 closes_at]
     end
   end
 end

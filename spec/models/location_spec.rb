@@ -68,15 +68,15 @@ describe Location do
   it { is_expected.not_to allow_value('moncef.blahcom').for(:email) }
   it { is_expected.not_to allow_value(' foo @bar.com').for(:email) }
 
-  it { is_expected.to allow_value(%w(moncef@blah.com)).for(:admin_emails) }
+  it { is_expected.to allow_value(%w[moncef@blah.com]).for(:admin_emails) }
 
   it do
-    is_expected.not_to allow_value(%w(moncef@blahcom)).
+    is_expected.not_to allow_value(%w[moncef@blahcom]).
       for(:admin_emails).
       with_message('moncef@blahcom is not a valid email')
   end
 
-  it { is_expected.not_to allow_value(%w(moncef.blahcom)).for(:admin_emails) }
+  it { is_expected.not_to allow_value(%w[moncef.blahcom]).for(:admin_emails) }
   it { is_expected.not_to allow_value([' foo @bar.com']).for(:admin_emails) }
 
   it do
@@ -107,7 +107,7 @@ describe Location do
       expect(loc.website).to eq('http://samaritanhouse.com')
       expect(loc.admin_emails).to eq(['foo@bar.com'])
       expect(loc.email).to eq('bar@foo.com')
-      expect(loc.languages).to eq(%w(English Vietnamese))
+      expect(loc.languages).to eq(%w[English Vietnamese])
     end
   end
 

@@ -1,8 +1,8 @@
-- if @service.errors.any?
+- if service.errors.any?
   .alert.alert-danger
-    %h2 #{pluralize(@service.errors.count, 'error')} prohibited this service from being saved:
+    %h2 #{pluralize(service.errors.count, 'error')} prohibited this service from being saved:
     %ul
-      - @service.errors.full_messages.each do |msg|
+      - service.errors.full_messages.each do |msg|
         %li= msg
 
 = render 'admin/services/forms/program', f: f
@@ -27,4 +27,4 @@
 = render 'admin/shared/forms/website', f: f
 = render 'admin/services/forms/wait', f: f
 = render 'admin/services/forms/categories', f: f
-= render 'admin/services/forms/keywords', f: f
+= render 'admin/services/forms/keywords', f: f, service: service

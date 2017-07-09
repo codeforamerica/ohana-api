@@ -1,20 +1,20 @@
 require 'rails_helper'
 
 describe LocationImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_location.csv') }
-  let(:invalid_org) { Rails.root.join('spec/support/fixtures/invalid_location_org.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location.csv') }
+  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_location.csv') }
+  let(:invalid_org) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_location_org.csv') }
+  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_location.csv') }
 
   let(:valid_address) do
-    path = Rails.root.join('spec/support/fixtures/valid_address.csv')
+    path = Rails.root.join('spec', 'support', 'fixtures', 'valid_address.csv')
     AddressExtractor.extract_addresses(path)
   end
   let(:invalid_address) do
-    path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
+    path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_address.csv')
     AddressExtractor.extract_addresses(path)
   end
   let(:missing_address) do
-    path = Rails.root.join('spec/support/fixtures/missing_address.csv')
+    path = Rails.root.join('spec', 'support', 'fixtures', 'missing_address.csv')
     AddressExtractor.extract_addresses(path)
   end
 
@@ -163,8 +163,8 @@ describe LocationImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_location.csv')
-      address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location.csv')
+      address_path = Rails.root.join('spec', 'support', 'fixtures', 'valid_address.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -180,8 +180,8 @@ describe LocationImporter do
     end
 
     it 'calls process_import' do
-      path = Rails.root.join('spec/support/fixtures/valid_location.csv')
-      address_path = Rails.root.join('spec/support/fixtures/valid_address.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location.csv')
+      address_path = Rails.root.join('spec', 'support', 'fixtures', 'valid_address.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -199,8 +199,8 @@ describe LocationImporter do
         expect(Kernel).to receive(:puts).ordered.
           with('Line 3: Street Address must be provided unless a Location is virtual')
 
-        path = Rails.root.join('spec/support/fixtures/invalid_location.csv')
-        address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_location.csv')
+        address_path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_address.csv')
         LocationImporter.check_and_import_file(path, address_path)
       end
     end
@@ -210,8 +210,8 @@ describe LocationImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: City can't be blank for Address")
 
-        path = Rails.root.join('spec/support/fixtures/valid_location.csv')
-        address_path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location.csv')
+        address_path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_address.csv')
         LocationImporter.check_and_import_file(path, address_path)
       end
     end
@@ -220,17 +220,17 @@ describe LocationImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(LocationImporter.required_headers).
-        to eq %w(id organization_id accessibility admin_emails alternate_name
+        to eq %w[id organization_id accessibility admin_emails alternate_name
                  latitude longitude description email languages name
-                 transportation virtual website)
+                 transportation virtual website]
     end
   end
 
   describe '.required_address_headers' do
     it 'matches required headers in Wiki' do
       expect(LocationImporter.required_address_headers).
-        to eq %w(id location_id address_1 address_2 city state_province
-                 postal_code country)
+        to eq %w[id location_id address_1 address_2 city state_province
+                 postal_code country]
     end
   end
 end

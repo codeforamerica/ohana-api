@@ -89,7 +89,7 @@ class Admin
     end
 
     def add_service_to_location_if_authorized
-      return unless location_ids.present?
+      return if location_ids.blank?
 
       location_ids.each do |id|
         Location.find(id.to_i).services.create!(params[:service])
@@ -97,9 +97,9 @@ class Admin
     end
 
     def location_ids
-      return unless params[:service][:locations].present?
-      params[:service][:locations].reject do |id|
-        !location_ids_for(@service).include?(id.to_i)
+      return if params[:service][:locations].blank?
+      params[:service][:locations].select do |id|
+        location_ids_for(@service).include?(id.to_i)
       end
     end
 

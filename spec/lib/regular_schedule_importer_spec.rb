@@ -1,14 +1,18 @@
 require 'rails_helper'
 
 describe RegularScheduleImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv') }
+  let(:invalid_content) do
+    Rails.root.join('spec', 'support', 'fixtures', 'invalid_regular_schedule.csv')
+  end
   let(:valid_content) do
-    Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv')
+    Rails.root.join('spec', 'support', 'fixtures', 'valid_location_regular_schedule.csv')
   end
   let(:valid_service_regular_schedule) do
-    Rails.root.join('spec/support/fixtures/valid_service_regular_schedule.csv')
+    Rails.root.join('spec', 'support', 'fixtures', 'valid_service_regular_schedule.csv')
   end
-  let(:no_parent) { Rails.root.join('spec/support/fixtures/regular_schedule_with_no_parent.csv') }
+  let(:no_parent) do
+    Rails.root.join('spec', 'support', 'fixtures', 'regular_schedule_with_no_parent.csv')
+  end
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -120,7 +124,7 @@ describe RegularScheduleImporter do
   describe '.check_and_import_file' do
     context 'when FileChecker returns skip import' do
       it 'does not import the file' do
-        path = Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location_regular_schedule.csv')
 
         file = double('FileChecker')
         allow(file).to receive(:validate).and_return 'skip import'
@@ -137,7 +141,7 @@ describe RegularScheduleImporter do
 
     context 'when FileChecker returns true' do
       it 'imports the file' do
-        path = Rails.root.join('spec/support/fixtures/valid_location_regular_schedule.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location_regular_schedule.csv')
 
         file = double('FileChecker')
         allow(file).to receive(:validate).and_return true
@@ -162,7 +166,7 @@ describe RegularScheduleImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Closes at can't be blank for Regular Schedule")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_regular_schedule.csv')
         RegularScheduleImporter.check_and_import_file(path)
       end
     end
@@ -171,7 +175,7 @@ describe RegularScheduleImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(RegularScheduleImporter.required_headers).
-        to eq %w(id location_id service_id weekday opens_at closes_at)
+        to eq %w[id location_id service_id weekday opens_at closes_at]
     end
   end
 end

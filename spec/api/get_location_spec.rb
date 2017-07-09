@@ -267,7 +267,7 @@ describe 'GET /locations/:id' do
 
     it 'returns nil fields when visiting one location' do
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      %w(admin_emails email accessibility).each do |key|
+      %w[admin_emails email accessibility].each do |key|
         expect(json.keys).to include(key)
       end
     end

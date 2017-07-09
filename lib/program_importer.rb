@@ -14,7 +14,7 @@ class ProgramImporter < EntityImporter
   end
 
   def self.required_headers
-    %w(id organization_id name alternate_name)
+    %w[id organization_id name alternate_name]
   end
 
   protected

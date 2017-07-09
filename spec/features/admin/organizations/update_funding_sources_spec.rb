@@ -22,11 +22,11 @@ feature 'Update funding_sources' do
     select2('State', 'organization_funding_sources', multiple: true)
     select2('County', 'organization_funding_sources', multiple: true)
     click_button I18n.t('admin.buttons.save_changes')
-    expect(@organization.reload.funding_sources).to eq %w(State County)
+    expect(@organization.reload.funding_sources).to eq %w[State County]
   end
 
   scenario 'removing a funding source', :js do
-    @organization.update!(funding_sources: %w(State County))
+    @organization.update!(funding_sources: %w[State County])
     visit '/admin/organizations/parent-agency'
     within '#s2id_organization_funding_sources' do
       first('.select2-search-choice-close').click

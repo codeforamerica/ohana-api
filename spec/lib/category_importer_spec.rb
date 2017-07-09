@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 describe CategoryImporter do
-  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_category.csv') }
-  let(:invalid_parent) { Rails.root.join('spec/support/fixtures/invalid_parent_category.csv') }
-  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_category.csv') }
-  let(:existing_content) { Rails.root.join('spec/support/fixtures/existing_category.csv') }
+  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_category.csv') }
+  let(:invalid_parent) do
+    Rails.root.join('spec', 'support', 'fixtures', 'invalid_parent_category.csv')
+  end
+  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_category.csv') }
+  let(:existing_content) { Rails.root.join('spec', 'support', 'fixtures', 'existing_category.csv') }
 
   subject(:importer) { CategoryImporter.new(content) }
 
@@ -88,7 +90,7 @@ describe CategoryImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec/support/fixtures/valid_category.csv')
+      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_category.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -110,7 +112,7 @@ describe CategoryImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Name can't be blank for Category")
 
-        path = Rails.root.join('spec/support/fixtures/invalid_category.csv')
+        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_category.csv')
         CategoryImporter.check_and_import_file(path)
       end
     end
@@ -119,7 +121,7 @@ describe CategoryImporter do
   describe '.required_headers' do
     it 'matches required headers in Wiki' do
       expect(CategoryImporter.required_headers).
-        to eq %w(taxonomy_id name parent_id parent_name)
+        to eq %w[taxonomy_id name parent_id parent_name]
     end
   end
 end

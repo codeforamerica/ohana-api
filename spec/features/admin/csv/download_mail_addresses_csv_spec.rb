@@ -7,8 +7,8 @@ feature 'Downloading Mail Addresses CSV' do
   end
 
   it 'contains the same headers as in the import Wiki' do
-    expect(csv.first).to eq %w(id location_id attention address_1 address_2
-                               city state_province postal_code country)
+    expect(csv.first).to eq %w[id location_id attention address_1 address_2
+                               city state_province postal_code country]
   end
 
   it 'populates mail address attribute values' do

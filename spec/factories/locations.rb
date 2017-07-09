@@ -5,7 +5,7 @@ FactoryGirl.define do
     name 'VRS Services'
     description 'Provides jobs training'
     short_desc 'short description'
-    accessibility [:tape_braille, :disabled_parking]
+    accessibility %i[tape_braille disabled_parking]
     latitude 37.583939
     longitude(-122.3715745)
     organization
@@ -42,7 +42,7 @@ FactoryGirl.define do
     latitude 37.5808591
     longitude(-122.343072)
     association :address, factory: :near
-    languages %w(Spanish Arabic)
+    languages %w[Spanish Arabic]
     association :organization, factory: :nearby_org
   end
 
@@ -60,7 +60,7 @@ FactoryGirl.define do
     short_desc 'short description'
     latitude 37.3180168
     longitude(-122.2743951)
-    languages %w(French Tagalog)
+    languages %w[French Tagalog]
     association :address, factory: :far_west
     association :organization, factory: :food_pantry
   end
@@ -72,7 +72,7 @@ FactoryGirl.define do
     latitude 37.6047797
     longitude(-122.3984501)
     association :address, factory: :far
-    languages %w(Spanish Arabic)
+    languages %w[Spanish Arabic]
     association :organization, factory: :far_org
   end
 

@@ -2,7 +2,7 @@ module TokenValidator
   extend ActiveSupport::Concern
 
   included do
-    before_action :validate_token!, only: [:update, :destroy, :create]
+    before_action :validate_token!, only: %i[update destroy create]
   end
 
   def validate_token!

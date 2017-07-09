@@ -1,14 +1,16 @@
 require 'rails_helper'
 
 describe FileChecker do
-  let(:required_and_full) { Rails.root.join('spec/support/fixtures/locations.csv') }
-  let(:required_but_empty) { Rails.root.join('spec/support/fixtures/services.csv') }
-  let(:required_but_missing) { Rails.root.join('spec/support/data/services.csv') }
-  let(:missing_not_required) { Rails.root.join('spec/support/fixtures/foo.csv') }
-  let(:empty_not_required) { Rails.root.join('spec/support/fixtures/taxonomy.csv') }
-  let(:full_not_required) { Rails.root.join('spec/support/fixtures/programs.csv') }
-  let(:invalid_headers) { Rails.root.join('spec/support/fixtures/invalid_program_headers.csv') }
-  let(:required_headers) { %w(id organization_id name alternate_name) }
+  let(:required_and_full) { Rails.root.join('spec', 'support', 'fixtures', 'locations.csv') }
+  let(:required_but_empty) { Rails.root.join('spec', 'support', 'fixtures', 'services.csv') }
+  let(:required_but_missing) { Rails.root.join('spec', 'support', 'data', 'services.csv') }
+  let(:missing_not_required) { Rails.root.join('spec', 'support', 'fixtures', 'foo.csv') }
+  let(:empty_not_required) { Rails.root.join('spec', 'support', 'fixtures', 'taxonomy.csv') }
+  let(:full_not_required) { Rails.root.join('spec', 'support', 'fixtures', 'programs.csv') }
+  let(:invalid_headers) do
+    Rails.root.join('spec', 'support', 'fixtures', 'invalid_program_headers.csv')
+  end
+  let(:required_headers) { %w[id organization_id name alternate_name] }
 
   subject(:checker) { FileChecker.new(path, required_headers) }
 
@@ -138,8 +140,8 @@ describe FileChecker do
 
     its(:required_files) do
       is_expected.
-        to eq %w(organizations.csv locations.csv addresses.csv services.csv
-                 phones.csv)
+        to eq %w[organizations.csv locations.csv addresses.csv services.csv
+                 phones.csv]
     end
   end
 

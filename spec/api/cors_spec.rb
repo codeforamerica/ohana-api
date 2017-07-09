@@ -23,7 +23,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     it 'sets Access-Control-Allow-Methods to the whitelisted methods' do
       allowed_http_methods = headers['Access-Control-Allow-Methods']
       expect(allowed_http_methods).
-        to eq(%w(GET PUT PATCH POST DELETE).join(', '))
+        to eq(%w[GET PUT PATCH POST DELETE].join(', '))
     end
 
     it 'returns the Access-Control-Max-Age header' do
@@ -132,7 +132,7 @@ describe 'CORS REQUESTS - POST and GET' do
     it 'sets Access-Control-Allow-Methods to the whitelisted methods' do
       allowed_http_methods = headers['Access-Control-Allow-Methods']
       expect(allowed_http_methods).
-        to eq(%w(GET PUT PATCH POST DELETE).join(', '))
+        to eq(%w[GET PUT PATCH POST DELETE].join(', '))
     end
 
     it 'returns the Access-Control-Max-Age header' do

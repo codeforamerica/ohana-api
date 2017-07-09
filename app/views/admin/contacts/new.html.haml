@@ -2,4 +2,4 @@
   %h1 Create a new contact
 
 = form_for [:admin, @location, @contact], html: { method: :post, class: 'edit-entry' } do |f|
-  = render 'admin/contacts/forms/new_contact', f: f
+  = render 'admin/contacts/forms/new_contact', f: f, location: @location, contact: @contact

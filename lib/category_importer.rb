@@ -14,7 +14,7 @@ class CategoryImporter < EntityImporter
   end
 
   def self.required_headers
-    %w(taxonomy_id name parent_id parent_name)
+    %w[taxonomy_id name parent_id parent_name]
   end
 
   protected
