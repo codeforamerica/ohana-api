@@ -26,7 +26,7 @@ end
 
 child(:phones) { extends 'phones/phone' }
 
-child(:contacts) { extends 'contacts/contact'}
+child(:contacts) { extends 'contacts/contact' }
 
 child(:regular_schedules) { extends 'regular_schedules/regular_schedule' }
 
@@ -37,7 +37,7 @@ child(:services) do
              :eligibility, :email, :fees, :application_process, :languages, :name,
              :required_documents, :service_areas, :status, :website, :wait_time
   child(:phones) { extends 'phones/phone' }
-  child(:contacts) { extends 'contacts/contact'}
+  child(:contacts) { extends 'contacts/contact' }
   child(:regular_schedules) { extends 'regular_schedules/regular_schedule' }
   child(:holiday_schedules) { extends 'holiday_schedules/holiday_schedule' }
 end

@@ -1,7 +1,8 @@
 .inst-box
   %header
-    = f.label :audience, 'Audience'
+    = f.label :audience
     %p.desc
-      What groups are served, if not everyone?
+      = t('.description')
+
   %p
     = f.text_area :audience, class: 'form-control'

@@ -17,7 +17,7 @@ describe "GET 'nearby'" do
   it 'returns a summarized JSON representation' do
     get api_location_nearby_url(@loc, radius: 2, subdomain: ENV['API_SUBDOMAIN'])
     expect(json.first.keys).
-      to eq %w(id alternate_name latitude longitude name slug address)
+      to eq %w[id alternate_name latitude longitude name slug address]
   end
 
   it 'only returns active locations' do

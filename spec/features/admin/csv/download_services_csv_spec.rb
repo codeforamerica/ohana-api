@@ -14,14 +14,14 @@ feature 'Downloading Services CSV' do
     end
 
     it 'contains the same headers as in the import Wiki' do
-      expect(csv.first).to eq %w(
+      expect(csv.first).to eq %w[
         id location_id program_id accepted_payments
         alternate_name application_process audience description
         eligibility email fees funding_sources
         interpretation_services keywords languages name
         required_documents service_areas status wait_time website
         taxonomy_ids
-      )
+      ]
     end
 
     it 'converts arrays to comma-separated strings' do

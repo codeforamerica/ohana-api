@@ -9,8 +9,8 @@ feature 'Downloading Regular Schedules CSV' do
   end
 
   it 'contains the same headers as in the import Wiki' do
-    expect(csv.first).to eq %w(id location_id service_id weekday opens_at
-                               closes_at)
+    expect(csv.first).to eq %w[id location_id service_id weekday opens_at
+                               closes_at]
   end
 
   it 'formats the date and time values' do

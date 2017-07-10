@@ -1,7 +1,8 @@
 .inst-box
   %header
-    = f.label :short_desc, 'Short Description'
+    = f.label :short_desc
     %span.desc
-      A short summary of the description of services.
+      = t('.description')
+
   = field_set_tag do
     = f.text_area :short_desc, class: 'form-control'

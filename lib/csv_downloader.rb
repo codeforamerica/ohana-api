@@ -2,8 +2,8 @@ require 'zip'
 require 'open-uri'
 
 class CsvDownloader
-  TABLES = %w(locations addresses mail_addresses contacts holiday_schedules
-              phones programs services regular_schedules organizations).freeze
+  TABLES = %w[locations addresses mail_addresses contacts holiday_schedules
+              phones programs services regular_schedules organizations].freeze
 
   def initialize(file, url_prefix)
     @file = file

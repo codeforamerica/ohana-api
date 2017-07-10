@@ -271,7 +271,7 @@ describe 'GET /locations/:id' do
 
     it 'returns nil fields when visiting one location' do
       get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
-      %w(admin_emails email accessibility).each do |key|
+      %w[admin_emails email accessibility].each do |key|
         expect(json.keys).to include(key)
       end
     end
@@ -286,7 +286,7 @@ describe 'GET /locations/:id' do
     it 'includes products' do
       products = json['products']
       expect(products).to be_a Array
-      %w(Cheese Flowers Eggs Seafood Herbs).each do |product|
+      %w[Cheese Flowers Eggs Seafood Herbs].each do |product|
         expect(products).to include(product)
       end
     end
@@ -294,7 +294,7 @@ describe 'GET /locations/:id' do
     it 'includes payments' do
       payments = json['payments']
       expect(payments).to be_a Array
-      %w(Credit WIC SFMNP SNAP).each do |payment|
+      %w[Credit WIC SFMNP SNAP].each do |payment|
         expect(payments).to include(payment)
       end
     end

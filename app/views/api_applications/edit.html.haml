@@ -2,4 +2,4 @@
   = @api_application.name
 %div
   %p API Token: #{@api_application.api_token}
-= render 'form'
+= render 'form', api_application: @api_application

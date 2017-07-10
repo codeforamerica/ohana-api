@@ -1,9 +1,9 @@
 .inst-box
   %header
     %strong
-      Status
+      = f.label :status
     %p.desc
-      Is this service active, inactive, or defunct?
+      = t('.description')
 
   = field_set_tag do
     - if f.object.new_record?

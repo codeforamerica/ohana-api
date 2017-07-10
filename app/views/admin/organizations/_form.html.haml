@@ -1,15 +1,15 @@
-= render 'admin/organizations/forms/fields', f: f
+= render 'admin/organizations/forms/fields', f: f, organization: organization
 
 .content-box
   %h2 Contacts
-  - if @organization.contacts.present?
+  - if organization.contacts.present?
     Click a Contact below to view and update it:
     %p
-    - @organization.contacts.each do |contact|
-      = link_to contact.name, edit_admin_organization_contact_path(@organization, contact)
+    - organization.contacts.each do |contact|
+      = link_to contact.name, edit_admin_organization_contact_path(organization, contact)
       %br
   %p
-    = link_to t('admin.buttons.add_contact'), new_admin_organization_contact_path(@organization), class: 'btn btn-primary'
+    = link_to t('admin.buttons.add_contact'), new_admin_organization_contact_path(organization), class: 'btn btn-primary'
 
 .danger-zone
   %header
@@ -21,12 +21,12 @@
     Once you delete an organization, there is no going back. Please be certain.
   %p
     = link_to t('admin.buttons.delete_organization'), {}, href: '', data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
-.modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', 'role' => 'dialog', 'tabindex' => '-1' }
-  = render 'admin/organizations/confirm_delete_organization', org_id: @organization.id, org_name: @organization.name
+.modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'my-modal-label', 'role' => 'dialog', 'tabindex' => '-1' }
+  = render 'admin/organizations/confirm_delete_organization', org_id: organization.id, org_name: organization.name
 
 .save-box.navbar-default
   %p
     Editing
     %strong
-      = @organization.name
+      = organization.name
   = f.submit t('admin.buttons.save_changes'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }

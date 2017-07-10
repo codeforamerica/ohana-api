@@ -10,8 +10,8 @@ feature 'Downloading Holiday Schedules CSV' do
     end
 
     it 'contains the same headers as in the import Wiki' do
-      expect(csv.first).to eq %w(id location_id service_id start_date end_date
-                                 closed opens_at closes_at)
+      expect(csv.first).to eq %w[id location_id service_id start_date end_date
+                                 closed opens_at closes_at]
     end
 
     it 'populates holiday_schedule attribute values' do

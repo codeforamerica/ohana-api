@@ -1,8 +1,9 @@
 .inst-box
   %header
-    = f.label :tax_status, 'Tax Status'
+    = f.label :tax_status
     %span.desc
-      Internal Revenue Service tax designation, such as 501(c)(3).
+      = t('.description')
+
   = field_set_tag do
     .row
       .col-sm-6

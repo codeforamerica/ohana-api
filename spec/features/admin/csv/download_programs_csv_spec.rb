@@ -7,7 +7,7 @@ feature 'Downloading Programs CSV' do
   end
 
   it 'contains the same headers as in the import Wiki' do
-    expect(csv.first).to eq %w(id organization_id alternate_name name)
+    expect(csv.first).to eq %w[id organization_id alternate_name name]
   end
 
   it 'populates program attribute values' do

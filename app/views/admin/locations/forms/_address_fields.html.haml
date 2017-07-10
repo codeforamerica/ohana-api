@@ -1,26 +1,26 @@
 = field_set_tag do
   .form-group
-    = f.label :address_1, 'Street (Line 1)'
+    = f.label :address_1
     .row
       .col-sm-6
         = f.text_field :address_1, class: 'form-control'
   .form-group
-    = f.label :address_2, 'Street (Line 2)'
+    = f.label :address_2
     .row
       .col-sm-6
         = f.text_field :address_2, class: 'form-control'
   .form-group
-    = f.label :city, 'City'
+    = f.label :city
     .row
       .col-sm-6
         = f.text_field :city, maxlength: 255, class: 'form-control'
   .form-group
-    = f.label :state_province, 'State (2-letter abbreviation)'
+    = f.label :state_province
     .row
       .col-sm-2
         = f.text_field :state_province, maxlength: 2, class: 'form-control'
   .form-group
-    = f.label :postal_code, 'ZIP Code'
+    = f.label :postal_code
     .row
       .col-xs-4
         = f.text_field :postal_code, maxlength: 5, class: 'form-control'

@@ -64,12 +64,12 @@ describe Service do
   end
 
   it do
-    is_expected.not_to allow_value(%w(belmont)).
+    is_expected.not_to allow_value(%w[belmont]).
       for(:service_areas).
       with_message('belmont is not a valid service area')
   end
 
-  it { is_expected.to allow_value(%w(Belmont Atherton)).for(:service_areas) }
+  it { is_expected.to allow_value(%w[Belmont Atherton]).for(:service_areas) }
 
   it { is_expected.to enumerize(:status).in(:active, :defunct, :inactive) }
 
@@ -106,7 +106,7 @@ describe Service do
     it 'strips extra whitespace before validation' do
       service = build(:service_with_extra_whitespace)
       service.valid?
-      expect(service.accepted_payments).to eq(%w(Cash Credit))
+      expect(service.accepted_payments).to eq(%w[Cash Credit])
       expect(service.alternate_name).to eq('AKA')
       expect(service.audience).to eq('Low-income seniors')
       expect(service.description).to eq('SNAP market')
@@ -116,8 +116,8 @@ describe Service do
       expect(service.funding_sources).to eq(['County'])
       expect(service.application_process).to eq('in person')
       expect(service.interpretation_services).to eq('CTS LanguageLink')
-      expect(service.keywords).to eq(%w(health yoga))
-      expect(service.languages).to eq(%w(French English))
+      expect(service.keywords).to eq(%w[health yoga])
+      expect(service.languages).to eq(%w[French English])
       expect(service.name).to eq('Benefits')
       expect(service.required_documents).to eq(['ID'])
       expect(service.service_areas).to eq(['Belmont'])

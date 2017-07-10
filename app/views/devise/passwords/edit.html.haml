@@ -4,10 +4,10 @@
     = devise_error_messages!
     = f.hidden_field :reset_password_token
     .form-group
-      = f.label :password, 'New password'
+      = f.label :password
       = f.password_field :password, autofocus: true, autocomplete: 'off', class: 'form-control'
     .form-group
-      = f.label :password_confirmation, 'Confirm new password'
+      = f.label :password_confirmation
       = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
     = f.submit t('buttons.change_my_password'), class: 'button right'
     %br

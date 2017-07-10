@@ -75,7 +75,10 @@ feature 'Visiting a specific location' do
       Organization.find_each(&:destroy)
       login_super_admin
       visit('/admin/locations/new')
-      expect(page).to have_content 'Choose an organization'
+      expect(page).to have_css(
+        'input#org-name[type="hidden"][data-placeholder="Choose an organization"]',
+        visible: false
+      )
     end
   end
 end

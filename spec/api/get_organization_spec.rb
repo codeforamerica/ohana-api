@@ -49,10 +49,10 @@ describe 'GET /organizations/:id' do
     end
 
     it 'includes the full representation' do
-      expect(json.keys).to eq %w(id accreditations alternate_name
+      expect(json.keys).to eq %w[id accreditations alternate_name
                                  date_incorporated description email
                                  funding_sources licenses name website
-                                 slug url locations_url contacts phones)
+                                 slug url locations_url contacts phones]
     end
   end
 

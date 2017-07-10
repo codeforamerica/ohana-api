@@ -32,10 +32,8 @@ class Location < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   validates :address,
-            presence: {
-              message: I18n.t('errors.messages.no_address')
-            },
-            unless: ->(location) { location.virtual? }
+            presence: { message: I18n.t('errors.messages.no_address') },
+            unless: :virtual?
 
   validates :kind, :organization, :name,
             presence: { message: I18n.t('errors.messages.blank_for_location') }
@@ -65,16 +63,16 @@ class Location < ActiveRecord::Base
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
   enumerize :accessibility,
-            in: [:cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp,
-                 :restroom, :tape_braille, :tty, :wheelchair, :wheelchair_van],
+            in: %i[cd deaf_interpreter disabled_parking elevator ramp
+                   restroom tape_braille tty wheelchair wheelchair_van],
             multiple: true
 
   # Don't change the terms here! You can change their display
   # name in config/locales/en.yml
   enumerize :kind,
-            in: [:arts, :clinics, :education, :entertainment, :farmers_markets,
-                 :government, :human_services, :libraries, :museums, :other,
-                 :parks, :sports]
+            in: %i[arts clinics education entertainment farmers_markets
+                   government human_services libraries museums other
+                   parks sports]
 
   # List of admin emails that should have access to edit a location's info.
   # Admin emails can be added to a location via the Admin interface.
@@ -97,8 +95,8 @@ class Location < ActiveRecord::Base
   def slug_candidates
     [
       :name,
-      [:name, :address_street],
-      [:name, :mail_address_city]
+      %i[name address_street],
+      %i[name mail_address_city]
     ]
   end
 
@@ -111,7 +109,7 @@ class Location < ActiveRecord::Base
   end
 
   def full_physical_address
-    return unless address.present?
+    return if address.blank?
     "#{address.address_1}, #{address.city}, #{address.state_province} #{address.postal_code}"
   end
 

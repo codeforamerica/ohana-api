@@ -1,9 +1,9 @@
 .inst-box
   %header
     %strong
-      Accreditations
+      = f.label :accreditations
     %p.desc
-      You can enter multiple terms in this box by pressing the comma key after each one.
+      = t('.description')
 
   = field_set_tag do
-    = text_field_tag 'organization[accreditations][]', @organization.accreditations.join(','), id: 'organization_accreditations', class: 'form-control'
+    = text_field_tag 'organization[accreditations][]', organization.accreditations.join(','), id: 'organization_accreditations', class: 'form-control'

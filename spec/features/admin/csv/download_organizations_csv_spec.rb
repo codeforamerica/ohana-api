@@ -8,11 +8,11 @@ feature 'Downloading Organizations CSV' do
     end
 
     it 'contains the same headers as in the import Wiki' do
-      expect(csv.first).to eq %w(
+      expect(csv.first).to eq %w[
         id accreditations alternate_name date_incorporated
         description email funding_sources legal_status licenses
         name tax_id tax_status website
-      )
+      ]
     end
 
     it 'converts arrays to comma-separated strings' do

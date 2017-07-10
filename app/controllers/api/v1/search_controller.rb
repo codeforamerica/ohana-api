@@ -29,7 +29,7 @@ module Api
       private
 
       def tables
-        @tables ||= [:organization, :address, :phones]
+        @tables ||= %i[organization address phones]
       end
 
       def locations_near(location)

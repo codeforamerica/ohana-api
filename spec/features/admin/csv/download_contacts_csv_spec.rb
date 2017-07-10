@@ -15,8 +15,8 @@ feature 'Downloading Contacts CSV' do
   end
 
   it 'contains the same headers as in the import Wiki' do
-    expect(csv.first).to eq %w(id location_id organization_id service_id name
-                               title email department)
+    expect(csv.first).to eq %w[id location_id organization_id service_id name
+                               title email department]
   end
 
   it 'populates contact attribute values' do

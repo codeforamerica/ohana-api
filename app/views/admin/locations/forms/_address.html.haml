@@ -1,9 +1,10 @@
 .inst-box.address
   %header
     %strong
-      Street Address
+      = f.label :address
     %span.desc
-      The physical location.
+      = t('.description')
+
   = f.fields_for :address do |builder|
     = render 'admin/locations/forms/address_fields', f: builder
   - unless @location.address.present?

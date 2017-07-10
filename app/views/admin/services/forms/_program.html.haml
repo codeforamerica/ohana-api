@@ -1,7 +1,8 @@
 .inst-box.program
   %header
-    = f.label :program_id, 'Service Program'
+    = f.label :program_id
     %span.desc
-      If this service is associated with a program, enter it below.
+      = t('.description')
+
   %p
     = program_autocomplete_field_for(f)

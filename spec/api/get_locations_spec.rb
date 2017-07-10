@@ -162,9 +162,9 @@ describe 'GET /locations' do
 
     it 'includes a summarized organization association' do
       expect(json.first['organization'].keys).
-        to eq(%w(id accreditations alternate_name date_incorporated
+        to eq(%w[id accreditations alternate_name date_incorporated
                  description email funding_sources licenses name
-                 website slug url locations_url))
+                 website slug url locations_url])
     end
 
     it 'does not include contacts within Organization' do
@@ -194,7 +194,7 @@ describe 'GET /locations' do
     it 'returns nil fields within Location' do
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
       location_keys = json.first.keys
-      nil_fields = %w(address coordinates phones)
+      nil_fields = %w[address coordinates phones]
       nil_fields.each do |key|
         expect(location_keys).to include(key)
       end
@@ -204,7 +204,7 @@ describe 'GET /locations' do
       @loc.phones.create!(attributes_for(:phone))
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
       phone_keys = json.first['phones'].first.keys
-      %w(extension vanity_number).each do |key|
+      %w[extension vanity_number].each do |key|
         expect(phone_keys).to include(key)
       end
     end

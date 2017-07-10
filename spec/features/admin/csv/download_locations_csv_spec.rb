@@ -5,19 +5,19 @@ feature 'Downloading Locations CSV' do
     before do
       @loc = create(
         :loc_with_extra_whitespace,
-        accessibility: [:tape_braille, :disabled_parking],
-        payments: %w(Cash Credit),
-        products: %w(Eggs Produce)
+        accessibility: %i[tape_braille disabled_parking],
+        payments: %w[Cash Credit],
+        products: %w[Eggs Produce]
       )
       visit admin_csv_locations_path(format: 'csv')
     end
 
     it 'contains the same headers as in the import Wiki + SMC fields' do
-      expect(csv.first).to eq %w(
+      expect(csv.first).to eq %w[
         id organization_id accessibility admin_emails alternate_name
         description email hours kind languages latitude longitude market_match
         name payments products short_desc transportation website virtual
-      )
+      ]
     end
 
     it 'converts arrays to comma-separated strings' do

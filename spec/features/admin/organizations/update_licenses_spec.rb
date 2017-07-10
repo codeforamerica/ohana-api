@@ -23,11 +23,11 @@ feature 'Update licenses' do
     select2('first', 'organization_licenses', multiple: true, tag: true)
     select2('second', 'organization_licenses', multiple: true, tag: true)
     click_button I18n.t('admin.buttons.save_changes')
-    expect(@organization.reload.licenses).to eq %w(first second)
+    expect(@organization.reload.licenses).to eq %w[first second]
   end
 
   scenario 'removing a license', :js do
-    @organization.update!(licenses: %w(County Donations))
+    @organization.update!(licenses: %w[County Donations])
     visit '/admin/organizations/parent-agency'
     within '#s2id_organization_licenses' do
       first('.select2-search-choice-close').click

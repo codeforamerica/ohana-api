@@ -201,7 +201,7 @@ feature 'Admin Home page' do
     end
 
     it 'changes the button text when the zip is ready' do
-      tmp_file_name = "#{Rails.root}/tmp/archive.zip"
+      tmp_file_name = Rails.root.join('tmp', 'archive.zip')
       allow(File).to receive(:exist?).with(tmp_file_name).and_return true
       visit '/admin'
 
