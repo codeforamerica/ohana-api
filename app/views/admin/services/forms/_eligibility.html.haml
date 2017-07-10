@@ -1,7 +1,8 @@
 .inst-box
   %header
-    = f.label :eligibility, 'Eligibility'
+    = f.label :eligibility
     %p.desc
-      What criteria must served groups meet to receive service?
+      = t('.description')
+
   %p
     = f.text_area :eligibility, class: 'form-control'

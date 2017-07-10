@@ -22,11 +22,11 @@ feature 'Update languages' do
     select2('French', 'location_languages', multiple: true)
     select2('Spanish', 'location_languages', multiple: true)
     click_button I18n.t('admin.buttons.save_changes')
-    expect(@location.reload.languages).to eq %w(French Spanish)
+    expect(@location.reload.languages).to eq %w[French Spanish]
   end
 
   scenario 'removing a language', :js do
-    @location.update!(languages: %w(Arabic French))
+    @location.update!(languages: %w[Arabic French])
     visit '/admin/locations/vrs-services'
     first('.select2-search-choice-close').click
     click_button I18n.t('admin.buttons.save_changes')

@@ -1,8 +1,9 @@
 .inst-box
   %header
-    = f.label :email, 'Email'
+    = f.label :email
     %span.desc
-      The #{f.object.class.to_s.downcase}'s general email.
+      = t('.description', type: f.object.model_name.human.downcase)
+
   = field_set_tag do
     .row
       .col-sm-6

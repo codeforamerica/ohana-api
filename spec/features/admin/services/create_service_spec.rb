@@ -132,7 +132,7 @@ feature 'Create a new service' do
     click_link 'New VRS Services service'
 
     service = Service.find_by(name: 'New VRS Services service')
-    expect(service.keywords).to eq %w(first second)
+    expect(service.keywords).to eq %w[first second]
   end
 
   scenario 'when adding a language', :js do

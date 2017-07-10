@@ -1,5 +1,5 @@
 = field_set_tag do
-  = f.select :weekday, weekday_select_field, include_blank: 'Day'
+  = f.select :weekday, weekday_select_field, include_blank: t('.weekday.include_blank')
   Opens at:
   = f.time_select :opens_at, minute_step: 15, prompt: true, ampm: true
   Closes at:

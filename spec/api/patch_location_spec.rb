@@ -32,7 +32,7 @@ describe 'PATCH /locations/:id)' do
   end
 
   it 'sets languages to empty array if value is empty array' do
-    @loc.update!(languages: %w(French Arabic))
+    @loc.update!(languages: %w[French Arabic])
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), languages: []
     expect(json['languages']).to eq([])
   end

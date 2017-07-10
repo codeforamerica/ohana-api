@@ -12,5 +12,5 @@ class HolidaySchedule < ActiveRecord::Base
 
   validates :opens_at, :closes_at,
             presence: { message: I18n.t('errors.messages.blank_for_hs_open') },
-            unless: ->(hs) { hs.closed? }
+            unless: :closed?
 end

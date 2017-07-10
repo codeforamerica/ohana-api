@@ -1,5 +1,5 @@
 class StateProvinceValidator < ActiveModel::EachValidator
-  COUNTRIES_NEEDING_VALIDATION = %w(US CA).freeze
+  COUNTRIES_NEEDING_VALIDATION = %w[US CA].freeze
 
   def validate_each(record, attribute, value)
     return unless COUNTRIES_NEEDING_VALIDATION.include?(record.country)

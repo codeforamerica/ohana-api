@@ -11,6 +11,7 @@ cache = Readthis::Cache.new(
 Geocoder.configure(
   lookup: :google,
   cache: cache,
+  http_proxy: ENV['QUOTAGUARD_URL'],
   always_raise: [
     Geocoder::OverQueryLimitError,
     Geocoder::RequestDenied,

@@ -6,7 +6,7 @@ module Api
       include CustomErrors
       include Cacheable
 
-      after_action :set_cache_control, only: [:index, :show]
+      after_action :set_cache_control, only: %i[index show]
 
       respond_to :xml
 
@@ -53,20 +53,20 @@ module Api
       private
 
       def tables
-        return [:organization, :address, :phones] unless request.format == Mime::XML
+        return %i[organization address phones] unless request.format == Mime::XML
         [:address, :mail_address, :services, :organization,
          { contacts: :phones, services: common_tables }] + common_tables
       end
 
       def common_tables
-        @common_tables ||= [:contacts, :phones, :regular_schedules, :holiday_schedules]
+        @common_tables ||= %i[contacts phones regular_schedules holiday_schedules]
       end
 
       def show_tables
         @show_tables ||= [
           {
             contacts: :phones,
-            services: [:categories, :contacts, :phones, :regular_schedules, :holiday_schedules]
+            services: %i[categories contacts phones regular_schedules holiday_schedules]
           }
         ]
       end

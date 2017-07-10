@@ -1,4 +1,4 @@
 .content-box
   %h2 #{@contact.try(:name)} / #{@organization.name}
 = form_for [:admin, @organization, @contact], html: { class: 'edit-entry' } do |f|
-  = render 'admin/contacts/form', f: f
+  = render 'admin/contacts/form', f: f, contact: @contact

@@ -78,7 +78,7 @@ class Admin
           id: 'org-name',
           class: 'form-control',
           data: { 'ajax-url' => admin_organizations_url,
-                  'placeholder' => 'Choose an organization' }
+                  'placeholder' => t('.placeholder') }
         )
       else
         f.select(
@@ -93,12 +93,12 @@ class Admin
     def program_autocomplete_field_for(f)
       f.select(
         :program_id, @location.organization.programs.pluck(:name, :id),
-        { include_blank: 'This service is not part of any program' },
+        { include_blank: t('.include_blank') },
         class: 'form-control'
       )
     end
 
-    WEEKDAYS = %w(Monday Tuesday Wednesday Thursday Friday Saturday Sunday).freeze
+    WEEKDAYS = %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday].freeze
 
     def weekday_select_field
       WEEKDAYS.each_with_index.map { |day, i| [day, i + 1] }

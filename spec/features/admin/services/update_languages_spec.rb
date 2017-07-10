@@ -23,11 +23,11 @@ feature 'Update languages' do
     select2('French', 'service_languages', multiple: true)
     select2('Spanish', 'service_languages', multiple: true)
     click_button I18n.t('admin.buttons.save_changes')
-    expect(@service.reload.languages).to eq %w(French Spanish)
+    expect(@service.reload.languages).to eq %w[French Spanish]
   end
 
   scenario 'removing a language', :js do
-    @service.update!(languages: %w(Arabic French))
+    @service.update!(languages: %w[Arabic French])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
     within '#s2id_service_languages' do

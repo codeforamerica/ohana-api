@@ -1,8 +1,9 @@
 .inst-box.funding_sources
   %header
     %strong
-      Funding Sources
+      = f.label :funding_sources
     %p.desc
-      How is this #{f.object.class.to_s.downcase} funded?
+      = t('.description', type: f.object.model_name.human.downcase)
+
   = field_set_tag do
-    = f.select :funding_sources, SETTINGS.try(:[], :funding_sources), {}, multiple: true, class: 'form-control'
+    = f.select :funding_sources, SETTINGS.try(:[], :funding_sources), {}, multiple: true, class: 'form-control', data: { placeholder: t('.placeholder') }

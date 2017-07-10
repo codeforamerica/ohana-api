@@ -117,7 +117,7 @@ feature 'Create a new organization' do
     click_button I18n.t('admin.buttons.create_organization')
 
     organization = Organization.find_by(name: 'new org')
-    expect(organization.accreditations).to eq %w(first second)
+    expect(organization.accreditations).to eq %w[first second]
   end
 
   scenario 'when adding multiple licenses', :js do
@@ -128,6 +128,6 @@ feature 'Create a new organization' do
     click_button I18n.t('admin.buttons.create_organization')
 
     organization = Organization.find_by(name: 'new org')
-    expect(organization.licenses).to eq %w(first second)
+    expect(organization.licenses).to eq %w[first second]
   end
 end

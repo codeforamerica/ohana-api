@@ -1,7 +1,8 @@
 .inst-box
   %header
-    = f.label :fees, 'Fees'
+    = f.label :fees
     %p.desc
-      Are there any fees to receive this service?
+      = t('.description')
+
   %p
     = f.text_area :fees, class: 'form-control'

@@ -24,11 +24,11 @@ feature 'Update service areas' do
     select2('Belmont', 'service_service_areas', multiple: true)
     select2('Atherton', 'service_service_areas', multiple: true)
     click_button I18n.t('admin.buttons.save_changes')
-    expect(@service.reload.service_areas).to eq %w(Atherton Belmont)
+    expect(@service.reload.service_areas).to eq %w[Atherton Belmont]
   end
 
   scenario 'removing a service area', :js do
-    @service.update!(service_areas: %w(Atherton Belmont))
+    @service.update!(service_areas: %w[Atherton Belmont])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
     within '#s2id_service_service_areas' do

@@ -1,18 +1,18 @@
-= form_for @api_application do |f|
-  - if @api_application.errors.any?
+= form_for api_application do |f|
+  - if api_application.errors.any?
     .alert.alert-danger
-      %h2 #{pluralize(@api_application.errors.count, 'error')} prohibited this application from being saved:
+      %h2 #{pluralize(api_application.errors.count, 'error')} prohibited this application from being saved:
       %ul
-        - @api_application.errors.full_messages.each do |msg|
+        - api_application.errors.full_messages.each do |msg|
           %li= msg
   .form-group
-    = f.label :name, 'Application Name'
+    = f.label :name
     = f.text_field :name, class: 'form-control'
   .form-group
-    = f.label :main_url, 'Main URL'
+    = f.label :main_url
     = f.text_field :main_url, class: 'form-control'
   .form-group
-    = f.label :callback_url, 'Callback URL'
+    = f.label :callback_url
     = f.text_field :callback_url, class: 'form-control'
   - if f.object.new_record?
     .actions
@@ -20,4 +20,4 @@
   - else
     .actions
       = f.submit t('buttons.update_application'), class: 'btn btn-success'
-      = link_to t('buttons.delete_application'), { action: :destroy, id: @api_application.id }, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+      = link_to t('buttons.delete_application'), { action: :destroy, id: api_application.id }, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

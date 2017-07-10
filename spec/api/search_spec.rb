@@ -457,7 +457,7 @@ describe "GET 'search'" do
       create(:loc_with_nil_fields)
       get api_search_index_url(keyword: 'belmont', subdomain: ENV['API_SUBDOMAIN'])
       keys = json.first.keys
-      %w(phones address).each do |key|
+      %w[phones address].each do |key|
         expect(keys).to include(key)
       end
     end
@@ -524,10 +524,10 @@ describe "GET 'search'" do
       loc2 = create(:nearby_loc)
 
       loc1.services.create!(attributes_for(:service).
-        merge(service_areas: %w(Belmont Atherton)))
+        merge(service_areas: %w[Belmont Atherton]))
 
       loc2.services.create!(attributes_for(:service).
-        merge(service_areas: %w(Alaska Arizona)))
+        merge(service_areas: %w[Alaska Arizona]))
     end
 
     it 'only returns locations with SMC service areas when param = smc' do

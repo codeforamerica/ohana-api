@@ -4,13 +4,13 @@ module Api
       include TokenValidator
       include CustomErrors
 
-      before_action :validate_token!, only: [:update, :destroy, :create, :update_categories]
-      before_action :validate_service_areas, only: [:update, :create]
+      before_action :validate_token!, only: %i[update destroy create update_categories]
+      before_action :validate_service_areas, only: %i[update create]
 
       def index
         location = Location.includes(
-          services: [:categories, :contacts, :phones, :regular_schedules,
-                     :holiday_schedules]
+          services: %i[categories contacts phones regular_schedules
+                       holiday_schedules]
         ).find(params[:location_id])
         services = location.services
         render json: services, status: 200
@@ -45,7 +45,7 @@ module Api
       private
 
       def cat_ids(taxonomy_ids)
-        return [] unless taxonomy_ids.present?
+        return [] if taxonomy_ids.blank?
         Category.where(taxonomy_id: taxonomy_ids).pluck(:id)
       end
 

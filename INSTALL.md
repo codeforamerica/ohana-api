@@ -14,13 +14,9 @@ Clone it on your computer and navigate to the project's directory:
 
 1. Download, install, and launch [Docker]
 
-1. Set up the Docker image:
+1. Set up the Docker image and start the app:
 
         $ script/bootstrap
-
-1. Start the app:
-
-        $ docker-compose up
 
 Once the docker images are up and running, the app will be accessible at
 [http://localhost:8080](http://localhost:8080).

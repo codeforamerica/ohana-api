@@ -7,7 +7,7 @@ require 'action_mailer/railtie'
 require 'sprockets/railtie'
 require 'yaml'
 
-SETTINGS = YAML.load(File.read(File.expand_path('../settings.yml', __FILE__)))
+SETTINGS = YAML.safe_load(File.read(File.expand_path('../settings.yml', __FILE__)))
 SETTINGS.merge! SETTINGS.fetch(Rails.env, {})
 SETTINGS.symbolize_keys!
 
@@ -46,7 +46,7 @@ module OhanaApi
         origins '*'
         resource %r{/locations|organizations|search/*},
                  headers: :any,
-                 methods: [:get, :put, :patch, :post, :delete],
+                 methods: %i[get put patch post delete],
                  expose: ['Etag', 'Last-Modified', 'Link', 'X-Total-Count']
       end
     end
