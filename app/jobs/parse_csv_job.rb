@@ -4,18 +4,19 @@ require 'net/http'
 class ParseCsvJob
 
   @@orgs_map = []
-  @@org_id = 0
   @@locations_map = []
-  @@location_id = 0
   @@addresses_map = []
-  @@address_id = 0
   @@mail_addresses_map = []
-  @@mail_address_id = 0
   @@contacts_map = []
-  @@contact_id = 0
   @@phones_map = []
-  @@phone_id = 0
   @@services_map = []
+
+  @@org_id = 0
+  @@location_id = 0
+  @@address_id = 0
+  @@mail_address_id = 0
+  @@contact_id = 0
+  @@phone_id = 0
   @@service_id = 0
 
   def parse_csv()
@@ -33,43 +34,43 @@ class ParseCsvJob
   end
 
   def create_csvs()
-    CSV.open("/Users/katepiette/ohana-api/data/sample-csv/organizations.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/organizations.csv", "wb") do |csv|
       csv << @@orgs_map.first.keys
       @@orgs_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/sample-csv/locations.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/locations.csv", "wb") do |csv|
       csv << @@locations_map.first.keys
       @@locations_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/sample-csv/addresses.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/addresses.csv", "wb") do |csv|
       csv << @@addresses_map.first.keys
       @@addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/sample-csv/mail_addresses.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/mail_addresses.csv", "wb") do |csv|
       csv << @@mail_addresses_map.first.keys
       @@mail_addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/sample-csv/contacts.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/contacts.csv", "wb") do |csv|
       csv << @@contacts_map.first.keys
       @@contacts_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/sample-csv/phones.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/phones.csv", "wb") do |csv|
       csv << @@phones_map.first.keys
       @@phones_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/sample-csv/services.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb") do |csv|
       csv << @@services_map.first.keys
       @@services_map.each do |hash|
         csv << hash.values
@@ -81,18 +82,14 @@ class ParseCsvJob
     @@org_id += 1
     {
       id:                 @@org_id,
-      accreditations:     nil,
+      name:               row['B1OrgName'],
       alternate_name:     row['B1AltName'],
-      date_incorporated:  nil,
       description:        row['B1Description'],
       email:              row['B1Email'],
-      funding_sources:    nil,
-      legal_status:       nil,
-      licenses:           nil,
-      name:               row['B1OrgName'],
-      tax_id:             nil,
-      tax_status:         nil,
       website:            row['B1Website'],
+      twitter:            row['B1Twitter'],
+      facebook:           row['B1Facebook'],
+      linkedin:           row['B1LinkedIn'],
     }
   end
 

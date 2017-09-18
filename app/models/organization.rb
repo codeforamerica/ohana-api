@@ -1,13 +1,12 @@
 class Organization < ActiveRecord::Base
   default_scope { order('id DESC') }
 
-  attr_accessible :accreditations, :alternate_name, :date_incorporated,
-                  :description, :email, :funding_sources, :legal_status,
-                  :licenses, :name, :tax_id, :tax_status, :website,
+  attr_accessible :name, :alternate_name, :description, :email,
+                  :website, :twitter, :facebook, :linkedin,
                   :phones_attributes
 
   has_many :locations, dependent: :destroy
-  has_many :programs, dependent: :destroy
+  has_many :services, dependent: :destroy
   has_many :contacts, dependent: :destroy
 
   has_many :phones, dependent: :destroy
@@ -23,12 +22,9 @@ class Organization < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
   validates :website, url: true, allow_blank: true
-  validates :date_incorporated, date: true
 
-  validates :accreditations, :funding_sources, :licenses, pg_array: true
-
-  auto_strip_attributes :alternate_name, :description, :email, :legal_status,
-                        :name, :tax_id, :tax_status, :website
+  auto_strip_attributes :alternate_name, :description, :email,
+                        :name, :website, :twitter, :facebook, :linkedin
 
   def self.with_locations(ids)
     joins(:locations).where('locations.id IN (?)', ids).uniq
