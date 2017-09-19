@@ -1,4 +1,5 @@
 require 'csv'
+require 'json'
 require 'net/http'
 
 class ParseCsvJob
@@ -82,10 +83,17 @@ class ParseCsvJob
     @@org_id += 1
     {
       id:                 @@org_id,
-      name:               row['B1OrgName'],
+      accreditations:     nil,
       alternate_name:     row['B1AltName'],
+      date_incorporated:  nil,
       description:        row['B1Description'],
       email:              row['B1Email'],
+      funding_sources:    nil,
+      legal_status:       nil,
+      licenses:           nil,
+      name:               row['B1OrgName'],
+      tax_id:             nil,
+      tax_status:         nil,
       website:            row['B1Website'],
       twitter:            row['B1Twitter'],
       facebook:           row['B1Facebook'],
@@ -123,7 +131,7 @@ class ParseCsvJob
       city:               row['L1City'],
       state_province:     row['L1State'],
       postal_code:        row['L1ZIP'],
-      country:            'USA',
+      country:            'US',
     }
   end
 
@@ -138,7 +146,7 @@ class ParseCsvJob
       city:               row['M1City'],
       state_province:     row['M1State'],
       postal_code:        row['M1ZIP'],
-      country:            'USA',
+      country:            'US',
     }
   end
 
@@ -192,7 +200,7 @@ class ParseCsvJob
       languages:              nil,
       name:                   row['S1ServiceName'],
       required_documents:     nil,
-      service_area:           nil,
+      service_areas:          row['S1ServiceArea'],
       status:                 'active',
       wait_time:              nil,
       website:                row['S1URL'],
