@@ -86,7 +86,7 @@ class ParseCsvJob
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb") do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb" , options = { :quote_char=>" " }) do |csv|
       csv << @@services_map.first.keys
       @@services_map.each do |hash|
         csv << hash.values
