@@ -45,6 +45,7 @@ group :test, :development do
 end
 
 group :test do
+  gem 'byebug'
   gem 'capybara'
   gem 'coveralls', require: false
   gem 'database_cleaner', '>= 1.0.0.RC1'

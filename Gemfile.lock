@@ -69,6 +69,7 @@ GEM
     bummr (0.1.8)
       rainbow
       thor
+    byebug (9.1.0)
     capybara (2.14.4)
       addressable
       mime-types (>= 1.16)
@@ -387,6 +388,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.0)
   bullet
   bummr
+  byebug
   capybara
   coffee-rails (~> 4.1.0)
   coveralls

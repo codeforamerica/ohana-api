@@ -9,6 +9,7 @@ class Organization < ActiveRecord::Base
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
   has_many :contacts, dependent: :destroy
+  accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
   has_many :phones, dependent: :destroy
   accepts_nested_attributes_for :phones,
