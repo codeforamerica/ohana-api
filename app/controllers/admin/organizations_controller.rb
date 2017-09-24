@@ -26,6 +26,7 @@ class Admin
     def update
       @organization = Organization.find(params[:id])
 
+      authorize @organization
       preprocess_organization_params
 
       if @organization.update(org_params)
@@ -43,8 +44,8 @@ class Admin
 
     def create
       preprocess_organization_params
-
       @organization = Organization.new(org_params)
+      authorize @organization
 
       if @organization.save
         redirect_to admin_organizations_url,
@@ -56,6 +57,7 @@ class Admin
 
     def destroy
       organization = Organization.find(params[:id])
+      authorize organization
       organization.destroy
       redirect_to admin_organizations_path
     end

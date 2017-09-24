@@ -1,5 +1,33 @@
+InstanceVariableAssumption:
+  exclude:
+    - Admin::ContactsController
+    - Admin::LocationsController
+    - Admin::OrganizationsController
+    - Admin::OrganizationContactsController
+    - Admin::ProgramsController
+    - Admin::ServiceContactsController
+    - Admin::ServicesController
 IrresponsibleModule:
   enabled: false
+NestedIterators:
+  exclude:
+    - Admin::OrganizationsController#index
+TooManyMethods:
+  exclude:
+    - Admin::CsvController
+    - Admin::ServicesController
+TooManyStatements:
+  max_statements: 6
+  exclude:
+    - Admin::ContactsController
+    - Admin::OrganizationsController
+    - Admin::OrganizationContactsController
+    - Admin::ServiceContactsController
+    - Admin::ServicesController
+UtilityFunction:
+  exclude:
+    - Admin::ServicesController#program_ids_for
+    - Admin::CsvController#zip_file_name
 'spec':
   DataClump:
     enabled: false

@@ -14,6 +14,8 @@ class Admin
       @contact = Contact.find(params[:id])
       @location = Location.find(params[:location_id])
 
+      authorize @location
+
       if @contact.update(contact_params)
         flash[:notice] = 'Contact was successfully updated.'
         redirect_to [:admin, @location, @contact]
@@ -34,6 +36,8 @@ class Admin
       @location = Location.find(params[:location_id])
       @contact = @location.contacts.new(contact_params)
 
+      authorize @location
+
       if @contact.save
         flash[:notice] = "Contact '#{@contact.name}' was successfully created."
         redirect_to admin_location_path(@location)
@@ -44,8 +48,12 @@ class Admin
 
     def destroy
       contact = Contact.find(params[:id])
+      location = contact.location
+
+      authorize location
+
       contact.destroy
-      redirect_to admin_location_path(contact.location),
+      redirect_to admin_location_path(location),
                   notice: "Contact '#{contact.name}' was successfully deleted."
     end
 
