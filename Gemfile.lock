@@ -341,7 +341,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     stackprof (0.2.10)
-    sucker_punch (2.0.2)
+    sucker_punch (2.0.4)
       concurrent-ruby (~> 1.0.0)
     sysexits (1.2.0)
     temple (0.8.0)
