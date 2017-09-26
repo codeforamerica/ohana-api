@@ -34,13 +34,13 @@ class ParseCsvJob
       $i = 2
       $num = 5
       while $i <= $num
-        location_key = 'L'<<$i.to_s
-        service_key = 'S'<<$i.to_s
-        unless row[location_key<<'LocName'].to_s.strip.empty?
+        location_key = 'L' + $i.to_s
+        service_key = 'S' + $i.to_s
+        if !row[location_key<<'LocName'].nil?
           @@locations_map.push(map_to_locations(row, 'L'<<$i.to_s))
-          @@addresses_map.push(map_to_locations(row, 'L'<<$i.to_s))
+          @@addresses_map.push(map_to_addresses(row, 'L'<<$i.to_s))
         end
-        unless row[service_key<<'ServiceName'].to_s.strip.empty?
+        if !row[service_key<<'ServiceName'].nil?
           @@services_map.push(map_to_services(row, 'S'<<$i.to_s, taxonomy_id_array))
         end
         $i += 1
@@ -86,7 +86,7 @@ class ParseCsvJob
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb" , options = { :quote_char=>" " }) do |csv|
+    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb") do |csv|
       csv << @@services_map.first.keys
       @@services_map.each do |hash|
         csv << hash.values
@@ -190,7 +190,7 @@ class ParseCsvJob
       number:             row['A1Phone'],
       extension:          nil,
       department:         nil,
-      number_type:        'Work',
+      number_type:        'voice',
       vanity_number:      nil,
       country_prefix:     nil,
     }
@@ -219,7 +219,7 @@ class ParseCsvJob
       status:                 'active',
       wait_time:              nil,
       website:                row[key + 'URL'],
-      taxonomy_ids:           taxonomy_array
+      taxonomy_ids:           taxonomy_array.join(',')
     }
   end
 
@@ -285,18 +285,25 @@ class ParseCsvJob
      end
    end
    # BUSINESS TYPES
-   business_types_from_db = json['taxonomy']['top_level'][1]
-   add_other_tax_id(taxonomy_id_array, business_types_from_db, row['S1Type'])
+   if !(row['S1Type'].nil?)
+     business_types_from_db = json['taxonomy']['top_level'][1]
+     add_other_tax_id(taxonomy_id_array, business_types_from_db, row['S1Type'])
+   end
    # BUSINESS STAGES
-   business_stages_from_db = json['taxonomy']['top_level'][2]
-   add_other_tax_id(taxonomy_id_array, business_stages_from_db, row['S1Stage'])
+   if !(row['S1Stage'].nil?)
+     business_stages_from_db = json['taxonomy']['top_level'][2]
+     add_other_tax_id(taxonomy_id_array, business_stages_from_db, row['S1Stage'])
+   end
    # UNDERSERVED COMMUNITIES
-   communities_from_db = json['taxonomy']['top_level'][3]
-   add_other_tax_id(taxonomy_id_array, communities_from_db, row['S1Community'])
+   if !(row['S1Community'].nil?)
+     communities_from_db = json['taxonomy']['top_level'][3]
+     add_other_tax_id(taxonomy_id_array, communities_from_db, row['S1Community'])
+   end
    # INDUSTRIES
-   industries_from_db = json['taxonomy']['top_level'][4]
-   add_other_tax_id(taxonomy_id_array, industries_from_db, row['S1Industry'])
-
+   if !(row['S1Industry'].nil?)
+     industries_from_db = json['taxonomy']['top_level'][4]
+     add_other_tax_id(taxonomy_id_array, industries_from_db, row['S1Industry'])
+   end
    taxonomy_id_array
  end
 end
