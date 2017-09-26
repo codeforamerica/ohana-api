@@ -50,43 +50,43 @@ class ParseCsvJob
   end
 
   def create_csvs()
-    CSV.open("/Users/katepiette/ohana-api/data/organizations.csv", "wb") do |csv|
+    CSV.open("/tmp/data/organizations.csv", "wb") do |csv|
       csv << @@orgs_map.first.keys
       @@orgs_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/locations.csv", "wb") do |csv|
+    CSV.open("/tmp/data/locations.csv", "wb") do |csv|
       csv << @@locations_map.first.keys
       @@locations_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/addresses.csv", "wb") do |csv|
+    CSV.open("/tmp/data/addresses.csv", "wb") do |csv|
       csv << @@addresses_map.first.keys
       @@addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/mail_addresses.csv", "wb") do |csv|
+    CSV.open("/tmp/data/mail_addresses.csv", "wb") do |csv|
       csv << @@mail_addresses_map.first.keys
       @@mail_addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/contacts.csv", "wb") do |csv|
+    CSV.open("/tmp/data/contacts.csv", "wb") do |csv|
       csv << @@contacts_map.first.keys
       @@contacts_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/phones.csv", "wb") do |csv|
+    CSV.open("/tmp/data/phones.csv", "wb") do |csv|
       csv << @@phones_map.first.keys
       @@phones_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb") do |csv|
+    CSV.open("/tmp/data/services.csv", "wb") do |csv|
       csv << @@services_map.first.keys
       @@services_map.each do |hash|
         csv << hash.values

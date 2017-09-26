@@ -1,0 +1,5 @@
+id,location_id,attention,address_1,address_2,city,state_province,postal_code,country
+1,1,The Greater Sacramento Urban League,,,,,,US
+2,3,"U. S. Small Business Administration, Sacramento District Office",,,,,,US
+3,4,Chicostart,,,,,,US
+4,5,Greater Arden Chamber of Commerce,3308 El Camino Ave,Suite 300-261,Arden-Arcade,CA,95821,US

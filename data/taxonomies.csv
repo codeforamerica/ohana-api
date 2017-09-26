@@ -1,0 +1,185 @@
+taxonomy_id,name,parent_id,parent_name
+101,categories,,
+101-01,Financial Management,101,categories
+101-01-01,Bookkeeping/Accounting Software Training,101-01,Financial Management
+101-01-02,Budget Financial Statement & Cash Flow Training,101-01,Financial Management
+101-01-03,Real Estate Finance,101-01,Financial Management
+101-01-04,State and Federal Tax Training and Registration,101-01,Financial Management
+101-01-05,Tax Credits,101-01,Financial Management
+101-01-06,Technology Grants,101-01,Financial Management
+101-01-07,Valuation,101-01,Financial Management
+101-02,Capital,101,categories
+101-02-01,Accelerator Programs,101-02,Capital
+101-02-02,Equity Investors: Angels,101-02,Capital
+101-02-03,Lenders,101-02,Capital
+101-02-04,Obtaining Debt Funding,101-02,Capital
+101-02-05,Obtaining Equity Funding,101-02,Capital
+101-02-06,Obtaining Government Funding,101-02,Capital
+101-02-07,Real Estate Finance,101-02,Capital
+101-02-08,Technology Grants,101-02,Capital
+101-02-09,Equity Investors: Venture Capital,101-02,Capital
+101-03,Procurement,101,categories
+101-03-01,Government Procurement Assistance,101-03,Procurement
+101-03-02,Business Procurement of Goods and Services ,101-03,Procurement
+101-04,Legal Services,101,categories
+101-04-01,Contract Review,101-04,Legal Services
+101-04-02,Environmental Compliance,101-04,Legal Services
+101-04-03,Forming a Business,101-04,Legal Services
+101-04-04,Government Requirements ,101-04,Legal Services
+101-04-05,Insurance Requirements,101-04,Legal Services
+101-04-06,International Regulatory Compliance,101-04,Legal Services
+101-04-07,Lease Review,101-04,Legal Services
+101-04-08,Patent Trademark & Copyright Information,101-04,Legal Services
+101-04-09,Registration Licenses & Permits,101-04,Legal Services
+101-04-10,State and Federal Tax Training and Registration,101-04,Legal Services
+101-04-11,Tax Credits,101-04,Legal Services
+101-05,Manufacturing/Logistics,101,categories
+101-05-01,Call Center Services,101-05,Manufacturing/Logistics
+101-05-02,Commercial Kitchen Facilities ,101-05,Manufacturing/Logistics
+101-05-03,Commercialization,101-05,Manufacturing/Logistics
+101-05-04,Freight and Distribution,101-05,Manufacturing/Logistics
+101-05-05,Harzardous Waste and Pollution Management / Training,101-05,Manufacturing/Logistics
+101-05-06,Health and Safety Training,101-05,Manufacturing/Logistics
+101-05-07,High Tech Development,101-05,Manufacturing/Logistics
+101-05-08,Life Sciences Development,101-05,Manufacturing/Logistics
+101-05-09,Manufacturing Development,101-05,Manufacturing/Logistics
+101-05-10,Product Assembly and Packaging,101-05,Manufacturing/Logistics
+101-05-10,Product Design Prototyping and Development,101-05,Manufacturing/Logistics
+101-05-11,Quality Improvement (Supply Chain & Six Sigma),101-05,Manufacturing/Logistics
+101-05-12,Technology Transfer,101-05,Manufacturing/Logistics
+101-06,Marketing/Sales,101,categories
+101-06-01,Bid Matching and Preparation,101-06,Marketing/Sales
+101-06-02,Call Center Services,101-06,Marketing/Sales
+101-06-03,Competitive Analysis,101-06,Marketing/Sales
+101-06-04,E-Commerce/Internet Marketing,101-06,Marketing/Sales
+101-06-05,Feasibility Studies,101-06,Marketing/Sales
+101-06-06,Graphic Design,101-06,Marketing/Sales
+101-06-07,HUBZone Certification,101-06,Marketing/Sales
+101-06-08,Identification/Research of Foreign Markets,101-06,Marketing/Sales
+101-06-09,Import/Export Certification and Licensing,101-06,Marketing/Sales
+101-06-10,International Trade Training,101-06,Marketing/Sales
+101-06-11,Locating Foreign Distributors,101-06,Marketing/Sales
+101-06-12,Market Plan Development and Training,101-06,Marketing/Sales
+101-06-13,Market Research,101-06,Marketing/Sales
+101-06-14,Networking/Exploring Exporting,101-06,Marketing/Sales
+101-06-15,Obtaining Corporate Contracts,101-06,Marketing/Sales
+101-06-16,Obtaining Government Contracts,101-06,Marketing/Sales
+101-06-17,Selling to Foreign Governments and Businesses,101-06,Marketing/Sales
+101-06-18,Student Research / Marketing Projects,101-06,Marketing/Sales
+101-06-19,Subcontracting Opportunities,101-06,Marketing/Sales
+101-06-20,Trade Education and Training,101-06,Marketing/Sales
+101-06-21,Website Development,101-06,Marketing/Sales
+101-07,Mentoring/Counseling,101,categories
+101-07-01,Formal Mentoring Programs,101-07,Mentoring/Counseling
+101-07-02,One-to-One Counseling,101-07,Mentoring/Counseling
+101-07-03,Peer Mentoring,101-07,Mentoring/Counseling
+101-08,Networking,101,categories
+101-08-01,Demographically Based,101-08,Networking
+101-08-02,Geographically Based,101-08,Networking
+101-08-03,Industry Specific,101-08,Networking
+101-08-04,Networking/Exploring Exporting,101-08,Networking
+101-08-05,Small Business/General,101-08,Networking
+101-09,Planning/Management,101,categories
+101-09-01,Business Management Training,101-09,Planning/Management
+101-09-02,"Business Plan Consulting, Development, and Review",101-09,Planning/Management
+101-09-03,Business Plan Training and Assistance,101-09,Planning/Management
+101-09-04,Feasibility Studies,101-09,Planning/Management
+101-09-05,Forming a Business,101-09,Planning/Management
+101-09-06,Insurance Requirements,101-09,Planning/Management
+101-09-07,Lease Review,101-09,Planning/Management
+101-09-08,Purchasing an Existing Business,101-09,Planning/Management
+101-09-09,Registration Licenses & Permits,101-09,Planning/Management
+101-09-10,Site Location,101-09,Planning/Management
+101-09-11,Startup Counseling and Classes,101-09,Planning/Management
+101-09-12,Tax Preparation Assistance,101-09,Planning/Management
+101-10,R&D/Commercialization,101,categories
+101-10-01,Accelerator,101-10,R&D/Commercialization
+101-10-02,Commercialization,101-10,R&D/Commercialization
+101-10-03,Incubator Space,101-10,R&D/Commercialization
+101-10-04,Industrial Technology Research,101-10,R&D/Commercialization
+101-10-05,Patent Trademark & Copyright Information,101-10,R&D/Commercialization
+101-10-06,Product Design Prototyping and Development,101-10,R&D/Commercialization
+101-10-07,Registration Licenses & Permits,101-10,R&D/Commercialization
+101-10-08,Student Research / Marketing Projects,101-10,R&D/Commercialization
+101-10-09,Technology Transfer,101-10,R&D/Commercialization
+101-10-10,Wet Lab Incubator,101-10,R&D/Commercialization
+101-11,Regulatory Compliance,101,categories
+101-11-01,Bonding,101-11,Regulatory Compliance
+101-11-02,Codes,101-11,Regulatory Compliance
+101-11-03,Environmental Compliance,101-11,Regulatory Compliance
+101-11-04,Government Requirements,101-11,Regulatory Compliance
+101-11-05,Harzardous Waste and Pollution Management / Training,101-11,Regulatory Compliance
+101-11-06,Insurance Requirements,101-11,Regulatory Compliance
+101-11-07,International Regulatory Compliance,101-11,Regulatory Compliance
+101-11-08,Registration Licenses & Permits,101-11,Regulatory Compliance
+101-12,Phsyical Space,101,categories
+101-12-01,Accelerator Programs,101-12,Phsyical Space
+101-12-02,Commercial Kitchen Facilities ,101-12,Phsyical Space
+101-12-03,Conference/Meeting and Event Space,101-12,Phsyical Space
+101-12-04,Coworking Space,101-12,Phsyical Space
+101-12-05,Incubator Space,101-12,Phsyical Space
+101-12-06,Maker Space,101-12,Phsyical Space
+101-12-07,Office Space,101-12,Phsyical Space
+101-12-08,Retail Space,101-12,Phsyical Space
+101-12-09,Site Location,101-12,Phsyical Space
+101-12-10,Wet Lab Incubator,101-12,Phsyical Space
+101-13,Human Resources & Workforce Development,101,categories
+101-13-01,Bookkeeping/Accounting Software Training,101-13,Human Resources & Workforce Development
+101-13-02,Budget Financial Statement & Cash Flow Training,101-13,Human Resources & Workforce Development
+101-13-03,Business Management Training,101-13,Human Resources & Workforce Development
+101-13-04,Business Plan Training and Assistance,101-13,Human Resources & Workforce Development
+101-13-05,Employee Development Hiring and Policies,101-13,Human Resources & Workforce Development
+101-13-06,Harzardous Waste and Pollution Management / Training,101-13,Human Resources & Workforce Development
+101-13-07,Health and Safety Training,101-13,Human Resources & Workforce Development
+101-13-08,Human Resources Training ,101-13,Human Resources & Workforce Development
+101-13-09,International Trade Training,101-13,Human Resources & Workforce Development
+101-13-10,Internship Program ,101-13,Human Resources & Workforce Development
+101-13-11,Recruiting Assistance,101-13,Human Resources & Workforce Development
+101-13-12,Startup Counseling and Classes,101-13,Human Resources & Workforce Development
+101-13-13,State and Federal Tax Training,101-13,Human Resources & Workforce Development
+101-13-14,Student Research / Marketing Projects,101-13,Human Resources & Workforce Development
+101-13-15,Trade Education and Training,101-13,Human Resources & Workforce Development
+102,industries,,
+102-01,Agriculture,102,industries
+102-02,Arts,102,industries
+102-03,Biosciences Services and Manufacturing,102,industries
+102-04,Construction,102,industries
+102-05,Education,102,industries
+102-06,Energy & Utilities,102,industries
+102-07,Fiance & Insurance,102,industries
+102-08,Health & Childcare,102,industries
+102-09,High Tech Services & Manufacturing,102,industries
+102-10,Information Technology,102,industries
+102-11,Management,102,industries
+102-12,Manufacturing,102,industries
+102-13,Not for Profit,102,industries
+102-14,Other Services,102,industries
+102-15,Personal Services,,
+102-16,Professional Services,102,industries
+102-17,Real Estate,102,industries
+102-18,Restaurant & Hotel,102,industries
+102-19,Retail,102,industries
+102-20,Tourism,102,industries
+102-21,Transportation & Warehousing,102,industries
+102-22,Wholesale,102,industries
+103,business_stages,,
+103-01,Idea/Inception,103,business_stages
+103-02,Proof of Concept/Prototype/Market Intro,103,business_stages
+103-03,Rollout,103,business_stages
+103-04,Growth/Expansion/Mature Business,103,business_stages
+104,business_types,,
+104-01,Startup or High-Growth Business,104,business_types
+104-02,Main Street or Small Business,104,business_types
+104-02,Microenterprise or Home Based Business,104,business_types
+105,underserved_communities,,
+105-01,African American,105,underserved_communities
+105-02,Asian,105,underserved_communities
+105-03,Hispanic,105,underserved_communities
+105-04,Immigrant,105,underserved_communities
+105-05,LGBTQ,105,underserved_communities
+105-06,Native American,105,underserved_communities
+105-07,Other,105,underserved_communities
+105-08,Veteran,105,underserved_communities
+105-09,Woman,105,underserved_communities
+105-10,Ex-Convict,105,underserved_communities
+105-11,NOT TARGETED,105,underserved_communities
