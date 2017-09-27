@@ -9,7 +9,7 @@ module Api
       after_action :set_cache_control, only: %i[index show]
 
       def index
-        locations = Location.includes(:organization, :address, :phones, :services).
+        locations = Location.includes(:organization, :address, :phones).
                     page(params[:page]).per(params[:per_page]).
                     order('created_at DESC')
 

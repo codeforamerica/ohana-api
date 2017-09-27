@@ -6,7 +6,6 @@ class LocationsSerializer < ActiveModel::Serializer
   has_one :address
   has_one :organization, serializer: LocationsOrganizationSerializer
   has_many :phones
-  has_many :services
 
   def coordinates
     return [] unless object.longitude.present? && object.latitude.present?
