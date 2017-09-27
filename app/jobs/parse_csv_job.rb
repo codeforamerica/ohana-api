@@ -21,13 +21,15 @@ class ParseCsvJob
   @@service_id = 0
 
   def parse_csv()
-    file = File.open("/Users/katepiette/ohana-api/data/city-of-sac-csv/city_of_sac_data.csv")
+    file = File.open("/tmp/data/city-of-sac-csv/city_of_sac_data.csv")
     CSV.foreach(file, headers: true) do |row|
       taxonomy_id_array = assign_taxonomies(row)
       @@orgs_map.push(map_to_organizations(row))
       @@locations_map.push(map_to_locations(row, 'L1'))
       @@addresses_map.push(map_to_addresses(row, 'L1'))
-      @@mail_addresses_map.push(map_to_mail_addresses(row))
+      if !row['M1Street1'].nil?
+        @@mail_addresses_map.push(map_to_mail_addresses(row))
+      end
       @@contacts_map.push(map_to_contacts(row))
       @@phones_map.push(map_to_phones(row))
       @@services_map.push(map_to_services(row, 'S1', taxonomy_id_array))
@@ -248,7 +250,7 @@ class ParseCsvJob
 
  def assign_taxonomies(row)
    taxonomy_id_array = []
-   file = File.read("/Users/katepiette/ohana-api/data/oe.json")
+   file = File.read("/tmp/data/oe.json")
    json = JSON.parse(file)
 
    # CATEGORIES
