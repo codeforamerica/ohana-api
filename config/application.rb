@@ -46,7 +46,7 @@ module OhanaApi
     config.middleware.use Rack::Cors do
       allow do
         origins '*'
-        resource %r{/locations|organizations|search/*},
+        resource %r{/locations|organizations|search|categories/*},
                  headers: :any,
                  methods: %i[get put patch post delete],
                  expose: ['Etag', 'Last-Modified', 'Link', 'X-Total-Count']
@@ -63,5 +63,6 @@ module OhanaApi
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_job.queue_adapter = :sucker_punch
+
   end
 end
