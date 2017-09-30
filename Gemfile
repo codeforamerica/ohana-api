@@ -29,6 +29,7 @@ gem 'rubyzip'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5'
 gem 'sucker_punch'
+gem 'smarter_csv'
 gem 'uglifier', '>= 1.3.0'
 
 group :production do
@@ -41,7 +42,6 @@ group :test, :development do
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
-  gem 'smarter_csv'
 end
 
 group :test do
