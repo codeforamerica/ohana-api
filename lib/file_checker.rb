@@ -1,3 +1,5 @@
+require 'smarter_csv'
+
 class FileChecker
   def initialize(path, required_headers)
     @path = path
