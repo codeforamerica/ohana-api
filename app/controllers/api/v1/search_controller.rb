@@ -14,7 +14,7 @@ module Api
         return unless stale?(etag: cache_key(locations), public: true)
 
         generate_pagination_headers(locations)
-        render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
+        render json: locations.uniq.preload(tables), each_serializer: LocationsSerializer, status: 200
       end
 
       def nearby

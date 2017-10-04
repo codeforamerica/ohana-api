@@ -2,7 +2,7 @@ module Api
   module V1
     class CategoriesController < ApplicationController
       def index
-        categories = Category.all
+        categories = Category.all.arrange_serializable
         render json: categories, status: 200
       end
 
