@@ -8,9 +8,7 @@ module PaginationHeaders
 
     links = links(pages, params)
 
-    links.delete_if(&:blank?)
-
-    response.headers['Link'] = links.join(', ') if links.present?
+    response.headers['Link'] = JSON.generate(links) if links.present?
     response.headers['X-Total-Count'] = coll.total_count.to_s
   end
 
@@ -25,23 +23,21 @@ module PaginationHeaders
   def pages(coll)
     pages = {}
     # current_page and total_pages are available via the kaminari gem
-    unless coll.first_page?
-      pages[:first] = 1
-      pages[:prev]  = coll.empty? ? coll.total_pages : coll.current_page - 1
-    end
+    pages[:first] = 1
+    pages[:prev]  = coll.prev_page
 
-    unless coll.last_page?
-      pages[:last] = coll.total_pages
-      pages[:next] = coll.empty? ? nil : coll.current_page + 1
-    end
+    pages[:last] = coll.total_pages
+    pages[:next] = coll.next_page
     pages
   end
 
   def links(pages, params)
-    pages.map do |k, v|
+    _links = {}
+    pages.each do |k, v|
       new_params = params.merge(page: v)
       next if new_params[:page].blank?
-      %(<#{url}?#{new_params.to_param}>; rel="#{k}")
+      _links[k] = "#{url}?#{new_params.to_param}"
     end
+    _links
   end
 end
