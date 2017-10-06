@@ -41,6 +41,12 @@ module Api
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
       end
+
+      def search
+        organizations = Organization.search(params).count
+
+        render json: organizations, status: 201
+      end
     end
   end
 end

@@ -65,6 +65,10 @@ Rails.application.routes.draw do
 
         resources :organizations do
           resources :locations, only: :create
+
+          collection do
+            get :search
+          end
         end
         get 'organizations/:organization_id/locations',
             to: 'organizations#locations', as: :org_locations

@@ -38,8 +38,6 @@ class Organization < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:history]
 
-  after_save :touch_locations, if: :needs_touch?
-
   private
 
   def needs_touch?
@@ -50,4 +48,6 @@ class Organization < ActiveRecord::Base
   def touch_locations
     locations.find_each(&:touch)
   end
+
+  include OrgSearch
 end
