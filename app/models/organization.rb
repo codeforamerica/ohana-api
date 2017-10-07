@@ -1,6 +1,4 @@
 class Organization < ActiveRecord::Base
-  default_scope { order('id DESC') }
-
   attr_accessible :accreditations, :alternate_name, :date_incorporated,
                   :description, :email, :funding_sources, :legal_status,
                   :licenses, :name, :tax_id, :tax_status, :website,
@@ -50,4 +48,6 @@ class Organization < ActiveRecord::Base
   end
 
   include OrgSearch
+  include PgSearch
+  pg_search_scope :search_by_name, against: :name
 end

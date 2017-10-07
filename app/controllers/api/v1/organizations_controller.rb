@@ -43,9 +43,10 @@ module Api
       end
 
       def search
-        organizations = Organization.search(params).count
-
-        render json: organizations, status: 201
+        puts params
+        organizations = Organization.find_organizations_that_have_any_of_these_categories(params[:category])
+        puts organizations.to_sql
+        render json: organizations.count, status: 201
       end
     end
   end
