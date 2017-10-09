@@ -43,10 +43,11 @@ module Api
       end
 
       def search
-        puts params
-        organizations = Organization.find_organizations_that_have_any_of_these_categories(params[:category])
-        puts organizations.to_sql
-        render json: organizations.count, status: 201
+        organizations = Organization.find_organizations_that_have_any_of_these_categories(params[:category]).page(params[:page]).
+                    per(params[:per_page])
+
+        generate_pagination_headers(organizations)
+        render json: organizations, each_serializer: OrganizationSerializer, status: 200
       end
     end
   end

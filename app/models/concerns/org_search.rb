@@ -14,17 +14,16 @@ module OrgSearch
   module ClassMethods
 
     def find_organizations_that_have_any_of_these_categories(category_names)
+      return self.all unless category_names
       query = self
-      category_names.each do |category_name|
-        puts category_name
+      [category_names].flatten.each do |category_name|
         query = query.where(
           "organizations.id IN (?)",
-          joins(services: :categories).where(
+          query.joins(services: :categories).where(
             'categories.name = ?', category_name
           ).pluck(:id)
         )
       end
-      puts query
       query.distinct
     end
 
