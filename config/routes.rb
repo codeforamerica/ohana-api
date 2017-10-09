@@ -87,7 +87,11 @@ Rails.application.routes.draw do
 
         resources :search, only: :index
 
-        resources :categories, only: :index
+        resources :categories, only: :index do
+          collection do
+            get :search
+          end
+        end
 
         put 'services/:service_id/categories',
             to: 'services#update_categories', as: :service_categories

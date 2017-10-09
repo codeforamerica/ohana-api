@@ -11,7 +11,7 @@ module Search
     end
 
     scope :category, (lambda do |category|
-      joins(services: :categories).where(categories: { name: category })
+      joins(services: :categories).where(categories: { name: category }).distinct
     end)
 
     scope :is_near, LocationFilter

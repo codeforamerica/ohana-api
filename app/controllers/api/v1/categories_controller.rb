@@ -10,6 +10,13 @@ module Api
         children = Category.find_by(taxonomy_id: params[:taxonomy_id]).children
         render json: children, status: 200
       end
+
+      def search
+        categories = Category.all.search_by_name(params[:name])
+        puts "new search"
+        puts categories
+        render json: categories, status: 200
+      end
     end
   end
 end
