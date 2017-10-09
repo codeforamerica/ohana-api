@@ -12,9 +12,7 @@ module Api
       end
 
       def search
-        categories = Category.all.search_by_name(params[:name])
-        puts "new search"
-        puts categories
+        categories = Category.search_by_name(params[:name])
         render json: categories, status: 200
       end
     end
