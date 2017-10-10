@@ -31,7 +31,6 @@ gem 'select2-rails', '~> 3.5'
 gem 'sucker_punch'
 gem 'smarter_csv'
 gem 'uglifier', '>= 1.3.0'
-gem 'pg_search'
 
 group :production do
   # Heroku recommended

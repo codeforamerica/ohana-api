@@ -43,8 +43,9 @@ module Api
       end
 
       def search
-        organizations = Organization.find_organizations_that_have_any_of_these_categories(params[:category]).page(params[:page]).
-                    per(params[:per_page])
+        organizations = Organization.organizations_filtered_by_categories(
+          params[:category]).page(params[:page]
+        ).per(params[:per_page])
 
         generate_pagination_headers(organizations)
         render json: organizations, each_serializer: OrganizationSerializer, status: 200

@@ -29,8 +29,24 @@ class Organization < ActiveRecord::Base
                         :name, :tax_id, :tax_status, :website, :twitter,
                         :facebook, :linkedin
 
+  after_save :touch_locations, if: :needs_touch?
+
   def self.with_locations(ids)
     joins(:locations).where('locations.id IN (?)', ids).uniq
+  end
+
+  def self.organizations_filtered_by_categories(category_names)
+    return self.all unless category_names
+    query = self
+    [category_names].flatten.each do |category_name|
+      query = query.where(
+        "organizations.id IN (?)",
+        query.joins(services: :categories).where(
+          'categories.name = ?', category_name
+        ).pluck(:id)
+      )
+    end
+    query.distinct
   end
 
   extend FriendlyId
@@ -47,7 +63,4 @@ class Organization < ActiveRecord::Base
     locations.find_each(&:touch)
   end
 
-  include OrgSearch
-  include PgSearch
-  pg_search_scope :search_by_name, against: :name
 end
