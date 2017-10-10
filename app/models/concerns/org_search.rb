@@ -7,7 +7,6 @@ module OrgSearch
   included do
     scope :category, (lambda do |category|
       joins(services: :categories).where(categories: { name: category })
-      # includes(services: :categories).where(categories: { name: category })
     end)
   end
 
@@ -25,21 +24,6 @@ module OrgSearch
         )
       end
       query.distinct
-    end
-
-    def text_search(params = {})
-      return where(nil) if params.blank?
-      allowed_params(params).reduce(self) do |relation, (scope_name, value)|
-        value.present? ? relation.public_send(scope_name, value) : relation.all
-      end
-    end
-
-    def search_by_location_bounds(params = {})
-      # includes(:locations).where(fancy bounding query)
-    end
-
-    def search(params = {})
-      return text_search(params)
     end
 
     def allowed_params(params)
