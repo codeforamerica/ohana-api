@@ -12,8 +12,8 @@ module Api
       end
 
       def search
-        categories = Category.search_by_name(params[:name])
-        render json: categories, status: 200
+        searchResults = PgSearch.multisearch(params[:name])
+        render json: searchResults, status: 200
       end
     end
   end

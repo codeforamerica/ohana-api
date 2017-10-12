@@ -1,5 +1,6 @@
 class Category < ActiveRecord::Base
   include PgSearch
+  multisearchable :against => :name
 
   attr_accessible :name, :taxonomy_id
 
@@ -13,12 +14,6 @@ class Category < ActiveRecord::Base
               message: I18n.t('errors.messages.duplicate_taxonomy_id'),
               case_sensitive: false
             }
-  pg_search_scope :search_by_name,
-                  :against => :name,
-                  :using => {
-                    :tsearch => {:any_word => true},
-                    :dmetaphone => {:any_word => true},
-                    :trigram => {:threshold => 0.1}
-                  }
+
   has_ancestry
 end

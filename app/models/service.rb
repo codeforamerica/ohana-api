@@ -73,7 +73,7 @@ class Service < ActiveRecord::Base
 
   # rubocop:disable Rails/SkipsModelValidations
   def touch_location(_category)
-    location.update_column(:updated_at, Time.zone.now) if persisted?
+    #  location.update_column(:updated_at, Time.zone.now) if persisted?
   end
   # rubocop:enable Rails/SkipsModelValidations
 end

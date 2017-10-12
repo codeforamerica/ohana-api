@@ -1,4 +1,7 @@
 class Organization < ActiveRecord::Base
+  include PgSearch
+  multisearchable :against => :name
+
   attr_accessible :accreditations, :alternate_name, :date_incorporated,
                   :description, :email, :funding_sources, :legal_status,
                   :licenses, :name, :tax_id, :tax_status, :website,
