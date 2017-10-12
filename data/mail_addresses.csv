@@ -1,2 +1,31 @@
 id,location_id,attention,address_1,address_2,city,state_province,postal_code,country
-1,5,Greater Arden Chamber of Commerce,3308 El Camino Ave,Suite 300-261,Arden-Arcade,CA,95821,US
+75,125,"Cronin, Schmidt and Mills",27826 Cherokee Alley,,Los Angeles,CA,90035,US
+76,126,"Pouros, Schoen and Gusikowski",265 Fair Oaks Lane,,Anaheim,CA,92812,US
+77,127,Klein LLC,3762 Bluestem Hill,,San Jose,CA,95118,US
+78,128,Livepath,00 Maple Parkway,,Anaheim,CA,92812,US
+79,129,Pixonyx,420 Bayside Park,,Sacramento,CA,94257,US
+80,132,Tagchat,5945 Gulseth Crossing,,San Diego,CA,92170,US
+81,133,Kayveo,8 Comanche Parkway,,Fresno,CA,93750,US
+82,139,Myworks,68209 Fuller Street,,Fresno,CA,93794,US
+83,140,Innojam,9306 Warrior Park,,Santa Monica,CA,90410,US
+84,141,Tagtune,9 High Crossing Crossing,,Santa Barbara,CA,93106,US
+85,142,Twinder,75 Lyons Center,,Chula Vista,CA,91913,US
+86,144,Roomm,19 Weeping Birch Street,,Sacramento,CA,94230,US
+87,145,Shufflester,99610 Hansons Crossing,,San Bernardino,CA,92405,US
+88,146,Yombu,12886 Utah Trail,,Los Angeles,CA,90189,US
+89,147,Wordtune,420 Chinook Center,,Irvine,CA,92710,US
+90,151,JumpXS,044 Westend Lane,,Sacramento,CA,94245,US
+91,168,Flipstorm,43 Shoshone Drive,,Torrance,CA,90510,US
+92,177,Edgepulse,9266 Beilfuss Hill,9266 Beilfuss Hill,,Fresno,CA,US
+93,178,Centidel,50447 Continental Court,50447 Continental Court,,San Diego,CA,US
+94,179,Ainyx,260 Veith Point,260 Veith Point,,Sacramento,CA,US
+95,180,Blogtags,22 Bartelt Pass,22 Bartelt Pass,,Mountain View,CA,US
+96,181,Skyvu,82833 Commercial Lane,82833 Commercial Lane,,Bakersfield,CA,US
+97,182,Zoonoodle,23 Carey Avenue,23 Carey Avenue,,San Francisco,CA,US
+98,184,Topiczoom,80859 Harbort Junction,80859 Harbort Junction,,San Luis Obispo,CA,US
+99,185,Yacero,26 Union Crossing,26 Union Crossing,,San Diego,CA,US
+100,186,Feedbug,5362 Ronald Regan Drive,5362 Ronald Regan Drive,,San Jose,CA,US
+101,187,Voonix,84539 Spenser Drive,84539 Spenser Drive,,Stockton,CA,US
+102,188,Skippad,48 North Road,48 North Road,,Fresno,CA,US
+103,189,Topdrive,42487 Haas Place,42487 Haas Place,,Los Angeles,CA,US
+104,196,Rhybox,0 Thackeray Drive,,San Francisco,CA,94159,US

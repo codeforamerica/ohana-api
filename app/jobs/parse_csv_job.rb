@@ -21,7 +21,7 @@ class ParseCsvJob
   @@service_id = 0
 
   def parse_csv()
-    file = File.open("/tmp/data/city-of-sac-csv/city_of_sac_data.csv")
+    file = File.open("/tmp/data/city-of-sac-csv/fake_data.csv")
     CSV.foreach(file, headers: true) do |row|
       taxonomy_id_array = assign_taxonomies(row)
       @@orgs_map.push(map_to_organizations(row))
@@ -126,7 +126,7 @@ class ParseCsvJob
       accessibility:      nil,
       admin_emails:       nil,
       alternate_name:     nil,
-      description:        'description',
+      description:        row[key + 'LocDesc'],
       email:              nil,
       languages:          nil,
       latitude:           nil,
@@ -206,7 +206,7 @@ class ParseCsvJob
       program_id:             nil,
       accepted_payments:      nil,
       alternate_name:         nil,
-      description:            'desc',
+      description:            row[key + 'ServiceDesc'],
       eligibility:            nil,
       email:                  nil,
       fees:                   row[key + 'Fee'],
@@ -227,11 +227,13 @@ class ParseCsvJob
 
   def add_subcategory_id(array, categories_from_db, category_int, column)
    subcats_from_db = categories_from_db['second_level'][category_int]['third_level']
-   subcats = column.split(', ')
-   subcats.each do |subcat|
-     subcats_from_db.each do |subcat_from_db|
-       if subcat === subcat_from_db["@title"]
-         array.push(subcat_from_db["@id"])
+   if (!column.nil?)
+     subcats = column.split(', ')
+     subcats.each do |subcat|
+       subcats_from_db.each do |subcat_from_db|
+         if subcat === subcat_from_db["@title"]
+           array.push(subcat_from_db["@id"])
+         end
        end
      end
    end
@@ -259,30 +261,43 @@ class ParseCsvJob
    categories.each do |category|
      case category
      when 'Financial Management'
+       taxonomy_id_array.push("101-01")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 0, row['S1FinanceSub'])
      when 'Capital'
+       taxonomy_id_array.push("101-02")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 1, row['S1CapitalSub'])
      when 'Legal Services'
+       taxonomy_id_array.push("101-03")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 2, row['S1LegalSub'])
      when 'Marketing/Sales'
+       taxonomy_id_array.push("101-04")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 3, row['S1MarketingSub'])
      when 'Networking'
+       taxonomy_id_array.push("101-05")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 4, row['S1NetworkingSub'])
      when 'Manufacturing/Logistics'
+       taxonomy_id_array.push("101-06")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 5, row['S1ManufacturingSub'])
      when 'Procurement'
+       taxonomy_id_array.push("101-07")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 6, row['S1ProcurementSub'])
      when 'Planning/Management'
+       taxonomy_id_array.push("101-08")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 7, row['S1PlanningSub'])
      when 'R&D/Commercialization'
+       taxonomy_id_array.push("101-09")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 8, row['S1RDSub'])
      when 'Regulatory Compliance'
+       taxonomy_id_array.push("101-10")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 9, row['S1RegulatorySub'])
      when 'Physical Space'
+       taxonomy_id_array.push("101-11")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 10, row['S1SpaceSub'])
      when 'Mentoring/Counseling'
+       taxonomy_id_array.push("101-12")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 11, row['S1MentoringSub'])
      when 'Human Resources & Workforce Development'
+       taxonomy_id_array.push("101-13")
        add_subcategory_id(taxonomy_id_array, categories_from_db, 12, row['S1HRSub'])
      end
    end
