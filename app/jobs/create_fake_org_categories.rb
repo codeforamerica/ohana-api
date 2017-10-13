@@ -109,6 +109,7 @@ class CreateFakeOrgCategories
     end
     send_to_csv()
   end
+
   def add_subcategory_id(categories_from_db, category_int, subcat_arr)
     subcats_from_db = categories_from_db['second_level'][category_int]['third_level']
     subcats_from_db.each do |subcat_from_db|
@@ -118,6 +119,7 @@ class CreateFakeOrgCategories
       end
     end
   end
+
   def add_other_tax_id(data_from_db, array)
     data_from_db['second_level'].each do |d|
       num = random_num(1.00)
@@ -126,6 +128,7 @@ class CreateFakeOrgCategories
       end
     end
   end
+
   def map_to_categories(categories_list,finance_array,capital_array,procurement_array,legal_array,manufacturing_array,marketing_array,mentoring_array,networking_array,planning_array,rd_array,regulartory_array,space_array,hr_array,industries_list,communities_list)
     {
      categories_list: categories_list.join(','),
@@ -146,6 +149,7 @@ class CreateFakeOrgCategories
      communities_list: communities_list.join(','),
     }
   end
+
   def send_to_csv()
     CSV.open("/Users/katepiette/ohana-api/data/fake_org_categories.csv", "wb") do |csv|
       csv << @services_map.first.keys
@@ -154,6 +158,7 @@ class CreateFakeOrgCategories
       end
     end
   end
+  
   private
 
   def random_num(num)
