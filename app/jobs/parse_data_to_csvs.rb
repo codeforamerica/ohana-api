@@ -2,48 +2,50 @@ require 'csv'
 require 'json'
 require 'net/http'
 
-class ParseCsvJob
+class ParseDataToCsvs
 
-  @@orgs_map = []
-  @@locations_map = []
-  @@addresses_map = []
-  @@mail_addresses_map = []
-  @@contacts_map = []
-  @@phones_map = []
-  @@services_map = []
+  def initialize()
+    @orgs_map = []
+    @locations_map = []
+    @addresses_map = []
+    @mail_addresses_map = []
+    @contacts_map = []
+    @phones_map = []
+    @services_map = []
 
-  @@org_id = 0
-  @@location_id = 0
-  @@address_id = 0
-  @@mail_address_id = 0
-  @@contact_id = 0
-  @@phone_id = 0
-  @@service_id = 0
+    @org_id = 0
+    @location_id = 0
+    @address_id = 0
+    @mail_address_id = 0
+    @contact_id = 0
+    @phone_id = 0
+    @service_id = 0
+  end
 
   def parse_csv()
-    file = File.open("/tmp/data/city-of-sac-csv/fake_data.csv")
+    file = File.open("/Users/katepiette/ohana-api/data/city-of-sac-csv/fake_data.csv")
     CSV.foreach(file, headers: true) do |row|
       taxonomy_id_array = assign_taxonomies(row)
-      @@orgs_map.push(map_to_organizations(row))
-      @@locations_map.push(map_to_locations(row, 'L1'))
-      @@addresses_map.push(map_to_addresses(row, 'L1'))
+      @orgs_map.push(map_to_organizations(row))
+      @locations_map.push(map_to_locations(row, 'L1'))
+      @addresses_map.push(map_to_addresses(row, 'L1'))
       if !row['M1Street1'].nil?
-        @@mail_addresses_map.push(map_to_mail_addresses(row))
+        @mail_addresses_map.push(map_to_mail_addresses(row))
       end
-      @@contacts_map.push(map_to_contacts(row))
-      @@phones_map.push(map_to_phones(row))
-      @@services_map.push(map_to_services(row, 'S1', taxonomy_id_array))
+      @contacts_map.push(map_to_contacts(row))
+      @phones_map.push(map_to_phones(row))
+      @services_map.push(map_to_services(row, 'S1', taxonomy_id_array))
       $i = 2
       $num = 5
       while $i <= $num
         location_key = 'L' + $i.to_s
         service_key = 'S' + $i.to_s
         if !row[location_key<<'LocName'].nil?
-          @@locations_map.push(map_to_locations(row, 'L'<<$i.to_s))
-          @@addresses_map.push(map_to_addresses(row, 'L'<<$i.to_s))
+          @locations_map.push(map_to_locations(row, 'L'<<$i.to_s))
+          @addresses_map.push(map_to_addresses(row, 'L'<<$i.to_s))
         end
         if !row[service_key<<'ServiceName'].nil?
-          @@services_map.push(map_to_services(row, 'S'<<$i.to_s, taxonomy_id_array))
+          @services_map.push(map_to_services(row, 'S'<<$i.to_s, taxonomy_id_array))
         end
         $i += 1
       end
@@ -52,54 +54,54 @@ class ParseCsvJob
   end
 
   def create_csvs()
-    CSV.open("/tmp/data/organizations.csv", "wb") do |csv|
-      csv << @@orgs_map.first.keys
-      @@orgs_map.each do |hash|
+    CSV.open("/Users/katepiette/ohana-api/data/organizations.csv", "wb") do |csv|
+      csv << @orgs_map.first.keys
+      @orgs_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/tmp/data/locations.csv", "wb") do |csv|
-      csv << @@locations_map.first.keys
-      @@locations_map.each do |hash|
+    CSV.open("/Users/katepiette/ohana-api/data/locations.csv", "wb") do |csv|
+      csv << @locations_map.first.keys
+      @locations_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/tmp/data/addresses.csv", "wb") do |csv|
-      csv << @@addresses_map.first.keys
-      @@addresses_map.each do |hash|
+    CSV.open("/Users/katepiette/ohana-api/data/addresses.csv", "wb") do |csv|
+      csv << @addresses_map.first.keys
+      @addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/tmp/data/mail_addresses.csv", "wb") do |csv|
-      csv << @@mail_addresses_map.first.keys
-      @@mail_addresses_map.each do |hash|
+    CSV.open("/Users/katepiette/ohana-api/data/mail_addresses.csv", "wb") do |csv|
+      csv << @mail_addresses_map.first.keys
+      @mail_addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/tmp/data/contacts.csv", "wb") do |csv|
-      csv << @@contacts_map.first.keys
-      @@contacts_map.each do |hash|
+    CSV.open("/Users/katepiette/ohana-api/data/contacts.csv", "wb") do |csv|
+      csv << @contacts_map.first.keys
+      @contacts_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/tmp/data/phones.csv", "wb") do |csv|
-      csv << @@phones_map.first.keys
-      @@phones_map.each do |hash|
+    CSV.open("/Users/katepiette/ohana-api/data/phones.csv", "wb") do |csv|
+      csv << @phones_map.first.keys
+      @phones_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/tmp/data/services.csv", "wb") do |csv|
-      csv << @@services_map.first.keys
-      @@services_map.each do |hash|
+    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb") do |csv|
+      csv << @services_map.first.keys
+      @services_map.each do |hash|
         csv << hash.values
       end
     end
   end
 
   def map_to_organizations(row)
-    @@org_id += 1
+    @org_id += 1
     {
-      id:                 @@org_id,
+      id:                 @org_id,
       accreditations:     nil,
       alternate_name:     row['B1AltName'],
       date_incorporated:  nil,
@@ -119,10 +121,10 @@ class ParseCsvJob
   end
 
   def map_to_locations(row, key)
-    @@location_id += 1
+    @location_id += 1
     {
-      id:                 @@location_id,
-      organization_id:    @@org_id,
+      id:                 @location_id,
+      organization_id:    @org_id,
       accessibility:      nil,
       admin_emails:       nil,
       alternate_name:     nil,
@@ -139,10 +141,10 @@ class ParseCsvJob
   end
 
   def map_to_addresses(row, key)
-    @@address_id += 1
+    @address_id += 1
     {
-      id:                 @@address_id,
-      location_id:        @@location_id,
+      id:                 @address_id,
+      location_id:        @location_id,
       address_1:          row[key + 'Street1'],
       address_2:          row[key + 'Street2'],
       city:               row[key + 'City'],
@@ -153,10 +155,10 @@ class ParseCsvJob
   end
 
   def map_to_mail_addresses(row)
-    @@mail_address_id += 1
+    @mail_address_id += 1
     {
-      id:                 @@mail_address_id,
-      location_id:        @@location_id,
+      id:                 @mail_address_id,
+      location_id:        @location_id,
       attention:          row['B1OrgName'],
       address_1:          row['M1Street1'],
       address_2:          row['M1Street2'],
@@ -168,11 +170,11 @@ class ParseCsvJob
   end
 
   def map_to_contacts(row)
-    @@contact_id += 1
+    @contact_id += 1
     {
-      id:                 @@contact_id,
+      id:                 @contact_id,
       location_id:        nil,
-      organization_id:    @@org_id,
+      organization_id:    @org_id,
       service_id:         nil,
       name:               row['A1Name'],
       title:              row['A1Title'],
@@ -182,12 +184,12 @@ class ParseCsvJob
   end
 
   def map_to_phones(row)
-    @@phone_id += 1
+    @phone_id += 1
     {
-      id:                 @@phone_id,
-      contact_id:         @@contact_id,
+      id:                 @phone_id,
+      contact_id:         @contact_id,
       location_id:        nil,
-      organization_id:    @@org_id,
+      organization_id:    @org_id,
       service_id:         nil,
       number:             row['A1Phone'],
       extension:          nil,
@@ -199,10 +201,10 @@ class ParseCsvJob
   end
 
   def map_to_services(row, key, taxonomy_array)
-    @@service_id += 1
+    @service_id += 1
     {
-      id:                     @@service_id,
-      location_id:            @@location_id,
+      id:                     @service_id,
+      location_id:            @location_id,
       program_id:             nil,
       accepted_payments:      nil,
       alternate_name:         nil,
@@ -252,12 +254,12 @@ class ParseCsvJob
 
  def assign_taxonomies(row)
    taxonomy_id_array = []
-   file = File.read("/tmp/data/oe.json")
+   file = File.read("/Users/katepiette/ohana-api/data/oe.json")
    json = JSON.parse(file)
 
    # CATEGORIES
    categories_from_db = json['taxonomy']['top_level'][0]
-   categories = row['S1Categories'].split(', ')
+   categories = row['S1Categories'].split(',').map(&:strip)
    categories.each do |category|
      case category
      when 'Financial Management'
@@ -324,8 +326,3 @@ class ParseCsvJob
    taxonomy_id_array
  end
 end
-
-if __FILE__ == $0
-   parser = ParseCsvJob.new
-   parser.parse_csv()
- end

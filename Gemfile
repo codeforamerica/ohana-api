@@ -21,6 +21,7 @@ gem 'memcachier'
 gem 'pg'
 gem 'pg_search'
 gem 'protected_attributes'
+gem 'pry-byebug'
 gem 'puma'
 gem 'pundit'
 gem 'rack-cache'
@@ -43,10 +44,10 @@ group :test, :development do
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
+  gem 'byebug'
 end
 
 group :test do
-  gem 'byebug'
   gem 'capybara'
   gem 'coveralls', require: false
   gem 'database_cleaner', '>= 1.0.0.RC1'
