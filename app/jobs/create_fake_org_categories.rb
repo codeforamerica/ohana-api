@@ -8,14 +8,11 @@ class CreateFakeOrgCategories
   @@services_map = []
 
   def create_orgs()
-    $i = 0
-    $num = 500
-
     taxonomy_name_array = []
-    file = File.read("/Users/katepiette/ohana-api/data/oe.json")
+    file = File.read("/tmp/ohana-api/data/oe.json")
     json = JSON.parse(file)
 
-    while $i < $num do
+    500.times.each do |n|
       prng = Random.new
       random_num = prng.rand(100)
 
@@ -115,7 +112,6 @@ class CreateFakeOrgCategories
         industries_list,
         communities_list
       ))
-      $i += 1
     end
     send_to_csv()
   end
@@ -163,7 +159,7 @@ class CreateFakeOrgCategories
   end
 
   def send_to_csv()
-    CSV.open("/Users/katepiette/ohana-api/data/fake_org_categories.csv", "wb") do |csv|
+    CSV.open("/tmp/data/fake_org_categories.csv", "wb") do |csv|
       csv << @@services_map.first.keys
       @@services_map.each do |hash|
         csv << hash.values
