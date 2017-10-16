@@ -52,6 +52,14 @@ class Organization < ActiveRecord::Base
     query.distinct
   end
 
+  def self.filter_by_location(sw_lat, sw_lng, ne_lat, ne_lng, lat_attr, lon_attr)
+    return self.all unless sw_lat
+    query = self
+    organization_ids = Location.within_bounding_box([sw_lat, sw_lng, ne_lat, ne_lng]).pluck(:organization_id)
+    query = query.where(id: organization_ids)
+    query.distinct
+  end
+
   extend FriendlyId
   friendly_id :name, use: [:history]
 

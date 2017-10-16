@@ -6,10 +6,20 @@ module Api
       include CustomErrors
 
       def index
-        orgs = Organization.includes(:contacts, :phones).
-               page(params[:page]).per(params[:per_page])
-        render json: orgs, status: 200
-        generate_pagination_headers(orgs)
+        organizations = Organization.organizations_filtered_by_categories(params[:category])
+        .filter_by_location(
+          params[:sw_lat],
+          params[:sw_lng],
+          params[:ne_lat],
+          params[:ne_lng],
+          params[:lat_attr],
+          params[:lon_attr]
+        )
+        .page(params[:page])
+        .per(params[:per_page])
+
+        generate_pagination_headers(organizations)
+        render json: organizations, each_serializer: OrganizationSerializer, status: 200
       end
 
       def show
@@ -40,15 +50,6 @@ module Api
                     page(params[:page]).per(params[:per_page])
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
-      end
-
-      def search
-        organizations = Organization.organizations_filtered_by_categories(
-          params[:category]).page(params[:page]
-        ).per(params[:per_page])
-
-        generate_pagination_headers(organizations)
-        render json: organizations, each_serializer: OrganizationSerializer, status: 200
       end
     end
   end

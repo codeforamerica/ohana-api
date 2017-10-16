@@ -10,11 +10,6 @@ module Api
         children = Category.find_by(taxonomy_id: params[:taxonomy_id]).children
         render json: children, status: 200
       end
-
-      def search
-        searchResults = PgSearch.multisearch(params[:name])
-        render json: searchResults, status: 200
-      end
     end
   end
 end
