@@ -8,7 +8,7 @@ module Api
       after_action :set_cache_control, only: :index
 
       def index
-        searchResults = PgSearch.multisearch(params[:name])
+        searchResults = PgSearch.multisearch(params[:text])
         render json: searchResults, status: 200
       end
     end
