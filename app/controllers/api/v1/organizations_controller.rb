@@ -6,7 +6,8 @@ module Api
       include CustomErrors
 
       def index
-        organizations = Organization.organizations_filtered_by_categories(params[:category])
+        organizations = Organization.filter_by_id(params[:id])
+        .filter_by_categories(params[:category])
         .filter_by_location(
           params[:sw_lat],
           params[:sw_lng],
@@ -20,11 +21,6 @@ module Api
 
         generate_pagination_headers(organizations)
         render json: organizations, each_serializer: OrganizationSerializer, status: 200
-      end
-
-      def show
-        org = Organization.find(params[:id])
-        render json: org, status: 200
       end
 
       def update

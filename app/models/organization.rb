@@ -38,7 +38,7 @@ class Organization < ActiveRecord::Base
     joins(:locations).where('locations.id IN (?)', ids).uniq
   end
 
-  def self.organizations_filtered_by_categories(category_names)
+  def self.filter_by_categories(category_names)
     return self.all unless category_names
     query = self
     [category_names].flatten.each do |category_name|
@@ -58,6 +58,12 @@ class Organization < ActiveRecord::Base
     organization_ids = Location.within_bounding_box([sw_lat, sw_lng, ne_lat, ne_lng]).pluck(:organization_id)
     query = query.where(id: organization_ids)
     query.distinct
+  end
+
+  def self.filter_by_id(id)
+    return self.all unless id
+    query = self
+    query = query.where(id: id)
   end
 
   extend FriendlyId
