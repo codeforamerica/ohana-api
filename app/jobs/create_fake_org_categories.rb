@@ -9,7 +9,7 @@ class CreateFakeOrgCategories
   end
 
   def create_orgs()
-    file = File.read("/Users/katepiette/ohana-api/data/oe.json")
+    file = File.read("/tmp/ohana-api/data/oe.json")
     json = JSON.parse(file)
     random_num = random_num(100)
     500.times.each do |n|
@@ -151,14 +151,14 @@ class CreateFakeOrgCategories
   end
 
   def send_to_csv()
-    CSV.open("/Users/katepiette/ohana-api/data/fake_org_categories.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/fake_org_categories.csv", "wb") do |csv|
       csv << @services_map.first.keys
       @services_map.each do |hash|
         csv << hash.values
       end
     end
   end
-  
+
   private
 
   def random_num(num)

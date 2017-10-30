@@ -15,5 +15,15 @@ class Category < ActiveRecord::Base
               case_sensitive: false
             }
 
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:history]
+
+  def slug_candidates
+    [
+      :name,
+      [:name, :taxonomy_id]
+    ]
+  end
+
   has_ancestry
 end

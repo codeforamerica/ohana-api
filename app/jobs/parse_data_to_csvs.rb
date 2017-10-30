@@ -23,7 +23,7 @@ class ParseDataToCsvs
   end
 
   def parse_csv()
-    file = File.open("/Users/katepiette/ohana-api/data/city-of-sac-csv/fake_data.csv")
+    file = File.open("/tmp/ohana-api/data/city-of-sac-csv/fake_data.csv")
     CSV.foreach(file, headers: true) do |row|
       taxonomy_id_array = assign_taxonomies(row)
       @orgs_map.push(map_to_organizations(row))
@@ -36,8 +36,7 @@ class ParseDataToCsvs
       @phones_map.push(map_to_phones(row))
       @services_map.push(map_to_services(row, 'S1', taxonomy_id_array))
       $i = 2
-      $num = 5
-      while $i <= $num
+      4.times.each do |n|
         location_key = 'L' + $i.to_s
         service_key = 'S' + $i.to_s
         if !row[location_key<<'LocName'].nil?
@@ -54,43 +53,43 @@ class ParseDataToCsvs
   end
 
   def create_csvs()
-    CSV.open("/Users/katepiette/ohana-api/data/organizations.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/organizations.csv", "wb") do |csv|
       csv << @orgs_map.first.keys
       @orgs_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/locations.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/locations.csv", "wb") do |csv|
       csv << @locations_map.first.keys
       @locations_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/addresses.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/addresses.csv", "wb") do |csv|
       csv << @addresses_map.first.keys
       @addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/mail_addresses.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/mail_addresses.csv", "wb") do |csv|
       csv << @mail_addresses_map.first.keys
       @mail_addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/contacts.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/contacts.csv", "wb") do |csv|
       csv << @contacts_map.first.keys
       @contacts_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/phones.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/phones.csv", "wb") do |csv|
       csv << @phones_map.first.keys
       @phones_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/services.csv", "wb") do |csv|
       csv << @services_map.first.keys
       @services_map.each do |hash|
         csv << hash.values
@@ -248,13 +247,16 @@ class ParseDataToCsvs
        if type === d["@title"]
          array.push(d["@id"])
        end
+       if type === "NOT TARGETED"
+         array.push("104")
+       end
      end
    end
  end
 
  def assign_taxonomies(row)
    taxonomy_id_array = []
-   file = File.read("/Users/katepiette/ohana-api/data/oe.json")
+   file = File.read("/tmp/ohana-api/data/oe.json")
    json = JSON.parse(file)
 
    # CATEGORIES

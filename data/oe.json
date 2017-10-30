@@ -1,4 +1,4 @@
-{
+ {
   "taxonomy":{
     "top_level":[
       {
@@ -243,8 +243,7 @@
           {"@id":"104-07","@title":"Other"},
           {"@id":"104-08","@title":"Veteran"},
           {"@id":"104-09","@title":"Woman"},
-          {"@id":"104-10","@title":"Ex-Convict"},
-          {"@id":"104-11","@title":"NOT TARGETED"}
+          {"@id":"104-10","@title":"Ex-Convict"}
         ]
       },
       {
