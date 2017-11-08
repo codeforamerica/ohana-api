@@ -229,6 +229,9 @@ en:
         tax_status:
           description: 'Internal Revenue Service tax designation, such as 501(c)(3).'
 
+        social_media:
+          description: 'Please enter the full URL for social media sites.'
+
     services:
       forms:
         accepted_payments:
