@@ -36,7 +36,7 @@ class Service < ActiveRecord::Base
 
   validates :name, :description, :status,
             presence: { message: I18n.t('errors.messages.blank_for_service') },
-            if: proc { |service| service.location && service.location.kind == 'human_services' }
+            if: proc { |service| service.location&.kind == 'human_services' }
 
   validates :service_areas, array: { service_area: true }
 
