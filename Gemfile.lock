@@ -224,7 +224,7 @@ GEM
     protected_attributes (1.1.3)
       activemodel (>= 4.0.1, < 5.0)
     public_suffix (3.0.1)
-    puma (3.10.0)
+    puma (3.11.0)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
