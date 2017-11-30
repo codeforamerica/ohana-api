@@ -23,10 +23,13 @@ class ParseDataToCsvs
   end
 
   def parse_csv()
-    file = File.open("/Users/katepiette/ohana-api/data/city-of-sac-csv/fake_data.csv")
+    file = File.open("/tmp/ohana-api/data/city-of-sac-csv/data.csv")
     CSV.foreach(file, headers: true) do |row|
       @orgs_map.push(map_to_organizations(row))
       @locations_map.push(map_to_locations(row, 'L1'))
+      if !row['L1Phone'].nil?
+        @phones_map.push(map_to_location_phones(row, 'L1'))
+      end
       @addresses_map.push(map_to_addresses(row, 'L1'))
       if !row['M1Street1'].nil?
         @mail_addresses_map.push(map_to_mail_addresses(row))
@@ -36,6 +39,9 @@ class ParseDataToCsvs
       end
       @phones_map.push(map_to_phones(row))
       @services_map.push(map_to_services(row, 'S1'))
+      if !row['S1Phone'].nil?
+        @phones_map.push(map_to_service_phones(row, 'S1'))
+      end
       $i = 2
       4.times.each do |n|
         location_key = 'L' + $i.to_s
@@ -50,7 +56,6 @@ class ParseDataToCsvs
         if !row[service_key + 'ServiceName'].nil?
           @services_map.push(map_to_services(row, service_key))
           if !row[service_key + 'Name'].nil?
-            puts 'multiple service contact'
             @contacts_map.push(map_to_service_contacts(row, service_key))
           end
           if !row[service_key + 'Phone'].nil?
@@ -64,48 +69,49 @@ class ParseDataToCsvs
   end
 
   def create_csvs()
-    CSV.open("/Users/katepiette/ohana-api/data/organizations.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/organizations.csv", "wb") do |csv|
       csv << @orgs_map.first.keys
       @orgs_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/locations.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/locations.csv", "wb") do |csv|
       csv << @locations_map.first.keys
       @locations_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/addresses.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/addresses.csv", "wb") do |csv|
       csv << @addresses_map.first.keys
       @addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/mail_addresses.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/mail_addresses.csv", "wb") do |csv|
       csv << @mail_addresses_map.first.keys
       @mail_addresses_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/contacts.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/contacts.csv", "wb") do |csv|
       csv << @contacts_map.first.keys
       @contacts_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/phones.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/phones.csv", "wb") do |csv|
       csv << @phones_map.first.keys
       @phones_map.each do |hash|
         csv << hash.values
       end
     end
-    CSV.open("/Users/katepiette/ohana-api/data/services.csv", "wb") do |csv|
+    CSV.open("/tmp/ohana-api/data/services.csv", "wb") do |csv|
       csv << @services_map.first.keys
       @services_map.each do |hash|
         csv << hash.values
       end
     end
+    puts 'Created CSVs'
   end
 
   def map_to_organizations(row)
@@ -211,14 +217,15 @@ class ParseDataToCsvs
 
   def map_to_phones(row)
     @phone_id += 1
+    phone_number = row['B1Phone'].split(' ext. ')
     {
       id:                 @phone_id,
       contact_id:         @contact_id,
       location_id:        nil,
       organization_id:    @org_id,
       service_id:         nil,
-      number:             row['B1Phone'],
-      extension:          nil,
+      number:             phone_number[0],
+      extension:          phone_number[1] ? phone_number[1] : nil,
       department:         nil,
       number_type:        'voice',
       vanity_number:      nil,
@@ -228,14 +235,15 @@ class ParseDataToCsvs
 
   def map_to_location_phones(row, key)
     @phone_id += 1
+    phone_number = row[key + 'Phone'].split(' ext. ')
     {
       id:                 @phone_id,
       contact_id:         nil,
       location_id:        @location_id,
       organization_id:    nil,
       service_id:         nil,
-      number:             row[key + 'Phone'],
-      extension:          nil,
+      number:             phone_number[0],
+      extension:          phone_number[1] ? phone_number[1] : nil,
       department:         nil,
       number_type:        'voice',
       vanity_number:      nil,
@@ -245,14 +253,15 @@ class ParseDataToCsvs
 
   def map_to_service_phones(row, key)
     @phone_id += 1
+    phone_number = row[key + 'Phone'].split(' ext. ')
     {
       id:                 @phone_id,
       contact_id:         @contact_id,
       location_id:        nil,
       organization_id:    nil,
       service_id:         @service_id,
-      number:             row[key + 'Phone'],
-      extension:          nil,
+      number:             phone_number[0],
+      extension:          phone_number[1] ? phone_number[1] : nil,
       department:         nil,
       number_type:        'voice',
       vanity_number:      nil,
@@ -364,7 +373,7 @@ class ParseDataToCsvs
 
  def assign_taxonomies(row, key)
    taxonomy_id_array = []
-   file = File.read("/Users/katepiette/ohana-api/data/oe.json")
+   file = File.read("/tmp/ohana-api/data/oe.json")
    json = JSON.parse(file)
 
    # CATEGORIES

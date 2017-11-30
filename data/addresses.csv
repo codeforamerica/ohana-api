@@ -1,7 +1,7 @@
 id,location_id,address_1,address_2,city,state_province,postal_code,country
-1,1,5265 Putah Creek Rd,,Winters,CA,95694,US
-2,2,"400 Garden Street, #108",,West Sacramento,CA,95691,US
-3,3,411 Main St.,Suite 101,Chico,CA,95928,US
+1,1,411 Main St.,Suite 101,Chico,CA,95928,US
+2,2,5265 Putah Creek Rd,,Winters,CA,95694,US
+3,3,"400 Garden Street, #108",,West Sacramento,CA,95691,US
 4,4,5383 Franklin Blvd,Suite C,Sacramento,CA,95820,US
 5,5,115 Ascot Drive,Suite 100,Roseville,CA,95661,US
 6,6,3400 Cottage Way,Suite G,Arden-Arcade,CA,95825,US
@@ -50,189 +50,44 @@ id,location_id,address_1,address_2,city,state_province,postal_code,country
 49,49,"1370 E. Lassen Ave, Suite 100",,Chico,CA,95973,US
 50,50,1410 Ethan Way,,Sacramento,CA,95825,US
 51,51,"707 3rd Street, Room 400",,West Sacramento,CA,95605,US
-52,52,5633 Caleb Ave,,Sacramento,CA,95819,US
-53,53,5319 Price Ave,,McClellan Park,CA,95652,US
-54,54,3035 Mulvany Pl,,West Sacramento,CA,95691,US
-55,55,1630 Terminal St,Suite 100,West Sacramento,CA,95691,US
-56,56,3187-3195 B St,Suite 101,Sacramento,CA,95816,US
-57,57,1909 8th Ave,Suite G,Sacramento,CA,95818,US
-58,58,510 Winter Garden Ave,,Sacramento,CA,95833,US
-59,59,905 Lighthouse Dr,Suite 100,West Sacramento,CA,95605,US
-60,60,4206 Ashton Dr,,Sacramento,CA,95864,US
-61,61,2353 Gibson St,Suite 101,Sacramento,CA,95815,US
-62,62,1670 Randolph Rd,Suite G,West Sacramento,CA,95691,US
-63,63,3515 Jefferson Blvd,,West Sacramento,CA,95691,US
-64,64,642 37th St,Suite 100,Sacramento,CA,95816,US
-65,65,10300 Dillard Rd,,Wilton,CA,95693,US
-66,66,401 McClatchy Way,Suite 101,Sacramento,CA,95818,US
-67,67,1016-1020 Milton St,Suite G,West Sacramento,CA,95605,US
-68,68,328 F St,,West Sacramento,CA,95605,US
-69,69,252-256 Olmstead Dr,Suite 100,Sacramento,CA,95838,US
-70,70,198 N Harbor Blvd,Suite 101,West Sacramento,CA,95605,US
-71,71,4673 X St,Suite G,Sacramento,CA,95817,US
-72,72,52445 Netherlands Rd,,Clarksburg,CA,95612,US
-73,73,1433-1499 Ethan Way,,Sacramento,CA,95825,US
-74,74,2580 Evergreen St,Suite 100,Sacramento,CA,95815,US
-75,75,4208 77th St,Suite 101,Sacramento,CA,95820,US
-76,76,2261 Hooke Way,Suite G,Sacramento,CA,95822,US
-77,77,6171 14th St,,Sacramento,CA,95831,US
-78,78,39660 Waukeena Rd,,Clarksburg,CA,95612,US
-79,79,1915-1919 Fruitridge Rd,Suite 100,Sacramento,CA,95822,US
-80,80,10310 Clay Station Rd,,Wilton,CA,95693,US
-81,81,2600-2666 25th St,Suite 101,Sacramento,CA,95818,US
-82,82,6525 Sunrise Blvd,,Citrus Heights,CA,95610,US
-83,83,900-924 Acacia Ave,Suite G,Sacramento,CA,95815,US
-84,84,5334 State Ave,,Sacramento,CA,95819,US
-85,85,2661 Evergreen Ave,Suite 100,West Sacramento,CA,95691,US
-86,86,1379-1399 Front St,Suite 101,Sacramento,CA,95814,US
-87,87,3960-3998 Gregory Ave,Suite G,West Sacramento,CA,95691,US
-88,88,3045 Catalina Island Rd,,West Sacramento,CA,95691,US
-89,89,4325-4329 Hilts Ave,Suite 100,Sacramento,CA,95824,US
-90,90,6101-6135 Gloria Dr,Suite 101,Sacramento,CA,95831,US
-91,91,3050 33rd St,Suite G,Sacramento,CA,95817,US
-92,92,1106 Meadow Rd,,West Sacramento,CA,95691,US
-93,93,6299 Glademont Ct,,Carmichael,CA,95608,US
-94,94,51114 Babel Slough Rd,,Clarksburg,CA,95612,US
-95,95,4528 50th St,,McClellan Park,CA,95652,US
-96,96,1340 Senida Way,Suite 100,Sacramento,CA,95833,US
-97,97,8645 Carlisle Ave,,Sacramento,CA,95828,US
-98,98,2864-2894 Industrial Blvd,Suite 101,West Sacramento,CA,95691,US
-99,99,9660 River Rd,,Sacramento,CA,95832,US
-100,100,2524-2530 Grove Ave,Suite G,Sacramento,CA,95815,US
-101,101,2157-2159 Fruitridge Rd,,Sacramento,CA,95822,US
-102,102,1830-1838 Crossmill Way,Suite 100,Sacramento,CA,95833,US
-103,103,2751 River Plaza Dr,Suite 101,Sacramento,CA,95833,US
-104,104,2545 27th St,Suite G,Sacramento,CA,95818,US
-105,105,5680-5684 28th St,,Sacramento,CA,95824,US
-106,106,3424 53rd St,Suite 100,Sacramento,CA,95820,US
-107,107,2661-2825 Industrial Blvd,Suite 101,West Sacramento,CA,95691,US
-108,108,2359-2363 Marina Glen Way,Suite G,Sacramento,CA,95833,US
-109,109,703 Sunset Ave,,West Sacramento,CA,95605,US
-110,110,3325-3399 12th Ave,,Sacramento,CA,95817,US
-111,111,6025 Dakota Way,,Sacramento,CA,95894,US
-112,112,2664-2674 21st St,Suite 100,Sacramento,CA,95818,US
-113,113,1920 34th Ave,Suite 101,Sacramento,CA,95822,US
-114,114,632-664 Southgate Rd,Suite G,Sacramento,CA,95815,US
-115,115,2979 Spruce St,,West Sacramento,CA,95691,US
-116,116,2811-2815 Jefferson Blvd,,West Sacramento,CA,95691,US
-117,117,1727-1739 Ethan Way,,Sacramento,CA,95825,US
-118,118,2301-2447 Stone Blvd,,West Sacramento,CA,95691,US
-119,119,2315 H St,,Sacramento,CA,95816,US
-120,120,2330 Garden Hwy,,Sacramento,CA,95833,US
-121,121,2150 River Plaza Dr,,Sacramento,CA,95833,US
-122,122,6215 Fennwood Ct,,Sacramento,CA,95831,US
-123,123,609 L St,,Sacramento,CA,95814,US
-124,124,2401-2449 Green St,,Sacramento,CA,95815,US
-125,125,4200 26th Ave,,Sacramento,CA,95820,US
-126,126,3045 Mulvany Pl,,West Sacramento,CA,95691,US
-127,127,6-10 Hoy Lake Ct,,Sacramento,CA,95833,US
-128,128,1729-1733 Alabama Ave,,West Sacramento,CA,95691,US
-129,129,175 Commerce Cir,,Sacramento,CA,95815,US
-130,130,5601 La Campana Way,,Sacramento,CA,95822,US
-131,131,6109-6113 Hermosa St,,Sacramento,CA,95822,US
-132,132,150-156 Barton Way,,Sacramento,CA,95838,US
-133,133,2931 Rio Linda Blvd,,Sacramento,CA,95815,US
-134,134,3404 Del Paso Blvd,,Sacramento,CA,95838,US
-135,135,3101 McKinley Blvd,,Sacramento,CA,95816,US
-136,136,915 11th St,,Sacramento,CA,95814,US
-137,137,550 20th Ave 21st Avenue Alley,,Sacramento,CA,95820,US
-138,138,2900-2950 K St,,Sacramento,CA,95816,US
-139,139,3039 W Capitol Ave,,West Sacramento,CA,95691,US
-140,140,6 Kelso Cir,,Sacramento,CA,95833,US
-141,141,1731 Bidwell Way,,Sacramento,CA,95818,US
-142,142,2515 I St,,Sacramento,CA,95816,US
-143,143,720-740 Sonoma Ave,,Sacramento,CA,95815,US
-144,144,2754 Howe Ave,,Sacramento,CA,95821,US
-145,145,2495 Natomas Park Dr,,Sacramento,CA,95833,US
-146,146,4824-4900 62nd St,,Sacramento,CA,95820,US
-147,147,5740-5750 55th St,,Sacramento,CA,95824,US
-148,148,1225 Linden Rd,,West Sacramento,CA,95691,US
-149,149,2751-2799 36th St,,Sacramento,CA,95817,US
-150,150,1126 Brownwyk Dr,,Sacramento,CA,95822,US
-151,151,2845 Rio Linda Blvd,,Sacramento,CA,95815,US
-152,152,431-441 35th St,,Sacramento,CA,95816,US
-153,153,1600 Madrone Ave,,West Sacramento,CA,95691,US
-154,154,25 Cadillac Dr,,Sacramento,CA,95825,US
-155,155,2808-2842 Jefferson Blvd,,West Sacramento,CA,95691,US
-156,156,3348-3372 W El Camino Ave,,Sacramento,CA,95833,US
-157,157,4500-4520 S River Rd,,West Sacramento,CA,95691,US
-158,158,12691 Woods Rd,,Wilton,CA,95693,US
-159,159,5880-5912 24th St,,Sacramento,CA,95822,US
-160,160,2017 Hoopa Rd,,West Sacramento,CA,95691,US
-161,161,3661-3681 26th Ave,,Sacramento,CA,95820,US
-162,162,2030 13th St,,Sacramento,CA,95818,US
-163,163,6507 4th Ave,,Sacramento,CA,95817,US
-164,164,3422 Smilax Way,,Sacramento,CA,95834,US
-165,165,2406 E St,,Sacramento,CA,95816,US
-166,166,5240-5248 T St,,Sacramento,CA,95819,US
-167,167,2620 Bevan Rd,,West Sacramento,CA,95691,US
-168,168,4320 S River Rd,,West Sacramento,CA,95691,US
-169,169,800 Richards Blvd,,Sacramento,CA,95811,US
-170,170,306-308 15th St,,West Sacramento,CA,95691,US
-171,171,424-428 Wisconsin Ave,,Sacramento,CA,95833,US
-172,172,2781 Castle Hill Ct,,Sacramento,CA,95821,US
-173,173,1401 Parkway Blvd,,West Sacramento,CA,95691,US
-174,174,3100 El Centro Rd,,Sacramento,CA,95833,US
-175,175,236 Lathrop Way,,Sacramento,CA,95815,US
-176,176,2783 Glen Arven Way,,Sacramento,CA,95833,US
-177,177,700 Riverpoint Dr,,West Sacramento,CA,95605,US
-178,178,280-312 Dragonfly Cir,,Sacramento,CA,95834,US
-179,179,2312-2314 Sandcastle Way,,Sacramento,CA,95833,US
-180,180,1 Raider Ln,,West Sacramento,CA,95691,US
-181,181,3929-3931 35th St,,Sacramento,CA,95820,US
-182,182,4148 63rd St,,Sacramento,CA,95820,US
-183,183,1550-1552 38th St,,Sacramento,CA,95816,US
-184,184,4922 H St,,Sacramento,CA,95819,US
-185,185,942 Calvados Ave,,Sacramento,CA,95815,US
-186,186,1521-1531 Brewerton Dr,,Sacramento,CA,95833,US
-187,187,2133-3145 Academy Way,,Sacramento,CA,95815,US
-188,188,1644 Kathleen Ave,,Sacramento,CA,95815,US
-189,189,1001 I St,,Sacramento,CA,95814,US
-190,190,3401 23rd Ave,,Sacramento,CA,95820,US
-191,191,1919 Juliesse Ave,,Sacramento,CA,95815,US
-192,192,1798 Ferndale Cir,,West Sacramento,CA,95691,US
-193,193,044 Westend Lane,,Sacramento,CA,94245,US
-194,194,7290 Levee Rd,,Dixon,CA,95620,US
-195,195,4130 Gregory Ave,,West Sacramento,CA,95691,US
-196,196,3121-3543 Industrial Blvd,,West Sacramento,CA,95691,US
-197,197,1530 Maryland Ave,,West Sacramento,CA,95691,US
-198,198,24 Emerald Creek Ct,,Sacramento,CA,95824,US
-199,199,2566-2598 26th St,,Sacramento,CA,95818,US
-200,200,2011 Keith Way,,Sacramento,CA,95825,US
-201,201,1301 Howe Ave,,Sacramento,CA,95825,US
-202,202,4721 Breuner Ave,,Sacramento,CA,95819,US
-203,203,1159 Helena Ave,,Sacramento,CA,95815,US
-204,204,561 Summer Garden Way,,Sacramento,CA,95833,US
-205,205,5401 24th St,,Sacramento,CA,95822,US
-206,206,3241 Crocker Dr,,Sacramento,CA,95818,US
-207,207,850 F St,,West Sacramento,CA,95605,US
-208,208,2624-2646 24th St,,Sacramento,CA,95818,US
-209,209,1831 Crossmill Way,,Sacramento,CA,95833,US
-210,210,912 U St,,Sacramento,CA,95818,US
-211,211,3021 Freedom Park Dr,,North Highlands,CA,95660,US
-212,212,4 Dottie Drive,,Sacramento,CA,94286,US
-213,213,4438 Andrew Alan Ln,,Fair Oaks,CA,95628,US
-214,214,19 Vasconcelos Ct,,Sacramento,CA,95833,US
-215,215,2700 Riverside Blvd,,Sacramento,CA,95818,US
-216,216,107 65th St,,Sacramento,CA,95819,US
-217,217,3317 Northgate Blvd,,Sacramento,CA,95834,US
-218,218,748 Lampasas Ave,,Sacramento,CA,95815,US
-219,219,3430 Rio Linda Blvd,,Sacramento,CA,95838,US
-220,220,2910 35th St,,Sacramento,CA,95817,US
-221,221,1898 C St,,Sacramento,CA,95811,US
-222,222,1161-1171 Syracuse Way,,Sacramento,CA,95833,US
-223,223,3325-3399 12th Ave,,Sacramento,CA,95817,US
-224,224,5900-5998 27th Ave,,Sacramento,CA,95820,US
-225,225,857-861 55th St,,Sacramento,CA,95819,US
-226,226,2207 J St,,Sacramento,CA,95816,US
-227,227,1912 El Monte Ave,,Sacramento,CA,95815,US
-228,228,4855-5599 65th St Expy,,Sacramento,CA,95820,US
-229,229,2430 Davis Rd,,West Sacramento,CA,95691,US
-230,230,6-10 Hoy Lake Ct,,Sacramento,CA,95833,US
-231,231,4809 Willowbrook Dr,,Sacramento,CA,95842,US
-232,232,E Park Rd,,Sacramento,CA,95822,US
-233,233,1531 Newborough Dr,,Sacramento,CA,95833,US
-234,234,1939 Castro Way,,Sacramento,CA,95818,US
-235,235,3080-3198 65th St,,Sacramento,CA,95820,US
-236,236,2251 Gerber Ave,,Sacramento,CA,95817,US
-237,237,2900-2950 K St,,Sacramento,CA,95816,US
+52,52,4608 Duckhorn Dr.,,Sacramento,CA,95835,US
+53,53,2331 Alhambra Blvd. Suite 100,,Sacramento,CA,95817,US
+54,54,560 E. Natoma St.,,Folsom,CA,95630,US
+55,55,"Folsom Hall, Suite 2017",7667 Folsom Blvd,Sacramento,CA,95826,US
+56,56,540 Alumni Lane,2106 Gallagher Hall,Davis,CA,95616,US
+57,57,450 N Street,,Sacramento,CA,95814,US
+58,58,"3321 Power Inn Rd., Ste. 210",,Sacramento,CA,95826-3889,US
+59,59,1630 I Street,,Sacramento,CA,95814,US
+60,60,801 k St,STE 2800,Sacramento,CA,95746,US
+61,61,400 Slobe Avenue,,Sacramento,CA,95815,US
+62,62,801 12th Street,,Sacramento,CA,95814,US
+63,63,1931 H St,,Sacramento,CA,95811,US
+64,64,5625 Stockton Blvd,,Sacramento,CA,95824,US
+65,65,400 Court Street,,Woodland,CA,95695,US
+66,66,"1545 River Park Drive, Suite 405",,Sacramento,CA,95815,US
+67,67,1451 River Park Dr. Suite 220,,Sacramento,CA,95815,US
+68,68,604 Third Street,,Davis,CA,95616,US
+69,69,"1325 J Street, 18th Floor",,Sacramento,CA,95814,US
+70,70,3909 Bradshaw Rd.,,Sacramento,CA,95827,US
+71,71,"6060 Sunrise Vista Dr., Ste 1625",,Citrus Heights,CA,95610,US
+72,72,"4608 Roseville Rd., Ste 105",,North Highlands,CA,95660,US
+73,73,"520 Cottonwood St., Ste B",,Woodland,CA,95695,US
+74,74,"2121 - 2nd Street, Ste C103",,Davis,CA,95618,US
+75,75,1850 Research Park Drive,,Davis,CA,95618,US
+76,76,1103 High Street  ~  Suite 100,,Auburn,CA,95603,US
+77,77,1715 I street,,sacramento,CA,95811,US
+78,78,4415 Granite Drive,,Rocklin,CA,95677,US
+79,79,75 Hawthorne Ave.,Suite 2500,San Francisco,CA,94105,US
+80,80,6301 S Street,,Sacramento,CA,95817,US
+81,81,3950 Industrial Boulevard,Suite 600,West Sacramento,CA,95691,US
+82,82,3650 Schriever Ave,,Mather,CA,95655,US
+83,83,300 Richards Blvd,3rd Floor,Sacramento,CA,95811,US
+84,84,311 Fair Lane,,Placerville,CA,95667,US
+85,85,"140 B Street, Suite 5",#281,Davis,CA,95616,US
+86,86,1321 Garden Highway,,Sacramento,CA,95833,US
+87,87,100 North Lake Blvd,,Tahoe City,CA,96145,US
+88,88,"950 Tharp Road, Suite 1303",,Yuba City,CA,95993,US
+89,89,1410 Ethan Way,Suite 131 N,Sacramento,CA,95825,US
+90,90,"801 K St., 28th Floor",,Sacramento,CA,95814,US
+91,91,"815 Capitol Mall, 2nd Floor",,Sacramento,CA,94534,US
+92,92,"2101 Webster St., Ste. 1200",,Oakland,CA,94612,US
