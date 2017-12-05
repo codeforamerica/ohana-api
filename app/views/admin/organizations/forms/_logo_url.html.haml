@@ -1,0 +1,9 @@
+.inst-box
+  %header
+    = f.label :logo_url
+    %span.desc
+      = t('.description')
+
+  = field_set_tag do
+    .col-sm-6
+    = f.text_field :logo_url, required: false,  maxlength: 255, class: 'form-control'

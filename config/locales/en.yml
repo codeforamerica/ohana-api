@@ -208,6 +208,9 @@ en:
 
     organizations:
       forms:
+        logo_url:
+          description: 'The URL to your publically stored logo.'
+
         accreditations:
           description: 'You can enter multiple terms in this box by pressing the comma key after each one.'
 
