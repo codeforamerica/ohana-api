@@ -1,6 +1,6 @@
 class SummarizedOrganizationSerializer < ActiveModel::Serializer
   attributes :id, :alternate_name, :name, :slug, :website, :twitter, :facebook,
-             :linkedin
+             :linkedin, :logo_url
 
   def url
     api_organization_url(object)
