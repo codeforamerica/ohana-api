@@ -488,7 +488,8 @@ CREATE TABLE organizations (
     twitter character varying,
     facebook character varying,
     linkedin character varying,
-    logo_url text
+    logo_url text,
+    rank integer
 );
 
 
@@ -1492,4 +1493,6 @@ INSERT INTO schema_migrations (version) VALUES ('20171009150504');
 INSERT INTO schema_migrations (version) VALUES ('20171009151406');
 
 INSERT INTO schema_migrations (version) VALUES ('20171205203638');
+
+INSERT INTO schema_migrations (version) VALUES ('20171207182758');
 

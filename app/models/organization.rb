@@ -6,7 +6,7 @@ class Organization < ActiveRecord::Base
                   :description, :email, :funding_sources, :legal_status,
                   :licenses, :name, :tax_id, :tax_status, :website,
                   :twitter, :facebook, :linkedin, :phones_attributes,
-                  :logo_url
+                  :logo_url, :rank
 
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
@@ -28,6 +28,9 @@ class Organization < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
   validates :website, url: true, allow_blank: true
+  validates :twitter, url: true, allow_blank: true
+  validates :facebook, url: true, allow_blank: true
+  validates :linkedin, url: true, allow_blank: true
   validates :logo_url, url: true, allow_blank: true
 
   auto_strip_attributes :alternate_name, :description, :email, :legal_status,

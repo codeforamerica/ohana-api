@@ -1,5 +1,5 @@
 class AddRankingToOrganizations < ActiveRecord::Migration
   def change
-    add_column :organizations, :ranking, :integer
+    add_column :organizations, :rank, :integer
   end
 end

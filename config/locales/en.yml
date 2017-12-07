@@ -85,6 +85,7 @@ en:
         tax_id: 'Tax Identifier'
         tax_status: 'Tax Status'
         website: 'Organization Website'
+        social_media: 'Social Media Links'
 
       organization/phones:
         number: :activerecord.attributes.phone.number
@@ -234,6 +235,9 @@ en:
 
         social_media:
           description: 'Please enter the full URL for social media sites.'
+
+        rank:
+          description: 'Select a value between 1-5. Organizations with a ranking of 1 will be displayed first. Organizations with "no ranking" will displayed after organizations with a rank.' 
 
     services:
       forms:

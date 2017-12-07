@@ -5,6 +5,9 @@
       - organization.errors.full_messages.each do |msg|
         %li= msg
 
+- if current_admin.super_admin?
+  = render 'admin/organizations/forms/rank', f: f
+
 = render 'admin/shared/forms/name', f: f
 = render 'admin/shared/forms/alternate_name', f: f
 = render 'admin/organizations/forms/logo_url', f: f
