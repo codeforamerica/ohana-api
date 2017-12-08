@@ -237,7 +237,7 @@ en:
           description: 'Please enter the full URL for social media sites.'
 
         rank:
-          description: 'Select a value between 1-5. Organizations with a ranking of 1 will be displayed first. Organizations with "no ranking" will displayed after organizations with a rank.' 
+          description: 'Select a value between 1-5. Organizations with a ranking of 5 will be displayed first. Organizations with "no ranking" will displayed after organizations with a rank.' 
 
     services:
       forms:

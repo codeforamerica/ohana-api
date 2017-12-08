@@ -71,6 +71,10 @@ class Organization < ActiveRecord::Base
     query = query.where(id: id)
   end
 
+  def self.rank()
+    self.order(rank: :desc)
+  end
+
   extend FriendlyId
   friendly_id :name, use: [:history]
 

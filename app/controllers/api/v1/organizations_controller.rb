@@ -16,8 +16,10 @@ module Api
           params[:lat_attr],
           params[:lon_attr]
         )
+        .rank()
         .page(params[:page])
         .per(params[:per_page])
+
 
         generate_pagination_headers(organizations)
         render json: organizations, each_serializer: OrganizationSerializer, status: 200
