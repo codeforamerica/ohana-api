@@ -7,4 +7,4 @@
   = field_set_tag do
     .row
       .col-sm-6
-        = f.select :rank, [1, 2, 3, 4, 5, ['No Rank', -1]], {}, class: 'form-control'
+        = f.select :rank, [['No Rank', 0], 1, 2, 3, 4, 5], {}, class: 'form-control'
