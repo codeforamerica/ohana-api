@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe ZipDeleteJob, job: true do
   describe '#perform' do
     let(:file) { 'archive.zip' }

@@ -1,6 +1,6 @@
-include ParentAssigner
-
 MailAddressPresenter = Struct.new(:row) do
+  include ParentAssigner
+
   def to_mail_address
     mail_address = MailAddress.find_or_initialize_by(id: row[:id].to_i)
     mail_address.attributes = row

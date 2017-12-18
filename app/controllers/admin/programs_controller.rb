@@ -17,7 +17,7 @@ class Admin
     def update
       @program = Program.find(params[:id])
 
-      if @program.update(params[:program])
+      if @program.update(program_params)
         redirect_to [:admin, @program],
                     notice: 'Program was successfully updated.'
       else
@@ -31,7 +31,7 @@ class Admin
     end
 
     def create
-      @program = Program.new(params[:program])
+      @program = Program.new(program_params)
 
       add_org_to_program_if_authorized
 
@@ -52,11 +52,15 @@ class Admin
     private
 
     def add_org_to_program_if_authorized
-      org_id = params[:program][:organization_id]
+      org_id = program_params[:organization_id]
 
       if policy_scope(Organization).select { |org| org[0] == org_id.to_i }.present?
         @program.organization_id = org_id
       end
+    end
+
+    def program_params
+      params.require(:program).permit(:alternate_name, :name, :organization_id)
     end
   end
 end

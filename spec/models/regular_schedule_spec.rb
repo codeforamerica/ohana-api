@@ -5,12 +5,8 @@ describe RegularSchedule do
 
   it { is_expected.to_not be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:weekday) }
-  it { is_expected.to allow_mass_assignment_of(:opens_at) }
-  it { is_expected.to allow_mass_assignment_of(:closes_at) }
-
-  it { is_expected.to belong_to(:location).touch(true) }
-  it { is_expected.to belong_to(:service).touch(true) }
+  it { is_expected.to belong_to(:location).touch(true).inverse_of(:regular_schedules) }
+  it { is_expected.to belong_to(:service).touch(true).inverse_of(:regular_schedules) }
 
   it do
     is_expected.to validate_presence_of(:weekday).

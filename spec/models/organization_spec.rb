@@ -5,24 +5,11 @@ describe Organization do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:accreditations) }
-  it { is_expected.to allow_mass_assignment_of(:alternate_name) }
-  it { is_expected.to allow_mass_assignment_of(:date_incorporated) }
-  it { is_expected.to allow_mass_assignment_of(:description) }
-  it { is_expected.to allow_mass_assignment_of(:email) }
-  it { is_expected.to allow_mass_assignment_of(:funding_sources) }
-  it { is_expected.to allow_mass_assignment_of(:legal_status) }
-  it { is_expected.to allow_mass_assignment_of(:licenses) }
-  it { is_expected.to allow_mass_assignment_of(:name) }
-  it { is_expected.to allow_mass_assignment_of(:tax_id) }
-  it { is_expected.to allow_mass_assignment_of(:tax_status) }
-  it { is_expected.to allow_mass_assignment_of(:website) }
-
   it { is_expected.to have_many(:locations).dependent(:destroy) }
   it { is_expected.to have_many(:programs).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
 
-  it { is_expected.to have_many(:phones).dependent(:destroy) }
+  it { is_expected.to have_many(:phones).dependent(:destroy).inverse_of(:organization) }
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
   it do
@@ -103,7 +90,7 @@ describe Organization do
 
     context 'when name is not updated' do
       it "doesn't update slug" do
-        @org.update_attributes!(urls: ['http://monfresh.com'])
+        @org.update_attributes!(description: 'foo')
         expect(@org.reload.slug).to eq('parent-agency')
       end
     end

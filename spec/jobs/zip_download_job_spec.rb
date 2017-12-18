@@ -1,3 +1,4 @@
+require 'rails_helper'
 require 'webmock/rspec'
 
 describe ZipDownloadJob, job: true do

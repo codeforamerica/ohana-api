@@ -6,7 +6,20 @@ describe 'Create an organization (POST /organizations/)' do
   end
 
   before(:each) do
-    @org_attributes = { name: 'new org', description: 'testing', website: 'http://monfresh.com' }
+    @org_attributes = {
+      accreditations: ['BBB', 'State Board of Education'],
+      alternate_name: 'Alternate Name',
+      date_incorporated: 'January 01, 1970',
+      description: 'description',
+      email: 'org@test.com',
+      funding_sources: %w[State Donations Grants],
+      legal_status: 'non-profit',
+      licenses: ['State Health Inspection License'],
+      name: 'New Org',
+      tax_id: '123-abc',
+      tax_status: '501(c)(3)',
+      website: 'https://foo.org'
+    }
   end
 
   after(:all) do
@@ -19,7 +32,15 @@ describe 'Create an organization (POST /organizations/)' do
       @org_attributes
     )
     expect(response.status).to eq(201)
+    expect(json['accreditations']).to eq(@org_attributes[:accreditations])
+    expect(json['alternate_name']).to eq(@org_attributes[:alternate_name])
+    expect(json['date_incorporated']).to eq('1970-01-01')
+    expect(json['description']).to eq(@org_attributes[:description])
+    expect(json['email']).to eq(@org_attributes[:email])
+    expect(json['funding_sources']).to eq(@org_attributes[:funding_sources])
+    expect(json['licenses']).to eq(@org_attributes[:licenses])
     expect(json['name']).to eq(@org_attributes[:name])
+    expect(json['website']).to eq(@org_attributes[:website])
   end
 
   it 'returns a Location header with the URL to the new organization' do

@@ -1,6 +1,4 @@
 class ApiApplication < ActiveRecord::Base
-  attr_accessible :name, :main_url, :callback_url
-
   belongs_to :user
 
   validates :name, :api_token, uniqueness: true

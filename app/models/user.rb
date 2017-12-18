@@ -1,7 +1,4 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :email, :password,
-                  :password_confirmation, :remember_me
-
   has_many :api_applications, dependent: :destroy
   accepts_nested_attributes_for :api_applications
 

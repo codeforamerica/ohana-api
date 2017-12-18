@@ -1,5 +1,5 @@
 class DateValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
+  def validate_each(record, attribute, _value)
     value = record.read_attribute_before_type_cast(attribute)
     return if value.blank? || value.is_a?(Date)
 

@@ -6,12 +6,38 @@ describe 'PATCH /locations/:location_id/services/:id' do
   end
 
   before(:each) do
-    @attrs = { name: 'New Service', description: 'Hot Meals',
-               application_process: 'Walk in.' }
+    @attrs = attributes_for(:service_with_extra_whitespace)
   end
 
   after(:all) do
     Organization.find_each(&:destroy)
+  end
+
+  let(:expected_attributes) do
+    {
+      accepted_payments: %w[Cash Credit],
+      alternate_name: 'AKA',
+      audience: 'Low-income seniors',
+      description: 'SNAP market',
+      eligibility: 'seniors',
+      email: 'foo@example.com',
+      fees: 'none',
+      funding_sources: %w[County],
+      application_process: 'in person',
+      interpretation_services: 'CTS LanguageLink',
+      keywords: %w[health yoga],
+      languages: %w[French English],
+      name: 'Benefits',
+      required_documents: %w[ID],
+      service_areas: %w[Belmont],
+      status: 'active',
+      website: 'http://www.monfresh.com',
+      wait_time: '2 days'
+    }
+  end
+
+  let(:array_attributes) do
+    %w[accepted_payments funding_sources keywords languages required_documents service_areas]
   end
 
   it 'returns 200 when validations pass' do
@@ -20,14 +46,9 @@ describe 'PATCH /locations/:location_id/services/:id' do
       @attrs
     )
     expect(response).to have_http_status(200)
-  end
-
-  it 'returns the updated service when validations pass' do
-    patch(
-      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
-      @attrs
-    )
-    expect(json['name']).to eq 'New Service'
+    expected_attributes.each do |key, value|
+      expect(json[key.to_s]).to eq value
+    end
   end
 
   it "updates the location's service" do
@@ -36,7 +57,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
       @attrs
     )
     get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
-    expect(json['services'].first['description']).to eq 'Hot Meals'
+    expect(json['services'].first['description']).to eq expected_attributes[:description]
   end
 
   it "doesn't add a new service" do
@@ -68,64 +89,24 @@ describe 'PATCH /locations/:location_id/services/:id' do
       to eq('Belmont, CA is not a valid service area')
   end
 
-  it 'returns 422 when service_areas is empty String' do
+  it 'does not change current value of Array attributes if passed in value is an empty String' do
+    location = create(:nearby_loc)
+    service = location.services.create!(attributes_for(:service_with_extra_whitespace))
     patch(
-      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
-      @attrs.merge!(service_areas: '')
+      api_location_service_url(location, service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs.merge!(
+        accepted_payments: '',
+        funding_sources: '',
+        keywords: '',
+        languages: '',
+        required_documents: '',
+        service_areas: ''
+      )
     )
-    expect(response.status).to eq(422)
-    expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
-  end
-
-  it 'returns 422 when funding_sources is empty String' do
-    patch(
-      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
-      @attrs.merge!(funding_sources: '')
-    )
-    expect(response.status).to eq(422)
-    expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
-  end
-
-  it 'returns 422 when keywords is empty String' do
-    patch(
-      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
-      @attrs.merge!(keywords: '')
-    )
-    expect(response.status).to eq(422)
-    expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['error']).to include('Attribute was supposed to be an Array')
-  end
-
-  it 'returns 422 when languages is empty String' do
-    patch(
-      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
-      @attrs.merge!(languages: '')
-    )
-    expect(response.status).to eq(422)
-    expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['errors'][0]['languages']).to eq [' is not an Array.']
-  end
-
-  it 'returns 422 when accepted_payments is empty String' do
-    patch(
-      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
-      @attrs.merge!(accepted_payments: '')
-    )
-    expect(response.status).to eq(422)
-    expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['errors'][0]['accepted_payments']).to eq [' is not an Array.']
-  end
-
-  it 'returns 422 when required_documents is empty String' do
-    patch(
-      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
-      @attrs.merge!(required_documents: '')
-    )
-    expect(response.status).to eq(422)
-    expect(json['message']).to eq('Validation failed for resource.')
-    expect(json['errors'][0]['required_documents']).to eq [' is not an Array.']
+    expect(response.status).to eq(200)
+    array_attributes.each do |array_attribute|
+      expect(json[array_attribute]).to eq expected_attributes[array_attribute.to_sym]
+    end
   end
 
   it "doesn't allow updating a service without a valid token" do

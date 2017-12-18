@@ -1,8 +1,5 @@
 class MailAddress < ActiveRecord::Base
-  attr_accessible :attention, :city, :state_province, :address_1, :address_2,
-                  :postal_code, :country
-
-  belongs_to :location, touch: true
+  belongs_to :location, touch: true, inverse_of: :mail_address
 
   validates :address_1,
             :city,

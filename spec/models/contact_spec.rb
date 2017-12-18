@@ -5,15 +5,10 @@ describe Contact do
 
   it { is_expected.to_not be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:email) }
-  it { is_expected.to allow_mass_assignment_of(:department) }
-  it { is_expected.to allow_mass_assignment_of(:name) }
-  it { is_expected.to allow_mass_assignment_of(:title) }
-
   it { is_expected.to belong_to(:location).touch(true) }
   it { is_expected.to belong_to(:service).touch(true) }
   it { is_expected.to belong_to(:organization) }
-  it { is_expected.to have_many(:phones).dependent(:destroy) }
+  it { is_expected.to have_many(:phones).dependent(:destroy).inverse_of(:contact) }
 
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 

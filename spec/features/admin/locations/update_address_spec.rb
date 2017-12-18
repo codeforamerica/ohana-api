@@ -95,15 +95,25 @@ feature "Updating a location's address with invalid values" do
 end
 
 feature 'Remove a street address' do
-  before(:each) do
+  scenario 'from a non-virtual location', :js do
     @location = create(:location)
+
     login_super_admin
     visit '/admin/locations/vrs-services'
-  end
-
-  scenario 'from a non-virtual location', :js do
     remove_street_address
+
     expect(page).
       to have_content 'Street Address must be provided unless a Location is virtual'
+  end
+
+  scenario 'from a virtual location', :js do
+    @location = create(:virtual_with_address)
+
+    login_super_admin
+    visit '/admin/locations/vrs-services'
+    remove_street_address
+
+    expect(@location.reload.latitude).to be_nil
+    expect(@location.reload.longitude).to be_nil
   end
 end

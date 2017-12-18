@@ -28,7 +28,7 @@ class Admin
 
       preprocess_organization_params
 
-      if @organization.update(params[:organization])
+      if @organization.update(org_params)
         redirect_to [:admin, @organization],
                     notice: 'Organization was successfully updated.'
       else
@@ -44,7 +44,7 @@ class Admin
     def create
       preprocess_organization_params
 
-      @organization = Organization.new(params[:organization])
+      @organization = Organization.new(org_params)
 
       if @organization.save
         redirect_to admin_organizations_url,
@@ -64,6 +64,17 @@ class Admin
 
     def preprocess_organization_params
       shift_and_split_params(params[:organization], :accreditations, :licenses)
+    end
+
+    def org_params
+      params.require(:organization).permit(
+        { accreditations: [] }, :alternate_name, :date_incorporated, :description,
+        :email, { funding_sources: [] }, :legal_status, { licenses: [] }, :name,
+        :tax_id, :tax_status, :website,
+        phones_attributes: %i[
+          country_prefix department extension number number_type vanity_number id _destroy
+        ]
+      )
     end
   end
 end
