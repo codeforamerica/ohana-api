@@ -2,7 +2,7 @@ class WeekdayValidator < ActiveModel::EachValidator
   WEEKDAY_ABBREVIATIONS = %w[Sun Mon Tue Wed Thu Fri Sat].freeze
   WEEKDAY_STRING_NUMS = %w[1 2 3 4 5 6 7].freeze
 
-  def validate_each(record, attribute, value)
+  def validate_each(record, attribute, _value)
     value = record.read_attribute_before_type_cast(attribute)
 
     default_message = "#{value} #{I18n.t('errors.messages.invalid_weekday')}"
@@ -39,6 +39,6 @@ class WeekdayValidator < ActiveModel::EachValidator
   end
 
   def wday_name_to_int(value)
-    DateTime.parse(value).strftime('%u').to_i
+    Date.parse(value).strftime('%u').to_i
   end
 end

@@ -5,29 +5,15 @@ describe Location do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:accessibility) }
-  it { is_expected.to allow_mass_assignment_of(:admin_emails) }
-  it { is_expected.to allow_mass_assignment_of(:alternate_name) }
-  it { is_expected.to allow_mass_assignment_of(:description) }
-  it { is_expected.to allow_mass_assignment_of(:email) }
-  it { is_expected.to allow_mass_assignment_of(:languages) }
-  it { is_expected.to allow_mass_assignment_of(:latitude) }
-  it { is_expected.to allow_mass_assignment_of(:longitude) }
-  it { is_expected.to allow_mass_assignment_of(:name) }
-  it { is_expected.to allow_mass_assignment_of(:short_desc) }
-  it { is_expected.to allow_mass_assignment_of(:transportation) }
-  it { is_expected.to allow_mass_assignment_of(:website) }
-  it { is_expected.to allow_mass_assignment_of(:virtual) }
-
   # Associations
   it { is_expected.to belong_to(:organization) }
   it { is_expected.to have_one(:address).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
-  it { is_expected.to have_one(:mail_address).dependent(:destroy) }
-  it { is_expected.to have_many(:phones).dependent(:destroy) }
+  it { is_expected.to have_one(:mail_address).dependent(:destroy).inverse_of(:location) }
+  it { is_expected.to have_many(:phones).dependent(:destroy).inverse_of(:location) }
   it { is_expected.to have_many(:services).dependent(:destroy) }
-  it { is_expected.to have_many(:regular_schedules).dependent(:destroy) }
-  it { is_expected.to have_many(:holiday_schedules).dependent(:destroy) }
+  it { is_expected.to have_many(:regular_schedules).dependent(:destroy).inverse_of(:location) }
+  it { is_expected.to have_many(:holiday_schedules).dependent(:destroy).inverse_of(:location) }
 
   it { is_expected.to accept_nested_attributes_for(:address).allow_destroy(true) }
   it { is_expected.to accept_nested_attributes_for(:mail_address).allow_destroy(true) }
@@ -251,18 +237,6 @@ describe Location do
       expect(loc).to receive(:geocode)
 
       loc.save
-    end
-
-    it 'resets coordinates when address is removed' do
-      expect(@loc).not_to receive(:geocode)
-
-      @loc.update!(
-        virtual: true,
-        address_attributes: { id: @loc.address.id, _destroy: '1' }
-      )
-
-      expect(@loc.reload.latitude).to be_nil
-      expect(@loc.reload.longitude).to be_nil
     end
   end
 end

@@ -32,6 +32,10 @@ FactoryGirl.define do
       email ' bar@foo.com  '
       languages [' English', 'Vietnamese ']
     end
+
+    factory :virtual_with_address do
+      virtual true
+    end
   end
 
   factory :nearby_loc, class: Location do

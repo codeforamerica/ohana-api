@@ -112,6 +112,9 @@ describe LocationImporter do
         its(:latitude) { is_expected.to eq(37.7726402) }
         its(:longitude) { is_expected.to eq(-122.4099154) }
         its(:organization_id) { is_expected.to eq 1 }
+        its(:accessibility) { is_expected.to eq %w[cd ramp] }
+        its(:languages) { is_expected.to eq %w[French spanish] }
+        its(:admin_emails) { is_expected.to eq %w[test@test.com foo@bar.com] }
       end
 
       describe 'the address' do

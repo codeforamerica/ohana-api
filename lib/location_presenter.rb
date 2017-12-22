@@ -1,7 +1,7 @@
-include EntityPresenter
-include ParentAssigner
-
 LocationPresenter = Struct.new(:row, :addresses) do
+  include EntityPresenter
+  include ParentAssigner
+
   def to_location
     location = Location.find_or_initialize_by(id: row[:id].to_i)
     transform_fields(location, row)

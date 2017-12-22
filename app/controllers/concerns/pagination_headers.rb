@@ -6,7 +6,7 @@ module PaginationHeaders
   def generate_pagination_headers(coll)
     pages = pages(coll)
 
-    links = links(pages, params)
+    links = links(pages)
 
     links.delete_if(&:blank?)
 
@@ -14,8 +14,8 @@ module PaginationHeaders
     response.headers['X-Total-Count'] = coll.total_count.to_s
   end
 
-  def params
-    request.params.except(:controller, :format, :action, :subdomain)
+  def filtered_params
+    params.except(:controller, :format, :action, :subdomain)
   end
 
   def url
@@ -37,9 +37,9 @@ module PaginationHeaders
     pages
   end
 
-  def links(pages, params)
+  def links(pages)
     pages.map do |k, v|
-      new_params = params.merge(page: v)
+      new_params = filtered_params.merge(page: v)
       next if new_params[:page].blank?
       %(<#{url}?#{new_params.to_param}>; rel="#{k}")
     end

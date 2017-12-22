@@ -1,7 +1,4 @@
 class Address < ActiveRecord::Base
-  attr_accessible :city, :state_province, :address_1, :address_2, :postal_code,
-                  :country
-
   belongs_to :location, touch: true
 
   validates :address_1,

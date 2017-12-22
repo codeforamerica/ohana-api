@@ -12,13 +12,13 @@ module Api
 
       def update
         contact = Contact.find(params[:id])
-        contact.update!(params)
+        contact.update!(contact_params)
         render json: contact, status: 200
       end
 
       def create
         location = Location.find(params[:location_id])
-        contact = location.contacts.create!(params)
+        contact = location.contacts.create!(contact_params)
         render json: contact, status: 201
       end
 
@@ -26,6 +26,12 @@ module Api
         contact = Contact.find(params[:id])
         contact.destroy
         head 204
+      end
+
+      private
+
+      def contact_params
+        params.require(:contact).permit(:department, :email, :name, :title)
       end
     end
   end

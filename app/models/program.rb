@@ -1,6 +1,4 @@
 class Program < ActiveRecord::Base
-  attr_accessible :alternate_name, :name
-
   belongs_to :organization
   has_many :services, dependent: :destroy
 

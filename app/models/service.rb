@@ -1,11 +1,4 @@
 class Service < ActiveRecord::Base
-  attr_accessible :accepted_payments, :alternate_name, :audience, :description,
-                  :eligibility, :email, :fees, :funding_sources, :application_process,
-                  :interpretation_services, :keywords, :languages, :name,
-                  :required_documents, :service_areas, :status, :website,
-                  :wait_time, :category_ids, :regular_schedules_attributes,
-                  :holiday_schedules_attributes, :phones_attributes
-
   belongs_to :location, touch: true
   belongs_to :program
 
@@ -13,17 +6,17 @@ class Service < ActiveRecord::Base
                           after_add: :touch_location,
                           after_remove: :touch_location
 
-  has_many :regular_schedules, dependent: :destroy
+  has_many :regular_schedules, dependent: :destroy, inverse_of: :service
   accepts_nested_attributes_for :regular_schedules,
                                 allow_destroy: true, reject_if: :all_blank
 
-  has_many :holiday_schedules, dependent: :destroy
+  has_many :holiday_schedules, dependent: :destroy, inverse_of: :service
   accepts_nested_attributes_for :holiday_schedules,
                                 allow_destroy: true, reject_if: :all_blank
 
-  has_many :contacts, dependent: :destroy
+  has_many :contacts, dependent: :destroy, inverse_of: :service
 
-  has_many :phones, dependent: :destroy
+  has_many :phones, dependent: :destroy, inverse_of: :service
   accepts_nested_attributes_for :phones,
                                 allow_destroy: true, reject_if: :all_blank
 

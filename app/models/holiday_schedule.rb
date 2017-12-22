@@ -1,10 +1,8 @@
 class HolidaySchedule < ActiveRecord::Base
   include ParentPresenceValidatable
 
-  attr_accessible :closed, :start_date, :end_date, :opens_at, :closes_at
-
-  belongs_to :location, touch: true
-  belongs_to :service, touch: true
+  belongs_to :location, touch: true, inverse_of: :holiday_schedules
+  belongs_to :service, touch: true, inverse_of: :holiday_schedules
 
   validates :start_date, :end_date,
             date: true,

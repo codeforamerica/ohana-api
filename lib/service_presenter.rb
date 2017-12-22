@@ -1,13 +1,13 @@
-include EntityPresenter
-include ParentAssigner
-include CategoryIdCollector
-
 ServicePresenter = Struct.new(:row) do
+  include EntityPresenter
+  include ParentAssigner
+  include CategoryIdCollector
+
   def to_service
     service = Service.find_or_initialize_by(id: row[:id].to_i)
     to_array(row, :accepted_payments, :funding_sources, :keywords, :languages,
              :required_documents, :service_areas, :taxonomy_ids)
-    service.attributes = row
+    service.attributes = row.except(:taxonomy_ids)
     assign_categories_to(service, row[:taxonomy_ids])
     assign_parents_for(service, row.except(:taxonomy_ids))
     service

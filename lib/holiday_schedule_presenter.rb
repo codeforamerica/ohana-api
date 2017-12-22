@@ -1,6 +1,6 @@
-include ParentAssigner
-
 HolidaySchedulePresenter = Struct.new(:row) do
+  include ParentAssigner
+
   def to_holiday_schedule
     holiday_schedule = HolidaySchedule.find_or_initialize_by(id: row[:id].to_i)
     holiday_schedule.attributes = row

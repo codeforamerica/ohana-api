@@ -1,6 +1,4 @@
 class Category < ActiveRecord::Base
-  attr_accessible :name, :taxonomy_id
-
   has_and_belongs_to_many :services
 
   validates :name, :taxonomy_id,

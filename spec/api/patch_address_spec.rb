@@ -4,8 +4,9 @@ describe 'PATCH address' do
   before(:each) do
     @loc = create(:location)
     @address = @loc.address
-    @attrs = { address_1: '1236 Broadway', city: 'Burlingame', state_province: 'CA',
-               postal_code: '94010', country: 'US' }
+    @attrs = { address_1: '1236 Broadway', address_2: 'Apt 101',
+               city: 'Burlingame', state_province: 'CA', postal_code: '94010',
+               country: 'US' }
   end
 
   describe 'PATCH /locations/:location_id/address/:id' do
@@ -15,14 +16,11 @@ describe 'PATCH address' do
         @attrs
       )
       expect(response).to have_http_status(200)
-    end
-
-    it 'returns the updated address when validations pass' do
-      patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
-        @attrs
-      )
-      expect(json['city']).to eq 'Burlingame'
+      expect(json['address_1']).to eq @attrs[:address_1]
+      expect(json['address_2']).to eq @attrs[:address_2]
+      expect(json['city']).to eq @attrs[:city]
+      expect(json['state_province']).to eq @attrs[:state_province]
+      expect(json['postal_code']).to eq @attrs[:postal_code]
     end
 
     it "updates the location's address" do
@@ -47,7 +45,7 @@ describe 'PATCH address' do
       old_coords = [@loc.longitude, @loc.latitude]
       patch(
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
-        @attrs.merge!(address_1: '1800 Easton Drive')
+        @attrs.merge!(address_1: '1800 Easton Drive', address_2: '')
       )
       expect(@loc.reload.longitude).to eq old_coords.first
     end

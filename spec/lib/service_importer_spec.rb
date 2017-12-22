@@ -73,6 +73,7 @@ describe ServiceImporter do
         its(:keywords) { is_expected.to eq ['hot meels', 'hungry'] }
         its(:languages) { is_expected.to eq %w[English Spanish Tagalog] }
         its(:name) { is_expected.to eq 'Harvest Food Bank of Palo Alto' }
+        its(:required_documents) { is_expected.to eq ['Passport', "Driver's License"] }
         its(:service_areas) { is_expected.to eq %w[Atherton Belmont] }
         its(:status) { is_expected.to eq 'active' }
         its(:wait_time) { is_expected.to eq 'No wait.' }

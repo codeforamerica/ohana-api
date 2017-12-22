@@ -4,8 +4,15 @@ describe 'PATCH mail_address' do
   before(:each) do
     @mail_address = create(:mail_address)
     @loc = @mail_address.location
-    @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA', postal_code: '90210',
-               country: 'US' }
+    @attrs = {
+      attention: 'Jane Doe',
+      address_1: 'foo',
+      address_2: 'apt 101',
+      city: 'bar',
+      state_province: 'CA',
+      postal_code: '90210',
+      country: 'US'
+    }
   end
 
   describe 'PATCH /locations/:location/mail_address' do
@@ -15,14 +22,12 @@ describe 'PATCH mail_address' do
         @attrs
       )
       expect(response).to have_http_status(200)
-    end
-
-    it 'returns the updated mail_address when validations pass' do
-      patch(
-        api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
-        @attrs
-      )
-      expect(json['city']).to eq 'bar'
+      expect(json['attention']).to eq @attrs[:attention]
+      expect(json['address_1']).to eq @attrs[:address_1]
+      expect(json['address_2']).to eq @attrs[:address_2]
+      expect(json['city']).to eq @attrs[:city]
+      expect(json['state_province']).to eq @attrs[:state_province]
+      expect(json['postal_code']).to eq @attrs[:postal_code]
     end
 
     it "updates the location's mail_address" do
