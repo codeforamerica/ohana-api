@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 feature 'Downloading Organizations CSV' do
+  before { login_super_admin }
+
   context 'organization has non-empty array attributes' do
     before do
       @org = create(:org_with_extra_whitespace)

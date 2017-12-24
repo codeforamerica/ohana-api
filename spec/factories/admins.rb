@@ -27,4 +27,12 @@ FactoryGirl.define do
     password_confirmation 'ohanatest'
     confirmed_at Time.zone.now
   end
+
+  factory :location_admin, class: :admin do
+    name 'Moncef Belyamani'
+    email 'moncef@smcgov.org'
+    password 'ohanatest'
+    password_confirmation 'ohanatest'
+    confirmed_at Time.zone.now
+  end
 end

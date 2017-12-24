@@ -19,6 +19,8 @@ class Admin
       @location = Location.find(params[:id])
       @org = @location.organization
 
+      authorize @location
+
       if @location.update(location_params)
         redirect_to [:admin, @location],
                     notice: 'Location was successfully updated.'
@@ -34,8 +36,9 @@ class Admin
 
     def create
       @location = Location.new(location_params)
+      org = @location.organization
 
-      assign_location_to_org(policy_scope(Organization))
+      authorize org if org.present?
 
       if @location.save
         redirect_to [:admin, @location], notice: 'Location was successfully created.'
@@ -46,19 +49,14 @@ class Admin
 
     def destroy
       location = Location.find(params[:id])
+
+      authorize location
+
       location.destroy
       redirect_to admin_locations_path
     end
 
     private
-
-    def assign_location_to_org(admin_orgs)
-      org_id = location_params[:organization_id]
-
-      if admin_orgs.select { |org| org[0] == org_id.to_i }.present?
-        @location.organization = Organization.find(org_id)
-      end
-    end
 
     # rubocop:disable MethodLength
     def location_params

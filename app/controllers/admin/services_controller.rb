@@ -18,8 +18,8 @@ class Admin
 
     def update
       assign_location_service_and_taxonomy_ids
-
       preprocess_service_params
+      authorize @location
       preprocess_service
 
       if @service.update(service_params.except(:locations))
@@ -39,15 +39,8 @@ class Admin
       @service = Service.new
     end
 
-    # rubocop:disable Metrics/MethodLength
     def create
-      preprocess_service_params
-
-      @location = Location.find(params[:location_id])
-      @service = @location.services.new(service_params.except(:locations))
-      @taxonomy_ids = []
-
-      preprocess_service
+      prepare_and_authorize_service_creation
 
       if @service.save
         redirect_to admin_location_path(@location),
@@ -56,23 +49,34 @@ class Admin
         render :new
       end
     end
-    # rubocop:enable Metrics/MethodLength
 
     def destroy
       service = Service.find(params[:id])
+      authorize service.location
       service.destroy
       redirect_to admin_locations_path
     end
 
     private
 
-    def preprocess_service
-      add_program_to_service_if_authorized
-      add_service_to_location_if_authorized
+    def prepare_and_authorize_service_creation
+      preprocess_service_params
+
+      @location = Location.find(params[:location_id])
+      @service = @location.services.new(service_params.except(:locations))
+      @taxonomy_ids = []
+
+      authorize @location
+      preprocess_service
     end
 
     def preprocess_service_params
       shift_and_split_params(params[:service], :keywords)
+    end
+
+    def preprocess_service
+      add_program_to_service_if_authorized
+      add_service_to_location_if_authorized
     end
 
     def add_program_to_service_if_authorized
@@ -97,10 +101,9 @@ class Admin
     end
 
     def location_ids
-      return if service_params[:locations].blank?
-      service_params[:locations].select do |id|
-        location_ids_for(@service).include?(id.to_i)
-      end
+      locations = service_params[:locations]
+      return if locations.blank?
+      locations.select { |id| location_ids_for(@service).include?(id.to_i) }
     end
 
     def location_ids_for(service)

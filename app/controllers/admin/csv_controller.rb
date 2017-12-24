@@ -1,5 +1,7 @@
 class Admin
   class CsvController < ApplicationController
+    before_action :authenticate_admin!
+    before_action :authorize_admin
     # The CSV content for each action is defined in
     # app/views/admin/csv/{action_name}.csv.shaper
 
@@ -44,6 +46,11 @@ class Admin
     end
 
     private
+
+    def authorize_admin
+      return if current_admin.super_admin?
+      user_not_authorized
+    end
 
     def tmp_file_name
       @tmp_file_name ||= Rails.root.join('tmp', 'archive.zip')
