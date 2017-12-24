@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :regular_schedule do
     weekday 7
     opens_at '9:30'

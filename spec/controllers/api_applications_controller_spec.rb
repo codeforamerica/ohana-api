@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ApiApplicationsController do
   before :each do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     sign_in @user
   end
   # This should return the minimal set of attributes required to create a valid

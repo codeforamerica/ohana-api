@@ -11,7 +11,7 @@ feature 'Visit home page after signing in' do
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
   background do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     login_as(user, scope: :user)
     visit '/'
   end

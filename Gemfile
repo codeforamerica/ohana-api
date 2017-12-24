@@ -37,7 +37,7 @@ end
 
 group :test, :development do
   gem 'bullet'
-  gem 'factory_girl_rails', '>= 4.2.0'
+  gem 'factory_bot_rails'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
   gem 'smarter_csv'
