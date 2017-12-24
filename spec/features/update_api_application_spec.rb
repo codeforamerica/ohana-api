@@ -14,7 +14,7 @@ feature 'Update an existing API Application' do
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
   background do
-    user = FactoryGirl.create(:user_with_app)
+    user = FactoryBot.create(:user_with_app)
     login_as(user, scope: :user)
     name = user.api_applications.first.name
     main_url = user.api_applications.first.main_url

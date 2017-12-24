@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :service do
     name 'Literacy Program'
     description 'yoga classes'
