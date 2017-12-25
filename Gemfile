@@ -45,12 +45,12 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'coveralls', require: false
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'haml_lint'
   gem 'poltergeist'
   gem 'rubocop'
   gem 'shoulda-matchers', require: false
+  gem 'simplecov', require: false
   gem 'test_after_commit'
   gem 'webmock'
 end

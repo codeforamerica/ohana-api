@@ -1,6 +1,6 @@
 # Ohana API
 
-[![Build Status](https://travis-ci.org/codeforamerica/ohana-api.png?branch=master)](https://travis-ci.org/codeforamerica/ohana-api) [![Coverage Status](https://coveralls.io/repos/codeforamerica/ohana-api/badge.png?branch=master)](https://coveralls.io/r/codeforamerica/ohana-api) [![Dependency Status](https://gemnasium.com/codeforamerica/ohana-api.svg)](https://gemnasium.com/codeforamerica/ohana-api) [![Code Climate](https://codeclimate.com/github/codeforamerica/ohana-api.png)](https://codeclimate.com/github/codeforamerica/ohana-api)
+[![CircleCI](https://circleci.com/gh/codeforamerica/ohana-api/tree/master.svg?style=svg)](https://circleci.com/gh/codeforamerica/ohana-api/tree/master) [![Dependency Status](https://gemnasium.com/codeforamerica/ohana-api.svg)](https://gemnasium.com/codeforamerica/ohana-api) [![Maintainability](https://api.codeclimate.com/v1/badges/64c25ee17eae19dd61ed/maintainability)](https://codeclimate.com/github/codeforamerica/ohana-api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/64c25ee17eae19dd61ed/test_coverage)](https://codeclimate.com/github/codeforamerica/ohana-api/test_coverage)
 [![security](https://hakiri.io/github/codeforamerica/ohana-api/master.svg)](https://hakiri.io/github/codeforamerica/ohana-api/master)
 
 Ohana API is a Ruby on Rails application that makes it easy for communities to publish and maintain a database of social services, and allows developers to build impactful applications that serve underprivileged residents.
