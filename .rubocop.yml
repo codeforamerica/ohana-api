@@ -47,6 +47,7 @@ Metrics/ClassLength:
   Max: 100
   Exclude:
   - spec/**/*
+  - 'app/controllers/admin/services_controller.rb'
 
 Metrics/LineLength:
   Description: Limit lines to 80 characters.
@@ -92,6 +93,10 @@ Rails/HttpPositionalArguments:
   Include:
     - 'spec/**/*'
     - 'test/**/*'
+
+Rails/LexicallyScopedActionFilter:
+  Exclude:
+    - 'app/controllers/concerns/token_validator.rb'
 
 Rails/SkipsModelValidations:
   Exclude:
@@ -174,6 +179,13 @@ Layout/ExtraSpacing:
   # When true, forces the alignment of = in assignments on consecutive lines.
   ForceEqualSignAlignment: false
 
+Style/FormatStringToken:
+  Exclude:
+    - 'app/validators/date_validator.rb'
+    - 'app/validators/weekday_validator.rb'
+    - 'spec/api/get_location_spec.rb'
+    - 'spec/support/features/form_helpers.rb'
+
 Style/FrozenStringLiteralComment:
   Description: >-
                  Add the frozen_string_literal comment to the top of files
@@ -189,7 +201,6 @@ Style/IfUnlessModifier:
   Description: Favor modifier if/unless usage when you have a single-line body.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#if-as-a-modifier
   Enabled: true
-  MaxLineLength: 80
 
 # Checks the indentation of the first element in an array literal.
 Layout/IndentArray:

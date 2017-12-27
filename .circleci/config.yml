@@ -1,0 +1,91 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # Specify the Ruby version you desire here
+      - image: circleci/ruby:2.4.3-node-browsers
+        environment:
+          RAILS_ENV: test
+          CC_TEST_REPORTER_ID: 3a5ce4d68f640cd835334e1c239df8c4875d691cac58bb34197cb370604fa624
+          COVERAGE: true
+          ADMIN_APP_TOKEN: testing123
+          API_PATH: api
+          ADMIN_PATH: admin
+          DEFAULT_PER_PAGE: 30
+          MAX_PER_PAGE: 50
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      - image: circleci/postgres:9.4.12-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_DB: ohana_api_smc_test
+
+    working_directory: ~/ohana-api-smc
+
+    steps:
+      - checkout
+
+      - restore-cache:
+          key: ohana-api-smc-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Install dependencies
+          command: |
+            gem install bundler
+            bundle install --deployment --jobs=4 --retry=3 --without development production --path vendor/bundle
+            sudo apt-get install postgresql-client
+      - run:
+          name: Install phantomjs
+          command: |
+            sudo curl --output /tmp/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+            sudo chmod ugo+x /tmp/phantomjs
+            sudo ln -sf /tmp/phantomjs /usr/local/bin/phantomjs
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      # Store bundle cache
+      - save-cache:
+          key: ohana-api-smc-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Test Setup
+          command: |
+            psql -U circleci -q -d ohana_api_smc_test -f db/structure.sql -h localhost -p 5432
+            bundle exec rake assets:precompile
+
+      - run:
+          name: Run Tests
+          command: |
+            mkdir /tmp/test-results
+            ./cc-test-reporter before-build
+
+            bundle exec rspec --format progress
+            bundle exec haml-lint app/views
+
+      - run:
+          name: Upload Test Results to Code Climate
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov $CIRCLE_ARTIFACTS/coverage/.resultset.json
+            ./cc-test-reporter upload-coverage
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results

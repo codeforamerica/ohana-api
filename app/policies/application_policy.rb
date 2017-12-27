@@ -6,12 +6,28 @@ class ApplicationPolicy
     @record = record
   end
 
-  def edit?
+  def create?
+    return true if user.super_admin?
     scope.flatten.include?(record.id)
   end
 
   def scope
     Pundit.policy_scope!(user, record.class)
+  end
+
+  alias new? create?
+  alias edit? create?
+  alias destroy? create?
+  alias update? create?
+
+  private
+
+  def orgs_user_can_access
+    @orgs_user_can_access ||= Pundit.policy_scope!(user, Organization)
+  end
+
+  def can_access_at_least_one_organization?
+    orgs_user_can_access.present?
   end
 
   class Scope

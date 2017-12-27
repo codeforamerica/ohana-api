@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 feature 'Downloading Holiday Schedules CSV' do
+  before { login_super_admin }
+
   context 'when holiday_schedule contains nil date attributes' do
     before do
       create_service

@@ -29,13 +29,13 @@ module Api
 
       def update
         location = Location.find(params[:id])
-        location.update!(params)
+        location.update!(location_params)
         render json: location, status: 200
       end
 
       def create
         org = Organization.find(params[:organization_id])
-        location = org.locations.create!(params)
+        location = org.locations.create!(location_params)
         response_hash = {
           id: location.id,
           name: location.name,
@@ -69,6 +69,19 @@ module Api
             services: %i[categories contacts phones regular_schedules holiday_schedules]
           }
         ]
+      end
+
+      def location_params
+        params.permit(
+          { accessibility: [] }, :active, { admin_emails: [] }, :alternate_name,
+          :description, :email, :hours, :kind, { languages: [] }, :latitude,
+          :longitude, :market_match, :name, { payments: [] }, { products: [] },
+          :short_desc, :transportation, :website, :virtual,
+          address_attributes: %i[
+            address_1 address_2 city state_province postal_code
+            country id _destroy
+          ]
+        )
       end
     end
   end

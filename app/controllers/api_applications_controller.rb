@@ -18,7 +18,7 @@ class ApiApplicationsController < ApplicationController
 
   # POST /api_applications
   def create
-    @api_application = current_user.api_applications.new(params[:api_application])
+    @api_application = current_user.api_applications.new(api_application_params)
 
     if @api_application.save
       redirect_to edit_api_application_path(@api_application),
@@ -32,7 +32,7 @@ class ApiApplicationsController < ApplicationController
   def update
     @api_application = current_user.api_applications.find(params[:id])
 
-    if @api_application.update_attributes(params[:api_application])
+    if @api_application.update_attributes(api_application_params)
       redirect_to edit_api_application_path(@api_application),
                   notice: 'Application was successfully updated.'
     else
@@ -46,5 +46,11 @@ class ApiApplicationsController < ApplicationController
     api_application.destroy
     redirect_to api_applications_path,
                 notice: 'Application was successfully deleted.'
+  end
+
+  private
+
+  def api_application_params
+    params.require(:api_application).permit(:name, :main_url, :callback_url)
   end
 end

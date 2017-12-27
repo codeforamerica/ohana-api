@@ -5,16 +5,9 @@ describe Phone do
 
   it { is_expected.to_not be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:country_prefix) }
-  it { is_expected.to allow_mass_assignment_of(:department) }
-  it { is_expected.to allow_mass_assignment_of(:extension) }
-  it { is_expected.to allow_mass_assignment_of(:number) }
-  it { is_expected.to allow_mass_assignment_of(:number_type) }
-  it { is_expected.to allow_mass_assignment_of(:vanity_number) }
-
-  it { is_expected.to belong_to(:location).touch(true) }
-  it { is_expected.to belong_to(:contact).touch(true) }
-  it { is_expected.to belong_to(:service).touch(true) }
+  it { is_expected.to belong_to(:location).touch(true).inverse_of(:phones) }
+  it { is_expected.to belong_to(:contact).touch(true).inverse_of(:phones) }
+  it { is_expected.to belong_to(:service).touch(true).inverse_of(:phones) }
   it { is_expected.to belong_to(:organization) }
 
   it do

@@ -3,7 +3,7 @@ module Features
   # repetitive actions.
   module SessionHelpers
     def login_admin
-      @admin = FactoryGirl.create(:admin)
+      @admin = FactoryBot.create(:admin)
       login_as(@admin, scope: :admin)
     end
 
@@ -12,12 +12,12 @@ module Features
     end
 
     def login_super_admin
-      @super_admin = FactoryGirl.create(:super_admin)
+      @super_admin = FactoryBot.create(:super_admin)
       login_as(@super_admin, scope: :admin)
     end
 
     def login_user
-      @user = FactoryGirl.create(:user)
+      @user = FactoryBot.create(:user)
       login_as(@user, scope: :user)
     end
 

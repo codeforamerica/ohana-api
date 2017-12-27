@@ -13,10 +13,13 @@ class Admin
     def update
       @contact = Contact.find(params[:id])
       @service = Service.find(params[:service_id])
+      location = @service.location
 
-      if @contact.update(params[:contact])
+      authorize location
+
+      if @contact.update(contact_params)
         flash[:notice] = 'Contact was successfully updated.'
-        redirect_to [:admin, @service.location, @service, @contact]
+        redirect_to [:admin, location, @service, @contact]
       else
         render :edit
       end
@@ -32,10 +35,13 @@ class Admin
 
     def create
       @service = Service.find(params[:service_id])
-      @contact = @service.contacts.new(params[:contact])
+      @contact = @service.contacts.new(contact_params)
+      location = @service.location
+
+      authorize location
 
       if @contact.save
-        redirect_to admin_location_service_path(@service.location, @service),
+        redirect_to admin_location_service_path(location, @service),
                     notice: "Contact '#{@contact.name}' was successfully created."
       else
         render :new
@@ -44,9 +50,26 @@ class Admin
 
     def destroy
       contact = Contact.find(params[:id])
+      service = contact.service
+      location = service.location
+
+      authorize location
+
       contact.destroy
-      redirect_to admin_location_service_path(contact.service.location, contact.service),
+      redirect_to admin_location_service_path(location, service),
                   notice: "Contact '#{contact.name}' was successfully deleted."
+    end
+
+    private
+
+    def contact_params
+      params.require(:contact).permit(
+        :department, :email, :name, :title,
+        phones_attributes: %i[
+          country_prefix department extension number number_type
+          vanity_number id _destroy
+        ]
+      )
     end
   end
 end

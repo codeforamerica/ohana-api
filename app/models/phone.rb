@@ -3,13 +3,10 @@ class Phone < ActiveRecord::Base
 
   default_scope { order('id ASC') }
 
-  attr_accessible :country_prefix, :department, :extension, :number,
-                  :number_type, :vanity_number
-
-  belongs_to :location, touch: true
-  belongs_to :contact, touch: true
-  belongs_to :service, touch: true
-  belongs_to :organization
+  belongs_to :location, touch: true, inverse_of: :phones
+  belongs_to :contact, touch: true, inverse_of: :phones
+  belongs_to :service, touch: true, inverse_of: :phones
+  belongs_to :organization, inverse_of: :phones
 
   validates :number,
             presence: { message: I18n.t('errors.messages.blank_for_phone') },

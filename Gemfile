@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
-
+ruby '2.4.3'
 gem 'active_model_serializers', '~> 0.8.0'
 gem 'ancestry'
 gem 'auto_strip_attributes', '~> 2.0'
@@ -14,17 +13,17 @@ gem 'figaro', '~> 1.0'
 gem 'friendly_id', '~> 5.0'
 gem 'geocoder'
 gem 'haml-rails'
+gem 'hiredis'
 gem 'honeybadger', '~> 2.0'
 gem 'jquery-rails', '~> 4.0'
-gem 'kaminari'
+gem 'kaminari', '~> 1.1'
 gem 'pg'
-gem 'protected_attributes'
 gem 'pundit'
 gem 'rabl'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 4.2'
+gem 'readthis'
 gem 'redis'
-gem 'redis-rack-cache', github: 'monfresh/redis-rack-cache', branch: 'readthis-compatibility'
 gem 'rubyzip'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5'
@@ -38,7 +37,7 @@ end
 
 group :test, :development do
   gem 'bullet'
-  gem 'factory_girl_rails', '>= 4.2.0'
+  gem 'factory_bot_rails'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
   gem 'smarter_csv'
@@ -46,12 +45,12 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'coveralls', require: false
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'haml_lint'
   gem 'poltergeist'
   gem 'rubocop'
   gem 'shoulda-matchers', require: false
+  gem 'simplecov', require: false
   gem 'test_after_commit'
   gem 'webmock'
 end

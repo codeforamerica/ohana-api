@@ -3,13 +3,11 @@ class Contact < ActiveRecord::Base
 
   default_scope { order('id ASC') }
 
-  attr_accessible :department, :email, :name, :title, :phones_attributes
-
   belongs_to :location, touch: true
   belongs_to :organization
   belongs_to :service, touch: true
 
-  has_many :phones, dependent: :destroy
+  has_many :phones, dependent: :destroy, inverse_of: :contact
   accepts_nested_attributes_for :phones,
                                 allow_destroy: true, reject_if: :all_blank
 

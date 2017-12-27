@@ -13,7 +13,7 @@ describe 'ApiApplications' do
 
     context 'when signed in' do
       it 'returns a 200' do
-        @user = FactoryGirl.create(:user)
+        @user = FactoryBot.create(:user)
         login(@user)
         get api_applications_path
         expect(response.status).to be(200)

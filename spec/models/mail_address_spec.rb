@@ -5,14 +5,6 @@ describe MailAddress do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:attention) }
-  it { is_expected.to allow_mass_assignment_of(:address_1) }
-  it { is_expected.to allow_mass_assignment_of(:address_2) }
-  it { is_expected.to allow_mass_assignment_of(:city) }
-  it { is_expected.to allow_mass_assignment_of(:state_province) }
-  it { is_expected.to allow_mass_assignment_of(:postal_code) }
-  it { is_expected.to allow_mass_assignment_of(:country) }
-
   it { is_expected.to belong_to(:location).touch(true) }
 
   it do

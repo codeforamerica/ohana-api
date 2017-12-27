@@ -15,6 +15,24 @@ describe Admin::CsvController do
 
       get :all
     end
+
+    it 'denies access if not a super admin' do
+      log_in_as_admin(:admin)
+
+      actions = %i[
+        addresses contacts holiday_schedules locations mail_addresses
+        organizations phones programs regular_schedules services all download_zip
+      ]
+      actions.each do |action|
+        expect(ZipDownloadJob).to_not receive(:perform_in)
+        expect(ZipDeleteJob).to_not receive(:perform_in)
+
+        get action
+
+        expect(response).to redirect_to admin_dashboard_path
+        expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
+      end
+    end
   end
 
   describe 'GET download_zip' do

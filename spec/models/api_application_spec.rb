@@ -2,11 +2,6 @@ require 'rails_helper'
 # Uses the nifty shoulda-matchers
 # https://github.com/thoughtbot/shoulda-matchers
 describe ApiApplication do
-  it { is_expected.not_to allow_mass_assignment_of(:api_token) }
-  it { is_expected.to allow_mass_assignment_of(:name) }
-  it { is_expected.to allow_mass_assignment_of(:main_url) }
-  it { is_expected.to allow_mass_assignment_of(:callback_url) }
-
   it { is_expected.to belong_to :user }
 
   it { is_expected.to validate_presence_of(:name) }
@@ -18,8 +13,6 @@ describe ApiApplication do
     expect(api_application).to validate_uniqueness_of(:name)
     expect(api_application).to validate_uniqueness_of(:api_token)
   end
-
-  it { is_expected.not_to allow_mass_assignment_of(:api_token) }
 
   it do
     is_expected.to allow_value('http://cfa.org', 'https://github.com').

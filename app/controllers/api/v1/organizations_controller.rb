@@ -19,12 +19,12 @@ module Api
 
       def update
         org = Organization.find(params[:id])
-        org.update!(params)
+        org.update!(org_params)
         render json: org, status: 200
       end
 
       def create
-        org = Organization.create!(params)
+        org = Organization.create!(org_params)
         render json: org, status: 201, location: [:api, org]
       end
 
@@ -40,6 +40,16 @@ module Api
                     page(params[:page]).per(params[:per_page])
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
+      end
+
+      private
+
+      def org_params
+        params.require(:organization).permit(
+          { accreditations: [] }, :alternate_name, :date_incorporated, :description,
+          :email, { funding_sources: [] }, :legal_status, { licenses: [] }, :name,
+          :tax_id, :tax_status, :website
+        )
       end
     end
   end

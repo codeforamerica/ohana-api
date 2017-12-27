@@ -1,7 +1,6 @@
-[![Build Status](https://travis-ci.org/smcgov/ohana-api-smc.png?branch=master)](https://travis-ci.org/smcgov/ohana-api-smc) [![Coverage Status](https://coveralls.io/repos/smcgov/ohana-api-smc/badge.png?branch=master)](https://coveralls.io/r/smcgov/ohana-api-smc) [![Dependency Status](https://gemnasium.com/smcgov/ohana-api-smc.svg)](https://gemnasium.com/smcgov/ohana-api-smc) [![Code Climate](https://codeclimate.com/github/smcgov/ohana-api-smc.png)](https://codeclimate.com/github/smcgov/ohana-api-smc)
-[![security](https://hakiri.io/github/smcgov/ohana-api-smc/master.svg)](https://hakiri.io/github/smcgov/ohana-api-smc/master)
+[![CircleCI](https://circleci.com/gh/smcgov/ohana-api-smc/tree/master.svg?style=svg)](https://circleci.com/gh/smcgov/ohana-api-smc/tree/master) [![Dependency Status](https://gemnasium.com/smcgov/ohana-api-smc.svg)](https://gemnasium.com/smcgov/ohana-api-smc) [![Maintainability](https://api.codeclimate.com/v1/badges/0682b0329126025eff84/maintainability)](https://codeclimate.com/github/smcgov/ohana-api-smc/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/0682b0329126025eff84/test_coverage)](https://codeclimate.com/github/smcgov/ohana-api-smc/test_coverage)
 
-#Ohana API - San Mateo County
+# Ohana API - San Mateo County
 
 This is the API + Admin Interface portion for the San Mateo County instance of the [Ohana API](http://ohanapi.org). The API exposes information about community resources in San Mateo County to make it easier for residents in need to find services they are eligible for.
 
@@ -26,8 +25,8 @@ The easiest way to assign categories to a service is to use the Admin interface.
 
 ## Stack Overview
 
-* Ruby version 2.3.3
-* Rails version 4.2.7.1
+* Ruby version 2.4.3
+* Rails version 4.2.10
 * Postgres version 9.3
 * Redis
 * Testing Frameworks: RSpec, Factory Girl, Capybara

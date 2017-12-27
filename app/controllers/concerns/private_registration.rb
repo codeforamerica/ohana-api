@@ -38,9 +38,7 @@ module PrivateRegistration
   end
 
   def process_successful_registration
-    if is_flashing_format?
-      set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}"
-    end
+    set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
     expire_data_after_sign_in!
     respond_with resource, location: after_inactive_sign_up_path_for(resource)
   end
@@ -48,9 +46,7 @@ module PrivateRegistration
   def process_unsuccessful_registration
     clean_up_passwords resource
     @validatable = devise_mapping.validatable?
-    if @validatable
-      @minimum_password_length = resource_class.password_length.min
-    end
+    @minimum_password_length = resource_class.password_length.min if @validatable
     respond_with resource
   end
 end

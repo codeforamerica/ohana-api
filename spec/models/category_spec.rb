@@ -5,9 +5,6 @@ describe Category do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:name) }
-  it { is_expected.to allow_mass_assignment_of(:taxonomy_id) }
-
   it { is_expected.to have_and_belong_to_many(:services) }
 
   it do

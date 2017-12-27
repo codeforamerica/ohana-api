@@ -1,16 +1,11 @@
 class Organization < ActiveRecord::Base
   default_scope { order('id DESC') }
 
-  attr_accessible :accreditations, :alternate_name, :date_incorporated,
-                  :description, :email, :funding_sources, :legal_status,
-                  :licenses, :name, :tax_id, :tax_status, :website,
-                  :phones_attributes
-
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
   has_many :contacts, dependent: :destroy
 
-  has_many :phones, dependent: :destroy
+  has_many :phones, dependent: :destroy, inverse_of: :organization
   accepts_nested_attributes_for :phones,
                                 allow_destroy: true, reject_if: :all_blank
 

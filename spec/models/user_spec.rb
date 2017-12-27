@@ -8,12 +8,6 @@ describe User do
 
   it { is_expected.to have_many :api_applications }
 
-  it { is_expected.to allow_mass_assignment_of(:name) }
-  it { is_expected.to allow_mass_assignment_of(:email) }
-  it { is_expected.to allow_mass_assignment_of(:password) }
-  it { is_expected.to allow_mass_assignment_of(:password_confirmation) }
-  it { is_expected.to allow_mass_assignment_of(:remember_me) }
-
   it do
     is_expected.to have_db_column(:name).of_type(:string).with_options(default: '')
   end
