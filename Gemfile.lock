@@ -222,7 +222,7 @@ GEM
       activesupport (>= 2.3.14)
     rack (1.6.8)
     rack-cors (1.0.2)
-    rack-mini-profiler (0.10.5)
+    rack-mini-profiler (0.10.7)
       rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
