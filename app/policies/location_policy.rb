@@ -1,7 +1,8 @@
 class LocationPolicy < ApplicationPolicy
   def new?
     return true if user.super_admin?
-    Pundit.policy_scope!(user, Organization).present?
+    return super if record.id.present?
+    can_access_at_least_one_organization?
   end
 
   class Scope < Scope

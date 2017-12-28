@@ -1,6 +1,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :mail_address do
     attention 'Monfresh'
     address_1 '1 davis dr'

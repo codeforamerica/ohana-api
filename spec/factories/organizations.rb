@@ -1,6 +1,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :organization do
     name 'Parent Agency'
     description 'Organization created for testing purposes'

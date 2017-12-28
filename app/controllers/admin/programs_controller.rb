@@ -17,7 +17,9 @@ class Admin
     def update
       @program = Program.find(params[:id])
 
-      if @program.update(params[:program])
+      authorize @program
+
+      if @program.update(program_params)
         redirect_to [:admin, @program],
                     notice: 'Program was successfully updated.'
       else
@@ -31,9 +33,10 @@ class Admin
     end
 
     def create
-      @program = Program.new(params[:program])
+      @program = Program.new(program_params)
+      org = @program.organization
 
-      add_org_to_program_if_authorized
+      authorize @program if org.present?
 
       if @program.save
         redirect_to admin_programs_url,
@@ -45,18 +48,15 @@ class Admin
 
     def destroy
       program = Program.find(params[:id])
+      authorize program
       program.destroy
       redirect_to admin_programs_path
     end
 
     private
 
-    def add_org_to_program_if_authorized
-      org_id = params[:program][:organization_id]
-
-      if policy_scope(Organization).select { |org| org[0] == org_id.to_i }.present?
-        @program.organization_id = org_id
-      end
+    def program_params
+      params.require(:program).permit(:alternate_name, :name, :organization_id)
     end
   end
 end

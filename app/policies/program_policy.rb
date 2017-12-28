@@ -1,6 +1,14 @@
 class ProgramPolicy < ApplicationPolicy
+  delegate :create?, to: :organization_policy
+
   def new?
-    Pundit.policy_scope!(user, Organization).present?
+    can_access_at_least_one_organization?
+  end
+
+  private
+
+  def organization_policy
+    @organization_policy ||= Pundit.policy!(user, record.organization)
   end
 
   class Scope < Scope

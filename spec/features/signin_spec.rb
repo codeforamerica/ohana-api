@@ -4,7 +4,7 @@ feature 'Signing in' do
   # The 'sign_in' method is defined in spec/support/features/session_helpers.rb
   context 'with correct credentials' do
     before :each do
-      valid_user = FactoryGirl.create(:user)
+      valid_user = FactoryBot.create(:user)
       sign_in(valid_user.email, valid_user.password)
     end
 
@@ -27,7 +27,7 @@ feature 'Signing in' do
   end
 
   scenario 'with an unconfirmed user' do
-    unconfirmed_user = FactoryGirl.create(:unconfirmed_user)
+    unconfirmed_user = FactoryBot.create(:unconfirmed_user)
     sign_in(unconfirmed_user.email, unconfirmed_user.password)
     expect(page).
       to have_content 'You have to confirm your account before continuing.'

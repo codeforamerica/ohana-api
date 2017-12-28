@@ -1,5 +1,5 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
-FactoryGirl.define do
+FactoryBot.define do
   factory :admin do
     name 'Org Admin'
     email 'moncef@samaritanhouse.com'
@@ -23,6 +23,14 @@ FactoryGirl.define do
   factory :admin_with_generic_email, class: :admin do
     name 'Generic User'
     email 'moncef@gmail.com'
+    password 'ohanatest'
+    password_confirmation 'ohanatest'
+    confirmed_at Time.zone.now
+  end
+
+  factory :location_admin, class: :admin do
+    name 'Moncef Belyamani'
+    email 'moncef@smcgov.org'
     password 'ohanatest'
     password_confirmation 'ohanatest'
     confirmed_at Time.zone.now

@@ -15,9 +15,8 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
       expect(response.body).to eq ''
     end
 
-    it 'sets Access-Control-Allow-Origin header to the Origin in the request' do
-      expect(headers['Access-Control-Allow-Origin']).
-        to eq('http://cors.example.com')
+    it 'does not reflect the Origin header in the request' do
+      expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'sets Access-Control-Allow-Methods to the whitelisted methods' do
@@ -30,8 +29,8 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
       expect(headers['Access-Control-Max-Age']).to eq('1728000')
     end
 
-    it 'returns the Access-Control-Allow-Credentials header' do
-      expect(headers['Access-Control-Allow-Credentials']).to eq('true')
+    it 'does not return the Access-Control-Allow-Credentials header' do
+      expect(headers['Access-Control-Allow-Credentials']).to be_nil
     end
 
     it 'returns the Access-Control-Allow-Headers header' do
@@ -49,8 +48,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
               'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
               'REQUEST_METHOD' => 'OPTIONS'
 
-      expect(headers['Access-Control-Allow-Origin']).
-        to eq('http://cors.example.com')
+      expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'allows access to a specific location' do
@@ -59,8 +57,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
               'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
               'REQUEST_METHOD' => 'OPTIONS'
 
-      expect(headers['Access-Control-Allow-Origin']).
-        to eq('http://cors.example.com')
+      expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'allows access to a specific organization' do
@@ -69,8 +66,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
               'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
               'REQUEST_METHOD' => 'OPTIONS'
 
-      expect(headers['Access-Control-Allow-Origin']).
-        to eq('http://cors.example.com')
+      expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'allows access to the search endpoint' do
@@ -80,8 +76,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
               'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
               'REQUEST_METHOD' => 'OPTIONS'
 
-      expect(headers['Access-Control-Allow-Origin']).
-        to eq('http://cors.example.com')
+      expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'does not allow access to non-whitelisted endpoints' do
@@ -125,8 +120,8 @@ describe 'CORS REQUESTS - POST and GET' do
       expect(response).to have_http_status(201)
     end
 
-    it 'sets Access-Control-Allow-Origin header to the Origin in the request' do
-      expect(headers['Access-Control-Allow-Origin']).to eq('http://ohanapi.org')
+    it 'does not reflect the Origin header in the request' do
+      expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'sets Access-Control-Allow-Methods to the whitelisted methods' do
@@ -139,8 +134,8 @@ describe 'CORS REQUESTS - POST and GET' do
       expect(headers['Access-Control-Max-Age']).to eq('1728000')
     end
 
-    it 'returns the Access-Control-Allow-Credentials header' do
-      expect(headers['Access-Control-Allow-Credentials']).to eq('true')
+    it 'does not return the Access-Control-Allow-Credentials header' do
+      expect(headers['Access-Control-Allow-Credentials']).to be_nil
     end
 
     it 'only exposes the Etag, Last-Modified, Link and X-Total-Count headers' do
@@ -182,8 +177,8 @@ describe 'CORS REQUESTS - POST and GET' do
       expect(response).to have_http_status(404)
     end
 
-    it 'sets Access-Control-Allow-Origin header to the Origin in the request' do
-      expect(headers['Access-Control-Allow-Origin']).to eq('http://ohanapi.org')
+    it 'does not reflect the Origin header in the request' do
+      expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
   end
 end

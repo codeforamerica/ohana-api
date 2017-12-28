@@ -18,13 +18,13 @@ module Api
 
       def update
         service = Service.find(params[:id])
-        service.update!(params)
+        service.update!(service_params)
         render json: service, status: 200
       end
 
       def create
         location = Location.find(params[:location_id])
-        service = location.services.create!(params)
+        service = location.services.create!(service_params)
         render json: service, status: 201
       end
 
@@ -36,7 +36,7 @@ module Api
 
       def update_categories
         service = Service.find(params[:service_id])
-        service.category_ids = cat_ids(params[:taxonomy_ids])
+        service.category_ids = cat_ids(service_params[:taxonomy_ids])
         service.save!
 
         render json: service, status: 200
@@ -51,6 +51,16 @@ module Api
 
       def validate_service_areas
         render_invalid_type if params[:service_areas].is_a?(String)
+      end
+
+      def service_params
+        params.permit(
+          { accepted_payments: [] }, :alternate_name, :audience, :description,
+          :eligibility, :email, :fees, { funding_sources: [] },
+          :application_process, :interpretation_services, { keywords: [] },
+          { languages: [] }, :name, { required_documents: [] },
+          { service_areas: [] }, :status, :website, :wait_time, taxonomy_ids: []
+        )
       end
     end
   end

@@ -19,7 +19,9 @@ class Admin
       @location = Location.find(params[:id])
       @org = @location.organization
 
-      if @location.update(params[:location])
+      authorize @location
+
+      if @location.update(location_params)
         redirect_to [:admin, @location],
                     notice: 'Location was successfully updated.'
       else
@@ -33,9 +35,10 @@ class Admin
     end
 
     def create
-      @location = Location.new(params[:location])
+      @location = Location.new(location_params)
+      org = @location.organization
 
-      assign_location_to_org(policy_scope(Organization))
+      authorize org if org.present?
 
       if @location.save
         redirect_to [:admin, @location], notice: 'Location was successfully created.'
@@ -46,18 +49,35 @@ class Admin
 
     def destroy
       location = Location.find(params[:id])
+
+      authorize location
+
       location.destroy
       redirect_to admin_locations_path
     end
 
     private
 
-    def assign_location_to_org(admin_orgs)
-      org_id = params[:location][:organization_id]
-
-      if admin_orgs.select { |org| org[0] == org_id.to_i }.present?
-        @location.organization = Organization.find(org_id)
-      end
+    # rubocop:disable MethodLength
+    def location_params
+      params.require(:location).permit(
+        :organization_id, { accessibility: [] }, :active, { admin_emails: [] },
+        :alternate_name, :description, :email, :hours, :kind, { languages: [] },
+        :latitude, :longitude, :market_match, :name, { payments: [] }, { products: [] },
+        :short_desc, :transportation, :website, :virtual,
+        address_attributes: %i[
+          address_1 address_2 city state_province postal_code country id _destroy
+        ],
+        mail_address_attributes: %i[
+          attention address_1 address_2 city state_province postal_code country id _destroy
+        ],
+        phones_attributes: %i[
+          country_prefix department extension number number_type vanity_number id _destroy
+        ],
+        regular_schedules_attributes: %i[weekday opens_at closes_at id _destroy],
+        holiday_schedules_attributes: %i[closed start_date end_date opens_at closes_at id _destroy]
+      )
     end
+    # rubocop:enable MethodLength
   end
 end

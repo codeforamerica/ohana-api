@@ -5,34 +5,15 @@ describe Service do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to allow_mass_assignment_of(:accepted_payments) }
-  it { is_expected.to allow_mass_assignment_of(:alternate_name) }
-  it { is_expected.to allow_mass_assignment_of(:audience) }
-  it { is_expected.to allow_mass_assignment_of(:description) }
-  it { is_expected.to allow_mass_assignment_of(:eligibility) }
-  it { is_expected.to allow_mass_assignment_of(:email) }
-  it { is_expected.to allow_mass_assignment_of(:fees) }
-  it { is_expected.to allow_mass_assignment_of(:funding_sources) }
-  it { is_expected.to allow_mass_assignment_of(:application_process) }
-  it { is_expected.to allow_mass_assignment_of(:interpretation_services) }
-  it { is_expected.to allow_mass_assignment_of(:keywords) }
-  it { is_expected.to allow_mass_assignment_of(:languages) }
-  it { is_expected.to allow_mass_assignment_of(:name) }
-  it { is_expected.to allow_mass_assignment_of(:required_documents) }
-  it { is_expected.to allow_mass_assignment_of(:service_areas) }
-  it { is_expected.to allow_mass_assignment_of(:status) }
-  it { is_expected.to allow_mass_assignment_of(:website) }
-  it { is_expected.to allow_mass_assignment_of(:wait_time) }
-
   it { is_expected.to belong_to(:location).touch(true) }
   it { is_expected.to belong_to(:program) }
 
-  it { is_expected.to have_many(:regular_schedules).dependent(:destroy) }
+  it { is_expected.to have_many(:regular_schedules).dependent(:destroy).inverse_of(:service) }
   it { is_expected.to accept_nested_attributes_for(:regular_schedules).allow_destroy(true) }
-  it { is_expected.to have_many(:holiday_schedules).dependent(:destroy) }
+  it { is_expected.to have_many(:holiday_schedules).dependent(:destroy).inverse_of(:service) }
   it { is_expected.to accept_nested_attributes_for(:holiday_schedules).allow_destroy(true) }
-  it { is_expected.to have_many(:contacts).dependent(:destroy) }
-  it { is_expected.to have_many(:phones).dependent(:destroy) }
+  it { is_expected.to have_many(:contacts).dependent(:destroy).inverse_of(:service) }
+  it { is_expected.to have_many(:phones).dependent(:destroy).inverse_of(:service) }
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
   it { is_expected.to_not validate_presence_of(:name).with_message("can't be blank for Service") }
