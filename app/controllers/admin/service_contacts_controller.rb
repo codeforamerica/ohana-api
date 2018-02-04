@@ -41,7 +41,7 @@ class Admin
       authorize location
 
       if @contact.save
-        redirect_to admin_location_service_path(location, @service),
+        redirect_to admin_location_service_url(location, @service),
                     notice: "Contact '#{@contact.name}' was successfully created."
       else
         render :new
@@ -56,7 +56,7 @@ class Admin
       authorize location
 
       contact.destroy
-      redirect_to admin_location_service_path(location, service),
+      redirect_to admin_location_service_url(location, service),
                   notice: "Contact '#{contact.name}' was successfully deleted."
     end
 

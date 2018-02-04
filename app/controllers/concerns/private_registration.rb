@@ -29,18 +29,18 @@ module PrivateRegistration
     if is_flashing_format?
       set_flash_message :notice, :signed_up_but_unconfirmed, email: resource.email
     end
-    redirect_to path_for(resource)
+    redirect_to after_registration_url_for(resource)
   end
 
-  def path_for(resource)
-    return new_admin_session_path if resource.is_a?(Admin)
-    return new_user_session_path if resource.is_a?(User)
+  def after_registration_url_for(resource)
+    return new_admin_session_url if resource.is_a?(Admin)
+    return new_user_session_url if resource.is_a?(User)
   end
 
   def process_successful_registration
     set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
     expire_data_after_sign_in!
-    respond_with resource, location: after_inactive_sign_up_path_for(resource)
+    redirect_to after_registration_url_for(resource)
   end
 
   def process_unsuccessful_registration

@@ -50,7 +50,7 @@ class Admin
       program = Program.find(params[:id])
       authorize program
       program.destroy
-      redirect_to admin_programs_path
+      redirect_to admin_programs_url
     end
 
     private

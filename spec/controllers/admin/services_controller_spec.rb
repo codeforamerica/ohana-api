@@ -24,7 +24,7 @@ describe Admin::ServicesController do
 
         get :edit, location_id: @loc.id, id: @service.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -62,7 +62,7 @@ describe Admin::ServicesController do
 
         get :new, location_id: @loc.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -132,7 +132,7 @@ describe Admin::ServicesController do
         }
 
         expect(response).
-          to redirect_to "/admin/locations/#{@location.friendly_id}"
+          to redirect_to admin_location_url(@location.friendly_id)
       end
     end
 
@@ -147,7 +147,7 @@ describe Admin::ServicesController do
           }
         end.to_not change(Service, :count)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -163,7 +163,7 @@ describe Admin::ServicesController do
         end.to change(Service, :count).by(1)
 
         expect(response).
-          to redirect_to "/admin/locations/#{@location.friendly_id}"
+          to redirect_to admin_location_url(@location.friendly_id)
       end
     end
   end
@@ -185,9 +185,8 @@ describe Admin::ServicesController do
 
         post(:update, location_id: @location.id, id: @service.id, service: @attrs)
 
-        path = "/admin/locations/#{@location.friendly_id}/services/#{@service.id}"
-
-        expect(response).to redirect_to path
+        expect(response).
+          to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
       end
     end
 
@@ -198,7 +197,7 @@ describe Admin::ServicesController do
 
         post(:update, location_id: @location.id, id: @service.id, service: @attrs)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@service.reload.name).to_not eq 'Updated Service'
       end
@@ -210,9 +209,8 @@ describe Admin::ServicesController do
 
         post(:update, location_id: @location.id, id: @service.id, service: @attrs)
 
-        path = "/admin/locations/#{@location.friendly_id}/services/#{@service.id}"
-
-        expect(response).to redirect_to path
+        expect(response).
+          to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
       end
     end
   end
@@ -229,8 +227,7 @@ describe Admin::ServicesController do
 
         delete :destroy, location_id: @location.id, id: @service.id
 
-        expect(response).
-          to redirect_to '/admin/locations'
+        expect(response).to redirect_to admin_locations_url
       end
     end
 
@@ -242,7 +239,7 @@ describe Admin::ServicesController do
         expect { delete :destroy, location_id: @location.id, id: @service.id }.
           to_not change(Service, :count)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -253,8 +250,7 @@ describe Admin::ServicesController do
 
         delete :destroy, location_id: @location.id, id: @service.id
 
-        expect(response).
-          to redirect_to '/admin/locations'
+        expect(response).to redirect_to admin_locations_url
         expect(Service.find_by(id: @service.id)).to be_nil
       end
     end

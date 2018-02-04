@@ -43,7 +43,7 @@ class Admin
       prepare_and_authorize_service_creation
 
       if @service.save
-        redirect_to admin_location_path(@location),
+        redirect_to admin_location_url(@location),
                     notice: "Service '#{@service.name}' was successfully created."
       else
         render :new
@@ -54,7 +54,7 @@ class Admin
       service = Service.find(params[:id])
       authorize service.location
       service.destroy
-      redirect_to admin_locations_path
+      redirect_to admin_locations_url
     end
 
     private

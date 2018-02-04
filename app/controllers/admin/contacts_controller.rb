@@ -40,7 +40,7 @@ class Admin
 
       if @contact.save
         flash[:notice] = "Contact '#{@contact.name}' was successfully created."
-        redirect_to admin_location_path(@location)
+        redirect_to admin_location_url(@location)
       else
         render :new
       end
@@ -53,7 +53,7 @@ class Admin
       authorize location
 
       contact.destroy
-      redirect_to admin_location_path(location),
+      redirect_to admin_location_url(location),
                   notice: "Contact '#{contact.name}' was successfully deleted."
     end
 

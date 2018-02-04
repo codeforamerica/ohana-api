@@ -16,7 +16,8 @@ describe Admin::LocationsController do
           organization_id: @org.id
         }
 
-        expect(response).to redirect_to '/admin/locations/new-location'
+        location = Location.find_by(name: 'New Location')
+        expect(response).to redirect_to admin_location_url(location)
       end
     end
 
@@ -31,7 +32,7 @@ describe Admin::LocationsController do
         }
 
         expect { post :create, location: location_params }.to_not change(Location, :count)
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -48,7 +49,8 @@ describe Admin::LocationsController do
           organization_id: @org.id
         }
 
-        expect(response).to redirect_to '/admin/locations/new-location'
+        location = Location.find_by(name: 'New Location')
+        expect(response).to redirect_to admin_location_url(location)
       end
     end
   end
@@ -64,7 +66,7 @@ describe Admin::LocationsController do
 
         post :update, id: @loc.id, location: { name: 'Updated location' }
 
-        expect(response).to redirect_to "/admin/locations/#{@loc.reload.friendly_id}"
+        expect(response).to redirect_to admin_location_url(@loc.reload.friendly_id)
       end
     end
 
@@ -75,7 +77,7 @@ describe Admin::LocationsController do
 
         post :update, id: @loc.id, location: { name: 'Updated location' }
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@loc.reload.name).to_not eq 'Updated location'
       end
@@ -87,7 +89,7 @@ describe Admin::LocationsController do
 
         post :update, id: @loc.id, location: { name: 'Updated location' }
 
-        expect(response).to redirect_to "/admin/locations/#{@loc.reload.friendly_id}"
+        expect(response).to redirect_to admin_location_url(@loc.reload.friendly_id)
         expect(@loc.reload.name).to eq 'Updated location'
       end
     end
@@ -104,7 +106,7 @@ describe Admin::LocationsController do
 
         delete :destroy, id: @location.id
 
-        expect(response).to redirect_to '/admin/locations'
+        expect(response).to redirect_to admin_locations_url
       end
     end
 
@@ -115,7 +117,7 @@ describe Admin::LocationsController do
 
         expect { delete :destroy, id: @location.id }.to_not change(Location, :count)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -126,7 +128,7 @@ describe Admin::LocationsController do
 
         delete :destroy, id: @location.id
 
-        expect(response).to redirect_to '/admin/locations'
+        expect(response).to redirect_to admin_locations_url
         expect(Location.find_by(id: @location.id)).to be_nil
       end
     end
@@ -154,7 +156,7 @@ describe Admin::LocationsController do
 
         get :edit, id: @location.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -192,7 +194,7 @@ describe Admin::LocationsController do
 
         get :new
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end

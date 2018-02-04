@@ -160,6 +160,39 @@
 # 4. Tell the developer to send the same token in their app via the
 # `X-Api-Token` HTTP header.
 
+########################################
+#
+# DOMAIN_NAME - REQUIRED IN PRODUCTION
+#
+########################################
+# This is the domain name of your website. For example, if you deployed the app
+# to Heroku and did not set up a custom domain name, your DOMAIN_NAME will be
+# app-name.herokuapp.com, where `app-name` is the name of your own Heroku app.
+# If you have a custom domain name and you are using paths instead of subdomains
+# (example.com/admin vs admin.example.com), and if your browser includes `www`
+# in your website name when you visit it, make sure to include the `www` in
+# DOMAIN_NAME, such as www.example.com. When setting up the DNS for your custom
+# domain, make sure to redirect the naked subdomain to www, or vice versa.
+# Otherwise, some parts of the app will not work properly.
+# If you have a custom domain name and you are using subdomains, such as
+# admin.example.com, make sure to set DOMAIN_NAME to the naked domain, such
+# as example.com. Otherwise, if you set DOMAIN_NAME to www.example.com,
+# you won't be able to visit admin.example.com.
+
+########################################
+#
+# ASSET_HOST - REQUIRED IN PRODUCTION
+#
+########################################
+# This is the host that serves your assets. If you deployed the app
+# to Heroku and did not set up a separate server for assets (such as Cloudfront),
+# your ASSET_HOST should be your Heroku domain, such as app-name.herokuapp.com.
+# If you have a custom domain, set ASSET_HOST to the same value as DOMAIN_NAME.
+# For more advanced users, if you will be using a CDN, you will need to replace
+# AssetHosts#call with your own implementation.
+# See: http://api.rubyonrails.org/classes/ActionView/Helpers/AssetUrlHelper.html
+# for examples.
+
 ###########################
 #
 # SETTINGS FOR DEVELOPMENT
@@ -170,8 +203,10 @@ development:
   API_PATH: api
   ADMIN_SUBDOMAIN:
   ADMIN_PATH: admin
+  ASSET_HOST: lvh.me
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
+  DOMAIN_NAME: lvh.me
   MAX_PER_PAGE: '50'
 
 ###############################################################################
@@ -186,8 +221,10 @@ production:
   API_PATH: api
   ADMIN_SUBDOMAIN:
   ADMIN_PATH: admin
+  ASSET_HOST:
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
+  DOMAIN_NAME:
   MAX_PER_PAGE: '50'
   EXPIRES_IN: '1'
   TLD_LENGTH: '2'
@@ -203,7 +240,9 @@ test:
   API_PATH: api
   ADMIN_SUBDOMAIN:
   ADMIN_PATH: admin
+  ASSET_HOST: example.com
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
+  DOMAIN_NAME: example.com
   MAX_PER_PAGE: '50'
   ADMIN_APP_TOKEN: testing123
