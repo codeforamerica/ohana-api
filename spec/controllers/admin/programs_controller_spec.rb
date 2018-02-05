@@ -25,7 +25,7 @@ describe Admin::ProgramsController do
 
         get :edit, id: @program.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -90,7 +90,7 @@ describe Admin::ProgramsController do
 
         post :create, program: { name: 'New program', organization_id: @org.id }
 
-        expect(response).to redirect_to '/admin/programs'
+        expect(response).to redirect_to admin_programs_url
       end
     end
 
@@ -102,7 +102,7 @@ describe Admin::ProgramsController do
         expect { post :create, program: { name: 'New program', organization_id: @org.id } }.
           to_not change(Program, :count)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@org.programs).to be_empty
       end
@@ -114,7 +114,7 @@ describe Admin::ProgramsController do
 
         post :create, program: { name: 'New program', organization_id: @org.id }
 
-        expect(response).to redirect_to '/admin/programs'
+        expect(response).to redirect_to admin_programs_url
       end
     end
   end
@@ -132,7 +132,7 @@ describe Admin::ProgramsController do
 
         post :update, id: @program.id, program: { name: 'Updated program' }
 
-        expect(response).to redirect_to "/admin/programs/#{@program.id}"
+        expect(response).to redirect_to admin_program_url(@program.id)
       end
     end
 
@@ -143,7 +143,7 @@ describe Admin::ProgramsController do
 
         post :update, id: @program.id, program: { name: 'Updated program' }
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@program.reload.name).to_not eq 'Updated program'
       end
@@ -155,7 +155,7 @@ describe Admin::ProgramsController do
 
         post :update, id: @program.id, program: { name: 'Updated program' }
 
-        expect(response).to redirect_to "/admin/programs/#{@program.id}"
+        expect(response).to redirect_to admin_program_url(@program.id)
         expect(@program.reload.name).to eq 'Updated program'
       end
     end
@@ -174,7 +174,7 @@ describe Admin::ProgramsController do
 
         delete :destroy, id: @program.id
 
-        expect(response).to redirect_to '/admin/programs'
+        expect(response).to redirect_to admin_programs_url
       end
     end
 
@@ -185,7 +185,7 @@ describe Admin::ProgramsController do
 
         expect { delete :destroy, id: @program.id }.to_not change(Program, :count)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -196,7 +196,7 @@ describe Admin::ProgramsController do
 
         delete :destroy, id: @program.id
 
-        expect(response).to redirect_to '/admin/programs'
+        expect(response).to redirect_to admin_programs_url
         expect(Program.find_by(id: @program.id)).to be_nil
       end
     end

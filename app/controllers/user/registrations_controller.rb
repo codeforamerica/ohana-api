@@ -12,7 +12,7 @@ class User
     end
 
     def after_update_path_for(_resource)
-      edit_user_registration_path
+      edit_user_registration_url
     end
   end
 end

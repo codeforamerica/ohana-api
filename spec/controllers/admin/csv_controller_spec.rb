@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Admin::CsvController do
   describe 'GET all' do
     let(:tmp_file_name) { Rails.root.join('tmp', 'archive.zip') }
-    let(:url_prefix) { 'http://test.host/admin/csv/' }
+    let(:url_prefix) { 'http://example.com/admin/csv/' }
 
     it 'performs the ZipDownload job 2 seconds later' do
       log_in_as_admin(:super_admin)
@@ -28,7 +28,7 @@ describe Admin::CsvController do
 
         get action
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
