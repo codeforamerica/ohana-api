@@ -24,10 +24,8 @@ gem 'pundit'
 gem 'rack-cache'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 4.2'
-gem 'rubyzip'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5'
-gem 'sucker_punch'
 gem 'uglifier', '>= 1.3.0'
 
 group :production do
