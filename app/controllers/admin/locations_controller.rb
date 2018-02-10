@@ -53,7 +53,7 @@ class Admin
       authorize location
 
       location.destroy
-      redirect_to admin_locations_path
+      redirect_to admin_locations_url
     end
 
     private

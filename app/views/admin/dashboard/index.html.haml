@@ -19,8 +19,10 @@
 
   - if current_admin.super_admin?
     %h2 CSV Downloads
-
-    %p= zip_file_status
+    - csv_tables.each do |table|
+      %p
+        = link_to t("admin.buttons.download_#{table}"),
+        send(:"admin_csv_#{table}_url"), class: 'btn btn-primary'
 
     %hr
     Ohana API #{link_to "v#{version}", 'https://github.com/codeforamerica/ohana-api/blob/master/CHANGELOG.md'}

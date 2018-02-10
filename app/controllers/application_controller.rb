@@ -18,18 +18,22 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     return root_url if resource.is_a?(User)
-    return admin_dashboard_path if resource.is_a?(Admin)
+    return admin_dashboard_url if resource.is_a?(Admin)
   end
 
   def after_sign_out_path_for(resource)
-    return root_path if resource == :user
-    return admin_dashboard_path if resource == :admin
+    return root_url if resource == :user
+    return new_admin_session_url if resource == :admin
   end
 
   layout :layout_by_resource
 
   def pundit_user
     current_admin
+  end
+
+  def default_url_options
+    { host: DefaultHost.new.call(request) }
   end
 
   private
@@ -50,7 +54,7 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:error] = I18n.t('admin.not_authorized')
-    redirect_to(request.referer || admin_dashboard_path)
+    redirect_to(request.referer || admin_dashboard_url)
   end
 
   protected

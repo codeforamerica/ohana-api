@@ -24,7 +24,7 @@ describe Admin::ContactsController do
 
         get :edit, location_id: @loc.id, id: @contact.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -62,7 +62,7 @@ describe Admin::ContactsController do
 
         get :new, location_id: @loc.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -89,7 +89,7 @@ describe Admin::ContactsController do
 
         post :create, location_id: @loc.id, contact: { name: 'John' }
 
-        expect(response).to redirect_to "/admin/locations/#{@loc.friendly_id}"
+        expect(response).to redirect_to admin_location_url(@loc.friendly_id)
       end
     end
 
@@ -99,7 +99,7 @@ describe Admin::ContactsController do
 
         post :create, location_id: @loc.id, contact: { name: 'John' }
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@loc.contacts).to be_empty
       end
@@ -111,7 +111,7 @@ describe Admin::ContactsController do
 
         post :create, location_id: @loc.id, contact: { name: 'John' }
 
-        expect(response).to redirect_to "/admin/locations/#{@loc.friendly_id}"
+        expect(response).to redirect_to admin_location_url(@loc.friendly_id)
         expect(@loc.contacts.last.name).to eq 'John'
       end
     end
@@ -130,7 +130,7 @@ describe Admin::ContactsController do
         post :update, location_id: @loc.id, id: @contact.id, contact: { name: 'John' }
 
         expect(response).
-          to redirect_to "/admin/locations/#{@loc.friendly_id}/contacts/#{@contact.id}"
+          to redirect_to admin_location_contact_url(@loc.friendly_id, @contact.id)
       end
     end
 
@@ -140,7 +140,7 @@ describe Admin::ContactsController do
 
         post :update, location_id: @loc.id, id: @contact.id, contact: { name: 'John' }
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@contact.reload.name).to_not eq 'John'
       end
@@ -153,7 +153,7 @@ describe Admin::ContactsController do
         post :update, location_id: @loc.id, id: @contact.id, contact: { name: 'John' }
 
         expect(response).
-          to redirect_to "/admin/locations/#{@loc.friendly_id}/contacts/#{@contact.id}"
+          to redirect_to admin_location_contact_url(@loc.friendly_id, @contact.id)
         expect(@contact.reload.name).to eq 'John'
       end
     end
@@ -171,7 +171,7 @@ describe Admin::ContactsController do
 
         delete :destroy, location_id: @loc.id, id: @contact.id
 
-        expect(response).to redirect_to "/admin/locations/#{@loc.friendly_id}"
+        expect(response).to redirect_to admin_location_url(@loc.friendly_id)
       end
     end
 
@@ -181,7 +181,7 @@ describe Admin::ContactsController do
 
         delete :destroy, location_id: @loc.id, id: @contact.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@contact.reload.name).to eq 'Moncef Belyamani'
       end
@@ -193,7 +193,7 @@ describe Admin::ContactsController do
 
         delete :destroy, location_id: @loc.id, id: @contact.id
 
-        expect(response).to redirect_to "/admin/locations/#{@loc.friendly_id}"
+        expect(response).to redirect_to admin_location_url(@loc.friendly_id)
         expect(Contact.find_by(id: @contact.id)).to be_nil
       end
     end

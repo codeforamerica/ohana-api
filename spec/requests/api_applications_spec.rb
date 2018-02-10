@@ -15,7 +15,7 @@ describe 'ApiApplications' do
       it 'returns a 200' do
         @user = FactoryBot.create(:user)
         login(@user)
-        get api_applications_path
+        get api_applications_url
         expect(response.status).to be(200)
       end
     end

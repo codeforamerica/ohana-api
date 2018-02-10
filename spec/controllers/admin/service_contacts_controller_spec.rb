@@ -25,7 +25,7 @@ describe Admin::ServiceContactsController do
 
         get :edit, location_id: @location.id, service_id: @service.id, id: @contact.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -64,7 +64,7 @@ describe Admin::ServiceContactsController do
 
         get :new, location_id: @location.id, service_id: @service.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -93,7 +93,7 @@ describe Admin::ServiceContactsController do
         post :create, location_id: @location.id, service_id: @service.id, contact: { name: 'Jane' }
 
         expect(response).
-          to redirect_to "/admin/locations/#{@location.friendly_id}/services/#{@service.id}"
+          to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
       end
     end
 
@@ -104,7 +104,7 @@ describe Admin::ServiceContactsController do
 
         post :create, location_id: @location.id, service_id: @service.id, contact: { name: 'Jane' }
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@service.contacts).to be_empty
       end
@@ -117,7 +117,7 @@ describe Admin::ServiceContactsController do
         post :create, location_id: @location.id, service_id: @service.id, contact: { name: 'Jane' }
 
         expect(response).
-          to redirect_to "/admin/locations/#{@location.friendly_id}/services/#{@service.id}"
+          to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
         expect(@service.contacts.last.name).to eq 'Jane'
       end
     end
@@ -140,9 +140,12 @@ describe Admin::ServiceContactsController do
           id: @contact.id, contact: { name: 'Jane' }
         )
 
-        path_prefix = "/admin/locations/#{@location.friendly_id}/services/#{@service.id}/contacts"
+        location = @location.friendly_id
+        service = @service.id
+        contact = @contact.id
 
-        expect(response).to redirect_to "#{path_prefix}/#{@contact.id}"
+        expect(response).
+          to redirect_to admin_location_service_contact_url(location, service, contact)
       end
     end
 
@@ -157,7 +160,7 @@ describe Admin::ServiceContactsController do
           id: @contact.id, contact: { name: 'Jane' }
         )
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@contact.reload.name).to_not eq 'Jane'
       end
@@ -173,9 +176,12 @@ describe Admin::ServiceContactsController do
           id: @contact.id, contact: { name: 'Jane' }
         )
 
-        path_prefix = "/admin/locations/#{@location.friendly_id}/services/#{@service.id}/contacts"
+        location = @location.friendly_id
+        service = @service.id
+        contact = @contact.id
 
-        expect(response).to redirect_to "#{path_prefix}/#{@contact.id}"
+        expect(response).
+          to redirect_to admin_location_service_contact_url(location, service, contact)
         expect(@contact.reload.name).to eq 'Jane'
       end
     end
@@ -195,7 +201,7 @@ describe Admin::ServiceContactsController do
         delete :destroy, location_id: @location.id, service_id: @service.id, id: @contact.id
 
         expect(response).
-          to redirect_to "/admin/locations/#{@location.friendly_id}/services/#{@service.id}"
+          to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
       end
     end
 
@@ -206,7 +212,7 @@ describe Admin::ServiceContactsController do
 
         delete :destroy, location_id: @location.id, service_id: @service.id, id: @contact.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@contact.reload.name).to eq 'Moncef Belyamani'
       end
@@ -219,7 +225,7 @@ describe Admin::ServiceContactsController do
         delete :destroy, location_id: @location.id, service_id: @service.id, id: @contact.id
 
         expect(response).
-          to redirect_to "/admin/locations/#{@location.friendly_id}/services/#{@service.id}"
+          to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
         expect(Contact.find_by(id: @contact.id)).to be_nil
       end
     end

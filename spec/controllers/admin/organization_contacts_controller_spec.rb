@@ -25,7 +25,7 @@ describe Admin::OrganizationContactsController do
 
         get :edit, organization_id: @org.id, id: @contact.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -64,7 +64,7 @@ describe Admin::OrganizationContactsController do
 
         get :new, organization_id: @org.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -92,7 +92,7 @@ describe Admin::OrganizationContactsController do
 
         post :create, organization_id: @org.id, contact: { name: 'Jane' }
 
-        expect(response).to redirect_to "/admin/organizations/#{@org.friendly_id}"
+        expect(response).to redirect_to admin_organization_url(@org.friendly_id)
       end
     end
 
@@ -103,7 +103,7 @@ describe Admin::OrganizationContactsController do
 
         post :create, organization_id: @org.id, contact: { name: 'Jane' }
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@org.contacts).to be_empty
       end
@@ -117,7 +117,7 @@ describe Admin::OrganizationContactsController do
 
         post :create, organization_id: organization.id, contact: { name: 'Jane' }
 
-        expect(response).to redirect_to "/admin/organizations/#{organization.friendly_id}"
+        expect(response).to redirect_to admin_organization_url(organization.friendly_id)
         expect(organization.contacts.last.name).to eq 'Jane'
       end
     end
@@ -137,7 +137,7 @@ describe Admin::OrganizationContactsController do
         post :update, organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' }
 
         expect(response).
-          to redirect_to "/admin/organizations/#{@org.friendly_id}/contacts/#{@contact.id}"
+          to redirect_to admin_organization_contact_url(@org.friendly_id, @contact.id)
       end
     end
 
@@ -148,7 +148,7 @@ describe Admin::OrganizationContactsController do
 
         post :update, organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' }
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@contact.reload.name).to_not eq 'Jane'
       end
@@ -161,7 +161,7 @@ describe Admin::OrganizationContactsController do
         post :update, organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' }
 
         expect(response).
-          to redirect_to "/admin/organizations/#{@org.friendly_id}/contacts/#{@contact.id}"
+          to redirect_to admin_organization_contact_url(@org.friendly_id, @contact.id)
         expect(@contact.reload.name).to eq 'Jane'
       end
     end
@@ -180,7 +180,7 @@ describe Admin::OrganizationContactsController do
 
         delete :destroy, organization_id: @org.id, id: @contact.id
 
-        expect(response).to redirect_to "/admin/organizations/#{@org.friendly_id}"
+        expect(response).to redirect_to admin_organization_url(@org.friendly_id)
       end
     end
 
@@ -191,7 +191,7 @@ describe Admin::OrganizationContactsController do
 
         delete :destroy, organization_id: @org.id, id: @contact.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@contact.reload.name).to eq 'Moncef Belyamani'
       end
@@ -203,7 +203,7 @@ describe Admin::OrganizationContactsController do
 
         delete :destroy, organization_id: @org.id, id: @contact.id
 
-        expect(response).to redirect_to "/admin/organizations/#{@org.friendly_id}"
+        expect(response).to redirect_to admin_organization_url(@org.friendly_id)
         expect(Contact.find_by(id: @contact.id)).to be_nil
       end
     end

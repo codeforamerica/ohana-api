@@ -23,6 +23,10 @@ Rails.application.configure do
   #   use_native_ttl: true
   # }
 
+  # Specify the asset_host to prevent host header injection.
+  require 'asset_hosts'
+  config.action_controller.asset_host = AssetHosts.new
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: 'lvh.me:8080' }
