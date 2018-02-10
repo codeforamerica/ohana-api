@@ -18,7 +18,7 @@ describe 'PATCH /locations/:id)' do
       market_match: true,
       name: 'Test Location',
       payments: ['Credit Card', 'CalFresh'],
-      products: ['Cheese', 'Flowers'],
+      products: %w[Cheese Flowers],
       short_desc: 'short description',
       transportation: 'BART stop 1 block away.',
       website: 'https://www.example.com',
@@ -26,7 +26,7 @@ describe 'PATCH /locations/:id)' do
       address_attributes: {
         address_1: 'main', city: 'utopia', state_province: 'CA', postal_code: '12345',
         country: 'US'
-      },
+      }
     }
   end
 
