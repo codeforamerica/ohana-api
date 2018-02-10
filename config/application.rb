@@ -17,6 +17,8 @@ Bundler.require(*Rails.groups)
 
 module OhanaApi
   class Application < Rails::Application
+    config.autoload_paths << Rails.root.join('lib')
+
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
       g.test_framework :rspec, fixture: true
@@ -59,7 +61,5 @@ module OhanaApi
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-
-    config.active_job.queue_adapter = :sucker_punch
   end
 end

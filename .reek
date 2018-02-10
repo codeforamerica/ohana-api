@@ -12,6 +12,9 @@ IrresponsibleModule:
 NestedIterators:
   exclude:
     - Admin::OrganizationsController#index
+NilCheck:
+  exclude:
+    - ConfigValidator#required_keys_with_empty_values
 TooManyMethods:
   exclude:
     - Admin::CsvController
@@ -28,6 +31,7 @@ UtilityFunction:
   exclude:
     - Admin::ServicesController#program_ids_for
     - Admin::CsvController#zip_file_name
+    - ConfigValidator#empty_keys_warning
 'spec':
   DataClump:
     enabled: false

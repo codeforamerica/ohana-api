@@ -17,7 +17,7 @@ describe Admin::OrganizationsController do
 
         expect { post :create, organization: attrs }.to change(Organization, :count)
 
-        expect(response).to redirect_to '/admin/organizations'
+        expect(response).to redirect_to admin_organizations_url
       end
     end
 
@@ -27,7 +27,7 @@ describe Admin::OrganizationsController do
 
         expect { post :create, organization: attrs }.to_not change(Organization, :count)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -54,7 +54,7 @@ describe Admin::OrganizationsController do
 
         post :update, id: @org.id, organization: attrs
 
-        expect(response).to redirect_to "/admin/organizations/#{@org.reload.friendly_id}"
+        expect(response).to redirect_to admin_organization_url(@org.reload.friendly_id)
       end
     end
 
@@ -65,7 +65,7 @@ describe Admin::OrganizationsController do
 
         post :update, id: @org.id, organization: attrs
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
         expect(@org.reload.name).to_not eq 'Updated organization'
       end
@@ -77,7 +77,7 @@ describe Admin::OrganizationsController do
 
         post :update, id: @org.id, organization: attrs
 
-        expect(response).to redirect_to "/admin/organizations/#{@org.reload.friendly_id}"
+        expect(response).to redirect_to admin_organization_url(@org.reload.friendly_id)
         expect(@org.reload.name).to eq 'Updated org'
       end
     end
@@ -95,7 +95,7 @@ describe Admin::OrganizationsController do
 
         delete :destroy, id: @organization.id
 
-        expect(response).to redirect_to '/admin/organizations'
+        expect(response).to redirect_to admin_organizations_url
       end
     end
 
@@ -106,7 +106,7 @@ describe Admin::OrganizationsController do
 
         expect { delete :destroy, id: @organization.id }.to_not change(Organization, :count)
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -117,7 +117,7 @@ describe Admin::OrganizationsController do
 
         delete :destroy, id: @organization.id
 
-        expect(response).to redirect_to '/admin/organizations'
+        expect(response).to redirect_to admin_organizations_url
         expect(Organization.find_by(id: @organization.id)).to be_nil
       end
     end
@@ -146,7 +146,7 @@ describe Admin::OrganizationsController do
 
         get :edit, id: @organization.id
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end
@@ -179,7 +179,7 @@ describe Admin::OrganizationsController do
 
         get :new
 
-        expect(response).to redirect_to admin_dashboard_path
+        expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
     end

@@ -59,7 +59,7 @@ class Admin
       organization = Organization.find(params[:id])
       authorize organization
       organization.destroy
-      redirect_to admin_organizations_path
+      redirect_to admin_organizations_url
     end
 
     private

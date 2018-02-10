@@ -4,6 +4,7 @@ feature 'Signing up for a new admin account' do
   scenario 'with all required fields present and valid' do
     sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(page).to have_content 'activate your account'
+    expect(page).to have_content('Admin')
     expect(current_path).to eq(new_admin_session_path)
   end
 

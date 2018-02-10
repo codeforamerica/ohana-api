@@ -15,7 +15,9 @@ jobs:
           ADMIN_APP_TOKEN: testing123
           API_PATH: api
           ADMIN_PATH: admin
+          ASSET_HOST: example.com
           DEFAULT_PER_PAGE: 30
+          DOMAIN_NAME: example.com
           MAX_PER_PAGE: 50
 
       # Specify service dependencies here if necessary

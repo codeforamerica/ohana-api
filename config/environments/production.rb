@@ -60,6 +60,9 @@ Rails.application.configure do
   config.assets.digest = true
 
   config.action_controller.perform_caching = true
+  # Specify the asset_host to prevent host header injection.
+  require 'asset_hosts'
+  config.action_controller.asset_host = AssetHosts.new
 
   # config.cache_store = :readthis_store, {
   #   redis: { url: ENV.fetch('REDISCLOUD_URL'), driver: :hiredis },

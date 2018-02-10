@@ -156,8 +156,16 @@ en:
       delete_keyword: 'Delete this keyword permanently'
       save_changes: 'Save changes & apply edits to database'
       delete_symbol: 'x'
-      download_zip_file: 'Download zip file'
-      generate_zip_file: 'Generate zip file'
+      download_addresses: 'Download Addresses'
+      download_contacts: 'Download Contacts'
+      download_holiday_schedules: 'Download Holiday Schedules'
+      download_locations: 'Download Locations'
+      download_mail_addresses: 'Download Mail Addresses'
+      download_organizations: 'Download Organizations'
+      download_phones: 'Download Phones'
+      download_programs: 'Download Programs'
+      download_regular_schedules: 'Download Regular Schedules'
+      download_services: 'Download Services'
 
     locations:
       forms:
