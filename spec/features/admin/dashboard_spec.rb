@@ -145,8 +145,8 @@ feature 'Admin Home page' do
       expect(page).to_not have_content 'CSV Downloads'
       expect(page).
         to_not have_link(
-          t('admin.buttons.generate_zip_file'),
-          href: admin_csv_all_path
+          t('admin.buttons.download_locations'),
+          href: admin_csv_locations_url
         )
     end
   end
@@ -188,25 +188,15 @@ feature 'Admin Home page' do
       expect(page).to have_link I18n.t('admin.buttons.add_program'), href: new_admin_program_path
     end
 
-    it 'displays link to generate zip file' do
+    it 'displays link to download all tables as CSV files' do
       expect(page).to have_content 'CSV Downloads'
 
-      expect(page).
-        to have_link(t('admin.buttons.generate_zip_file'), href: admin_csv_all_path)
-    end
-
-    it 'displays a notice while the zip is being generated' do
-      click_link t('admin.buttons.generate_zip_file')
-
-      expect(page).to have_content t('admin.notices.zip_file_generation')
-    end
-
-    it 'changes the button text when the zip is ready' do
-      tmp_file_name = Rails.root.join('tmp', 'archive.zip')
-      allow(File).to receive(:exist?).with(tmp_file_name).and_return true
-      visit '/admin'
-
-      expect(page).to have_link t('admin.buttons.download_zip_file')
+      tables = %w[addresses contacts holiday_schedules locations mail_addresses
+                  organizations phones programs regular_schedules services]
+      tables.each do |table|
+        expect(page).
+          to have_link t("admin.buttons.download_#{table}"), href: send(:"admin_csv_#{table}_url")
+      end
     end
   end
 
