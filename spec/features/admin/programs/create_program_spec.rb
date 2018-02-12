@@ -20,7 +20,7 @@ feature 'Create a new program' do
   scenario 'without any required fields' do
     click_button I18n.t('admin.buttons.create_program')
     expect(page).to have_content "Name can't be blank for Program"
-    expect(page).to have_content "Organization can't be blank for Program"
+    expect(page).to have_content 'Organization must exist'
   end
 
   scenario 'with alternate_name', :js do

@@ -7,7 +7,7 @@ describe ConfigValidator do
         'ASSET_HOST' => '',
         'DEFAULT_PER_PAGE' => '',
         'DOMAIN_NAME' => '',
-        'MAX_PER_PAGE' => '',
+        'MAX_PER_PAGE' => ''
       }
     end
 
@@ -17,7 +17,7 @@ describe ConfigValidator do
         'DEFAULT_PER_PAGE' => '30',
         'DOMAIN_NAME' => 'lvh.me',
         'MAX_PER_PAGE' => '30',
-        'DEV_SUBDOMAIN' => '',
+        'DEV_SUBDOMAIN' => ''
       }
     end
 

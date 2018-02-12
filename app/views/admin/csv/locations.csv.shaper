@@ -9,6 +9,6 @@ csv.rows Location.find_each do |csv, location|
             :website, :virtual
 
   csv.cell :accessibility, location.accessibility.join(', ')
-  csv.cell :admin_emails, location.admin_emails.join(', ')
-  csv.cell :languages, location.languages.try(:join, ', ')
+  csv.cell :admin_emails, location.admin_emails&.join(', ')
+  csv.cell :languages, location.languages&.join(', ')
 end

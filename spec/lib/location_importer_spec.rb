@@ -84,7 +84,7 @@ describe LocationImporter do
       let(:content) { invalid_org }
       let(:address) { valid_address }
 
-      errors = ["Line 2: Organization can't be blank for Location"]
+      errors = ['Line 2: Organization must exist']
 
       its(:errors) { is_expected.to eq(errors) }
     end

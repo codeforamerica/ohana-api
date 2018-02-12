@@ -23,7 +23,7 @@ gem 'puma'
 gem 'pundit'
 gem 'rack-cache'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 5.0.6'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5'
 gem 'uglifier', '>= 1.3.0'
@@ -46,10 +46,10 @@ group :test do
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'haml_lint'
   gem 'poltergeist'
+  gem 'rails-controller-testing'
   gem 'rubocop'
-  gem 'shoulda-matchers', require: false
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   gem 'simplecov', require: false
-  gem 'test_after_commit'
   gem 'webmock'
 end
 
@@ -60,7 +60,6 @@ group :development do
   gem 'derailed'
   gem 'flamegraph'
   gem 'letter_opener'
-  gem 'quiet_assets', '>= 1.0.2'
   gem 'rack-mini-profiler'
   gem 'reek'
   gem 'spring'

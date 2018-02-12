@@ -8,8 +8,9 @@ echo "===> Building the Docker image..."
 docker-compose build
 
 echo "===> Setting up the database on the Docker image..."
-docker-compose run --rm web rake db:reset RAILS_ENV=development
-docker-compose run --rm web rake db:reset RAILS_ENV=test
+docker-compose run --rm web bundle exec rake db:reset RAILS_ENV=development
+docker-compose run --rm web bundle exec rails db:environment:set RAILS_ENV=test
+docker-compose run --rm web bundle exec rake db:reset RAILS_ENV=test
 docker-compose run --rm web pg_restore -c --no-owner -d ohana_api_development /ohana-api/data/ohana_api_development.dump -U postgres -h db
 
 echo "===> Starting the Docker image..."

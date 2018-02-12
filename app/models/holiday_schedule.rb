@@ -1,4 +1,4 @@
-class HolidaySchedule < ActiveRecord::Base
+class HolidaySchedule < ApplicationRecord
   include ParentPresenceValidatable
 
   belongs_to :location, touch: true, inverse_of: :holiday_schedules

@@ -27,7 +27,7 @@ feature 'Create a new location' do
     expect(page).to have_content 'Street Address must be provided unless a Location is virtual'
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
-    expect(page).to have_content "Organization can't be blank for Location"
+    expect(page).to have_content 'Organization must exist'
   end
 
   scenario 'with valid mailing address', :js do

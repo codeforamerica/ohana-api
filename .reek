@@ -32,6 +32,9 @@ UtilityFunction:
     - Admin::ServicesController#program_ids_for
     - Admin::CsvController#zip_file_name
     - ConfigValidator#empty_keys_warning
+    - DateValidator#date_from_hash
+    - DateValidator#valid_date_format?
+    - PgArrayValidator#does_not_need_validation?
 'spec':
   DataClump:
     enabled: false

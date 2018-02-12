@@ -1,8 +1,8 @@
-class Program < ActiveRecord::Base
-  belongs_to :organization
+class Program < ApplicationRecord
+  belongs_to :organization, required: true
   has_many :services, dependent: :destroy
 
-  validates :name, :organization,
+  validates :name,
             presence: { message: I18n.t('errors.messages.blank_for_program') }
 
   auto_strip_attributes :alternate_name, :name
