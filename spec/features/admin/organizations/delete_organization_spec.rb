@@ -10,7 +10,7 @@ feature 'Delete organization' do
   scenario 'when submitting warning', :js do
     find_link(I18n.t('admin.buttons.delete_organization')).click
     find_link(I18n.t('admin.buttons.confirm_delete_organization')).click
-    using_wait_time 2 do
+    using_wait_time 5 do
       expect(current_path).to eq admin_organizations_path
       expect(page).not_to have_link 'Parent Agency'
     end
