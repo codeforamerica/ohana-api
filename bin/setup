@@ -14,6 +14,11 @@ Dir.chdir APP_ROOT do
     system 'cp config/application.example.yml config/application.yml'
   end
 
+  unless File.exist?('.foreman')
+    puts '== Copying .foreman.example to .foreman =='
+    system 'cp .foreman.example .foreman'
+  end
+
   if ARGV.shift == "--docker" then
     exit
   end
