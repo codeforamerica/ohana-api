@@ -46,7 +46,7 @@ describe MailAddressImporter do
     context 'when the location_id does not exist' do
       let(:content) { invalid_location }
 
-      errors = ["Line 2: Location can't be blank for Mail Address"]
+      errors = ['Line 2: Location must exist']
 
       its(:errors) { is_expected.to eq(errors) }
     end

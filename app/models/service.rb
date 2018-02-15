@@ -1,5 +1,5 @@
-class Service < ActiveRecord::Base
-  belongs_to :location, touch: true
+class Service < ApplicationRecord
+  belongs_to :location, touch: true, required: true
   belongs_to :program
 
   has_and_belongs_to_many :categories,
@@ -24,7 +24,7 @@ class Service < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
 
-  validates :name, :description, :location, :status,
+  validates :name, :description, :status,
             presence: { message: I18n.t('errors.messages.blank_for_service') }
 
   validates :service_areas, array: { service_area: true }

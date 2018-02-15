@@ -6,7 +6,7 @@ describe Location do
   it { is_expected.to be_valid }
 
   # Associations
-  it { is_expected.to belong_to(:organization) }
+  it { is_expected.to belong_to(:organization).required }
   it { is_expected.to have_one(:address).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }
   it { is_expected.to have_one(:mail_address).dependent(:destroy).inverse_of(:location) }
@@ -25,9 +25,6 @@ describe Location do
 
   it do
     is_expected.to validate_presence_of(:description).with_message("can't be blank for Location")
-  end
-  it do
-    is_expected.to validate_presence_of(:organization).with_message("can't be blank for Location")
   end
 
   # Validations
@@ -72,8 +69,6 @@ describe Location do
         :tape_braille, :tty, :wheelchair, :wheelchair_van
       )
   end
-
-  it { is_expected.to serialize(:admin_emails).as(Array) }
 
   describe 'invalidations' do
     context 'non-virtual and without an address' do
@@ -237,6 +232,34 @@ describe Location do
       expect(loc).to receive(:geocode)
 
       loc.save
+    end
+  end
+
+  describe 'native Postgres array columns' do
+    it 'is not valid when the value is not an array' do
+      org = build_stubbed(:nearby_org)
+      loc = Location.new(
+        name: 'foo',
+        description: 'bar',
+        address_attributes: attributes_for(:address),
+        languages: 'Spanish',
+        organization_id: org.id
+      )
+
+      expect(loc).to_not be_valid
+    end
+
+    it 'is valid when the value is an array' do
+      org = create(:nearby_org)
+      loc = Location.new(
+        name: 'foo',
+        description: 'bar',
+        address_attributes: attributes_for(:address),
+        languages: %w[French]
+      )
+      loc.organization_id = org.id
+
+      expect(loc).to be_valid
     end
   end
 end

@@ -1,4 +1,4 @@
-class Contact < ActiveRecord::Base
+class Contact < ApplicationRecord
   include ParentPresenceValidatable
 
   default_scope { order('id ASC') }

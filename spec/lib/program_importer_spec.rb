@@ -42,7 +42,7 @@ describe ProgramImporter do
     context 'when a parent does not exist' do
       let(:content) { no_parent }
 
-      errors = ["Line 2: Organization can't be blank for Program"]
+      errors = ['Line 2: Organization must exist']
 
       its(:errors) { is_expected.to eq(errors) }
     end

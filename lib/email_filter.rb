@@ -17,14 +17,14 @@ class EmailFilter
   private
 
   def match_generic_email(email)
-    @model_class.where(arel_model[:admin_emails].matches("%#{email}%").
-                or(arel_model[:email].eq(email)))
+    @model_class.where('? = ANY(admin_emails) OR email = ?', email, email)
   end
 
   def match_regular_email(email)
-    @model_class.where(arel_model[:admin_emails].matches("%#{email}%").
-                or(arel_model[:website].matches("%#{domain_from(email)}%")).
-                or(arel_model[:email].matches("%#{domain_from(email)}")))
+    @model_class.where(
+      '? = ANY(admin_emails) OR website LIKE ? OR email LIKE ?',
+      email, "%#{domain_from(email)}%", "%#{domain_from(email)}%"
+    )
   end
 
   def domain_from(email)
