@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_many :api_applications, dependent: :destroy
   accepts_nested_attributes_for :api_applications
 

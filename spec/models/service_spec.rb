@@ -5,7 +5,7 @@ describe Service do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to belong_to(:location).touch(true) }
+  it { is_expected.to belong_to(:location).touch(true).required }
   it { is_expected.to belong_to(:program) }
 
   it { is_expected.to have_many(:regular_schedules).dependent(:destroy).inverse_of(:service) }
@@ -25,7 +25,6 @@ describe Service do
     is_expected.to_not validate_presence_of(:application_process).
       with_message("can't be blank for Service")
   end
-  it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
   it { is_expected.to serialize(:keywords).as(Array) }
@@ -80,7 +79,6 @@ describe Service do
       is_expected.to_not validate_presence_of(:application_process).
         with_message("can't be blank for Service")
     end
-    it { is_expected.to validate_presence_of(:location).with_message("can't be blank for Service") }
   end
 
   describe 'auto_strip_attributes' do

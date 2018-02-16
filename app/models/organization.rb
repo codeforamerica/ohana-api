@@ -1,4 +1,4 @@
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   default_scope { order('id DESC') }
 
   has_many :locations, dependent: :destroy

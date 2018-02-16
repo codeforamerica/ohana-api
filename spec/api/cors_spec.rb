@@ -3,11 +3,16 @@ require 'rails_helper'
 describe 'CORS Preflight Request via OPTIONS HTTP method' do
   context 'when ORIGIN is specified and resource is allowed' do
     before :each do
-      options api_organizations_url(subdomain: ENV['API_SUBDOMAIN']), {},
-              'HTTP_ORIGIN' => 'http://cors.example.com',
-              'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'Content-Type',
-              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-              'REQUEST_METHOD' => 'OPTIONS'
+      process(
+        :options,
+        api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
+        params: {},
+        headers: {
+          'HTTP_ORIGIN' => 'http://cors.example.com',
+          'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'Content-Type',
+          'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
+        }
+      )
     end
 
     it 'returns a 200 status with no content' do
@@ -43,47 +48,71 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     end
 
     it 'allows access to the locations endpoint' do
-      options api_locations_url(subdomain: ENV['API_SUBDOMAIN']), {},
-              'HTTP_ORIGIN' => 'http://cors.example.com',
-              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-              'REQUEST_METHOD' => 'OPTIONS'
+      process(
+        :options,
+        api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
+        params: {},
+        headers: {
+          'HTTP_ORIGIN' => 'http://cors.example.com',
+          'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
+        }
+      )
 
       expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'allows access to a specific location' do
-      options api_location_url(1, subdomain: ENV['API_SUBDOMAIN']), {},
-              'HTTP_ORIGIN' => 'http://cors.example.com',
-              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-              'REQUEST_METHOD' => 'OPTIONS'
+      process(
+        :options,
+        api_location_url(1, subdomain: ENV['API_SUBDOMAIN']),
+        params: {},
+        headers: {
+          'HTTP_ORIGIN' => 'http://cors.example.com',
+          'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
+        }
+      )
 
       expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'allows access to a specific organization' do
-      options api_organization_url(1, subdomain: ENV['API_SUBDOMAIN']), {},
-              'HTTP_ORIGIN' => 'http://cors.example.com',
-              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-              'REQUEST_METHOD' => 'OPTIONS'
+      process(
+        :options,
+        api_organization_url(1, subdomain: ENV['API_SUBDOMAIN']),
+        params: {},
+        headers: {
+          'HTTP_ORIGIN' => 'http://cors.example.com',
+          'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
+        }
+      )
 
       expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'allows access to the search endpoint' do
-      options api_search_index_url(keyword: 'food', subdomain: ENV['API_SUBDOMAIN']),
-              {},
-              'HTTP_ORIGIN' => 'http://cors.example.com',
-              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-              'REQUEST_METHOD' => 'OPTIONS'
+      process(
+        :options,
+        api_search_index_url(keyword: 'food', subdomain: ENV['API_SUBDOMAIN']),
+        params: {},
+        headers: {
+          'HTTP_ORIGIN' => 'http://cors.example.com',
+          'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
+        }
+      )
 
       expect(headers['Access-Control-Allow-Origin']).to eq('*')
     end
 
     it 'does not allow access to non-whitelisted endpoints' do
-      options url_for('/api/foo'), {},
-              'HTTP_ORIGIN' => 'http://cors.example.com',
-              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-              'REQUEST_METHOD' => 'OPTIONS'
+      process(
+        :options,
+        url_for('/api/foo'),
+        params: {},
+        headers: {
+          'HTTP_ORIGIN' => 'http://cors.example.com',
+          'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET'
+        }
+      )
 
       expect(headers.keys).not_to include('Access-Control-Allow-Origin')
     end
@@ -91,8 +120,14 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
 
   context 'when request is not a valid preflight request' do
     before(:each) do
-      options api_organizations_url(subdomain: ENV['API_SUBDOMAIN']), {},
-              'HTTP_ORIGIN' => 'http://cors.example.com'
+      process(
+        :options,
+        api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
+        params: {},
+        headers: {
+          'HTTP_ORIGIN' => 'http://cors.example.com'
+        }
+      )
     end
 
     it 'returns a 204 status with no content' do

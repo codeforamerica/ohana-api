@@ -1,11 +1,10 @@
-class MailAddress < ActiveRecord::Base
-  belongs_to :location, touch: true, inverse_of: :mail_address
+class MailAddress < ApplicationRecord
+  belongs_to :location, touch: true, inverse_of: :mail_address, required: true
 
   validates :address_1,
             :city,
             :postal_code,
             :country,
-            :location,
             presence: { message: I18n.t('errors.messages.blank_for_mail_address') }
 
   validates :state_province, state_province: true

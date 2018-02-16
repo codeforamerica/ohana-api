@@ -1,4 +1,4 @@
-class Admin < ActiveRecord::Base
+class Admin < ApplicationRecord
   # Devise already checks for presence of email and password.
   validates :name, presence: true
   validates :email, email: true, uniqueness: { case_sensitive: false }
