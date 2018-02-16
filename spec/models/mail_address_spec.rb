@@ -5,7 +5,7 @@ describe MailAddress do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to belong_to(:location).touch(true) }
+  it { is_expected.to belong_to(:location).touch(true).inverse_of(:mail_address).required }
 
   it do
     is_expected.to validate_presence_of(:address_1).with_message("can't be blank for Mail Address")

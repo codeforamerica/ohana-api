@@ -1,4 +1,4 @@
-class RegularSchedule < ActiveRecord::Base
+class RegularSchedule < ApplicationRecord
   include ParentPresenceValidatable
 
   default_scope { order('weekday ASC') }

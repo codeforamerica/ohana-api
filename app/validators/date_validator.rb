@@ -15,10 +15,26 @@ class DateValidator < ActiveModel::EachValidator
 
   private
 
+  # This is necessary to work around a Rails bug:
+  # https://github.com/rails/rails/issues/28521
+  def date_from_hash(date)
+    time = ::Time.utc(date[1], date[2], date[3])
+    ::Date.new(time.year, time.mon, time.mday)
+  end
+
   def date_valid?(date)
-    return false unless date.include?('/') || date.include?(',')
+    return valid_date_from_hash?(date) if date.is_a?(Hash)
+    return false unless valid_date_format?(date)
     return Date.valid_date?(*split_date(date).rotate(2)) if month_day? || date.include?(',')
     return Date.valid_date?(*split_date(date).reverse) if day_month?
+  end
+
+  def valid_date_format?(date)
+    date.include?('/') || date.include?(',')
+  end
+
+  def valid_date_from_hash?(date)
+    date_from_hash(date).is_a?(Date)
   end
 
   def month_day?
@@ -40,6 +56,7 @@ class DateValidator < ActiveModel::EachValidator
   end
 
   def convert_value_to_date(record, attribute, value)
+    return record[attribute] = date_from_hash(value) if value.is_a?(Hash)
     record[attribute] = parse_date(value)
   end
 

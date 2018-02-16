@@ -1,4 +1,4 @@
-class ApiApplication < ActiveRecord::Base
+class ApiApplication < ApplicationRecord
   belongs_to :user
 
   validates :name, :api_token, uniqueness: true

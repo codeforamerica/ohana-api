@@ -47,7 +47,7 @@ feature 'Downloading Locations CSV' do
 
     it 'converts value to nil or empty string' do
       expect(csv.second).to eq [
-        @loc.id.to_s, @loc.organization_id.to_s, '', '', nil,
+        @loc.id.to_s, @loc.organization_id.to_s, '', nil, nil,
         'Provides jobs training', nil, nil, 'Other', nil, '37.583939',
         '-122.3715745', 'false', 'VRS Services', '', '', nil,
         nil, nil, 'false'

@@ -26,11 +26,11 @@ feature 'Create a new location' do
   scenario 'without any required fields' do
     click_button I18n.t('admin.buttons.create_location')
 
-    expect(page).to have_content "Organization can't be blank for Location"
     expect(page).to have_content t('errors.messages.no_address')
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
     expect(page).to have_content "Kind can't be blank for Location"
+    expect(page).to have_content 'Organization must exist'
   end
 
   scenario 'with valid mailing address', :js do

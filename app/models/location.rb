@@ -1,5 +1,5 @@
-class Location < ActiveRecord::Base
-  belongs_to :organization
+class Location < ApplicationRecord
+  belongs_to :organization, required: true
 
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address, allow_destroy: true
@@ -27,7 +27,7 @@ class Location < ActiveRecord::Base
             presence: { message: I18n.t('errors.messages.no_address') },
             unless: :virtual?
 
-  validates :kind, :organization, :name,
+  validates :kind, :name,
             presence: { message: I18n.t('errors.messages.blank_for_location') }
 
   validates :description,
@@ -65,10 +65,6 @@ class Location < ActiveRecord::Base
             in: %i[arts clinics education entertainment farmers_markets
                    government human_services libraries museums other
                    parks sports]
-
-  # List of admin emails that should have access to edit a location's info.
-  # Admin emails can be added to a location via the Admin interface.
-  serialize :admin_emails, Array
 
   serialize :ask_for, Array
   serialize :products, Array

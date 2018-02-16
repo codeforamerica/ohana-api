@@ -1,7 +1,39 @@
-engines:
+version: "2" # required to adjust maintainability checks
+checks:
+  argument-count:
+    config:
+      threshold: 4
+  complex-logic:
+    config:
+      threshold: 4
+  file-lines:
+    enabled: false
+  method-complexity:
+    config:
+      threshold: 6
+  method-count:
+    enabled: false
+  method-lines:
+    enabled: false
+  nested-control-flow:
+    config:
+      threshold: 4
+  return-statements:
+    config:
+      threshold: 4
+  similar-code:
+    config:
+      threshold: # language-specific defaults. an override will affect all languages.
+  identical-code:
+    config:
+      threshold: # language-specific defaults. an override will affect all languages.
+
+plugins:
   brakeman:
     enabled: true
   bundler-audit:
+    enabled: true
+  coffeelint:
     enabled: true
   csslint:
     enabled: true
@@ -9,10 +41,9 @@ engines:
     enabled: true
     config:
       languages:
-      - ruby
-        # mass_threshold: 30
-      - javascript
-    exclude_paths:
+        - ruby
+        - javascript
+    exclude_patterns:
     - 'spec/**/*'
     - 'db/migrate/*'
     - 'db/schema.rb'
@@ -22,15 +53,9 @@ engines:
     enabled: true
   reek:
     enabled: true
-    exclude_paths:
+    exclude_patterns:
     - 'db/migrate/*'
   rubocop:
     enabled: true
   scss-lint:
     enabled: true
-
-ratings:
-  paths:
-  - app/**
-  - lib/**
-  - '**.rb'
