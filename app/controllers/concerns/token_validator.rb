@@ -10,7 +10,7 @@ module TokenValidator
   end
 
   def valid_api_token?
-    token = env['HTTP_X_API_TOKEN'].to_s
+    token = request.env['HTTP_X_API_TOKEN'].to_s
     token.present? && token == ENV['ADMIN_APP_TOKEN']
   end
 

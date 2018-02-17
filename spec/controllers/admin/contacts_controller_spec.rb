@@ -11,7 +11,7 @@ describe Admin::ContactsController do
       it 'allows access to edit contact' do
         log_in_as_admin(:super_admin)
 
-        get :edit, location_id: @loc.id, id: @contact.id
+        get :edit, params: { location_id: @loc.id, id: @contact.id }
 
         expect(response).to render_template(:edit)
       end
@@ -22,7 +22,7 @@ describe Admin::ContactsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :edit, location_id: @loc.id, id: @contact.id
+        get :edit, params: { location_id: @loc.id, id: @contact.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -33,7 +33,7 @@ describe Admin::ContactsController do
       it 'allows access' do
         log_in_as_admin(:location_admin)
 
-        get :edit, location_id: @loc.id, id: @contact.id
+        get :edit, params: { location_id: @loc.id, id: @contact.id }
 
         expect(response).to render_template(:edit)
       end
@@ -49,7 +49,7 @@ describe Admin::ContactsController do
       it 'allows access to edit contact' do
         log_in_as_admin(:super_admin)
 
-        get :new, location_id: @loc.id
+        get :new, params: { location_id: @loc.id }
 
         expect(response).to render_template(:new)
       end
@@ -60,7 +60,7 @@ describe Admin::ContactsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :new, location_id: @loc.id
+        get :new, params: { location_id: @loc.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -71,7 +71,7 @@ describe Admin::ContactsController do
       it 'allows access' do
         log_in_as_admin(:location_admin)
 
-        get :new, location_id: @loc.id
+        get :new, params: { location_id: @loc.id }
 
         expect(response).to render_template(:new)
       end
@@ -87,7 +87,7 @@ describe Admin::ContactsController do
       it 'allows access to create contact' do
         log_in_as_admin(:super_admin)
 
-        post :create, location_id: @loc.id, contact: { name: 'John' }
+        post :create, params: { location_id: @loc.id, contact: { name: 'John' } }
 
         expect(response).to redirect_to admin_location_url(@loc.friendly_id)
       end
@@ -97,7 +97,7 @@ describe Admin::ContactsController do
       it 'redirects to admin dashboard' do
         log_in_as_admin(:admin)
 
-        post :create, location_id: @loc.id, contact: { name: 'John' }
+        post :create, params: { location_id: @loc.id, contact: { name: 'John' } }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -109,7 +109,7 @@ describe Admin::ContactsController do
       it 'creates the contact' do
         log_in_as_admin(:location_admin)
 
-        post :create, location_id: @loc.id, contact: { name: 'John' }
+        post :create, params: { location_id: @loc.id, contact: { name: 'John' } }
 
         expect(response).to redirect_to admin_location_url(@loc.friendly_id)
         expect(@loc.contacts.last.name).to eq 'John'
@@ -127,7 +127,7 @@ describe Admin::ContactsController do
       it 'allows access to update contact' do
         log_in_as_admin(:super_admin)
 
-        post :update, location_id: @loc.id, id: @contact.id, contact: { name: 'John' }
+        post :update, params: { location_id: @loc.id, id: @contact.id, contact: { name: 'John' } }
 
         expect(response).
           to redirect_to admin_location_contact_url(@loc.friendly_id, @contact.id)
@@ -138,7 +138,7 @@ describe Admin::ContactsController do
       it 'redirects to admin dashboard' do
         log_in_as_admin(:admin)
 
-        post :update, location_id: @loc.id, id: @contact.id, contact: { name: 'John' }
+        post :update, params: { location_id: @loc.id, id: @contact.id, contact: { name: 'John' } }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -150,7 +150,7 @@ describe Admin::ContactsController do
       it 'updates the contact' do
         log_in_as_admin(:location_admin)
 
-        post :update, location_id: @loc.id, id: @contact.id, contact: { name: 'John' }
+        post :update, params: { location_id: @loc.id, id: @contact.id, contact: { name: 'John' } }
 
         expect(response).
           to redirect_to admin_location_contact_url(@loc.friendly_id, @contact.id)
@@ -169,7 +169,7 @@ describe Admin::ContactsController do
       it 'allows access to destroy contact' do
         log_in_as_admin(:super_admin)
 
-        delete :destroy, location_id: @loc.id, id: @contact.id
+        delete :destroy, params: { location_id: @loc.id, id: @contact.id }
 
         expect(response).to redirect_to admin_location_url(@loc.friendly_id)
       end
@@ -179,7 +179,7 @@ describe Admin::ContactsController do
       it 'redirects to admin dashboard' do
         log_in_as_admin(:admin)
 
-        delete :destroy, location_id: @loc.id, id: @contact.id
+        delete :destroy, params: { location_id: @loc.id, id: @contact.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -191,7 +191,7 @@ describe Admin::ContactsController do
       it 'destroys the contact' do
         log_in_as_admin(:location_admin)
 
-        delete :destroy, location_id: @loc.id, id: @contact.id
+        delete :destroy, params: { location_id: @loc.id, id: @contact.id }
 
         expect(response).to redirect_to admin_location_url(@loc.friendly_id)
         expect(Contact.find_by(id: @contact.id)).to be_nil

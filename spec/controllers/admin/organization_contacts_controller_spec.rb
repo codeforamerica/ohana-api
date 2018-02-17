@@ -12,7 +12,7 @@ describe Admin::OrganizationContactsController do
       it 'allows access to edit contact' do
         log_in_as_admin(:super_admin)
 
-        get :edit, organization_id: @org.id, id: @contact.id
+        get :edit, params: { organization_id: @org.id, id: @contact.id }
 
         expect(response).to render_template(:edit)
       end
@@ -23,7 +23,7 @@ describe Admin::OrganizationContactsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :edit, organization_id: @org.id, id: @contact.id
+        get :edit, params: { organization_id: @org.id, id: @contact.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -34,7 +34,7 @@ describe Admin::OrganizationContactsController do
       it 'allows access to edit contact' do
         log_in_as_admin(:location_admin)
 
-        get :edit, organization_id: @org.id, id: @contact.id
+        get :edit, params: { organization_id: @org.id, id: @contact.id }
 
         expect(response).to render_template(:edit)
       end
@@ -51,7 +51,7 @@ describe Admin::OrganizationContactsController do
       it 'allows access to edit contact' do
         log_in_as_admin(:super_admin)
 
-        get :new, organization_id: @org.id
+        get :new, params: { organization_id: @org.id }
 
         expect(response).to render_template(:new)
       end
@@ -62,7 +62,7 @@ describe Admin::OrganizationContactsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :new, organization_id: @org.id
+        get :new, params: { organization_id: @org.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -73,7 +73,7 @@ describe Admin::OrganizationContactsController do
       it 'allows access to create a new contact' do
         log_in_as_admin(:location_admin)
 
-        get :new, organization_id: @org.id
+        get :new, params: { organization_id: @org.id }
 
         expect(response).to render_template(:new)
       end
@@ -90,7 +90,7 @@ describe Admin::OrganizationContactsController do
       it 'allows access to create contact' do
         log_in_as_admin(:super_admin)
 
-        post :create, organization_id: @org.id, contact: { name: 'Jane' }
+        post :create, params: { organization_id: @org.id, contact: { name: 'Jane' } }
 
         expect(response).to redirect_to admin_organization_url(@org.friendly_id)
       end
@@ -101,7 +101,7 @@ describe Admin::OrganizationContactsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        post :create, organization_id: @org.id, contact: { name: 'Jane' }
+        post :create, params: { organization_id: @org.id, contact: { name: 'Jane' } }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -115,7 +115,7 @@ describe Admin::OrganizationContactsController do
         organization = location.organization
         log_in_as_admin(:location_admin)
 
-        post :create, organization_id: organization.id, contact: { name: 'Jane' }
+        post :create, params: { organization_id: organization.id, contact: { name: 'Jane' } }
 
         expect(response).to redirect_to admin_organization_url(organization.friendly_id)
         expect(organization.contacts.last.name).to eq 'Jane'
@@ -134,7 +134,8 @@ describe Admin::OrganizationContactsController do
       it 'allows access to update contact' do
         log_in_as_admin(:super_admin)
 
-        post :update, organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' }
+        post :update,
+             params: { organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' } }
 
         expect(response).
           to redirect_to admin_organization_contact_url(@org.friendly_id, @contact.id)
@@ -146,7 +147,8 @@ describe Admin::OrganizationContactsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        post :update, organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' }
+        post :update,
+             params: { organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' } }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -158,7 +160,8 @@ describe Admin::OrganizationContactsController do
       it 'updates the contact' do
         log_in_as_admin(:location_admin)
 
-        post :update, organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' }
+        post :update,
+             params: { organization_id: @org.id, id: @contact.id, contact: { name: 'Jane' } }
 
         expect(response).
           to redirect_to admin_organization_contact_url(@org.friendly_id, @contact.id)
@@ -178,7 +181,7 @@ describe Admin::OrganizationContactsController do
       it 'allows access to destroy contact' do
         log_in_as_admin(:super_admin)
 
-        delete :destroy, organization_id: @org.id, id: @contact.id
+        delete :destroy, params: { organization_id: @org.id, id: @contact.id }
 
         expect(response).to redirect_to admin_organization_url(@org.friendly_id)
       end
@@ -189,7 +192,7 @@ describe Admin::OrganizationContactsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        delete :destroy, organization_id: @org.id, id: @contact.id
+        delete :destroy, params: { organization_id: @org.id, id: @contact.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -201,7 +204,7 @@ describe Admin::OrganizationContactsController do
       it 'destroys the contact' do
         log_in_as_admin(:location_admin)
 
-        delete :destroy, organization_id: @org.id, id: @contact.id
+        delete :destroy, params: { organization_id: @org.id, id: @contact.id }
 
         expect(response).to redirect_to admin_organization_url(@org.friendly_id)
         expect(Contact.find_by(id: @contact.id)).to be_nil

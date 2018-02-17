@@ -15,7 +15,7 @@ describe Admin::OrganizationsController do
       it 'allows access to create organization' do
         log_in_as_admin(:super_admin)
 
-        expect { post :create, organization: attrs }.to change(Organization, :count)
+        expect { post :create, params: { organization: attrs } }.to change(Organization, :count)
 
         expect(response).to redirect_to admin_organizations_url
       end
@@ -25,7 +25,7 @@ describe Admin::OrganizationsController do
       it 'redirects to admin dashboard' do
         log_in_as_admin(:admin)
 
-        expect { post :create, organization: attrs }.to_not change(Organization, :count)
+        expect { post :create, params: { organization: attrs } }.to_not change(Organization, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -52,7 +52,7 @@ describe Admin::OrganizationsController do
       it 'allows access to update organization' do
         log_in_as_admin(:super_admin)
 
-        post :update, id: @org.id, organization: attrs
+        post :update, params: { id: @org.id, organization: attrs }
 
         expect(response).to redirect_to admin_organization_url(@org.reload.friendly_id)
       end
@@ -63,7 +63,7 @@ describe Admin::OrganizationsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        post :update, id: @org.id, organization: attrs
+        post :update, params: { id: @org.id, organization: attrs }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -75,7 +75,7 @@ describe Admin::OrganizationsController do
       it 'updates the organization' do
         log_in_as_admin(:location_admin)
 
-        post :update, id: @org.id, organization: attrs
+        post :update, params: { id: @org.id, organization: attrs }
 
         expect(response).to redirect_to admin_organization_url(@org.reload.friendly_id)
         expect(@org.reload.name).to eq 'Updated org'
@@ -93,7 +93,7 @@ describe Admin::OrganizationsController do
       it 'allows access to destroy organization' do
         log_in_as_admin(:super_admin)
 
-        delete :destroy, id: @organization.id
+        delete :destroy, params: { id: @organization.id }
 
         expect(response).to redirect_to admin_organizations_url
       end
@@ -104,7 +104,9 @@ describe Admin::OrganizationsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        expect { delete :destroy, id: @organization.id }.to_not change(Organization, :count)
+        expect do
+          delete :destroy, params: { id: @organization.id }
+        end.to_not change(Organization, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -115,7 +117,7 @@ describe Admin::OrganizationsController do
       it 'destroys the organization' do
         log_in_as_admin(:location_admin)
 
-        delete :destroy, id: @organization.id
+        delete :destroy, params: { id: @organization.id }
 
         expect(response).to redirect_to admin_organizations_url
         expect(Organization.find_by(id: @organization.id)).to be_nil
@@ -133,7 +135,7 @@ describe Admin::OrganizationsController do
       it 'allows access to destroy organization' do
         log_in_as_admin(:super_admin)
 
-        get :edit, id: @organization.id
+        get :edit, params: { id: @organization.id }
 
         expect(response).to render_template(:edit)
       end
@@ -144,7 +146,7 @@ describe Admin::OrganizationsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :edit, id: @organization.id
+        get :edit, params: { id: @organization.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -155,7 +157,7 @@ describe Admin::OrganizationsController do
       it 'destroys the organization' do
         log_in_as_admin(:location_admin)
 
-        get :edit, id: @organization.id
+        get :edit, params: { id: @organization.id }
 
         expect(response).to render_template(:edit)
       end

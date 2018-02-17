@@ -12,7 +12,7 @@ describe Admin::ProgramsController do
       it 'allows access to edit program' do
         log_in_as_admin(:super_admin)
 
-        get :edit, id: @program.id
+        get :edit, params: { id: @program.id }
 
         expect(response).to render_template(:edit)
       end
@@ -23,7 +23,7 @@ describe Admin::ProgramsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :edit, id: @program.id
+        get :edit, params: { id: @program.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -34,7 +34,7 @@ describe Admin::ProgramsController do
       it 'allows access to edit program' do
         log_in_as_admin(:location_admin)
 
-        get :edit, id: @program.id
+        get :edit, params: { id: @program.id }
 
         expect(response).to render_template(:edit)
       end
@@ -88,7 +88,7 @@ describe Admin::ProgramsController do
       it 'allows access to create program' do
         log_in_as_admin(:super_admin)
 
-        post :create, program: { name: 'New program', organization_id: @org.id }
+        post :create, params: { program: { name: 'New program', organization_id: @org.id } }
 
         expect(response).to redirect_to admin_programs_url
       end
@@ -99,8 +99,9 @@ describe Admin::ProgramsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        expect { post :create, program: { name: 'New program', organization_id: @org.id } }.
-          to_not change(Program, :count)
+        expect do
+          post :create, params: { program: { name: 'New program', organization_id: @org.id } }
+        end.to_not change(Program, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -112,7 +113,7 @@ describe Admin::ProgramsController do
       it 'allows program creation' do
         log_in_as_admin(:location_admin)
 
-        post :create, program: { name: 'New program', organization_id: @org.id }
+        post :create, params: { program: { name: 'New program', organization_id: @org.id } }
 
         expect(response).to redirect_to admin_programs_url
       end
@@ -130,7 +131,7 @@ describe Admin::ProgramsController do
       it 'allows access to update program' do
         log_in_as_admin(:super_admin)
 
-        post :update, id: @program.id, program: { name: 'Updated program' }
+        post :update, params: { id: @program.id, program: { name: 'Updated program' } }
 
         expect(response).to redirect_to admin_program_url(@program.id)
       end
@@ -141,7 +142,7 @@ describe Admin::ProgramsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        post :update, id: @program.id, program: { name: 'Updated program' }
+        post :update, params: { id: @program.id, program: { name: 'Updated program' } }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -153,7 +154,7 @@ describe Admin::ProgramsController do
       it 'updates the program' do
         log_in_as_admin(:location_admin)
 
-        post :update, id: @program.id, program: { name: 'Updated program' }
+        post :update, params: { id: @program.id, program: { name: 'Updated program' } }
 
         expect(response).to redirect_to admin_program_url(@program.id)
         expect(@program.reload.name).to eq 'Updated program'
@@ -172,7 +173,7 @@ describe Admin::ProgramsController do
       it 'allows access to destroy program' do
         log_in_as_admin(:super_admin)
 
-        delete :destroy, id: @program.id
+        delete :destroy, params: { id: @program.id }
 
         expect(response).to redirect_to admin_programs_url
       end
@@ -183,7 +184,7 @@ describe Admin::ProgramsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        expect { delete :destroy, id: @program.id }.to_not change(Program, :count)
+        expect { delete :destroy, params: { id: @program.id } }.to_not change(Program, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -194,7 +195,7 @@ describe Admin::ProgramsController do
       it 'destroys the program' do
         log_in_as_admin(:location_admin)
 
-        delete :destroy, id: @program.id
+        delete :destroy, params: { id: @program.id }
 
         expect(response).to redirect_to admin_programs_url
         expect(Program.find_by(id: @program.id)).to be_nil

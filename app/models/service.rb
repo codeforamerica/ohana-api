@@ -46,7 +46,7 @@ class Service < ApplicationRecord
   enumerize :status, in: %i[active defunct inactive]
 
   def self.with_locations(ids)
-    joins(:location).where('location_id IN (?)', ids).uniq
+    joins(:location).where('location_id IN (?)', ids).distinct
   end
 
   after_save :update_location_status, if: :status_changed?
