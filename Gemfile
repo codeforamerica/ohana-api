@@ -55,7 +55,7 @@ end
 
 group :development do
   gem 'better_errors', '>= 0.7.2'
-  gem 'binding_of_caller', '>= 0.7.1', platforms: %i[mri_19 rbx]
+  gem 'binding_of_caller', platforms: %i[mri_19 rbx]
   gem 'bummr'
   gem 'derailed'
   gem 'flamegraph'

@@ -73,7 +73,7 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.3)
-    bullet (5.7.2)
+    bullet (5.7.3)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11.0)
     bummr (0.2.1)
@@ -384,7 +384,7 @@ DEPENDENCIES
   ancestry
   auto_strip_attributes (~> 2.0)
   better_errors (>= 0.7.2)
-  binding_of_caller (>= 0.7.1)
+  binding_of_caller
   bootstrap-sass (~> 3.3.0)
   bullet
   bummr
