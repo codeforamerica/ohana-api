@@ -38,7 +38,7 @@ class Organization < ApplicationRecord
 
   def needs_touch?
     return false if locations.count.zero?
-    name_changed?
+    saved_change_to_name?
   end
 
   def touch_locations

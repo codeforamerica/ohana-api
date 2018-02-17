@@ -34,7 +34,7 @@ module Search
     end
 
     def rank_for(query)
-      sanitized = ActiveRecord::Base.sanitize(query)
+      sanitized = ActiveRecord::Base.connection.quote(query)
 
       <<-RANK
         ts_rank(locations.tsv_body, plainto_tsquery('english', #{sanitized}))

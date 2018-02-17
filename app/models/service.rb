@@ -49,7 +49,7 @@ class Service < ApplicationRecord
     joins(:location).where('location_id IN (?)', ids).distinct
   end
 
-  after_save :update_location_status, if: :status_changed?
+  after_save :update_location_status, if: :saved_change_to_status?
 
   private
 
