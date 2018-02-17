@@ -15,7 +15,9 @@ module PaginationHeaders
   end
 
   def filtered_params
-    params.except(:controller, :format, :action, :subdomain)
+    params.permit(
+      { category: [] }, :category, :keyword, :language, :org_name, :service_area, :status, :per_page
+    )
   end
 
   def url

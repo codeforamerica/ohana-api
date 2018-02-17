@@ -74,7 +74,7 @@ FriendlyId.defaults do |config|
   # rubocop:disable Lint/AmbiguousBlockAssociation
   config.use Module.new {
     def should_generate_new_friendly_id?
-      slug.blank? || name_changed?
+      slug.blank? || saved_change_to_name?
     end
   }
   # rubocop:enable Lint/AmbiguousBlockAssociation
