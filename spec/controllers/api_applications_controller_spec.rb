@@ -38,7 +38,7 @@ describe ApiApplicationsController do
   describe 'GET edit' do
     it 'assigns the requested api_application as @api_application' do
       api_application = @user.api_applications.create! valid_attributes
-      get :edit, id: api_application.to_param
+      get :edit, params: { id: api_application.to_param }
       expect(assigns(:api_application)).to eq(api_application)
     end
   end
@@ -46,25 +46,25 @@ describe ApiApplicationsController do
   describe 'POST create' do
     describe 'with valid params' do
       it 'creates a new ApiApplication' do
-        expect { post :create, api_application: valid_attributes }.
+        expect { post :create, params: { api_application: valid_attributes } }.
           to change { @user.reload.api_applications.count }.by(1)
       end
 
       it 'assigns a newly created api_application as @api_application' do
-        post :create, api_application: valid_attributes
+        post :create, params: { api_application: valid_attributes }
         expect(assigns(:api_application)).to be_a(ApiApplication)
         expect(assigns(:api_application)).to be_persisted
       end
 
       it 'redirects to the created api_application' do
-        post :create, api_application: valid_attributes
+        post :create, params: { api_application: valid_attributes }
         new_app = @user.reload.api_applications.last
         expect(response).
           to redirect_to edit_api_application_url(new_app)
       end
 
       it 'generates an access token' do
-        post :create, api_application: valid_attributes
+        post :create, params: { api_application: valid_attributes }
         api_application = @user.reload.api_applications.last
         expect(api_application.api_token).not_to be_blank
       end
@@ -72,12 +72,12 @@ describe ApiApplicationsController do
 
     describe 'with invalid params' do
       it 'assigns a new but unsaved api_application as @api_application' do
-        post :create, api_application: invalid_attributes
+        post :create, params: { api_application: invalid_attributes }
         expect(assigns(:api_application)).to be_a_new(ApiApplication)
       end
 
       it "re-renders the 'new' template" do
-        post :create, api_application: invalid_attributes
+        post :create, params: { api_application: invalid_attributes }
         expect(response).to render_template('new')
       end
     end
@@ -87,7 +87,7 @@ describe ApiApplicationsController do
     describe 'with valid params' do
       it 'updates the requested api_application' do
         api_application = @user.api_applications.create! valid_attributes
-        put :update, id: api_application, api_application: { name: 'test' }
+        put :update, params: { id: api_application, api_application: { name: 'test' } }
         api_application.reload
         expect(api_application.name).to eq('test')
       end
@@ -96,8 +96,10 @@ describe ApiApplicationsController do
         api_application = @user.api_applications.create! valid_attributes
         put(
           :update,
-          id: api_application.to_param,
-          api_application: valid_attributes
+          params: {
+            id: api_application.to_param,
+            api_application: valid_attributes
+          }
         )
         expect(assigns(:api_application)).to eq(api_application)
       end
@@ -106,8 +108,10 @@ describe ApiApplicationsController do
         api_application = @user.api_applications.create! valid_attributes
         put(
           :update,
-          id: api_application.to_param,
-          api_application: valid_attributes
+          params: {
+            id: api_application.to_param,
+            api_application: valid_attributes
+          }
         )
         expect(response).
           to redirect_to edit_api_application_url(api_application)
@@ -119,8 +123,10 @@ describe ApiApplicationsController do
         api_application = @user.api_applications.create! valid_attributes
         put(
           :update,
-          id: api_application.to_param,
-          api_application: invalid_attributes
+          params: {
+            id: api_application.to_param,
+            api_application: invalid_attributes
+          }
         )
         expect(assigns(:api_application)).to eq(api_application)
       end
@@ -129,8 +135,10 @@ describe ApiApplicationsController do
         api_application = @user.api_applications.create! valid_attributes
         put(
           :update,
-          id: api_application.to_param,
-          api_application: invalid_attributes
+          params: {
+            id: api_application.to_param,
+            api_application: invalid_attributes
+          }
         )
         expect(response).to render_template('edit')
       end
@@ -140,13 +148,13 @@ describe ApiApplicationsController do
   describe 'DELETE destroy' do
     it 'destroys the requested api_application' do
       api_application = @user.api_applications.create! valid_attributes
-      expect { delete :destroy, id: api_application.to_param }.
+      expect { delete :destroy, params: { id: api_application.to_param } }.
         to change { @user.reload.api_applications.count }.by(-1)
     end
 
     it 'redirects to the api_applications list' do
       api_application = @user.api_applications.create! valid_attributes
-      delete :destroy, id: api_application.to_param
+      delete :destroy, params: { id: api_application.to_param }
       expect(response).to redirect_to(api_applications_url)
     end
   end

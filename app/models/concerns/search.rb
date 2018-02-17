@@ -46,11 +46,11 @@ module Search
     end
 
     def service_area(sa)
-      joins(:services).where('services.service_areas @@ :q', q: sa).uniq
+      joins(:services).where('services.service_areas @@ :q', q: sa).distinct
     end
 
     def text_search(params = {})
-      allowed_params(params).reduce(self) do |relation, (scope_name, value)|
+      allowed_params(params).to_h.reduce(self) do |relation, (scope_name, value)|
         value.present? ? relation.public_send(scope_name, value) : relation.all
       end
     end
@@ -66,8 +66,8 @@ module Search
     end
 
     def allowed_params(params)
-      params.slice(
-        :category, :keyword, :language, :org_name, :service_area, :status
+      params.permit(
+        { category: [] }, :category, :keyword, :language, :org_name, :service_area, :status
       )
     end
   end

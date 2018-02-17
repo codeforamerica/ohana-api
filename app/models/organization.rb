@@ -26,7 +26,7 @@ class Organization < ApplicationRecord
                         :name, :tax_id, :tax_status, :website
 
   def self.with_locations(ids)
-    joins(:locations).where('locations.id IN (?)', ids).uniq
+    joins(:locations).where('locations.id IN (?)', ids).distinct
   end
 
   extend FriendlyId

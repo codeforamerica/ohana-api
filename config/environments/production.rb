@@ -49,7 +49,7 @@ Rails.application.configure do
   # https://devcenter.heroku.com/articles/rack-cache-memcached-rails31
   # ------------------------------------------------------------------
 
-  config.serve_static_files = true
+  config.public_file_server.enabled = true
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
@@ -78,7 +78,7 @@ Rails.application.configure do
     entitystore: client,
     verbose: false
   }
-  config.static_cache_control = 'public, max-age=2592000'
+  config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=2592000' }
   # --------------------------------------------------------------------------
 
   # Ignore bad email addresses and do not raise email delivery errors.
