@@ -53,7 +53,7 @@ GEM
       activerecord (>= 3.2.0)
     arel (7.1.4)
     ast (2.4.0)
-    auto_strip_attributes (2.2.0)
+    auto_strip_attributes (2.3.0)
       activerecord (>= 3.0)
     autoprefixer-rails (6.4.0.1)
       execjs
@@ -171,7 +171,7 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
-    i18n (0.9.4)
+    i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     jquery-rails (4.3.1)
