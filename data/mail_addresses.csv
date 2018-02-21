@@ -1,12 +1,26 @@
 id,location_id,attention,address_1,address_2,city,state_province,postal_code,country
-1,6,Greater Arden Chamber of Commerce,3308 El Camino Ave,Suite 300-261,Arden-Arcade,CA,95821,US
-2,12,StartupSac,1715 I Street #152,,Sacramento,CA,95811,US
-3,16,"U. S. Small Business Administration, Sacramento District Office",6501 Sylvan Road,,Citrus Heights,CA,95610,US
-4,39,Sierra Business Council,PO Box 2428,,Truckee,CA,96160,US
-5,42,Sacramento Regional Transit District,1225 R Street,,Sacramento,CA,95811,US
-6,55,The Center for Entrepreneurship,6000 J Street,,Sacraemento,CA,95819-6093,US
-7,56,UC Davis Mike and Renee Child Institute for Innovation and Entrepreneurship,One Shields Avenue,,Davis,CA,95616,US
-8,57,California Department of Tax and Fee Administration,P.O. Box 942879,,Sacramento,CA,94279-0086,US
-9,61,North Sacramento Chamber of Commerce,PO Box 15468,,Sacramento,CA,95851,US
-10,87,North Lake Tahoe Resort Association | CVB | Chamber of Commerce,PO Box 5459,,Tahoe City,CA,96145,US
-11,91,California Pollution Control Financing Authority,P.O. Box 94289,,Sacramento,CA,94209,US
+1,1,"3CORE, Inc.",1430 East Avenue,Suite 4A,Chico,CA,95926,US
+2,2,AgStart,620 Main Street,,Woodland,CA,95695,US
+3,3,Akers Capital LLC,8436 Marina Vista Lane,,Fair Oaks,CA,95628,US
+4,4,CDC Small Business Finance,1545 River Park Drive,Suite 405,Sacramento,CA,95815,US
+5,5,Center for Land-Based Learning,5265 Putah Creek Rd,,Winters,CA,95694,US
+6,7,Chicostart,411 Main St.,Suite 101,Chico,CA,95928,US
+7,8,CleanStart Inc.,801 k St,STE 2800,Sacramento,CA,95746,US
+8,9,Dynasty Video Productions,1527 I Street,,Sacramento,CA,95814,US
+9,10,Five Star Bank,2400 Del Paso Rd.,,Sacramento,CA,95814,US
+10,11,Florin Road Partnership,5501 66th Avenue ,#200,Sacramento,CA,95823,US
+11,12,Franklin Blvd Business Association,5383 Franklin Blvd,Suite C,Sacramento,CA,95820,US
+12,13,Golden Sierra Job Training Agency,115 Ascot Drive,Suite 100,Roseville,CA,95661,US
+13,14,Governor's Office of Business and Economic Development,1325 J Street,18th Floor,Sacramento,CA,95814,US
+14,15,Grow America Fund,24 Whitehall Street,Suite 710,New York,NY,10004,US
+15,16,Hacker Lab,1715 I street,,sacramento,CA,95811,US
+16,18,MedStart,3481 N Freeway Blvd,Suite 210,Sacramento,CA,95834,US
+17,19,Opening Doors,1111 Howe Ave,Ste 125,Sacramento,CA,95819,US
+18,20,Sacramento Employment and Training Agency,925 Del Paso Blvd Suite 100,,Sacramento,CA,95815,US
+19,21,Sacramento Entrepreneurship Academy,"140 B Street, Suite 5",#281,Davis,CA,95616,US
+20,22,Startup Grind Sacramento,1931 H St,,Sacramento,CA,95811,US
+21,23,StartupSac,1715 I Street #152,,Sacramento,CA,95811,US
+22,24,The Center for Entrepreneurship,6000 J Street,,Sacraemento,CA,95819-6093,US
+23,25,The Glue Factory,3950 Industrial Boulevard,Suite 600,West Sacramento,CA,95691,US
+24,26,Turning Heads Designs,701 Gibson Drive #1514,,Roseville,CA,95678,US
+25,27,Valley Vision,2320 Broadway,,Sacramento,CA,96818,US

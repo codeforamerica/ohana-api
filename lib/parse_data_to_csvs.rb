@@ -23,7 +23,7 @@ class ParseDataToCsvs
   end
 
   def parse_csv()
-    file = File.open("/tmp/ohana-api/data/city-of-sac-csv/data.csv")
+    file = File.open("/tmp/ohana-api/data/launchpad_orgs_small.csv")
     CSV.foreach(file, headers: true) do |row|
       @orgs_map.push(map_to_organizations(row))
       @locations_map.push(map_to_locations(row, 'L1'))

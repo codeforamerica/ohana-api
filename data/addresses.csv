@@ -1,93 +1,28 @@
 id,location_id,address_1,address_2,city,state_province,postal_code,country
-1,1,411 Main St.,Suite 101,Chico,CA,95928,US
-2,2,5265 Putah Creek Rd,,Winters,CA,95694,US
-3,3,"400 Garden Street, #108",,West Sacramento,CA,95691,US
-4,4,5383 Franklin Blvd,Suite C,Sacramento,CA,95820,US
-5,5,115 Ascot Drive,Suite 100,Roseville,CA,95661,US
-6,6,3400 Cottage Way,Suite G,Arden-Arcade,CA,95825,US
-7,7,1435 River Park Drive,Suite 100,Sacramento,CA,95815,US
-8,8,"7801 Folsom Boulevard, Ste 102",,Sacramento,CA,95826,US
-9,9,5100 Sierra College Blvd,,Rocklin,CA,95677,US
-10,10,250 Sierra College Drive,,Grass Valley,CA,95945,US
-11,11,11001 College Trail,,Truckee,CA,96161,US
-12,12,No physical office,,Sacramento,CA,95811,US
-13,13,3725 Marysville Blvd,,Sacramento,CA,95838,US
-14,14,2331 Alhambra Blvd,,Sacramento,CA,95824,US
-15,15,701 Gibson Drive #1514,,Roseville,CA,95678,US
-16,16,6501 Sylvan Road,,Citrus Heights,CA,95610,US
-17,17,2480 Notre Dame Blvd.,,Chico,CA,95928,US
-18,18,"Onc Capitol Mall, Suite 700",,Sacramento,CA,95814,US
-19,19,1512 S. Oregon Street,,Yreka,CA,96097,US
-20,20,"10183 Truckee Airport Road, Suite 202",,Truckee,CA,96191,US
-21,21,2320 Broadway,,Sacramento,CA,96818,US
-22,22,5121 Van Nuys Blvd.,Suite 300,Sherman Oaks,CA,91403,US
-23,23,13420 Van Nuys Blvd.,,Pacoima,CA,91331,US
-24,24,18645 Sherman Way,Suite 114,Reseda,CA,91335,US
-25,25,"3481 N Freeway Blvd, Suite 210",,Sacramento,CA,95834,US
-26,26,6341 South Land Park Drive,,Sacramento,CA,95831,US
-27,27,Placer Business Resource Center,"1000 Sunset Blvd., Suite 105",Rocklin,CA,95765,US
-28,28,925 Del Paso Blvd Suite 100,,Sacramento,CA,95815,US
-29,29,3331 Peacekeeper Way,,McClellan,CA,95652,US
-30,30,1430 East Avenue,Suite 4A,Chico,CA,95926,US
-31,31,5501 66th Avenue #200,,Sacramento,CA,95823,US
-32,32,One Capitol Mall,Suite 700,Sacramento,CA,95814,US
-33,33,6767 GreenValley Road,,Placerville,CA,95667,US
-34,34,8436 Marina Vista Lane,,Fair Oaks,CA,95628,US
-35,35,"500 Capitol Mall, Suite 500",,Sacramento,CA,95814,US
-36,36,1527 I Street,,Sacramento,CA,95814,US
-37,37,364 Nevada St,,Auburn,CA,95603,US
-38,38,6360 Fountain Square Drive,,Citrus Heights,CA,95621,US
-39,39,10183 Truckee Airport Rd #202,,Truckee,CA,96161,US
-40,40,"104 B New Mohawk Rd, Suite 2",,Nevada City,CA,95959,US
-41,41,"1111 Howe Ave, Ste 125",,Sacramento,CA,95819,US
-42,42,1400 29th Street,,Sacramento,CA,95817,US
-43,43,1225 R Street,,Sacramento,CA,95811,US
-44,44,"24 Whitehall Street, Suite 710",,New York,NY,10004,US
-45,45,2400 Del Paso Rd,,Sacramento,CA,95834,US
-46,46,3100 Zinfandel Drive,,Rancho Cordova,CA,95670,US
-47,47,6810 Five Star Blvd,,Rocklin,CA,95677,US
-48,48,9355 E. Stockton Blvd,,Elk Grove,CA,95624,US
-49,49,"1370 E. Lassen Ave, Suite 100",,Chico,CA,95973,US
-50,50,1410 Ethan Way,,Sacramento,CA,95825,US
-51,51,"707 3rd Street, Room 400",,West Sacramento,CA,95605,US
-52,52,4608 Duckhorn Dr.,,Sacramento,CA,95835,US
-53,53,2331 Alhambra Blvd. Suite 100,,Sacramento,CA,95817,US
-54,54,560 E. Natoma St.,,Folsom,CA,95630,US
-55,55,"Folsom Hall, Suite 2017",7667 Folsom Blvd,Sacramento,CA,95826,US
-56,56,540 Alumni Lane,2106 Gallagher Hall,Davis,CA,95616,US
-57,57,450 N Street,,Sacramento,CA,95814,US
-58,58,"3321 Power Inn Rd., Ste. 210",,Sacramento,CA,95826-3889,US
-59,59,1630 I Street,,Sacramento,CA,95814,US
-60,60,801 k St,STE 2800,Sacramento,CA,95746,US
-61,61,400 Slobe Avenue,,Sacramento,CA,95815,US
-62,62,801 12th Street,,Sacramento,CA,95814,US
-63,63,1931 H St,,Sacramento,CA,95811,US
-64,64,5625 Stockton Blvd,,Sacramento,CA,95824,US
-65,65,400 Court Street,,Woodland,CA,95695,US
-66,66,"1545 River Park Drive, Suite 405",,Sacramento,CA,95815,US
-67,67,1451 River Park Dr. Suite 220,,Sacramento,CA,95815,US
-68,68,604 Third Street,,Davis,CA,95616,US
-69,69,"1325 J Street, 18th Floor",,Sacramento,CA,95814,US
-70,70,3909 Bradshaw Rd.,,Sacramento,CA,95827,US
-71,71,"6060 Sunrise Vista Dr., Ste 1625",,Citrus Heights,CA,95610,US
-72,72,"4608 Roseville Rd., Ste 105",,North Highlands,CA,95660,US
-73,73,"520 Cottonwood St., Ste B",,Woodland,CA,95695,US
-74,74,"2121 - 2nd Street, Ste C103",,Davis,CA,95618,US
-75,75,1850 Research Park Drive,,Davis,CA,95618,US
-76,76,1103 High Street  ~  Suite 100,,Auburn,CA,95603,US
-77,77,1715 I street,,sacramento,CA,95811,US
-78,78,4415 Granite Drive,,Rocklin,CA,95677,US
-79,79,75 Hawthorne Ave.,Suite 2500,San Francisco,CA,94105,US
-80,80,6301 S Street,,Sacramento,CA,95817,US
-81,81,3950 Industrial Boulevard,Suite 600,West Sacramento,CA,95691,US
-82,82,3650 Schriever Ave,,Mather,CA,95655,US
-83,83,300 Richards Blvd,3rd Floor,Sacramento,CA,95811,US
-84,84,311 Fair Lane,,Placerville,CA,95667,US
-85,85,"140 B Street, Suite 5",#281,Davis,CA,95616,US
-86,86,1321 Garden Highway,,Sacramento,CA,95833,US
-87,87,100 North Lake Blvd,,Tahoe City,CA,96145,US
-88,88,"950 Tharp Road, Suite 1303",,Yuba City,CA,95993,US
-89,89,1410 Ethan Way,Suite 131 N,Sacramento,CA,95825,US
-90,90,"801 K St., 28th Floor",,Sacramento,CA,95814,US
-91,91,"815 Capitol Mall, 2nd Floor",,Sacramento,CA,94534,US
-92,92,"2101 Webster St., Ste. 1200",,Oakland,CA,94612,US
+1,1,1430 East Avenue,Suite 4A,Chico,CA,95926,US
+2,2,620 Main Street,,Woodland,CA,95695,US
+3,3,8436 Marina Vista Lane,,Fair Oaks,CA,95628,US
+4,4,1545 River Park Drive,Suite 405,Sacramento,CA,95815,US
+5,5,5265 Putah Creek Rd,,Winters,CA,95694,US
+6,6,"400 Garden Street, #108",,West Sacramento,CA,95691,US
+7,7,411 Main St.,Suite 101,Chico,CA,95928,US
+8,8,801 k St,STE 2800,Sacramento,CA,95746,US
+9,9,1527 I Street,,Sacramento,CA,95814,US
+10,10,2400 Del Paso Rd.,,Sacramento,CA,95814,US
+11,11,5501 66th Avenue,#200,Sacramento,CA,95823,US
+12,12,5383 Franklin Blvd,Suite C,Sacramento,CA,95820,US
+13,13,115 Ascot Drive,Suite 100,Roseville,CA,95661,US
+14,14,1325 J Street,18th Floor,Sacramento,CA,95814,US
+15,15,24 Whitehall Street,Suite 710,New York,NY,10004,US
+16,16,1715 I street,,sacramento,CA,95811,US
+17,17,4415 Granite Drive,,Rocklin,CA,95677,US
+18,18,3481 N Freeway Blvd,Suite 210,Sacramento,CA,95834,US
+19,19,1111 Howe Ave,Ste 125,Sacramento,CA,95819,US
+20,20,925 Del Paso Blvd Suite 100,,Sacramento,CA,95815,US
+21,21,"140 B Street, Suite 5",#281,Davis,CA,95616,US
+22,22,1931 H St,,Sacramento,CA,95811,US
+23,23,No physical office,,Sacramento,CA,95811,US
+24,24,"Folsom Hall, Suite 2017",7667 Folsom Blvd,Sacramento,CA,95826,US
+25,25,3950 Industrial Boulevard,Suite 600,West Sacramento,CA,95691,US
+26,26,701 Gibson Drive #1514,,Roseville,CA,95678,US
+27,27,2320 Broadway,,Sacramento,CA,96818,US
