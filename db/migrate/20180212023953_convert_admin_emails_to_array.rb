@@ -5,6 +5,7 @@ class ConvertAdminEmailsToArray < ActiveRecord::Migration[5.0]
     add_index :locations, :admin_emails, using: 'gin'
 
     Location.find_each do |loc|
+      next if loc.admin_emails.nil?
       clean_emails = loc.admin_emails.drop(1).map { |email| email.strip.gsub("\n", '') }
       loc.update!(admin_emails: clean_emails)
     end

@@ -91,7 +91,7 @@ feature 'Programs page' do
     end
 
     it 'sorts programs alphabetically by name' do
-      expect(page.all('a')[9][:href]).
+      expect(page.all('a')[8][:href]).
         to eq "/admin/programs/#{@program.id}/edit"
     end
 

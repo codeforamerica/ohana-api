@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $("#service_keywords,#organization_accreditations,#organization_licenses").select2({
+  $("#organization_accreditations,#organization_licenses,#service_keywords").select2({
     tags: [''],
     tokenSeparators: [',']
   });

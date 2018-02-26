@@ -25,7 +25,8 @@ class Service < ApplicationRecord
   validates :email, email: true, allow_blank: true
 
   validates :name, :description, :status,
-            presence: { message: I18n.t('errors.messages.blank_for_service') }
+            presence: { message: I18n.t('errors.messages.blank_for_service') },
+            if: proc { |service| service.location&.kind == 'human_services' }
 
   validates :service_areas, array: { service_area: true }
 
@@ -40,7 +41,6 @@ class Service < ApplicationRecord
 
   serialize :funding_sources, Array
   serialize :keywords, Array
-  serialize :service_areas, Array
 
   extend Enumerize
   enumerize :status, in: %i[active defunct inactive]

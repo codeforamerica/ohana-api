@@ -8,6 +8,7 @@ describe 'Create a location (POST /organizations/:organization_id/locations/)' d
   before(:each) do
     @location_attributes = {
       name: 'new location',
+      kind: 'human_services',
       description: 'description',
       address_attributes: {
         address_1: 'main', city: 'utopia', state_province: 'CA', postal_code: '12345',

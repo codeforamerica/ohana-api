@@ -19,14 +19,17 @@ feature 'Create a new location' do
     expect(find_field('location_address_attributes_city').value).
       to eq 'Belmont'
     expect(find_field('location_address_attributes_state_province').value).to eq 'CA'
+    expect(find_field('location_kind').value).to eq 'human_services'
     expect(find_field('location_address_attributes_postal_code').value).to eq '12345'
   end
 
   scenario 'without any required fields' do
     click_button I18n.t('admin.buttons.create_location')
-    expect(page).to have_content 'Street Address must be provided unless a Location is virtual'
+
+    expect(page).to have_content t('errors.messages.no_address')
     expect(page).to have_content "Description can't be blank for Location"
     expect(page).to have_content "Name can't be blank for Location"
+    expect(page).to have_content "Kind can't be blank for Location"
     expect(page).to have_content 'Organization must exist'
   end
 
@@ -38,8 +41,7 @@ feature 'Create a new location' do
       address_1: '123',
       city: 'Vienna',
       state_province: 'VA',
-      postal_code: '12345',
-      country: 'US'
+      postal_code: '12345'
     )
     click_button I18n.t('admin.buttons.create_location')
 
@@ -53,6 +55,9 @@ feature 'Create a new location' do
       to eq 'VA'
     expect(find_field('location_mail_address_attributes_postal_code').value).
       to eq '12345'
+
+    location = Location.find('new-parent-agency-location')
+    expect(location.mail_address.country).to eq 'US'
   end
 
   scenario 'with valid phone number', :js do
@@ -175,9 +180,7 @@ feature 'Create a new location' do
   end
 
   scenario 'when setting the virtual attribute', :js do
-    select2('Parent Agency', 'org-name')
-    fill_in 'location_name', with: 'New Parent Agency location'
-    fill_in 'location_description', with: 'new description'
+    fill_in_all_required_fields
     select('Does not have a physical address', from: 'location_virtual')
     click_button I18n.t('admin.buttons.create_location')
 

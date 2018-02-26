@@ -1,17 +1,22 @@
 class CreateLocations < ActiveRecord::Migration
   def change
     create_table :locations do |t|
-      t.belongs_to :organization
+      t.belongs_to :organization, null: false
       t.text :accessibility
       t.text :admin_emails
+      t.text :ask_for
       t.text :description
       t.text :emails
       t.text :hours
-      t.text :kind
+      t.integer :importance, default: 1
+      t.text :kind, null: false
       t.float :latitude
       t.float :longitude
       t.text :languages
-      t.text :name
+      t.boolean :market_match, default: false
+      t.text :name, null: false
+      t.text :payments
+      t.text :products
       t.text :short_desc
       t.text :transportation
       t.text :urls

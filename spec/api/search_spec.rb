@@ -42,6 +42,10 @@ describe "GET 'search'" do
       expect(headers['X-Total-Count']).to eq '2'
     end
 
+    it 'includes kind' do
+      expect(json.first['kind']).to eq 'Human Services'
+    end
+
     it 'sorts by updated_at when results have same full text search rank' do
       expect(json.first['name']).to eq @nearby.name
     end
@@ -455,6 +459,169 @@ describe "GET 'search'" do
       keys = json.first.keys
       %w[phones address].each do |key|
         expect(keys).to include(key)
+      end
+    end
+  end
+
+  # SMC-specific search parameters
+  context 'with kind parameter' do
+    before(:each) do
+      create(:location)
+      create(:nearby_loc)
+      create(:farmers_market_loc)
+    end
+
+    it 'finds farmers markets' do
+      get "/api/search?kind[]=farmers'%20markets"
+      expect(json.length).to eq 1
+      expect(json.first['name']).to eq 'Belmont Farmers Market'
+    end
+
+    it 'finds human services' do
+      get '/api/search?kind[]=Human%20services'
+      expect(json.length).to eq 1
+      expect(json.first['name']).to eq 'Library'
+    end
+
+    it 'finds other' do
+      get '/api/search?kind[]=other'
+      expect(json.length).to eq 1
+      expect(json.first['name']).to eq 'VRS Services'
+    end
+
+    it 'allows multiple kinds' do
+      get '/api/search?kind[]=Other&kind[]=human%20Services'
+      expect(headers['X-Total-Count']).to eq '2'
+    end
+
+    it 'allows single kind' do
+      get '/api/search?kind=human%20Services'
+      expect(headers['X-Total-Count']).to eq '1'
+    end
+
+    it 'allows sorting by kind (default order is asc)' do
+      get '/api/search?kind[]=Other&kind[]=human%20services&' \
+        'kind[]=farmers_markets&sort=kind'
+      expect(headers['X-Total-Count']).to eq '3'
+      expect(json.first['name']).to eq 'Belmont Farmers Market'
+      expect(json[1]['name']).to eq 'Library'
+      expect(json[2]['name']).to eq 'VRS Services'
+    end
+
+    it 'allows sorting by kind and ordering desc' do
+      get '/api/search?kind[]=Other&kind[]=human%20services&' \
+        'kind[]=farmers_markets&sort=kind&order=desc'
+      expect(headers['X-Total-Count']).to eq '3'
+      expect(json.first['name']).to eq 'VRS Services'
+      expect(json[1]['name']).to eq 'Library'
+      expect(json[2]['name']).to eq 'Belmont Farmers Market'
+    end
+  end
+
+  context 'with service_area parameter' do
+    before(:each) do
+      loc1 = create(:location)
+      loc2 = create(:nearby_loc)
+
+      loc1.services.create!(attributes_for(:service).
+        merge(service_areas: %w[Belmont Atherton]))
+
+      loc2.services.create!(attributes_for(:service).
+        merge(service_areas: %w[Alaska Arizona]))
+    end
+
+    it 'only returns locations with SMC service areas when param = smc' do
+      get '/api/search?service_area=smc'
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq 'VRS Services'
+    end
+
+    it 'allows searching for specific service areas' do
+      get '/api/search?service_area=Arizona'
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq 'Library'
+    end
+  end
+
+  context 'with market_match parameter' do
+    before(:each) do
+      create(:farmers_market_loc)
+      create(:location,
+             kind: :farmers_markets,
+             market_match: false, name: 'Not Participating')
+    end
+
+    it "only returns farmers' markets who participate in Market Match" do
+      get '/api/search?market_match=1'
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq 'Belmont Farmers Market'
+    end
+
+    it "only returns markets who don't participate in Market Match" do
+      get '/api/search?market_match=0'
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq 'Not Participating'
+    end
+  end
+
+  context 'with payment parameter' do
+    before(:each) do
+      create(:farmers_market_loc)
+      create(:location,
+             kind: :farmers_markets,
+             name: 'No SFMNP', payments: ['Credit'])
+    end
+
+    it "only returns farmers' markets who accept SFMNP" do
+      get '/api/search?payment=SFMNP'
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq 'Belmont Farmers Market'
+    end
+  end
+
+  context 'with product parameter' do
+    before(:each) do
+      create(:farmers_market_loc)
+      create(:location,
+             kind: :farmers_markets,
+             name: 'No Cheese', products: ['Baked Goods'])
+    end
+
+    it "only returns farmers' markets who sell Baked Goods" do
+      get '/api/search?product=baked%20goods'
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq 'No Cheese'
+    end
+
+    it 'finds a match when query is capitalized' do
+      get '/api/search?product=Baked%20Goods'
+      expect(headers['X-Total-Count']).to eq '1'
+      expect(json.first['name']).to eq 'No Cheese'
+    end
+  end
+
+  describe 'sorting search results' do
+    context 'general keyword search' do
+      it 'boosts entries with importance = 2 (human services)' do
+        create(:nearby_loc)
+        create(:location)
+
+        get '/api/search?keyword=jobs'
+
+        expect(headers['X-Total-Count']).to eq '2'
+        expect(json[0]['name']).to eq 'Library'
+      end
+
+      it 'boosts entries with importance = 3 (SMC HSA locations)' do
+        create(:farmers_market_loc)
+        create(:nearby_loc)
+        create(:location)
+
+        get '/api/search?keyword=jobs'
+
+        expect(headers['X-Total-Count']).to eq '3'
+        expect(json[0]['name']).to eq 'Belmont Farmers Market'
+        expect(json[1]['name']).to eq 'Library'
       end
     end
   end

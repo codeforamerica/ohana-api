@@ -28,6 +28,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -81,14 +95,17 @@ SET default_with_oids = false;
 CREATE TABLE addresses (
     id integer NOT NULL,
     location_id integer,
-    address_1 text,
     city text,
-    state_province text,
-    postal_code text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    country character varying(255) NOT NULL,
-    address_2 character varying(255)
+    country_code character varying(255),
+    street_1 character varying(255),
+    street_2 character varying(255),
+    postal_code character varying(255),
+    state_province character varying(255),
+    address_1 character varying,
+    address_2 character varying,
+    country character varying
 );
 
 
@@ -210,8 +227,8 @@ CREATE TABLE ar_internal_metadata (
 
 CREATE TABLE categories (
     id integer NOT NULL,
-    name text,
-    taxonomy_id text,
+    name text NOT NULL,
+    taxonomy_id text NOT NULL,
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -255,14 +272,14 @@ CREATE TABLE categories_services (
 CREATE TABLE contacts (
     id integer NOT NULL,
     location_id integer,
-    name text,
+    name text NOT NULL,
     title text,
     email text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    department character varying(255),
     organization_id integer,
-    service_id integer
+    service_id integer,
+    department character varying(255)
 );
 
 
@@ -358,14 +375,21 @@ ALTER SEQUENCE holiday_schedules_id_seq OWNED BY holiday_schedules.id;
 
 CREATE TABLE locations (
     id integer NOT NULL,
-    organization_id integer,
+    organization_id integer NOT NULL,
     accessibility text,
     admin_emails text[] DEFAULT '{}'::text[],
+    ask_for text,
     description text,
+    hours text,
+    importance integer DEFAULT 1,
+    kind text NOT NULL,
     latitude double precision,
     longitude double precision,
     languages text[] DEFAULT '{}'::text[],
-    name text,
+    market_match boolean DEFAULT false,
+    name text NOT NULL,
+    payments text,
+    products text,
     short_desc text,
     transportation text,
     slug text,
@@ -375,8 +399,8 @@ CREATE TABLE locations (
     alternate_name character varying(255),
     virtual boolean DEFAULT false,
     active boolean DEFAULT true,
-    website character varying(255),
-    email character varying(255)
+    email character varying(255),
+    website character varying(255)
 );
 
 
@@ -407,14 +431,17 @@ CREATE TABLE mail_addresses (
     id integer NOT NULL,
     location_id integer,
     attention text,
-    address_1 text,
     city text,
-    state_province text,
-    postal_code text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    country character varying(255) NOT NULL,
-    address_2 character varying(255)
+    country_code character varying(255),
+    street_1 character varying(255),
+    street_2 character varying(255),
+    postal_code character varying(255),
+    state_province character varying(255),
+    address_1 character varying,
+    address_2 character varying,
+    country character varying
 );
 
 
@@ -443,13 +470,13 @@ ALTER SEQUENCE mail_addresses_id_seq OWNED BY mail_addresses.id;
 
 CREATE TABLE organizations (
     id integer NOT NULL,
-    name text,
+    name text NOT NULL,
     slug text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     alternate_name character varying(255),
     date_incorporated date,
-    description text NOT NULL,
+    description text,
     email character varying(255),
     legal_status character varying(255),
     tax_id character varying(255),
@@ -487,17 +514,17 @@ ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
 CREATE TABLE phones (
     id integer NOT NULL,
     location_id integer,
-    number text,
+    number text NOT NULL,
     department text,
     extension text,
+    number_type text,
     vanity_number text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    number_type character varying(255),
-    country_prefix character varying(255),
-    contact_id integer,
     organization_id integer,
-    service_id integer
+    service_id integer,
+    contact_id integer,
+    country_prefix character varying(255)
 );
 
 
@@ -603,14 +630,13 @@ CREATE TABLE services (
     id integer NOT NULL,
     location_id integer,
     audience text,
-    description text NOT NULL,
+    description text,
     eligibility text,
     fees text,
-    application_process text,
+    how_to_apply text,
     name text,
-    wait_time text,
     funding_sources text,
-    service_areas text,
+    service_areas text[] DEFAULT '{}'::text[],
     keywords text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -619,10 +645,12 @@ CREATE TABLE services (
     email character varying(255),
     languages character varying(255)[] DEFAULT '{}'::character varying[],
     required_documents character varying(255)[] DEFAULT '{}'::character varying[],
-    status character varying(255) DEFAULT 'active'::character varying NOT NULL,
+    status character varying(255) DEFAULT 'active'::character varying,
     website character varying(255),
+    wait_time character varying(255),
     program_id integer,
-    interpretation_services text
+    interpretation_services text,
+    application_process text
 );
 
 
@@ -1211,6 +1239,13 @@ CREATE INDEX index_services_on_program_id ON services USING btree (program_id);
 
 
 --
+-- Name: index_services_on_service_areas; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_services_on_service_areas ON services USING gin (service_areas);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1232,13 +1267,6 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
--- Name: locations_description; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX locations_description ON locations USING gin (to_tsvector('english'::regconfig, description));
-
-
---
 -- Name: locations_email_with_varchar_pattern_ops; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1246,10 +1274,38 @@ CREATE INDEX locations_email_with_varchar_pattern_ops ON locations USING btree (
 
 
 --
--- Name: locations_name; Type: INDEX; Schema: public; Owner: -
+-- Name: locations_kind; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX locations_name ON locations USING gin (to_tsvector('english'::regconfig, name));
+CREATE INDEX locations_kind ON locations USING gin (to_tsvector('english'::regconfig, kind));
+
+
+--
+-- Name: locations_market_match_false; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_market_match_false ON locations USING btree (market_match) WHERE (market_match IS FALSE);
+
+
+--
+-- Name: locations_market_match_true; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_market_match_true ON locations USING btree (market_match) WHERE (market_match IS TRUE);
+
+
+--
+-- Name: locations_payments; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_payments ON locations USING gin (to_tsvector('english'::regconfig, payments));
+
+
+--
+-- Name: locations_products; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX locations_products ON locations USING gin (to_tsvector('english'::regconfig, products));
 
 
 --
@@ -1264,13 +1320,6 @@ CREATE INDEX locations_website_with_varchar_pattern_ops ON locations USING btree
 --
 
 CREATE INDEX organizations_name ON organizations USING gin (to_tsvector('english'::regconfig, name));
-
-
---
--- Name: services_service_areas; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX services_service_areas ON services USING gin (to_tsvector('english'::regconfig, service_areas));
 
 
 --
@@ -1308,47 +1357,49 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20140328052427'),
 ('20140402222453'),
 ('20140404220233'),
-('20140424182454'),
 ('20140505011725'),
 ('20140508030435'),
 ('20140508030926'),
 ('20140508031024'),
 ('20140508194831'),
-('20140522153640'),
 ('20140629181523'),
 ('20140630171418'),
-('20140829154350'),
-('20140909031145'),
-('20140929221750'),
-('20141007144757'),
-('20141009185459'),
-('20141009204519'),
-('20141010031124'),
-('20141010155451'),
-('20141010171020'),
-('20141010171817'),
-('20141017154640'),
-('20141021195019'),
-('20141023040419'),
-('20141024022657'),
-('20141024025404'),
-('20141027154101'),
-('20141029170109'),
-('20141030012617'),
-('20141030204742'),
-('20141106215928'),
-('20141107161835'),
-('20141108042551'),
-('20141108183056'),
-('20141108194838'),
-('20141108214741'),
-('20141109021540'),
-('20141109022202'),
-('20141118132537'),
+('20141120172313'),
+('20141120210007'),
+('20141122030534'),
+('20141125195452'),
+('20141125195559'),
+('20141125201017'),
+('20141125202506'),
+('20141125205056'),
+('20141125210027'),
+('20141125210144'),
+('20141125210253'),
+('20141125210416'),
+('20141125213424'),
+('20141125213525'),
+('20141125213856'),
+('20141125213938'),
+('20141125214746'),
+('20141125215019'),
+('20141125215624'),
+('20141126014531'),
+('20141126015110'),
+('20141126015321'),
+('20141126015551'),
+('20141126015654'),
+('20141126015749'),
+('20141126020150'),
+('20141126023421'),
+('20141127025419'),
+('20141127025633'),
+('20141127025735'),
 ('20141208165502'),
 ('20150107163352'),
-('20150314204202'),
-('20150315202808'),
+('20150329222001'),
+('20150329222833'),
+('20150329230646'),
+('20150329231859'),
 ('20180212023953');
 
 

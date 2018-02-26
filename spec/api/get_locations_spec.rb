@@ -62,7 +62,8 @@ describe 'GET /locations' do
     end
 
     it 'includes the coordinates attribute' do
-      expect(json.first['coordinates']).to eq([@location.longitude, @location.latitude])
+      expect(json.first['coordinates']).
+        to eq([@location.longitude, @location.latitude])
     end
 
     it 'includes the description attribute' do
@@ -113,8 +114,8 @@ describe 'GET /locations' do
       expect(json.first.keys).to_not include('transportation')
     end
 
-    it 'includes the website attribute' do
-      expect(json.first.keys).to include('website')
+    it 'does not include the website attribute' do
+      expect(json.first.keys).to_not include('website')
     end
 
     it 'includes the address association' do
@@ -243,7 +244,7 @@ describe 'GET /locations' do
     it 'sets the active field to true' do
       location = create(:location)
 
-      attrs =  attributes_for(:service)
+      attrs = attributes_for(:service)
 
       location.services.create!(attrs)
       location.services.create!(attrs.merge(status: 'inactive'))

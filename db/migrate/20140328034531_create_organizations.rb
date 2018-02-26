@@ -1,7 +1,7 @@
 class CreateOrganizations < ActiveRecord::Migration
   def change
     create_table :organizations do |t|
-      t.text :name
+      t.text :name, null: false
       t.text :urls
       t.text :slug
 

@@ -27,11 +27,6 @@
     .row
       .col-md-4
         = f.text_field :department, maxlength: 50, class: 'form-control'
-  .form-group
-    = f.label :country_prefix
-    .row
-      .col-md-4
-        = f.telephone_field :country_prefix, maxlength: 4, class: 'form-control'
   = f.hidden_field :_destroy
   = link_to t('admin.buttons.delete_phone'), '#', class: 'btn btn-danger delete_association'
   %hr

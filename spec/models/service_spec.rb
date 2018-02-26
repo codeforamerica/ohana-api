@@ -16,20 +16,18 @@ describe Service do
   it { is_expected.to have_many(:phones).dependent(:destroy).inverse_of(:service) }
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
-  it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
+  it { is_expected.to_not validate_presence_of(:name).with_message("can't be blank for Service") }
   it do
-    is_expected.to validate_presence_of(:description).
+    is_expected.to_not validate_presence_of(:description).
       with_message("can't be blank for Service")
   end
   it do
     is_expected.to_not validate_presence_of(:application_process).
       with_message("can't be blank for Service")
   end
-  it { is_expected.to validate_presence_of(:status).with_message("can't be blank for Service") }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
   it { is_expected.to serialize(:keywords).as(Array) }
-  it { is_expected.to serialize(:service_areas).as(Array) }
 
   it { is_expected.not_to allow_value('codeforamerica.org').for(:email) }
   it { is_expected.not_to allow_value('codeforamerica@org').for(:email) }
@@ -65,6 +63,21 @@ describe Service do
       expect(service.errors[:accepted_payments].first).to eq('AAA is not an Array.')
       expect(service.errors[:required_documents].first).to eq('BBB is not an Array.')
       expect(service.errors[:languages].first).to eq('CCC is not an Array.')
+    end
+  end
+
+  describe 'validations for human service location' do
+    before { @location = create(:location, kind: :human_services) }
+    subject { @location.services.new(attributes_for(:service)) }
+
+    it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
+    it do
+      is_expected.to validate_presence_of(:description).
+        with_message("can't be blank for Service")
+    end
+    it do
+      is_expected.to_not validate_presence_of(:application_process).
+        with_message("can't be blank for Service")
     end
   end
 

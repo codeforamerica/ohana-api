@@ -13,7 +13,10 @@ describe Admin::LocationsController do
 
         post :create, params: {
           location: {
-            name: 'New Location', description: 'New description', virtual: true,
+            name: 'New Location',
+            description: 'New description',
+            kind: 'human_services',
+            virtual: true,
             organization_id: @org.id
           }
         }
@@ -30,7 +33,7 @@ describe Admin::LocationsController do
 
         location_params = {
           name: 'New Location', description: 'New description', virtual: true,
-          organization_id: @org.id
+          kind: 'arts', organization_id: @org.id
         }
 
         expect do
@@ -50,6 +53,7 @@ describe Admin::LocationsController do
             name: 'New Location',
             description: 'New description',
             virtual: true,
+            kind: 'parks',
             admin_emails: %w[moncef@smcgov.org],
             organization_id: @org.id
           }

@@ -27,21 +27,15 @@ class Location < ApplicationRecord
             presence: { message: I18n.t('errors.messages.no_address') },
             unless: :virtual?
 
-  validates :description, :name,
+  validates :kind, :name,
             presence: { message: I18n.t('errors.messages.blank_for_location') }
 
-  ## Uncomment the line below if you want to require a short description.
-  ## We recommend having a short description so that web clients can display
-  ## an overview within the search results. See smc-connect.org as an example.
-  # validates :short_desc, presence: { message: I18n.t('errors.messages.blank_for_location') }
+  validates :description,
+            presence: { message: I18n.t('errors.messages.blank_for_location') },
+            unless: proc { |loc| loc.kind == 'farmers_markets' }
 
-  ## Uncomment the line below if you want to limit the
-  ## short description's length. If you want to display a short description
-  ## on a front-end client like smc-connect.org, we recommmend writing or
-  ## re-writing a description that's one to two sentences long, with a
-  ## maximum of 200 characters. This is just a recommendation though.
-  ## Feel free to modify the maximum below, and the way the description is
-  ## displayed in the ohana-web-search client to suit your needs.
+  ## Currently, the short description field is limited to 200 characters.
+  ## Change the value below to increase or decrease the limit.
   # validates :short_desc, length: { maximum: 200 }
 
   validates :website, url: true, allow_blank: true
@@ -64,6 +58,17 @@ class Location < ApplicationRecord
             in: %i[cd deaf_interpreter disabled_parking elevator ramp
                    restroom tape_braille tty wheelchair wheelchair_van],
             multiple: true
+
+  # Don't change the terms here! You can change their display
+  # name in config/locales/en.yml
+  enumerize :kind,
+            in: %i[arts clinics education entertainment farmers_markets
+                   government human_services libraries museums other
+                   parks sports]
+
+  serialize :ask_for, Array
+  serialize :products, Array
+  serialize :payments, Array
 
   auto_strip_attributes :description, :email, :name, :short_desc,
                         :transportation, :website

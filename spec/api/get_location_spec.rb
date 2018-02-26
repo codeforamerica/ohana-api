@@ -36,8 +36,12 @@ describe 'GET /locations/:id' do
       expect(json['description']).to eq(@location.description)
     end
 
-    it 'does not include the hours attribute' do
-      expect(json.keys).not_to include('hours')
+    it 'includes the kind attribute' do
+      expect(json['kind']).to eq(@location.kind.text)
+    end
+
+    it 'includes the hours attribute' do
+      expect(json.keys).to include('hours')
     end
 
     it 'includes the latitude attribute' do
@@ -157,11 +161,11 @@ describe 'GET /locations/:id' do
 
       serialized_mail_address =
         {
-          'id'        => @location.mail_address.id,
+          'id' => @location.mail_address.id,
           'attention' => @location.mail_address.attention,
           'address_1' => @location.mail_address.address_1,
           'address_2' => nil,
-          'city'      => @location.mail_address.city,
+          'city' => @location.mail_address.city,
           'state_province' => @location.mail_address.state_province,
           'postal_code' => @location.mail_address.postal_code
         }
@@ -174,12 +178,12 @@ describe 'GET /locations/:id' do
       expect(json['contacts']).
         to eq(
           [{
-            'id'        => @location.contacts.first.id,
-            'email'     => nil,
-            'name'      => @location.contacts.first.name,
+            'id'         => @location.contacts.first.id,
             'department' => nil,
-            'title'     => @location.contacts.first.title,
-            'phones'    => @location.contacts.first.phones
+            'email'      => nil,
+            'name'       => @location.contacts.first.name,
+            'title'      => @location.contacts.first.title,
+            'phones'     => @location.contacts.first.phones
           }]
         )
     end
@@ -270,6 +274,33 @@ describe 'GET /locations/:id' do
       %w[admin_emails email accessibility].each do |key|
         expect(json.keys).to include(key)
       end
+    end
+  end
+
+  context 'when farmers market' do
+    before(:each) do
+      fm = create(:farmers_market_loc)
+      get api_location_url(fm, subdomain: ENV['API_SUBDOMAIN'])
+    end
+
+    it 'includes products' do
+      products = json['products']
+      expect(products).to be_a Array
+      %w[Cheese Flowers Eggs Seafood Herbs].each do |product|
+        expect(products).to include(product)
+      end
+    end
+
+    it 'includes payments' do
+      payments = json['payments']
+      expect(payments).to be_a Array
+      %w[Credit WIC SFMNP SNAP].each do |payment|
+        expect(payments).to include(payment)
+      end
+    end
+
+    it 'includes market_match' do
+      expect(json['market_match']).to eq(true)
     end
   end
 

@@ -2,6 +2,6 @@
 
 set -e
 
-echo "===> Exporting the ohana_api_development DB into data/ohana_api_development.dump"
-pg_dump -Fc --no-acl --no-owner -h localhost ohana_api_development > data/ohana_api_development.dump
+echo "===> Exporting the ohana_api_smc_development DB into data/ohana_api_smc_prod.dump"
+pg_dump -Fc --no-acl --no-owner -h localhost ohana_api_smc_development > data/ohana_api_smc_prod.dump
 echo "===> Done exporting the DB."

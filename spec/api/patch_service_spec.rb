@@ -89,6 +89,17 @@ describe 'PATCH /locations/:location_id/services/:id' do
       to eq('Belmont, CA is not a valid service area')
   end
 
+  it 'returns 422 when service_areas is a String' do
+    patch(
+      api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
+      @attrs.merge!(service_areas: '')
+    )
+    expect(response.status).to eq(422)
+    expect(json['message']).to eq('Validation failed for resource.')
+    expect(json['error']).
+      to eq('Attribute was supposed to be an Array, but was a String.')
+  end
+
   it 'does not change current value of Array attributes if passed in value is an empty String' do
     location = create(:nearby_loc)
     service = location.services.create!(attributes_for(:service_with_extra_whitespace))
@@ -99,8 +110,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
         funding_sources: '',
         keywords: '',
         languages: '',
-        required_documents: '',
-        service_areas: ''
+        required_documents: ''
       )
     )
     expect(response.status).to eq(200)

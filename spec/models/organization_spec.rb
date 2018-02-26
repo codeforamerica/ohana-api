@@ -54,6 +54,22 @@ describe Organization do
         expect(org.errors[:date_incorporated].first).to eq('24/2/2014 is not a valid date')
       end
     end
+
+    context 'when app expects month/day format' do
+      it 'accepts the month/day format' do
+        org = build(:organization, date_incorporated: '2/24/2014')
+
+        expect(org.valid?).to eq true
+      end
+    end
+
+    context 'when the format is Month day, year' do
+      it 'accepts the format' do
+        org = build(:organization, date_incorporated: 'January 12, 2014')
+
+        expect(org.valid?).to eq true
+      end
+    end
   end
 
   describe 'array validations' do
@@ -90,7 +106,7 @@ describe Organization do
 
     context 'when name is not updated' do
       it "doesn't update slug" do
-        @org.update_attributes!(description: 'foo')
+        @org.update_attributes!(website: 'http://monfresh.com')
         expect(@org.reload.slug).to eq('parent-agency')
       end
     end

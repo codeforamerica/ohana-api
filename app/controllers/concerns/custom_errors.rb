@@ -20,9 +20,9 @@ module CustomErrors
   def render_invalid_record(exception)
     hash =
       {
-        'status'  => 422,
-        'message' => 'Validation failed for resource.',
-        'errors' => [exception.record.errors]
+        status: 422,
+        message: 'Validation failed for resource.',
+        errors: [exception.record.errors]
       }
     render json: hash, status: 422
   end

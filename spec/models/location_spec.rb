@@ -22,7 +22,7 @@ describe Location do
   it { is_expected.to accept_nested_attributes_for(:holiday_schedules).allow_destroy(true) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Location") }
-
+  it { is_expected.to validate_presence_of(:kind).with_message("can't be blank for Location") }
   it do
     is_expected.to validate_presence_of(:description).with_message("can't be blank for Location")
   end
@@ -151,6 +151,11 @@ describe Location do
         expect(@loc.reload.slug).to eq('vrs-services')
       end
     end
+
+    context "without a description but is a Farmers' Market" do
+      subject { build(:farmers_market_loc, description: nil) }
+      it { should be_valid }
+    end
   end
 
   describe 'geolocation methods' do
@@ -185,7 +190,8 @@ describe Location do
       loc = Location.new(
         name: 'foo',
         description: 'bar',
-        virtual: true
+        virtual: true,
+        kind: :other
       )
       loc.organization_id = org.id
       expect(loc).not_to receive(:geocode)
@@ -243,7 +249,8 @@ describe Location do
         description: 'bar',
         address_attributes: attributes_for(:address),
         languages: 'Spanish',
-        organization_id: org.id
+        organization_id: org.id,
+        kind: :arts
       )
 
       expect(loc).to_not be_valid
@@ -255,7 +262,8 @@ describe Location do
         name: 'foo',
         description: 'bar',
         address_attributes: attributes_for(:address),
-        languages: %w[French]
+        languages: %w[French],
+        kind: :arts
       )
       loc.organization_id = org.id
 

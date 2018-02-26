@@ -27,7 +27,12 @@ Rails.application.routes.draw do
         resources :contacts, except: %i[show index], controller: 'organization_contacts'
       end
       resources :programs, except: :show
-      resources :services, only: :index
+      # Because the data was imported long before new Open Referral rules
+      # were defined, some data is currently invalid. For example, most services
+      # don't have names or descriptions. Until the data is updated, the
+      # link to Services in the admin dashboard and navigation bar should be
+      # removed.
+      # resources :services, only: :index
 
       namespace :csv, defaults: { format: 'csv' } do
         get 'addresses'

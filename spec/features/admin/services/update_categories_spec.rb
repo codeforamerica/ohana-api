@@ -18,7 +18,7 @@ feature 'Update categories' do
     fill_in 'service_description', with: ''
     click_button I18n.t('admin.buttons.save_changes')
 
-    expect(page).to have_content("can't be blank")
+    expect(page).to have_content('successfully updated')
   end
 
   scenario 'when adding one subcategory', :js do

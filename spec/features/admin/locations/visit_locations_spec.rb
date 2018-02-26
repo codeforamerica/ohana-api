@@ -104,14 +104,14 @@ feature 'Locations page' do
       expect(page).not_to have_content 'Parent Agency locations'
     end
 
+    it 'sorts locations alphabetically by name' do
+      expect(page.all('a')[7][:href]).
+        to eq '/admin/locations/samaritan-house/edit'
+    end
+
     it 'takes you to the right location when clicked' do
       click_link 'VRS Services'
       expect(current_path).to eq edit_admin_location_path(@location)
-    end
-
-    it 'sorts locations alphabetically by name' do
-      expect(page.all('a')[8][:href]).
-        to eq '/admin/locations/samaritan-house/edit'
     end
   end
 end

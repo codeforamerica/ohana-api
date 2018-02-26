@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+echo "===> Loading the DB schema..."
+bin/rake db:structure:load
+
+echo "===> Running the migrations..."
+bin/rake db:migrate

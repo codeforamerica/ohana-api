@@ -3,9 +3,9 @@ module Api
     class ServicesController < ApplicationController
       include TokenValidator
       include CustomErrors
-      include CategoryIdCollector
 
       before_action :validate_token!, only: %i[update destroy create update_categories]
+      before_action :validate_service_areas, only: %i[update create]
 
       def index
         location = Location.includes(
@@ -43,6 +43,15 @@ module Api
       end
 
       private
+
+      def cat_ids(taxonomy_ids)
+        return [] if taxonomy_ids.blank?
+        Category.where(taxonomy_id: taxonomy_ids).pluck(:id)
+      end
+
+      def validate_service_areas
+        render_invalid_type if params[:service_areas].is_a?(String)
+      end
 
       def service_params
         params.permit(

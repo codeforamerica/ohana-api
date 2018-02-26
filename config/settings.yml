@@ -26,7 +26,7 @@ accepted_payments:
 # app/views/admin/organizations/index.html.haml.
 #
 # Please make sure to change this to your own email address.
-admin_support_email: ohanapi@codeforamerica.org
+admin_support_email: echan@smcgov.org
 
 # These will be the values that admin interface users will choose from when
 # updating an Organization's or Service's funding sources. Make sure to update
@@ -35,20 +35,30 @@ admin_support_email: ohanapi@codeforamerica.org
 #
 # The list below should remain in alphabetical order.
 funding_sources:
+- 'CPMC Foundation'
 - 'City'
+- 'Community Health Charities'
 - 'County'
 - 'Donations'
 - 'Dues'
 - 'Endowments'
 - 'Federal'
 - 'Fees'
+- 'Foundation'
 - 'Fundraising'
 - 'Grants'
+- 'Joint Powers Agency'
 - 'Sales'
+- 'School District'
+- 'Special District'
 - 'Sponsorships'
+- 'Stanford University'
 - 'State'
 - 'Taxes'
+- 'Tuition'
 - 'United Way'
+- 'United Way Silicon Valley'
+- 'United Way of San Benito County'
 
 # An array of email domain names used by the admin interface to determine which
 # users get to access which locations. For convenience, the API allows a client
@@ -75,6 +85,8 @@ generic_domains:
   - sbcglobal.net
   - hotmail.com
   - yahoo.com
+  - co.sanmateo.ca.us
+  - smcgov.org
   - comcast.net
 
 # These will be the values that admin interface users will choose from when
@@ -196,14 +208,147 @@ required_documents:
 #
 # The list below should remain in alphabetical order.
 valid_service_areas:
-  - 'Alameda County'
-  - 'Belmont'
-  - 'Burlingame'
-  - 'Colma'
-  - 'Daly City'
-  - 'East Palo Alto'
-  - 'San Mateo County'
-  - 'South San Francisco'
+  - Alameda County
+  - Alaska
+  - Almaden Valley
+  - Alum Rock
+  - Alviso
+  - Arizona
+  - Atherton
+  - Belmont
+  - Berryessa
+  - Brisbane
+  - British Columbia
+  - Broadmoor
+  - Burlingame
+  - Calaveras County
+  - California
+  - California Statewide
+  - Campbell
+  - Canada
+  - Castro Valley
+  - Central California
+  - Central San Mateo County
+  - Colma
+  - Contra Costa County
+  - Coyote
+  - Cupertino
+  - Daly City
+  - Del Norte County
+  - Dublin
+  - East Menlo Park
+  - East Palo Alto
+  - El Granada
+  - Evergreen
+  - Fairfield
+  - Foster City
+  - Fremont
+  - Fresno
+  - Fresno County
+  - Gilroy
+  - Guam
+  - Half Moon Bay
+  - Hawaii
+  - Hayward
+  - Hillsborough
+  - Humboldt County
+  - Idaho
+  - Inyo
+  - Japan
+  - Kern County
+  - Kings County
+  - La Honda
+  - Lake County
+  - Loma Mar
+  - Los Altos
+  - Los Altos Hills
+  - Los Angeles County
+  - Los Gatos
+  - Madera County
+  - Marin County
+  - Mendocino County
+  - Menlo Park
+  - Merced County
+  - Millbrae
+  - Milpitas
+  - Miramar
+  - Montara
+  - Monte Sereno
+  - Monte Vista
+  - Monterey
+  - Monterey County
+  - Morgan Hill
+  - Moss Beach
+  - Mountain View
+  - Napa County
+  - Nevada
+  - Newark
+  - North Fair Oaks
+  - North Santa Clara County
+  - Northern California
+  - Northern San Mateo County
+  - Northern Santa Clara County
+  - Orange County
+  - Oregon
+  - Pacifica
+  - Palo Alto
+  - Pescadero
+  - Placer County
+  - Pleasanton
+  - Portola Valley
+  - Princeton
+  - Redwood City
+  - Redwood Shores
+  - Sacramento
+  - Sacramento County
+  - San Benito County
+  - San Bruno
+  - San Carlos
+  - San Francisco County
+  - San Gregorio
+  - San Joaquin County
+  - San Jose
+  - San Leandro
+  - San Lorenzo
+  - San Luis Obispo
+  - San Luis Obispo County
+  - San Martin
+  - San Mateo
+  - San Mateo County
+  - San Ramon
+  - Santa Clara
+  - Santa Clara County
+  - Santa Cruz County
+  - Saratoga
+  - Silver Creek
+  - Siskiyou County
+  - Solano County
+  - Sonoma County
+  - South San Francisco
+  - Stanford
+  - Stanislaus County
+  - Sunnyvale
+  - Sutter County
+  - Trinity County
+  - Tulare County
+  - Tunitas
+  - Tuolumne County
+  - Union City
+  - Utah
+  - Washington
+  - West San Jose
+  - Willow Glen
+  - Woodside
+  - Yolo
+  - Yolo County
+  - Yuba
+  - East San Jose
+  - Nationwide
+  - Statewide
+  - Unincorporated San Mateo County
+  - Western U.S.
+  - Western United States
+  - Worldwide
 
 ############################
 #
@@ -226,7 +371,7 @@ date_format: '%m/%d/'
 # The email address that confirmation emails are sent from after user signup,
 # for the Developer and Admin portals.
 # Please make sure to change this to your own email address.
-confirmation_email: ohanapi@codeforamerica.org
+confirmation_email: echan@smcgov.org
 
 ###############################
 #
@@ -252,7 +397,59 @@ confirmation_email: ohanapi@codeforamerica.org
 # Make sure to change the coordinates to match your preferred search area.
 #
 # This setting is used in 'app/models/concerns/search.rb'.
-bounds: [[25.7084, -124.085], [48.9084, -67.085]]
+bounds: [[37.1074,-122.521], [37.7084,-122.085]]
+
+##################
+#
+# SEARCH SETTINGS
+#
+##################
+#
+# Used to narrow the search down to locations that serve San Mateo County,
+# because the database contains locations that serve other areas as well.
+# This filter is used in app/models/concerns/search.rb.
+smc_service_areas:
+  - San Mateo County
+  - Atherton
+  - Belmont
+  - Brisbane
+  - Burlingame
+  - Colma
+  - Daly City
+  - East Palo Alto
+  - Foster City
+  - Half Moon Bay
+  - Hillsborough
+  - Menlo Park
+  - Millbrae
+  - Pacifica
+  - Portola Valley
+  - Redwood City
+  - San Bruno
+  - San Carlos
+  - San Mateo
+  - South San Francisco
+  - Woodside
+  - Broadmoor
+  - Burlingame Hills
+  - Devonshire
+  - El Granada
+  - Emerald Lake Hills
+  - Highlands-Baywood Park
+  - Kings Mountain
+  - Ladera
+  - La Honda
+  - Loma Mar
+  - Menlo Oaks
+  - Montara
+  - Moss Beach
+  - North Fair Oaks
+  - Palomar Park
+  - Pescadero
+  - Princeton-by-the-Sea
+  - San Gregorio
+  - Sky Londa
+  - West Menlo Park
 
 ###########################################
 #
@@ -268,6 +465,8 @@ test:
 
   confirmation_email: registration@ohanapi.org
 
+  date_format: '%m/%d/'
+
   funding_sources:
   - 'State'
   - 'County'
@@ -281,8 +480,12 @@ test:
   - 'Bank Statement'
   - 'Picture ID'
 
-  valid_service_areas:
-  - 'Atherton'
-  - 'Belmont'
+  smc_service_areas:
+  - Atherton
+  - Belmont
 
-  date_format: '%m/%d/'
+  valid_service_areas:
+  - Alaska
+  - Arizona
+  - Atherton
+  - Belmont

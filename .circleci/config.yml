@@ -10,7 +10,7 @@ jobs:
       - image: circleci/ruby:2.4.3-node-browsers
         environment:
           RAILS_ENV: test
-          CC_TEST_REPORTER_ID: 92362c9253cd1a4a5a164c83bf5157e6677fc1d91fee9b7a7690c1e1123fd87b
+          CC_TEST_REPORTER_ID: 3a5ce4d68f640cd835334e1c239df8c4875d691cac58bb34197cb370604fa624
           COVERAGE: true
           ADMIN_APP_TOKEN: testing123
           API_PATH: api
@@ -26,15 +26,15 @@ jobs:
       - image: circleci/postgres:9.4.12-alpine
         environment:
           POSTGRES_USER: circleci
-          POSTGRES_DB: ohana_api_test
+          POSTGRES_DB: ohana_api_smc_test
 
-    working_directory: ~/ohana-api
+    working_directory: ~/ohana-api-smc
 
     steps:
       - checkout
 
       - restore-cache:
-          key: ohana-api-{{ checksum "Gemfile.lock" }}
+          key: ohana-api-smc-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: Wait for db
@@ -60,14 +60,14 @@ jobs:
 
       # Store bundle cache
       - save-cache:
-          key: ohana-api-{{ checksum "Gemfile.lock" }}
+          key: ohana-api-smc-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
       - run:
           name: Test Setup
           command: |
-            psql -U circleci -q -d ohana_api_test -f db/structure.sql -h localhost -p 5432
+            psql -U circleci -q -d ohana_api_smc_test -f db/structure.sql -h localhost -p 5432
             bundle exec rake assets:precompile
 
       - run:

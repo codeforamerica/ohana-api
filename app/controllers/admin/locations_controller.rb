@@ -62,8 +62,9 @@ class Admin
     def location_params
       params.require(:location).permit(
         :organization_id, { accessibility: [] }, :active, { admin_emails: [] },
-        :alternate_name, :description, :email, { languages: [] }, :latitude,
-        :longitude, :name, :short_desc, :transportation, :website, :virtual,
+        :alternate_name, :description, :email, :hours, :kind, { languages: [] },
+        :latitude, :longitude, :market_match, :name, { payments: [] }, { products: [] },
+        :short_desc, :transportation, :website, :virtual,
         address_attributes: %i[
           address_1 address_2 city state_province postal_code country id _destroy
         ],

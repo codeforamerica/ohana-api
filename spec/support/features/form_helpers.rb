@@ -29,7 +29,6 @@ module Features
       fill_in 'location_address_attributes_city', with: options[:city]
       fill_in 'location_address_attributes_state_province', with: options[:state_province]
       fill_in 'location_address_attributes_postal_code', with: options[:postal_code]
-      fill_in 'location_address_attributes_country', with: options[:country]
       click_button I18n.t('admin.buttons.save_changes')
     end
 
@@ -45,7 +44,6 @@ module Features
       fill_in 'location_mail_address_attributes_city', with: options[:city]
       fill_in 'location_mail_address_attributes_state_province', with: options[:state_province]
       fill_in 'location_mail_address_attributes_postal_code', with: options[:postal_code]
-      fill_in 'location_mail_address_attributes_country', with: options[:country]
     end
 
     def remove_street_address
@@ -77,12 +75,13 @@ module Features
       select2('Parent Agency', 'org-name')
       fill_in 'location_name', with: 'New Parent Agency location'
       fill_in 'location_description', with: 'new description'
+      select 'Human Services', from: 'location_kind'
+
       click_link I18n.t('admin.buttons.add_street_address')
       fill_in 'location_address_attributes_address_1', with: '123 Main St.'
       fill_in 'location_address_attributes_city', with: 'Belmont'
       fill_in 'location_address_attributes_state_province', with: 'CA'
       fill_in 'location_address_attributes_postal_code', with: '12345'
-      fill_in 'location_address_attributes_country', with: 'US'
     end
 
     def select2(value, id, options = {})

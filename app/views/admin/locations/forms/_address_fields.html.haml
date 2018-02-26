@@ -24,10 +24,6 @@
     .row
       .col-xs-4
         = f.text_field :postal_code, maxlength: 5, class: 'form-control'
-  .form-group
-    = f.label :country
-    .row
-      .col-sm-2
-        = f.text_field :country, maxlength: 2, class: 'form-control'
+  = f.hidden_field :country, value: 'US'
   = f.hidden_field :_destroy
   = link_to t('admin.buttons.delete_street_address'), '#', class: 'btn btn-danger delete_association'

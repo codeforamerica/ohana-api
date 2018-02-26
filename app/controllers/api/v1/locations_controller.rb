@@ -8,21 +8,22 @@ module Api
 
       after_action :set_cache_control, only: %i[index show]
 
-      def index
-        locations = Location.includes(:organization, :address, :phones).
-                    page(params[:page]).per(params[:per_page]).
-                    order('created_at DESC')
+      respond_to :xml
 
-        render json: locations, each_serializer: LocationsSerializer, status: 200
-        generate_pagination_headers(locations)
+      def index
+        @locations = Location.includes(tables).paginated_and_sorted(params)
+
+        respond_to do |format|
+          format.json { render json: @locations, each_serializer: LocationsSerializer, status: 200 }
+          format.xml { respond_with @locations }
+        end
+
+        generate_pagination_headers(@locations)
       end
 
       def show
-        location = Location.includes(
-          contacts: :phones,
-          services: %i[categories contacts phones regular_schedules
-                       holiday_schedules]
-        ).find(params[:id])
+        location = Location.includes(show_tables).find(params[:id])
+
         render json: location, status: 200 if stale?(location, public: true)
       end
 
@@ -51,11 +52,31 @@ module Api
 
       private
 
+      def tables
+        return %i[organization address phones] unless request.format == Mime[:xml]
+        [:address, :mail_address, :services, :organization,
+         { contacts: :phones, services: common_tables }] + common_tables
+      end
+
+      def common_tables
+        @common_tables ||= %i[contacts phones regular_schedules holiday_schedules]
+      end
+
+      def show_tables
+        @show_tables ||= [
+          {
+            contacts: :phones,
+            services: %i[categories contacts phones regular_schedules holiday_schedules]
+          }
+        ]
+      end
+
       def location_params
         params.permit(
-          { accessibility: [] }, :active, { admin_emails: [] }, :alternate_name, :description,
-          :email, { languages: [] }, :latitude, :longitude, :name, :short_desc,
-          :transportation, :website, :virtual,
+          { accessibility: [] }, :active, { admin_emails: [] }, :alternate_name,
+          :description, :email, :hours, :kind, { languages: [] }, :latitude,
+          :longitude, :market_match, :name, { payments: [] }, { products: [] },
+          :short_desc, :transportation, :website, :virtual,
           address_attributes: %i[
             address_1 address_2 city state_province postal_code
             country id _destroy

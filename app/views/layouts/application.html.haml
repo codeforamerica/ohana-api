@@ -2,7 +2,7 @@
 %html
   %head
     %meta{ content: 'width=device-width, initial-scale=1.0', name: 'viewport' }
-      %title= content_for?(:title) ? yield(:title) : t('titles.brand')
+      %title= content_for?(:title) ? yield(:title) : t('titles.developer', brand: t('titles.brand'))
       %meta{ content: content_for?(:description) ? yield(:description) : "An open-source API of human services and other organizations in #{t('admin.api_location')}", name: 'description' }
         = stylesheet_link_tag 'application', media: 'all'
         = csrf_meta_tags

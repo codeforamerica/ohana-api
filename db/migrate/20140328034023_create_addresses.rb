@@ -2,10 +2,10 @@ class CreateAddresses < ActiveRecord::Migration
   def change
     create_table :addresses do |t|
       t.belongs_to :location
-      t.text :street
-      t.text :city
-      t.text :state
-      t.text :zip
+      t.text :street, null: false
+      t.text :city, null: false
+      t.text :state, null: false
+      t.text :zip, null: false
 
       t.timestamps
     end

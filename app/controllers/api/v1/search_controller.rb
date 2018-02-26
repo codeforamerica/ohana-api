@@ -8,8 +8,8 @@ module Api
       after_action :set_cache_control, only: :index
 
       def index
-        locations = Location.search(params).page(params[:page]).
-                    per(params[:per_page])
+        locations = Location.search(params).
+                    page(params[:page]).per(params[:per_page])
 
         return unless stale?(etag: cache_key(locations), public: true)
 
@@ -29,7 +29,7 @@ module Api
       private
 
       def tables
-        %i[organization address phones]
+        @tables ||= %i[organization address phones]
       end
 
       def locations_near(location)

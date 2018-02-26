@@ -30,8 +30,4 @@ class EmailFilter
   def domain_from(email)
     email.split('@').last
   end
-
-  def arel_model
-    @model_class.arel_table
-  end
 end

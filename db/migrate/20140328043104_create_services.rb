@@ -12,11 +12,12 @@ class CreateServices < ActiveRecord::Migration
       t.text :urls
       t.text :wait
       t.text :funding_sources
-      t.text :service_areas
+      t.text :service_areas, array: true, default: []
       t.text :keywords
 
       t.timestamps
     end
     add_index :services, :location_id
+    add_index :services, :service_areas, using: 'gin'
   end
 end

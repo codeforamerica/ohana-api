@@ -9,15 +9,16 @@ default: &default
 
 development:
   <<: *default
-  database: ohana_api_development
+  database: ohana_api_smc_development
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: ohana_api_test
+  database: ohana_api_smc_test
 
 production:
+  <<: *default
+  database: ohana_api_smc_production
   pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 5 %>
-  url: <%= ENV['DATABASE_URL'] %>

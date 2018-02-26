@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -e
-
-echo Resetting the database...
-bin/rake db:reset
-echo Done resetting the database.

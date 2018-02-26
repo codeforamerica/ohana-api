@@ -24,7 +24,10 @@ feature 'Visit home page after signing in' do
 
   it 'includes a link to the dev portal home page in the navigation' do
     within '.navbar' do
-      expect(page).to have_link 'Ohana API Developers', href: root_path
+      expect(page).to have_link(
+        I18n.t('titles.developer', brand: I18n.t('titles.brand')),
+        href: root_path
+      )
     end
   end
 

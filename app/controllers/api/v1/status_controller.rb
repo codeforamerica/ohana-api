@@ -22,7 +22,7 @@ module Api
       end
 
       def search_okay?
-        params = ActionController::Parameters.new(keyword: 'food')
+        params = ActionController::Parameters.new(keyword: 'flute')
         Location.text_search(params).page(1).per(1).present?
       end
     end

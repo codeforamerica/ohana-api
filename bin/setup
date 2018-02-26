@@ -27,20 +27,22 @@ Dir.chdir APP_ROOT do
   system 'gem install bundler --conservative'
   system 'bundle check || bundle install'
 
-  dev_db = `psql -l | grep ohana_api_development`
+  dev_db = `psql -l | grep ohana_api_smc_development`
 
   if dev_db.empty?
-    system 'dropdb ohana_api_test'
+    system 'dropdb ohana_api_smc_test'
 
-    puts '== Creating ohana_api_development and ohana_api_test databases =='
+    puts '== Creating ohana_api_smc_development and ohana_api_smc_test databases =='
     system 'bin/rake db:create:all'
 
-    puts '== Setting up the ohana_api_development database =='
+    puts '== Setting up the ohana_api_smc_development database =='
     system 'bin/rake db:structure:load'
   end
 
-  puts '== Restoring the development database =='
-  system 'pg_restore -c --no-owner -d ohana_api_development data/ohana_api_development.dump'
+  puts '== Restoring the development database from test data =='
+  system 'heroku pgbackups:capture --expire -a smc-ohana-api-test'
+  system 'curl -o data/latest.dump `heroku pgbackups:url -a smc-ohana-api-test`'
+  system 'pg_restore --verbose --clean --no-acl --no-owner -h localhost -d ohana_api_smc_development data/latest.dump'
 
   puts "\n== Removing old logs and tempfiles =="
   system 'rm -f log/*'

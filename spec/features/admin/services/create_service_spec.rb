@@ -17,8 +17,17 @@ feature 'Create a new service' do
     expect(find_field('service_description').value).to eq 'new description'
   end
 
-  scenario 'without any required fields' do
+  scenario 'without any required fields when location is not human service' do
+    click_button 'Create service'
+    expect(page).to have_content 'successfully created'
+  end
+
+  scenario 'without any required fields when location is human service' do
+    @loc.update!(kind: :human_services)
+    visit('/admin/locations/vrs-services')
+    click_link 'Add a new service'
     click_button I18n.t('admin.buttons.create_service')
+
     expect(page).to have_content "Description can't be blank for Service"
     expect(page).to have_content "Name can't be blank for Service"
   end

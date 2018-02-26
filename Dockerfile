@@ -22,13 +22,13 @@ RUN ln -s ../phantomjs/bin/phantomjs /usr/local/bin/
 
 WORKDIR /ohana-api
 
-COPY Gemfile /ohana-api
-COPY Gemfile.lock /ohana-api
+COPY Gemfile /ohana-api-smc
+COPY Gemfile.lock /ohana-api-smc
 
 RUN gem install bundler
 RUN bundle install --jobs 20 --retry 5 --without production
 
-COPY . /ohana-api
+COPY . /ohana-api-smc
 
 EXPOSE 8080
 CMD ["rails", "server", "-b", "0.0.0.0", "-p", "8080"]

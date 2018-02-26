@@ -13,8 +13,7 @@ feature 'Updating mailing address' do
       address_1: '123',
       city: 'Vienna',
       state_province: 'VA',
-      postal_code: '12345',
-      country: 'US'
+      postal_code: '12345'
     )
     visit '/admin/locations/vrs-services'
 
@@ -28,6 +27,8 @@ feature 'Updating mailing address' do
       to eq 'VA'
     expect(find_field('location_mail_address_attributes_postal_code').value).
       to eq '12345'
+
+    expect(@location.reload.mail_address.country).to eq 'US'
 
     remove_mail_address
     visit '/admin/locations/vrs-services'
@@ -57,57 +58,49 @@ feature 'Updating mailing address with invalid values' do
 
   scenario 'with an empty street' do
     update_mailing_address(address_1: '', city: 'fair', state_province: 'VA',
-                           postal_code: '12345', country: 'US')
+                           postal_code: '12345')
     click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content "Street (Line 1) can't be blank for Mail Address"
   end
 
   scenario 'with an empty city' do
     update_mailing_address(address_1: '123', city: '', state_province: 'VA',
-                           postal_code: '12345', country: 'US')
+                           postal_code: '12345')
     click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content "City can't be blank for Mail Address"
   end
 
   scenario 'with an empty state' do
     update_mailing_address(address_1: '123', city: 'fair', state_province: '',
-                           postal_code: '12345', country: 'US')
+                           postal_code: '12345')
     click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
   scenario 'with an empty zip' do
     update_mailing_address(address_1: '123', city: 'Belmont', state_province: 'CA',
-                           postal_code: '', country: 'US')
+                           postal_code: '')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "ZIP Code can't be blank for Mail Address"
-  end
 
-  scenario 'with an empty country' do
-    update_mailing_address(address_1: '123', city: 'Belmont', state_province: 'CA',
-                           postal_code: '12345')
-    click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content "Country Code can't be blank for Mail Address"
+    expect(page).to have_content "ZIP Code can't be blank for Mail Address"
   end
 
   scenario 'with an invalid state' do
     update_mailing_address(address_1: '123', city: 'Par', state_province: 'V',
-                           postal_code: '12345', country: 'US')
+                           postal_code: '12345')
     click_button I18n.t('admin.buttons.save_changes')
+
     expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
   scenario 'with an invalid zip' do
     update_mailing_address(address_1: '123', city: 'Ald', state_province: 'VA',
-                           postal_code: '1234', country: 'US')
+                           postal_code: '1234')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content 'valid ZIP code'
-  end
 
-  scenario 'with an invalid country' do
-    update_mailing_address(address_1: '123', city: 'Ald', state_province: 'VA',
-                           postal_code: '12345', country: 'U')
-    click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to have_content 'too short'
+    expect(page).to have_content 'valid ZIP code'
   end
 end

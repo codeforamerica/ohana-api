@@ -61,15 +61,15 @@ feature 'Organizations page' do
       expect(page).to have_link 'Far Org'
     end
 
+    it 'sorts organizations alphabetically by name' do
+      expect(page.all('a')[7][:href]).
+        to eq '/admin/organizations/far-org/edit'
+    end
+
     it 'takes you to the right organization when clicked' do
       click_link 'Parent Agency'
       expect(current_path).
         to eq edit_admin_organization_path(@loc.organization)
-    end
-
-    it 'sorts organizations alphabetically by name' do
-      expect(page.all('a')[8][:href]).
-        to eq '/admin/organizations/far-org/edit'
     end
   end
 end

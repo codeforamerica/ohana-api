@@ -1,2 +1,0 @@
-id,organization_id,accessibility,admin_emails,alternate_name,description,email,languages,latitude,longitude,name,transportation,virtual,website
-1,1,"cd, ramp","test@test.com, foo@bar.com",,The Palo Alto location of the Harvest Food Bank distributes canned goods only.,,"French, spanish",37.7726402,-122.4099154,Harvest Food Bank,,,

@@ -199,15 +199,17 @@
 #
 ###########################
 development:
-  API_SUBDOMAIN:
-  API_PATH: api
-  ADMIN_SUBDOMAIN:
-  ADMIN_PATH: admin
+  API_SUBDOMAIN: api
+  API_PATH:
+  ADMIN_SUBDOMAIN: admin
+  ADMIN_PATH:
   ASSET_HOST: lvh.me
-  DEV_SUBDOMAIN:
+  DEV_SUBDOMAIN: developer
   DEFAULT_PER_PAGE: '30'
   DOMAIN_NAME: lvh.me
   MAX_PER_PAGE: '50'
+  READTHIS_DRIVER: 'hiredis'
+  REDISCLOUD_URL: 'redis://localhost:6379'
 
 ###############################################################################
 #
@@ -217,18 +219,19 @@ development:
 #
 ###############################################################################
 production:
-  API_SUBDOMAIN:
-  API_PATH: api
-  ADMIN_SUBDOMAIN:
-  ADMIN_PATH: admin
+  API_SUBDOMAIN: api
+  API_PATH:
+  ADMIN_SUBDOMAIN: admin
+  ADMIN_PATH:
   ASSET_HOST:
-  DEV_SUBDOMAIN:
+  DEV_SUBDOMAIN: developer
   DEFAULT_PER_PAGE: '30'
   DOMAIN_NAME:
   MAX_PER_PAGE: '50'
   EXPIRES_IN: '1'
-  TLD_LENGTH: '2'
-  ENABLE_HTTPS: 'yes'
+  TLD_LENGTH: '1'
+  ENABLE_HTTPS: no
+  READTHIS_DRIVER: 'hiredis'
 
 ###########################################
 #

@@ -1,5 +1,0 @@
-id,location_id,service_id,start_date,end_date,closed,opens_at,closes_at
-1,22,,"January 01, 0001","January 01, 0001",true,,
-2,22,,"12/24/2015","12/24/15",false,10:00,16:00
-3,22,,"June 01, 0001","September 01, 0001",true,,
-4,,22,"January 01, 0001","January 01, 0001",true,,

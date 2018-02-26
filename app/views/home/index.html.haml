@@ -7,11 +7,18 @@
   %p
     Welcome to the #{t('titles.brand')} developer portal!
   %p
-    This particular instance of the Ohana API exposes information about various human services providers in #{t('admin.api_location')}.
+    This particular instance of the Ohana API exposes information about various
+    organizations in #{t('admin.api_location')}. Most of the organizations
+    provide human services, but the API also includes farmers' markets, museums,
+    parks, libraries, hobby clubs, educators, government services, and other
+    types of organizations.
   %p
-    We'd love for you to build something that will connect underprivileged residents with the help they need (food, shelter, medical care, etc.).
+    We'd love for you to build something that will connect underprivileged
+    residents with the help they need (food, shelter, medical care, etc.).
   %p
     Read the #{link_to 'documentation', 'http://codeforamerica.github.io/ohana-api-docs/'} to learn more.
-    If you're a Ruby developer, we encourage you to use the official #{link_to 'Ohanakapa', 'https://github.com/codeforamerica/ohanakapa-ruby'} Ruby library.
+    If you're a Ruby developer, we encourage you to use the official
+    = link_to 'Ohanakapa', 'https://github.com/codeforamerica/ohanakapa-ruby'
+    Ruby library.
   %p
     #{link_to t('navigation.sign_up'), new_user_registration_path} for a developer account, or #{link_to t('navigation.sign_in'), new_user_session_path}.

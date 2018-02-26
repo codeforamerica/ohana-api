@@ -5,18 +5,24 @@ describe 'PATCH /locations/:id)' do
     {
       accessibility: %w[disabled_parking ramp],
       active: true,
-      admin_emails: [' foo@test.com  ', 'bar@test.com'],
+      admin_emails: ['foo@test.com', 'bar@test.com'],
       alternate_name: 'Different Name',
       description: 'test location',
       email: 'test@test.com',
+      hours: 'M-F 9am-5pm',
+      importance: 3,
+      kind: 'farmers_markets',
       languages: %w[French Tagalog],
       latitude: 37.3180168,
       longitude: -122.2743951,
+      market_match: true,
       name: 'Test Location',
+      payments: ['Credit Card', 'CalFresh'],
+      products: %w[Cheese Flowers],
       short_desc: 'short description',
       transportation: 'BART stop 1 block away.',
       website: 'https://www.example.com',
-      virtual: false
+      virtual: true,
     }
   end
 
@@ -29,19 +35,13 @@ describe 'PATCH /locations/:id)' do
 
     expect(response).to have_http_status(200)
     expect(json['accessibility']).to eq ['Disabled Parking', 'Ramp']
-    expect(json['active']).to eq attributes[:active]
-    expect(json['admin_emails']).to eq %w[foo@test.com bar@test.com]
-    expect(json['alternate_name']).to eq attributes[:alternate_name]
-    expect(json['description']).to eq attributes[:description]
-    expect(json['email']).to eq attributes[:email]
-    expect(json['languages']).to eq attributes[:languages]
-    expect(json['latitude']).to eq attributes[:latitude]
-    expect(json['longitude']).to eq attributes[:longitude]
-    expect(json['name']).to eq attributes[:name]
-    expect(json['short_desc']).to eq attributes[:short_desc]
-    expect(json['transportation']).to eq attributes[:transportation]
-    expect(json['website']).to eq attributes[:website]
-    expect(@loc.reload.virtual).to eq false
+    expect(json['kind']).to eq "Farmers' Markets"
+    attributes.each do |key, value|
+      next if %i[accessibility address_attributes importance kind virtual].include?(key)
+      expect(json[key.to_s]).to eq value
+    end
+    expect(@loc.reload.importance).to eq 1
+    expect(@loc.reload.virtual).to eq true
   end
 
   it 'does not modify admin_emails if set to empty string' do

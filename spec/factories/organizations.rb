@@ -11,6 +11,11 @@ FactoryBot.define do
     description 'Organization created for testing purposes'
   end
 
+  factory :hsa, class: Organization do
+    name 'San Mateo County Human Services Agency'
+    description 'Organization created for testing purposes'
+  end
+
   factory :food_pantry, class: Organization do
     name 'Food Pantry'
     description 'Organization created for testing purposes'
