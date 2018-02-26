@@ -48,12 +48,14 @@ Rails.application.configure do
   # CACHING SETUP FOR REDISCLOUD ON HEROKU
   # --------------------------------------------------------------------------
 
-  config.serve_static_files = true
+  config.public_file_server.enabled = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = ENV['FASTLY_CDN_URL']
 
-  config.static_cache_control = 'public, s-maxage=2592000, maxage=86400'
+  config.public_file_server.headers = {
+    'Cache-Control' => 'public, s-maxage=2592000, max-age=86400'
+  }
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.

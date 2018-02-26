@@ -5,7 +5,7 @@ gem 'active_model_serializers', '~> 0.8.0'
 gem 'ancestry'
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'bootstrap-sass', '~> 3.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.1'
 gem 'csv_shaper'
 gem 'devise', '~> 4.1'
 gem 'enumerize'
@@ -20,7 +20,7 @@ gem 'pg'
 gem 'pundit'
 gem 'rabl'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 5.0.6'
+gem 'rails', '~> 5.1.5'
 gem 'readthis'
 gem 'redis'
 gem 'sass-rails', '~> 5.0'
@@ -56,7 +56,7 @@ end
 
 group :development do
   gem 'better_errors', '>= 0.7.2'
-  gem 'binding_of_caller', '>= 0.7.1', platforms: %i[mri_19 rbx]
+  gem 'binding_of_caller', platforms: %i[mri_19 rbx]
   gem 'bummr'
   gem 'derailed'
   gem 'flamegraph'

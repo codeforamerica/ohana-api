@@ -11,12 +11,14 @@ describe Admin::LocationsController do
       it 'allows access to create location' do
         log_in_as_admin(:super_admin)
 
-        post :create, location: {
-          name: 'New Location',
-          description: 'New description',
-          kind: 'human_services',
-          virtual: true,
-          organization_id: @org.id
+        post :create, params: {
+          location: {
+            name: 'New Location',
+            description: 'New description',
+            kind: 'human_services',
+            virtual: true,
+            organization_id: @org.id
+          }
         }
 
         location = Location.find_by(name: 'New Location')
@@ -34,7 +36,9 @@ describe Admin::LocationsController do
           kind: 'arts', organization_id: @org.id
         }
 
-        expect { post :create, location: location_params }.to_not change(Location, :count)
+        expect do
+          post :create, params: { location: location_params }
+        end.to_not change(Location, :count)
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
@@ -44,13 +48,15 @@ describe Admin::LocationsController do
       it 'allows location creation' do
         log_in_as_admin(:location_admin)
 
-        post :create, location: {
-          name: 'New Location',
-          description: 'New description',
-          virtual: true,
-          kind: 'parks',
-          admin_emails: %w[moncef@smcgov.org],
-          organization_id: @org.id
+        post :create, params: {
+          location: {
+            name: 'New Location',
+            description: 'New description',
+            virtual: true,
+            kind: 'parks',
+            admin_emails: %w[moncef@smcgov.org],
+            organization_id: @org.id
+          }
         }
 
         location = Location.find_by(name: 'New Location')
@@ -68,7 +74,7 @@ describe Admin::LocationsController do
       it 'allows access to update location' do
         log_in_as_admin(:super_admin)
 
-        post :update, id: @loc.id, location: { name: 'Updated location' }
+        post :update, params: { id: @loc.id, location: { name: 'Updated location' } }
 
         expect(response).to redirect_to admin_location_url(@loc.reload.friendly_id)
       end
@@ -79,7 +85,7 @@ describe Admin::LocationsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        post :update, id: @loc.id, location: { name: 'Updated location' }
+        post :update, params: { id: @loc.id, location: { name: 'Updated location' } }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -91,7 +97,7 @@ describe Admin::LocationsController do
       it 'updates the location' do
         log_in_as_admin(:location_admin)
 
-        post :update, id: @loc.id, location: { name: 'Updated location' }
+        post :update, params: { id: @loc.id, location: { name: 'Updated location' } }
 
         expect(response).to redirect_to admin_location_url(@loc.reload.friendly_id)
         expect(@loc.reload.name).to eq 'Updated location'
@@ -108,7 +114,7 @@ describe Admin::LocationsController do
       it 'allows access to destroy location' do
         log_in_as_admin(:super_admin)
 
-        delete :destroy, id: @location.id
+        delete :destroy, params: { id: @location.id }
 
         expect(response).to redirect_to admin_locations_url
       end
@@ -119,7 +125,7 @@ describe Admin::LocationsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        expect { delete :destroy, id: @location.id }.to_not change(Location, :count)
+        expect { delete :destroy, params: { id: @location.id } }.to_not change(Location, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -130,7 +136,7 @@ describe Admin::LocationsController do
       it 'destroys the location' do
         log_in_as_admin(:location_admin)
 
-        delete :destroy, id: @location.id
+        delete :destroy, params: { id: @location.id }
 
         expect(response).to redirect_to admin_locations_url
         expect(Location.find_by(id: @location.id)).to be_nil
@@ -147,7 +153,7 @@ describe Admin::LocationsController do
       it 'allows access to edit location' do
         log_in_as_admin(:super_admin)
 
-        get :edit, id: @location.id
+        get :edit, params: { id: @location.id }
 
         expect(response).to render_template(:edit)
       end
@@ -158,7 +164,7 @@ describe Admin::LocationsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :edit, id: @location.id
+        get :edit, params: { id: @location.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -169,7 +175,7 @@ describe Admin::LocationsController do
       it 'allows access to edit location' do
         log_in_as_admin(:location_admin)
 
-        get :edit, id: @location.id
+        get :edit, params: { id: @location.id }
 
         expect(response).to render_template(:edit)
       end

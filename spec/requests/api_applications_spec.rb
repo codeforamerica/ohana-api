@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'requests_helper'
 
 describe 'ApiApplications' do
   describe 'GET /api_applications' do
@@ -13,9 +12,13 @@ describe 'ApiApplications' do
 
     context 'when signed in' do
       it 'returns a 200' do
-        @user = FactoryBot.create(:user)
-        login(@user)
+        user = FactoryBot.create(:user)
+        post(
+          user_session_path,
+          params: { user: { email: user.email, password: user.password } }
+        )
         get api_applications_url
+        follow_redirect!
         expect(response.status).to be(200)
       end
     end

@@ -24,9 +24,9 @@ module Search
     scope :service_area, (lambda do |sa|
       if sa == 'smc'
         joins(:services).
-        where('services.service_areas && ARRAY[?]', SETTINGS[:smc_service_areas]).uniq
+        where('services.service_areas && ARRAY[?]', SETTINGS[:smc_service_areas]).distinct
       else
-        joins(:services).where('services.service_areas @> ARRAY[?]', sa).uniq
+        joins(:services).where('services.service_areas @> ARRAY[?]', sa).distinct
       end
     end)
 
@@ -74,7 +74,7 @@ module Search
     end
 
     def rank_for(query)
-      sanitized = ActiveRecord::Base.sanitize(query)
+      sanitized = ActiveRecord::Base.connection.quote(query)
 
       <<-RANK
         ts_rank(locations.tsv_body, plainto_tsquery('english', #{sanitized}))
@@ -86,7 +86,7 @@ module Search
     end
 
     def text_search(params = {})
-      allowed_params(params).reduce(self) do |relation, (scope_name, value)|
+      allowed_params(params).to_h.reduce(self) do |relation, (scope_name, value)|
         value.present? ? relation.public_send(scope_name, value) : relation.all
       end
     end
@@ -113,9 +113,9 @@ module Search
     private
 
     def allowed_params(params)
-      params.slice(
-        :category, :keyword, :language, :org_name, :payment, :product,
-        :service_area, :status
+      params.permit(
+        { category: [] }, :category, :keyword, :language, :org_name,
+        :payment, :product, :service_area, :status
       )
     end
   end

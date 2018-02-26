@@ -26,7 +26,7 @@ class Organization < ApplicationRecord
                         :name, :tax_id, :tax_status, :website
 
   def self.with_locations(ids)
-    joins(:locations).where('locations.id IN (?)', ids).uniq
+    joins(:locations).where('locations.id IN (?)', ids).distinct
   end
 
   extend FriendlyId
@@ -38,7 +38,7 @@ class Organization < ApplicationRecord
 
   def needs_touch?
     return false if locations.count.zero?
-    name_changed?
+    saved_change_to_name?
   end
 
   def touch_locations

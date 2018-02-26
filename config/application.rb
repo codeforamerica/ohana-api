@@ -59,9 +59,8 @@ module OhanaApi
     # repo for more details.
     config.action_dispatch.perform_deep_munge = false
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     config.action_controller.per_form_csrf_tokens = true
+
+    config.active_record.time_zone_aware_types = [:datetime]
   end
 end

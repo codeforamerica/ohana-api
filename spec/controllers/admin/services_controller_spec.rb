@@ -11,7 +11,7 @@ describe Admin::ServicesController do
       it 'allows access to edit service' do
         log_in_as_admin(:super_admin)
 
-        get :edit, location_id: @loc.id, id: @service.id
+        get :edit, params: { location_id: @loc.id, id: @service.id }
 
         expect(response).to render_template(:edit)
       end
@@ -22,7 +22,7 @@ describe Admin::ServicesController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :edit, location_id: @loc.id, id: @service.id
+        get :edit, params: { location_id: @loc.id, id: @service.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -33,7 +33,7 @@ describe Admin::ServicesController do
       it 'allows access to edit service' do
         log_in_as_admin(:location_admin)
 
-        get :edit, location_id: @loc.id, id: @service.id
+        get :edit, params: { location_id: @loc.id, id: @service.id }
 
         expect(response).to render_template(:edit)
       end
@@ -49,7 +49,7 @@ describe Admin::ServicesController do
       it 'allows access to create service' do
         log_in_as_admin(:super_admin)
 
-        get :new, location_id: @loc.id
+        get :new, params: { location_id: @loc.id }
 
         expect(response).to render_template(:new)
       end
@@ -60,7 +60,7 @@ describe Admin::ServicesController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        get :new, location_id: @loc.id
+        get :new, params: { location_id: @loc.id }
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -71,7 +71,7 @@ describe Admin::ServicesController do
       it 'allows access to create service' do
         log_in_as_admin(:location_admin)
 
-        get :new, location_id: @loc.id
+        get :new, params: { location_id: @loc.id }
 
         expect(response).to render_template(:new)
       end
@@ -96,7 +96,7 @@ describe Admin::ServicesController do
           locations: [@restricted_loc.id],
           keywords: ['']
         }
-        patch :update, location_id: @loc.id, id: @service.id, service: attrs
+        patch :update, params: { location_id: @loc.id, id: @service.id, service: attrs }
 
         expect(@restricted_loc.reload.services.pluck(:name)).to eq []
       end
@@ -111,7 +111,7 @@ describe Admin::ServicesController do
           description: 'Description',
           keywords: ['']
         }
-        patch :update, location_id: @loc.id, id: @service.id, service: attrs
+        patch :update, params: { location_id: @loc.id, id: @service.id, service: attrs }
 
         expect(flash[:notice]).to include('successfully updated')
       end
@@ -127,9 +127,9 @@ describe Admin::ServicesController do
       it 'allows access to create service' do
         log_in_as_admin(:super_admin)
 
-        post :create, location_id: @location.id, service: {
+        post :create, params: { location_id: @location.id, service: {
           name: 'New Service', description: 'new service', status: 'active', keywords: ['']
-        }
+        } }
 
         expect(response).
           to redirect_to admin_location_url(@location.friendly_id)
@@ -142,9 +142,9 @@ describe Admin::ServicesController do
         log_in_as_admin(:admin)
 
         expect do
-          post :create, location_id: @location.id, service: {
+          post :create, params: { location_id: @location.id, service: {
             name: 'New Service', description: 'new service', status: 'active', keywords: ['']
-          }
+          } }
         end.to_not change(Service, :count)
 
         expect(response).to redirect_to admin_dashboard_url
@@ -157,9 +157,9 @@ describe Admin::ServicesController do
         log_in_as_admin(:location_admin)
 
         expect do
-          post :create, location_id: @location.id, service: {
+          post :create, params: { location_id: @location.id, service: {
             name: 'New Service', description: 'new service', status: 'active', keywords: ['']
-          }
+          } }
         end.to change(Service, :count).by(1)
 
         expect(response).
@@ -183,7 +183,7 @@ describe Admin::ServicesController do
       it 'allows access to update service' do
         log_in_as_admin(:super_admin)
 
-        post(:update, location_id: @location.id, id: @service.id, service: @attrs)
+        post(:update, params: { location_id: @location.id, id: @service.id, service: @attrs })
 
         expect(response).
           to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
@@ -195,7 +195,7 @@ describe Admin::ServicesController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        post(:update, location_id: @location.id, id: @service.id, service: @attrs)
+        post(:update, params: { location_id: @location.id, id: @service.id, service: @attrs })
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -207,7 +207,7 @@ describe Admin::ServicesController do
       it 'updates the service' do
         log_in_as_admin(:location_admin)
 
-        post(:update, location_id: @location.id, id: @service.id, service: @attrs)
+        post(:update, params: { location_id: @location.id, id: @service.id, service: @attrs })
 
         expect(response).
           to redirect_to admin_location_service_url(@location.friendly_id, @service.id)
@@ -225,7 +225,7 @@ describe Admin::ServicesController do
       it 'allows access to destroy service' do
         log_in_as_admin(:super_admin)
 
-        delete :destroy, location_id: @location.id, id: @service.id
+        delete :destroy, params: { location_id: @location.id, id: @service.id }
 
         expect(response).to redirect_to admin_locations_url
       end
@@ -236,7 +236,7 @@ describe Admin::ServicesController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        expect { delete :destroy, location_id: @location.id, id: @service.id }.
+        expect { delete :destroy, params: { location_id: @location.id, id: @service.id } }.
           to_not change(Service, :count)
 
         expect(response).to redirect_to admin_dashboard_url
@@ -248,7 +248,7 @@ describe Admin::ServicesController do
       it 'destroys the service' do
         log_in_as_admin(:location_admin)
 
-        delete :destroy, location_id: @location.id, id: @service.id
+        delete :destroy, params: { location_id: @location.id, id: @service.id }
 
         expect(response).to redirect_to admin_locations_url
         expect(Service.find_by(id: @service.id)).to be_nil

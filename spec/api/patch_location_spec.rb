@@ -23,10 +23,6 @@ describe 'PATCH /locations/:id)' do
       transportation: 'BART stop 1 block away.',
       website: 'https://www.example.com',
       virtual: true,
-      address_attributes: {
-        address_1: 'main', city: 'utopia', state_province: 'CA', postal_code: '12345',
-        country: 'US'
-      }
     }
   end
 
@@ -40,7 +36,6 @@ describe 'PATCH /locations/:id)' do
     expect(response).to have_http_status(200)
     expect(json['accessibility']).to eq ['Disabled Parking', 'Ramp']
     expect(json['kind']).to eq "Farmers' Markets"
-    expect(json['address']['address_1']).to eq attributes[:address_attributes][:address_1]
     attributes.each do |key, value|
       next if %i[accessibility address_attributes importance kind virtual].include?(key)
       expect(json[key.to_s]).to eq value
