@@ -1,5 +1,6 @@
 class AssetHosts
-  def call(_source, request)
+  def call(_source, request = nil)
+    return if request.nil?
     @request = request
     return asset_host_with_port if host_same_as_asset_host? || unauthorized_host?
     "#{subdomain}#{asset_host_with_port}"
