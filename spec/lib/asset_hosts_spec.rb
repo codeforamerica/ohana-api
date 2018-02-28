@@ -72,5 +72,9 @@ describe AssetHosts do
         expect(AssetHosts.new.call('image.png', request)).to eq 'www.example.com'
       end
     end
+
+    it 'returns nil if request argument is nil' do
+      expect(AssetHosts.new.call('image.png')).to be_nil
+    end
   end
 end
