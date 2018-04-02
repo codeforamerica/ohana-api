@@ -225,7 +225,7 @@ GEM
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
     public_suffix (3.0.2)
-    puma (3.11.2)
+    puma (3.11.3)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.4)
