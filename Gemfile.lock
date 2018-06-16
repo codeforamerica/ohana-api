@@ -230,7 +230,7 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.5)
-    rack-cache (1.7.1)
+    rack-cache (1.8.0)
       rack (>= 0.4)
     rack-cors (1.0.2)
     rack-mini-profiler (1.0.0)
