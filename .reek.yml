@@ -1,0 +1,51 @@
+detectors:
+  InstanceVariableAssumption:
+    exclude:
+      - Admin::ContactsController
+      - Admin::LocationsController
+      - Admin::OrganizationsController
+      - Admin::OrganizationContactsController
+      - Admin::ProgramsController
+      - Admin::ServiceContactsController
+      - Admin::ServicesController
+  IrresponsibleModule:
+    enabled: false
+  NestedIterators:
+    exclude:
+      - Admin::OrganizationsController#index
+  NilCheck:
+    exclude:
+      - ConfigValidator#required_keys_with_empty_values
+      - AssetHosts#call
+  TooManyMethods:
+    exclude:
+      - Admin::CsvController
+      - Admin::ServicesController
+  TooManyStatements:
+    max_statements: 6
+    exclude:
+      - Admin::ContactsController
+      - Admin::OrganizationsController
+      - Admin::OrganizationContactsController
+      - Admin::ServiceContactsController
+      - Admin::ServicesController
+  UtilityFunction:
+    exclude:
+      - Admin::ServicesController#program_ids_for
+      - Admin::CsvController#zip_file_name
+      - ConfigValidator#empty_keys_warning
+      - DateValidator#date_from_hash
+      - DateValidator#valid_date_format?
+      - PgArrayValidator#does_not_need_validation?
+directories:
+  'spec':
+    DataClump:
+      enabled: false
+    LongParameterList:
+      enabled: false
+    TooManyStatements:
+      enabled: false
+    UtilityFunction:
+      enabled: false
+exclude_paths:
+  - db/migrate
