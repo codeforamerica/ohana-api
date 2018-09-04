@@ -259,11 +259,6 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
-    rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.4)
     railties (5.1.6)
       actionpack (= 5.1.6)
       activesupport (= 5.1.6)
@@ -420,7 +415,6 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 5.1.5)
   rails-controller-testing
-  rails_12factor
   reek
   rspec-its
   rspec-rails (~> 3.1)
