@@ -2,42 +2,42 @@
 
 FactoryBot.define do
   factory :organization do
-    name 'Parent Agency'
-    description 'Organization created for testing purposes'
+    name { 'Parent Agency' }
+    description { 'Organization created for testing purposes' }
   end
 
   factory :nearby_org, class: Organization do
-    name 'Food Stamps'
-    description 'Organization created for testing purposes'
+    name { 'Food Stamps' }
+    description { 'Organization created for testing purposes' }
   end
 
   factory :food_pantry, class: Organization do
-    name 'Food Pantry'
-    description 'Organization created for testing purposes'
+    name { 'Food Pantry' }
+    description { 'Organization created for testing purposes' }
   end
 
   factory :far_org, class: Organization do
-    name 'Far Org'
-    description 'Organization created for testing purposes'
+    name { 'Far Org' }
+    description { 'Organization created for testing purposes' }
   end
 
   factory :no_address_org, class: Organization do
-    name 'No Address Org'
-    description 'Organization created for testing purposes'
+    name { 'No Address Org' }
+    description { 'Organization created for testing purposes' }
   end
 
   factory :org_with_extra_whitespace, class: Organization do
-    accreditations ['BBB ', ' AAA']
-    alternate_name 'AKA '
-    date_incorporated 'April 25, 2001'
-    description 'Organization created for testing purposes '
-    email 'foo@bar.org '
-    funding_sources ['County ', ' State ']
-    legal_status 'nonprofit '
-    licenses ['Health Bureau ']
-    name 'Food   Pantry  '
-    tax_id '12345 '
-    tax_status '501c3 '
-    website ' http://cfa.org'
+    accreditations { ['BBB ', ' AAA'] }
+    alternate_name { 'AKA ' }
+    date_incorporated { 'April 25, 2001' }
+    description { 'Organization created for testing purposes ' }
+    email { 'foo@bar.org ' }
+    funding_sources { ['County ', ' State '] }
+    legal_status { 'nonprofit ' }
+    licenses { ['Health Bureau '] }
+    name { 'Food   Pantry  ' }
+    tax_id { '12345 ' }
+    tax_status { '501c3 ' }
+    website { ' http://cfa.org' }
   end
 end

@@ -71,7 +71,7 @@ class DateValidator < ActiveModel::EachValidator
   end
 
   def year_format_for(date)
-    return '%Y' if date =~ /\d{4}/
+    return '%Y' if date.match?(/\d{4}/)
     '%y'
   end
 end
