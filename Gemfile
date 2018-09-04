@@ -28,11 +28,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5'
 gem 'uglifier', '>= 1.3.0'
 
-group :production do
-  # Heroku recommended
-  gem 'rails_12factor'
-end
-
 group :test, :development do
   gem 'bullet'
   gem 'factory_bot_rails'

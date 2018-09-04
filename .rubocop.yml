@@ -5,17 +5,13 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/disabled.yml
 
 AllCops:
-  Include:
-    - '**/Gemfile'
-    - '**/Rakefile'
-    - 'lib/tasks/*'
   Exclude:
     - 'db/schema.rb'
     - 'bin/**/*'
     - 'config/initializers/devise.rb'
     - 'db/migrate/*'
-  TargetRailsVersion: 4.0
-  TargetRubyVersion: 2.3
+  TargetRailsVersion: 5.1
+  TargetRubyVersion: 2.5
   UseCache: true
 
 Metrics/AbcSize:
