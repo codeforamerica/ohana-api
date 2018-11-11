@@ -13,19 +13,19 @@ module Api
                        holiday_schedules]
         ).find(params[:location_id])
         services = location.services
-        render json: services, status: 200
+        render json: services, status: :ok
       end
 
       def update
         service = Service.find(params[:id])
         service.update!(service_params)
-        render json: service, status: 200
+        render json: service, status: :ok
       end
 
       def create
         location = Location.find(params[:location_id])
         service = location.services.create!(service_params)
-        render json: service, status: 201
+        render json: service, status: :created
       end
 
       def destroy
@@ -39,7 +39,7 @@ module Api
         service.category_ids = cat_ids(service_params[:taxonomy_ids])
         service.save!
 
-        render json: service, status: 200
+        render json: service, status: :ok
       end
 
       private

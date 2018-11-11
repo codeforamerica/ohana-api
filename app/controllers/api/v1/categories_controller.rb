@@ -3,12 +3,12 @@ module Api
     class CategoriesController < ApplicationController
       def index
         categories = Category.all
-        render json: categories, status: 200
+        render json: categories, status: :ok
       end
 
       def children
         children = Category.find_by(taxonomy_id: params[:taxonomy_id]).children
-        render json: children, status: 200
+        render json: children, status: :ok
       end
     end
   end

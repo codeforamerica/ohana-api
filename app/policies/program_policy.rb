@@ -14,6 +14,7 @@ class ProgramPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       return scope.pluck(:id, :name).sort_by(&:second) if user.super_admin?
+
       scope.with_orgs(org_ids).pluck(:id, :name)
     end
 

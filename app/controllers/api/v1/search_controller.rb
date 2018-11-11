@@ -14,7 +14,7 @@ module Api
         return unless stale?(etag: cache_key(locations), public: true)
 
         generate_pagination_headers(locations)
-        render json: locations.preload(tables), each_serializer: LocationsSerializer, status: 200
+        render json: locations.preload(tables), each_serializer: LocationsSerializer, status: :ok
       end
 
       def nearby
@@ -22,7 +22,7 @@ module Api
 
         render json: [] and return if location.latitude.blank?
 
-        render json: locations_near(location), each_serializer: NearbySerializer, status: 200
+        render json: locations_near(location), each_serializer: NearbySerializer, status: :ok
         generate_pagination_headers(locations_near(location))
       end
 

@@ -45,8 +45,8 @@ module Search
       where('locations.languages && ARRAY[?]', lang)
     end
 
-    def service_area(sa)
-      joins(:services).where('services.service_areas @@ :q', q: sa).distinct
+    def service_area(service_area_param)
+      joins(:services).where('services.service_areas @@ :q', q: service_area_param).distinct
     end
 
     def text_search(params = {})

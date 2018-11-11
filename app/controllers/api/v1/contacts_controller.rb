@@ -7,19 +7,19 @@ module Api
       def index
         location = Location.find(params[:location_id])
         contacts = location.contacts
-        render json: contacts, status: 200
+        render json: contacts, status: :ok
       end
 
       def update
         contact = Contact.find(params[:id])
         contact.update!(contact_params)
-        render json: contact, status: 200
+        render json: contact, status: :ok
       end
 
       def create
         location = Location.find(params[:location_id])
         contact = location.contacts.create!(contact_params)
-        render json: contact, status: 201
+        render json: contact, status: :created
       end
 
       def destroy

@@ -125,7 +125,7 @@ describe Location do
     context 'when address is present and name is already taken' do
       it 'creates a new slug based on address street' do
         new_loc = create(:nearby_loc)
-        new_loc.update_attributes!(name: 'VRS Services')
+        new_loc.update!(name: 'VRS Services')
         expect(new_loc.reload.slug).to eq('vrs-services-250-myrtle-road')
       end
     end
@@ -133,7 +133,7 @@ describe Location do
     context 'when mail_address is present and name is taken' do
       it 'creates a new slug based on mail_address city' do
         new_loc = create(:mail_address).location
-        new_loc.update_attributes!(name: 'VRS Services')
+        new_loc.update!(name: 'VRS Services')
         expect(new_loc.reload.slug).to eq('vrs-services-belmont')
       end
     end
@@ -147,7 +147,7 @@ describe Location do
 
     context 'when name is not updated' do
       it "doesn't update slug" do
-        @loc.update_attributes!(description: 'new description')
+        @loc.update!(description: 'new description')
         expect(@loc.reload.slug).to eq('vrs-services')
       end
     end

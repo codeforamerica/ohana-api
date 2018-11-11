@@ -93,12 +93,14 @@ class Location < ApplicationRecord
 
   def full_physical_address
     return if address.blank?
+
     "#{address.address_1}, #{address.city}, #{address.state_province} #{address.postal_code}"
   end
 
   def needs_geocoding?
     return false if address.blank? || address.marked_for_destruction?
     return true if latitude.blank? && longitude.blank?
+
     address.changed? && !address.new_record?
   end
 

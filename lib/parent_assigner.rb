@@ -4,6 +4,7 @@ module ParentAssigner
   def assign_parents_for(record, row)
     foreign_keys_in(row).each do |key|
       next if row[key].nil?
+
       record[key] = row[key].to_i
     end
   end

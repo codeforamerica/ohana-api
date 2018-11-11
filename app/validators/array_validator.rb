@@ -32,6 +32,7 @@ class ArrayValidator < ActiveModel::EachValidator
       @validators.each do |validator|
         next if value.nil? && validator.options[:allow_nil]
         next if value.blank? && validator.options[:allow_blank]
+
         run_validator(validator, value)
       end
     end

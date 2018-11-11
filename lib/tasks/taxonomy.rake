@@ -18,9 +18,11 @@ task oe_csv: :environment do
       hash['second_level'].each do |h|
         writer << [h['@id'], h['@title'], hash['@id'], hash['@title']]
         next if h['third_level'].nil?
+
         h['third_level'].each do |i|
           writer << [i['@id'], i['@title'], h['@id'], h['@title']]
           next if i['fourth_level'].nil?
+
           i['fourth_level'].each do |j|
             writer << [j['@id'], j['@title'], i['@id'], i['@title']]
           end

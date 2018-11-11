@@ -8,6 +8,7 @@ class ApplicationPolicy
 
   def create?
     return true if user.super_admin?
+
     scope.flatten.include?(record.id)
   end
 

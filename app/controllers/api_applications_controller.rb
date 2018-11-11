@@ -32,7 +32,7 @@ class ApiApplicationsController < ApplicationController
   def update
     @api_application = current_user.api_applications.find(params[:id])
 
-    if @api_application.update_attributes(api_application_params)
+    if @api_application.update(api_application_params)
       redirect_to edit_api_application_url(@api_application),
                   notice: 'Application was successfully updated.'
     else

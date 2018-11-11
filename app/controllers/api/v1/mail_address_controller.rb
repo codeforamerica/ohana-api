@@ -7,7 +7,7 @@ module Api
       def update
         mail_address = MailAddress.find(params[:id])
         mail_address.update!(mail_address_params)
-        render json: mail_address, status: 200
+        render json: mail_address, status: :ok
       end
 
       def create
@@ -15,7 +15,7 @@ module Api
         if location.mail_address.blank?
           mail_address = location.create_mail_address!(mail_address_params)
         end
-        render json: mail_address, status: 201
+        render json: mail_address, status: :created
       end
 
       def destroy

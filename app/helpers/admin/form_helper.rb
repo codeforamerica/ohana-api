@@ -1,9 +1,9 @@
 class Admin
   module FormHelper
-    def link_to_add_fields(name, f, association)
-      new_object = f.object.class.reflect_on_association(association).klass.new
+    def link_to_add_fields(name, form, association)
+      new_object = form.object.class.reflect_on_association(association).klass.new
       id = new_object.object_id
-      fields = f.fields_for(association, new_object, child_index: id) do |builder|
+      fields = form.fields_for(association, new_object, child_index: id) do |builder|
         render("admin/locations/forms/#{association.to_s.singularize}_fields", f: builder)
       end
       link_to(
@@ -45,6 +45,7 @@ class Admin
 
     def class_name_for(category)
       return 'depth0 checkbox' if category.depth.zero?
+
       "hide depth#{category.depth} checkbox"
     end
 
@@ -63,6 +64,7 @@ class Admin
 
     def error_class_for(model, attribute, field)
       return if model.errors[attribute].blank?
+
       'field_with_errors' if field_contains_errors?(model, attribute, field)
     end
 
@@ -71,9 +73,9 @@ class Admin
     end
 
     # rubocop:disable Metrics/MethodLength
-    def org_autocomplete_field_for(f, admin)
+    def org_autocomplete_field_for(form, admin)
       if admin.super_admin?
-        f.hidden_field(
+        form.hidden_field(
           :organization_id,
           id: 'org-name',
           class: 'form-control',
@@ -81,7 +83,7 @@ class Admin
                   'placeholder' => t('.placeholder') }
         )
       else
-        f.select(
+        form.select(
           :organization_id,
           policy_scope(Organization).map { |org| [org.second, org.first] },
           {}, class: 'form-control'
@@ -90,8 +92,8 @@ class Admin
     end
     # rubocop:enable Metrics/MethodLength
 
-    def program_autocomplete_field_for(f)
-      f.select(
+    def program_autocomplete_field_for(form)
+      form.select(
         :program_id, @location.organization.programs.pluck(:name, :id),
         { include_blank: t('.include_blank') },
         class: 'form-control'
