@@ -21,6 +21,7 @@ class ConfigValidator
   def validate_non_empty_required_keys
     empty_keys = required_keys_with_empty_values
     return if empty_keys.empty?
+
     raise empty_keys_warning(empty_keys)
   end
 

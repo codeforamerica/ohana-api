@@ -3,6 +3,7 @@ class StateProvinceValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     return unless COUNTRIES_NEEDING_VALIDATION.include?(record.country)
+
     default_message = I18n.t('errors.messages.invalid_state_province')
 
     return if value.present? && value.size == 2

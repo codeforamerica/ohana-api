@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path('boot', __dir__)
 
 # Pick the frameworks you want:
 require 'active_record/railtie'
@@ -7,7 +7,7 @@ require 'action_mailer/railtie'
 require 'sprockets/railtie'
 require 'yaml'
 
-SETTINGS = YAML.safe_load(File.read(File.expand_path('../settings.yml', __FILE__)))
+SETTINGS = YAML.safe_load(File.read(File.expand_path('settings.yml', __dir__)))
 SETTINGS.merge! SETTINGS.fetch(Rails.env, {})
 SETTINGS.symbolize_keys!
 

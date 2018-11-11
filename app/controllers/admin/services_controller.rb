@@ -103,11 +103,12 @@ class Admin
     def location_ids
       locations = service_params[:locations]
       return if locations.blank?
+
       locations.select { |id| location_ids_for(@service).include?(id.to_i) }
     end
 
     def location_ids_for(service)
-      @ids ||= service.location.organization.locations.pluck(:id)
+      @location_ids_for ||= service.location.organization.locations.pluck(:id)
     end
 
     def assign_location_service_and_taxonomy_ids

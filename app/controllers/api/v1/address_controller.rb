@@ -7,13 +7,13 @@ module Api
       def update
         location = Location.find(params[:location_id])
         location.update!(address_attributes: address_params.merge!(id: params[:id]))
-        render json: location.address, status: 200
+        render json: location.address, status: :ok
       end
 
       def create
         location = Location.find(params[:location_id])
         address = location.create_address!(address_params) if location.address.blank?
-        render json: address, status: 201
+        render json: address, status: :created
       end
 
       def destroy

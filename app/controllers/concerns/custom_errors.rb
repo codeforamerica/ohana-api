@@ -20,11 +20,11 @@ module CustomErrors
   def render_invalid_record(exception)
     hash =
       {
-        'status'  => 422,
+        'status' => 422,
         'message' => 'Validation failed for resource.',
         'errors' => [exception.record.errors]
       }
-    render json: hash, status: 422
+    render json: hash, status: :unprocessable_entity
   end
 
   def render_invalid_type
@@ -34,7 +34,7 @@ module CustomErrors
         message: 'Validation failed for resource.',
         error: 'Attribute was supposed to be an Array, but was a String.'
       }
-    render json: hash, status: 422
+    render json: hash, status: :unprocessable_entity
   end
 
   def render_invalid_radius
@@ -43,7 +43,7 @@ module CustomErrors
       error: 'Argument Error',
       description: 'Radius must be a Float between 0.1 and 50.'
     }
-    render json: message, status: 400
+    render json: message, status: :bad_request
   end
 
   def render_invalid_lat_lon
@@ -52,6 +52,6 @@ module CustomErrors
       error: 'Argument Error',
       description: 'lat_lng must be a comma-delimited lat,long pair of floats.'
     }
-    render json: message, status: 400
+    render json: message, status: :bad_request
   end
 end

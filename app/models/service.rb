@@ -56,6 +56,7 @@ class Service < ApplicationRecord
   # rubocop:disable Rails/SkipsModelValidations
   def update_location_status
     return if location.active == location_services_active?
+
     location.update_columns(active: location_services_active?)
   end
   # rubocop:enable Rails/SkipsModelValidations

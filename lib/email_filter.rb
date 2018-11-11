@@ -11,6 +11,7 @@ class EmailFilter
     return @model_class.all if email.blank?
     return @model_class.none unless email.include?('@')
     return match_generic_email(email) if SETTINGS[:generic_domains].include?(domain_from(email))
+
     match_regular_email(email)
   end
 

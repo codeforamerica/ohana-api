@@ -13,7 +13,7 @@ module Api
             "keyword,language,lat_lng,location,org_name,radius,service_area,"\
             "status,page,per_page}"
         }
-        render json: json_for_root_endpoint, status: 200
+        render json: json_for_root_endpoint, status: :ok
       end
     end
   end

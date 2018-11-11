@@ -11,6 +11,7 @@ class LocationFilter
 
   def call(location, lat_lng, radius)
     return @model_class.all if location.blank? && lat_lng.blank? && radius.blank?
+
     @model_class.near(coords(location, lat_lng), validated_radius(radius, 5))
   end
 
@@ -39,6 +40,7 @@ class LocationFilter
   def validated_coordinates(lat_lng)
     lat, lng = lat_lng.split(',')
     raise Exceptions::InvalidLatLon if lat.to_f == 0.0 || lng.to_f == 0.0
+
     [Float(lat), Float(lng)]
   end
 end

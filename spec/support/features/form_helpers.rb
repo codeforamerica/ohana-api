@@ -96,6 +96,7 @@ module Features
 
     def drop_container(tag_option)
       return '.select2-results' unless tag_option == true
+
       '.select2-drop'
     end
 

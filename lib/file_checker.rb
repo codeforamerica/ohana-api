@@ -6,6 +6,7 @@ class FileChecker
 
   def validate
     return 'skip import' if missing_or_empty_but_not_required?
+
     if missing_or_empty?
       abort "Aborting because #{filename} is required, but is missing or empty."
     elsif invalid_headers?

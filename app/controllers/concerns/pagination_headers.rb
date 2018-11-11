@@ -43,6 +43,7 @@ module PaginationHeaders
     pages.map do |k, v|
       new_params = filtered_params.merge(page: v)
       next if new_params[:page].blank?
+
       %(<#{url}?#{new_params.to_param}>; rel="#{k}")
     end
   end

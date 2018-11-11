@@ -18,6 +18,7 @@ LocationPresenter = Struct.new(:row, :addresses) do
 
   def assign_address_attributes(location, row)
     return if row[:virtual] == true || matching_address(row[:id]).blank?
+
     if location.address.blank?
       row[:address_attributes] = address_attributes_for(row[:id])
     else
@@ -30,7 +31,7 @@ LocationPresenter = Struct.new(:row, :addresses) do
   end
 
   def address_attributes_for(id)
-    @attributes ||= matching_address(id).except(:id)
+    @address_attributes_for ||= matching_address(id).except(:id)
   end
 
   def matching_address(id)

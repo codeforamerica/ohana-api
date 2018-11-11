@@ -13,7 +13,7 @@ module Api
                     page(params[:page]).per(params[:per_page]).
                     order('created_at DESC')
 
-        render json: locations, each_serializer: LocationsSerializer, status: 200
+        render json: locations, each_serializer: LocationsSerializer, status: :ok
         generate_pagination_headers(locations)
       end
 
@@ -23,13 +23,13 @@ module Api
           services: %i[categories contacts phones regular_schedules
                        holiday_schedules]
         ).find(params[:id])
-        render json: location, status: 200 if stale?(location, public: true)
+        render json: location, status: :ok if stale?(location, public: true)
       end
 
       def update
         location = Location.find(params[:id])
         location.update!(location_params)
-        render json: location, status: 200
+        render json: location, status: :ok
       end
 
       def create
@@ -40,7 +40,7 @@ module Api
           name: location.name,
           slug: location.slug
         }
-        render json: response_hash, status: 201, location: [:api, location]
+        render json: response_hash, status: :created, location: [:api, location]
       end
 
       def destroy

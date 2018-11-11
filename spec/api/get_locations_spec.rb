@@ -148,12 +148,12 @@ describe 'GET /locations' do
 
       serialized_phones =
         [{
-          'id'            => @location.phones.first.id,
-          'number'        => @location.phones.first.number,
-          'department'    => @location.phones.first.department,
-          'extension'     => @location.phones.first.extension,
+          'id' => @location.phones.first.id,
+          'number' => @location.phones.first.number,
+          'department' => @location.phones.first.department,
+          'extension' => @location.phones.first.extension,
           'vanity_number' => @location.phones.first.vanity_number,
-          'number_type'   => @location.phones.first.number_type
+          'number_type' => @location.phones.first.number_type
         }]
 
       expect(json.first['phones']).to eq(serialized_phones)

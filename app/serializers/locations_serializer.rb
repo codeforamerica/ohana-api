@@ -9,6 +9,7 @@ class LocationsSerializer < ActiveModel::Serializer
 
   def coordinates
     return [] unless object.longitude.present? && object.latitude.present?
+
     [object.longitude, object.latitude]
   end
 

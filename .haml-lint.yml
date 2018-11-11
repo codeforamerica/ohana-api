@@ -4,3 +4,27 @@ linters:
 
   ConsecutiveSilentScripts:
     enabled: false
+
+  RuboCop:
+    enabled: true
+    # These cops are incredibly noisy when it comes to HAML templates, so we
+    # ignore them.
+    ignored_cops:
+      - Lint/BlockAlignment
+      - Lint/EndAlignment
+      - Lint/Void
+      - Layout/AlignParameters
+      - Layout/ElseAlignment
+      - Layout/EmptyLineAfterGuardClause
+      - Layout/EndOfLine
+      - Layout/IndentationWidth
+      - Layout/TrailingBlankLines
+      - Layout/TrailingWhitespace
+      - Metrics/BlockLength
+      - Metrics/BlockNesting
+      - Metrics/LineLength
+      - Naming/FileName
+      - Style/FrozenStringLiteralComment
+      - Style/IfUnlessModifier
+      - Style/Next
+      - Style/WhileUntilModifier

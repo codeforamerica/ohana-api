@@ -92,43 +92,43 @@ describe 'GET /locations/:id' do
 
       serialized_services =
         [{
-          'id'                      => @location.services.reload.first.id,
-          'accepted_payments'       => [],
-          'alternate_name'          => nil,
-          'audience'                => nil,
-          'description'             => @location.services.first.description,
-          'eligibility'             => nil,
-          'email'                   => nil,
-          'fees'                    => nil,
-          'funding_sources'         => [],
-          'application_process'     => @location.services.first.application_process,
+          'id' => @location.services.reload.first.id,
+          'accepted_payments' => [],
+          'alternate_name' => nil,
+          'audience' => nil,
+          'description' => @location.services.first.description,
+          'eligibility' => nil,
+          'email' => nil,
+          'fees' => nil,
+          'funding_sources' => [],
+          'application_process' => @location.services.first.application_process,
           'interpretation_services' => @location.services.first.interpretation_services,
-          'keywords'                => @location.services.first.keywords,
-          'languages'               => [],
-          'name'                    => @location.services.first.name,
-          'required_documents'      => [],
-          'service_areas'           => [],
-          'status'                  => @location.services.first.status,
-          'website'                 => nil,
-          'wait_time'               => nil,
-          'updated_at'              => service_formatted_time,
-          'categories'              => [],
-          'contacts'                => [],
-          'phones'                  => [],
-          'regular_schedules'       => [
+          'keywords' => @location.services.first.keywords,
+          'languages' => [],
+          'name' => @location.services.first.name,
+          'required_documents' => [],
+          'service_areas' => [],
+          'status' => @location.services.first.status,
+          'website' => nil,
+          'wait_time' => nil,
+          'updated_at' => service_formatted_time,
+          'categories' => [],
+          'contacts' => [],
+          'phones' => [],
+          'regular_schedules' => [
             {
               'weekday' => 7,
-              'opens_at'  => '2000-01-01T09:30:00.000Z',
+              'opens_at' => '2000-01-01T09:30:00.000Z',
               'closes_at' => '2000-01-01T17:00:00.000Z'
             }
           ],
           'holiday_schedules' => [
             {
-              'closed'     => true,
+              'closed' => true,
               'start_date' => '2014-12-24',
-              'end_date'   => '2014-12-24',
-              'opens_at'   => nil,
-              'closes_at'  => nil
+              'end_date' => '2014-12-24',
+              'opens_at' => nil,
+              'closes_at' => nil
             }
           ]
         }]
@@ -141,11 +141,11 @@ describe 'GET /locations/:id' do
 
       serialized_organization =
         {
-          'id'                => @location.organization.id,
-          'alternate_name'    => nil,
-          'name'              => 'Parent Agency',
-          'slug'              => 'parent-agency',
-          'url'               => api_organization_url(org)
+          'id' => @location.organization.id,
+          'alternate_name' => nil,
+          'name' => 'Parent Agency',
+          'slug' => 'parent-agency',
+          'url' => api_organization_url(org)
         }
 
       expect(json['organization']).to eq(serialized_organization)
@@ -157,11 +157,11 @@ describe 'GET /locations/:id' do
 
       serialized_mail_address =
         {
-          'id'        => @location.mail_address.id,
+          'id' => @location.mail_address.id,
           'attention' => @location.mail_address.attention,
           'address_1' => @location.mail_address.address_1,
           'address_2' => nil,
-          'city'      => @location.mail_address.city,
+          'city' => @location.mail_address.city,
           'state_province' => @location.mail_address.state_province,
           'postal_code' => @location.mail_address.postal_code
         }
@@ -174,12 +174,12 @@ describe 'GET /locations/:id' do
       expect(json['contacts']).
         to eq(
           [{
-            'id'        => @location.contacts.first.id,
-            'email'     => nil,
-            'name'      => @location.contacts.first.name,
+            'id' => @location.contacts.first.id,
+            'email' => nil,
+            'name' => @location.contacts.first.name,
             'department' => nil,
-            'title'     => @location.contacts.first.title,
-            'phones'    => @location.contacts.first.phones
+            'title' => @location.contacts.first.title,
+            'phones' => @location.contacts.first.phones
           }]
         )
     end
@@ -190,11 +190,11 @@ describe 'GET /locations/:id' do
       expect(json['phones']).
         to eq(
           [{
-            'id'            => @location.phones.first.id,
-            'department'    => @location.phones.first.department,
-            'extension'     => @location.phones.first.extension,
-            'number'        => @location.phones.first.number,
-            'number_type'   => @location.phones.first.number_type,
+            'id' => @location.phones.first.id,
+            'department' => @location.phones.first.department,
+            'extension' => @location.phones.first.extension,
+            'number' => @location.phones.first.number,
+            'number_type' => @location.phones.first.number_type,
             'vanity_number' => @location.phones.first.vanity_number
           }]
         )
@@ -207,7 +207,7 @@ describe 'GET /locations/:id' do
       serialized_regular_schedule =
         {
           'weekday' => 7,
-          'opens_at'  => '2000-01-01T09:30:00.000Z',
+          'opens_at' => '2000-01-01T09:30:00.000Z',
           'closes_at' => '2000-01-01T17:00:00.000Z'
         }
       expect(json['regular_schedules'].first).to eq(serialized_regular_schedule)
@@ -222,8 +222,8 @@ describe 'GET /locations/:id' do
           'closed' => true,
           'start_date' => '2014-12-24',
           'end_date' => '2014-12-24',
-          'opens_at'   => nil,
-          'closes_at'  => nil
+          'opens_at' => nil,
+          'closes_at' => nil
         }
       expect(json['holiday_schedules'].first).to eq(serialized_holiday_schedule)
     end

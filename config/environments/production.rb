@@ -74,7 +74,7 @@ Rails.application.configure do
   # For large-scale production use, consider using a caching reverse proxy like
   # NGINX, varnish or squid.
   config.action_dispatch.rack_cache = {
-    metastore:   client,
+    metastore: client,
     entitystore: client,
     verbose: false
   }
@@ -91,11 +91,11 @@ Rails.application.configure do
   config.action_mailer.default charset: 'utf-8'
 
   config.action_mailer.smtp_settings = {
-    port:           '587',
-    address:        'smtp.sendgrid.net',
-    user_name:      ENV['SENDGRID_USERNAME'],
-    password:       ENV['SENDGRID_PASSWORD'],
-    domain:         'heroku.com',
+    port: '587',
+    address: 'smtp.sendgrid.net',
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: 'heroku.com',
     authentication: :plain,
     enable_starttls_auto: true
   }

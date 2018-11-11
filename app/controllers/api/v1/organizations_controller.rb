@@ -8,24 +8,24 @@ module Api
       def index
         orgs = Organization.includes(:contacts, :phones).
                page(params[:page]).per(params[:per_page])
-        render json: orgs, status: 200
+        render json: orgs, status: :ok
         generate_pagination_headers(orgs)
       end
 
       def show
         org = Organization.find(params[:id])
-        render json: org, status: 200
+        render json: org, status: :ok
       end
 
       def update
         org = Organization.find(params[:id])
         org.update!(org_params)
-        render json: org, status: 200
+        render json: org, status: :ok
       end
 
       def create
         org = Organization.create!(org_params)
-        render json: org, status: 201, location: [:api, org]
+        render json: org, status: :created, location: [:api, org]
       end
 
       def destroy
@@ -38,7 +38,7 @@ module Api
         org = Organization.find(params[:organization_id])
         locations = org.locations.includes(:address, :phones).
                     page(params[:page]).per(params[:per_page])
-        render json: locations, each_serializer: LocationsSerializer, status: 200
+        render json: locations, each_serializer: LocationsSerializer, status: :ok
         generate_pagination_headers(locations)
       end
 

@@ -2,12 +2,13 @@ CategoryPresenter = Struct.new(:row) do
   def to_category
     return Category.create(category_params) if row[:parent_id].blank?
     return parent_category unless parent_category.valid?
+
     child_category
   end
 
   def parent_category
-    @category ||= Category.find_or_create_by(name: row[:parent_name],
-                                             taxonomy_id: row[:parent_id])
+    @parent_category ||= Category.find_or_create_by(name: row[:parent_name],
+                                                    taxonomy_id: row[:parent_id])
   end
 
   def child_category

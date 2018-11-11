@@ -57,6 +57,7 @@ class DateValidator < ActiveModel::EachValidator
 
   def convert_value_to_date(record, attribute, value)
     return record[attribute] = date_from_hash(value) if value.is_a?(Hash)
+
     record[attribute] = parse_date(value)
   end
 
@@ -72,6 +73,7 @@ class DateValidator < ActiveModel::EachValidator
 
   def year_format_for(date)
     return '%Y' if date.match?(/\d{4}/)
+
     '%y'
   end
 end
