@@ -6,13 +6,13 @@ module PaginationHeaders
   def generate_pagination_headers(coll)
     pages = pages(coll)
 
-    links = links(pages, params)
+    links = links(pages, request_params)
 
     response.headers['Link'] = JSON.generate(links) if links.present?
     response.headers['X-Total-Count'] = coll.total_count.to_s
   end
 
-  def params
+  def request_params
     request.params.except(:controller, :format, :action, :subdomain)
   end
 
@@ -31,10 +31,10 @@ module PaginationHeaders
     pages
   end
 
-  def links(pages, params)
+  def links(pages, request_params)
     _links = {}
     pages.each do |k, v|
-      new_params = params.merge(page: v)
+      new_params = request_params.merge(page: v)
       next if new_params[:page].blank?
       _links[k] = "#{url}?#{new_params.to_param}"
     end
