@@ -161,7 +161,7 @@ describe OrganizationImporter do
       expect(OrganizationImporter.required_headers).
         to eq %w[id accreditations alternate_name date_incorporated description
                  email funding_sources legal_status licenses name tax_id
-                 tax_status website]
+                 tax_status website twitter facebook linkedin]
     end
   end
 end

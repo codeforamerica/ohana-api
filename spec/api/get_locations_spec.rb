@@ -163,7 +163,7 @@ describe 'GET /locations' do
       expect(json.first['organization'].keys).
         to eq(%w[id accreditations alternate_name date_incorporated
                  description email funding_sources licenses name
-                 website slug url locations_url])
+                 website twitter facebook linkedin logo_url])
     end
 
     it 'does not include contacts within Organization' do
