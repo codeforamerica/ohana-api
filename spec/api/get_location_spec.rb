@@ -139,14 +139,17 @@ describe 'GET /locations/:id' do
     it 'includes the serialized organization association' do
       org = @location.organization
 
-      serialized_organization =
-        {
-          'id'                => @location.organization.id,
-          'alternate_name'    => nil,
-          'name'              => 'Parent Agency',
-          'slug'              => 'parent-agency',
-          'url'               => api_organization_url(org)
-        }
+      serialized_organization = {
+        'id' => @location.organization.id,
+        'alternate_name' => nil,
+        'name' => 'Parent Agency',
+        'slug'=> 'parent-agency',
+        'website' => nil,
+        'twitter' => nil,
+        'facebook' => nil,
+        'linkedin' => nil,
+        'logo_url' => nil,
+      }
 
       expect(json['organization']).to eq(serialized_organization)
     end
