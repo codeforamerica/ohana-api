@@ -95,6 +95,7 @@ Rails.application.routes.draw do
         end
 
         resources :events, except: %i[show new edit]
+        resources :blog_posts, except: %i[show new edit]
 
         put 'services/:service_id/categories',
             to: 'services#update_categories', as: :service_categories

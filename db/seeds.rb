@@ -64,9 +64,35 @@ Kernel.puts 'Setting up events...'
     starting_at: date,
     ending_at: DateTime.now + index.hours,
     city: Faker::Address.city,
-    is_featured: false,
+    body: Faker::Lorem.paragraph,
+    is_featured: %w[false true].sample,
     street_1: Faker::Address.street_address,
+    street_2: Faker::Address.street_address,
     organization_id: 1,
-    admin_id: 3
+    admin_id: 3,
+    state_abbr: Faker::Address.state_abbr,
+    zip: Faker::Address.zip,
+    phone: Faker::PhoneNumber.cell_phone,
+    external_url: Faker::Internet.url
   )
+end
+Kernel.puts 'Setting up BlogPost default Tags...'
+['featured', 'front page'].each do |tag|
+  Tag.create!(
+    name: tag
+  )
+end
+
+Kernel.puts 'Setting up BlogPost...'
+32.times do |index|
+  blog = BlogPost.new(
+    title: Faker::Job.title,
+    posted_at: Faker::Time.between(DateTime.now - index.hours, DateTime.now),
+    is_published: %w[false true].sample,
+    admin_id: 3,
+    body: Faker::Lorem.paragraph,
+    image_legend: Faker::Lorem.sentence
+  )
+  blog.category_list = ['featured', 'front page'].sample
+  blog.save
 end
