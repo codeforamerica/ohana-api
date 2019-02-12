@@ -313,6 +313,52 @@ ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
 
 
 --
+-- Name: events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.events (
+    id integer NOT NULL,
+    title character varying NOT NULL,
+    body text,
+    posted_at timestamp without time zone NOT NULL,
+    starting_at timestamp without time zone NOT NULL,
+    ending_at timestamp without time zone NOT NULL,
+    street_1 character varying NOT NULL,
+    street_2 character varying,
+    city character varying NOT NULL,
+    state_abbr character varying,
+    zip character varying,
+    phone character varying,
+    external_url character varying,
+    is_featured boolean DEFAULT false,
+    organization_id integer NOT NULL,
+    admin_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.events_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
+
+
+--
 -- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -791,6 +837,13 @@ ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq':
 
 
 --
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
+
+
+--
 -- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -905,6 +958,14 @@ ALTER TABLE ONLY categories
 
 ALTER TABLE ONLY contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
 
 
 --
@@ -1495,4 +1556,6 @@ INSERT INTO schema_migrations (version) VALUES ('20171009151406');
 INSERT INTO schema_migrations (version) VALUES ('20171205203638');
 
 INSERT INTO schema_migrations (version) VALUES ('20171207182758');
+
+INSERT INTO schema_migrations (version) VALUES ('20190208161625');
 

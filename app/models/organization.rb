@@ -88,5 +88,4 @@ class Organization < ActiveRecord::Base
   def touch_locations
     locations.find_each(&:touch)
   end
-
 end

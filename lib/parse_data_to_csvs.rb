@@ -3,8 +3,7 @@ require 'json'
 require 'net/http'
 
 class ParseDataToCsvs
-
-  def initialize()
+  def initialize
     @orgs_map = []
     @locations_map = []
     @addresses_map = []
@@ -154,7 +153,7 @@ class ParseDataToCsvs
       name:               row[key + 'LocName'],
       transportation:     nil,
       virtual:            virtual,
-      website:            nil,
+      website:            nil
     }
   end
 
@@ -168,7 +167,7 @@ class ParseDataToCsvs
       city:               row[key + 'City'],
       state_province:     row[key + 'State'],
       postal_code:        row[key + 'ZIP'],
-      country:            'US',
+      country:            'US'
     }
   end
 
@@ -183,7 +182,7 @@ class ParseDataToCsvs
       city:               row['M1City'],
       state_province:     row['M1State'],
       postal_code:        row['M1ZIP'],
-      country:            'US',
+      country:            'US'
     }
   end
 
@@ -197,7 +196,7 @@ class ParseDataToCsvs
       name:               row['B1OrgContactName'],
       title:              row['B1OrgContactTitle'],
       email:              row['B1Email'],
-      department:         nil,
+      department:         nil
     }
   end
 
@@ -211,7 +210,7 @@ class ParseDataToCsvs
       name:               row[key + 'Name'],
       title:              row[key + 'Title'],
       email:              row[key + 'Email'],
-      department:         nil,
+      department:         nil
     }
   end
 
@@ -229,7 +228,7 @@ class ParseDataToCsvs
       department:         nil,
       number_type:        'voice',
       vanity_number:      nil,
-      country_prefix:     nil,
+      country_prefix:     nil
     }
   end
 
@@ -247,7 +246,7 @@ class ParseDataToCsvs
       department:         nil,
       number_type:        'voice',
       vanity_number:      nil,
-      country_prefix:     nil,
+      country_prefix:     nil
     }
   end
 
@@ -265,7 +264,7 @@ class ParseDataToCsvs
       department:         nil,
       number_type:        'voice',
       vanity_number:      nil,
-      country_prefix:     nil,
+      country_prefix:     nil
     }
   end
 
@@ -287,7 +286,7 @@ class ParseDataToCsvs
       interpretation_sources: nil,
       keywords:               nil,
       languages:              nil,
-      name:                   row[key+ 'ServiceName'],
+      name:                   row[key + 'ServiceName'],
       required_documents:     nil,
       service_areas:          nil,
       status:                 'active',

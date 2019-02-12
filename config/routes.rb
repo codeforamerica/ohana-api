@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       end
       resources :programs, except: :show
       resources :services, only: :index
+      resources :events, except: :show
 
       namespace :csv do
         get 'addresses'
@@ -92,6 +93,8 @@ Rails.application.routes.draw do
             get :search
           end
         end
+
+        resources :events, except: %i[show new edit]
 
         put 'services/:service_id/categories',
             to: 'services#update_categories', as: :service_categories

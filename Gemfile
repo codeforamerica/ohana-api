@@ -31,8 +31,8 @@ gem 'rails', '~> 4.2'
 gem 'rubyzip'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5'
-gem 'sucker_punch'
 gem 'smarter_csv'
+gem 'sucker_punch'
 gem 'uglifier', '>= 1.3.0'
 
 group :production do
@@ -42,10 +42,10 @@ end
 
 group :test, :development do
   gem 'bullet'
+  gem 'byebug'
   gem 'factory_girl_rails', '>= 4.2.0'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
-  gem 'byebug'
 end
 
 group :test do
@@ -65,6 +65,7 @@ group :development do
   gem 'binding_of_caller', '>= 0.7.1', platforms: %i[mri_19 rbx]
   gem 'bummr'
   gem 'derailed'
+  gem 'faker'
   gem 'flamegraph'
   gem 'letter_opener'
   gem 'quiet_assets', '>= 1.0.2'

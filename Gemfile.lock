@@ -138,6 +138,8 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
+    faker (1.9.1)
+      i18n (>= 0.7)
     ffi (1.9.14)
     figaro (1.1.1)
       thor (~> 0.14)
@@ -415,6 +417,7 @@ DEPENDENCIES
   dotenv-rails
   enumerize
   factory_girl_rails (>= 4.2.0)
+  faker
   figaro (~> 1.0)
   flamegraph
   friendly_id (~> 5.0)
@@ -461,4 +464,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.15.4
+   1.16.5

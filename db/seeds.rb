@@ -54,3 +54,19 @@ admin3.skip_confirmation!
 admin3.super_admin = true
 admin3.save
 admin3.confirm
+
+Kernel.puts 'Setting up events...'
+32.times do |index|
+  date = Faker::Time.between(DateTime.now - index.hours, DateTime.now)
+  Event.create!(
+    title: Faker::Job.title,
+    posted_at: date,
+    starting_at: date,
+    ending_at: DateTime.now + index.hours,
+    city: Faker::Address.city,
+    is_featured: false,
+    street_1: Faker::Address.street_address,
+    organization_id: 1,
+    admin_id: 3
+  )
+end
