@@ -52,6 +52,6 @@ script/import_to_staging
 
 # Zeus
 .zeus.sock
-
+/.idea
 # Byebug
 .byebug_history
