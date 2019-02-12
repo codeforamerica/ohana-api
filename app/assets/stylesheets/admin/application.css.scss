@@ -172,3 +172,41 @@ a.boxed-action:active {
     margin-top: 20px;
   }
 }
+
+.events-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  select.form-control {
+    width: 200px;
+  }
+}
+
+.custom-table {
+  border-collapse: separate;
+  border-spacing: 10px;
+  margin: 0 auto;
+  width: 100%;
+
+  td {
+    font-size: 14px;
+  }
+}
+
+.dates-event {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-top: 5px;
+  }
+
+  .last-item {
+    margin-left: 50px;
+  }
+}

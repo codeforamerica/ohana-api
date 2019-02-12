@@ -1,0 +1,19 @@
+%div.events-header
+  %p Events
+  = select(:event, :is_featured, options_for_select([['All', 'all'], ['Featured', 'featured']]), {}, { class: 'form-control' })
+%br
+%table{cellspacing: 30, class: 'custom-table'}
+  %thead
+    %tr
+      %th Title
+      %th Organization
+      %th Event Date
+      %th Featured?
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td= link_to event[2], edit_admin_event_path(event.first)
+        %td= event[1]
+        %td= event[3].strftime('%m/%d/%Y')
+        %td= event[4].is_a?(FalseClass) ? 'No' : 'Yes'
+= paginate @events
