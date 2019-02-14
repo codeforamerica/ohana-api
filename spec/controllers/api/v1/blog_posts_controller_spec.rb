@@ -62,6 +62,17 @@ describe Api::V1::BlogPostsController do
     end
   end
 
+  describe 'GET #show' do
+    it 'responds with the info for an specific blog posts' do
+      blog_posts = create(:blog_post, :soccer)
+      get :show, id: blog_posts.id
+      expect(BlogPost.count).to eq(1)
+      parsed_response = JSON.parse(response.body)
+      expect(parsed_response['title']).to eq('Test Blog post')
+      expect(parsed_response['is_published']).to eq(false)
+    end
+  end
+
   describe 'POST #create' do
     it 'creates a new blog post into database' do
       post :create, blog_post: {
@@ -130,6 +141,53 @@ describe Api::V1::BlogPostsController do
       expect(BlogPost.count).to eq(1)
       delete :destroy, id: blog_post.id
       expect(BlogPost.count).to eq(0)
+    end
+  end
+
+  describe 'GET #categories' do
+    it 'responds with the list of all blog posts categories' do
+      new_blog = BlogPost.new(
+        title: 'Second BlogPost',
+        posted_at: '2019-01-06 18:30:00',
+        body: 'Los Angeles',
+        is_published: false,
+        admin_id: 1,
+        blog_post_attachments_attributes: [
+          {
+            file_type: 'video',
+            file_url: 'test.com',
+            file_legend: 'test test',
+            order: 1,
+          }
+        ]
+      )
+      new_blog.category_list.add('food')
+      new_blog.save
+
+      second_blog = BlogPost.new(
+        title: 'Third BlogPost',
+        posted_at: '2019-01-06 18:30:00',
+        body: 'Los Angeles',
+        is_published: false,
+        admin_id: 1,
+        blog_post_attachments_attributes: [
+          {
+            file_type: 'video',
+            file_url: 'test.com',
+            file_legend: 'test test',
+            order: 1,
+          }
+        ]
+      )
+      second_blog.category_list.add('games')
+      second_blog.save
+
+      get :categories
+
+      expect(BlogPost.count).to eq(2)
+      parsed_response = JSON.parse(response.body)
+      expect(parsed_response.first['name']).to eq('food')
+      expect(parsed_response.second['name']).to eq('games')
     end
   end
 end

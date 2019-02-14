@@ -300,7 +300,8 @@ CREATE TABLE public.blog_posts (
     admin_id integer NOT NULL,
     is_published boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    organization_id integer
 );
 
 
@@ -1869,4 +1870,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190212192742');
 INSERT INTO schema_migrations (version) VALUES ('20190213195623');
 
 INSERT INTO schema_migrations (version) VALUES ('20190214025226');
+
+INSERT INTO schema_migrations (version) VALUES ('20190214195002');
 

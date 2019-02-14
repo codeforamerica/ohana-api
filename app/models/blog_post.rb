@@ -1,10 +1,11 @@
 class BlogPost < ActiveRecord::Base
   attr_accessible :title, :body, :posted_at, :admin_id,
-                  :is_published, :blog_post_attachments_attributes
+                  :is_published, :blog_post_attachments_attributes, :organization_id
 
   acts_as_taggable_on :categories
 
   belongs_to :admin
+  belongs_to :organization
 
   has_many :blog_post_attachments, dependent: :destroy
   accepts_nested_attributes_for :blog_post_attachments,

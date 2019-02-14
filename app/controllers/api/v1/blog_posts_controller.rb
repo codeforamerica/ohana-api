@@ -7,7 +7,7 @@ module Api
 
       skip_before_action :verify_authenticity_token
 
-      before_action :set_blog_post, only: %i[update destroy]
+      before_action :set_blog_post, only: %i[show update destroy]
       after_action :set_cache_control, only: :index
 
       def index
@@ -16,6 +16,12 @@ module Api
         generate_pagination_headers(blog_posts)
         render json: blog_posts,
                each_serializer: BlogPostSerializer,
+               status: 200
+      end
+
+      def show
+        render json: @blog_post,
+               serializer: BlogPostSerializer,
                status: 200
       end
 
@@ -53,7 +59,14 @@ module Api
                  status: :unprocessable_entity,
                  serializer: ActiveModel::Serializer::ErrorSerializer
         end
-     end
+      end
+
+      def categories
+        categories = Tag.all
+        render json: categories,
+               each_serializer: TagSerializer,
+               status: 200
+      end
 
       private
 
@@ -65,6 +78,7 @@ module Api
           :category,
           :admin_id,
           :is_published,
+          :organization_id,
           blog_post_attachments_attributes: [
             :id,
             :file_type,
@@ -81,13 +95,12 @@ module Api
       end
 
       def filter_posts
-        blog_post = if params.present? && params.dig(:filter, :category).present?
-                      BlogPost.tagged_with(params[:filter][:category])
-                    elsif params.present? && params.dig(:filter, :draft).present?
-                      BlogPost.where(is_published: false)
-                    else
-                      BlogPost.all
-                    end
+        blog_post = BlogPost.all
+        if params[:filter].present?
+          blog_post = blog_post.tagged_with(params[:filter][:category]) if params[:filter][:category].present?
+          blog_post = blog_post.where(is_published: false) if params[:filter][:draft].present?
+          blog_post = blog_post.where(organization_id: params[:filter][:organization_id]) if params[:filter][:organization_id].present?
+        end
         blog_post.page(params[:page])
                  .per(params[:per_page])
                  .order('posted_at ASC')

@@ -76,6 +76,7 @@ Kernel.puts 'Setting up events...'
     external_url: Faker::Internet.url
   )
 end
+
 Kernel.puts 'Setting up BlogPost default Tags...'
 ['featured', 'front page'].each do |tag|
   if Tag.find_by_name(tag).blank?
@@ -98,9 +99,10 @@ Kernel.puts 'Setting up BlogPost...'
         file_type: %w[video image audio].sample,
         file_url: Faker::Avatar.image,
         file_legend: Faker::Lorem.sentence,
-        order: rand(1..3),
+        order: rand(1..3)
       }
-    ]
+    ],
+    organization_id: 1
   )
   blog.category_list = ['featured', 'front page'].sample
   blog.save

@@ -7,24 +7,21 @@ module Api
 
       skip_before_action :verify_authenticity_token
 
-      before_action :set_event, only: %i[update destroy]
+      before_action :set_event, only: %i[show update destroy]
       after_action :set_cache_control, only: :index
 
       def index
-        events = if params[:month].present?
-                   Event.events_in_month(params[:month])
-                        .page(params[:page])
-                        .per(params[:per_page])
-                        .order('starting_at ASC')
-                 else
-                   Event.page(params[:page])
-                        .per(params[:per_page])
-                        .order('starting_at ASC')
-                 end
+        events = get_events
+        generate_pagination_headers(events)
         render json: events,
                each_serializer: EventsSerializer,
                status: 200
-        generate_pagination_headers(events)
+      end
+
+      def show
+        render json: @event,
+               serializer: EventsSerializer,
+               status: 200
       end
 
       def create
@@ -63,6 +60,15 @@ module Api
       end
 
       private
+
+      def get_events
+        events = Event.all
+        events = events.events_in_month(params[:month]) if params[:month].present?
+        events = events.where(organization_id: params[:organization_id]) if params[:organization_id].present?
+        events.page(params[:page])
+              .per(params[:per_page])
+              .order('starting_at ASC')
+      end
 
       def event_params
         params.require(:event).permit(
