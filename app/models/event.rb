@@ -6,14 +6,6 @@ class Event < ActiveRecord::Base
   belongs_to :admin
   belongs_to :organization
 
-  validate :featured_events_in_month
-
-  def featured_events_in_month
-    if self.events_in_month(starting_at.month).count >= 3
-      errors.add(:is_featured, I18n.t('errors.messages.three_events_in_month'))
-    end
-  end
-
   def self.events_in_month(month)
     where('EXTRACT(MONTH FROM starting_at) = ?', month)
   end
