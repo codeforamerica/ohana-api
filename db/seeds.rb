@@ -93,7 +93,14 @@ Kernel.puts 'Setting up BlogPost...'
     is_published: %w[false true].sample,
     admin_id: 3,
     body: Faker::Lorem.paragraph,
-    image_legend: Faker::Lorem.sentence
+    blog_post_attachments_attributes: [
+      {
+        file_type: %w[video image audio].sample,
+        file_url: Faker::Avatar.image,
+        file_legend: Faker::Lorem.sentence,
+        order: rand(1..3),
+      }
+    ]
   )
   blog.category_list = ['featured', 'front page'].sample
   blog.save

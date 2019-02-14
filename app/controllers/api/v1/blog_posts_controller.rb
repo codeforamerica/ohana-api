@@ -12,10 +12,11 @@ module Api
 
       def index
         blog_posts = filter_posts
+
+        generate_pagination_headers(blog_posts)
         render json: blog_posts,
                each_serializer: BlogPostSerializer,
                status: 200
-        generate_pagination_headers(blog_posts)
       end
 
       def create
@@ -61,10 +62,17 @@ module Api
           :title,
           :body,
           :posted_at,
-          :image_legend,
           :category,
           :admin_id,
-          :is_published
+          :is_published,
+          blog_post_attachments_attributes: [
+            :id,
+            :file_type,
+            :file_url,
+            :file_legend,
+            :order,
+            :_destroy
+          ]
         )
       end
 
