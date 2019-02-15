@@ -6,13 +6,15 @@ class Organization < ActiveRecord::Base
                   :description, :email, :funding_sources, :legal_status,
                   :licenses, :name, :tax_id, :tax_status, :website,
                   :twitter, :facebook, :linkedin, :phones_attributes,
-                  :logo_url, :rank
+                  :logo_url, :rank, :is_published, :approval_status, :admin_id
 
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :services, through: :locations
   has_many :categories, through: :services
+  belongs_to :admin
+
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 
   has_many :phones, dependent: :destroy
@@ -38,6 +40,12 @@ class Organization < ActiveRecord::Base
                         :facebook, :linkedin
 
   after_save :touch_locations, if: :needs_touch?
+
+  enum approval_status: {
+    pending: 'pending',
+    approved: 'approved',
+    denied: 'denied'
+  }
 
   def self.with_locations(ids)
     joins(:locations).where('locations.id IN (?)', ids).uniq
