@@ -20,11 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    active_model_serializers (0.10.9)
-      actionpack (>= 4.1, < 6)
-      activemodel (>= 4.1, < 6)
-      case_transform (>= 0.2)
-      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
+    active_model_serializers (0.8.4)
+      activemodel (>= 3.0)
     activejob (4.2.9)
       activesupport (= 4.2.9)
       globalid (>= 0.3.0)
@@ -82,8 +79,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    case_transform (0.2)
-      activesupport
     cliver (0.3.2)
     codeclimate-engine-rb (0.4.0)
       virtus (~> 1.0)
@@ -187,7 +182,6 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (2.1.0)
-    jsonapi-renderer (0.2.0)
     kaminari (1.0.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.0.1)
@@ -251,10 +245,10 @@ GEM
       activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rack (1.6.8)
-    rack-cache (1.7.0)
+    rack (1.6.11)
+    rack-cache (1.8.0)
       rack (>= 0.4)
-    rack-cors (0.4.1)
+    rack-cors (1.0.2)
     rack-mini-profiler (0.10.5)
       rack (>= 1.2.0)
     rack-test (0.6.3)
@@ -406,7 +400,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers
+  active_model_serializers (~> 0.8.0)
   acts-as-taggable-on (~> 5.0)
   ancestry
   auto_strip_attributes (~> 2.0)

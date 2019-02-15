@@ -1,4 +1,5 @@
 class SummarizedOrganizationSerializer < ActiveModel::Serializer
+
   attributes :id, :alternate_name, :name, :slug, :website, :twitter, :facebook,
              :linkedin, :logo_url
 
