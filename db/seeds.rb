@@ -78,9 +78,11 @@ Kernel.puts 'Setting up events...'
 end
 Kernel.puts 'Setting up BlogPost default Tags...'
 ['featured', 'front page'].each do |tag|
-  Tag.create!(
-    name: tag
-  )
+  if Tag.find_by_name(tag).blank?
+    Tag.create!(
+        name: tag
+    )
+  end
 end
 
 Kernel.puts 'Setting up BlogPost...'

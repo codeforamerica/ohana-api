@@ -9,4 +9,8 @@ class Event < ActiveRecord::Base
   def self.events_in_month(month)
     where('EXTRACT(MONTH FROM starting_at) = ?', month)
   end
+
+  def self.with_orgs(ids)
+    joins(:organization).where('organization_id IN (?)', ids).uniq
+  end
 end
