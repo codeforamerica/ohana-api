@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.3.3'
-gem 'active_model_serializers', '~> 0.8.0'
+gem 'active_model_serializers', '0.9.7'
 gem 'acts-as-taggable-on', '~> 5.0'
 gem 'ancestry'
 gem 'auto_strip_attributes', '~> 2.0'
@@ -35,6 +35,7 @@ gem 'select2-rails', '~> 3.5'
 gem 'smarter_csv'
 gem 'sucker_punch'
 gem 'uglifier', '>= 1.3.0'
+gem 'devise-jwt', '~> 0.5.8'
 
 group :production do
   # Heroku recommended

@@ -1,10 +1,10 @@
 class BlogPost < ActiveRecord::Base
-  attr_accessible :title, :body, :posted_at, :admin_id,
+  attr_accessible :title, :body, :posted_at, :user_id,
                   :is_published, :blog_post_attachments_attributes, :organization_id
 
   acts_as_taggable_on :categories
 
-  belongs_to :admin
+  belongs_to :user
   belongs_to :organization
 
   has_many :blog_post_attachments, dependent: :destroy
@@ -13,4 +13,6 @@ class BlogPost < ActiveRecord::Base
 
   validates :title, :body,
             presence: { message: I18n.t('errors.messages.blank_for_blog_post') }
+
+  validates :user_id, presence: true
 end

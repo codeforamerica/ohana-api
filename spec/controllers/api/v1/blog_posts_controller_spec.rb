@@ -17,7 +17,8 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-        admin_id: 1,
+
+        user_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',
@@ -50,7 +51,7 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: true,
-        admin_id: 1
+        user_id: 1
       )
       new_blog.save
       get :index, filter: { draft: true }
@@ -80,7 +81,8 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-        admin_id: 1,
+
+        user_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',
@@ -151,7 +153,7 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-        admin_id: 1,
+        user_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',
@@ -169,7 +171,7 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-        admin_id: 1,
+        user_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',

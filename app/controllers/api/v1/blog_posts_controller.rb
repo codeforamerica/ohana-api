@@ -1,13 +1,12 @@
 module Api
   module V1
-    class BlogPostsController < ApplicationController
+    class BlogPostsController < Api::V1::BaseController
       include PaginationHeaders
       include CustomErrors
       include Cacheable
 
-      skip_before_action :verify_authenticity_token
-
-      before_action :set_blog_post, only: %i[show update destroy]
+      before_action :authenticate_api_user!, except: [:index, :show]
+      before_action :set_blog_post, only: %i[update destroy]
       after_action :set_cache_control, only: :index
 
       def index
@@ -27,6 +26,7 @@ module Api
 
       def create
         @blog_post = BlogPost.new(blog_post_params)
+        @blog_post.user_id = current_api_user.id
         @blog_post.category_list.add(blog_post_params[:category])
         if @blog_post.save
           render json: @blog_post,
@@ -76,7 +76,7 @@ module Api
           :body,
           :posted_at,
           :category,
-          :admin_id,
+
           :is_published,
           :organization_id,
           blog_post_attachments_attributes: [

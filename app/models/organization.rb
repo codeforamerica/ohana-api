@@ -6,7 +6,7 @@ class Organization < ActiveRecord::Base
                   :description, :email, :funding_sources, :legal_status,
                   :licenses, :name, :tax_id, :tax_status, :website,
                   :twitter, :facebook, :linkedin, :phones_attributes,
-                  :logo_url, :rank, :is_published, :approval_status, :admin_id
+                  :logo_url, :rank, :is_published, :approval_status, :user_id
 
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy
@@ -15,7 +15,7 @@ class Organization < ActiveRecord::Base
   has_many :categories, through: :services
   has_many :blog_post
 
-  belongs_to :admin
+  belongs_to :user
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
 

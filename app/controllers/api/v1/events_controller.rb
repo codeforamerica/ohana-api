@@ -1,13 +1,12 @@
 module Api
   module V1
-    class EventsController < ApplicationController
+    class EventsController < Api::V1::BaseController
       include CustomErrors
       include Cacheable
       include PaginationHeaders
 
-      skip_before_action :verify_authenticity_token
-
-      before_action :set_event, only: %i[show update destroy]
+      before_action :authenticate_api_user!, except: [:index, :show]
+      before_action :set_event, only: %i[update destroy]
       after_action :set_cache_control, only: :index
 
       def index
@@ -26,6 +25,7 @@ module Api
 
       def create
         @event = Event.new(event_params)
+        @event.user_id = current_api_user.id
         if @event.save
           render json: @event,
                  serializer: EventsSerializer,
@@ -84,8 +84,7 @@ module Api
           :phone,
           :external_url,
           :organization_id,
-          :body,
-          :admin_id
+          :body
         )
       end
 

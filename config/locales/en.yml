@@ -242,6 +242,9 @@ en:
         rank:
           description: 'Select a value between 1-5. Organizations with a ranking of 5 will be displayed first. Organizations with "no ranking" will displayed after organizations with a rank.'
 
+        approval_status:
+          description: 'Approve this organization.'
+
     services:
       forms:
         accepted_payments:

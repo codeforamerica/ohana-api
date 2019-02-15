@@ -50,7 +50,7 @@ module OhanaApi
         resource '*',
                  headers: :any,
                  methods: %i[get put patch post delete options],
-                 expose: ['Etag', 'Last-Modified', 'Link', 'X-Total-Count']
+                 expose: ['Etag', 'Last-Modified', 'Link', 'X-Total-Count', 'Authorization']
       end
     end
 

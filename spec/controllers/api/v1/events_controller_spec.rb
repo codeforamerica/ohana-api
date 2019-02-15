@@ -22,7 +22,7 @@ describe Api::V1::EventsController do
         is_featured: false,
         street_1: 'Test street',
         organization_id: 1,
-        admin_id: 1
+        user_id: 1
       )
       get :index, month: 1
       expect(Event.count).to eq(2)
@@ -55,7 +55,7 @@ describe Api::V1::EventsController do
         is_featured: false,
         street_1: 'Test street',
         organization_id: 1,
-        admin_id: 1
+        user_id: 1
       }
       expect(Event.count).to eq(1)
       parsed_response = JSON.parse(response.body)

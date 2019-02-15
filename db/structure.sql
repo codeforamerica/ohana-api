@@ -297,11 +297,11 @@ CREATE TABLE public.blog_posts (
     title character varying NOT NULL,
     body text NOT NULL,
     posted_at timestamp without time zone NOT NULL,
-    admin_id integer NOT NULL,
     is_published boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    organization_id integer
+    organization_id integer,
+    user_id integer
 );
 
 
@@ -426,9 +426,9 @@ CREATE TABLE public.events (
     external_url character varying,
     is_featured boolean DEFAULT false,
     organization_id integer NOT NULL,
-    admin_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    user_id integer
 );
 
 
@@ -517,6 +517,37 @@ CREATE SEQUENCE public.holiday_schedules_id_seq
 --
 
 ALTER SEQUENCE public.holiday_schedules_id_seq OWNED BY public.holiday_schedules.id;
+
+
+--
+-- Name: jwt_blacklist; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.jwt_blacklist (
+    id integer NOT NULL,
+    jti character varying NOT NULL,
+    exp timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: jwt_blacklist_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.jwt_blacklist_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: jwt_blacklist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.jwt_blacklist_id_seq OWNED BY public.jwt_blacklist.id;
 
 
 --
@@ -632,7 +663,7 @@ CREATE TABLE public.organizations (
     rank integer,
     approval_status public.post_approval_statuses,
     is_published boolean DEFAULT false,
-    admin_id integer
+    user_id integer
 );
 
 
@@ -1036,6 +1067,13 @@ ALTER TABLE ONLY public.holiday_schedules ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: jwt_blacklist id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.jwt_blacklist ALTER COLUMN id SET DEFAULT nextval('public.jwt_blacklist_id_seq'::regclass);
+
+
+--
 -- Name: locations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1190,6 +1228,14 @@ ALTER TABLE ONLY public.friendly_id_slugs
 
 ALTER TABLE ONLY public.holiday_schedules
     ADD CONSTRAINT holiday_schedules_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: jwt_blacklist jwt_blacklist_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.jwt_blacklist
+    ADD CONSTRAINT jwt_blacklist_pkey PRIMARY KEY (id);
 
 
 --
@@ -1411,6 +1457,13 @@ CREATE INDEX index_holiday_schedules_on_location_id ON public.holiday_schedules 
 --
 
 CREATE INDEX index_holiday_schedules_on_service_id ON public.holiday_schedules USING btree (service_id);
+
+
+--
+-- Name: index_jwt_blacklist_on_jti; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_jwt_blacklist_on_jti ON public.jwt_blacklist USING btree (jti);
 
 
 --
@@ -1872,4 +1925,8 @@ INSERT INTO schema_migrations (version) VALUES ('20190213195623');
 INSERT INTO schema_migrations (version) VALUES ('20190214025226');
 
 INSERT INTO schema_migrations (version) VALUES ('20190214195002');
+
+INSERT INTO schema_migrations (version) VALUES ('20190216165413');
+
+INSERT INTO schema_migrations (version) VALUES ('20190217161912');
 

@@ -1,0 +1,10 @@
+.inst-box
+  %header
+    = f.label :approval_status
+    %span.desc
+      = t('.description')
+
+  = field_set_tag do
+    .row
+      .col-sm-6
+        = f.select :approval_status, [['Pending', 'pending'], ['Approved', 'approved'], ['Denied', 'denied']], class: 'form-control'

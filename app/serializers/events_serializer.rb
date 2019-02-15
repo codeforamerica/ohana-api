@@ -4,5 +4,5 @@ class EventsSerializer < ActiveModel::Serializer
              :organization_id, :is_featured, :body
 
   has_one :organization, serializer: LocationsOrganizationSerializer
-  has_one :admin, serializer: AdminSerializer
+  has_one :user, serializer: UserSerializer
 end
