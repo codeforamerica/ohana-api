@@ -1,5 +1,5 @@
 class Program < ApplicationRecord
-  belongs_to :organization, required: true
+  belongs_to :organization, optional: false
   has_many :services, dependent: :destroy
 
   validates :name,
