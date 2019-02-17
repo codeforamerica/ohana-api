@@ -3,7 +3,7 @@
     %h3 Forgot your password?
     %p
       Enter the email you signed up with, and we'll send you password reset instructions.
-    = devise_error_messages!
+    = render 'devise/shared/error_messages', resource: resource
     .form-group
       = f.label :email
       = f.email_field :email, autofocus: true, class: 'form-control'
