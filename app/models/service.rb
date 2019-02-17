@@ -1,5 +1,5 @@
 class Service < ApplicationRecord
-  belongs_to :location, touch: true, required: true
+  belongs_to :location, touch: true, optional: false
   belongs_to :program
 
   has_and_belongs_to_many :categories,

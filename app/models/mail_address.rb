@@ -1,5 +1,5 @@
 class MailAddress < ApplicationRecord
-  belongs_to :location, touch: true, inverse_of: :mail_address, required: true
+  belongs_to :location, touch: true, inverse_of: :mail_address, optional: false
 
   validates :address_1,
             :city,
