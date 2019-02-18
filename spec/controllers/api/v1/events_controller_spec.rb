@@ -33,6 +33,17 @@ describe Api::V1::EventsController do
     end
   end
 
+  describe 'GET #show' do
+    it 'responds with the info for an specific event' do
+      event = create(:event)
+      get :show, id: event.id
+      expect(Event.count).to eq(1)
+      parsed_response = JSON.parse(response.body)
+      expect(parsed_response['title']).to eq('Test Event')
+      expect(parsed_response['city']).to eq('Los Angeles')
+    end
+  end
+
   describe 'POST #create' do
     it 'creates a new event into database' do
       post :create, event: {

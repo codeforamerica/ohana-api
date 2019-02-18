@@ -44,12 +44,12 @@ module OhanaApi
     config.active_record.schema_format = :sql
 
     # CORS support
-    config.middleware.use Rack::Cors do
+    config.middleware.insert_before 0, "Rack::Cors" do
       allow do
-        origins '*'
-        resource %r{/locations|organizations|search|categories/*},
+        origins ENV.fetch('FRONT_ENV_APP_URL')
+        resource '*',
                  headers: :any,
-                 methods: %i[get put patch post delete],
+                 methods: %i[get put patch post delete options],
                  expose: ['Etag', 'Last-Modified', 'Link', 'X-Total-Count']
       end
     end

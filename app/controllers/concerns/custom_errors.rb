@@ -18,22 +18,20 @@ module CustomErrors
   private
 
   def render_invalid_record(exception)
-    hash =
-      {
-        'status'  => 422,
-        'message' => 'Validation failed for resource.',
-        'errors' => [exception.record.errors]
-      }
+    hash = {
+      'status'  => 422,
+      'message' => 'Validation failed for resource.',
+      'errors' => [exception.record.errors]
+    }
     render json: hash, status: 422
   end
 
   def render_invalid_type
-    hash =
-      {
-        status: 422,
-        message: 'Validation failed for resource.',
-        error: 'Attribute was supposed to be an Array, but was a String.'
-      }
+    hash = {
+      status: 422,
+      message: 'Validation failed for resource.',
+      error: 'Attribute was supposed to be an Array, but was a String.'
+    }
     render json: hash, status: 422
   end
 

@@ -13,6 +13,8 @@ class Organization < ActiveRecord::Base
   has_many :contacts, dependent: :destroy
   has_many :services, through: :locations
   has_many :categories, through: :services
+  has_many :blog_post
+
   belongs_to :admin
 
   accepts_nested_attributes_for :contacts, reject_if: :all_blank
