@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe Api::V1::BlogPostsController do
+  before do
+    @user = FactoryGirl.create(:unconfirmed_user)
+    @auth_header = api_login(@user)
+  end
   describe 'GET #index' do
     it 'responds with the list of all blog posts' do
       create(:blog_post, :soccer)
@@ -17,8 +21,8 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-
-        user_id: 1,
+        user_id: @user.id,
+        organization_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',
@@ -51,7 +55,8 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: true,
-        user_id: 1
+        user_id: @user.id,
+        organization_id: 1
       )
       new_blog.save
       get :index, filter: { draft: true }
@@ -81,8 +86,8 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-
-        user_id: 1,
+        user_id: @user.id,
+        organization_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',
@@ -91,7 +96,7 @@ describe Api::V1::BlogPostsController do
             order: 1,
           }
         ]
-      }
+      }, headers: @auth_header, format: :json
       expect(BlogPost.count).to eq(1)
       parsed_response = JSON.parse(response.body)
       expect(parsed_response['title']).to eq('My BlogPost')
@@ -113,7 +118,7 @@ describe Api::V1::BlogPostsController do
             order: 2
           }
         ]
-      }, id: blog_post.id
+      }, id: blog_post.id, headers: @auth_header, format: :json
       expect(BlogPost.count).to eq(1)
       parsed_response = JSON.parse(response.body)
       expect(parsed_response['title']).to eq('Updated BlogPost')
@@ -132,7 +137,7 @@ describe Api::V1::BlogPostsController do
             _destroy: true
           }
         ]
-      }, id: blog_post.id
+      }, id: blog_post.id, headers: @auth_header, format: :json
       expect(blog_post.blog_post_attachments.size).to eq(0)
     end
   end
@@ -141,7 +146,7 @@ describe Api::V1::BlogPostsController do
     it 'deletes an existing blog post' do
       blog_post = create(:blog_post)
       expect(BlogPost.count).to eq(1)
-      delete :destroy, id: blog_post.id
+      delete :destroy, id: blog_post.id, headers: @auth_header, format: :json
       expect(BlogPost.count).to eq(0)
     end
   end
@@ -153,7 +158,8 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-        user_id: 1,
+        user_id: @user.id,
+        organization_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',
@@ -171,7 +177,8 @@ describe Api::V1::BlogPostsController do
         posted_at: '2019-01-06 18:30:00',
         body: 'Los Angeles',
         is_published: false,
-        user_id: 1,
+        user_id: @user.id,
+        organization_id: 1,
         blog_post_attachments_attributes: [
           {
             file_type: 'video',

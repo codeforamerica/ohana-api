@@ -76,8 +76,7 @@ Rails.application.routes.draw do
           get :search
         end
       end
-      get 'organizations/:organization_id/locations',
-      to: 'organizations#locations', as: :org_locations
+      get 'organizations/:organization_id/locations', to: 'organizations#locations', as: :org_locations
 
       resources :locations do
         resources :address, except: %i[index show]
@@ -102,8 +101,8 @@ Rails.application.routes.draw do
         end
       end
 
-        resources :events, except: %i[show new edit]
-        resources :blog_posts, except: %i[show new edit] do
+        resources :events, except: %i[new edit]
+        resources :blog_posts, except: %i[new edit] do
           collection do
             get :categories
           end

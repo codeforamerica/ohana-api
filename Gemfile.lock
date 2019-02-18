@@ -20,9 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    active_model_serializers (0.9.7)
-      activemodel (>= 3.2)
-      concurrent-ruby (~> 1.0)
+    active_model_serializers (0.8.4)
+      activemodel (>= 3.0)
     activejob (4.2.9)
       activesupport (= 4.2.9)
       globalid (>= 0.3.0)
@@ -422,7 +421,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers (= 0.9.7)
+  active_model_serializers (~> 0.8.0)
   acts-as-taggable-on (~> 5.0)
   ancestry
   auto_strip_attributes (~> 2.0)

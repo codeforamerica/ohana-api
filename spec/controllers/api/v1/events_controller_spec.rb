@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe Api::V1::EventsController do
+  before do
+    @user = FactoryGirl.create(:unconfirmed_user)
+    @auth_header = api_login(@user)
+  end
+
   describe 'GET #index' do
     it 'responds with the list of all events' do
       create(:event)
@@ -22,7 +27,7 @@ describe Api::V1::EventsController do
         is_featured: false,
         street_1: 'Test street',
         organization_id: 1,
-        user_id: 1
+        user_id: @user.id
       )
       get :index, month: 1
       expect(Event.count).to eq(2)
@@ -50,13 +55,11 @@ describe Api::V1::EventsController do
         title: 'My Event',
         starting_at: '2019-01-06 22:30:00',
         ending_at: '2019-01-06 23:30:00',
-        posted_at: '2019-01-06 18:30:00',
         city: 'Los Angeles',
         is_featured: false,
         street_1: 'Test street',
-        organization_id: 1,
-        user_id: 1
-      }
+        organization_id: 1
+      }, headers: @auth_header, format: :json
       expect(Event.count).to eq(1)
       parsed_response = JSON.parse(response.body)
       expect(parsed_response['title']).to eq('My Event')
@@ -69,7 +72,7 @@ describe Api::V1::EventsController do
       event = create(:event)
       put :update, event: {
         title: 'Updated Event'
-      }, id: event.id
+      }, id: event.id, headers: @auth_header, format: :json
       expect(Event.count).to eq(1)
       parsed_response = JSON.parse(response.body)
       expect(parsed_response['title']).to eq('Updated Event')
@@ -80,7 +83,7 @@ describe Api::V1::EventsController do
     it 'deletes an existing event' do
       event = create(:event)
       expect(Event.count).to eq(1)
-      delete :destroy, id: event.id
+      delete :destroy, id: event.id, headers: @auth_header, format: :json
       expect(Event.count).to eq(0)
     end
   end

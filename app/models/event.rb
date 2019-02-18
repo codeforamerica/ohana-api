@@ -6,7 +6,12 @@ class Event < ActiveRecord::Base
   belongs_to :user
   belongs_to :organization
 
+  validates :title, presence: true
   validates :user_id, presence: true
+  validates :starting_at, presence: true
+  validates :ending_at, presence: true
+  validates :street_1, presence: true
+  validates :city, presence: true
 
   def self.events_in_month(month)
     where('EXTRACT(MONTH FROM starting_at) = ?', month)

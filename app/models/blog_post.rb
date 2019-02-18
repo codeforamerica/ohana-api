@@ -15,4 +15,5 @@ class BlogPost < ActiveRecord::Base
             presence: { message: I18n.t('errors.messages.blank_for_blog_post') }
 
   validates :user_id, presence: true
+  validates :organization_id, presence: true
 end

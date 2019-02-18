@@ -1,4 +1,6 @@
 class PasswordsController < Devise::PasswordsController
+  include ErrorSerializer
+
   skip_before_action :verify_authenticity_token
 
   def create
@@ -7,11 +9,8 @@ class PasswordsController < Devise::PasswordsController
     if successfully_sent?(resource)
       render json: resource, serializer: UserSerializer
     else
-      render(
-        json: resource,
-        status: :unprocessable_entity,
-        serializer: ActiveModel::Serializer::ErrorSerializer
-      )
+      render json: ErrorSerializer.serialize(resource.errors),
+             status: :unprocessable_entity
     end
   end
 end

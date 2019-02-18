@@ -3,6 +3,7 @@ module Api
     class OrganizationsController < Api::V1::BaseController
       include PaginationHeaders
       include CustomErrors
+      include ErrorSerializer
 
       before_action :authenticate_api_user!, except: [:index, :show]
 
@@ -38,9 +39,8 @@ module Api
         if org.save
           render json: org, status: 201, location: [:api, org]
         else
-          render json: @blog_post,
-                 status: :unprocessable_entity,
-                 serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: ErrorSerializer.serialize(org.errors),
+                 status: :unprocessable_entity
         end
       end
 
