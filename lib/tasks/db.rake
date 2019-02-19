@@ -129,6 +129,10 @@ namespace :db do
                         end
       ActiveRecord::Base.connection.execute("select setval('services_id_seq', #{last_service_id});")
 
+      last_friendly_id = ActiveRecord::Base.connection.execute('SELECT id FROM friendly_id_slugs ORDER BY id DESC LIMIT 1;')
+      last_friendly_id = last_friendly_id[0]['id'].to_i
+      ActiveRecord::Base.connection.execute("SELECT setval('friendly_id_slugs_id_seq', #{last_friendly_id + 1});")
+
       organization = Organization.find(1)
       organization.locations.delete_all
       Kernel.puts 'Setting up Location for Organization #1...'

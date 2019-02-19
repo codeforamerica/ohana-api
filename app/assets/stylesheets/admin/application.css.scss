@@ -187,6 +187,15 @@ a.boxed-action:active {
   }
 }
 
+.bottom-pagination {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  span {
+    margin: 20 0;
+  }
+}
+
 .custom-table {
   border-collapse: separate;
   border-spacing: 10px;
