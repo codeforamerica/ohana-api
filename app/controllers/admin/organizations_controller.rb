@@ -33,6 +33,7 @@ class Admin
       preprocess_organization_params
 
       if @organization.update(params[:organization])
+        check_approval_status
         redirect_to [:admin, @organization],
                     notice: 'Organization was successfully updated.'
       else
@@ -81,6 +82,12 @@ class Admin
       end
 
       organizations
+    end
+
+    def check_approval_status
+      if @organization.approval_status == 'approved'
+        OrganizationApprovementMailer.notify(@organization).deliver_now
+      end
     end
   end
 end
