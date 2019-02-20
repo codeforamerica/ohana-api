@@ -15,11 +15,10 @@ module TokenValidator
   end
 
   def render_401
-    hash =
-      {
-        'message' => 'This action requires a valid X-API-Token header.',
-        'status' => 401
-      }
+    hash = {
+      'message' => 'This action requires a valid X-API-Token header.',
+      'status' => 401
+    }
     render json: hash, status: 401
   end
 end

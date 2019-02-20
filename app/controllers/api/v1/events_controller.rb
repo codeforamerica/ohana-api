@@ -1,12 +1,11 @@
 module Api
   module V1
-    class EventsController < ApplicationController
-      include CustomErrors
+    class EventsController < Api::V1::BaseController
       include Cacheable
       include PaginationHeaders
+      include ErrorSerializer
 
-      skip_before_action :verify_authenticity_token
-
+      before_action :authenticate_api_user!, except: [:index, :show]
       before_action :set_event, only: %i[show update destroy]
       after_action :set_cache_control, only: :index
 
@@ -26,14 +25,15 @@ module Api
 
       def create
         @event = Event.new(event_params)
+        @event.posted_at = DateTime.now
+        @event.user_id = current_api_user.id
         if @event.save
           render json: @event,
                  serializer: EventsSerializer,
                  status: 200
         else
-          render json: @event,
-                 status: :unprocessable_entity,
-                 serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: ErrorSerializer.serialize(@event.errors),
+                 status: :unprocessable_entity
         end
       end
 
@@ -43,9 +43,8 @@ module Api
                  serializer: EventsSerializer,
                  status: 200
         else
-          render json: @event,
-                 status: :unprocessable_entity,
-                 serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: ErrorSerializer.serialize(@event.errors),
+                 status: :unprocessable_entity
         end
       end
 
@@ -53,9 +52,8 @@ module Api
         if @event.destroy
           render json: {}, status: :ok
         else
-          render json: @event,
-                 status: :unprocessable_entity,
-                 serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: ErrorSerializer.serialize(@event.errors),
+                 status: :unprocessable_entity
         end
       end
 
@@ -84,8 +82,7 @@ module Api
           :phone,
           :external_url,
           :organization_id,
-          :body,
-          :admin_id
+          :body
         )
       end
 

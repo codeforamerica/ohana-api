@@ -1,12 +1,11 @@
 module Api
   module V1
-    class BlogPostsController < ApplicationController
+    class BlogPostsController < Api::V1::BaseController
       include PaginationHeaders
-      include CustomErrors
       include Cacheable
+      include ErrorSerializer
 
-      skip_before_action :verify_authenticity_token
-
+      before_action :authenticate_api_user!, except: [:index, :show, :categories]
       before_action :set_blog_post, only: %i[show update destroy]
       after_action :set_cache_control, only: :index
 
@@ -27,15 +26,16 @@ module Api
 
       def create
         @blog_post = BlogPost.new(blog_post_params)
+        @blog_post.user_id = current_api_user.id
+        @blog_post.posted_at = DateTime.now
         @blog_post.category_list.add(blog_post_params[:category])
         if @blog_post.save
           render json: @blog_post,
                  serializer: BlogPostSerializer,
                  status: 200
         else
-          render json: @blog_post,
-                 status: :unprocessable_entity,
-                 serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: ErrorSerializer.serialize(@blog_post.errors),
+                 status: :unprocessable_entity
         end
       end
 
@@ -45,9 +45,8 @@ module Api
                  serializer: BlogPostSerializer,
                  status: 200
         else
-          render json: @blog_post,
-                 status: :unprocessable_entity,
-                 serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: ErrorSerializer.serialize(@blog_post.errors),
+                 status: :unprocessable_entity
         end
       end
 
@@ -55,9 +54,8 @@ module Api
         if @blog_post.destroy
           render json: {}, status: :ok
         else
-          render json: @blog_post,
-                 status: :unprocessable_entity,
-                 serializer: ActiveModel::Serializer::ErrorSerializer
+          render json: ErrorSerializer.serialize(@blog_post.errors),
+                 status: :unprocessable_entity
         end
       end
 
@@ -76,7 +74,7 @@ module Api
           :body,
           :posted_at,
           :category,
-          :admin_id,
+
           :is_published,
           :organization_id,
           blog_post_attachments_attributes: [

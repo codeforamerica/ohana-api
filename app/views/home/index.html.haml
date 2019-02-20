@@ -1,6 +1,6 @@
 %h3= t('titles.developer', brand: t('titles.brand'))
 
-- if user_signed_in?
+- if admin_signed_in?
   %p
     Welcome back, #{@user.name}! #{link_to t('links.register_a_new_application'), new_api_application_path} or #{link_to t('links.view'), api_applications_path} your existing ones.
 - else
@@ -14,4 +14,4 @@
     Read the #{link_to 'documentation', 'http://codeforamerica.github.io/ohana-api-docs/'} to learn more.
     If you're a Ruby developer, we encourage you to use the official #{link_to 'Ohanakapa', 'https://github.com/codeforamerica/ohanakapa-ruby'} Ruby library.
   %p
-    #{link_to t('navigation.sign_up'), new_user_registration_path} for a developer account, or #{link_to t('navigation.sign_in'), new_user_session_path}.
+    #{link_to t('navigation.sign_up'), new_admin_registration_path} for a developer account, or #{link_to t('navigation.sign_in'), new_admin_session_path}.

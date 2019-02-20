@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
   # Prevent CSRF attacks by raising an exception (with: :exception),
-  protect_from_forgery with: :exception
+  protect_from_forgery
 
   # This is to prevent the app from returning a 500 Internal Server Error
   # when a valid Accept Header is passed to a non-API URL, such as the
@@ -39,12 +39,11 @@ class ApplicationController < ActionController::Base
   end
 
   def render_not_found
-    hash =
-      {
-        'status'  => 404,
-        'message' => 'The requested resource could not be found.',
-        'documentation_url' => 'http://codeforamerica.github.io/ohana-api-docs/'
-      }
+    hash = {
+      'status'  => 404,
+      'message' => 'The requested resource could not be found.',
+      'documentation_url' => 'http://codeforamerica.github.io/ohana-api-docs/'
+    }
     render json: hash, status: 404
   end
 

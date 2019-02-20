@@ -7,7 +7,7 @@ FactoryGirl.define do
     city 'Los Angeles'
     is_featured false
     street_1 'Test street'
-    admin
+    user
     organization
   end
 end

@@ -1,9 +1,11 @@
 module Api
   module V1
-    class OrganizationsController < ApplicationController
-      include TokenValidator
+    class OrganizationsController < Api::V1::BaseController
       include PaginationHeaders
       include CustomErrors
+      include ErrorSerializer
+
+      before_action :authenticate_api_user!, except: [:index, :show]
 
       def index
         organizations = Organization.filter_by_id(params[:id])
@@ -20,7 +22,9 @@ module Api
                                     .page(params[:page])
                                     .per(params[:per_page])
         generate_pagination_headers(organizations)
-        render json: organizations, each_serializer: OrganizationSerializer, status: 200
+        render json: organizations,
+               each_serializer: OrganizationSerializer,
+               status: 200
       end
 
       def update
@@ -30,8 +34,14 @@ module Api
       end
 
       def create
-        org = Organization.create!(params)
-        render json: org, status: 201, location: [:api, org]
+        org = Organization.new(params)
+        org.user_id = current_api_user.id
+        if org.save
+          render json: org, status: 201, location: [:api, org]
+        else
+          render json: ErrorSerializer.serialize(org.errors),
+                 status: :unprocessable_entity
+        end
       end
 
       def destroy

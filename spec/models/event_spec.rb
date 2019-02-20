@@ -17,7 +17,7 @@ describe Event do
   it { is_expected.to allow_mass_assignment_of(:organization_id) }
   it { is_expected.to allow_mass_assignment_of(:is_featured) }
   it { is_expected.to allow_mass_assignment_of(:body) }
-  it { is_expected.to allow_mass_assignment_of(:admin_id) }
+  it { is_expected.to allow_mass_assignment_of(:user_id) }
 
   it { is_expected.to belong_to(:admin) }
   it { is_expected.to belong_to(:organization) }

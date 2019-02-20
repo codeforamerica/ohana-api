@@ -35,6 +35,7 @@ gem 'select2-rails', '~> 3.5'
 gem 'smarter_csv'
 gem 'sucker_punch'
 gem 'uglifier', '>= 1.3.0'
+gem 'devise-jwt', '~> 0.5.8'
 
 group :production do
   # Heroku recommended
