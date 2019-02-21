@@ -16,4 +16,5 @@
         %td= event[1]
         %td= event[3].strftime('%m/%d/%Y')
         %td= event[4].is_a?(FalseClass) ? 'No' : 'Yes'
-= paginate @events
+%div.bottom-pagination
+  = paginate @events

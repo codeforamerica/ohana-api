@@ -1,0 +1,23 @@
+%div.events-header
+  %p Blog Posts
+  = link_to 'Edit Categories', {}, href: '', data: { toggle: 'modal', target: '#modal-window' }
+  = select(:blog_post, :category, options_for_select([['Filter By'], ['All', 'all'], ['Featured', 'featured'], ['Front Page', 'front page']], disabled: 'Filter By'), {}, { class: 'form-control' })
+.modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'my-modal-label', 'role' => 'dialog', 'tabindex' => '-1' }
+  = render 'admin/blog_posts/categories_modal'
+%br
+%table{cellspacing: 30, class: 'custom-table'}
+  %thead
+    %tr
+      %th Title
+      %th Categories
+      %th Organization
+      %th Date Posted
+  %tbody
+    - @blog_posts.each do |blog_post|
+      %tr
+        %td= link_to blog_post.title, edit_admin_blog_post_path(blog_post.id)
+        %td= blog_post.category_list.map(&:capitalize).join(', ')
+        %td= blog_post.organization.try(:name)
+        %td= blog_post.posted_at.strftime('%m/%d/%Y')
+%div.bottom-pagination
+  = paginate @blog_posts

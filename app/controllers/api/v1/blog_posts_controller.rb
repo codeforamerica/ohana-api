@@ -28,7 +28,8 @@ module Api
         @blog_post = BlogPost.new(blog_post_params)
         @blog_post.user_id = current_api_user.id
         @blog_post.posted_at = DateTime.now
-        @blog_post.category_list.add(blog_post_params[:category])
+        @blog_post.organization_id = current_api_user.organization.id
+        @blog_post.category_list = blog_post_params[:category]
         if @blog_post.save
           render json: @blog_post,
                  serializer: BlogPostSerializer,
@@ -40,6 +41,7 @@ module Api
       end
 
       def update
+        @blog_post.category_list = blog_post_params[:category]
         if @blog_post.update(blog_post_params)
           render json: @blog_post,
                  serializer: BlogPostSerializer,
@@ -74,7 +76,6 @@ module Api
           :body,
           :posted_at,
           :category,
-
           :is_published,
           :organization_id,
           blog_post_attachments_attributes: [

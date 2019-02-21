@@ -124,6 +124,7 @@ en:
       services: 'Services'
       programs: 'Programs'
       events: 'Events'
+      blog_posts: 'Blog Posts'
       add_organization: 'Add a new organization'
       create_organization: 'Create organization'
       delete_organization: 'Permanently delete this organization'
