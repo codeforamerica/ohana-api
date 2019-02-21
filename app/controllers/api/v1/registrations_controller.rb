@@ -8,6 +8,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     if resource.save
       build_organization
+      UserMailer.new_registration(resource).deliver_now
     end
     render_resource(resource)
   end

@@ -1,0 +1,18 @@
+%p We have received your request and we are processing it.
+%p We will get back to you as soon as your organization gets approved.
+%br
+%b Your information was
+%br
+%table{cellspacing: 30, class: 'custom-table'}
+  %thead
+    %tr
+      %th Email
+      %th Name
+      %th Organization Name
+      %th Organization Description
+  %tbody
+    %tr
+      %td= @user.email
+      %td= @user.name
+      %td= @user.organization.name
+      %td= @user.organization.description
