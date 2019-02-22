@@ -145,6 +145,7 @@ en:
       create_contact: 'Create contact'
       delete_contact: 'Permanently delete this contact'
       delete_event: 'Permanently delete this event'
+      delete_blog_post: 'Permanently delete this blog post'
       confirm_delete_event: 'I understand the consequences, delete this event'
       add_street_address: 'Add a street address'
       delete_street_address: 'Delete this address permanently'

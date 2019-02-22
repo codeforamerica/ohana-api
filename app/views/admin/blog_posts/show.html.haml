@@ -1,0 +1,16 @@
+= form_for [:admin, @blog_post], html: { class: 'edit-entry' } do |f|
+  %div.events-header
+    %p
+      %b= @blog_post.title
+    %p= @blog_post.posted_at.strftime('%m/%d/%Y')
+  %br
+  %p= @blog_post.body
+  %br
+  %a{ href: "#{ENV.fetch('BLOG_POST_SHOW_URL')}/#{@blog_post.id}", class: 'btn btn-primary btn-lg', target: '_blank' }
+    View Post
+  %br
+  %br
+  = render 'admin/blog_posts/categories', blog_post: @blog_post, f: f
+  = render 'admin/blog_posts/forms/danger', blog_post: @blog_post
+  .save-box.navbar-default
+    = f.submit t('admin.buttons.save_changes'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }

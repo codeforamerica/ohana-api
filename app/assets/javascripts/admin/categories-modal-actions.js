@@ -39,4 +39,8 @@ $(document).ready(function() {
       $('#modal-window').modal('hide');
     });
   });
+
+  $('body').on('hidden.bs.modal', '.modal', function () {
+    window.location.reload();
+  });
 });

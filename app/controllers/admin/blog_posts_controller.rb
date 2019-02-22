@@ -9,7 +9,9 @@ class Admin
                                .per(params[:per_page])
     end
 
-    def show; end
+    def show
+      @blog_post = BlogPost.find(params[:id])
+    end
 
     def edit
       @blog_post = BlogPost.find(params[:id])
@@ -19,7 +21,7 @@ class Admin
 
     def update
       @blog_post = BlogPost.find(params[:id])
-
+      @blog_post.category_list = params[:blog_post][:category_list].reject(&:blank?)
       if @blog_post.update(params[:blog_post])
         redirect_to [:admin, @blog_post],
                     notice: 'Blog Post was successfully updated.'

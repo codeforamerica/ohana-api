@@ -1,0 +1,12 @@
+.danger-zone
+  %header
+    %strong
+      Danger Zone
+  %h4
+    Delete this blog post
+  %p
+    Once you delete a blog post, there is no going back. All of the blog post's services will be deleted as well. Please be certain.
+  %p
+    = link_to t('admin.buttons.delete_blog_post'), {}, href: '', data: { toggle: 'modal', target: '#modal-window' }, class: 'boxed-action'
+.modal.fade#modal-window{ 'aria-hidden' => 'true', 'aria-labelledby' => 'my-modal-label', 'role' => 'dialog', 'tabindex' => '-1' }
+  = render 'admin/blog_posts/confirm_delete_blog_post', blog_post_id: blog_post.id, blog_post_title: blog_post.title

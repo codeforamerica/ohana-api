@@ -298,3 +298,25 @@ a.boxed-action:active {
     }
   }
 }
+.categories-section {
+  .categories-header {
+    margin-bottom: 0;
+  }
+  .input-wrapper fieldset div {
+    padding-left: 10px;
+    padding-top: 10px;
+  	display: grid;
+    grid-template-columns: 1fr;
+
+    &:first-child {
+      margin-top: -5px;
+    }
+  }
+  @media (min-width: 300px) {
+    .input-wrapper fieldset div {
+      grid-template-rows: 0fr 0fr 0fr 0fr 0fr 0fr 0fr 0fr 0fr 0fr;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+    }
+  }
+}

@@ -15,7 +15,7 @@
   %tbody
     - @blog_posts.each do |blog_post|
       %tr
-        %td= link_to blog_post.title, edit_admin_blog_post_path(blog_post.id)
+        %td= link_to blog_post.title, admin_blog_post_path(blog_post.id)
         %td= blog_post.category_list.map(&:capitalize).join(', ')
         %td= blog_post.organization.try(:name)
         %td= blog_post.posted_at.strftime('%m/%d/%Y')
