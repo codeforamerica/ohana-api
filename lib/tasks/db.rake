@@ -3,49 +3,6 @@ namespace :db do
     task all: %i[dev]
     desc 'Data for development'
     task :dev, [:path] => :environment do |_, _args|
-      Event.delete_all
-      Kernel.puts 'Setting up 38 events for Organization #1...'
-      38.times do |index|
-        create_events_for_organization(1, index)
-      end
-
-      Kernel.puts 'Setting up 3 events for Organization #2...'
-      3.times do |index|
-        create_events_for_organization(2, index)
-      end
-
-      Kernel.puts 'Setting up 8 events for Organization #3...'
-      8.times do |index|
-        create_events_for_organization(3, index)
-      end
-
-      Kernel.puts 'Setting up BlogPost default Tags...'
-      Tag.delete_all
-      ['featured', 'front page'].each do |tag|
-        next unless Tag.find_by_name(tag).blank?
-        Tag.create!(
-          name: tag
-        )
-      end
-
-      Kernel.puts 'Setting up 32 BlogPost for Organization #1...'
-      BlogPost.delete_all
-      32.times do |index|
-        create_blog_posts_for_organiation(1, index)
-      end
-
-      Kernel.puts 'Setting up 3 BlogPost for Organization #2...'
-      BlogPost.delete_all
-      3.times do |index|
-        create_blog_posts_for_organiation(2, index)
-      end
-
-      Kernel.puts 'Setting up 8 BlogPost for Organization #3...'
-      BlogPost.delete_all
-      8.times do |index|
-        create_blog_posts_for_organiation(3, index)
-      end
-
       Kernel.puts 'Setting up three new Organizations...'
       ActiveRecord::Base.connection.execute("TRUNCATE organizations RESTART IDENTITY;")
       Location.delete_all
@@ -71,17 +28,58 @@ namespace :db do
         Kernel.puts 'Setting up Location for Organization #3...'
         create_locations_for_organization(organization.id)
       end
+
+      Event.delete_all
+      Kernel.puts 'Setting up 38 events for Organization #1...'
+      38.times do |index|
+        create_events_for_organization(1, index)
+      end
+
+      Kernel.puts 'Setting up 3 events for Organization #2...'
+      3.times do |index|
+        create_events_for_organization(2, index)
+      end
+
+      Kernel.puts 'Setting up 8 events for Organization #3...'
+      8.times do |index|
+        create_events_for_organization(3, index)
+      end
+
+      Kernel.puts 'Setting up BlogPost default Tags...'
+      Tag.delete_all
+      ['featured', 'front page'].each do |tag|
+        next unless Tag.find_by_name(tag).blank?
+        Tag.create!(
+          name: tag
+        )
+      end
+
+      BlogPost.delete_all
+      Kernel.puts 'Setting up 32 BlogPost for Organization #1...'
+      32.times do |index|
+        create_blog_posts_for_organiation(1, index)
+      end
+
+      Kernel.puts 'Setting up 3 BlogPost for Organization #2...'
+      3.times do |index|
+        create_blog_posts_for_organiation(2, index)
+      end
+
+      Kernel.puts 'Setting up 8 BlogPost for Organization #3...'
+      8.times do |index|
+        create_blog_posts_for_organiation(3, index)
+      end
     end
   end
 end
 
-
 def create_organization
+  Faker::Config.locale = 'en-US'
   Organization.create!(
     name: Faker::Company.name,
     alternate_name: Faker::Company.name,
     date_incorporated: Faker::Date.between(8.months.ago, Date.today),
-    description: Faker::Lorem.paragraph,
+    description: Faker::Lorem.paragraph(150),
     website: Faker::Internet.url,
     twitter: Faker::Internet.url,
     facebook: Faker::Internet.url,
@@ -96,10 +94,19 @@ def create_organization
     tax_id: Faker::IDNumber.valid,
     tax_status: Faker::Company.duns_number,
     licenses: ['State Health Inspection License', Faker::Company.industry].sample(1),
-    accreditations: ['BBB', 'State Board of Education', Faker::Company.industry].sample(2)
+    accreditations: ['BBB', 'State Board of Education', Faker::Company.industry].sample(2),
+    phones_attributes: [
+      {
+        country_prefix: Faker::PhoneNumber.country_code,
+        department: 'Food Pantry',
+        extension: Faker::PhoneNumber.extension,
+        number: Faker::PhoneNumber.cell_phone,
+        number_type: %w[voice hotline sms tty fax].sample,
+        vanity_number: Faker::PhoneNumber.cell_phone
+      }
+    ]
   )
 end
-
 
 def create_events_for_organization(organization_id, index)
   date = Faker::Time.between(DateTime.now - index.hours, DateTime.now)
@@ -147,7 +154,6 @@ def create_locations_for_organization(organization_id)
   Faker::Config.locale = 'en-US'
   location_name = Faker::Address.street_address
   organization = Organization.find(organization_id)
-  organization.update(description: Faker::Lorem.paragraph(150))
   location = organization.locations.create!(
     accessibility: %w[cd deaf_interpreter disabled_parking elevator ramp restroom tape_braille tty wheelchair wheelchair_van].sample(3),
     active: true,
@@ -163,7 +169,6 @@ def create_locations_for_organization(organization_id)
     virtual: false,
     languages: %w[English Spanish Tagalog].sample(2),
     transportation: Faker::Address.community,
-    organization_id: [1, 2, 3, 4, 5, 6, 10].sample,
     address_attributes: {
       address_1: location_name,
       city: Faker::Address.city,
@@ -244,6 +249,7 @@ def create_locations_for_organization(organization_id)
     funding_sources: ['Donations', 'Grants', 'DC Government'].sample(2),
     keywords: ['hot meels', 'hungry'].sample(2),
     service_areas: ['Alameda County', 'Belmont', 'Colma'].sample(2),
+    organization_id: organization.id,
     phones_attributes: [
       {
         country_prefix: Faker::PhoneNumber.country_code,

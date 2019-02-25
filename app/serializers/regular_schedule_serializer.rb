@@ -1,3 +1,3 @@
 class RegularScheduleSerializer < ActiveModel::Serializer
-  attributes :weekday, :opens_at, :closes_at
+  attributes :id, :weekday, :opens_at, :closes_at
 end
