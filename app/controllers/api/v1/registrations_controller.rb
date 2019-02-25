@@ -6,9 +6,10 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-    if resource.save
-      build_organization
+    resource.save
+    if resource.persisted? && build_organization.present?
       UserMailer.new_registration(resource).deliver_now
+      SuperAdminMailer.new_registration(resource).deliver_now
     end
     render_resource(resource)
   end

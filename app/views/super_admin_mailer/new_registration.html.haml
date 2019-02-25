@@ -1,0 +1,22 @@
+%p There is a new registration waiting for approvement!
+%div
+  %p Please check this new user and his organization at:
+  %a{ href: Rails.application.routes.url_helpers.admin_organization_url(@user.organization, host: ENV.fetch('MAILER_URL')), title: 'Organization Edit' }
+    %strong= @user.organization.try(:name)
+%br
+%br
+%b User information was
+%br
+%table{cellspacing: 30, class: 'custom-table'}
+  %thead
+    %tr
+      %th Email
+      %th Name
+      %th Organization Name
+      %th Organization Description
+  %tbody
+    %tr
+      %td= @user.email
+      %td= @user.name
+      %td= @user.organization.try(:name)
+      %td= @user.organization.try(:description)
