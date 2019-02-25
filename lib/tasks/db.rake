@@ -46,9 +46,8 @@ namespace :db do
       end
 
       Kernel.puts 'Setting up BlogPost default Tags...'
-      Tag.delete_all
+      ActiveRecord::Base.connection.execute("TRUNCATE tags RESTART IDENTITY;")
       ['featured', 'front page'].each do |tag|
-        next unless Tag.find_by_name(tag).blank?
         Tag.create!(
           name: tag
         )

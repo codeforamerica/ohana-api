@@ -147,6 +147,7 @@ en:
       delete_event: 'Permanently delete this event'
       delete_blog_post: 'Permanently delete this blog post'
       confirm_delete_event: 'I understand the consequences, delete this event'
+      confirm_delete_blog_post: 'I understand the consequences, delete this Blog Post'
       add_street_address: 'Add a street address'
       delete_street_address: 'Delete this address permanently'
       add_mailing_address: 'Add a mailing address'

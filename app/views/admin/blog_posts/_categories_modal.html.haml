@@ -10,7 +10,8 @@
       %div.input-wrapper
         - Tag.all.each do |tag|
           %div.categories-modal-input
-            %input{type: 'text', class: 'form-control', value: tag.name}
-            %span{class: 'glyphicon glyphicon-remove-sign remove-item', :'aria-hidden' => true, :'data-id' => tag.id}
+            %input{ type: 'text', class: 'form-control', value: tag.name, disabled: tag.name == 'featured' || tag.name == 'front page' }
+            - if tag.name != 'featured' && tag.name != 'front page'
+              %span{class: 'glyphicon glyphicon-remove-sign remove-item', :'aria-hidden' => true, :'data-id' => tag.id}
     .modal-footer
       %button.btn.btn-default{ 'data-dismiss' => 'modal' } Close
