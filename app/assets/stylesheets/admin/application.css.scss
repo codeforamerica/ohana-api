@@ -219,3 +219,24 @@ a.boxed-action:active {
     margin-left: 50px;
   }
 }
+
+.dates-featured-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
+  .featured-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    input#featured {
+      height: 17px;
+      margin: 0;
+      width: 13px;
+    }
+    label {
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  }
+}

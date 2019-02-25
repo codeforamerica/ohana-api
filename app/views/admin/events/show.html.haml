@@ -1,0 +1,23 @@
+= form_for [:admin, @event], html: { class: 'edit-entry' } do |f|
+  = hidden_field(:event, :id)
+  %div.events-header
+    %p
+      %b= @event.title
+  %br
+  %p #{@event.organization.try(:name)}
+  %br
+  %div.dates-featured-container
+    %div.dates-event
+      %div
+        %strong= t('admin.events.forms.starting_at.description')
+        %p= @event.starting_at.strftime('%m/%d/%Y')
+      %div.last-item
+        %strong= t('admin.events.forms.posted_at.description')
+        %p= @event.posted_at.strftime('%m/%d/%Y')
+    %div.featured-container
+      = f.check_box :is_featured, { class: 'form-control', id: 'featured' }
+      = f.label :is_featured, t('admin.events.show.is_featured.description'), { for: 'featured' }
+  %br
+  = render 'admin/events/forms/danger', event: @event
+  .modal.fade#modal-window-featured{ 'aria-hidden' => 'true', 'aria-labelledby' => 'my-modal-label', 'role' => 'dialog', 'tabindex' => '-1' }
+    = render 'admin/events/forms/three_events_in_month_modal', event: @event
