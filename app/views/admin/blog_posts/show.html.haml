@@ -13,4 +13,4 @@
   = render 'admin/blog_posts/categories', blog_post: @blog_post, f: f
   = render 'admin/blog_posts/forms/danger', blog_post: @blog_post
   .save-box.navbar-default
-    = f.submit t('admin.buttons.save_changes'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }
+    = f.submit t('admin.buttons.save_changes_organization'), class: 'btn btn-success btn-lg', data: { disable_with: 'Please wait...' }

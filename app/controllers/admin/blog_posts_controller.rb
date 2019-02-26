@@ -23,7 +23,7 @@ class Admin
       @blog_post = BlogPost.find(params[:id])
       @blog_post.category_list = params[:blog_post][:category_list].reject(&:blank?)
       if @blog_post.update(params[:blog_post])
-        redirect_to [:admin, @blog_post],
+        redirect_to admin_blog_posts_path,
                     notice: 'Blog Post was successfully updated.'
       else
         render :edit
