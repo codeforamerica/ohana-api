@@ -196,14 +196,25 @@ a.boxed-action:active {
   }
 }
 
+.bottom-pagination {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  span {
+    margin: 20 0;
+  }
+}
+
 .custom-table {
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 10px;
   margin: 0 auto;
   width: 100%;
 
   td {
+    border-bottom: 1px solid black;
     font-size: 14px;
+    padding: 12px 0;
   }
 }
 
@@ -229,14 +240,83 @@ a.boxed-action:active {
     align-items: center;
     display: flex;
     justify-content: center;
+
     input#featured {
       height: 17px;
       margin: 0;
       width: 13px;
     }
+
     label {
       cursor: pointer;
       margin-left: 10px;
+    }
+  }
+}
+
+.categories-modal {
+  align-items: center;
+  display: flex;
+  button {
+    margin-left: auto;
+  }
+}
+
+.modal-body {
+  >a {
+    cursor: pointer;
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .input-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    .categories-modal-input {
+      align-items: center;
+      display: flex;
+      flex: 1 0 28%;
+      justify-content: center;
+      margin-bottom: 10px;
+      margin-left: 30px;
+
+      span.remove-item {
+        cursor: pointer;
+        margin-left: 10px;
+      }
+
+      &:nth-child(3n+1) {
+        margin-left: 0px;
+      }
+    }
+
+    .element-to-delete {
+      border: 1px solid red;
+      border-radius: 5px;
+      padding: 2px;
+    }
+  }
+}
+.categories-section {
+  .categories-header {
+    margin-bottom: 0;
+  }
+  .input-wrapper fieldset div {
+    padding-left: 10px;
+    padding-top: 10px;
+  	display: grid;
+    grid-template-columns: 1fr;
+
+    &:first-child {
+      margin-top: -5px;
+    }
+  }
+  @media (min-width: 300px) {
+    .input-wrapper fieldset div {
+      grid-template-rows: 0fr 0fr 0fr 0fr 0fr 0fr 0fr 0fr 0fr 0fr;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
     }
   }
 }

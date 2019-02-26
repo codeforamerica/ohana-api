@@ -1,0 +1,18 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      = button_tag(type: 'button', class: 'close', data: { dismiss: 'modal' }) do
+        %span{ 'aria-hidden' => 'true' }
+          &times;
+        %span.sr-only
+          Close
+      %h4.modal-title#my-modal-label
+        Are you ABSOLUTELY sure?
+    .modal-body
+      %p
+        This action CANNOT be undone. This will delete
+        %strong
+          = blog_post_title
+    .modal-footer
+      %button.btn.btn-default{ 'data-dismiss' => 'modal' } Close
+      = link_to t('admin.buttons.confirm_delete_blog_post'), { action: :destroy, id: blog_post_id }, method: :delete, class: 'btn btn-danger'

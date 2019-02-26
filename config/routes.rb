@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       resources :events do
         put 'featured', on: :member
       end
+      resources :blog_posts
+      put 'blog_post_categories', to: 'blog_post_categories#update'
 
       namespace :csv do
         get 'addresses'

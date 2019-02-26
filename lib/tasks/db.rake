@@ -4,29 +4,29 @@ namespace :db do
     desc 'Data for development'
     task :dev, [:path] => :environment do |_, _args|
       Kernel.puts 'Setting up three new Organizations...'
-      ActiveRecord::Base.connection.execute("TRUNCATE organizations RESTART IDENTITY;")
+      ActiveRecord::Base.connection.execute('TRUNCATE organizations RESTART IDENTITY;')
       Location.delete_all
       Phone.delete_all
       MailAddress.delete_all
       RegularSchedule.delete_all
       HolidaySchedule.delete_all
       Service.delete_all
-      ActiveRecord::Base.connection.execute("TRUNCATE friendly_id_slugs RESTART IDENTITY;")
-
-      organization = create_organization
-      Kernel.puts 'Setting up Location for Organization #1...'
-      create_locations_for_organization(organization.id)
-
-      organization = create_organization
-      2.times do
-        Kernel.puts 'Setting up Location for Organization #2...'
-        create_locations_for_organization(organization.id)
+      ActiveRecord::Base.connection.execute('TRUNCATE friendly_id_slugs RESTART IDENTITY;')
+      3.times do
+        create_organization
       end
 
-      organization = create_organization
+      Kernel.puts 'Setting up one Location for Organization #1...'
+      create_locations_for_organization(1)
+
+      2.times do
+        Kernel.puts 'Setting up two Locations for Organization #2...'
+        create_locations_for_organization(2)
+      end
+
       3.times do
-        Kernel.puts 'Setting up Location for Organization #3...'
-        create_locations_for_organization(organization.id)
+        Kernel.puts 'Setting up 3 Locations for Organization #3...'
+        create_locations_for_organization(3)
       end
 
       Event.delete_all
@@ -46,9 +46,8 @@ namespace :db do
       end
 
       Kernel.puts 'Setting up BlogPost default Tags...'
-      Tag.delete_all
+      ActiveRecord::Base.connection.execute('TRUNCATE tags RESTART IDENTITY;')
       ['featured', 'front page'].each do |tag|
-        next unless Tag.find_by_name(tag).blank?
         Tag.create!(
           name: tag
         )
@@ -75,7 +74,7 @@ end
 
 def create_organization
   Faker::Config.locale = 'en-US'
-  Organization.create!(
+  organization = Organization.create!(
     name: Faker::Company.name,
     alternate_name: Faker::Company.name,
     date_incorporated: Faker::Date.between(8.months.ago, Date.today),
@@ -94,17 +93,15 @@ def create_organization
     tax_id: Faker::IDNumber.valid,
     tax_status: Faker::Company.duns_number,
     licenses: ['State Health Inspection License', Faker::Company.industry].sample(1),
-    accreditations: ['BBB', 'State Board of Education', Faker::Company.industry].sample(2),
-    phones_attributes: [
-      {
-        country_prefix: Faker::PhoneNumber.country_code,
-        department: 'Food Pantry',
-        extension: Faker::PhoneNumber.extension,
-        number: Faker::PhoneNumber.cell_phone,
-        number_type: %w[voice hotline sms tty fax].sample,
-        vanity_number: Faker::PhoneNumber.cell_phone
-      }
-    ]
+    accreditations: ['BBB', 'State Board of Education', Faker::Company.industry].sample(2)
+  )
+  organization.phones.create!(
+    country_prefix: Faker::PhoneNumber.country_code,
+    department: 'Food Pantry',
+    extension: Faker::PhoneNumber.extension,
+    number: Faker::PhoneNumber.cell_phone,
+    number_type: %w[voice hotline sms tty fax].sample,
+    vanity_number: Faker::PhoneNumber.cell_phone
   )
 end
 
@@ -154,7 +151,7 @@ def create_locations_for_organization(organization_id)
   Faker::Config.locale = 'en-US'
   location_name = Faker::Address.street_address
   organization = Organization.find(organization_id)
-  location = organization.locations.create!(
+  location = organization.locations.create(
     accessibility: %w[cd deaf_interpreter disabled_parking elevator ramp restroom tape_braille tty wheelchair wheelchair_van].sample(3),
     active: true,
     admin_emails: [Admin.first.try(:email)],
@@ -175,32 +172,30 @@ def create_locations_for_organization(organization_id)
       postal_code: Faker::Address.postcode,
       country: Faker::Address.country_code,
       state_province: Faker::Address.state_abbr
-    },
-    mail_address_attributes: {
-      attention: Faker::Name.name,
-      city: Faker::Address.city,
-      state_province: Faker::Address.state_abbr,
-      address_1: location_name,
-      address_2: Faker::Address.street_address,
-      postal_code: Faker::Address.postcode,
-      country: Faker::Address.country_code
-    },
-    phones_attributes: [
-      {
-        country_prefix: Faker::PhoneNumber.country_code,
-        department: 'Food Pantry',
-        extension: Faker::PhoneNumber.extension,
-        number: Faker::PhoneNumber.cell_phone,
-        number_type: %w[voice hotline sms tty fax].sample,
-        vanity_number: Faker::PhoneNumber.cell_phone
-      }
-    ],
-    regular_schedules_attributes: [
-      {
-        weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
-        opens_at: ['9:30', '8:00'].sample,
-        closes_at: ['5:00 PM', '4:00 PM'].sample
-      },
+    }
+  )
+
+  location.create_mail_address(
+    attention: Faker::Name.name,
+    city: Faker::Address.city,
+    state_province: Faker::Address.state_abbr,
+    address_1: location_name,
+    address_2: Faker::Address.street_address,
+    postal_code: Faker::Address.postcode,
+    country: Faker::Address.country_code
+  )
+
+  location.phones.create(
+    country_prefix: Faker::PhoneNumber.country_code,
+    department: 'Food Pantry',
+    extension: Faker::PhoneNumber.extension,
+    number: Faker::PhoneNumber.cell_phone,
+    number_type: %w[voice hotline sms tty fax].sample,
+    vanity_number: Faker::PhoneNumber.cell_phone
+  )
+
+  location.regular_schedules.create(
+    [
       {
         weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
         opens_at: ['9:30', '8:00'].sample,
@@ -220,20 +215,24 @@ def create_locations_for_organization(organization_id)
         weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
         opens_at: ['9:30', '8:00'].sample,
         closes_at: ['5:00 PM', '4:00 PM'].sample
-      }
-    ],
-    holiday_schedules_attributes: [
+      },
       {
-        closed: %w[false true].sample,
-        start_date: Faker::Date.between(1.month.ago, Date.today),
-        end_date: Faker::Date.between(3.days.ago, Date.today),
+        weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
         opens_at: ['9:30', '8:00'].sample,
-        closes_at: ['5:00 PM', '4:00 PM'].sample,
+        closes_at: ['5:00 PM', '4:00 PM'].sample
       }
     ]
   )
 
-  location.services.create!({
+  location.holiday_schedules.create(
+    closed: %w[false true].sample,
+    start_date: Faker::Date.between(1.month.ago, Date.today),
+    end_date: Faker::Date.between(3.days.ago, Date.today),
+    opens_at: ['9:30', '8:00'].sample,
+    closes_at: ['5:00 PM', '4:00 PM'].sample
+  )
+
+  service = location.services.create(
     description: Faker::Lorem.paragraph(100),
     fees: ['Fee Charged', 'Free'].sample,
     name: Faker::Job.title,
@@ -248,24 +247,20 @@ def create_locations_for_organization(organization_id)
     eligibility: Faker::Lorem.paragraph(50),
     funding_sources: ['Donations', 'Grants', 'DC Government'].sample(2),
     keywords: ['hot meels', 'hungry'].sample(2),
-    service_areas: ['Alameda County', 'Belmont', 'Colma'].sample(2),
-    organization_id: organization.id,
-    phones_attributes: [
-      {
-        country_prefix: Faker::PhoneNumber.country_code,
-        department: 'Food Pantry',
-        extension: Faker::PhoneNumber.extension,
-        number: Faker::PhoneNumber.cell_phone,
-        number_type: %w[voice hotline sms tty fax].sample,
-        vanity_number: Faker::PhoneNumber.cell_phone
-      }
-    ],
-    regular_schedules_attributes: [
-      {
-        weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
-        opens_at: ['9:30', '8:00'].sample,
-        closes_at: ['5:00 PM', '4:00 PM'].sample
-      },
+    service_areas: ['Alameda County', 'Belmont', 'Colma'].sample(2)
+  )
+
+  service.phones.create(
+    country_prefix: Faker::PhoneNumber.country_code,
+    department: 'Food Pantry',
+    extension: Faker::PhoneNumber.extension,
+    number: Faker::PhoneNumber.cell_phone,
+    number_type: %w[voice hotline sms tty fax].sample,
+    vanity_number: Faker::PhoneNumber.cell_phone
+  )
+
+  service.regular_schedules.create(
+    [
       {
         weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
         opens_at: ['9:30', '8:00'].sample,
@@ -285,16 +280,20 @@ def create_locations_for_organization(organization_id)
         weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
         opens_at: ['9:30', '8:00'].sample,
         closes_at: ['5:00 PM', '4:00 PM'].sample
-      }
-    ],
-    holiday_schedules_attributes: [
+      },
       {
-        closed: %w[false true].sample,
-        start_date: Faker::Date.between(1.month.ago, Date.today),
-        end_date: Faker::Date.between(3.days.ago, Date.today),
+        weekday: %w[Monday Tuesday Friday Wednesday Thursday].sample,
         opens_at: ['9:30', '8:00'].sample,
-        closes_at: ['5:00 PM', '4:00 PM'].sample,
+        closes_at: ['5:00 PM', '4:00 PM'].sample
       }
     ]
-  })
+  )
+
+  service.holiday_schedules.create(
+    closed: %w[false true].sample,
+    start_date: Faker::Date.between(1.month.ago, Date.today),
+    end_date: Faker::Date.between(3.days.ago, Date.today),
+    opens_at: ['9:30', '8:00'].sample,
+    closes_at: ['5:00 PM', '4:00 PM'].sample
+  )
 end
