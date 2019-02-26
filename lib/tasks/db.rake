@@ -2,53 +2,47 @@ namespace :db do
   namespace :seed do
     task all: %i[dev]
     desc 'Data for development'
-    task :dev, [:path] => :environment do |_, args|
-      Kernel.puts 'Setting right sequence to Organization...'
-      ActiveRecord::Base.connection.execute("select setval('organizations_id_seq', 26);")
+    task :dev, [:path] => :environment do |_, _args|
+      Kernel.puts 'Setting up three new Organizations...'
+      ActiveRecord::Base.connection.execute("TRUNCATE organizations RESTART IDENTITY;")
+      Location.delete_all
+      Phone.delete_all
+      MailAddress.delete_all
+      RegularSchedule.delete_all
+      HolidaySchedule.delete_all
+      Service.delete_all
+      ActiveRecord::Base.connection.execute("TRUNCATE friendly_id_slugs RESTART IDENTITY;")
 
-      Kernel.puts 'Setting up 32 events for Organization...'
-      Event.delete_all
-      32.times do |index|
-        date = Faker::Time.between(DateTime.now - index.hours, DateTime.now)
-        Event.create!(
-          title: Faker::Job.title,
-          posted_at: date,
-          starting_at: date,
-          ending_at: DateTime.now + index.hours,
-          city: Faker::Address.city,
-          body: Faker::Lorem.paragraph,
-          is_featured: %w[false true].sample,
-          street_1: Faker::Address.street_address,
-          street_2: Faker::Address.street_address,
-          organization_id: 1,
-          user_id: 3,
-          state_abbr: Faker::Address.state_abbr,
-          zip: Faker::Address.zip,
-          phone: Faker::PhoneNumber.cell_phone,
-          external_url: Faker::Internet.url
-        )
+      organization = create_organization
+      Kernel.puts 'Setting up Location for Organization #1...'
+      create_locations_for_organization(organization.id)
+
+      organization = create_organization
+      2.times do
+        Kernel.puts 'Setting up Location for Organization #2...'
+        create_locations_for_organization(organization.id)
       end
 
-      Kernel.puts 'Setting up 3 events for another Organization...'
+      organization = create_organization
+      3.times do
+        Kernel.puts 'Setting up Location for Organization #3...'
+        create_locations_for_organization(organization.id)
+      end
+
+      Event.delete_all
+      Kernel.puts 'Setting up 38 events for Organization #1...'
+      38.times do |index|
+        create_events_for_organization(1, index)
+      end
+
+      Kernel.puts 'Setting up 3 events for Organization #2...'
       3.times do |index|
-        date = Faker::Time.between(DateTime.now - index.hours, DateTime.now)
-        Event.create!(
-          title: Faker::Job.title,
-          posted_at: date,
-          starting_at: date,
-          ending_at: DateTime.now + index.hours,
-          city: Faker::Address.city,
-          body: Faker::Lorem.paragraph,
-          is_featured: %w[false true].sample,
-          street_1: Faker::Address.street_address,
-          street_2: Faker::Address.street_address,
-          organization_id: 2,
-          user_id: 3,
-          state_abbr: Faker::Address.state_abbr,
-          zip: Faker::Address.zip,
-          phone: Faker::PhoneNumber.cell_phone,
-          external_url: Faker::Internet.url
-        )
+        create_events_for_organization(2, index)
+      end
+
+      Kernel.puts 'Setting up 8 events for Organization #3...'
+      8.times do |index|
+        create_events_for_organization(3, index)
       end
 
       Kernel.puts 'Setting up BlogPost default Tags...'
@@ -60,102 +54,106 @@ namespace :db do
         )
       end
 
-      Kernel.puts 'Setting up BlogPost...'
       BlogPost.delete_all
+      Kernel.puts 'Setting up 32 BlogPost for Organization #1...'
       32.times do |index|
-        blog = BlogPost.new(
-          title: Faker::Job.title,
-          posted_at: Faker::Time.between(DateTime.now - index.hours, DateTime.now),
-          is_published: %w[false true].sample,
-          user_id: 3,
-          body: Faker::Lorem.paragraph,
-          blog_post_attachments_attributes: [
-            {
-              file_type: %w[video image audio].sample,
-              file_url: Faker::Avatar.image,
-              file_legend: Faker::Lorem.sentence,
-              order: rand(1..3)
-            }
-          ],
-          organization_id: 1
-        )
-        blog.category_list = ['featured', 'front page'].sample
-        blog.save
+        create_blog_posts_for_organiation(1, index)
       end
 
-      Kernel.puts 'Setting right sequence to Locations...'
-      last_location_id = ActiveRecord::Base.connection.execute('SELECT id FROM locations ORDER BY id DESC LIMIT 1;')
-      last_location_id = last_location_id[0]['id'].to_i
-      ActiveRecord::Base.connection.execute("select setval('locations_id_seq', #{last_location_id});")
-
-      Kernel.puts 'Setting up Locations...'
-      last_phone_id = ActiveRecord::Base.connection.execute('SELECT id FROM phones ORDER BY id DESC LIMIT 1;')
-      last_phone_id = if last_phone_id.cmd_tuples > 0
-                        last_phone_id[0]['id'].to_i
-                      else
-                        1
-                      end
-      ActiveRecord::Base.connection.execute("select setval('phones_id_seq', #{last_phone_id});")
-
-      last_mail_address_id = ActiveRecord::Base.connection.execute('SELECT id FROM mail_addresses ORDER BY id DESC LIMIT 1;')
-      last_mail_address_id = if last_mail_address_id.cmd_tuples > 0
-                              last_mail_address_id[0]['id'].to_i
-                             else
-                              1
-                             end
-      ActiveRecord::Base.connection.execute("select setval('mail_addresses_id_seq', #{last_mail_address_id});")
-
-      last_regular_schedule_id = ActiveRecord::Base.connection.execute('SELECT id FROM regular_schedules ORDER BY id DESC LIMIT 1;')
-      last_regular_schedule_id = if last_regular_schedule_id.cmd_tuples > 0
-                                  last_regular_schedule_id[0]['id'].to_i
-                                 else
-                                   1
-                                 end
-      ActiveRecord::Base.connection.execute("select setval('regular_schedules_id_seq', #{last_regular_schedule_id});")
-
-      last_mail_holiday_schedule_id = ActiveRecord::Base.connection.execute('SELECT id FROM holiday_schedules ORDER BY id DESC LIMIT 1;')
-      last_mail_holiday_schedule_id = if last_mail_holiday_schedule_id.cmd_tuples > 0
-                                        last_mail_holiday_schedule_id[0]['id'].to_i
-                                      else
-                                        1
-                                      end
-      ActiveRecord::Base.connection.execute("select setval('holiday_schedules_id_seq', #{last_mail_holiday_schedule_id});")
-
-      last_service_id = ActiveRecord::Base.connection.execute('SELECT MAX(id) as max FROM services;')
-      last_service_id = if last_service_id.cmd_tuples > 0
-                          last_service_id[0]['max'].to_i
-                        else
-                          1
-                        end
-      ActiveRecord::Base.connection.execute("select setval('services_id_seq', #{last_service_id});")
-
-      organization = Organization.find(1)
-      organization.locations.delete_all
-      Kernel.puts 'Setting up Location for Organization #1...'
-      create_locations_for_organization(1)
-
-      organization = Organization.find(2)
-      organization.locations.delete_all
-      2.times do
-        Kernel.puts 'Setting up Location for Organization #2...'
-        create_locations_for_organization(2)
+      Kernel.puts 'Setting up 3 BlogPost for Organization #2...'
+      3.times do |index|
+        create_blog_posts_for_organiation(2, index)
       end
 
-      organization = Organization.find(3)
-      organization.locations.delete_all
-      3.times do
-        Kernel.puts 'Setting up Location for Organization #3...'
-        create_locations_for_organization(3)
+      Kernel.puts 'Setting up 8 BlogPost for Organization #3...'
+      8.times do |index|
+        create_blog_posts_for_organiation(3, index)
       end
     end
   end
+end
+
+def create_organization
+  Faker::Config.locale = 'en-US'
+  Organization.create!(
+    name: Faker::Company.name,
+    alternate_name: Faker::Company.name,
+    date_incorporated: Faker::Date.between(8.months.ago, Date.today),
+    description: Faker::Lorem.paragraph(150),
+    website: Faker::Internet.url,
+    twitter: Faker::Internet.url,
+    facebook: Faker::Internet.url,
+    linkedin: Faker::Internet.url,
+    logo_url: Faker::Avatar.image,
+    approval_status: %w[pending approved denied].sample,
+    is_published: %w[false true].sample,
+    user_id: 1,
+    funding_sources: ['Donations', 'Grants', 'DC Government'].sample(2),
+    email: Faker::Internet.email,
+    legal_status: ['Nonprofit'].sample,
+    tax_id: Faker::IDNumber.valid,
+    tax_status: Faker::Company.duns_number,
+    licenses: ['State Health Inspection License', Faker::Company.industry].sample(1),
+    accreditations: ['BBB', 'State Board of Education', Faker::Company.industry].sample(2),
+    phones_attributes: [
+      {
+        country_prefix: Faker::PhoneNumber.country_code,
+        department: 'Food Pantry',
+        extension: Faker::PhoneNumber.extension,
+        number: Faker::PhoneNumber.cell_phone,
+        number_type: %w[voice hotline sms tty fax].sample,
+        vanity_number: Faker::PhoneNumber.cell_phone
+      }
+    ]
+  )
+end
+
+def create_events_for_organization(organization_id, index)
+  date = Faker::Time.between(DateTime.now - index.hours, DateTime.now)
+  Event.create!(
+    title: Faker::Job.title,
+    posted_at: date,
+    starting_at: date,
+    ending_at: DateTime.now + index.hours,
+    city: Faker::Address.city,
+    body: Faker::Lorem.paragraph,
+    is_featured: %w[false true].sample,
+    street_1: Faker::Address.street_address,
+    street_2: Faker::Address.street_address,
+    organization_id: organization_id,
+    user_id: 3,
+    state_abbr: Faker::Address.state_abbr,
+    zip: Faker::Address.zip,
+    phone: Faker::PhoneNumber.cell_phone,
+    external_url: Faker::Internet.url
+  )
+end
+
+def create_blog_posts_for_organiation(organization_id, index)
+  blog = BlogPost.new(
+    title: Faker::Job.title,
+    posted_at: Faker::Time.between(DateTime.now - index.hours, DateTime.now),
+    is_published: %w[false true].sample,
+    user_id: 3,
+    body: Faker::Lorem.paragraph,
+    blog_post_attachments_attributes: [
+      {
+        file_type: %w[video image audio].sample,
+        file_url: Faker::Avatar.image,
+        file_legend: Faker::Lorem.sentence,
+        order: rand(1..3)
+      }
+    ],
+    organization_id: organization_id
+  )
+  blog.category_list = ['featured', 'front page'].sample
+  blog.save
 end
 
 def create_locations_for_organization(organization_id)
   Faker::Config.locale = 'en-US'
   location_name = Faker::Address.street_address
   organization = Organization.find(organization_id)
-  organization.update(description: Faker::Lorem.paragraph(150))
   location = organization.locations.create!(
     accessibility: %w[cd deaf_interpreter disabled_parking elevator ramp restroom tape_braille tty wheelchair wheelchair_van].sample(3),
     active: true,
@@ -171,7 +169,6 @@ def create_locations_for_organization(organization_id)
     virtual: false,
     languages: %w[English Spanish Tagalog].sample(2),
     transportation: Faker::Address.community,
-    organization_id: [1, 2, 3, 4, 5, 6, 10].sample,
     address_attributes: {
       address_1: location_name,
       city: Faker::Address.city,
@@ -252,6 +249,7 @@ def create_locations_for_organization(organization_id)
     funding_sources: ['Donations', 'Grants', 'DC Government'].sample(2),
     keywords: ['hot meels', 'hungry'].sample(2),
     service_areas: ['Alameda County', 'Belmont', 'Colma'].sample(2),
+    organization_id: organization.id,
     phones_attributes: [
       {
         country_prefix: Faker::PhoneNumber.country_code,

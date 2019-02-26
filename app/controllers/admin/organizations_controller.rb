@@ -6,7 +6,7 @@ class Admin
     include Taggable
 
     def index
-      @all_orgs = policy_scope(Organization)
+      @all_orgs = policy_scope(fitler_organizations)
       @orgs = Kaminari.paginate_array(@all_orgs).page(params[:page])
 
       respond_to do |format|
@@ -15,6 +15,10 @@ class Admin
           render json: @all_orgs.select { |org| org[1] =~ /#{params[:q]}/i }
         end
       end
+    end
+
+    def show
+      @organization = Organization.find(params[:id])
     end
 
     def edit
@@ -64,6 +68,19 @@ class Admin
 
     def preprocess_organization_params
       shift_and_split_params(params[:organization], :accreditations, :licenses)
+    end
+
+    def fitler_organizations
+      organizations = Organization.all
+      if params[:filter_by_approval_status].present? && params[:filter_by_approval_status] != 'all'
+        organizations = organizations.where(approval_status: params[:filter_by_approval_status])
+      end
+
+      if params[:filter_by_published].present? && params[:filter_by_published] != 'all'
+        organizations = organizations.where(is_published: params[:filter_by_published])
+      end
+
+      organizations
     end
   end
 end

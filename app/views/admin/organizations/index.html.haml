@@ -1,17 +1,22 @@
-%p
-  Below you should see a list of organizations that you are allowed to administer.
-  If there are any entries missing,
-  please #{mail_to SETTINGS[:admin_support_email], 'let us know'}.
-%p
-  To start updating, click on one of the links, which will take you to the details page
-  for the organization.
-
-- if current_admin.super_admin?
-  %p
-    As a super admin, you have access to all locations in the database. Please make updates responsibly.
-
-%p
-  - @orgs.each do |org|
-    %ul
-      = link_to org.second, edit_admin_organization_path(org.third)
+%div.events-header
+  %p Organizations
+  = select(:organization, :approval_status, options_for_select([['Filter By Approval Status'], ['All', 'all'], ['Pending', 'pending'], ['Approved', 'approved'], ['Denied', 'denied']], disabled: 'Filter By Approval Status'), {}, { class: 'form-control' })
+  = select(:organization, :is_published, options_for_select([['Filter By Published'], ['All', 'all'], ['Yes', 'true'], ['No', 'false']], disabled: 'Filter By Published'), {}, { class: 'form-control' })
+%br
+%br
+%table{cellspacing: 30, class: 'custom-table'}
+  %thead
+    %tr
+      %th Name
+      %th Owner
+      %th Approval Status
+      %th Published?
+  %tbody
+    - @orgs.each do |organization|
+      %tr
+        %td= link_to organization[1], admin_organization_path(organization[2])
+        %td= organization[3]
+        %td= organization[4] || 'Pending'
+        %td= organization[5].is_a?(FalseClass) ? 'No' : 'Yes'
+%div.bottom-pagination
   = paginate @orgs
