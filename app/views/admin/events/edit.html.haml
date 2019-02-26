@@ -1,0 +1,15 @@
+%p
+  %b
+    #{@event.title}
+%br
+%p #{@event.organization.try(:name)}
+%br
+= form_for [:admin, @event], html: { class: 'edit-entry' } do |f|
+  %div.dates-event
+    %div
+      %strong= t('admin.events.forms.starting_at.description')
+      %p= @event.starting_at.strftime('%m/%d/%Y')
+    %div.last-item
+      %strong= t('admin.events.forms.posted_at.description')
+      %p= @event.posted_at.strftime('%m/%d/%Y')
+  = render 'admin/events/form', f: f, event: @event

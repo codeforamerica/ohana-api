@@ -117,7 +117,7 @@ def create_events_for_organization(organization_id, index)
     ending_at: DateTime.now + index.hours,
     city: Faker::Address.city,
     body: Faker::Lorem.paragraph,
-    is_featured: %w[false true].sample,
+    is_featured: false,
     street_1: Faker::Address.street_address,
     street_2: Faker::Address.street_address,
     organization_id: organization_id,

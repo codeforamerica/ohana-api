@@ -304,6 +304,7 @@ en:
           description: 'Date Posted'
         starting_at:
           description: 'Event date'
+      show:
         is_featured:
           description: 'Featured'
     shared:

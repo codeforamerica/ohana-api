@@ -12,7 +12,7 @@
   %tbody
     - @events.each do |event|
       %tr
-        %td= link_to event[2], edit_admin_event_path(event.first)
+        %td= link_to event[2], admin_event_path(event.first)
         %td= event[1]
         %td= event[3].strftime('%m/%d/%Y')
         %td= event[4].is_a?(FalseClass) ? 'No' : 'Yes'

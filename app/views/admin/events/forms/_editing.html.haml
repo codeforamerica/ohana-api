@@ -1,0 +1,6 @@
+.save-box.navbar-default
+  %p
+    Editing
+    %strong
+      = event.title
+  = f.submit t('admin.buttons.save_changes'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }

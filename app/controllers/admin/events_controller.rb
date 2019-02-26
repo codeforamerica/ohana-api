@@ -1,5 +1,7 @@
 class Admin
   class EventsController < ApplicationController
+    include ErrorSerializer
+
     before_action :authenticate_admin!
     layout 'admin'
 
@@ -17,7 +19,9 @@ class Admin
                        .per(params[:per_page])
     end
 
-    def show; end
+    def show
+      @event = Event.find(params[:id])
+    end
 
     def edit
       @event = Event.find(params[:id])
@@ -33,6 +37,16 @@ class Admin
                     notice: 'Event was successfully updated.'
       else
         render :edit
+      end
+    end
+
+    def featured
+      @event = Event.find(params[:id])
+      if @event.update(is_featured: params[:event][:is_featured])
+        render json: {}, status: :ok
+      else
+        render json: ErrorSerializer.serialize(@event.errors),
+               status: :unprocessable_entity
       end
     end
 

@@ -29,7 +29,9 @@ Rails.application.routes.draw do
       end
       resources :programs, except: :show
       resources :services, only: :index
-      resources :events, except: :show
+      resources :events do
+        put 'featured', on: :member
+      end
 
       namespace :csv do
         get 'addresses'
