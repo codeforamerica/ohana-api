@@ -13,7 +13,6 @@
         This action CANNOT be undone. This will delete
         %strong
           = event_title
-        and all of its associated services permanently.
     .modal-footer
       %button.btn.btn-default{ 'data-dismiss' => 'modal' } Close
-      = link_to t('admin.buttons.confirm_delete_location'), { action: :destroy, id: event_id }, method: :delete, class: 'btn btn-danger'
+      = link_to t('admin.buttons.confirm_delete_event'), { action: :destroy, id: event_id }, method: :delete, class: 'btn btn-danger'
