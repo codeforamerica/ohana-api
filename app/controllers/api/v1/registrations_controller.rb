@@ -1,35 +1,35 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
+  include ActiveSupport::Rescuable
+
   before_action :configure_permitted_parameters
   skip_before_action :verify_authenticity_token
 
   respond_to :json
 
   def create
-    build_resource(sign_up_params)
-    resource.save
-    if resource.persisted? && build_organization.present?
+    ActiveRecord::Base.transaction do
+      build_resource(sign_up_params)
+      resource.save!
+      resource.build_organization(
+        name: params[:api_user][:organization_name],
+        description: params[:api_user][:organization_description]
+      )
+      resource.organization.save!
       UserMailer.new_registration(resource).deliver_now
       SuperAdminMailer.new_registration(resource).deliver_now
+      render_resource(resource)
     end
-    render_resource(resource)
+  rescue ActiveRecord::RecordInvalid => error
+    render status: 422,
+           json: { model: error.record.class.to_s, errors: error.record.errors }
   end
 
   private
 
-  def build_organization
-    return unless sign_up_params[:organization_name].present? ||
-                  sign_up_params[:organization_description].present?
-    Organization.create!(
-      name: sign_up_params[:organization_name],
-      description: sign_up_params[:organization_description],
-      user_id: resource.id
-    )
-  end
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
       :sign_up,
-      keys: [:name, :organization_name, :organization_description]
+      keys: [:name]
     )
   end
 

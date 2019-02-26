@@ -14,5 +14,5 @@
     %tr
       %td= @user.email
       %td= @user.name
-      %td= @user.organization.name
-      %td= @user.organization.description
+      %td= @user.organization.try(:name)
+      %td= @user.organization.try(:description)
