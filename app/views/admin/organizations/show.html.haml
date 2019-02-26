@@ -2,8 +2,7 @@
   %div.events-header
     %p
       %b= @organization.name
-    = f.select(:approval_status, options_for_select([['Filter By Approval Status'], ['All', 'all'], ['Pending', 'pending'], ['Approved', 'approved'], ['Denied', 'denied']], disabled: 'Filter By Approval Status', selected: @organization.approval_status), {}, { class: 'form-control', id: 'test-ds' })
-
+    = f.select(:approval_status, options_for_select([['Approval Status'], ['Pending', 'pending'], ['Approved', 'approved'], ['Denied', 'denied']], disabled: 'Approval Status', selected: @organization.approval_status), {}, { class: 'form-control', id: 'test-ds' })
   %br
   %p= @organization.description
   %br
@@ -11,4 +10,4 @@
     View Organization
   =link_to 'Edit Organization', edit_admin_organization_path(@organization.slug), class: 'btn btn-primary btn-lg'
   .save-box.navbar-default
-    = f.submit t('admin.buttons.save_changes'), class: 'btn btn-success', data: { disable_with: 'Please wait...' }
+    = f.submit t('admin.buttons.save_changes_organization'), class: 'btn btn-success btn-lg', data: { disable_with: 'Please wait...' }
