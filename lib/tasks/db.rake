@@ -1,3 +1,5 @@
+BLOG_POST_CATEGORIES = ['featured', 'front page', 'soccer', 'games', 'food',
+                        'drink', 'programming', 'study', 'entertainment']
 namespace :db do
   namespace :seed do
     task all: %i[dev]
@@ -11,7 +13,9 @@ namespace :db do
       RegularSchedule.delete_all
       HolidaySchedule.delete_all
       Service.delete_all
+      Contact.delete_all
       ActiveRecord::Base.connection.execute('TRUNCATE friendly_id_slugs RESTART IDENTITY;')
+
       3.times do
         create_organization
       end
@@ -32,28 +36,33 @@ namespace :db do
       Event.delete_all
       Kernel.puts 'Setting up 38 events for Organization #1...'
       38.times do |index|
-        create_events_for_organization(1, index)
+        create_events_for_organization(1, index, DateTime.now)
       end
+      Event.first.update(is_featured: true)
+      Event.last.update(is_featured: true)
 
       Kernel.puts 'Setting up 3 events for Organization #2...'
       3.times do |index|
-        create_events_for_organization(2, index)
+        create_events_for_organization(2, index, 1.month.from_now)
       end
+      Event.last.update(is_featured: true)
 
       Kernel.puts 'Setting up 8 events for Organization #3...'
       8.times do |index|
-        create_events_for_organization(3, index)
+        create_events_for_organization(3, index, 2.month.from_now)
       end
+      Event.last.update(is_featured: true)
 
       Kernel.puts 'Setting up BlogPost default Tags...'
       ActiveRecord::Base.connection.execute('TRUNCATE tags RESTART IDENTITY;')
-      ['featured', 'front page'].each do |tag|
+      BlogPost.delete_all
+
+      BLOG_POST_CATEGORIES.each do |tag|
         Tag.create!(
           name: tag
         )
       end
 
-      BlogPost.delete_all
       Kernel.puts 'Setting up 32 BlogPost for Organization #1...'
       32.times do |index|
         create_blog_posts_for_organiation(1, index)
@@ -103,15 +112,21 @@ def create_organization
     number_type: %w[voice hotline sms tty fax].sample,
     vanity_number: Faker::PhoneNumber.cell_phone
   )
+  organization.contacts.create!(
+    department: 'Food Pantry',
+    email: Faker::Internet.email,
+    name: Faker::Company.name,
+    title: Faker::Job.title
+  )
 end
 
-def create_events_for_organization(organization_id, index)
-  date = Faker::Time.between(DateTime.now - index.hours, DateTime.now)
+def create_events_for_organization(organization_id, index, month)
+  date = Faker::Time.between(month.beginning_of_month + 1.day, month.end_of_month - 1.day)
   Event.create!(
     title: Faker::Job.title,
     posted_at: date,
     starting_at: date,
-    ending_at: DateTime.now + index.hours,
+    ending_at: date + index.hours + 1.hour,
     city: Faker::Address.city,
     body: Faker::Lorem.paragraph,
     is_featured: false,
@@ -143,7 +158,7 @@ def create_blog_posts_for_organiation(organization_id, index)
     ],
     organization_id: organization_id
   )
-  blog.category_list = ['featured', 'front page'].sample
+  blog.category_list = BLOG_POST_CATEGORIES.sample
   blog.save
 end
 
@@ -154,7 +169,7 @@ def create_locations_for_organization(organization_id)
   location = organization.locations.create(
     accessibility: %w[cd deaf_interpreter disabled_parking elevator ramp restroom tape_braille tty wheelchair wheelchair_van].sample(3),
     active: true,
-    admin_emails: [Admin.first.try(:email)],
+    admin_emails: [Faker::Internet.email],
     alternate_name: Faker::Job.title,
     description: Faker::Lorem.paragraph(150),
     email: Faker::Internet.email,

@@ -61,7 +61,7 @@ module Api
 
       def get_events
         events = Event.all
-        events = events.events_in_month(params[:month]) if params[:month].present?
+        events = events.events_in_month(DateTime.strptime(params[:month], '%m')) if params[:month].present?
         events = events.where(organization_id: params[:organization_id]) if params[:organization_id].present?
         events.page(params[:page])
               .per(params[:per_page])
