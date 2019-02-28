@@ -65,17 +65,17 @@ namespace :db do
 
       Kernel.puts 'Setting up 32 BlogPost for Organization #1...'
       32.times do |index|
-        create_blog_posts_for_organiation(1, index)
+        create_blog_posts_for_organiation(1, index, 100)
       end
 
       Kernel.puts 'Setting up 3 BlogPost for Organization #2...'
       3.times do |index|
-        create_blog_posts_for_organiation(2, index)
+        create_blog_posts_for_organiation(2, index, 20)
       end
 
       Kernel.puts 'Setting up 8 BlogPost for Organization #3...'
       8.times do |index|
-        create_blog_posts_for_organiation(3, index)
+        create_blog_posts_for_organiation(3, index, 200)
       end
     end
   end
@@ -141,13 +141,13 @@ def create_events_for_organization(organization_id, index, month)
   )
 end
 
-def create_blog_posts_for_organiation(organization_id, index)
+def create_blog_posts_for_organiation(organization_id, index, title_size)
   blog = BlogPost.new(
-    title: Faker::Job.title,
+    title: Faker::Lorem.paragraph(title_size),
     posted_at: Faker::Time.between(DateTime.now - index.hours, DateTime.now),
     is_published: %w[false true].sample,
     user_id: 3,
-    body: Faker::Lorem.paragraph,
+    body: Faker::Lorem.paragraph(200),
     blog_post_attachments_attributes: [
       {
         file_type: %w[video image audio].sample,
