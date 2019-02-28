@@ -163,6 +163,7 @@ en:
       add_keyword: 'Add a new keyword'
       delete_keyword: 'Delete this keyword permanently'
       save_changes: 'Save changes & apply edits to database'
+      save_changes_organization: 'Save Changes & Apply to Database'
       delete_symbol: 'x'
       download_zip_file: 'Download zip file'
       generate_zip_file: 'Generate zip file'
