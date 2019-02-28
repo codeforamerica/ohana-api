@@ -55,3 +55,4 @@ script/import_to_staging
 /.idea
 # Byebug
 .byebug_history
+/.env

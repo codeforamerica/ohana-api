@@ -24,8 +24,9 @@ class Organization < ActiveRecord::Base
                                 allow_destroy: true, reject_if: :all_blank
 
   validates :name,
-            presence: { message: I18n.t('errors.messages.blank_for_org') },
-            uniqueness: { case_sensitive: false }
+            presence: { message: I18n.t('errors.messages.blank_for_org') }
+
+  validates_uniqueness_of :name, case_sensitive: false
 
   validates :description,
             presence: { message: I18n.t('errors.messages.blank_for_org') }
@@ -36,6 +37,7 @@ class Organization < ActiveRecord::Base
   validates :facebook, url: true, allow_blank: true
   validates :linkedin, url: true, allow_blank: true
   validates :logo_url, url: true, allow_blank: true
+  validates :user, presence: true
 
   auto_strip_attributes :alternate_name, :description, :email, :legal_status,
                         :name, :tax_id, :tax_status, :website, :twitter,
