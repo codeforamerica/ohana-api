@@ -53,6 +53,12 @@ namespace :db do
       end
       Event.last.update(is_featured: true)
 
+      Kernel.puts 'Setting up 5 events for three months from now for Organization #3...'
+      5.times do |index|
+        create_events_for_organization(3, index, 3.month.from_now)
+      end
+      Event.last.update(is_featured: true)
+
       Kernel.puts 'Setting up BlogPost default Tags...'
       ActiveRecord::Base.connection.execute('TRUNCATE tags RESTART IDENTITY;')
       BlogPost.delete_all
