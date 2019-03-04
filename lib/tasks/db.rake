@@ -1,5 +1,8 @@
 BLOG_POST_CATEGORIES = ['featured', 'front page', 'soccer', 'games', 'food',
-                        'drink', 'programming', 'study', 'entertainment']
+                        'drink', 'programming', 'study', 'entertainment',
+                        'health', 'work', 'basketball', 'rock', 'rap', 'country',
+                        'spanish', 'home', 'motorcycle', 'shoes', 'clothes',
+                        'music', 'fashion', 'wear', 'outdoors', 'decorations']
 namespace :db do
   namespace :seed do
     task all: %i[dev]
