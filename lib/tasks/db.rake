@@ -130,7 +130,7 @@ def create_organization
 end
 
 def create_events_for_organization(organization_id, index, month)
-  date = Faker::Time.between(month.beginning_of_month + 1.day, month.end_of_month - 1.day)
+  date = Faker::Time.between(month.beginning_of_month + 1.day, month.end_of_month - 1.day).utc
   Event.create!(
     title: Faker::Job.title,
     posted_at: date,
@@ -153,7 +153,7 @@ end
 def create_blog_posts_for_organiation(organization_id, index, title_size)
   blog = BlogPost.new(
     title: Faker::Lorem.paragraph(title_size),
-    posted_at: Faker::Time.between(DateTime.now - index.hours, DateTime.now),
+    posted_at: Faker::Time.between(DateTime.now - index.hours, DateTime.now).utc,
     is_published: %w[false true].sample,
     user_id: 3,
     body: Faker::Lorem.paragraph(200),

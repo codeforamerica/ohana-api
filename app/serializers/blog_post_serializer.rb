@@ -5,4 +5,8 @@ class BlogPostSerializer < ActiveModel::Serializer
   has_one :organization, serializer: OrganizationSerializer
   has_many :blog_post_attachments, serializer: BlogPostAttachmentSerializer
   has_many :categories
+
+  def posted_at
+    object.posted_at.utc
+  end
 end

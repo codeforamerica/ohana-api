@@ -5,4 +5,16 @@ class EventsSerializer < ActiveModel::Serializer
 
   has_one :organization, serializer: LocationsOrganizationSerializer
   has_one :user, serializer: UserSerializer
+
+  def posted_at
+    object.posted_at.utc
+  end
+
+  def starting_at
+    object.starting_at.utc
+  end
+
+  def ending_at
+    object.ending_at.utc
+  end
 end
