@@ -3,6 +3,9 @@ BLOG_POST_CATEGORIES = ['featured', 'front page', 'soccer', 'games', 'food',
                         'health', 'work', 'basketball', 'rock', 'rap', 'country',
                         'spanish', 'home', 'motorcycle', 'shoes', 'clothes',
                         'music', 'fashion', 'wear', 'outdoors', 'decorations']
+FAKE_FIRST_BLOG_POST_PATH = 'spec/fixtures/fake_blog_post.html'
+FAKE_SECOND_BLOG_POST_PATH = 'spec/fixtures/fake_blog_post_2.html'
+
 namespace :db do
   namespace :seed do
     task all: %i[dev]
@@ -151,12 +154,13 @@ def create_events_for_organization(organization_id, index, month)
 end
 
 def create_blog_posts_for_organiation(organization_id, index, title_size)
+  file = File.open([FAKE_FIRST_BLOG_POST_PATH, FAKE_SECOND_BLOG_POST_PATH].sample, 'rb')
   blog = BlogPost.new(
     title: Faker::Lorem.paragraph(title_size),
     posted_at: Faker::Time.between(DateTime.now - index.hours, DateTime.now).utc,
     is_published: %w[false true].sample,
     user_id: 3,
-    body: Faker::Lorem.paragraph(200),
+    body: file.read,
     blog_post_attachments_attributes: [
       {
         file_type: %w[video image audio].sample,
