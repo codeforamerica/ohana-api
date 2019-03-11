@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    return admin_dashboard_path if resource.is_a?(Admin)
+    return stored_location_for(resource) || admin_dashboard_path if resource.is_a?(Admin)
   end
 
   def after_sign_out_path_for(resource)
