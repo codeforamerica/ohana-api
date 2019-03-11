@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   validates :city, presence: true
   validate :three_events_in_month?
 
+  paginates_per 200
 
   def three_events_in_month?
     featured_events_in_month = Event.events_in_month(self.starting_at)
