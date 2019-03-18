@@ -193,6 +193,15 @@
 # See: http://api.rubyonrails.org/classes/ActionView/Helpers/AssetUrlHelper.html
 # for examples.
 
+###########################################################
+#
+# GOOGLE_GEOCODING_API_KEY - REQUIRED IN DEV AND PRODUCTION
+#
+###########################################################
+# If you use the Google lookup service in the Geocoder config, you will need an
+# API key. See https://cloud.google.com/maps-platform/user-guide/account-changes
+# for details.
+
 ###########################
 #
 # SETTINGS FOR DEVELOPMENT
@@ -207,6 +216,7 @@ development:
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
   DOMAIN_NAME: lvh.me
+  GOOGLE_GEOCODING_API_KEY:
   MAX_PER_PAGE: '50'
 
 ###############################################################################
@@ -225,6 +235,7 @@ production:
   DEV_SUBDOMAIN:
   DEFAULT_PER_PAGE: '30'
   DOMAIN_NAME:
+  GOOGLE_GEOCODING_API_KEY:
   MAX_PER_PAGE: '50'
   EXPIRES_IN: '1'
   TLD_LENGTH: '2'
