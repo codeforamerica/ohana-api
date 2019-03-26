@@ -255,12 +255,13 @@ Devise.setup do |config|
 
   config.jwt do |jwt|
     jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
-
     jwt.dispatch_requests = [
-      ['POST', %r{^/users/sign_in$}],
-      ['GET', %r{^/$}]
+      ['POST', %r{^/api/users/sign_in$}]
     ]
-    jwt.request_formats = { user: [:json] }
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/api/v1/sign_out$}]
+    ]
+    jwt.request_formats = { api_user: [nil, :json], admin: [] }
     jwt.expiration_time = 1.day.to_i
   end
 end

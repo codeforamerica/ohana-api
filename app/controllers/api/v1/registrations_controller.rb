@@ -12,7 +12,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       resource.save!
       resource.build_organization(
         name: params[:api_user][:organization_name],
-        description: params[:api_user][:organization_description]
+        description: params[:api_user][:organization_description],
+        approval_status: 'pending'
       )
       resource.organization.save!
       UserMailer.new_registration(resource).deliver_now
@@ -22,6 +23,9 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   rescue ActiveRecord::RecordInvalid => error
     render status: 422,
            json: { model: error.record.class.to_s, errors: error.record.errors }
+  rescue ActiveRecord::RecordNotUnique => error
+    render status: 422,
+           json: { model: 'Organization', errors: 'Organization name already exists' }
   end
 
   private
