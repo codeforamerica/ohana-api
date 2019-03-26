@@ -27,10 +27,23 @@ module Api
                status: 200
       end
 
+      def show
+        org = Organization.find(params[:id])
+        render json: org,
+               serializer: OrganizationSerializer,
+               status: 200
+      end
+
       def update
         org = Organization.find(params[:id])
-        org.update!(params)
-        render json: org, status: 200
+        if org.update(organization_params)
+          render json: org,
+                 serializer: OrganizationSerializer,
+                 status: 200
+        else
+          render json: ErrorSerializer.serialize(org.errors),
+                 status: :unprocessable_entity
+        end
       end
 
       def create
@@ -58,6 +71,32 @@ module Api
                                 .per(params[:per_page])
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
+      end
+
+      private
+
+      def organization_params
+        params.require(:organization).permit(
+          :accreditations,
+          :alternate_name,
+          :date_incorporated,
+          :description,
+          :email,
+          :funding_sources,
+          :licenses,
+          :name,
+          :website,
+          :twitter,
+          :facebook,
+          :linkedin,
+          :logo_url,
+          :is_published,
+          :legal_status,
+          :tax_id,
+          :tax_status,
+          :rank,
+          phones_attributes: []
+        )
       end
     end
   end
