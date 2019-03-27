@@ -31,6 +31,9 @@ class Organization < ActiveRecord::Base
   validates :description,
             presence: { message: I18n.t('errors.messages.blank_for_org') }
 
+  validates :email,
+            presence: { message: I18n.t('errors.messages.blank_for_org') }
+
   validates :email, email: true, allow_blank: true
   validates :website, url: true, allow_blank: true
   validates :twitter, url: true, allow_blank: true

@@ -35,24 +35,18 @@ module Api
       end
 
       def update
-        org = Organization.find(params[:id])
-        if org.update(organization_params)
+        org = Organization.where(id: params[:id])
+                          .where(user_id: current_api_user.id)
+        if org.empty?
+          render json: [], status: 403
+          return
+        end
+        if org.any? && org.first.update(organization_params)
           render json: org,
-                 serializer: OrganizationSerializer,
+                 each_serializer: OrganizationSerializer,
                  status: 200
         else
-          render json: ErrorSerializer.serialize(org.errors),
-                 status: :unprocessable_entity
-        end
-      end
-
-      def create
-        org = Organization.new(params)
-        org.user_id = current_api_user.id
-        if org.save
-          render json: org, status: 201, location: [:api, org]
-        else
-          render json: ErrorSerializer.serialize(org.errors),
+          render json: ErrorSerializer.serialize(org.first.errors),
                  status: :unprocessable_entity
         end
       end

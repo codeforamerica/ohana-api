@@ -13,6 +13,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       resource.build_organization(
         name: params[:api_user][:organization_name],
         description: params[:api_user][:organization_description],
+        email: params[:api_user][:email],
         approval_status: 'pending'
       )
       resource.organization.save!

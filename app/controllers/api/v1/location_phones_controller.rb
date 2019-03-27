@@ -1,8 +1,10 @@
 module Api
   module V1
-    class LocationPhonesController < ApplicationController
-      include TokenValidator
+    class LocationPhonesController < Api::V1::BaseController
       include CustomErrors
+      include ErrorSerializer
+
+      before_action :authenticate_api_user!, except: [:index]
 
       def index
         location = Location.find(params[:location_id])

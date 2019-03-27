@@ -1,11 +1,11 @@
 module Api
   module V1
-    class ServicesController < ApplicationController
-      include TokenValidator
+    class ServicesController < Api::V1::BaseController
       include CustomErrors
       include CategoryIdCollector
+      include ErrorSerializer
 
-      before_action :validate_token!, only: %i[update destroy create update_categories]
+      before_action :authenticate_api_user!, except: [:index]
 
       def index
         location = Location.includes(
@@ -18,14 +18,25 @@ module Api
 
       def update
         service = Service.find(params[:id])
-        service.update!(params)
-        render json: service, status: 200
+        if service.update(service_params)
+          render json: service,
+                 serializer: ServiceSerializer,
+                 status: 200
+        else
+          render json: ErrorSerializer.serialize(service.errors),
+                 status: :unprocessable_entity
+        end
       end
 
       def create
         location = Location.find(params[:location_id])
-        service = location.services.create!(params)
-        render json: service, status: 201
+        service = location.services.build(service_params)
+        if location.save
+          render json: service, status: 201
+        else
+          render json: ErrorSerializer.serialize(service.errors),
+                 status: :unprocessable_entity
+        end
       end
 
       def destroy
@@ -40,6 +51,54 @@ module Api
         service.save!
 
         render json: service, status: 200
+      end
+
+      private
+
+      def service_params
+        params.permit(
+          :alternate_name,
+          :audience,
+          :description,
+          :eligibility,
+          :email,
+          :fees,
+          :application_process,
+          :interpretation_services,
+          :name,
+          :status,
+          :website,
+          :wait_time,
+          category_ids: [],
+          required_documents: [],
+          funding_sources: [],
+          keywords: [],
+          service_areas: [],
+          accepted_payments: [],
+          languages: [],
+          regular_schedules_attributes: [
+            :id,
+            :opens_at,
+            :closes_at,
+            :weekday
+          ],
+          holiday_schedules_attributes: [
+            :id,
+            :closed,
+            :start_date,
+            :end_date,
+            :opens_at,
+            :closes_at
+          ],
+          phones_attributes: [
+            :id,
+            :department,
+            :extension,
+            :number,
+            :number_type,
+            :vanity_number
+          ]
+        )
       end
     end
   end
