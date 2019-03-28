@@ -97,7 +97,7 @@ module Api
         blog_post = BlogPost.all
         if params[:filter].present?
           blog_post = blog_post.tagged_with(params[:filter][:category]) if params[:filter][:category].present?
-          blog_post = blog_post.where(is_published: params[:filter][:draft]) if params[:filter][:draft].present?
+          blog_post = blog_post.where(is_published: params[:filter][:draft].downcase == 'false' ? true : false) if params[:filter][:draft].present?
           blog_post = blog_post.where(organization_id: params[:filter][:organization_id]) if params[:filter][:organization_id].present?
         end
         blog_post.page(params[:page])
