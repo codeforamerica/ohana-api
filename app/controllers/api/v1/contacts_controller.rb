@@ -1,8 +1,10 @@
 module Api
   module V1
-    class ContactsController < ApplicationController
-      include TokenValidator
+    class ContactsController < Api::V1::BaseController
       include CustomErrors
+      include ErrorSerializer
+
+      before_action :authenticate_api_user!, except: [:index]
 
       def index
         location = Location.find(params[:location_id])
@@ -12,20 +14,48 @@ module Api
 
       def update
         contact = Contact.find(params[:id])
-        contact.update!(params)
-        render json: contact, status: 200
+        if contact.update(contact_params)
+          render json: contact,
+                 serializer: ContactSerializer,
+                 status: 200
+        else
+          render json: ErrorSerializer.serialize(contact.errors),
+                 status: :unprocessable_entity
+        end
       end
 
       def create
         location = Location.find(params[:location_id])
-        contact = location.contacts.create!(params)
-        render json: contact, status: 201
+        contact = location.contacts.build(params)
+        if location.save
+          render json: contact, status: 201
+        else
+          render json: ErrorSerializer.serialize(contact.errors),
+                 status: :unprocessable_entity
+        end
       end
 
       def destroy
         contact = Contact.find(params[:id])
         contact.destroy
         head 204
+      end
+
+      def contact_params
+        params.permit(
+          :department,
+          :email,
+          :name,
+          :title,
+          phones_attributes: [
+            :id,
+            :department,
+            :extension,
+            :number,
+            :number_type,
+            :vanity_number
+          ]
+        )
       end
     end
   end

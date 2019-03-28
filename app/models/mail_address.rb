@@ -8,7 +8,6 @@ class MailAddress < ActiveRecord::Base
             :city,
             :postal_code,
             :country,
-            :location,
             presence: { message: I18n.t('errors.messages.blank_for_mail_address') }
 
   validates :state_province, state_province: true

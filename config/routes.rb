@@ -73,7 +73,7 @@ Rails.application.routes.draw do
         registrations: 'api/v1/registrations'
       }
 
-      resources :organizations do
+      resources :organizations, except: %i[create] do
         resources :locations, only: :create
 
         collection do

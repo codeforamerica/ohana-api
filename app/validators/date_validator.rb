@@ -16,9 +16,13 @@ class DateValidator < ActiveModel::EachValidator
   private
 
   def date_valid?(date)
-    return false unless date.include?('/') || date.include?(',')
+    return false unless valid_date_format?(date)
     return Date.valid_date?(*split_date(date).rotate(2)) if month_day? || date.include?(',')
     return Date.valid_date?(*split_date(date).reverse) if day_month?
+  end
+
+  def valid_date_format?(date)
+    date.include?('/') || date.include?(',')
   end
 
   def month_day?
@@ -55,6 +59,7 @@ class DateValidator < ActiveModel::EachValidator
 
   def year_format_for(date)
     return '%Y' if date =~ /\d{4}/
+
     '%y'
   end
 end

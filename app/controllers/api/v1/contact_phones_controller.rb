@@ -1,8 +1,9 @@
 module Api
   module V1
-    class ContactPhonesController < ApplicationController
-      include TokenValidator
+    class ContactPhonesController < Api::V1::BaseController
       include CustomErrors
+
+      before_action :authenticate_api_user!
 
       def update
         phone = Phone.find(params[:id])

@@ -27,19 +27,26 @@ module Api
                status: 200
       end
 
-      def update
+      def show
         org = Organization.find(params[:id])
-        org.update!(params)
-        render json: org, status: 200
+        render json: org,
+               serializer: OrganizationSerializer,
+               status: 200
       end
 
-      def create
-        org = Organization.new(params)
-        org.user_id = current_api_user.id
-        if org.save
-          render json: org, status: 201, location: [:api, org]
+      def update
+        org = Organization.where(id: params[:id])
+                          .where(user_id: current_api_user.id)
+        if org.empty?
+          render json: [], status: 403
+          return
+        end
+        if org.any? && org.first.update(organization_params)
+          render json: org,
+                 each_serializer: OrganizationSerializer,
+                 status: 200
         else
-          render json: ErrorSerializer.serialize(org.errors),
+          render json: ErrorSerializer.serialize(org.first.errors),
                  status: :unprocessable_entity
         end
       end
@@ -58,6 +65,32 @@ module Api
                                 .per(params[:per_page])
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
+      end
+
+      private
+
+      def organization_params
+        params.require(:organization).permit(
+          :accreditations,
+          :alternate_name,
+          :date_incorporated,
+          :description,
+          :email,
+          :funding_sources,
+          :licenses,
+          :name,
+          :website,
+          :twitter,
+          :facebook,
+          :linkedin,
+          :logo_url,
+          :is_published,
+          :legal_status,
+          :tax_id,
+          :tax_status,
+          :rank,
+          phones_attributes: []
+        )
       end
     end
   end

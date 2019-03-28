@@ -1,8 +1,10 @@
 module Api
   module V1
-    class MailAddressController < ApplicationController
-      include TokenValidator
+    class MailAddressController < Api::V1::BaseController
       include CustomErrors
+      include ErrorSerializer
+
+      before_action :authenticate_api_user!
 
       def update
         mail_address = MailAddress.find(params[:id])

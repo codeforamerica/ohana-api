@@ -1,8 +1,9 @@
 module Api
   module V1
-    class AddressController < ApplicationController
-      include TokenValidator
+    class AddressController < Api::V1::BaseController
       include CustomErrors
+
+      before_action :authenticate_api_user!
 
       def update
         location = Location.find(params[:location_id])
