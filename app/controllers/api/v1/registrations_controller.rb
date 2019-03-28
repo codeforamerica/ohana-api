@@ -26,7 +26,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
            json: { model: error.record.class.to_s, errors: error.record.errors }
   rescue ActiveRecord::RecordNotUnique => error
     render status: 422,
-           json: { model: 'Organization', errors: 'Organization name already exists' }
+           json: { model: 'Organization', errors: { name: ['has already been taken'] } }
   end
 
   private
