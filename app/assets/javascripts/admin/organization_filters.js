@@ -4,16 +4,16 @@ $(document).ready(function() {
   var publishedQueryParam = currentUrl.searchParams.get("filter_by_published");
 
   if (approvalStatusQueryParam != null) {
-    $('#organization_approval_status').val(approvalStatusQueryParam).change();
+    $('.events-header #organization_approval_status').val(approvalStatusQueryParam).change();
   }
 
   if (publishedQueryParam != null) {
     $('#organization_is_published').val(publishedQueryParam).change();
   }
 
-  $('#organization_approval_status').change(function(){
+  $('.events-header #organization_approval_status').change(function(){
     var searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('filter_by_approval_status', $('#organization_approval_status option:selected').val());
+    searchParams.set('filter_by_approval_status', $('.events-header #organization_approval_status option:selected').val());
     window.location.search = searchParams.toString();
   });
 
