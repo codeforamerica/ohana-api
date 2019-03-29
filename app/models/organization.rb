@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  APPROVED_STATUS = 'approved'
+
   include PgSearch
   multisearchable :against => :name
 
@@ -48,11 +50,19 @@ class Organization < ActiveRecord::Base
 
   after_save :touch_locations, if: :needs_touch?
 
+  after_save :send_approval_email
+
   enum approval_status: {
     pending: 'pending',
-    approved: 'approved',
+    approved: APPROVED_STATUS,
     denied: 'denied'
   }
+
+  def send_approval_email
+    if approval_status_changed? && approval_status == APPROVED_STATUS
+      OrganizationApprovementMailer.notify(self).deliver_now
+    end
+  end
 
   def self.with_locations(ids)
     joins(:locations).where('locations.id IN (?)', ids).uniq
