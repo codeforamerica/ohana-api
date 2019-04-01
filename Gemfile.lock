@@ -235,7 +235,7 @@ GEM
     rack (2.0.6)
     rack-cache (1.9.0)
       rack (>= 0.4)
-    rack-cors (1.0.2)
+    rack-cors (1.0.3)
     rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
     rack-test (1.1.0)
