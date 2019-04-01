@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/lpender/bummr.git
-  revision: 1387f2bb537f6928e36e3bb13e47683f1e64a6b7
-  specs:
-    bummr (0.4.0)
-      rainbow
-      thor
-
-GIT
   remote: https://github.com/thoughtbot/shoulda-matchers.git
   revision: cd96089a56b97cd11f7502826636895253eca27d
   specs:
@@ -84,6 +76,9 @@ GEM
     bullet (5.9.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
+    bummr (0.5.0)
+      rainbow
+      thor
     capybara (3.13.2)
       addressable
       mini_mime (>= 0.1.3)
@@ -394,7 +389,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass (~> 3.3.0)
   bullet
-  bummr!
+  bummr
   capybara
   coffee-rails (~> 4.1)
   csv_shaper
