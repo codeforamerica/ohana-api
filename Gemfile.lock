@@ -100,7 +100,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.4)
+    concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.4)
@@ -121,7 +121,7 @@ GEM
       thor (~> 0.19)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    devise (4.6.1)
+    devise (4.6.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 6.0)
@@ -172,7 +172,7 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
-    i18n (1.5.3)
+    i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     jaro_winkler (1.5.2)
