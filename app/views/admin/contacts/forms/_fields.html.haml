@@ -9,3 +9,5 @@
 = render 'admin/contacts/forms/title', f: f
 = render 'admin/contacts/forms/email', f: f
 = render 'admin/contacts/forms/department', f: f
+- if params[:controller] != 'new'
+  = render 'admin/locations/forms/phones', f: f
