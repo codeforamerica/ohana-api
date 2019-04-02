@@ -1,7 +1,9 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
   include ActiveSupport::Rescuable
+  include ErrorSerializer
 
   before_action :configure_permitted_parameters
+  before_action :authenticate_api_user!, only: [:update, :destroy]
   skip_before_action :verify_authenticity_token
 
   respond_to :json
@@ -27,6 +29,27 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   rescue ActiveRecord::RecordNotUnique => error
     render status: 422,
            json: { model: 'Organization', errors: { name: ['has already been taken'] } }
+  end
+
+  def update
+    if account_update_params[:password].present?
+      current_api_user.update_with_password(account_update_params)
+    else
+      current_api_user.update(sign_up_params)
+    end
+    if current_api_user.errors.empty?
+      render json: current_api_user, serializer: UserSerializer
+    else
+      render json: ErrorSerializer.serialize(current_api_user.errors),
+             status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    resource.soft_delete
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    render json: { message: 'User was deleted successfully' },
+           status: :destroyed
   end
 
   private
