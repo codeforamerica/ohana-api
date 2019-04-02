@@ -21,6 +21,7 @@ module Api
                                     .rank()
                                     .page(params[:page])
                                     .per(params[:per_page])
+                                    .where(is_published: true)
         generate_pagination_headers(organizations)
         render json: organizations,
                each_serializer: OrganizationSerializer,
