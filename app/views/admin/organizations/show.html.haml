@@ -6,8 +6,9 @@
   %br
   %p= @organization.description
   %br
-  %a{ href: "#{ENV.fetch('FRONT_ENV_APP_URL')}/businesses/#{@organization.id}", class: 'btn btn-primary btn-lg', target: '_blank' }
-    View Organization
+  - if @organization.is_published
+    %a{ href: "#{ENV.fetch('FRONT_ENV_APP_URL')}/businesses/#{@organization.id}", class: 'btn btn-primary btn-lg', target: '_blank' }
+      View Organization
   =link_to 'Edit Organization', edit_admin_organization_path(@organization.slug), class: 'btn btn-primary btn-lg'
   .save-box.navbar-default
     = f.submit t('admin.buttons.save_changes_organization'), class: 'btn btn-success btn-lg', data: { disable_with: 'Please wait...' }

@@ -102,7 +102,7 @@ module Api
         end
         blog_post.page(params[:page])
                  .per(params[:per_page])
-                 .order('posted_at ASC')
+                 .order("posted_at #{params.dig(:filter, :order).nil? ? 'ASC' : params[:filter][:order]}")
       end
     end
   end
