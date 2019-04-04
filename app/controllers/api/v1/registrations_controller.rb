@@ -49,7 +49,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     resource.destroy
     render json: { message: 'User was deleted successfully' },
-           status: :destroyed
+           status: :ok
   end
 
   private
