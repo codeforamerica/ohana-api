@@ -17,7 +17,6 @@ en:
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your account before continuing."
       organization_inactive: 'Your organization has not been approved yet.'
-      deleted_account: "You've deleted your account. We hope to see you again."
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"

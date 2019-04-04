@@ -15,16 +15,11 @@ class User < ActiveRecord::Base
          :jwt_authenticatable, jwt_revocation_strategy: JWTBlacklist
 
 
-  # instead of deleting, indicate the user requested a delete & timestamp it
-  def soft_delete
-    update_attribute(:deleted_at, Time.current)
-  end
-
   def active_for_authentication?
     # Uncomment the below debug statement to view the properties of the returned self model values.
     # logger.debug self.to_yaml
 
-    super && organization_approved? && !deleted_at
+    super && organization_approved?
   end
 
   def organization_approved?
@@ -32,12 +27,6 @@ class User < ActiveRecord::Base
   end
 
   def inactive_message
-    if !deleted_at && organization_approved?
-      super
-    elsif !organization_approved?
-      :organization_inactive
-    elsif deleted_at
-      :deleted_account
-    end
+    organization_approved? ? super : :organization_inactive
   end
 end
