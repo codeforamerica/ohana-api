@@ -41,8 +41,12 @@ module Api
       end
 
       def update
-        @blog_post.category_list.add(blog_post_params[:category])
+        if blog_post_params[:category].present?
+          @blog_post.categories.delete_all
+          @blog_post.category_list.add(blog_post_params[:category])
+        end
         if @blog_post.update(blog_post_params)
+          @blog_post.reload
           render json: @blog_post,
                  serializer: BlogPostSerializer,
                  status: 200
