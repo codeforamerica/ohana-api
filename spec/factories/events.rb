@@ -6,8 +6,7 @@ FactoryGirl.define do
     ending_at '2019-01-06 22:30:00'
     city 'Los Angeles'
     is_featured false
-    street_1 'Test street'
-    user
+    street_1 '123 Main Street'
     organization
   end
 end

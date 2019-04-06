@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :organization do
     name 'Parent Agency'
+    email 'foo@org.com'
     description 'Organization created for testing purposes'
     user_id 1
   end
