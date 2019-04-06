@@ -5,12 +5,12 @@ module Api
       include PaginationHeaders
       include ErrorSerializer
 
-      before_action :authenticate_api_user!, except: [:index, :show]
+      before_action :authenticate_api_user!, except: %i[index show]
       before_action :set_event, only: %i[show update destroy]
       after_action :set_cache_control, only: :index
 
       def index
-        events = get_events
+        events = fetch_events
         generate_pagination_headers(events)
         render json: events,
                each_serializer: EventsSerializer,
@@ -28,9 +28,7 @@ module Api
         @event.posted_at = DateTime.now
         @event.user_id = current_api_user.id
         if @event.save
-          render json: @event,
-                 serializer: EventsSerializer,
-                 status: 200
+          render json: @event, serializer: EventsSerializer, status: 200
         else
           render json: ErrorSerializer.serialize(@event.errors),
                  status: :unprocessable_entity
@@ -59,14 +57,14 @@ module Api
 
       private
 
-      def get_events
+      def fetch_events
         events = Event.all
         events = events.events_in_month(DateTime.strptime(params[:month], '%m')) if params[:month].present?
         events = events.where(is_featured: true) if params[:featured].present?
+        events = events.where('starting_at >= ?', DateTime.parse(params[:starting_after])) if params[:starting_after].present?
+        events = events.where('starting_at <= ?', DateTime.parse(params[:ending_before])) if params[:ending_before].present?
         events = events.where(organization_id: params[:organization_id]) if params[:organization_id].present?
-        events.page(params[:page])
-              .per(params[:per_page])
-              .order('starting_at ASC')
+        events.page(params[:page]).per(params[:per_page]).order('starting_at ASC')
       end
 
       def event_params
