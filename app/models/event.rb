@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   belongs_to :organization
 
   validates :title, presence: true
-  validates :user_id, presence: true
+  # validates :user_id, presence: true
   validates :starting_at, presence: true
   validates :ending_at, presence: true
   validates :street_1, presence: true
