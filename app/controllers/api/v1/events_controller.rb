@@ -62,7 +62,7 @@ module Api
         events = events.events_in_month(DateTime.strptime(params[:month], '%m')) if params[:month].present?
         events = events.where(is_featured: true) if params[:featured].present?
         events = events.where('starting_at >= ?', DateTime.parse(params[:starting_after])) if params[:starting_after].present?
-        events = events.where('starting_at <= ?', DateTime.parse(params[:ending_before])) if params[:ending_before].present?
+        events = events.where('ending_at <= ?', DateTime.parse(params[:ending_before])) if params[:ending_before].present?
         events = events.where(organization_id: params[:organization_id]) if params[:organization_id].present?
         events.page(params[:page]).per(params[:per_page]).order('starting_at ASC')
       end
