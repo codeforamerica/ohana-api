@@ -58,7 +58,7 @@ module Api
       private
 
       def fetch_events
-        events = Event.all
+        events = Event.includes(:organization).includes(:user)
         events = events.events_in_month(DateTime.strptime(params[:month], '%m')) if params[:month].present?
         events = events.where(is_featured: true) if params[:featured].present?
         events = events.where('starting_at >= ?', DateTime.parse(params[:starting_after])) if params[:starting_after].present?
