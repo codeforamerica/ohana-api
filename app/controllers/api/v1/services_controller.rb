@@ -80,7 +80,8 @@ module Api
             :id,
             :opens_at,
             :closes_at,
-            :weekday
+            :weekday,
+            :_destroy
           ],
           holiday_schedules_attributes: [
             :id,
@@ -88,7 +89,8 @@ module Api
             :start_date,
             :end_date,
             :opens_at,
-            :closes_at
+            :closes_at,
+            :_destroy
           ],
           phones_attributes: [
             :id,
@@ -96,7 +98,8 @@ module Api
             :extension,
             :number,
             :number_type,
-            :vanity_number
+            :vanity_number,
+            :_destroy
           ]
         )
       end

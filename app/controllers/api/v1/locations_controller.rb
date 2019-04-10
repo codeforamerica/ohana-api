@@ -87,7 +87,8 @@ module Api
             :id,
             :opens_at,
             :closes_at,
-            :weekday
+            :weekday,
+            :_destroy
           ],
           holiday_schedules_attributes: [
             :id,
@@ -95,7 +96,8 @@ module Api
             :start_date,
             :end_date,
             :opens_at,
-            :closes_at
+            :closes_at,
+            :_destroy
           ]
         )
       end
