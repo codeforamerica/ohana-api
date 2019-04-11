@@ -90,7 +90,16 @@ module Api
           :tax_id,
           :tax_status,
           :rank,
-          phones_attributes: []
+          phones_attributes: [
+            :id,
+            :country_prefix,
+            :department,
+            :extension,
+            :number,
+            :number_type,
+            :vanity_number,
+            :_destroy
+          ]
         )
       end
     end

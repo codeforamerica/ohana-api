@@ -53,7 +53,8 @@ module Api
             :extension,
             :number,
             :number_type,
-            :vanity_number
+            :vanity_number,
+            :_destroy
           ]
         )
       end
