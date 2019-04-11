@@ -73,6 +73,10 @@ Rails.application.routes.draw do
         registrations: 'api/v1/registrations'
       }
 
+      devise_scope :user do
+        get '/users', to: 'registrations#show'
+      end
+
       resources :organizations, except: %i[create] do
         resources :locations, only: :create
 
