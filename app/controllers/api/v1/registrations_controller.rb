@@ -3,7 +3,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   include ErrorSerializer
 
   before_action :configure_permitted_parameters
-  before_action :authenticate_api_user!, only: [:update, :destroy]
+  before_action :authenticate_api_user!, only: [:update, :destroy, :show]
   skip_before_action :verify_authenticity_token
 
   respond_to :json
@@ -29,6 +29,14 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
   rescue ActiveRecord::RecordNotUnique => error
     render status: 422,
            json: { model: 'Organization', errors: { name: ['has already been taken'] } }
+  end
+
+  def show
+    if current_api_user.present?
+      render json: current_api_user, serializer: UserSerializer
+    else
+      render json: []
+    end
   end
 
   def update
