@@ -47,7 +47,7 @@ module Api
           render json: [], status: 403
           return
         end
-        location = org.locations.build(params)
+        location = org.locations.build(location_params)
         if org.save
           render json: location, status: 201, location: [:api, location]
         else
@@ -68,7 +68,7 @@ module Api
       private
 
       def location_params
-        params.permit(
+        params.require(:location).permit(
           :active,
           :admin_emails,
           :alternate_name,
