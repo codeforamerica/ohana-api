@@ -84,27 +84,33 @@ module Api
           accessibility: [],
           languages: [],
           phones_attributes:[
+            :id,
             :department,
             :extension,
             :number,
             :number_type,
-            :vanity_number
+            :vanity_number,
+            :_destroy
           ],
           mail_address_attributes: [
+            :id,
             :address_1,
             :address_2,
             :city,
             :country,
             :postal_code,
-            :state_province
+            :state_province,
+            :_destroy
           ],
           address_attributes: [
+            :id,
             :address_1,
             :address_2,
             :city,
             :country,
             :postal_code,
-            :state_province
+            :state_province,
+            :_destroy
           ],
           regular_schedules_attributes: [
             :id,
