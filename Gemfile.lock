@@ -162,7 +162,7 @@ GEM
     flamegraph (0.9.5)
     friendly_id (5.2.1)
       activerecord (>= 4.0.0)
-    geocoder (1.4.4)
+    geocoder (1.5.1)
     get_process_mem (0.2.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -490,4 +490,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.16.5
+   1.16.6

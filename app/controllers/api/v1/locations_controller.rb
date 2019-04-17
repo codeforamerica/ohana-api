@@ -83,6 +83,29 @@ module Api
           :virtual,
           accessibility: [],
           languages: [],
+          phones_attributes:[
+            :department,
+            :extension,
+            :number,
+            :number_type,
+            :vanity_number
+          ],
+          mail_address_attributes: [
+            :address_1,
+            :address_2,
+            :city,
+            :country,
+            :postal_code,
+            :state_province
+          ],
+          address_attributes: [
+            :address_1,
+            :address_2,
+            :city,
+            :country,
+            :postal_code,
+            :state_province
+          ],
           regular_schedules_attributes: [
             :id,
             :opens_at,
