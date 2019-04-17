@@ -1,5 +1,5 @@
 class LocationSerializer < LocationsSerializer
-  attributes :accessibility, :email, :languages, :transportation
+  attributes :accessibility, :email, :languages, :transportation, :is_primary
 
   has_many :contacts
   has_one :mail_address

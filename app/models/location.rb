@@ -4,7 +4,7 @@ class Location < ActiveRecord::Base
                   :longitude, :name, :short_desc, :transportation, :website,
                   :virtual, :address_attributes, :mail_address_attributes,
                   :phones_attributes, :regular_schedules_attributes,
-                  :holiday_schedules_attributes
+                  :holiday_schedules_attributes, :is_primary
 
   belongs_to :organization
 
@@ -59,8 +59,8 @@ class Location < ActiveRecord::Base
 
   validates :email, email: true, allow_blank: true
 
-  after_validation :geocode, if: :needs_geocoding?
-  geocoded_by :full_physical_address
+  # after_validation :geocode, if: :needs_geocoding?
+  # geocoded_by :full_physical_address
 
   extend Enumerize
   serialize :accessibility, Array

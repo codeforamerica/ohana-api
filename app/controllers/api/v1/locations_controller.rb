@@ -81,6 +81,7 @@ module Api
           :transportation,
           :website,
           :virtual,
+          :is_primary,
           accessibility: [],
           languages: [],
           phones_attributes:[
@@ -100,6 +101,7 @@ module Api
             :country,
             :postal_code,
             :state_province,
+            :attention,
             :_destroy
           ],
           address_attributes: [
