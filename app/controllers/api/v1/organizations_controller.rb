@@ -63,7 +63,7 @@ module Api
                                 .locations
                                 .includes(:address, :phones)
                                 .page(params[:page])
-                                .per(params[:per_page])
+                                .per(params[:per_page]).includes(:services)
         render json: locations, each_serializer: LocationsSerializer, status: 200
         generate_pagination_headers(locations)
       end

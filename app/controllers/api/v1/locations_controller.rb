@@ -47,7 +47,7 @@ module Api
           render json: [], status: 403
           return
         end
-        location = org.locations.build(params)
+        location = org.locations.build(location_params)
         if org.save
           render json: location, status: 201, location: [:api, location]
         else
@@ -68,7 +68,7 @@ module Api
       private
 
       def location_params
-        params.permit(
+        params.require(:location).permit(
           :active,
           :admin_emails,
           :alternate_name,
@@ -81,8 +81,39 @@ module Api
           :transportation,
           :website,
           :virtual,
+          :is_primary,
           accessibility: [],
           languages: [],
+          phones_attributes:[
+            :id,
+            :department,
+            :extension,
+            :number,
+            :number_type,
+            :vanity_number,
+            :_destroy
+          ],
+          mail_address_attributes: [
+            :id,
+            :address_1,
+            :address_2,
+            :city,
+            :country,
+            :postal_code,
+            :state_province,
+            :attention,
+            :_destroy
+          ],
+          address_attributes: [
+            :id,
+            :address_1,
+            :address_2,
+            :city,
+            :country,
+            :postal_code,
+            :state_province,
+            :_destroy
+          ],
           regular_schedules_attributes: [
             :id,
             :opens_at,

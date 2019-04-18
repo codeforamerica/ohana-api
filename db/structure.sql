@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.6
--- Dumped by pg_dump version 10.6
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -574,7 +574,8 @@ CREATE TABLE public.locations (
     virtual boolean DEFAULT false,
     active boolean DEFAULT true,
     website character varying,
-    email character varying
+    email character varying,
+    is_primary boolean
 );
 
 
@@ -1935,4 +1936,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190225184420');
 INSERT INTO schema_migrations (version) VALUES ('20190402131619');
 
 INSERT INTO schema_migrations (version) VALUES ('20190404161038');
+
+INSERT INTO schema_migrations (version) VALUES ('20190416173721');
 

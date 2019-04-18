@@ -98,7 +98,7 @@ module Api
       end
 
       def filter_posts
-        blog_post = BlogPost.all
+        blog_post = BlogPost.includes(:blog_post_attachments).includes(:categories).includes(:organization).includes(:user)
         if params[:filter].present?
           blog_post = blog_post.tagged_with(params[:filter][:category]) if params[:filter][:category].present?
           blog_post = blog_post.where(is_published: params[:filter][:draft].downcase == 'false' ? true : false) if params[:filter][:draft].present?

@@ -56,3 +56,4 @@ script/import_to_staging
 # Byebug
 .byebug_history
 /.env
+/.vscode
