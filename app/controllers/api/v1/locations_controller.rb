@@ -93,6 +93,7 @@ module Api
             :number,
             :number_type,
             :vanity_number,
+            :country_prefix,
             :_destroy
           ],
           mail_address_attributes: [

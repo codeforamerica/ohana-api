@@ -102,6 +102,7 @@ module Api
             :extension,
             :number,
             :number_type,
+            :country_prefix,
             :vanity_number,
             :_destroy
           ]
