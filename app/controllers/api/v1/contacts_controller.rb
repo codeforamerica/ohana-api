@@ -52,6 +52,7 @@ module Api
             :department,
             :extension,
             :number,
+            :country_prefix,
             :number_type,
             :vanity_number,
             :_destroy

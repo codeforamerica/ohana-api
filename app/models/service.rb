@@ -4,7 +4,7 @@ class Service < ActiveRecord::Base
                   :interpretation_services, :keywords, :languages, :name,
                   :required_documents, :service_areas, :status, :website,
                   :wait_time, :category_ids, :regular_schedules_attributes,
-                  :holiday_schedules_attributes, :phones_attributes
+                  :holiday_schedules_attributes, :phones_attributes, :taxonomy_ids
 
   belongs_to :location, touch: true
   belongs_to :program

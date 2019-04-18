@@ -28,7 +28,6 @@ module Api
       end
 
       def update
-        location = Location.find(params[:id])
         if location.update(location_params)
           render json: location,
                  serializer: LocationSerializer,
@@ -60,12 +59,15 @@ module Api
       end
 
       def destroy
-        location = Location.find(params[:id])
         location.destroy
         head 204
       end
 
       private
+
+      def location
+        @location ||= Location.find(params[:id])
+      end
 
       def location_params
         params.require(:location).permit(
@@ -91,6 +93,7 @@ module Api
             :number,
             :number_type,
             :vanity_number,
+            :country_prefix,
             :_destroy
           ],
           mail_address_attributes: [

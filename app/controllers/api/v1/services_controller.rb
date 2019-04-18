@@ -16,9 +16,25 @@ module Api
         render json: services, status: 200
       end
 
+      def show
+        render json: service, serializer: ServiceSerializer, status: 200
+      end
+
+      def create
+        location = Location.find(params[:location_id])
+        service = location.services.build(service_params.except(:taxonomy_ids))
+        if location.save
+          update_categories(service)
+          render json: service, status: 201
+        else
+          render json: ErrorSerializer.serialize(service.errors),
+                 status: :unprocessable_entity
+        end
+      end
+
       def update
-        service = Service.find(params[:id])
         if service.update(service_params)
+          update_categories(service)
           render json: service,
                  serializer: ServiceSerializer,
                  status: 200
@@ -28,35 +44,23 @@ module Api
         end
       end
 
-      def create
-        location = Location.find(params[:location_id])
-        service = location.services.build(service_params)
-        if location.save
-          render json: service, status: 201
-        else
-          render json: ErrorSerializer.serialize(service.errors),
-                 status: :unprocessable_entity
-        end
-      end
-
       def destroy
-        service = Service.find(params[:id])
         service.destroy
         head 204
       end
 
-      def update_categories
-        service = Service.find(params[:service_id])
-        service.category_ids = cat_ids(params[:taxonomy_ids])
-        service.save!
-
-        render json: service, status: 200
+      def update_categories(service)
+        service.update category_ids:cat_ids(params[:taxonomy_ids])
       end
 
       private
 
+      def service
+        @service ||= Service.find params[:id]
+      end
+
       def service_params
-        params.permit(
+        params.require(:service).permit(
           :alternate_name,
           :audience,
           :description,
@@ -69,7 +73,7 @@ module Api
           :status,
           :website,
           :wait_time,
-          category_ids: [],
+          taxonomy_ids: [],
           required_documents: [],
           funding_sources: [],
           keywords: [],
@@ -98,6 +102,7 @@ module Api
             :extension,
             :number,
             :number_type,
+            :country_prefix,
             :vanity_number,
             :_destroy
           ]
