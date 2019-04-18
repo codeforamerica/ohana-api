@@ -28,7 +28,7 @@ $(document).ready(function() {
   });
 
   $('.save-categories').click(function() {
-    newerCategories = [].map.call($('.newer').get(), e => e.value);
+    newerCategories = [].map.call($('.newer').get(), function(e) { return e.value});
     $.ajax({
       method: 'PUT',
       url: '/admin/blog_post_categories',
