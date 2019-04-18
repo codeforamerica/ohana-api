@@ -16,6 +16,10 @@ module Api
         render json: services, status: 200
       end
 
+      def show
+        render json: service, serializer: ServiceSerializer, status: 200
+      end
+
       def create
         location = Location.find(params[:location_id])
         service = location.services.build(service_params.except(:taxonomy_ids))
@@ -29,7 +33,6 @@ module Api
       end
 
       def update
-        service = Service.find(params[:id])
         if service.update(service_params)
           update_categories(service)
           render json: service,
@@ -42,7 +45,6 @@ module Api
       end
 
       def destroy
-        service = Service.find(params[:id])
         service.destroy
         head 204
       end
@@ -52,6 +54,10 @@ module Api
       end
 
       private
+
+      def service
+        @service ||= Service.find params[:id]
+      end
 
       def service_params
         params.require(:service).permit(
