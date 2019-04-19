@@ -6,7 +6,6 @@ module Api
       include ErrorSerializer
 
       before_action :authenticate_api_user!, except: %i[index show]
-      before_action :set_event, only: %i[show update destroy]
       after_action :set_cache_control, only: :index
 
       def index
@@ -18,7 +17,7 @@ module Api
       end
 
       def show
-        render json: @event,
+        render json: event,
                serializer: EventsSerializer,
                status: 200
       end
@@ -36,8 +35,8 @@ module Api
       end
 
       def update
-        if @event.update(event_params)
-          render json: @event,
+        if event.update(event_params)
+          render json: event,
                  serializer: EventsSerializer,
                  status: 200
         else
@@ -47,7 +46,7 @@ module Api
       end
 
       def destroy
-        if @event.destroy
+        if event.destroy
           render json: {}, status: :ok
         else
           render json: ErrorSerializer.serialize(@event.errors),
@@ -56,6 +55,10 @@ module Api
       end
 
       private
+
+      def event
+        @event ||= Event.find(params[:id])
+      end
 
       def fetch_events
         events = Event.includes(:organization).includes(:user)
@@ -81,12 +84,9 @@ module Api
           :phone,
           :external_url,
           :organization_id,
-          :body
+          :body,
+          :is_all_day
         )
-      end
-
-      def set_event
-        @event = Event.find(params[:id])
       end
     end
   end
