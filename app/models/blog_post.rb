@@ -17,4 +17,6 @@ class BlogPost < ActiveRecord::Base
 
   validates :user_id, presence: true
   validates :organization_id, presence: true
+
+  mount_uploader :images, BlogPostImageUploader
 end

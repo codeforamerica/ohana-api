@@ -301,7 +301,8 @@ CREATE TABLE public.blog_posts (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     organization_id integer,
-    user_id integer
+    user_id integer,
+    images json
 );
 
 
@@ -415,8 +416,8 @@ CREATE TABLE public.events (
     title character varying NOT NULL,
     body text,
     posted_at timestamp without time zone NOT NULL,
-    starting_at timestamp without time zone NOT NULL,
-    ending_at timestamp without time zone NOT NULL,
+    starting_at timestamp without time zone,
+    ending_at timestamp without time zone,
     street_1 character varying NOT NULL,
     street_2 character varying,
     city character varying NOT NULL,
@@ -1941,4 +1942,10 @@ INSERT INTO schema_migrations (version) VALUES ('20190404161038');
 INSERT INTO schema_migrations (version) VALUES ('20190416173721');
 
 INSERT INTO schema_migrations (version) VALUES ('20190419004705');
+
+INSERT INTO schema_migrations (version) VALUES ('20190419021724');
+
+INSERT INTO schema_migrations (version) VALUES ('20190423025801');
+
+INSERT INTO schema_migrations (version) VALUES ('20190423030019');
 

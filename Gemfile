@@ -36,6 +36,8 @@ gem 'smarter_csv'
 gem 'sucker_punch'
 gem 'uglifier', '>= 1.3.0'
 gem 'devise-jwt', '~> 0.5.8'
+gem 'carrierwave' #for uploading blog images
+gem 'fog-aws' #for uploading images
 gem 'connection_pool' #for making puma play nicely wth memcachier
 
 group :production do

@@ -82,6 +82,7 @@ module Api
           :category,
           :is_published,
           :organization_id,
+          { images: [] },
           blog_post_attachments_attributes: [
             :id,
             :file_type,
