@@ -35,6 +35,7 @@ module Api
       end
 
       def update
+        event.street_2, event.external_url = nil
         if event.update(event_params)
           render json: event,
                  serializer: EventsSerializer,
