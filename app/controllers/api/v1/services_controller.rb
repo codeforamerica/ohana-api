@@ -33,7 +33,7 @@ module Api
       end
 
       def update
-        if service.update(service_params)
+        if service.update(service_params.except(:taxonomy_ids))
           update_categories(service)
           render json: service,
                  serializer: ServiceSerializer,

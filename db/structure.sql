@@ -428,7 +428,8 @@ CREATE TABLE public.events (
     organization_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    user_id integer
+    user_id integer,
+    is_all_day boolean
 );
 
 
@@ -1938,4 +1939,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190402131619');
 INSERT INTO schema_migrations (version) VALUES ('20190404161038');
 
 INSERT INTO schema_migrations (version) VALUES ('20190416173721');
+
+INSERT INTO schema_migrations (version) VALUES ('20190419004705');
 
