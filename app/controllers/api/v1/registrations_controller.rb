@@ -23,12 +23,12 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       SuperAdminMailer.new_registration(resource).deliver_now
       render_resource(resource)
     end
-  rescue ActiveRecord::RecordInvalid => error
-    render status: 422,
-           json: { model: error.record.class.to_s, errors: error.record.errors }
-  rescue ActiveRecord::RecordNotUnique => error
-    render status: 422,
-           json: { model: 'Organization', errors: { name: ['has already been taken'] } }
+  # rescue ActiveRecord::RecordInvalid => error
+  #   render status: 422,
+  #          json: { model: error.record.class.to_s, errors: error.record.errors }
+  # rescue ActiveRecord::RecordNotUnique => error
+  #   render status: 422,
+  #          json: { model: 'Organization', errors: { name: ['has already been taken'] } }
   end
 
   def show

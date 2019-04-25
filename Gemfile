@@ -36,6 +36,7 @@ gem 'smarter_csv'
 gem 'sucker_punch'
 gem 'uglifier', '>= 1.3.0'
 gem 'devise-jwt', '~> 0.5.8'
+gem 'connection_pool' #for making puma play nicely wth memcachier
 
 group :production do
   # Heroku recommended
