@@ -25,7 +25,7 @@ module Api
       end
 
       def create
-        @blog_post = BlogPost.new(blog_post_params)
+        @blog_post = BlogPost.new(blog_post_params.except(:category))
         @blog_post.user_id = current_api_user.id
         @blog_post.posted_at = DateTime.now
         @blog_post.organization_id = current_api_user.organization.id

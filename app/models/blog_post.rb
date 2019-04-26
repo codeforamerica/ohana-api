@@ -1,6 +1,6 @@
 class BlogPost < ActiveRecord::Base
   attr_accessible :title, :body, :posted_at, :user_id,
-                  :is_published, :blog_post_attachments_attributes, :organization_id
+                  :is_published, :blog_post_attachments_attributes, :organization_id,
                   :category_list
 
   acts_as_taggable_on :categories
@@ -17,6 +17,4 @@ class BlogPost < ActiveRecord::Base
 
   validates :user_id, presence: true
   validates :organization_id, presence: true
-
-  mount_uploader :images, BlogPostImageUploader
 end
