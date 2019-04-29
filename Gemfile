@@ -39,6 +39,7 @@ gem 'devise-jwt', '~> 0.5.8'
 gem 'carrierwave' #for uploading blog images
 gem 'fog-aws' #for uploading images
 gem 'connection_pool' #for making puma play nicely wth memcachier
+gem 'sendgrid-ruby' #for sending emails
 
 group :production do
   # Heroku recommended
