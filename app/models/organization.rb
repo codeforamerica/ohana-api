@@ -4,12 +4,13 @@ class Organization < ActiveRecord::Base
   include PgSearch
   multisearchable :against => :name,
                   if: lambda { |record| record.is_published }
+  mount_uploader :image, OrgProfileImageUploader
 
   attr_accessible :accreditations, :alternate_name, :date_incorporated,
                   :description, :email, :funding_sources, :legal_status,
                   :licenses, :name, :tax_id, :tax_status, :website,
                   :twitter, :facebook, :linkedin, :phones_attributes,
-                  :logo_url, :rank, :is_published, :approval_status, :user_id
+                  :logo_url, :rank, :is_published, :approval_status, :user_id, :image
 
   has_many :locations, dependent: :destroy
   has_many :programs, dependent: :destroy

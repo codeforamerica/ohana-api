@@ -699,7 +699,8 @@ CREATE TABLE public.organizations (
     rank integer,
     approval_status public.post_approval_statuses,
     is_published boolean DEFAULT false,
-    user_id integer
+    user_id integer,
+    image character varying
 );
 
 
@@ -2007,4 +2008,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190423030019');
 INSERT INTO schema_migrations (version) VALUES ('20190426030916');
 
 INSERT INTO schema_migrations (version) VALUES ('20190426032218');
+
+INSERT INTO schema_migrations (version) VALUES ('20190501022752');
 
