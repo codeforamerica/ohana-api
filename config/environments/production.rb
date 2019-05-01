@@ -57,7 +57,7 @@ Rails.application.configure do
 
   config.action_controller.perform_caching = true
 
-  config.cache_store = :dalli_store
+  config.cache_store = :mem_cache_store
   client = Dalli::Client.new((ENV['MEMCACHIER_SERVERS'] || '').split(','),
                              username: ENV['MEMCACHIER_USERNAME'],
                              password: ENV['MEMCACHIER_PASSWORD'],

@@ -289,6 +289,39 @@ ALTER SEQUENCE public.blog_post_attachments_id_seq OWNED BY public.blog_post_att
 
 
 --
+-- Name: blog_post_images; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.blog_post_images (
+    id integer NOT NULL,
+    local_identifier character varying,
+    remote_url character varying,
+    organization_id integer,
+    image character varying
+);
+
+
+--
+-- Name: blog_post_images_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.blog_post_images_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: blog_post_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.blog_post_images_id_seq OWNED BY public.blog_post_images.id;
+
+
+--
 -- Name: blog_posts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -301,7 +334,8 @@ CREATE TABLE public.blog_posts (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     organization_id integer,
-    user_id integer
+    user_id integer,
+    images json
 );
 
 
@@ -415,8 +449,8 @@ CREATE TABLE public.events (
     title character varying NOT NULL,
     body text,
     posted_at timestamp without time zone NOT NULL,
-    starting_at timestamp without time zone NOT NULL,
-    ending_at timestamp without time zone NOT NULL,
+    starting_at timestamp without time zone,
+    ending_at timestamp without time zone,
     street_1 character varying NOT NULL,
     street_2 character varying,
     city character varying NOT NULL,
@@ -1027,6 +1061,13 @@ ALTER TABLE ONLY public.blog_post_attachments ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- Name: blog_post_images id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.blog_post_images ALTER COLUMN id SET DEFAULT nextval('public.blog_post_images_id_seq'::regclass);
+
+
+--
 -- Name: blog_posts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1182,6 +1223,14 @@ ALTER TABLE ONLY public.api_applications
 
 ALTER TABLE ONLY public.blog_post_attachments
     ADD CONSTRAINT blog_post_attachments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: blog_post_images blog_post_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.blog_post_images
+    ADD CONSTRAINT blog_post_images_pkey PRIMARY KEY (id);
 
 
 --
@@ -1375,6 +1424,13 @@ CREATE UNIQUE INDEX index_api_applications_on_api_token ON public.api_applicatio
 --
 
 CREATE INDEX index_api_applications_on_user_id ON public.api_applications USING btree (user_id);
+
+
+--
+-- Name: index_blog_post_images_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_blog_post_images_on_organization_id ON public.blog_post_images USING btree (organization_id);
 
 
 --
@@ -1941,4 +1997,14 @@ INSERT INTO schema_migrations (version) VALUES ('20190404161038');
 INSERT INTO schema_migrations (version) VALUES ('20190416173721');
 
 INSERT INTO schema_migrations (version) VALUES ('20190419004705');
+
+INSERT INTO schema_migrations (version) VALUES ('20190419021724');
+
+INSERT INTO schema_migrations (version) VALUES ('20190423025801');
+
+INSERT INTO schema_migrations (version) VALUES ('20190423030019');
+
+INSERT INTO schema_migrations (version) VALUES ('20190426030916');
+
+INSERT INTO schema_migrations (version) VALUES ('20190426032218');
 

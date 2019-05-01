@@ -2,7 +2,8 @@ class Organization < ActiveRecord::Base
   APPROVED_STATUS = 'approved'
 
   include PgSearch
-  multisearchable :against => :name
+  multisearchable :against => :name,
+                  if: lambda { |record| record.is_published }
 
   attr_accessible :accreditations, :alternate_name, :date_incorporated,
                   :description, :email, :funding_sources, :legal_status,

@@ -79,6 +79,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (1.3.1)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     cliver (0.3.2)
     codeclimate-engine-rb (0.4.0)
       virtus (~> 1.0)
@@ -93,6 +97,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    connection_pool (2.2.2)
     coveralls (0.8.21)
       json (>= 1.8, < 3)
       simplecov (~> 0.14.1)
@@ -104,7 +109,7 @@ GEM
     crass (1.0.4)
     csv_shaper (1.3.0)
       activesupport (>= 3.0.0)
-    dalli (2.7.6)
+    dalli (2.7.10)
     database_cleaner (1.6.1)
     debug_inspector (0.0.2)
     derailed (0.1.0)
@@ -148,6 +153,7 @@ GEM
       activesupport (>= 3.2)
     equalizer (0.0.11)
     erubis (2.7.0)
+    excon (0.64.0)
     execjs (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
@@ -160,6 +166,22 @@ GEM
     figaro (1.1.1)
       thor (~> 0.14)
     flamegraph (0.9.5)
+    fog-aws (2.0.1)
+      fog-core (~> 1.38)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-core (1.45.0)
+      builder
+      excon (~> 0.58)
+      formatador (~> 0.2)
+    fog-json (1.2.0)
+      fog-core
+      multi_json (~> 1.10)
+    fog-xml (0.1.3)
+      fog-core
+      nokogiri (>= 1.5.11, < 2.0.0)
+    formatador (0.2.5)
     friendly_id (5.2.1)
       activerecord (>= 4.0.0)
     geocoder (1.5.1)
@@ -191,6 +213,7 @@ GEM
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    ipaddress (0.8.3)
     jquery-rails (4.3.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -231,6 +254,7 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
+    multi_json (1.13.1)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
@@ -267,6 +291,8 @@ GEM
     rack-cors (1.0.2)
     rack-mini-profiler (0.10.5)
       rack (>= 1.2.0)
+    rack-protection (1.5.5)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.9)
@@ -340,6 +366,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
     ruby_dep (1.5.0)
+    ruby_http_client (3.3.0)
     ruby_parser (3.9.0)
       sexp_processor (~> 4.1)
     rubyzip (1.2.1)
@@ -353,6 +380,9 @@ GEM
       tilt (>= 1.1, < 3)
     select2-rails (3.5.10)
       thor (~> 0.14)
+    sendgrid-ruby (5.3.0)
+      ruby_http_client (~> 3.3.0)
+      sinatra (>= 1.4.7, < 3)
     sexp_processor (4.9.0)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
@@ -361,6 +391,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.1)
+    sinatra (1.4.8)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
     smarter_csv (1.1.4)
     spring (2.0.2)
       activesupport (>= 4.2)
@@ -432,7 +466,9 @@ DEPENDENCIES
   bummr
   byebug
   capybara
+  carrierwave
   coffee-rails (~> 4.1.0)
+  connection_pool
   coveralls
   csv_shaper
   dalli
@@ -446,6 +482,7 @@ DEPENDENCIES
   faker
   figaro (~> 1.0)
   flamegraph
+  fog-aws
   friendly_id (~> 5.0)
   geocoder
   haml-rails
@@ -475,6 +512,7 @@ DEPENDENCIES
   rubyzip
   sass-rails (~> 5.0)
   select2-rails (~> 3.5)
+  sendgrid-ruby
   shoulda-matchers
   smarter_csv
   spring

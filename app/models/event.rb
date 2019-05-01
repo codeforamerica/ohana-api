@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
   validates :title, presence: true
   # validates :user_id, presence: true
   validates :starting_at, presence: true
-  validates :ending_at, presence: true
+  validates :ending_at, presence: true, unless: Proc.new {|event| event.is_all_day }
   validates :street_1, presence: true
   validates :city, presence: true
   validate :three_events_in_month?
