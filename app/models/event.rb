@@ -1,9 +1,9 @@
 class Event < ActiveRecord::Base
+  include OrgRecord
   MAX_EVENTS_FEATURED_MONTH = 3
   attr_accessible :title, :posted_at, :starting_at, :ending_at, :street_1,
                   :street_2, :city, :state_abbr, :zip, :phone, :external_url,
                   :organization_id, :is_featured, :body, :user_id, :is_all_day
-
   belongs_to :user
   belongs_to :organization
 

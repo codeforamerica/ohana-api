@@ -63,6 +63,7 @@ module Api
 
       def fetch_events
         events = Event.includes(:organization).includes(:user)
+        events = events.from_published_orgs unless params[:ignore_org_publish].present?
         events = events.events_in_month(DateTime.strptime(params[:month], '%m')) if params[:month].present?
         events = events.where(is_featured: true) if params[:featured].present?
         events = events.where('starting_at >= ?', DateTime.parse(params[:starting_after])) if params[:starting_after].present?
