@@ -117,6 +117,7 @@ Rails.application.routes.draw do
       end
 
       resources :blog_post_images
+      resources :org_profile_images
 
       put 'services/:service_id/categories',
       to: 'services#update_categories', as: :service_categories

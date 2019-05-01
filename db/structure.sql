@@ -672,6 +672,39 @@ ALTER SEQUENCE public.mail_addresses_id_seq OWNED BY public.mail_addresses.id;
 
 
 --
+-- Name: org_profile_images; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.org_profile_images (
+    id integer NOT NULL,
+    local_identifier character varying,
+    remote_url character varying,
+    organization_id integer,
+    image character varying
+);
+
+
+--
+-- Name: org_profile_images_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.org_profile_images_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: org_profile_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.org_profile_images_id_seq OWNED BY public.org_profile_images.id;
+
+
+--
 -- Name: organizations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1132,6 +1165,13 @@ ALTER TABLE ONLY public.mail_addresses ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: org_profile_images id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.org_profile_images ALTER COLUMN id SET DEFAULT nextval('public.org_profile_images_id_seq'::regclass);
+
+
+--
 -- Name: organizations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1304,6 +1344,14 @@ ALTER TABLE ONLY public.locations
 
 ALTER TABLE ONLY public.mail_addresses
     ADD CONSTRAINT mail_addresses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: org_profile_images org_profile_images_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.org_profile_images
+    ADD CONSTRAINT org_profile_images_pkey PRIMARY KEY (id);
 
 
 --
@@ -1572,6 +1620,13 @@ CREATE INDEX index_locations_on_tsv_body ON public.locations USING gin (tsv_body
 --
 
 CREATE INDEX index_mail_addresses_on_location_id ON public.mail_addresses USING btree (location_id);
+
+
+--
+-- Name: index_org_profile_images_on_organization_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_org_profile_images_on_organization_id ON public.org_profile_images USING btree (organization_id);
 
 
 --
@@ -2010,4 +2065,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190426030916');
 INSERT INTO schema_migrations (version) VALUES ('20190426032218');
 
 INSERT INTO schema_migrations (version) VALUES ('20190501022752');
+
+INSERT INTO schema_migrations (version) VALUES ('20190501144552');
 

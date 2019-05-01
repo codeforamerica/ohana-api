@@ -84,7 +84,7 @@ module Api
           :twitter,
           :facebook,
           :linkedin,
-          :image,
+          :logo_url,
           :is_published,
           :legal_status,
           :tax_id,
