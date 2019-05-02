@@ -6,7 +6,6 @@ module Api
       include ErrorSerializer
 
       before_action :authenticate_api_user!, except: [:index, :show, :categories]
-      before_action :set_blog_post, only: %i[show update destroy]
       after_action :set_cache_control, only: :index
 
       def index
@@ -19,7 +18,7 @@ module Api
       end
 
       def show
-        render json: @blog_post,
+        render json: blog_post,
                serializer: BlogPostSerializer,
                status: 200
       end
@@ -42,25 +41,25 @@ module Api
 
       def update
         if blog_post_params[:category].present?
-          @blog_post.categories.delete_all
-          @blog_post.category_list.add(blog_post_params[:category])
+          blog_post.categories.delete_all
+          blog_post.category_list.add(blog_post_params[:category])
         end
-        if @blog_post.update(blog_post_params)
-          @blog_post.reload
-          render json: @blog_post,
+        if blog_post.update(blog_post_params)
+          blog_post.reload
+          render json: blog_post,
                  serializer: BlogPostSerializer,
                  status: 200
         else
-          render json: ErrorSerializer.serialize(@blog_post.errors),
+          render json: ErrorSerializer.serialize(blog_post.errors),
                  status: :unprocessable_entity
         end
       end
 
       def destroy
-        if @blog_post.destroy
+        if blog_post.destroy
           render json: {}, status: :ok
         else
-          render json: ErrorSerializer.serialize(@blog_post.errors),
+          render json: ErrorSerializer.serialize(blog_post.errors),
                  status: :unprocessable_entity
         end
       end
@@ -74,6 +73,10 @@ module Api
 
       private
 
+      def blog_post
+        @blog_post ||= BlogPost.find(params[:id])
+      end
+
       def blog_post_params
         params.require(:blog_post).permit(
           :title,
@@ -82,7 +85,6 @@ module Api
           :category,
           :is_published,
           :organization_id,
-          { images: [] },
           blog_post_attachments_attributes: [
             :id,
             :file_type,
@@ -94,12 +96,9 @@ module Api
         )
       end
 
-      def set_blog_post
-        @blog_post = BlogPost.find(params[:id])
-      end
-
       def filter_posts
         blog_post = BlogPost.includes(:blog_post_attachments).includes(:categories).includes(:organization).includes(:user)
+        blog_post = blog_post.from_published_orgs unless params[:ignore_org_publish].present?
         if params[:filter].present?
           blog_post = blog_post.tagged_with(params[:filter][:category]) if params[:filter][:category].present?
           blog_post = blog_post.where(is_published: params[:filter][:draft].downcase == 'false' ? true : false) if params[:filter][:draft].present?
