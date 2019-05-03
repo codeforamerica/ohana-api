@@ -5,6 +5,7 @@ class Admin
 
     def index
       @blog_posts = Kaminari.paginate_array(policy_scope(filter_blog_posts))
+      params[:page] = 1 if @blog_posts.count < Kaminari.config.default_per_page
       @blog_posts = @blog_posts.page(params[:page])
                                .per(params[:per_page])
     end
@@ -43,7 +44,6 @@ class Admin
       if params[:filter] == 'front page' || params[:filter] == 'featured'
         blog_posts = blog_posts.tagged_with(params[:filter])
       end
-
       blog_posts
     end
   end
