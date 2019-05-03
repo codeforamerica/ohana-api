@@ -15,6 +15,7 @@ class Admin
                 else
                   Kaminari.paginate_array(policy_scope(Event))
                 end
+      params[:page] = 1 if @events.count < Kaminari.config.default_per_page
       @events = @events.page(params[:page])
                        .per(params[:per_page])
     end
