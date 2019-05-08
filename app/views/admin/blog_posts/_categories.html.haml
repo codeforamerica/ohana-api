@@ -5,6 +5,6 @@
   %div.input-wrapper
     = field_set_tag nil, class: 'accessibility' do
       %div
-        = f.collection_check_boxes(:category_list, Tag.all.map(&:name).map{ |m| [ m ] }, :first, :first) do |b|
+        = f.collection_check_boxes(:category_list, Tag.all.order(:name).map(&:name).map{ |m| [ m ] }, :first, :first) do |b|
           .checkbox
             = b.label { b.check_box + b.text.capitalize }
