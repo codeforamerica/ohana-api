@@ -250,6 +250,9 @@ en:
         approval_status:
           description: 'Approve this organization.'
 
+        is_published:
+          description: 'Determines if this Organization and its created content is visible to end-users.'
+
     services:
       forms:
         accepted_payments:
