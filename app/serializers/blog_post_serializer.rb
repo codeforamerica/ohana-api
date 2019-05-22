@@ -3,7 +3,6 @@ class BlogPostSerializer < ActiveModel::Serializer
 
   has_one :user, serializer: UserSerializer
   has_one :organization, serializer: OrganizationSerializer
-  has_many :blog_post_attachments, serializer: BlogPostAttachmentSerializer
   has_many :categories
 
   def posted_at

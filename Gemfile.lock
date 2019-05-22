@@ -484,7 +484,7 @@ DEPENDENCIES
   flamegraph
   fog-aws
   friendly_id (~> 5.0)
-  geocoder
+  geocoder (~> 1.5.1)
   haml-rails
   haml_lint
   jquery-rails (~> 4.0)

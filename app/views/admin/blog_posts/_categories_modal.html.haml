@@ -8,7 +8,7 @@
     .modal-body
       %a.add-more Add Category
       %div.input-wrapper
-        - Tag.all.each do |tag|
+        - Tag.all.order(:name).each do |tag|
           %div.categories-modal-input
             %input{ type: 'text', class: 'form-control', value: tag.name, disabled: tag.name == 'featured' || tag.name == 'front page' }
             - if tag.name != 'featured' && tag.name != 'front page'

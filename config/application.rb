@@ -46,7 +46,7 @@ module OhanaApi
     # CORS support
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
-        origins ENV.fetch('FRONT_ENV_APP_URL')
+        origins '*'
         resource '*',
                  headers: :any,
                  methods: %i[get put patch post delete options],
