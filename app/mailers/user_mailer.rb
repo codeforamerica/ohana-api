@@ -3,6 +3,6 @@ class UserMailer < ActionMailer::Base
 
   def new_registration(user)
     @user = user
-    mail(to: user.email, subject: "Successful registration: Here is your new account info")
+    mail(to: user.email, subject: "Successful registration: Here is your new account info") if user.email.present?
   end
 end
