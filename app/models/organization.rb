@@ -34,16 +34,12 @@ class Organization < ActiveRecord::Base
   validates :description,
             presence: { message: I18n.t('errors.messages.blank_for_org') }
 
-  validates :email,
-            presence: { message: I18n.t('errors.messages.blank_for_org') }
-
   validates :email, email: true, allow_blank: true
   validates :website, url: true, allow_blank: true
   validates :twitter, url: true, allow_blank: true
   validates :facebook, url: true, allow_blank: true
   validates :linkedin, url: true, allow_blank: true
   validates :logo_url, url: true, allow_blank: true
-  validates :user, presence: true
 
   auto_strip_attributes :alternate_name, :description, :email, :legal_status,
                         :name, :tax_id, :tax_status, :website, :twitter,
