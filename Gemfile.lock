@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/thoughtbot/factory_bot_rails.git
+  revision: a100f62bccf29781c32ec499b5d5f87afe65b555
+  branch: i18n-loading-bug
+  specs:
+    factory_bot_rails (5.0.2)
+      factory_bot (~> 5.0.2)
+      railties (>= 4.2.0)
+
+GIT
   remote: https://github.com/thoughtbot/shoulda-matchers.git
   revision: cd96089a56b97cd11f7502826636895253eca27d
   specs:
@@ -137,9 +146,6 @@ GEM
     execjs (2.7.0)
     factory_bot (5.0.2)
       activesupport (>= 4.2.0)
-    factory_bot_rails (5.0.2)
-      factory_bot (~> 5.0.2)
-      railties (>= 4.2.0)
     ffi (1.9.25)
     figaro (1.1.1)
       thor (~> 0.14)
@@ -396,7 +402,7 @@ DEPENDENCIES
   derailed
   devise (~> 4.1)
   enumerize
-  factory_bot_rails
+  factory_bot_rails!
   figaro (~> 1.0)
   flamegraph
   friendly_id (~> 5.0)
