@@ -23,45 +23,6 @@ class Admin
       )
     end
 
-    def nested_categories(categories)
-      safe_join(cats_and_subcats(categories).map do |category, sub_categories|
-        content_tag(:ul) do
-          concat(content_tag(:li, class: class_name_for(category)) do
-            concat(checkbox_tag_for(category))
-            concat(label_tag_for(category))
-            concat(nested_categories(sub_categories))
-          end)
-        end
-      end)
-    end
-
-    def cats_and_subcats(categories)
-      cats = []
-      categories.each do |array|
-        cats.push([array.first, array.second])
-      end
-      cats
-    end
-
-    def class_name_for(category)
-      return 'depth0 checkbox' if category.depth.zero?
-
-      "hide depth#{category.depth} checkbox"
-    end
-
-    def checkbox_tag_for(category)
-      check_box_tag(
-        'service[category_ids][]',
-        category.id,
-        @taxonomy_ids.include?(category.taxonomy_id),
-        id: "category_#{category.taxonomy_id}"
-      )
-    end
-
-    def label_tag_for(category)
-      label_tag "category_#{category.taxonomy_id}", category.name
-    end
-
     def error_class_for(model, attribute, field)
       return if model.errors[attribute].blank?
 
@@ -92,9 +53,9 @@ class Admin
     end
     # rubocop:enable Metrics/MethodLength
 
-    def program_autocomplete_field_for(form)
+    def program_autocomplete_field_for(form, location)
       form.select(
-        :program_id, @location.organization.programs.pluck(:name, :id),
+        :program_id, location.organization.programs.pluck(:name, :id),
         { include_blank: t('.include_blank') },
         class: 'form-control'
       )

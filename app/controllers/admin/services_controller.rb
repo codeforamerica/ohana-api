@@ -32,11 +32,12 @@ class Admin
 
     def new
       @location = Location.find(params[:location_id])
-      @taxonomy_ids = []
+      taxonomy_ids = []
 
       authorize @location
 
       @service = Service.new
+      @nested_categories = NestedCategories.new(taxonomy_ids: taxonomy_ids, view: view_context).call
     end
 
     def create
@@ -64,7 +65,6 @@ class Admin
 
       @location = Location.find(params[:location_id])
       @service = @location.services.new(service_params.except(:locations))
-      @taxonomy_ids = []
 
       authorize @location
       preprocess_service
@@ -114,7 +114,8 @@ class Admin
     def assign_location_service_and_taxonomy_ids
       @service = Service.find(params[:id])
       @location = Location.find(params[:location_id])
-      @taxonomy_ids = @service.categories.pluck(:taxonomy_id)
+      taxonomy_ids = @service.categories.pluck(:taxonomy_id)
+      @nested_categories = NestedCategories.new(taxonomy_ids: taxonomy_ids, view: view_context).call
     end
 
     # rubocop:disable MethodLength

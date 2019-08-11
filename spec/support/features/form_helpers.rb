@@ -59,17 +59,17 @@ module Features
     end
 
     def add_two_admins
-      find_link(I18n.t('admin.buttons.add_admin')).trigger('click')
+      find_link(I18n.t('admin.buttons.add_admin')).click
       fill_in 'location[admin_emails][]', with: 'moncef@foo.com'
-      find_link(I18n.t('admin.buttons.add_admin')).trigger('click')
+      find_link(I18n.t('admin.buttons.add_admin')).click
       admins = all(:xpath, "//input[contains(@name, '[admin_emails]')]")
       fill_in admins[-1][:id], with: 'moncef@otherlocation.com'
       click_button I18n.t('admin.buttons.save_changes')
     end
 
     def delete_all_admins
-      find_link(I18n.t('admin.buttons.delete_admin'), match: :first).trigger('click')
-      find_link(I18n.t('admin.buttons.delete_admin'), match: :first).trigger('click')
+      find_link(I18n.t('admin.buttons.delete_admin'), match: :first).click
+      find_link(I18n.t('admin.buttons.delete_admin'), match: :first).click
       click_button I18n.t('admin.buttons.save_changes')
     end
 

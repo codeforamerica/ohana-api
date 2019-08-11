@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/thoughtbot/factory_bot_rails.git
+  revision: a100f62bccf29781c32ec499b5d5f87afe65b555
+  branch: i18n-loading-bug
+  specs:
+    factory_bot_rails (5.0.2)
+      factory_bot (~> 5.0.2)
+      railties (>= 4.2.0)
+
+GIT
   remote: https://github.com/thoughtbot/shoulda-matchers.git
   revision: cd96089a56b97cd11f7502826636895253eca27d
   specs:
@@ -73,13 +82,13 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.3)
-    bullet (6.0.0)
+    bullet (6.0.1)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     bummr (0.5.0)
       rainbow
       thor
-    capybara (3.22.0)
+    capybara (3.28.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -87,7 +96,8 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    cliver (0.3.2)
+    childprocess (1.0.1)
+      rake (< 13.0)
     codeclimate-engine-rb (0.4.1)
       virtus (~> 1.0)
     coderay (1.1.2)
@@ -128,18 +138,15 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.3)
-    docile (1.3.0)
+    docile (1.3.2)
     enumerize (2.3.1)
       activesupport (>= 3.2)
     equalizer (0.0.11)
     erubi (1.8.0)
     erubis (2.7.0)
     execjs (2.7.0)
-    factory_bot (5.0.1)
+    factory_bot (5.0.2)
       activesupport (>= 4.2.0)
-    factory_bot_rails (5.0.1)
-      factory_bot (~> 5.0.0)
-      railties (>= 4.2.0)
     ffi (1.9.25)
     figaro (1.1.1)
       thor (~> 0.14)
@@ -165,7 +172,7 @@ GEM
       rake (>= 10, < 13)
       rubocop (>= 0.50.0)
       sysexits (~> 1.1)
-    hashdiff (0.4.0)
+    hashdiff (1.0.0)
     heapy (0.1.2)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
@@ -175,12 +182,12 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
-    jaro_winkler (1.5.2)
-    jquery-rails (4.3.3)
+    jaro_winkler (1.5.3)
+    jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (2.1.0)
+    json (2.2.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.1.1)
@@ -211,7 +218,7 @@ GEM
     memcachier (0.0.2)
     memory_profiler (0.9.6)
     method_source (0.9.2)
-    mini_mime (1.0.1)
+    mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     nio4r (2.3.1)
@@ -222,13 +229,10 @@ GEM
     parser (2.6.3.0)
       ast (~> 2.4.0)
     pg (1.1.4)
-    poltergeist (1.18.1)
-      capybara (>= 2.1, < 4)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
     psych (3.1.0)
-    public_suffix (3.1.0)
-    puma (3.12.1)
+    public_suffix (3.1.1)
+    puma (4.1.0)
+      nio4r (~> 2.0)
     pundit (2.0.1)
       activesupport (>= 3.0.0)
     rack (2.0.7)
@@ -258,7 +262,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.4)
+    rails-html-sanitizer (1.2.0)
       loofah (~> 2.2, >= 2.2.2)
     railties (5.1.7)
       actionpack (= 5.1.7)
@@ -277,7 +281,7 @@ GEM
       parser (>= 2.5.0.0, < 2.7, != 2.5.1.1)
       psych (~> 3.1.0)
       rainbow (>= 2.0, < 4.0)
-    regexp_parser (1.5.1)
+    regexp_parser (1.6.0)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
@@ -301,17 +305,21 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    rubocop (0.71.0)
+    rubocop (0.74.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-rails (2.2.1)
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
     ruby_parser (3.13.1)
       sexp_processor (~> 4.9)
+    rubyzip (1.2.3)
     safe_yaml (1.0.5)
     sass (3.5.5)
       sass-listen (~> 4.0.0)
@@ -326,15 +334,17 @@ GEM
       tilt (>= 1.1, < 3)
     select2-rails (3.5.10)
       thor (~> 0.14)
+    selenium-webdriver (3.142.3)
+      childprocess (>= 0.5, < 2.0)
+      rubyzip (~> 1.2, >= 1.2.2)
     sexp_processor (4.12.1)
-    simplecov (0.16.1)
+    simplecov (0.17.0)
       docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     smarter_csv (1.2.6)
-    spring (2.0.2)
-      activesupport (>= 4.2)
+    spring (2.1.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     spring-watcher-listen (2.0.1)
@@ -366,7 +376,11 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.8)
       rack (>= 2.0.6)
-    webmock (3.6.0)
+    webdrivers (4.1.2)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
+    webmock (3.6.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -396,7 +410,7 @@ DEPENDENCIES
   derailed
   devise (~> 4.1)
   enumerize
-  factory_bot_rails
+  factory_bot_rails!
   figaro (~> 1.0)
   flamegraph
   friendly_id (~> 5.0)
@@ -409,7 +423,6 @@ DEPENDENCIES
   letter_opener
   memcachier
   pg
-  poltergeist
   puma
   pundit
   rack-cache
@@ -421,6 +434,7 @@ DEPENDENCIES
   rspec-its
   rspec-rails (~> 3.1)
   rubocop
+  rubocop-rails
   sass-rails (~> 5.0)
   select2-rails (~> 3.5)
   shoulda-matchers!
@@ -431,10 +445,11 @@ DEPENDENCIES
   spring-watcher-listen
   stackprof
   uglifier (>= 1.3.0)
+  webdrivers
   webmock
 
 RUBY VERSION
-   ruby 2.5.3p105
+   ruby 2.5.5p157
 
 BUNDLED WITH
-   1.17.3
+   2.0.2
