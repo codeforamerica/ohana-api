@@ -49,7 +49,7 @@ module OhanaApi
         resource %r{/locations|organizations|search/*},
                  headers: :any,
                  methods: %i[get put patch post delete],
-                 expose: ['Etag', 'Last-Modified', 'Link', 'X-Total-Count']
+                 expose: %w[Etag Last-Modified Link X-Total-Count]
       end
     end
 

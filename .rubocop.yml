@@ -3,6 +3,7 @@
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 # https://github.com/bbatsov/rubocop/blob/master/config/disabled.yml
+require: rubocop-rails
 
 AllCops:
   Exclude:
@@ -10,7 +11,6 @@ AllCops:
     - 'bin/**/*'
     - 'config/initializers/devise.rb'
     - 'db/migrate/*'
-  TargetRailsVersion: 5.1
   TargetRubyVersion: 2.5
   UseCache: true
 

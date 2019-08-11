@@ -1,4 +1,11 @@
 detectors:
+  DataClump:
+    exclude:
+      - Admin::FormHelper
+  FeatureEnvy:
+    exclude:
+      - NestedCategories#cats_and_subcats
+      - NestedCategories#label_tag_for
   InstanceVariableAssumption:
     exclude:
       - Admin::ContactsController
@@ -36,6 +43,7 @@ detectors:
       - ConfigValidator#empty_keys_warning
       - DateValidator#date_from_hash
       - DateValidator#valid_date_format?
+      - NestedCategories#class_name_for
       - PgArrayValidator#does_not_need_validation?
 directories:
   'spec':

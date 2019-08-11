@@ -30,9 +30,13 @@ gem 'uglifier', '>= 1.3.0'
 
 group :test, :development do
   gem 'bullet'
+  # rubocop:disable Metrics/LineLength
   gem 'factory_bot_rails', git: 'https://github.com/thoughtbot/factory_bot_rails.git', branch: 'i18n-loading-bug'
+  # rubocop:enable Metrics/LineLength
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
+  gem 'rubocop'
+  gem 'rubocop-rails'
   gem 'smarter_csv'
 end
 
@@ -42,7 +46,6 @@ group :test do
   gem 'haml_lint'
   gem 'poltergeist'
   gem 'rails-controller-testing'
-  gem 'rubocop'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   gem 'simplecov', require: false
   gem 'webmock'
