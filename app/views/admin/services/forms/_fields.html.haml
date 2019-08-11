@@ -5,7 +5,7 @@
       - service.errors.full_messages.each do |msg|
         %li= msg
 
-= render 'admin/services/forms/program', f: f
+= render 'admin/services/forms/program', f: f, location: location
 = render 'admin/shared/forms/name', f: f
 = render 'admin/shared/forms/alternate_name', f: f
 = render 'admin/services/forms/description', f: f
@@ -26,5 +26,5 @@
 = render 'admin/services/forms/status', f: f
 = render 'admin/shared/forms/website', f: f
 = render 'admin/services/forms/wait', f: f
-= render 'admin/services/forms/categories', f: f
+= render 'admin/services/forms/categories', f: f, nested_categories: nested_categories
 = render 'admin/services/forms/keywords', f: f, service: service

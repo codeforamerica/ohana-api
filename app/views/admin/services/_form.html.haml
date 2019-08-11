@@ -1,5 +1,4 @@
-= render 'admin/services/forms/fields', f: f, service: service
-
+= render 'admin/services/forms/fields', f: f, service: service, nested_categories: nested_categories, location: location
 .content-box
   %h2 Contacts
   - if service.contacts.present?

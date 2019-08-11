@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.3'
+ruby '2.5.5'
 gem 'active_model_serializers', '~> 0.8.0'
 gem 'ancestry'
 gem 'auto_strip_attributes', '~> 2.0'
@@ -44,10 +44,10 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'haml_lint'
-  gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   gem 'simplecov', require: false
+  gem 'webdrivers'
   gem 'webmock'
 end
 

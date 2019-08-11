@@ -2,4 +2,4 @@
   %h1 Create a new service
 
 = form_for [:admin, @location, @service], html: { method: :post, class: 'edit-entry' } do |f|
-  = render 'admin/services/forms/new_service_form', f: f, location: @location, service: @service
+  = render 'admin/services/forms/new_service_form', f: f, location: @location, service: @service, nested_categories: @nested_categories

@@ -7,5 +7,5 @@
 
   = f.fields_for :address do |builder|
     = render 'admin/locations/forms/address_fields', f: builder
-  - unless @location.address.present?
+  - if @location.address.blank?
     = link_to_add_fields t('admin.buttons.add_street_address'), f, :address
