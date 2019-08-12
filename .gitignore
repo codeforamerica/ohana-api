@@ -51,3 +51,10 @@ script/backup_mongo
 script/import_to_staging
 
 .foreman
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

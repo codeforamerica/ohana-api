@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}.git" }
 
 ruby '2.5.5'
 gem 'active_model_serializers', '~> 0.8.0'
@@ -14,7 +15,6 @@ gem 'figaro', '~> 1.0'
 gem 'friendly_id', '~> 5.0'
 gem 'geocoder'
 gem 'haml-rails'
-gem 'jquery-rails', '~> 4.0'
 gem 'kaminari', '~> 1.1'
 gem 'kgio'
 gem 'memcachier'
@@ -24,14 +24,15 @@ gem 'pundit'
 gem 'rack-cache'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.1.5'
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails'
 gem 'select2-rails', '~> 3.5'
 gem 'uglifier', '>= 1.3.0'
+gem 'webpacker', '~> 4.0'
 
 group :test, :development do
   gem 'bullet'
   # rubocop:disable Metrics/LineLength
-  gem 'factory_bot_rails', git: 'https://github.com/thoughtbot/factory_bot_rails.git', branch: 'i18n-loading-bug'
+  gem 'factory_bot_rails', github: 'thoughtbot/factory_bot_rails', branch: 'i18n-loading-bug'
   # rubocop:enable Metrics/LineLength
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
@@ -45,7 +46,7 @@ group :test do
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'haml_lint'
   gem 'rails-controller-testing'
-  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
+  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers'
   gem 'simplecov', require: false
   gem 'webdrivers'
   gem 'webmock'

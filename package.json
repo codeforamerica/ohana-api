@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@rails/webpacker": "^4.0.7",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0",
+    "@rails/ujs": "^6.0.0-alpha",
+    "select2": "^4.0.8"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.8.0"
+  }
+}
