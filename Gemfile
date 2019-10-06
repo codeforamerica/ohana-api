@@ -31,7 +31,7 @@ gem 'uglifier', '>= 1.3.0'
 group :test, :development do
   gem 'bullet'
   # rubocop:disable Metrics/LineLength
-  gem 'factory_bot_rails', git: 'https://github.com/thoughtbot/factory_bot_rails.git', branch: 'i18n-loading-bug'
+  gem 'factory_bot_rails'
   # rubocop:enable Metrics/LineLength
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
