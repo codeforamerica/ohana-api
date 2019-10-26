@@ -38,6 +38,7 @@ jobs:
           command: |
             gem install bundler
             bundle install --deployment --jobs=4 --retry=3 --without development production --path vendor/bundle
+            sudo apt-get update
             sudo apt-get install postgresql-client
 
       - run:
