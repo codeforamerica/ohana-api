@@ -268,7 +268,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    reek (5.4.0)
+    reek (5.5.0)
       codeclimate-engine-rb (~> 0.4.0)
       kwalify (~> 0.7.0)
       parser (>= 2.5.0.0, < 2.7, != 2.5.1.1)
