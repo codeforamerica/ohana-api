@@ -31,7 +31,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     end
 
     it 'returns the Access-Control-Max-Age header' do
-      expect(headers['Access-Control-Max-Age']).to eq('1728000')
+      expect(headers['Access-Control-Max-Age']).to eq('7200')
     end
 
     it 'does not return the Access-Control-Allow-Credentials header' do
@@ -166,7 +166,7 @@ describe 'CORS REQUESTS - POST and GET' do
     end
 
     it 'returns the Access-Control-Max-Age header' do
-      expect(headers['Access-Control-Max-Age']).to eq('1728000')
+      expect(headers['Access-Control-Max-Age']).to eq('7200')
     end
 
     it 'does not return the Access-Control-Allow-Credentials header' do
