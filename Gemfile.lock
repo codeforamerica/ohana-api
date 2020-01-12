@@ -192,7 +192,7 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
-    kgio (2.11.2)
+    kgio (2.11.3)
     kwalify (0.7.2)
     launchy (2.4.3)
       addressable (~> 2.3)
