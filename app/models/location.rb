@@ -53,6 +53,7 @@ class Location < ApplicationRecord
   validates :email, email: true, allow_blank: true
 
   after_validation :geocode, if: :needs_geocoding?
+  after_validation :downcase_admin_emails
 
   geocoded_by :full_physical_address
 
@@ -102,6 +103,10 @@ class Location < ApplicationRecord
     return true if latitude.blank? && longitude.blank?
 
     address.changed? && !address.new_record?
+  end
+
+  def downcase_admin_emails
+    admin_emails&.map!(&:downcase)
   end
 
   # See app/models/concerns/search.rb

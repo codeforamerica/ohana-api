@@ -24,6 +24,7 @@ detectors:
     exclude:
       - ConfigValidator#required_keys_with_empty_values
       - AssetHosts#call
+      - Location#downcase_admin_emails
   TooManyMethods:
     exclude:
       - Admin::CsvController
