@@ -12,7 +12,7 @@ FactoryBot.define do
     address
 
     factory :location_with_admin do
-      admin_emails { ['moncef@smcgov.org'] }
+      admin_emails { ['Moncef@smcgov.org'] }
       association :organization, factory: :nearby_org
     end
 
