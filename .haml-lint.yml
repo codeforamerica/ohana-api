@@ -18,11 +18,11 @@ linters:
       - Layout/EmptyLineAfterGuardClause
       - Layout/EndOfLine
       - Layout/IndentationWidth
-      - Layout/TrailingBlankLines
+      - Layout/TrailingEmptyLines
       - Layout/TrailingWhitespace
       - Metrics/BlockLength
       - Metrics/BlockNesting
-      - Metrics/LineLength
+      - Layout/LineLength
       - Naming/FileName
       - Style/FrozenStringLiteralComment
       - Style/IfUnlessModifier

@@ -58,7 +58,7 @@ class Admin
 
     private
 
-    # rubocop:disable MethodLength
+    # rubocop:disable Metrics/MethodLength
     def location_params
       params.require(:location).permit(
         :organization_id, { accessibility: [] }, :active, { admin_emails: [] },
@@ -77,6 +77,6 @@ class Admin
         holiday_schedules_attributes: %i[closed start_date end_date opens_at closes_at id _destroy]
       )
     end
-    # rubocop:enable MethodLength
+    # rubocop:enable Metrics/MethodLength
   end
 end

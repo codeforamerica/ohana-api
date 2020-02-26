@@ -1,4 +1,4 @@
-require Rails.root.join('lib', 'default_host.rb')
+require Rails.root.join('lib/default_host.rb')
 
 class ApplicationController < ActionController::Base
   include Pundit

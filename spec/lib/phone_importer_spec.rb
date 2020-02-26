@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 describe PhoneImporter do
-  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_phone.csv') }
-  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_location_phone.csv') }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_phone.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_phone.csv') }
   let(:valid_service_phone) do
-    Rails.root.join('spec', 'support', 'fixtures', 'valid_service_phone.csv')
+    Rails.root.join('spec/support/fixtures/valid_service_phone.csv')
   end
-  let(:valid_org_phone) { Rails.root.join('spec', 'support', 'fixtures', 'valid_org_phone.csv') }
+  let(:valid_org_phone) { Rails.root.join('spec/support/fixtures/valid_org_phone.csv') }
   let(:valid_contact_phone) do
-    Rails.root.join('spec', 'support', 'fixtures', 'valid_contact_phone.csv')
+    Rails.root.join('spec/support/fixtures/valid_contact_phone.csv')
   end
-  let(:no_parent) { Rails.root.join('spec', 'support', 'fixtures', 'phone_with_no_parent.csv') }
+  let(:no_parent) { Rails.root.join('spec/support/fixtures/phone_with_no_parent.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -153,7 +153,7 @@ describe PhoneImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_location_phone.csv')
+      path = Rails.root.join('spec/support/fixtures/valid_location_phone.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -175,7 +175,7 @@ describe PhoneImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Number Type can't be blank for Phone")
 
-        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_phone.csv')
+        path = Rails.root.join('spec/support/fixtures/invalid_phone.csv')
         PhoneImporter.check_and_import_file(path)
       end
     end
