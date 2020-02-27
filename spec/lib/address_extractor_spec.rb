@@ -20,7 +20,7 @@ describe AddressExtractor do
           address_hash.merge(id: '4', location_id: '1')
         ]
 
-        path = Rails.root.join('spec', 'support', 'fixtures', 'valid_address.csv')
+        path = Rails.root.join('spec/support/fixtures/valid_address.csv')
         expect(AddressExtractor.extract_addresses(path)).to eq addresses
       end
     end
@@ -37,7 +37,7 @@ describe AddressExtractor do
           country: 'US'
         }
 
-        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_address.csv')
+        path = Rails.root.join('spec/support/fixtures/invalid_address.csv')
         expect(AddressExtractor.extract_addresses(path)).
           to eq [address_hash,
                  address_hash.merge(id: '2', location_id: '2', city: 'Fairfax')]

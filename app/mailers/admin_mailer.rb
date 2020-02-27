@@ -1,4 +1,4 @@
-class AdminMailer < ActionMailer::Base
+class AdminMailer < ApplicationMailer
   default from: SETTINGS[:confirmation_email]
 
   def existing_email_signup(resource)

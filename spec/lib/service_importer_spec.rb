@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe ServiceImporter do
-  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_service.csv') }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_service.csv') }
   let(:invalid_location) do
-    Rails.root.join('spec', 'support', 'fixtures', 'invalid_service_location.csv')
+    Rails.root.join('spec/support/fixtures/invalid_service_location.csv')
   end
-  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_service.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_service.csv') }
 
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
@@ -143,7 +143,7 @@ describe ServiceImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_service.csv')
+      path = Rails.root.join('spec/support/fixtures/valid_service.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -165,7 +165,7 @@ describe ServiceImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Name can't be blank for Service")
 
-        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_service.csv')
+        path = Rails.root.join('spec/support/fixtures/invalid_service.csv')
         ServiceImporter.check_and_import_file(path)
       end
     end

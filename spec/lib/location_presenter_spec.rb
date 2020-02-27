@@ -19,16 +19,16 @@ describe LocationPresenter do
     }
   end
 
-  let(:path) { Rails.root.join('spec', 'support', 'fixtures', 'valid_location.csv') }
+  let(:path) { Rails.root.join('spec/support/fixtures/valid_location.csv') }
 
-  let(:address_path) { Rails.root.join('spec', 'support', 'fixtures', 'valid_address.csv') }
+  let(:address_path) { Rails.root.join('spec/support/fixtures/valid_address.csv') }
 
   let(:addresses) do
     AddressExtractor.extract_addresses(address_path)
   end
 
   let(:missing_addresses) do
-    path = Rails.root.join('spec', 'support', 'fixtures', 'missing_address.csv')
+    path = Rails.root.join('spec/support/fixtures/missing_address.csv')
     AddressExtractor.extract_addresses(path)
   end
 

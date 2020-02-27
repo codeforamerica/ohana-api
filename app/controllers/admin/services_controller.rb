@@ -118,7 +118,7 @@ class Admin
       @nested_categories = NestedCategories.new(taxonomy_ids: taxonomy_ids, view: view_context).call
     end
 
-    # rubocop:disable MethodLength
+    # rubocop:disable Metrics/MethodLength
     def service_params
       params.require(:service).permit(
         { accepted_payments: [] }, :alternate_name, :audience, :description, :eligibility, :email,
@@ -135,6 +135,6 @@ class Admin
         ]
       )
     end
-    # rubocop:enable MethodLength
+    # rubocop:enable Metrics/MethodLength
   end
 end

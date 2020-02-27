@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 describe OrganizationImporter do
-  let(:invalid_content) { Rails.root.join('spec', 'support', 'fixtures', 'invalid_org.csv') }
+  let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_org.csv') }
   let(:invalid_date) do
-    Rails.root.join('spec', 'support', 'fixtures', 'org_with_invalid_date.csv')
+    Rails.root.join('spec/support/fixtures/org_with_invalid_date.csv')
   end
-  let(:valid_content) { Rails.root.join('spec', 'support', 'fixtures', 'valid_org.csv') }
+  let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_org.csv') }
   let(:spelled_out_date) do
-    Rails.root.join('spec', 'support', 'fixtures', 'org_with_spelled_out_date.csv')
+    Rails.root.join('spec/support/fixtures/org_with_spelled_out_date.csv')
   end
   let(:org_with_2_digit_year) do
-    Rails.root.join('spec', 'support', 'fixtures', 'org_with_2_digit_year.csv')
+    Rails.root.join('spec/support/fixtures/org_with_2_digit_year.csv')
   end
 
   subject(:importer) { OrganizationImporter.new(content) }
@@ -128,7 +128,7 @@ describe OrganizationImporter do
 
   describe '.check_and_import_file' do
     it 'calls FileChecker' do
-      path = Rails.root.join('spec', 'support', 'fixtures', 'valid_org.csv')
+      path = Rails.root.join('spec/support/fixtures/valid_org.csv')
 
       file = double('FileChecker')
       allow(file).to receive(:validate).and_return true
@@ -150,7 +150,7 @@ describe OrganizationImporter do
         expect(Kernel).to receive(:puts).
           with("Line 2: Name can't be blank for Organization")
 
-        path = Rails.root.join('spec', 'support', 'fixtures', 'invalid_org.csv')
+        path = Rails.root.join('spec/support/fixtures/invalid_org.csv')
         OrganizationImporter.check_and_import_file(path)
       end
     end
