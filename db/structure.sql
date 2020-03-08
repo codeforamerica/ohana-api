@@ -1,16 +1,11 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 10.1
--- Dumped by pg_dump version 10.1
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -28,13 +23,11 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = public, pg_catalog;
-
 --
 -- Name: fill_search_vector_for_location(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION fill_search_vector_for_location() RETURNS trigger
+CREATE FUNCTION public.fill_search_vector_for_location() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
           declare
@@ -72,13 +65,13 @@ CREATE FUNCTION fill_search_vector_for_location() RETURNS trigger
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: addresses; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE addresses (
+CREATE TABLE public.addresses (
     id integer NOT NULL,
     location_id integer,
     address_1 text,
@@ -96,7 +89,7 @@ CREATE TABLE addresses (
 -- Name: addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE addresses_id_seq
+CREATE SEQUENCE public.addresses_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -108,14 +101,14 @@ CREATE SEQUENCE addresses_id_seq
 -- Name: addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
+ALTER SEQUENCE public.addresses_id_seq OWNED BY public.addresses.id;
 
 
 --
 -- Name: admins; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE admins (
+CREATE TABLE public.admins (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -142,7 +135,7 @@ CREATE TABLE admins (
 -- Name: admins_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE admins_id_seq
+CREATE SEQUENCE public.admins_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -154,14 +147,14 @@ CREATE SEQUENCE admins_id_seq
 -- Name: admins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE admins_id_seq OWNED BY admins.id;
+ALTER SEQUENCE public.admins_id_seq OWNED BY public.admins.id;
 
 
 --
 -- Name: api_applications; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE api_applications (
+CREATE TABLE public.api_applications (
     id integer NOT NULL,
     user_id integer,
     name text,
@@ -177,7 +170,7 @@ CREATE TABLE api_applications (
 -- Name: api_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE api_applications_id_seq
+CREATE SEQUENCE public.api_applications_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -189,14 +182,14 @@ CREATE SEQUENCE api_applications_id_seq
 -- Name: api_applications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE api_applications_id_seq OWNED BY api_applications.id;
+ALTER SEQUENCE public.api_applications_id_seq OWNED BY public.api_applications.id;
 
 
 --
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE ar_internal_metadata (
+CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
     created_at timestamp without time zone NOT NULL,
@@ -208,7 +201,7 @@ CREATE TABLE ar_internal_metadata (
 -- Name: categories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE categories (
+CREATE TABLE public.categories (
     id integer NOT NULL,
     name text,
     taxonomy_id text,
@@ -223,7 +216,7 @@ CREATE TABLE categories (
 -- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE categories_id_seq
+CREATE SEQUENCE public.categories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -235,14 +228,14 @@ CREATE SEQUENCE categories_id_seq
 -- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE categories_id_seq OWNED BY categories.id;
+ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 
 --
 -- Name: categories_services; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE categories_services (
+CREATE TABLE public.categories_services (
     category_id integer NOT NULL,
     service_id integer NOT NULL
 );
@@ -252,7 +245,7 @@ CREATE TABLE categories_services (
 -- Name: contacts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE contacts (
+CREATE TABLE public.contacts (
     id integer NOT NULL,
     location_id integer,
     name text,
@@ -270,7 +263,7 @@ CREATE TABLE contacts (
 -- Name: contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE contacts_id_seq
+CREATE SEQUENCE public.contacts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -282,14 +275,14 @@ CREATE SEQUENCE contacts_id_seq
 -- Name: contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
+ALTER SEQUENCE public.contacts_id_seq OWNED BY public.contacts.id;
 
 
 --
 -- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE friendly_id_slugs (
+CREATE TABLE public.friendly_id_slugs (
     id integer NOT NULL,
     slug character varying(255) NOT NULL,
     sluggable_id integer NOT NULL,
@@ -302,7 +295,7 @@ CREATE TABLE friendly_id_slugs (
 -- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE friendly_id_slugs_id_seq
+CREATE SEQUENCE public.friendly_id_slugs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -314,14 +307,14 @@ CREATE SEQUENCE friendly_id_slugs_id_seq
 -- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE friendly_id_slugs_id_seq OWNED BY friendly_id_slugs.id;
+ALTER SEQUENCE public.friendly_id_slugs_id_seq OWNED BY public.friendly_id_slugs.id;
 
 
 --
 -- Name: holiday_schedules; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE holiday_schedules (
+CREATE TABLE public.holiday_schedules (
     id integer NOT NULL,
     location_id integer,
     service_id integer,
@@ -337,7 +330,7 @@ CREATE TABLE holiday_schedules (
 -- Name: holiday_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE holiday_schedules_id_seq
+CREATE SEQUENCE public.holiday_schedules_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -349,14 +342,14 @@ CREATE SEQUENCE holiday_schedules_id_seq
 -- Name: holiday_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE holiday_schedules_id_seq OWNED BY holiday_schedules.id;
+ALTER SEQUENCE public.holiday_schedules_id_seq OWNED BY public.holiday_schedules.id;
 
 
 --
 -- Name: locations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE locations (
+CREATE TABLE public.locations (
     id integer NOT NULL,
     organization_id integer,
     accessibility text,
@@ -384,7 +377,7 @@ CREATE TABLE locations (
 -- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE locations_id_seq
+CREATE SEQUENCE public.locations_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -396,14 +389,14 @@ CREATE SEQUENCE locations_id_seq
 -- Name: locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE locations_id_seq OWNED BY locations.id;
+ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 
 --
 -- Name: mail_addresses; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE mail_addresses (
+CREATE TABLE public.mail_addresses (
     id integer NOT NULL,
     location_id integer,
     attention text,
@@ -422,7 +415,7 @@ CREATE TABLE mail_addresses (
 -- Name: mail_addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE mail_addresses_id_seq
+CREATE SEQUENCE public.mail_addresses_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -434,14 +427,14 @@ CREATE SEQUENCE mail_addresses_id_seq
 -- Name: mail_addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE mail_addresses_id_seq OWNED BY mail_addresses.id;
+ALTER SEQUENCE public.mail_addresses_id_seq OWNED BY public.mail_addresses.id;
 
 
 --
 -- Name: organizations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE organizations (
+CREATE TABLE public.organizations (
     id integer NOT NULL,
     name text,
     slug text,
@@ -465,7 +458,7 @@ CREATE TABLE organizations (
 -- Name: organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE organizations_id_seq
+CREATE SEQUENCE public.organizations_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -477,14 +470,14 @@ CREATE SEQUENCE organizations_id_seq
 -- Name: organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
+ALTER SEQUENCE public.organizations_id_seq OWNED BY public.organizations.id;
 
 
 --
 -- Name: phones; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE phones (
+CREATE TABLE public.phones (
     id integer NOT NULL,
     location_id integer,
     number text,
@@ -505,7 +498,7 @@ CREATE TABLE phones (
 -- Name: phones_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE phones_id_seq
+CREATE SEQUENCE public.phones_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -517,14 +510,14 @@ CREATE SEQUENCE phones_id_seq
 -- Name: phones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE phones_id_seq OWNED BY phones.id;
+ALTER SEQUENCE public.phones_id_seq OWNED BY public.phones.id;
 
 
 --
 -- Name: programs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE programs (
+CREATE TABLE public.programs (
     id integer NOT NULL,
     organization_id integer,
     name character varying(255),
@@ -538,7 +531,7 @@ CREATE TABLE programs (
 -- Name: programs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE programs_id_seq
+CREATE SEQUENCE public.programs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -550,14 +543,14 @@ CREATE SEQUENCE programs_id_seq
 -- Name: programs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE programs_id_seq OWNED BY programs.id;
+ALTER SEQUENCE public.programs_id_seq OWNED BY public.programs.id;
 
 
 --
 -- Name: regular_schedules; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE regular_schedules (
+CREATE TABLE public.regular_schedules (
     id integer NOT NULL,
     weekday integer,
     opens_at time without time zone,
@@ -571,7 +564,7 @@ CREATE TABLE regular_schedules (
 -- Name: regular_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE regular_schedules_id_seq
+CREATE SEQUENCE public.regular_schedules_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -583,14 +576,14 @@ CREATE SEQUENCE regular_schedules_id_seq
 -- Name: regular_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE regular_schedules_id_seq OWNED BY regular_schedules.id;
+ALTER SEQUENCE public.regular_schedules_id_seq OWNED BY public.regular_schedules.id;
 
 
 --
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE schema_migrations (
+CREATE TABLE public.schema_migrations (
     version character varying(255) NOT NULL
 );
 
@@ -599,7 +592,7 @@ CREATE TABLE schema_migrations (
 -- Name: services; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE services (
+CREATE TABLE public.services (
     id integer NOT NULL,
     location_id integer,
     audience text,
@@ -630,7 +623,7 @@ CREATE TABLE services (
 -- Name: services_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE services_id_seq
+CREATE SEQUENCE public.services_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -642,14 +635,14 @@ CREATE SEQUENCE services_id_seq
 -- Name: services_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE services_id_seq OWNED BY services.id;
+ALTER SEQUENCE public.services_id_seq OWNED BY public.services.id;
 
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -675,7 +668,7 @@ CREATE TABLE users (
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -687,119 +680,119 @@ CREATE SEQUENCE users_id_seq
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
 -- Name: addresses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq'::regclass);
+ALTER TABLE ONLY public.addresses ALTER COLUMN id SET DEFAULT nextval('public.addresses_id_seq'::regclass);
 
 
 --
 -- Name: admins id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY admins ALTER COLUMN id SET DEFAULT nextval('admins_id_seq'::regclass);
+ALTER TABLE ONLY public.admins ALTER COLUMN id SET DEFAULT nextval('public.admins_id_seq'::regclass);
 
 
 --
 -- Name: api_applications id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY api_applications ALTER COLUMN id SET DEFAULT nextval('api_applications_id_seq'::regclass);
+ALTER TABLE ONLY public.api_applications ALTER COLUMN id SET DEFAULT nextval('public.api_applications_id_seq'::regclass);
 
 
 --
 -- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY categories ALTER COLUMN id SET DEFAULT nextval('categories_id_seq'::regclass);
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
 
 
 --
 -- Name: contacts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
+ALTER TABLE ONLY public.contacts ALTER COLUMN id SET DEFAULT nextval('public.contacts_id_seq'::regclass);
 
 
 --
 -- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('friendly_id_slugs_id_seq'::regclass);
+ALTER TABLE ONLY public.friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('public.friendly_id_slugs_id_seq'::regclass);
 
 
 --
 -- Name: holiday_schedules id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY holiday_schedules ALTER COLUMN id SET DEFAULT nextval('holiday_schedules_id_seq'::regclass);
+ALTER TABLE ONLY public.holiday_schedules ALTER COLUMN id SET DEFAULT nextval('public.holiday_schedules_id_seq'::regclass);
 
 
 --
 -- Name: locations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq'::regclass);
+ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.locations_id_seq'::regclass);
 
 
 --
 -- Name: mail_addresses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY mail_addresses ALTER COLUMN id SET DEFAULT nextval('mail_addresses_id_seq'::regclass);
+ALTER TABLE ONLY public.mail_addresses ALTER COLUMN id SET DEFAULT nextval('public.mail_addresses_id_seq'::regclass);
 
 
 --
 -- Name: organizations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organizations_id_seq'::regclass);
+ALTER TABLE ONLY public.organizations ALTER COLUMN id SET DEFAULT nextval('public.organizations_id_seq'::regclass);
 
 
 --
 -- Name: phones id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY phones ALTER COLUMN id SET DEFAULT nextval('phones_id_seq'::regclass);
+ALTER TABLE ONLY public.phones ALTER COLUMN id SET DEFAULT nextval('public.phones_id_seq'::regclass);
 
 
 --
 -- Name: programs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY programs ALTER COLUMN id SET DEFAULT nextval('programs_id_seq'::regclass);
+ALTER TABLE ONLY public.programs ALTER COLUMN id SET DEFAULT nextval('public.programs_id_seq'::regclass);
 
 
 --
 -- Name: regular_schedules id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY regular_schedules ALTER COLUMN id SET DEFAULT nextval('regular_schedules_id_seq'::regclass);
+ALTER TABLE ONLY public.regular_schedules ALTER COLUMN id SET DEFAULT nextval('public.regular_schedules_id_seq'::regclass);
 
 
 --
 -- Name: services id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY services ALTER COLUMN id SET DEFAULT nextval('services_id_seq'::regclass);
+ALTER TABLE ONLY public.services ALTER COLUMN id SET DEFAULT nextval('public.services_id_seq'::regclass);
 
 
 --
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
 -- Name: addresses addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY addresses
+ALTER TABLE ONLY public.addresses
     ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
 
 
@@ -807,7 +800,7 @@ ALTER TABLE ONLY addresses
 -- Name: admins admins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY admins
+ALTER TABLE ONLY public.admins
     ADD CONSTRAINT admins_pkey PRIMARY KEY (id);
 
 
@@ -815,7 +808,7 @@ ALTER TABLE ONLY admins
 -- Name: api_applications api_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY api_applications
+ALTER TABLE ONLY public.api_applications
     ADD CONSTRAINT api_applications_pkey PRIMARY KEY (id);
 
 
@@ -823,7 +816,7 @@ ALTER TABLE ONLY api_applications
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ar_internal_metadata
+ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
 
 
@@ -831,7 +824,7 @@ ALTER TABLE ONLY ar_internal_metadata
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY categories
+ALTER TABLE ONLY public.categories
     ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
 
 
@@ -839,7 +832,7 @@ ALTER TABLE ONLY categories
 -- Name: contacts contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY contacts
+ALTER TABLE ONLY public.contacts
     ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
 
 
@@ -847,7 +840,7 @@ ALTER TABLE ONLY contacts
 -- Name: friendly_id_slugs friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY friendly_id_slugs
+ALTER TABLE ONLY public.friendly_id_slugs
     ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
 
 
@@ -855,7 +848,7 @@ ALTER TABLE ONLY friendly_id_slugs
 -- Name: holiday_schedules holiday_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY holiday_schedules
+ALTER TABLE ONLY public.holiday_schedules
     ADD CONSTRAINT holiday_schedules_pkey PRIMARY KEY (id);
 
 
@@ -863,7 +856,7 @@ ALTER TABLE ONLY holiday_schedules
 -- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY locations
+ALTER TABLE ONLY public.locations
     ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
 
 
@@ -871,7 +864,7 @@ ALTER TABLE ONLY locations
 -- Name: mail_addresses mail_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY mail_addresses
+ALTER TABLE ONLY public.mail_addresses
     ADD CONSTRAINT mail_addresses_pkey PRIMARY KEY (id);
 
 
@@ -879,7 +872,7 @@ ALTER TABLE ONLY mail_addresses
 -- Name: organizations organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY organizations
+ALTER TABLE ONLY public.organizations
     ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
 
 
@@ -887,7 +880,7 @@ ALTER TABLE ONLY organizations
 -- Name: phones phones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY phones
+ALTER TABLE ONLY public.phones
     ADD CONSTRAINT phones_pkey PRIMARY KEY (id);
 
 
@@ -895,7 +888,7 @@ ALTER TABLE ONLY phones
 -- Name: programs programs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY programs
+ALTER TABLE ONLY public.programs
     ADD CONSTRAINT programs_pkey PRIMARY KEY (id);
 
 
@@ -903,7 +896,7 @@ ALTER TABLE ONLY programs
 -- Name: regular_schedules regular_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY regular_schedules
+ALTER TABLE ONLY public.regular_schedules
     ADD CONSTRAINT regular_schedules_pkey PRIMARY KEY (id);
 
 
@@ -911,7 +904,7 @@ ALTER TABLE ONLY regular_schedules
 -- Name: services services_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY services
+ALTER TABLE ONLY public.services
     ADD CONSTRAINT services_pkey PRIMARY KEY (id);
 
 
@@ -919,7 +912,7 @@ ALTER TABLE ONLY services
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
@@ -927,364 +920,364 @@ ALTER TABLE ONLY users
 -- Name: categories_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX categories_name ON categories USING gin (to_tsvector('english'::regconfig, name));
+CREATE INDEX categories_name ON public.categories USING gin (to_tsvector('english'::regconfig, name));
 
 
 --
 -- Name: index_addresses_on_location_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_addresses_on_location_id ON addresses USING btree (location_id);
+CREATE INDEX index_addresses_on_location_id ON public.addresses USING btree (location_id);
 
 
 --
 -- Name: index_admins_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_admins_on_confirmation_token ON admins USING btree (confirmation_token);
+CREATE UNIQUE INDEX index_admins_on_confirmation_token ON public.admins USING btree (confirmation_token);
 
 
 --
 -- Name: index_admins_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_admins_on_email ON admins USING btree (email);
+CREATE UNIQUE INDEX index_admins_on_email ON public.admins USING btree (email);
 
 
 --
 -- Name: index_admins_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_admins_on_reset_password_token ON admins USING btree (reset_password_token);
+CREATE UNIQUE INDEX index_admins_on_reset_password_token ON public.admins USING btree (reset_password_token);
 
 
 --
 -- Name: index_api_applications_on_api_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_api_applications_on_api_token ON api_applications USING btree (api_token);
+CREATE UNIQUE INDEX index_api_applications_on_api_token ON public.api_applications USING btree (api_token);
 
 
 --
 -- Name: index_api_applications_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_api_applications_on_user_id ON api_applications USING btree (user_id);
+CREATE INDEX index_api_applications_on_user_id ON public.api_applications USING btree (user_id);
 
 
 --
 -- Name: index_categories_on_ancestry; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_categories_on_ancestry ON categories USING btree (ancestry);
+CREATE INDEX index_categories_on_ancestry ON public.categories USING btree (ancestry);
 
 
 --
 -- Name: index_categories_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_categories_on_slug ON categories USING btree (slug);
+CREATE UNIQUE INDEX index_categories_on_slug ON public.categories USING btree (slug);
 
 
 --
 -- Name: index_categories_services_on_category_id_and_service_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_categories_services_on_category_id_and_service_id ON categories_services USING btree (category_id, service_id);
+CREATE UNIQUE INDEX index_categories_services_on_category_id_and_service_id ON public.categories_services USING btree (category_id, service_id);
 
 
 --
 -- Name: index_categories_services_on_service_id_and_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_categories_services_on_service_id_and_category_id ON categories_services USING btree (service_id, category_id);
+CREATE UNIQUE INDEX index_categories_services_on_service_id_and_category_id ON public.categories_services USING btree (service_id, category_id);
 
 
 --
 -- Name: index_contacts_on_location_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_contacts_on_location_id ON contacts USING btree (location_id);
+CREATE INDEX index_contacts_on_location_id ON public.contacts USING btree (location_id);
 
 
 --
 -- Name: index_contacts_on_organization_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_contacts_on_organization_id ON contacts USING btree (organization_id);
+CREATE INDEX index_contacts_on_organization_id ON public.contacts USING btree (organization_id);
 
 
 --
 -- Name: index_contacts_on_service_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_contacts_on_service_id ON contacts USING btree (service_id);
+CREATE INDEX index_contacts_on_service_id ON public.contacts USING btree (service_id);
 
 
 --
 -- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON friendly_id_slugs USING btree (slug, sluggable_type);
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON public.friendly_id_slugs USING btree (slug, sluggable_type);
 
 
 --
 -- Name: index_friendly_id_slugs_on_sluggable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON friendly_id_slugs USING btree (sluggable_id);
+CREATE INDEX index_friendly_id_slugs_on_sluggable_id ON public.friendly_id_slugs USING btree (sluggable_id);
 
 
 --
 -- Name: index_friendly_id_slugs_on_sluggable_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON friendly_id_slugs USING btree (sluggable_type);
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type ON public.friendly_id_slugs USING btree (sluggable_type);
 
 
 --
 -- Name: index_holiday_schedules_on_location_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_holiday_schedules_on_location_id ON holiday_schedules USING btree (location_id);
+CREATE INDEX index_holiday_schedules_on_location_id ON public.holiday_schedules USING btree (location_id);
 
 
 --
 -- Name: index_holiday_schedules_on_service_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_holiday_schedules_on_service_id ON holiday_schedules USING btree (service_id);
+CREATE INDEX index_holiday_schedules_on_service_id ON public.holiday_schedules USING btree (service_id);
 
 
 --
 -- Name: index_locations_on_active; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_locations_on_active ON locations USING btree (active);
+CREATE INDEX index_locations_on_active ON public.locations USING btree (active);
 
 
 --
 -- Name: index_locations_on_admin_emails; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_locations_on_admin_emails ON locations USING gin (admin_emails);
+CREATE INDEX index_locations_on_admin_emails ON public.locations USING gin (admin_emails);
 
 
 --
 -- Name: index_locations_on_languages; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_locations_on_languages ON locations USING gin (languages);
+CREATE INDEX index_locations_on_languages ON public.locations USING gin (languages);
 
 
 --
 -- Name: index_locations_on_latitude_and_longitude; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_locations_on_latitude_and_longitude ON locations USING btree (latitude, longitude);
+CREATE INDEX index_locations_on_latitude_and_longitude ON public.locations USING btree (latitude, longitude);
 
 
 --
 -- Name: index_locations_on_organization_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_locations_on_organization_id ON locations USING btree (organization_id);
+CREATE INDEX index_locations_on_organization_id ON public.locations USING btree (organization_id);
 
 
 --
 -- Name: index_locations_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_locations_on_slug ON locations USING btree (slug);
+CREATE UNIQUE INDEX index_locations_on_slug ON public.locations USING btree (slug);
 
 
 --
 -- Name: index_locations_on_tsv_body; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_locations_on_tsv_body ON locations USING gin (tsv_body);
+CREATE INDEX index_locations_on_tsv_body ON public.locations USING gin (tsv_body);
 
 
 --
 -- Name: index_mail_addresses_on_location_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_mail_addresses_on_location_id ON mail_addresses USING btree (location_id);
+CREATE INDEX index_mail_addresses_on_location_id ON public.mail_addresses USING btree (location_id);
 
 
 --
 -- Name: index_organizations_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_organizations_on_slug ON organizations USING btree (slug);
+CREATE UNIQUE INDEX index_organizations_on_slug ON public.organizations USING btree (slug);
 
 
 --
 -- Name: index_phones_on_contact_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_phones_on_contact_id ON phones USING btree (contact_id);
+CREATE INDEX index_phones_on_contact_id ON public.phones USING btree (contact_id);
 
 
 --
 -- Name: index_phones_on_location_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_phones_on_location_id ON phones USING btree (location_id);
+CREATE INDEX index_phones_on_location_id ON public.phones USING btree (location_id);
 
 
 --
 -- Name: index_phones_on_organization_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_phones_on_organization_id ON phones USING btree (organization_id);
+CREATE INDEX index_phones_on_organization_id ON public.phones USING btree (organization_id);
 
 
 --
 -- Name: index_phones_on_service_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_phones_on_service_id ON phones USING btree (service_id);
+CREATE INDEX index_phones_on_service_id ON public.phones USING btree (service_id);
 
 
 --
 -- Name: index_programs_on_organization_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_programs_on_organization_id ON programs USING btree (organization_id);
+CREATE INDEX index_programs_on_organization_id ON public.programs USING btree (organization_id);
 
 
 --
 -- Name: index_regular_schedules_on_closes_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_regular_schedules_on_closes_at ON regular_schedules USING btree (closes_at);
+CREATE INDEX index_regular_schedules_on_closes_at ON public.regular_schedules USING btree (closes_at);
 
 
 --
 -- Name: index_regular_schedules_on_location_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_regular_schedules_on_location_id ON regular_schedules USING btree (location_id);
+CREATE INDEX index_regular_schedules_on_location_id ON public.regular_schedules USING btree (location_id);
 
 
 --
 -- Name: index_regular_schedules_on_opens_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_regular_schedules_on_opens_at ON regular_schedules USING btree (opens_at);
+CREATE INDEX index_regular_schedules_on_opens_at ON public.regular_schedules USING btree (opens_at);
 
 
 --
 -- Name: index_regular_schedules_on_service_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_regular_schedules_on_service_id ON regular_schedules USING btree (service_id);
+CREATE INDEX index_regular_schedules_on_service_id ON public.regular_schedules USING btree (service_id);
 
 
 --
 -- Name: index_regular_schedules_on_weekday; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_regular_schedules_on_weekday ON regular_schedules USING btree (weekday);
+CREATE INDEX index_regular_schedules_on_weekday ON public.regular_schedules USING btree (weekday);
 
 
 --
 -- Name: index_services_on_languages; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_services_on_languages ON services USING gin (languages);
+CREATE INDEX index_services_on_languages ON public.services USING gin (languages);
 
 
 --
 -- Name: index_services_on_location_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_services_on_location_id ON services USING btree (location_id);
+CREATE INDEX index_services_on_location_id ON public.services USING btree (location_id);
 
 
 --
 -- Name: index_services_on_program_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_services_on_program_id ON services USING btree (program_id);
+CREATE INDEX index_services_on_program_id ON public.services USING btree (program_id);
 
 
 --
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON public.users USING btree (confirmation_token);
 
 
 --
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
 
 
 --
 -- Name: locations_description; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX locations_description ON locations USING gin (to_tsvector('english'::regconfig, description));
+CREATE INDEX locations_description ON public.locations USING gin (to_tsvector('english'::regconfig, description));
 
 
 --
 -- Name: locations_email_with_varchar_pattern_ops; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX locations_email_with_varchar_pattern_ops ON locations USING btree (email varchar_pattern_ops);
+CREATE INDEX locations_email_with_varchar_pattern_ops ON public.locations USING btree (email varchar_pattern_ops);
 
 
 --
 -- Name: locations_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX locations_name ON locations USING gin (to_tsvector('english'::regconfig, name));
+CREATE INDEX locations_name ON public.locations USING gin (to_tsvector('english'::regconfig, name));
 
 
 --
 -- Name: locations_website_with_varchar_pattern_ops; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX locations_website_with_varchar_pattern_ops ON locations USING btree (website varchar_pattern_ops);
+CREATE INDEX locations_website_with_varchar_pattern_ops ON public.locations USING btree (website varchar_pattern_ops);
 
 
 --
 -- Name: organizations_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX organizations_name ON organizations USING gin (to_tsvector('english'::regconfig, name));
+CREATE INDEX organizations_name ON public.organizations USING gin (to_tsvector('english'::regconfig, name));
 
 
 --
 -- Name: services_service_areas; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX services_service_areas ON services USING gin (to_tsvector('english'::regconfig, service_areas));
+CREATE INDEX services_service_areas ON public.services USING gin (to_tsvector('english'::regconfig, service_areas));
 
 
 --
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
 
 
 --
 -- Name: locations locations_search_content_trigger; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER locations_search_content_trigger BEFORE INSERT OR UPDATE ON locations FOR EACH ROW EXECUTE PROCEDURE fill_search_vector_for_location();
+CREATE TRIGGER locations_search_content_trigger BEFORE INSERT OR UPDATE ON public.locations FOR EACH ROW EXECUTE FUNCTION public.fill_search_vector_for_location();
 
 
 --

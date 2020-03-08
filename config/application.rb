@@ -1,4 +1,4 @@
-require File.expand_path('boot', __dir__)
+require_relative 'boot'
 
 # Pick the frameworks you want:
 require 'active_record/railtie'
@@ -17,6 +17,7 @@ Bundler.require(*Rails.groups)
 
 module OhanaApi
   class Application < Rails::Application
+    config.load_defaults 5.1
     config.autoload_paths << Rails.root.join('lib')
 
     # don't generate RSpec tests for views and helpers
@@ -29,8 +30,9 @@ module OhanaApi
     end
 
     # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run 'rake -D time' for a list of tasks for finding time zone names. Default is UTC.

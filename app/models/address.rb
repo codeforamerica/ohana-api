@@ -1,5 +1,5 @@
 class Address < ApplicationRecord
-  belongs_to :location, touch: true
+  belongs_to :location, optional: true, touch: true
 
   validates :address_1,
             :city,

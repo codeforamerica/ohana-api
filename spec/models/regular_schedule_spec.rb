@@ -5,8 +5,8 @@ describe RegularSchedule do
 
   it { is_expected.to_not be_valid }
 
-  it { is_expected.to belong_to(:location).touch(true).inverse_of(:regular_schedules) }
-  it { is_expected.to belong_to(:service).touch(true).inverse_of(:regular_schedules) }
+  it { is_expected.to belong_to(:location).optional.touch(true).inverse_of(:regular_schedules) }
+  it { is_expected.to belong_to(:service).optional.touch(true).inverse_of(:regular_schedules) }
 
   it do
     is_expected.to validate_presence_of(:weekday).

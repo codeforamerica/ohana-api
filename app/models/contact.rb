@@ -3,9 +3,9 @@ class Contact < ApplicationRecord
 
   default_scope { order('id ASC') }
 
-  belongs_to :location, touch: true
-  belongs_to :organization
-  belongs_to :service, touch: true
+  belongs_to :location, optional: true, touch: true
+  belongs_to :organization, optional: true
+  belongs_to :service, optional: true, touch: true
 
   has_many :phones, dependent: :destroy, inverse_of: :contact
   accepts_nested_attributes_for :phones,

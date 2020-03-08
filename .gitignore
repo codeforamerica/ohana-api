@@ -51,3 +51,12 @@ script/backup_mongo
 script/import_to_staging
 
 .foreman
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+
+/public/assets
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

@@ -5,9 +5,9 @@ describe Contact do
 
   it { is_expected.to_not be_valid }
 
-  it { is_expected.to belong_to(:location).touch(true) }
-  it { is_expected.to belong_to(:service).touch(true) }
-  it { is_expected.to belong_to(:organization) }
+  it { is_expected.to belong_to(:location).optional.touch(true) }
+  it { is_expected.to belong_to(:service).optional.touch(true) }
+  it { is_expected.to belong_to(:organization).optional }
   it { is_expected.to have_many(:phones).dependent(:destroy).inverse_of(:contact) }
 
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }

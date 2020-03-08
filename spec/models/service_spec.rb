@@ -6,7 +6,7 @@ describe Service do
   it { is_expected.to be_valid }
 
   it { is_expected.to belong_to(:location).touch(true).required }
-  it { is_expected.to belong_to(:program) }
+  it { is_expected.to belong_to(:program).optional }
 
   it { is_expected.to have_many(:regular_schedules).dependent(:destroy).inverse_of(:service) }
   it { is_expected.to accept_nested_attributes_for(:regular_schedules).allow_destroy(true) }
