@@ -3,5 +3,5 @@
 set -e
 
 spring rspec
-rubocop
+bundle exec rubocop
 haml-lint app/views
