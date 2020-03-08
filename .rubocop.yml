@@ -29,6 +29,7 @@ Metrics/BlockLength:
   Exclude:
     - 'Rakefile'
     - '**/*.rake'
+    - 'config/environments/development.rb'
     - 'config/environments/production.rb'
     - 'config/environments/test.rb'
     - 'config/routes.rb'
@@ -57,6 +58,7 @@ Layout/LineLength:
   Exclude:
     - config/initializers/secret_token.rb
     - app/validators/url_validator.rb
+    - config/initializers/content_security_policy.rb
 
 Metrics/MethodLength:
   Description: Avoid methods longer than 10 lines of code.

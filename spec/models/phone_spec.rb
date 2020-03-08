@@ -5,10 +5,10 @@ describe Phone do
 
   it { is_expected.to_not be_valid }
 
-  it { is_expected.to belong_to(:location).touch(true).inverse_of(:phones) }
-  it { is_expected.to belong_to(:contact).touch(true).inverse_of(:phones) }
-  it { is_expected.to belong_to(:service).touch(true).inverse_of(:phones) }
-  it { is_expected.to belong_to(:organization) }
+  it { is_expected.to belong_to(:location).optional.touch(true).inverse_of(:phones) }
+  it { is_expected.to belong_to(:contact).optional.touch(true).inverse_of(:phones) }
+  it { is_expected.to belong_to(:service).optional.touch(true).inverse_of(:phones) }
+  it { is_expected.to belong_to(:organization).optional }
 
   it do
     is_expected.to validate_presence_of(:number).

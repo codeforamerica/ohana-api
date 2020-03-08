@@ -5,7 +5,7 @@ describe Address do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to belong_to(:location).touch(true) }
+  it { is_expected.to belong_to(:location).optional.touch(true) }
 
   it { is_expected.to validate_presence_of(:address_1).with_message("can't be blank for Address") }
   it { is_expected.to validate_presence_of(:city).with_message("can't be blank for Address") }

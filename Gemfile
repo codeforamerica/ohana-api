@@ -23,7 +23,7 @@ gem 'puma'
 gem 'pundit'
 gem 'rack-cache'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 5.1.5'
+gem 'rails', '~> 5.2'
 gem 'sassc-rails', '~> 2.1'
 gem 'select2-rails', '~> 3.5'
 gem 'uglifier', '>= 1.3.0'
@@ -31,7 +31,6 @@ gem 'uglifier', '>= 1.3.0'
 group :test, :development do
   gem 'bullet'
   gem 'factory_bot_rails'
-
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
   gem 'rubocop'
@@ -63,4 +62,7 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'spring-watcher-listen'
   gem 'stackprof'
+  # Access an interactive console on exception pages or by calling 'console'
+  # anywhere in the code.
+  gem 'web-console'
 end

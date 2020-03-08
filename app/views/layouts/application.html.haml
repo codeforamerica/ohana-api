@@ -6,6 +6,7 @@
       %meta{ content: content_for?(:description) ? yield(:description) : "An open-source API of human services and other organizations in #{t('admin.api_location')}", name: 'description' }
         = stylesheet_link_tag 'application', media: 'all'
         = csrf_meta_tags
+        = csp_meta_tag
         = yield(:head)
   %body{ class: "#{controller_name} #{action_name}" }
     = render 'shared/navigation'

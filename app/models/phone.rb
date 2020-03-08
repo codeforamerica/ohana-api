@@ -3,10 +3,10 @@ class Phone < ApplicationRecord
 
   default_scope { order('id ASC') }
 
-  belongs_to :location, touch: true, inverse_of: :phones
-  belongs_to :contact, touch: true, inverse_of: :phones
-  belongs_to :service, touch: true, inverse_of: :phones
-  belongs_to :organization, inverse_of: :phones
+  belongs_to :location, optional: true, touch: true, inverse_of: :phones
+  belongs_to :contact, optional: true, touch: true, inverse_of: :phones
+  belongs_to :service, optional: true, touch: true, inverse_of: :phones
+  belongs_to :organization, optional: true, inverse_of: :phones
 
   validates :number,
             presence: { message: I18n.t('errors.messages.blank_for_phone') },
