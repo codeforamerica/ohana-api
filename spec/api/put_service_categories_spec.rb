@@ -17,7 +17,7 @@ describe 'PUT /services/:service_id/categories' do
         api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
         taxonomy_ids: ['101']
       )
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(json['categories'].first['name']).to eq('Food')
     end
   end
