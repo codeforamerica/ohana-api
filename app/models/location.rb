@@ -54,6 +54,7 @@ class Location < ApplicationRecord
 
   after_validation :geocode, if: :needs_geocoding?
   after_validation :downcase_admin_emails
+  after_validation :remove_duplicates
 
   geocoded_by :full_physical_address
 
@@ -69,7 +70,7 @@ class Location < ApplicationRecord
   auto_strip_attributes :description, :email, :name, :short_desc,
                         :transportation, :website
 
-  auto_strip_attributes :admin_emails, reject_blank: true, nullify: false
+  auto_strip_attributes :admin_emails, reject_blank: true, nullify: true, nullify_array: false
 
   extend FriendlyId
   friendly_id :slug_candidates, use: [:history]
@@ -107,6 +108,10 @@ class Location < ApplicationRecord
 
   def downcase_admin_emails
     admin_emails&.map!(&:downcase)
+  end
+
+  def remove_duplicates
+    admin_emails&.uniq!
   end
 
   # See app/models/concerns/search.rb
