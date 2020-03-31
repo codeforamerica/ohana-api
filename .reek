@@ -17,6 +17,7 @@ NilCheck:
     - ConfigValidator#required_keys_with_empty_values
     - AssetHosts#call
     - RegexValidator#regex_validate_each
+    - Location#remove_duplicates
 TooManyMethods:
   exclude:
     - Admin::CsvController

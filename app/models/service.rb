@@ -36,7 +36,7 @@ class Service < ApplicationRecord
                         :name, :wait_time, :status, :website
 
   auto_strip_attributes :funding_sources, :keywords, :service_areas,
-                        reject_blank: true, nullify: false
+                        reject_blank: true, nullify: true, nullify_array: false
 
   serialize :funding_sources, Array
   serialize :keywords, Array
@@ -50,6 +50,7 @@ class Service < ApplicationRecord
   end
 
   after_save :update_location_status, if: :saved_change_to_status?
+  after_validation :remove_duplicates
 
   private
 
@@ -70,4 +71,8 @@ class Service < ApplicationRecord
     location.update_column(:updated_at, Time.zone.now) if persisted?
   end
   # rubocop:enable Rails/SkipsModelValidations
+
+  def remove_duplicates
+    [service_areas, keywords, funding_sources].each(&:uniq!)
+  end
 end

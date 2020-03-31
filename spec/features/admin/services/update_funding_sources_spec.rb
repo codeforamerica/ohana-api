@@ -13,7 +13,7 @@ feature 'Update funding_sources' do
     expect(@service.reload.funding_sources).to eq []
   end
 
-  scenario 'with one accepted payment', :js do
+  scenario 'with one funding source', :js do
     select2('State', 'service_funding_sources', multiple: true)
     click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.funding_sources).to eq ['State']
@@ -26,7 +26,7 @@ feature 'Update funding_sources' do
     expect(@service.reload.funding_sources).to eq %w[State County]
   end
 
-  scenario 'removing an accepted payment', :js do
+  scenario 'removing a funding source', :js do
     @service.update!(funding_sources: %w[State County])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
