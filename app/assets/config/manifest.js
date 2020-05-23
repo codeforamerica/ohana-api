@@ -2,3 +2,5 @@
 //= link_directory ../javascripts/admin .js
 //= link_directory ../stylesheets .css
 //= link_directory ../stylesheets/admin .css
+//= link application.css
+//= link admin/application.css
