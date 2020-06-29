@@ -79,6 +79,9 @@ Metrics/ModuleLength:
   Exclude:
   - spec/**/*
 
+Rails/ContentTag:
+  Enabled: false
+
 Rails/HasAndBelongsToMany:
   Description: 'Prefer has_many :through to has_and_belongs_to_many.'
   StyleGuide: 'https://github.com/bbatsov/rails-style-guide#has-many-through'
@@ -292,23 +295,33 @@ Style/TrailingCommaInHashLiteral:
     - no_comma
 
 Style/HashEachMethods:
-  Enabled: false
+  Enabled: true
 Style/HashTransformKeys:
-  Enabled: false
+  Enabled: true
 Style/HashTransformValues:
-  Enabled: false
+  Enabled: true
 
 Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: false
+  Enabled: true
 Layout/SpaceAroundMethodCallOperator:
-  Enabled: false
+  Enabled: true
+
 Lint/DeprecatedOpenSSLConstant:
-  Enabled: false
+  Enabled: true
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
 Lint/RaiseException:
-  Enabled: false
+  Enabled: true
 Lint/StructNewOverride:
-  Enabled: false
+  Enabled: true
+
 Style/ExponentialNotation:
+  Enabled: true
+Style/RedundantFetchBlock:
+  Enabled: false
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+Style/RedundantRegexpEscape:
   Enabled: false
 Style/SlicingWithRange:
-  Enabled: false
+  Enabled: true
