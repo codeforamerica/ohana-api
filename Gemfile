@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.0'
+ruby '2.7.2'
 gem 'active_model_serializers', '~> 0.8.0'
 gem 'ancestry'
 gem 'auto_strip_attributes', '~> 2.0'
