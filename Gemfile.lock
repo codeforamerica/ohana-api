@@ -139,7 +139,7 @@ GEM
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
     flamegraph (0.9.5)
-    friendly_id (5.3.0)
+    friendly_id (5.4.1)
       activerecord (>= 4.0.0)
     geocoder (1.6.3)
     get_process_mem (0.2.5)
