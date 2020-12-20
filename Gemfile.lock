@@ -431,7 +431,7 @@ DEPENDENCIES
   sassc-rails (~> 2.1)
   select2-rails (~> 3.5)
   shoulda-matchers!
-  simplecov
+  simplecov (= 0.17.1)
   smarter_csv
   spring
   spring-commands-rspec

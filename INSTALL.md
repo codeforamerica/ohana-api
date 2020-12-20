@@ -44,7 +44,7 @@ the JSON response so it is easier to read in the browser.
 
 Before you can run Ohana API, you'll need to have the following software
 packages installed on your computer: Git, Postgres, Ruby 2.3+,
-and RVM (or rbenv).
+a Ruby version manager such as chruby, rvm, rbenv, or asdf, and Google Chrome.
 If you're on a Linux machine, you'll also need Node.js and `libpq-dev`.
 
 If you don't already have all the prerequisites installed, there are two ways
