@@ -24,6 +24,7 @@ module PaginationHeaders
     request.url.sub(/\?.*$/, '')
   end
 
+  # rubocop:disable Metrics/AbcSize
   def pages(coll)
     pages = {}
     # current_page and total_pages are available via the kaminari gem
@@ -38,6 +39,7 @@ module PaginationHeaders
     end
     pages
   end
+  # rubocop:enable Metrics/AbcSize
 
   def links(pages)
     pages.map do |k, v|

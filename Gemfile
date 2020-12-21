@@ -44,7 +44,9 @@ group :test do
   gem 'haml_lint'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
-  gem 'simplecov', require: false
+  # Pin simplecov to 0.17.1 until this bug with Code Climate is fixed:
+  # https://github.com/codeclimate/test-reporter/issues/413
+  gem 'simplecov', '= 0.17.1', require: false
   gem 'webdrivers'
   gem 'webmock'
 end

@@ -1,4 +1,5 @@
 class PgArrayValidator < ActiveModel::EachValidator
+  # rubocop:disable Metrics/AbcSize
   def validate_each(record, attribute, value)
     return if value.nil?
 
@@ -13,12 +14,13 @@ class PgArrayValidator < ActiveModel::EachValidator
 
     record[attribute] = attr.map(&:squish).reject(&:blank?).uniq
   end
+  # rubocop:enable Metrics/AbcSize
 
   def does_not_need_validation?(attr)
     # The class comparison is necessary because Rails 5 is doing something
     # strange when updating records that is causing the attribute before type
     # casting to be an object of the below class.
     (attr.include? '{') ||
-      (attr.class == ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Array::Data)
+      attr.instance_of?(ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Array::Data)
   end
 end
