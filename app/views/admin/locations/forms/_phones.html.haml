@@ -2,7 +2,7 @@
   %header
     %strong
       Phone Numbers
-    - unless f.object.class == Contact
+    - unless f.object.instance_of?(Contact)
       %p.desc
         %em
           = t('.description')

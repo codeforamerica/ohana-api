@@ -11,8 +11,9 @@ AllCops:
     - 'bin/**/*'
     - 'config/initializers/devise.rb'
     - 'db/migrate/*'
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   UseCache: true
+  NewCops: enable
 
 Metrics/AbcSize:
   Description: A calculated magnitude based on number of assignments, branches, and
@@ -325,3 +326,8 @@ Style/RedundantRegexpEscape:
   Enabled: false
 Style/SlicingWithRange:
   Enabled: true
+
+Naming/VariableNumber:
+  Enabled: false
+Lint/FloatComparison:
+  Enabled: false

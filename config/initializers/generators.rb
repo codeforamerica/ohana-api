@@ -1,2 +1,2 @@
-Rails.application.config.generators do |g|
-end
+# Rails.application.config.generators do |g|
+# end

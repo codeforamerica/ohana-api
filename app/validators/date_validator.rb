@@ -49,7 +49,7 @@ class DateValidator < ActiveModel::EachValidator
     if date.include?('/')
       date.split('/').map(&:to_i)
     else
-      date.tr(',', '').split(' ').map.with_index do |e, i|
+      date.tr(',', '').split.map.with_index do |e, i|
         i.zero? ? Date::MONTHNAMES.index(e) || 0 : e.to_i
       end
     end

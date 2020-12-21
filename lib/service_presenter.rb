@@ -3,6 +3,7 @@ ServicePresenter = Struct.new(:row) do
   include ParentAssigner
   include CategoryIdCollector
 
+  # rubocop:disable Metrics/AbcSize
   def to_service
     service = Service.find_or_initialize_by(id: row[:id].to_i)
     to_array(row, :accepted_payments, :funding_sources, :keywords, :languages,
@@ -12,6 +13,7 @@ ServicePresenter = Struct.new(:row) do
     assign_parents_for(service, row.except(:taxonomy_ids))
     service
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 

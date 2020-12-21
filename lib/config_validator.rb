@@ -30,6 +30,6 @@ class ConfigValidator
   end
 
   def empty_keys_warning(empty_keys)
-    'These configs are required but are empty: ' + empty_keys.join(', ')
+    "These configs are required but are empty: #{empty_keys.join(', ')}"
   end
 end

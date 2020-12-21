@@ -8,6 +8,6 @@ class Program < ApplicationRecord
   auto_strip_attributes :alternate_name, :name
 
   def self.with_orgs(ids)
-    joins(:organization).where('organization_id IN (?)', ids).distinct
+    joins(:organization).where(organization_id: ids).distinct
   end
 end
