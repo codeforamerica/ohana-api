@@ -1,5 +1,5 @@
 # Use the official Ruby image because the Rails images have been deprecated
-FROM ruby:2.6.6
+FROM ruby:2.7.2
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends postgresql-client \
