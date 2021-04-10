@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Services CSV' do
+describe 'Downloading Services CSV' do
   before { login_super_admin }
 
   context 'services has non-empty array attributes' do

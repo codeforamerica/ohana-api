@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Locations CSV' do
+describe 'Downloading Locations CSV' do
   before { login_super_admin }
 
   context 'location has non-empty array attributes' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'ability to add an admin to a location' do
-  before(:each) do
+  before do
     @location = create(:location)
   end
 
@@ -9,7 +9,7 @@ describe 'ability to add an admin to a location' do
     it "doesn't allow adding an admin" do
       login_admin
       visit '/admin/locations/vrs-services'
-      expect(page).to_not have_content I18n.t('admin.buttons.add_admin')
+      expect(page).not_to have_content I18n.t('admin.buttons.add_admin')
     end
   end
 

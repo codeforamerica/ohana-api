@@ -10,7 +10,7 @@ describe 'remove_test_users_and_admins' do
     Rails.application.load_seed
   end
 
-  its(:prerequisites) { should include('environment') }
+  its(:prerequisites) { is_expected.to include('environment') }
 
   it 'only removes 2 users' do
     subject.invoke

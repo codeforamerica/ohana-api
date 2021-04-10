@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Contacts CSV' do
+describe 'Downloading Contacts CSV' do
   before do
     login_super_admin
     @service = create(:service)

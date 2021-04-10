@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Organizations CSV' do
+describe 'Downloading Organizations CSV' do
   before { login_super_admin }
 
   context 'organization has non-empty array attributes' do

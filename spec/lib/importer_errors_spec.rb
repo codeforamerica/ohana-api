@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe ImporterErrors do
+  subject(:importer_errors) { ImporterErrors.new(invalid, 6) }
+
   let(:errors) { double(:errors, full_messages: ['not enough cowbell']) }
   let(:invalid) { double(:record, valid?: false, errors: errors) }
-
-  subject(:importer_errors) { ImporterErrors.new(invalid, 6) }
 
   its(:line_number) { is_expected.to eq 6 }
   its(:message) { is_expected.to eq 'Line 6: not enough cowbell' }

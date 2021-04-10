@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Admin::ProgramsController do
   describe 'GET edit' do
-    before(:each) do
+    before do
       location = create(:location_with_admin)
       org = location.organization
       @program = org.programs.create!(attributes_for(:program))
@@ -42,7 +42,7 @@ describe Admin::ProgramsController do
   end
 
   describe 'GET new' do
-    before(:each) do
+    before do
       create(:location_with_admin)
     end
 
@@ -79,7 +79,7 @@ describe Admin::ProgramsController do
   end
 
   describe 'create' do
-    before(:each) do
+    before do
       loc = create(:location_with_admin)
       @org = loc.organization
     end
@@ -101,7 +101,7 @@ describe Admin::ProgramsController do
 
         expect do
           post :create, params: { program: { name: 'New program', organization_id: @org.id } }
-        end.to_not change(Program, :count)
+        end.not_to change(Program, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -121,7 +121,7 @@ describe Admin::ProgramsController do
   end
 
   describe 'update' do
-    before(:each) do
+    before do
       loc = create(:location_with_admin)
       org = loc.organization
       @program = org.programs.create!(name: 'New Program')
@@ -146,7 +146,7 @@ describe Admin::ProgramsController do
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
-        expect(@program.reload.name).to_not eq 'Updated program'
+        expect(@program.reload.name).not_to eq 'Updated program'
       end
     end
 
@@ -163,7 +163,7 @@ describe Admin::ProgramsController do
   end
 
   describe 'destroy' do
-    before(:each) do
+    before do
       loc = create(:location_with_admin)
       org = loc.organization
       @program = org.programs.create!(name: 'New Program')
@@ -184,7 +184,7 @@ describe Admin::ProgramsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        expect { delete :destroy, params: { id: @program.id } }.to_not change(Program, :count)
+        expect { delete :destroy, params: { id: @program.id } }.not_to change(Program, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))

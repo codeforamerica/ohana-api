@@ -9,17 +9,20 @@ describe Address do
 
   it { is_expected.to validate_presence_of(:address_1).with_message("can't be blank for Address") }
   it { is_expected.to validate_presence_of(:city).with_message("can't be blank for Address") }
+
   it do
-    is_expected.to validate_presence_of(:state_province).
+    expect(subject).to validate_presence_of(:state_province).
       with_message(t('errors.messages.invalid_state_province'))
   end
+
   it do
-    is_expected.to validate_presence_of(:postal_code).with_message("can't be blank for Address")
+    expect(subject).to validate_presence_of(:postal_code).with_message("can't be blank for Address")
   end
+
   it { is_expected.to validate_presence_of(:country).with_message("can't be blank for Address") }
 
   it do
-    is_expected.to validate_length_of(:country).
+    expect(subject).to validate_length_of(:country).
       is_at_least(2).
       is_at_most(2).
       with_short_message('is too short (minimum is 2 characters)').
@@ -29,7 +32,7 @@ describe Address do
   it { is_expected.to allow_value('90210-1234', '22045').for(:postal_code) }
 
   it do
-    is_expected.not_to allow_value('asdf').for(:postal_code).
+    expect(subject).not_to allow_value('asdf').for(:postal_code).
       with_message('asdf is not a valid ZIP code')
   end
 
@@ -52,7 +55,7 @@ describe Address do
   end
 
   describe 'callbacks' do
-    before(:each) { @loc = create(:location) }
+    before { @loc = create(:location) }
 
     it 'calls reset_location_coordinates after destroy' do
       expect(@loc.address).to receive(:reset_location_coordinates)

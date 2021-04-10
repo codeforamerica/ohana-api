@@ -5,7 +5,7 @@ describe 'Create an organization (POST /organizations/)' do
     create(:organization)
   end
 
-  before(:each) do
+  before do
     @org_attributes = {
       accreditations: ['BBB', 'State Board of Education'],
       alternate_name: 'Alternate Name',

@@ -9,7 +9,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :near, class: Address do
+  factory :near, class: 'Address' do
     address_1 { '250 Myrtle Road' }
     city { 'Burlingame' }
     state_province { 'CA' }
@@ -17,7 +17,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :far, class: Address do
+  factory :far, class: 'Address' do
     address_1 { '1000 Magnolia Avenue' }
     city { 'Millbrae' }
     state_province { 'CA' }
@@ -25,7 +25,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :far_west, class: Address do
+  factory :far_west, class: 'Address' do
     address_1 { '8875 La Honda Road' }
     city { 'La Honda' }
     state_province { 'CA' }
@@ -33,7 +33,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :address_with_extra_whitespace, class: Address do
+  factory :address_with_extra_whitespace, class: 'Address' do
     address_1 { '8875     La Honda Road' }
     city { 'La Honda  ' }
     state_province { ' CA ' }

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Programs page' do
+describe 'Programs page' do
   context 'when not signed in' do
-    before :each do
+    before do
       visit '/admin/programs'
     end
 
     it 'redirects to the admin sign in page' do
-      expect(current_path).to eq(new_admin_session_path)
+      expect(page).to have_current_path(new_admin_session_path, ignore_query: true)
     end
 
     it 'prompts the user to sign in or sign up' do
@@ -23,7 +23,7 @@ feature 'Programs page' do
   end
 
   context 'when signed in' do
-    before :each do
+    before do
       login_admin
       visit '/admin/programs'
     end
@@ -63,7 +63,7 @@ feature 'Programs page' do
   end
 
   context 'when signed in as super admin' do
-    before :each do
+    before do
       nearby = create(:nearby_loc)
       @program = nearby.organization.programs.
                  create!(attributes_for(:program).
@@ -87,7 +87,7 @@ feature 'Programs page' do
 
     it 'takes you to the right program when clicked' do
       click_link 'Nearby Program'
-      expect(current_path).to eq edit_admin_program_path(@program)
+      expect(page).to have_current_path edit_admin_program_path(@program), ignore_query: true
     end
 
     it 'sorts programs alphabetically by name' do

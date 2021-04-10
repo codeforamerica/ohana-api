@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'CORS Preflight Request via OPTIONS HTTP method' do
   context 'when ORIGIN is specified and resource is allowed' do
-    before :each do
+    before do
       process(
         :options,
         api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
@@ -16,7 +16,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     end
 
     it 'returns a 200 status with no content' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
       expect(response.body).to eq ''
     end
 
@@ -119,7 +119,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
   end
 
   context 'when request is not a valid preflight request' do
-    before(:each) do
+    before do
       process(
         :options,
         api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
@@ -131,7 +131,7 @@ describe 'CORS Preflight Request via OPTIONS HTTP method' do
     end
 
     it 'returns a 204 status with no content' do
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(:no_content)
     end
 
     # Disabled temporarily until this bug is fixed in rack-cors:
@@ -144,7 +144,7 @@ end
 
 describe 'CORS REQUESTS - POST and GET' do
   context 'when ORIGIN is specified' do
-    before :each do
+    before do
       post api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
            { name: 'foo', description: 'test' },
            'HTTP_ACCEPT' => 'application/vnd.ohanapi+json; version=1',
@@ -152,7 +152,7 @@ describe 'CORS REQUESTS - POST and GET' do
     end
 
     it 'returns a 201 status' do
-      expect(response).to have_http_status(201)
+      expect(response).to have_http_status(:created)
     end
 
     it 'does not reflect the Origin header in the request' do
@@ -203,13 +203,13 @@ describe 'CORS REQUESTS - POST and GET' do
   end
 
   context 'when ORIGIN is specified and path is invalid' do
-    before :each do
+    before do
       get api_location_url(123, subdomain: ENV['API_SUBDOMAIN']),
           {}, 'HTTP_ORIGIN' => 'http://ohanapi.org'
     end
 
     it 'returns a 404 status' do
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'does not reflect the Origin header in the request' do

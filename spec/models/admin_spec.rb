@@ -13,11 +13,11 @@ describe Admin do
   subject { build(:admin, admin_attrs) }
 
   it do
-    is_expected.to have_db_column(:name).of_type(:string).with_options(default: '')
+    expect(subject).to have_db_column(:name).of_type(:string).with_options(default: '')
   end
 
   it do
-    is_expected.to have_db_column(:encrypted_password).of_type(:string).
+    expect(subject).to have_db_column(:encrypted_password).of_type(:string).
       with_options(default: '')
   end
 
@@ -28,7 +28,7 @@ describe Admin do
   it { is_expected.to validate_length_of(:password).is_at_least(8) }
 
   it do
-    is_expected.to allow_value(
+    expect(subject).to allow_value(
       'user@foo.com',
       'THE_USER@foo.bar.org',
       'first.last@foo.jp'
@@ -36,7 +36,7 @@ describe Admin do
   end
 
   it do
-    is_expected.not_to allow_value(
+    expect(subject).not_to allow_value(
       'user@foo,com',
       'user_at_foo.org',
       'example.user@foo.'
@@ -61,7 +61,7 @@ describe Admin do
   end
 
   describe 'password encryption' do
-    it 'should set the encrypted password attribute' do
+    it 'sets the encrypted password attribute' do
       user = Admin.create!(admin_attrs)
 
       expect(user.encrypted_password).not_to be_blank

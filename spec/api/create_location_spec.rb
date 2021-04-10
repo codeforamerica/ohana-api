@@ -5,7 +5,7 @@ describe 'Create a location (POST /organizations/:organization_id/locations/)' d
     @org = create(:organization)
   end
 
-  before(:each) do
+  before do
     @location_attributes = {
       name: 'new location',
       description: 'description',

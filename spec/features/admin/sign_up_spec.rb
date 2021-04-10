@@ -1,54 +1,54 @@
 require 'rails_helper'
 
-feature 'Signing up for a new admin account' do
-  scenario 'with all required fields present and valid' do
+describe 'Signing up for a new admin account' do
+  it 'with all required fields present and valid' do
     sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(page).to have_content 'activate your account'
     expect(page).to have_content('Admin')
-    expect(current_path).to eq(new_admin_session_path)
+    expect(page).to have_current_path(new_admin_session_path, ignore_query: true)
   end
 
-  scenario 'with custom confirmation email address' do
+  it 'with custom confirmation email address' do
     reset_email
     sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(first_email.from.first).to eq('registration@ohanapi.org')
   end
 
-  scenario 'with custom mailer' do
+  it 'with custom mailer' do
     reset_email
     sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(first_email.body).to include('Admin')
     expect(first_email.body).to include('/admin')
-    expect(first_email.body).to_not include('documentation')
+    expect(first_email.body).not_to include('documentation')
   end
 
-  scenario 'with name missing' do
+  it 'with name missing' do
     sign_up_admin('', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     expect(page).to have_content "Name can't be blank"
   end
 
-  scenario 'with email missing' do
+  it 'with email missing' do
     sign_up_admin('Moncef', '', 'ohanatest', 'ohanatest')
     expect(page).to have_content "Email can't be blank"
   end
 
-  scenario 'with password missing' do
+  it 'with password missing' do
     sign_up_admin('Moncef', 'moncef@foo.com', '', 'ohanatest')
     expect(page).to have_content "Password can't be blank"
   end
 
-  scenario 'with password confirmation missing' do
+  it 'with password confirmation missing' do
     sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', '')
     expect(page).to have_content "Password confirmation doesn't match Password"
   end
 
-  scenario "when password and confirmation don't match" do
+  it "when password and confirmation don't match" do
     sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohana')
     expect(page).to have_content "Password confirmation doesn't match Password"
   end
 
   context 'when signing up with existing email', email: true do
-    before(:each) do
+    before do
       sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
       sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
     end
@@ -62,7 +62,7 @@ feature 'Signing up for a new admin account' do
     end
 
     it 'redirects back to admin portal sign in page' do
-      expect(current_path).to eq new_admin_session_path
+      expect(page).to have_current_path new_admin_session_path, ignore_query: true
     end
 
     it 'sends an email to the user informing them of sign up' do
@@ -104,7 +104,7 @@ feature 'Signing up for a new admin account' do
     end
 
     context 'when duplicate email and name is missing during sign up' do
-      before(:each) do
+      before do
         sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
         sign_up_admin('', 'moncef@foo.com', 'ohanatest', 'ohanatest')
       end
@@ -113,7 +113,7 @@ feature 'Signing up for a new admin account' do
     end
 
     context 'when duplicate email and password is missing during sign up' do
-      before(:each) do
+      before do
         sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
         sign_up_admin('', 'moncef@foo.com', '', 'ohanatest')
       end
@@ -122,7 +122,7 @@ feature 'Signing up for a new admin account' do
     end
 
     context 'when duplicate email and password_confirmation invalid during sign up' do
-      before(:each) do
+      before do
         sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
         sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', '')
       end
@@ -131,7 +131,7 @@ feature 'Signing up for a new admin account' do
     end
 
     context 'when duplicate email and password is too short during sign up' do
-      before(:each) do
+      before do
         sign_up_admin('Moncef', 'moncef@foo.com', 'ohanatest', 'ohanatest')
         sign_up_admin('Moncef', 'moncef@foo.com', 'foo', 'foo')
       end

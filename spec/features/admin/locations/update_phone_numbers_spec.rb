@@ -1,22 +1,22 @@
 require 'rails_helper'
 
-feature 'Update phones' do
-  background do
+describe 'Update phones' do
+  before do
     @location = create(:location)
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
 
-  scenario 'when no phones exist' do
+  it 'when no phones exist' do
     within('.phones') do
       expect(page).
         to have_no_xpath('.//input[contains(@name, "[extension]")]')
     end
 
-    expect(page).to_not have_link I18n.t('admin.buttons.delete_phone')
+    expect(page).not_to have_link I18n.t('admin.buttons.delete_phone')
   end
 
-  scenario 'by adding a new phone', :js do
+  it 'by adding a new phone', :js do
     add_phone(
       number: '123-456-7890',
       number_type: 'TTY',
@@ -50,7 +50,7 @@ feature 'Update phones' do
     end
   end
 
-  scenario 'with 2 phones but one is empty', :js do
+  it 'with 2 phones but one is empty', :js do
     add_phone(
       number: '123-456-7890',
       department: 'Director of Development',
@@ -65,7 +65,7 @@ feature 'Update phones' do
     end
   end
 
-  scenario 'with 2 phones but second one is invalid', :js do
+  it 'with 2 phones but second one is invalid', :js do
     add_phone(
       number: '123-456-7890',
       department: 'Director of Development',
@@ -80,7 +80,7 @@ feature 'Update phones' do
     expect(page).to have_content "Number can't be blank for Phone"
   end
 
-  scenario 'delete second phone', :js do
+  it 'delete second phone', :js do
     # There was a bug where clicking the "Delete this phone permanently"
     # button would hide all phones from the form, and would set the id
     # of the first phone to "1", causing an error when submitting the form.
@@ -105,13 +105,13 @@ feature 'Update phones' do
   end
 end
 
-feature 'Update phones' do
+describe 'Update phones' do
   before(:all) do
     @location = create(:location)
     @location.phones.create!(attributes_for(:phone).merge!(extension: ''))
   end
 
-  before(:each) do
+  before do
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
@@ -120,38 +120,38 @@ feature 'Update phones' do
     Organization.find_each(&:destroy)
   end
 
-  scenario 'initial state of phone type' do
+  it 'initial state of phone type' do
     expect(find_field('location_phones_attributes_0_number_type')).
       to have_text 'Voice'
   end
 
-  scenario 'select options for number type' do
+  it 'select options for number type' do
     expect(page).
       to have_select 'location_phones_attributes_0_number_type',
                      with_options: %w[TTY Voice Fax Hotline SMS]
   end
 
-  scenario 'with an empty number' do
+  it 'with an empty number' do
     update_phone(number: '')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "Number can't be blank for Phone"
   end
 
-  scenario 'with an invalid number' do
+  it 'with an invalid number' do
     update_phone(number: '703')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'is not a valid US phone or fax number'
   end
 
-  scenario 'with an invalid extension' do
+  it 'with an invalid extension' do
     update_phone(number: '703-555-1212', extension: 'x200')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'extension is not a number'
   end
 
-  scenario 'with an empty extension' do
+  it 'with an empty extension' do
     update_phone(number: '703-555-1212', extension: '')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to_not have_content 'extension is not a number'
+    expect(page).not_to have_content 'extension is not a number'
   end
 end

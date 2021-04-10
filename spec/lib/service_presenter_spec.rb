@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ServicePresenter do
+  subject(:presenter) { ServicePresenter.new(properties) }
+
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
     create(:location)
@@ -20,8 +22,6 @@ describe ServicePresenter do
       status: 'active'
     }
   end
-
-  subject(:presenter) { ServicePresenter.new(properties) }
 
   describe '#to_service' do
     context 'when the service is valid' do

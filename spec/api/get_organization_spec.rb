@@ -6,7 +6,7 @@ describe 'GET /organizations/:id' do
       @org = create(:location).organization
     end
 
-    before :each do
+    before do
       get api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -45,7 +45,7 @@ describe 'GET /organizations/:id' do
     end
 
     it 'returns a successful status code' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'includes the full representation' do
@@ -57,7 +57,7 @@ describe 'GET /organizations/:id' do
   end
 
   context 'with invalid id' do
-    before :each do
+    before do
       get api_organization_url(1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -71,7 +71,7 @@ describe 'GET /organizations/:id' do
     end
 
     it 'returns a 404 status code' do
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'is json' do
@@ -80,7 +80,7 @@ describe 'GET /organizations/:id' do
   end
 
   context 'with nil fields' do
-    before(:each) do
+    before do
       @org = create(:organization)
     end
 

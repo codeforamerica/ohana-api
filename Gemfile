@@ -33,8 +33,10 @@ group :test, :development do
   gem 'factory_bot_rails'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
-  gem 'rubocop'
-  gem 'rubocop-rails'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
   gem 'smarter_csv'
 end
 

@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-feature 'Update phones' do
-  background do
+describe 'Update phones' do
+  before do
     create_service
     login_super_admin
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
   end
 
-  scenario 'when no phones exist' do
+  it 'when no phones exist' do
     expect(page).to have_link I18n.t('admin.buttons.add_phone')
   end
 
-  scenario 'by adding a new phone', :js do
+  it 'by adding a new phone', :js do
     add_phone(
       number: '123-456-7890',
       number_type: 'TTY',

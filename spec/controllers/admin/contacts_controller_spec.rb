@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Admin::ContactsController do
   describe 'GET edit' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
       @contact = @loc.contacts.create!(attributes_for(:contact))
     end
@@ -41,7 +41,7 @@ describe Admin::ContactsController do
   end
 
   describe 'GET new' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
     end
 
@@ -79,7 +79,7 @@ describe Admin::ContactsController do
   end
 
   describe 'create' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
     end
 
@@ -118,7 +118,7 @@ describe Admin::ContactsController do
   end
 
   describe 'update' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
       @contact = @loc.contacts.create!(attributes_for(:contact))
     end
@@ -142,7 +142,7 @@ describe Admin::ContactsController do
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
-        expect(@contact.reload.name).to_not eq 'John'
+        expect(@contact.reload.name).not_to eq 'John'
       end
     end
 
@@ -160,7 +160,7 @@ describe Admin::ContactsController do
   end
 
   describe 'destroy' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
       @contact = @loc.contacts.create!(attributes_for(:contact))
     end

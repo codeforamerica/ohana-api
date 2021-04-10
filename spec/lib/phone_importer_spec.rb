@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe PhoneImporter do
+  subject(:importer) { PhoneImporter.new(content) }
+
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_phone.csv') }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location_phone.csv') }
   let(:valid_service_phone) do
@@ -20,8 +22,6 @@ describe PhoneImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { PhoneImporter.new(content) }
 
   describe '#valid?' do
     context 'when the phone content is invalid' do
@@ -65,9 +65,9 @@ describe PhoneImporter do
       end
 
       describe 'the phone' do
-        before { importer.import }
-
         subject { Phone.first }
+
+        before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
         its(:department) { is_expected.to eq 'Food Pantry' }
@@ -89,9 +89,9 @@ describe PhoneImporter do
       let(:content) { valid_service_phone }
 
       describe 'the phone' do
-        before { importer.import }
-
         subject { Phone.first }
+
+        before { importer.import }
 
         its(:service_id) { is_expected.to eq 1 }
       end
@@ -101,9 +101,9 @@ describe PhoneImporter do
       let(:content) { valid_org_phone }
 
       describe 'the phone' do
-        before { importer.import }
-
         subject { Phone.first }
+
+        before { importer.import }
 
         its(:organization_id) { is_expected.to eq 1 }
       end
@@ -118,9 +118,9 @@ describe PhoneImporter do
       let(:content) { valid_contact_phone }
 
       describe 'the phone' do
-        before { importer.import }
-
         subject { Phone.first }
+
+        before { importer.import }
 
         its(:contact_id) { is_expected.to eq 1 }
       end
@@ -142,7 +142,7 @@ describe PhoneImporter do
       let(:content) { valid_content }
 
       it 'does not create a new phone' do
-        expect { importer.import }.to_not change(Phone, :count)
+        expect { importer.import }.not_to change(Phone, :count)
       end
 
       it 'does not generate errors' do

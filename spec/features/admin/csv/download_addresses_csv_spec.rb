@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Addresses CSV' do
+describe 'Downloading Addresses CSV' do
   before do
     login_super_admin
     @address = create(:address, location_id: 1)

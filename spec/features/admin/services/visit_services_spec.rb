@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Services page' do
+describe 'Services page' do
   context 'when not signed in' do
-    before :each do
+    before do
       visit '/admin/services'
     end
 
     it 'redirects to the admin sign in page' do
-      expect(current_path).to eq(new_admin_session_path)
+      expect(page).to have_current_path(new_admin_session_path, ignore_query: true)
     end
 
     it 'prompts the user to sign in or sign up' do
@@ -23,7 +23,7 @@ feature 'Services page' do
   end
 
   context 'when signed in' do
-    before :each do
+    before do
       login_admin
       visit '/admin/services'
     end
@@ -49,7 +49,7 @@ feature 'Services page' do
   end
 
   context 'when signed in as super admin' do
-    before :each do
+    before do
       @nearby = create(:nearby_loc)
       @service = @nearby.services.
                  create!(attributes_for(:service).
@@ -73,8 +73,9 @@ feature 'Services page' do
 
     it 'takes you to the right service when clicked' do
       click_link 'Nearby Service'
-      expect(current_path).
-        to eq edit_admin_location_service_path(@nearby.id, @service)
+      expect(page).
+        to have_current_path edit_admin_location_service_path(@nearby.id, @service),
+                             ignore_query: true
     end
 
     it 'sorts services alphabetically by name' do

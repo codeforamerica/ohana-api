@@ -33,7 +33,7 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it 'returns a 200 status' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'includes the location id attribute in the serialization' do
@@ -82,7 +82,7 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it "doesn't include the location accessibility attribute" do
-      expect(json.first.keys).to_not include('accessibility')
+      expect(json.first.keys).not_to include('accessibility')
     end
 
     it 'includes the location admin_emails attribute' do
@@ -94,23 +94,23 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it "doesn't include the location email attribute" do
-      expect(json.first.keys).to_not include('email')
+      expect(json.first.keys).not_to include('email')
     end
 
     it "doesn't include the location hours attribute" do
-      expect(json.first.keys).to_not include('hours')
+      expect(json.first.keys).not_to include('hours')
     end
 
     it "doesn't include the location languages attribute" do
-      expect(json.first.keys).to_not include('languages')
+      expect(json.first.keys).not_to include('languages')
     end
 
     it "doesn't include the location mail_address attribute" do
-      expect(json.first.keys).to_not include('mail_address')
+      expect(json.first.keys).not_to include('mail_address')
     end
 
     it "doesn't include the location transportation attribute" do
-      expect(json.first.keys).to_not include('transportation')
+      expect(json.first.keys).not_to include('transportation')
     end
 
     it 'includes the location website attribute' do
@@ -118,7 +118,7 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it "doesn't include the location contacts attribute" do
-      expect(json.first.keys).to_not include('contacts')
+      expect(json.first.keys).not_to include('contacts')
     end
 
     it 'includes the location phones attribute' do
@@ -126,12 +126,12 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it "doesn't include the location services attribute" do
-      expect(json.first.keys).to_not include('services')
+      expect(json.first.keys).not_to include('services')
     end
   end
 
   context "when organization doesn't have locations" do
-    before :each do
+    before do
       org = create(:organization)
       get api_org_locations_url(org, subdomain: ENV['API_SUBDOMAIN'])
     end
@@ -141,7 +141,7 @@ describe 'GET /organizations/:organization_id/locations' do
     end
 
     it 'returns a 200 status' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

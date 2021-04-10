@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Locations page' do
+describe 'Locations page' do
   context 'when not signed in' do
-    before :each do
+    before do
       visit '/admin/locations'
     end
 
     it 'redirects to the admin sign in page' do
-      expect(current_path).to eq(new_admin_session_path)
+      expect(page).to have_current_path(new_admin_session_path, ignore_query: true)
     end
 
     it 'prompts the user to sign in or sign up' do
@@ -29,7 +29,7 @@ feature 'Locations page' do
   end
 
   context 'when signed in' do
-    before :each do
+    before do
       login_admin
       visit '/admin/locations'
     end
@@ -87,7 +87,7 @@ feature 'Locations page' do
   end
 
   context 'when signed in as super admin' do
-    before :each do
+    before do
       @location = create(:location)
       create(:location_for_org_admin)
       login_super_admin
@@ -106,7 +106,7 @@ feature 'Locations page' do
 
     it 'takes you to the right location when clicked' do
       click_link 'VRS Services'
-      expect(current_path).to eq edit_admin_location_path(@location)
+      expect(page).to have_current_path edit_admin_location_path(@location), ignore_query: true
     end
 
     it 'sorts locations alphabetically by name' do

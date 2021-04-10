@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe CategoryImporter do
+  subject(:importer) { CategoryImporter.new(content) }
+
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_category.csv') }
   let(:invalid_parent) do
     Rails.root.join('spec/support/fixtures/invalid_parent_category.csv')
   end
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_category.csv') }
   let(:existing_content) { Rails.root.join('spec/support/fixtures/existing_category.csv') }
-
-  subject(:importer) { CategoryImporter.new(content) }
 
   describe '#valid?' do
     context 'when the category content is invalid' do
@@ -51,9 +51,9 @@ describe CategoryImporter do
       end
 
       describe 'the category' do
-        before { importer.import }
-
         subject { Category.second }
+
+        before { importer.import }
 
         its(:name) { is_expected.to eq 'Disaster Response' }
         its(:taxonomy_id) { is_expected.to eq '101-01' }
@@ -78,7 +78,7 @@ describe CategoryImporter do
       let(:content) { existing_content }
 
       it 'does not create a new category' do
-        expect { importer.import }.to_not change(Category, :count)
+        expect { importer.import }.not_to change(Category, :count)
       end
 
       it 'generates error' do

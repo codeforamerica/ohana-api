@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'PATCH mail_address' do
-  before(:each) do
+  before do
     @mail_address = create(:mail_address)
     @loc = @mail_address.location
     @attrs = {
@@ -21,7 +21,7 @@ describe 'PATCH mail_address' do
         api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
       expect(json['attention']).to eq @attrs[:attention]
       expect(json['address_1']).to eq @attrs[:address_1]
       expect(json['address_2']).to eq @attrs[:address_2]

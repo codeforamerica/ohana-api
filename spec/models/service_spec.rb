@@ -17,14 +17,17 @@ describe Service do
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Service") }
+
   it do
-    is_expected.to validate_presence_of(:description).
+    expect(subject).to validate_presence_of(:description).
       with_message("can't be blank for Service")
   end
+
   it do
-    is_expected.to_not validate_presence_of(:application_process).
+    expect(subject).not_to validate_presence_of(:application_process).
       with_message("can't be blank for Service")
   end
+
   it { is_expected.to validate_presence_of(:status).with_message("can't be blank for Service") }
 
   it { is_expected.to serialize(:funding_sources).as(Array) }
@@ -39,14 +42,15 @@ describe Service do
   it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:website) }
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:website) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
+
   it do
-    is_expected.not_to allow_value('http://').
+    expect(subject).not_to allow_value('http://').
       for(:website).
       with_message('http:// is not a valid URL')
   end
 
   it do
-    is_expected.not_to allow_value(%w[belmont]).
+    expect(subject).not_to allow_value(%w[belmont]).
       for(:service_areas).
       with_message('belmont is not a valid service area')
   end
@@ -119,7 +123,7 @@ describe Service do
     end
 
     it 'touches location when category is added' do
-      expect(@location.updated_at).to_not eq @old_timestamp
+      expect(@location.updated_at).not_to eq @old_timestamp
     end
   end
 end

@@ -38,7 +38,7 @@ FactoryBot.define do
     end
   end
 
-  factory :nearby_loc, class: Location do
+  factory :nearby_loc, class: 'Location' do
     name { 'Library' }
     description { 'great books about jobs' }
     short_desc { 'short description' }
@@ -50,7 +50,7 @@ FactoryBot.define do
     association :organization, factory: :nearby_org
   end
 
-  factory :no_address, class: Location do
+  factory :no_address, class: 'Location' do
     name { 'No Address' }
     description { 'no coordinates' }
     short_desc { 'short description' }
@@ -58,7 +58,7 @@ FactoryBot.define do
     association :organization, factory: :no_address_org
   end
 
-  factory :farmers_market_loc, class: Location do
+  factory :farmers_market_loc, class: 'Location' do
     name { 'Belmont Farmers Market' }
     description { 'yummy food about jobs' }
     short_desc { 'short description' }
@@ -69,7 +69,7 @@ FactoryBot.define do
     association :organization, factory: :food_pantry
   end
 
-  factory :far_loc, class: Location do
+  factory :far_loc, class: 'Location' do
     name { 'Belmont Farmers Market' }
     description { 'yummy food' }
     short_desc { 'short description' }
@@ -80,7 +80,7 @@ FactoryBot.define do
     association :organization, factory: :far_org
   end
 
-  factory :loc_with_nil_fields, class: Location do
+  factory :loc_with_nil_fields, class: 'Location' do
     name { 'Belmont Farmers Market with cat' }
     description { 'yummy food' }
     short_desc { 'short description' }
@@ -90,7 +90,7 @@ FactoryBot.define do
     association :organization, factory: :no_address_org
   end
 
-  factory :soup_kitchen, class: Location do
+  factory :soup_kitchen, class: 'Location' do
     name { 'Soup Kitchen' }
     description { 'daily hot soups' }
     short_desc { 'short description' }

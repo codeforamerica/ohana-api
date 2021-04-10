@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "GET 'nearby'" do
-  before :each do
+  before do
     @loc = create(:location)
     @nearby = create(:nearby_loc)
     create(:far_loc)
@@ -46,7 +46,7 @@ describe "GET 'nearby'" do
       get api_location_nearby_url(@loc, radius: 'script', subdomain: ENV['API_SUBDOMAIN'])
       expect(json['description']).
         to eq('Radius must be a Float between 0.1 and 50.')
-      expect(response).to have_http_status(400)
+      expect(response).to have_http_status(:bad_request)
     end
   end
 

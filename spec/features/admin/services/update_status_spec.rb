@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Update status' do
-  background do
+describe 'Update status' do
+  before do
     create_service
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
 
-  scenario 'with valid status' do
+  it 'with valid status' do
     click_link 'Literacy Program'
     select 'Defunct', from: 'service_status'
     click_button I18n.t('admin.buttons.save_changes')

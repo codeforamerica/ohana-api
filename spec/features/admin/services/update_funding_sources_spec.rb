@@ -1,32 +1,32 @@
 require 'rails_helper'
 
-feature 'Update funding_sources' do
-  background do
+describe 'Update funding_sources' do
+  before do
     create_service
     login_super_admin
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
   end
 
-  scenario 'with no funding_sources' do
+  it 'with no funding_sources' do
     click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.funding_sources).to eq []
   end
 
-  scenario 'with one funding source', :js do
+  it 'with one funding source', :js do
     select2('State', 'service_funding_sources', multiple: true)
     click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.funding_sources).to eq ['State']
   end
 
-  scenario 'with two funding_sources', :js do
+  it 'with two funding_sources', :js do
     select2('State', 'service_funding_sources', multiple: true)
     select2('County', 'service_funding_sources', multiple: true)
     click_button I18n.t('admin.buttons.save_changes')
     expect(@service.reload.funding_sources).to eq %w[State County]
   end
 
-  scenario 'removing a funding source', :js do
+  it 'removing a funding source', :js do
     @service.update!(funding_sources: %w[State County])
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'

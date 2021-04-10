@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 describe ApiApplicationsController do
-  before :each do
+  before do
     @user = FactoryBot.create(:user)
     sign_in @user
   end
   # This should return the minimal set of attributes required to create a valid
   # ApiApplication. As you add validations to ApiApplication, be sure to
   # adjust the attributes here as well.
+
   let(:valid_attributes) do
     { name: 'test app',
       main_url: 'http://codeforamerica.org',

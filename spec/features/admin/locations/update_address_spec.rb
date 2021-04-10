@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Add a street address' do
-  before(:each) do
+describe 'Add a street address' do
+  before do
     @location = create(:no_address)
     login_super_admin
     visit '/admin/locations/no-address'
   end
 
-  scenario 'adding a new street address with valid values', :js do
+  it 'adding a new street address with valid values', :js do
     add_street_address(address_1: '123', city: 'Vienn', state_province: 'VA',
                        postal_code: '12345', country: 'US')
     visit '/admin/locations/no-address'
@@ -23,12 +23,12 @@ feature 'Add a street address' do
   end
 end
 
-feature "Updating a location's address with invalid values" do
+describe "Updating a location's address with invalid values" do
   before(:all) do
     @location = create(:location)
   end
 
-  before(:each) do
+  before do
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
@@ -37,56 +37,56 @@ feature "Updating a location's address with invalid values" do
     Organization.find_each(&:destroy)
   end
 
-  scenario 'with an empty street' do
+  it 'with an empty street' do
     update_street_address(address_1: '', city: 'fair', state_province: 'VA',
                           postal_code: '12345', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "Street (Line 1) can't be blank for Address"
   end
 
-  scenario 'with an empty city' do
+  it 'with an empty city' do
     update_street_address(address_1: '123', city: '', state_province: 'VA',
                           postal_code: '12345', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "City can't be blank for Address"
   end
 
-  scenario 'with an empty state' do
+  it 'with an empty state' do
     update_street_address(address_1: '123', city: 'fair', state_province: '',
                           postal_code: '12345', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
-  scenario 'with an empty zip' do
+  it 'with an empty zip' do
     update_street_address(address_1: '123', city: 'Belmont', state_province: 'CA',
                           postal_code: '')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "ZIP Code can't be blank for Address"
   end
 
-  scenario 'with an empty country' do
+  it 'with an empty country' do
     update_street_address(address_1: '123', city: 'Belmont', state_province: 'CA',
                           postal_code: '12345')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "Country Code can't be blank for Address"
   end
 
-  scenario 'with an invalid state' do
+  it 'with an invalid state' do
     update_street_address(address_1: '123', city: 'Par', state_province: 'V',
                           postal_code: '12345', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content t('errors.messages.invalid_state_province')
   end
 
-  scenario 'with an invalid zip' do
+  it 'with an invalid zip' do
     update_street_address(address_1: '123', city: 'Ald', state_province: 'VA',
                           postal_code: '1234', country: 'US')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'valid ZIP code'
   end
 
-  scenario 'with an invalid country' do
+  it 'with an invalid country' do
     update_street_address(address_1: '123', city: 'Ald', state_province: 'VA',
                           postal_code: '12345', country: 'U')
     click_button I18n.t('admin.buttons.save_changes')
@@ -94,8 +94,8 @@ feature "Updating a location's address with invalid values" do
   end
 end
 
-feature 'Remove a street address' do
-  scenario 'from a non-virtual location', :js do
+describe 'Remove a street address' do
+  it 'from a non-virtual location', :js do
     @location = create(:location)
 
     login_super_admin
@@ -106,7 +106,7 @@ feature 'Remove a street address' do
       to have_content 'Street Address must be provided unless a Location is virtual'
   end
 
-  scenario 'from a virtual location', :js do
+  it 'from a virtual location', :js do
     @location = create(:virtual_with_address)
 
     login_super_admin

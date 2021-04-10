@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'Update contact' do
-  background do
+describe 'Update contact' do
+  before do
     location = create(:location)
     location.contacts.create!(attributes_for(:contact))
     login_super_admin
@@ -9,7 +9,7 @@ feature 'Update contact' do
     click_link 'Moncef Belyamani'
   end
 
-  scenario 'with valid values' do
+  it 'with valid values' do
     fill_in 'contact_department', with: 'CFO'
     fill_in 'contact_email', with: 'foo@bar.com'
     fill_in 'contact_name', with: 'Monfresh'
@@ -24,7 +24,7 @@ feature 'Update contact' do
     expect(find_field('contact_title').value).to eq 'CFO'
   end
 
-  scenario 'with invalid values' do
+  it 'with invalid values' do
     fill_in 'contact_email', with: 'foobar'
     fill_in 'contact_name', with: ''
 

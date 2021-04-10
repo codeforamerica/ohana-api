@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe OrganizationPresenter do
+  subject(:presenter) { OrganizationPresenter.new(properties) }
+
   let(:properties) do
     {
       id: 1,
@@ -8,8 +10,6 @@ describe OrganizationPresenter do
       description: 'Example description'
     }
   end
-
-  subject(:presenter) { OrganizationPresenter.new(properties) }
 
   describe '#to_org' do
     context 'when the org is valid' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Update an existing API Application' do
+describe 'Update an existing API Application' do
   # The 'visit_app' and 'update_api_app' methods are defined in
   # spec/support/features/session_helpers.rb
 
@@ -13,7 +13,7 @@ feature 'Update an existing API Application' do
 
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
-  background do
+  before do
     user = FactoryBot.create(:user_with_app)
     login_as(user, scope: :user)
     name = user.api_applications.first.name
@@ -21,14 +21,15 @@ feature 'Update an existing API Application' do
     visit_app(name, main_url)
   end
 
-  scenario 'with valid fields' do
+  it 'with valid fields' do
     update_api_app('my awesome app', 'http://cfa.org', 'http://cfa.org')
     expect(page).to have_content 'Application was successfully updated.'
     expect(page).to have_content 'API Token'
-    expect(current_path).to eq edit_api_application_path(ApiApplication.last.id)
+    expect(page).to have_current_path edit_api_application_path(ApiApplication.last.id),
+                                      ignore_query: true
   end
 
-  scenario 'with blank fields' do
+  it 'with blank fields' do
     update_api_app('', '', '')
     expect(page).to have_content "Name can't be blank"
     expect(page).to have_content "Main URL can't be blank"

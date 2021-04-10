@@ -1,22 +1,22 @@
 require 'rails_helper'
 
-feature 'Update phones' do
-  background do
+describe 'Update phones' do
+  before do
     @org = create(:organization)
     login_super_admin
     visit '/admin/organizations/parent-agency'
   end
 
-  scenario 'when no phones exist' do
+  it 'when no phones exist' do
     within('.phones') do
       expect(page).
         to have_no_xpath('.//input[contains(@name, "[extension]")]')
     end
 
-    expect(page).to_not have_link I18n.t('admin.buttons.delete_phone')
+    expect(page).not_to have_link I18n.t('admin.buttons.delete_phone')
   end
 
-  scenario 'by adding a new phone', :js do
+  it 'by adding a new phone', :js do
     add_phone(
       number: '123-456-7890',
       number_type: 'TTY',
@@ -50,7 +50,7 @@ feature 'Update phones' do
     end
   end
 
-  scenario 'with 2 phones but one is empty', :js do
+  it 'with 2 phones but one is empty', :js do
     add_phone(
       number: '123-456-7890',
       department: 'Director of Development',
@@ -65,7 +65,7 @@ feature 'Update phones' do
     end
   end
 
-  scenario 'with 2 phones but second one is invalid', :js do
+  it 'with 2 phones but second one is invalid', :js do
     add_phone(
       number: '123-456-7890',
       department: 'Director of Development',
@@ -81,13 +81,13 @@ feature 'Update phones' do
   end
 end
 
-feature 'Update phones' do
+describe 'Update phones' do
   before(:all) do
     @organization = create(:organization)
     @organization.phones.create!(attributes_for(:phone).merge!(extension: ''))
   end
 
-  before(:each) do
+  before do
     login_super_admin
     visit '/admin/organizations/parent-agency'
   end
@@ -96,38 +96,38 @@ feature 'Update phones' do
     Organization.find_each(&:destroy)
   end
 
-  scenario 'initial state of phone type' do
+  it 'initial state of phone type' do
     expect(find_field('organization_phones_attributes_0_number_type')).
       to have_text 'Voice'
   end
 
-  scenario 'select options for number type' do
+  it 'select options for number type' do
     expect(page).
       to have_select 'organization_phones_attributes_0_number_type',
                      with_options: %w[TTY Voice Fax Hotline SMS]
   end
 
-  scenario 'with an empty number' do
+  it 'with an empty number' do
     update_phone(number: '')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content "Number can't be blank for Phone"
   end
 
-  scenario 'with an invalid number' do
+  it 'with an invalid number' do
     update_phone(number: '703')
     click_button 'Save changes'
     expect(page).to have_content 'is not a valid US phone or fax number'
   end
 
-  scenario 'with an invalid extension' do
+  it 'with an invalid extension' do
     update_phone(number: '703-555-1212', extension: 'x200')
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'extension is not a number'
   end
 
-  scenario 'with an empty extension' do
+  it 'with an empty extension' do
     update_phone(number: '703-555-1212', extension: '')
     click_button I18n.t('admin.buttons.save_changes')
-    expect(page).to_not have_content 'extension is not a number'
+    expect(page).not_to have_content 'extension is not a number'
   end
 end

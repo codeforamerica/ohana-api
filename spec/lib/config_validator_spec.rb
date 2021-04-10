@@ -30,7 +30,7 @@ describe ConfigValidator do
     end
 
     it 'does not raise if a non-required key is empty' do
-      expect { ConfigValidator.new(valid_env).validate }.to_not raise_error
+      expect { ConfigValidator.new(valid_env).validate }.not_to raise_error
     end
   end
 end

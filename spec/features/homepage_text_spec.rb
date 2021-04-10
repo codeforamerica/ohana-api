@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Visit home page after signing in' do
+describe 'Visit home page after signing in' do
   # The 'login_as' method is a Warden test helper that
   # allows you to simulate a user login without having
   # to fill in the sign in form every time. Since we're
@@ -10,7 +10,7 @@ feature 'Visit home page after signing in' do
 
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
-  background do
+  before do
     user = FactoryBot.create(:user)
     login_as(user, scope: :user)
     visit '/'
@@ -18,7 +18,7 @@ feature 'Visit home page after signing in' do
 
   it 'does not include a link to the Docs page in the navigation' do
     within '.navbar' do
-      expect(page).to_not have_link 'Docs'
+      expect(page).not_to have_link 'Docs'
     end
   end
 
@@ -42,12 +42,12 @@ feature 'Visit home page after signing in' do
     end
   end
 
-  scenario "click 'Register a new application' link" do
+  it "click 'Register a new application' link" do
     click_link I18n.t('links.register_a_new_application')
     expect(page).to have_content 'Register a new application'
   end
 
-  scenario "click 'view' link" do
+  it "click 'view' link" do
     click_link I18n.t('links.view')
     expect(page).to have_content 'Developer Applications'
   end

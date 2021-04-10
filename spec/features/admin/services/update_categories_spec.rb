@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'Update categories' do
-  background do
+describe 'Update categories' do
+  before do
     create_service
     emergency = Category.create!(name: 'Emergency', taxonomy_id: '101')
     emergency.children.create!(name: 'Disaster Response', taxonomy_id: '101-01')
@@ -13,7 +13,7 @@ feature 'Update categories' do
     click_link 'Literacy Program'
   end
 
-  scenario 'updating service without changing categories' do
+  it 'updating service without changing categories' do
     fill_in 'service_name', with: ''
     fill_in 'service_description', with: ''
     click_button I18n.t('admin.buttons.save_changes')
@@ -21,7 +21,7 @@ feature 'Update categories' do
     expect(page).to have_content("can't be blank")
   end
 
-  scenario 'when adding one subcategory', :js do
+  it 'when adding one subcategory', :js do
     check 'category_101'
     check 'category_101-01'
     click_button I18n.t('admin.buttons.save_changes')
@@ -32,10 +32,10 @@ feature 'Update categories' do
     uncheck 'category_101'
     click_button I18n.t('admin.buttons.save_changes')
 
-    expect(find('#category_101')).to_not be_checked
+    expect(find('#category_101')).not_to be_checked
   end
 
-  scenario 'when going to the 3rd subcategory', :js do
+  it 'when going to the 3rd subcategory', :js do
     check 'category_101'
     check 'category_101-01'
     check 'category_101-02'

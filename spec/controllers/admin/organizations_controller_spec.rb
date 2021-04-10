@@ -25,7 +25,7 @@ describe Admin::OrganizationsController do
       it 'redirects to admin dashboard' do
         log_in_as_admin(:admin)
 
-        expect { post :create, params: { organization: attrs } }.to_not change(Organization, :count)
+        expect { post :create, params: { organization: attrs } }.not_to change(Organization, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -43,7 +43,7 @@ describe Admin::OrganizationsController do
       }
     end
 
-    before(:each) do
+    before do
       loc = create(:location_with_admin)
       @org = loc.organization
     end
@@ -67,7 +67,7 @@ describe Admin::OrganizationsController do
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
-        expect(@org.reload.name).to_not eq 'Updated organization'
+        expect(@org.reload.name).not_to eq 'Updated organization'
       end
     end
 
@@ -84,7 +84,7 @@ describe Admin::OrganizationsController do
   end
 
   describe 'destroy' do
-    before(:each) do
+    before do
       location = create(:location_with_admin)
       @organization = location.organization
     end
@@ -106,7 +106,7 @@ describe Admin::OrganizationsController do
 
         expect do
           delete :destroy, params: { id: @organization.id }
-        end.to_not change(Organization, :count)
+        end.not_to change(Organization, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -126,7 +126,7 @@ describe Admin::OrganizationsController do
   end
 
   describe 'edit' do
-    before(:each) do
+    before do
       location = create(:location_with_admin)
       @organization = location.organization
     end

@@ -8,29 +8,31 @@ describe MailAddress do
   it { is_expected.to belong_to(:location).touch(true).inverse_of(:mail_address).required }
 
   it do
-    is_expected.to validate_presence_of(:address_1).with_message("can't be blank for Mail Address")
-  end
-
-  it do
-    is_expected.to validate_presence_of(:city).with_message("can't be blank for Mail Address")
-  end
-
-  it do
-    is_expected.to validate_presence_of(:state_province).
-      with_message(t('errors.messages.invalid_state_province'))
-  end
-
-  it do
-    is_expected.to validate_presence_of(:postal_code).
+    expect(subject).to validate_presence_of(:address_1).
       with_message("can't be blank for Mail Address")
   end
 
   it do
-    is_expected.to validate_presence_of(:country).with_message("can't be blank for Mail Address")
+    expect(subject).to validate_presence_of(:city).with_message("can't be blank for Mail Address")
   end
 
   it do
-    is_expected.to validate_length_of(:country).
+    expect(subject).to validate_presence_of(:state_province).
+      with_message(t('errors.messages.invalid_state_province'))
+  end
+
+  it do
+    expect(subject).to validate_presence_of(:postal_code).
+      with_message("can't be blank for Mail Address")
+  end
+
+  it do
+    expect(subject).to validate_presence_of(:country).
+      with_message("can't be blank for Mail Address")
+  end
+
+  it do
+    expect(subject).to validate_length_of(:country).
       is_at_least(2).
       is_at_most(2).
       with_short_message('is too short (minimum is 2 characters)').
@@ -40,7 +42,7 @@ describe MailAddress do
   it { is_expected.to allow_value('90210-1234', '22045').for(:postal_code) }
 
   it do
-    is_expected.not_to allow_value('asdf').
+    expect(subject).not_to allow_value('asdf').
       for(:postal_code).
       with_message('asdf is not a valid ZIP code')
   end

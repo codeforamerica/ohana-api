@@ -5,7 +5,7 @@ describe 'DELETE /organizations/:id' do
     create_service
   end
 
-  before :each do
+  before do
     @org = @location.organization
     delete api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']), {}
   end
@@ -21,7 +21,7 @@ describe 'DELETE /organizations/:id' do
   end
 
   it 'returns a 204 status' do
-    expect(response).to have_http_status(204)
+    expect(response).to have_http_status(:no_content)
   end
 
   it 'updates the search index' do
@@ -31,7 +31,7 @@ describe 'DELETE /organizations/:id' do
 end
 
 describe 'with an invalid token' do
-  before :each do
+  before do
     create_service
     @org = @location.organization
     delete(

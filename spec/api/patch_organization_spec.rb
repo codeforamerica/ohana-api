@@ -6,7 +6,7 @@ describe 'PATCH /organizations/:id' do
     @org = loc_with_org.organization
   end
 
-  before(:each) do
+  before do
     @org.reload
   end
 
@@ -36,7 +36,7 @@ describe 'PATCH /organizations/:id' do
       api_organization_url(@org, subdomain: ENV['API_SUBDOMAIN']),
       valid_attributes
     )
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
   end
 
   it 'returns the updated organization when validations pass' do

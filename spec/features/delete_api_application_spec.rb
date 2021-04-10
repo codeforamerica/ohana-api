@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'Delete an API Application' do
-  background do
+describe 'Delete an API Application' do
+  before do
     user = FactoryBot.create(:user_with_app)
     login_as(user, scope: :user)
     name = user.api_applications.first.name
@@ -13,6 +13,6 @@ feature 'Delete an API Application' do
     click_link I18n.t('buttons.delete_application')
 
     expect(page).to have_content 'Application was successfully deleted.'
-    expect(current_path).to eq api_applications_path
+    expect(page).to have_current_path api_applications_path, ignore_query: true
   end
 end

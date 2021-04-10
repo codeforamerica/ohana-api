@@ -8,7 +8,7 @@ describe 'GET /locations/:location_id/contacts' do
                        create!(attributes_for(:contact_with_extra_whitespace))
     end
 
-    before :each do
+    before do
       get api_location_contacts_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -17,7 +17,7 @@ describe 'GET /locations/:location_id/contacts' do
     end
 
     it 'returns a 200 status' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'includes the id attribute in the serialization' do
@@ -50,7 +50,7 @@ describe 'GET /locations/:location_id/contacts' do
       @loc = create(:location)
     end
 
-    before :each do
+    before do
       get api_location_contacts_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -63,7 +63,7 @@ describe 'GET /locations/:location_id/contacts' do
     end
 
     it 'returns a 200 status' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

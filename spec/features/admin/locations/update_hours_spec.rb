@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Update hours' do
-  background do
+describe 'Update hours' do
+  before do
     @location = create(:location)
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
 
-  scenario 'with valid hours', :js do
+  it 'with valid hours', :js do
     add_hour(
       weekday: 'Tuesday',
       opens_at_hour: '9 AM', opens_at_minute: '30',
@@ -26,7 +26,7 @@ feature 'Update hours' do
     expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
   end
 
-  scenario 'removing an hour', :js do
+  it 'removing an hour', :js do
     @location.regular_schedules.create!(attributes_for(:regular_schedule))
     visit '/admin/locations/vrs-services'
 

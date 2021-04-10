@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe MailAddressImporter do
+  subject(:importer) { MailAddressImporter.new(content) }
+
   let(:invalid_content) do
     Rails.root.join('spec/support/fixtures/invalid_mail_address.csv')
   end
@@ -17,8 +19,6 @@ describe MailAddressImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { MailAddressImporter.new(content) }
 
   describe '#valid?' do
     context 'when the mail_address content is invalid' do
@@ -61,9 +61,9 @@ describe MailAddressImporter do
       end
 
       describe 'the mail_address' do
-        before { importer.import }
-
         subject { MailAddress.first }
+
+        before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
         its(:attention) { is_expected.to eq 'John Smith' }
@@ -93,7 +93,7 @@ describe MailAddressImporter do
       let(:content) { valid_content }
 
       it 'does not create a new mail_address' do
-        expect { importer.import }.to_not change(MailAddress, :count)
+        expect { importer.import }.not_to change(MailAddress, :count)
       end
 
       it 'does not generate errors' do

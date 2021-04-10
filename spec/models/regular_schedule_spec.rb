@@ -3,28 +3,28 @@ require 'rails_helper'
 describe RegularSchedule do
   subject { build(:regular_schedule) }
 
-  it { is_expected.to_not be_valid }
+  it { is_expected.not_to be_valid }
 
   it { is_expected.to belong_to(:location).optional.touch(true).inverse_of(:regular_schedules) }
   it { is_expected.to belong_to(:service).optional.touch(true).inverse_of(:regular_schedules) }
 
   it do
-    is_expected.to validate_presence_of(:weekday).
+    expect(subject).to validate_presence_of(:weekday).
       with_message("can't be blank for Regular Schedule")
   end
 
   it do
-    is_expected.to validate_presence_of(:opens_at).
+    expect(subject).to validate_presence_of(:opens_at).
       with_message("can't be blank for Regular Schedule")
   end
 
   it do
-    is_expected.to validate_presence_of(:closes_at).
+    expect(subject).to validate_presence_of(:closes_at).
       with_message("can't be blank for Regular Schedule")
   end
 
   it do
-    is_expected.to allow_value(1, 2, 3, 4, 5, 6, 7).for(:weekday)
+    expect(subject).to allow_value(1, 2, 3, 4, 5, 6, 7).for(:weekday)
   end
 
   it { is_expected.not_to allow_value(11).for(:weekday) }
