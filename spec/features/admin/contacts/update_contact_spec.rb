@@ -17,7 +17,10 @@ describe 'Update contact' do
 
     click_button I18n.t('admin.buttons.save_changes')
 
+    contact_id = Contact.find_by(name: 'Monfresh').id
+
     expect(page).to have_content 'Contact was successfully updated.'
+    expect(page).to have_current_path "/admin/locations/vrs-services/contacts/#{contact_id}"
     expect(find_field('contact_department').value).to eq 'CFO'
     expect(find_field('contact_email').value).to eq 'foo@bar.com'
     expect(find_field('contact_name').value).to eq 'Monfresh'

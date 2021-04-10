@@ -57,6 +57,6 @@ plugins:
     - 'db/migrate/*'
   rubocop:
     enabled: true
-    channel: rubocop-0-70
+    channel: rubocop-1-10-0
   scss-lint:
     enabled: true
