@@ -33,15 +33,15 @@ group :test, :development do
   gem 'factory_bot_rails'
   gem 'rspec-its'
   gem 'rspec-rails', '~> 3.1'
-  gem 'rubocop'
-  gem 'rubocop-rails'
+  gem 'rubocop', '>= 1.6.1'
+  gem 'rubocop-rails', '>= 2.9.1'
   gem 'smarter_csv'
 end
 
 group :test do
   gem 'capybara'
   gem 'database_cleaner', '>= 1.0.0.RC1'
-  gem 'haml_lint'
+  gem 'haml_lint', '>= 0.36.0'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   # Pin simplecov to 0.17.1 until this bug with Code Climate is fixed:
