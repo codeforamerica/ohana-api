@@ -16,7 +16,7 @@ describe 'Copy service to other locations' do
     end
 
     it 'does not provide the existing location as a choice' do
-      expect(page).to_not have_unchecked_field 'VRS Services'
+      expect(page).not_to have_unchecked_field 'VRS Services'
     end
 
     it 'unchecks all choices by default' do
@@ -41,7 +41,7 @@ describe 'Copy service to other locations' do
     end
 
     it 'does not show the copy to location section' do
-      expect(page).to_not have_content 'Copy this service to other Locations'
+      expect(page).not_to have_content 'Copy this service to other Locations'
     end
   end
 
@@ -61,7 +61,7 @@ describe 'Copy service to other locations' do
     end
 
     it 'does not show location that already has the service' do
-      expect(page).to_not have_unchecked_field 'VRS Services'
+      expect(page).not_to have_unchecked_field 'VRS Services'
     end
 
     it 'shows locations that do not have the service' do

@@ -9,7 +9,7 @@ describe "GET 'search'" do
       @nearby.update(updated_at: Time.zone.now - 1.hour)
     end
 
-    before :each do
+    before do
       get api_search_index_url(keyword: 'jobs', per_page: 1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -108,7 +108,7 @@ describe "GET 'search'" do
     end
 
     context 'with invalid radius' do
-      before :each do
+      before do
         get api_search_index_url(location: '94403', radius: 'ads', subdomain: ENV['API_SUBDOMAIN'])
       end
 
@@ -126,7 +126,7 @@ describe "GET 'search'" do
     end
 
     context 'with invalid lat_lng parameter' do
-      before :each do
+      before do
         get api_search_index_url(lat_lng: '37.6856578-122.4138119', subdomain: ENV['API_SUBDOMAIN'])
       end
 
@@ -141,7 +141,7 @@ describe "GET 'search'" do
     end
 
     context 'with invalid (non-numeric) lat_lng parameter' do
-      before :each do
+      before do
         get api_search_index_url(lat_lng: 'Apple,Pear', subdomain: ENV['API_SUBDOMAIN'])
       end
 
@@ -261,7 +261,7 @@ describe "GET 'search'" do
   end
 
   context 'when keyword matches category name' do
-    before(:each) do
+    before do
       create(:far_loc)
       create(:loc_with_nil_fields)
       cat = create(:category)
@@ -278,7 +278,7 @@ describe "GET 'search'" do
   end
 
   context 'with org_name parameter' do
-    before(:each) do
+    before do
       create(:nearby_loc)
       create(:location)
       create(:soup_kitchen)

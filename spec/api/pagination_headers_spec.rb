@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Pagination Headers' do
-  before(:each) do
+  before do
     @prefix = api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])
   end
 
@@ -11,7 +11,7 @@ describe 'Pagination Headers' do
       create(:nearby_loc)
     end
 
-    before(:each) do
+    before do
       get api_search_index_url(
         keyword: 'jobs', per_page: 1, subdomain: ENV['API_SUBDOMAIN']
       )
@@ -47,7 +47,7 @@ describe 'Pagination Headers' do
       create(:nearby_loc)
     end
 
-    before(:each) do
+    before do
       get api_search_index_url(
         keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN']
       )
@@ -74,7 +74,7 @@ describe 'Pagination Headers' do
       create(:farmers_market_loc)
     end
 
-    before(:each) do
+    before do
       get api_search_index_url(
         keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN']
       )
@@ -105,7 +105,7 @@ describe 'Pagination Headers' do
       create(:far_loc)
     end
 
-    before(:each) do
+    before do
       get api_search_index_url(
         keyword: 'vrs', page: 3, subdomain: ENV['API_SUBDOMAIN']
       )

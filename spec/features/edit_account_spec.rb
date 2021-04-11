@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'Editing User account' do
-  before :each do
+describe 'Editing User account' do
+  before do
     login_user
     visit edit_user_registration_path
   end
@@ -18,6 +18,6 @@ feature 'Editing User account' do
     fill_in 'user_name', with: 'New user name'
     fill_in 'user_current_password', with: @user.password
     click_button I18n.t('buttons.update')
-    expect(current_path).to eq edit_user_registration_path
+    expect(page).to have_current_path edit_user_registration_path, ignore_query: true
   end
 end

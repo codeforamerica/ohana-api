@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe RegularScheduleImporter do
+  subject(:importer) { RegularScheduleImporter.new(content) }
+
   let(:invalid_content) do
     Rails.root.join('spec/support/fixtures/invalid_regular_schedule.csv')
   end
@@ -22,8 +24,6 @@ describe RegularScheduleImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { RegularScheduleImporter.new(content) }
 
   describe '#valid?' do
     context 'when the regular_schedule content is invalid' do
@@ -67,9 +67,9 @@ describe RegularScheduleImporter do
       end
 
       describe 'the regular_schedule' do
-        before { importer.import }
-
         subject { RegularSchedule.first }
+
+        before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
         its(:weekday) { is_expected.to eq 1 }
@@ -88,9 +88,9 @@ describe RegularScheduleImporter do
       let(:content) { valid_service_regular_schedule }
 
       describe 'the regular_schedule' do
-        before { importer.import }
-
         subject { RegularSchedule.first }
+
+        before { importer.import }
 
         its(:service_id) { is_expected.to eq 1 }
       end
@@ -112,7 +112,7 @@ describe RegularScheduleImporter do
       let(:content) { valid_content }
 
       it 'does not create a new regular_schedule' do
-        expect { importer.import }.to_not change(RegularSchedule, :count)
+        expect { importer.import }.not_to change(RegularSchedule, :count)
       end
 
       it 'does not generate errors' do
@@ -129,8 +129,8 @@ describe RegularScheduleImporter do
         file = double('FileChecker')
         allow(file).to receive(:validate).and_return 'skip import'
 
-        expect(Kernel).to_not receive(:puts)
-        expect(RegularScheduleImporter).to_not receive(:import)
+        expect(Kernel).not_to receive(:puts)
+        expect(RegularScheduleImporter).not_to receive(:import)
 
         expect(FileChecker).to receive(:new).
           with(path, RegularScheduleImporter.required_headers).and_return(file)

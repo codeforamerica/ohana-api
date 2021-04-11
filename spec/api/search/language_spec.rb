@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "GET 'search'" do
   context 'with language parameter' do
-    before(:each) do
+    before do
       create(:nearby_loc)
       create(:farmers_market_loc)
     end

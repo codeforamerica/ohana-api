@@ -5,7 +5,7 @@ describe 'DELETE /locations/:location/address/:id' do
     @loc = create(:location)
   end
 
-  before(:each) do
+  before do
     @loc.reload
     @address = @loc.address
   end
@@ -32,7 +32,7 @@ describe 'DELETE /locations/:location/address/:id' do
       api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
       {}
     )
-    expect(response).to have_http_status(204)
+    expect(response).to have_http_status(:no_content)
   end
 
   it "doesn't allow deleting an address without a valid token" do
@@ -41,7 +41,7 @@ describe 'DELETE /locations/:location/address/:id' do
       {},
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
-    expect(response).to have_http_status(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 
   it "doesn't delete the address if the location is not virtual" do
@@ -49,7 +49,7 @@ describe 'DELETE /locations/:location/address/:id' do
       api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
       {}
     )
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
     expect(json['errors'].first['address']).
       to eq(['must be provided unless a Location is virtual'])
   end
@@ -59,7 +59,7 @@ describe 'DELETE /locations/:location/address/:id' do
       api_location_address_url(123, @address, subdomain: ENV['API_SUBDOMAIN']),
       {}
     )
-    expect(response).to have_http_status(404)
+    expect(response).to have_http_status(:not_found)
     expect(json['message']).
       to eq('The requested resource could not be found.')
   end

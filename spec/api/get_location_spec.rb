@@ -6,7 +6,7 @@ describe 'GET /locations/:id' do
       create_service
     end
 
-    before(:each) do
+    before do
       @location.reload
       get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
     end
@@ -233,12 +233,12 @@ describe 'GET /locations/:id' do
     end
 
     it 'returns a successful status code' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 
   context 'with invalid id' do
-    before :each do
+    before do
       get api_location_url(1, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -252,7 +252,7 @@ describe 'GET /locations/:id' do
     end
 
     it 'returns a 404 status code' do
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'is json' do
@@ -261,7 +261,7 @@ describe 'GET /locations/:id' do
   end
 
   context 'with nil fields' do
-    before(:each) do
+    before do
       @loc = create(:loc_with_nil_fields)
     end
 
@@ -274,7 +274,7 @@ describe 'GET /locations/:id' do
   end
 
   describe 'ordering service categories by taxonomy_id' do
-    before :each do
+    before do
       @food = create(:category)
       @food_child = @food.children.
                     create!(name: 'Community Gardens', taxonomy_id: '101-01')

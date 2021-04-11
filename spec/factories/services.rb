@@ -8,7 +8,7 @@ FactoryBot.define do
     location
   end
 
-  factory :service_with_extra_whitespace, class: Service do
+  factory :service_with_extra_whitespace, class: 'Service' do
     accepted_payments { [' Cash', 'Credit '] }
     alternate_name { 'AKA ' }
     audience { 'Low-income seniors ' }

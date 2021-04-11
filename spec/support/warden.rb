@@ -1,11 +1,11 @@
 RSpec.configure do |config|
   config.include Warden::Test::Helpers, type: :feature
 
-  config.before(:each) do
+  config.before do
     Warden.test_mode!
   end
 
-  config.after(:each) do
+  config.after do
     Warden.test_reset!
   end
 end

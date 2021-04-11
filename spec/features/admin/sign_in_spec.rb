@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'Visiting the Sign in page' do
-  before :each do
+describe 'Visiting the Sign in page' do
+  before do
     visit new_admin_session_path
   end
 
@@ -30,15 +30,15 @@ feature 'Visiting the Sign in page' do
   end
 end
 
-feature 'Signing in' do
+describe 'Signing in' do
   context 'with correct credentials' do
-    before :each do
+    before do
       valid_admin = create(:admin)
       sign_in_admin(valid_admin.email, valid_admin.password)
     end
 
     it 'sets the current path to the admin root path' do
-      expect(current_path).to eq(admin_dashboard_path)
+      expect(page).to have_current_path(admin_dashboard_path, ignore_query: true)
     end
 
     it 'displays a success message' do
@@ -78,12 +78,12 @@ feature 'Signing in' do
     end
   end
 
-  scenario 'with invalid credentials' do
+  it 'with invalid credentials' do
     sign_in_admin('hello@example.com', 'wrongpassword')
     expect(page).to have_content 'Invalid email or password'
   end
 
-  scenario 'with an unconfirmed admin' do
+  it 'with an unconfirmed admin' do
     unconfirmed_admin = create(:unconfirmed_admin)
     sign_in_admin(unconfirmed_admin.email, unconfirmed_admin.password)
     expect(page).

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Admin Home page' do
+describe 'Admin Home page' do
   context 'when not signed in' do
-    before :each do
+    before do
       visit '/admin'
     end
 
     it 'sets the current path to the admin sign in page' do
-      expect(current_path).to eq(new_admin_session_path)
+      expect(page).to have_current_path(new_admin_session_path, ignore_query: true)
     end
 
     it 'includes a link to the sign up page' do
@@ -38,7 +38,7 @@ feature 'Admin Home page' do
   end
 
   context 'when signed in' do
-    before :each do
+    before do
       login_admin
       visit '/admin'
     end
@@ -133,18 +133,18 @@ feature 'Admin Home page' do
 
     it 'does not display a link to add a new location' do
       expect(page).
-        to_not have_link I18n.t('admin.buttons.add_location'), href: new_admin_location_path
+        not_to have_link I18n.t('admin.buttons.add_location'), href: new_admin_location_path
     end
 
     it 'does not display a link to add a new program' do
       expect(page).
-        to_not have_link I18n.t('admin.buttons.add_program'), href: new_admin_program_path
+        not_to have_link I18n.t('admin.buttons.add_program'), href: new_admin_program_path
     end
 
     it 'does not display a link to download CSV' do
-      expect(page).to_not have_content 'CSV Downloads'
+      expect(page).not_to have_content 'CSV Downloads'
       expect(page).
-        to_not have_link(
+        not_to have_link(
           t('admin.buttons.download_locations'),
           href: admin_csv_locations_url
         )
@@ -152,7 +152,7 @@ feature 'Admin Home page' do
   end
 
   context 'when signed in as super admin and no orgs exist' do
-    before :each do
+    before do
       login_super_admin
       visit '/admin'
     end
@@ -164,17 +164,17 @@ feature 'Admin Home page' do
 
     it 'does not display a link to add a new location' do
       expect(page).
-        to_not have_link I18n.t('admin.buttons.add_location'), href: new_admin_location_path
+        not_to have_link I18n.t('admin.buttons.add_location'), href: new_admin_location_path
     end
 
     it 'does not display a link to add a new program' do
       expect(page).
-        to_not have_link I18n.t('admin.buttons.add_program'), href: new_admin_program_path
+        not_to have_link I18n.t('admin.buttons.add_program'), href: new_admin_program_path
     end
   end
 
   context 'when signed in as super admin and orgs exist' do
-    before :each do
+    before do
       create(:organization)
       login_super_admin
       visit '/admin'
@@ -218,7 +218,7 @@ feature 'Admin Home page' do
         login_admin
         visit '/admin'
 
-        expect(page).to_not have_link "v#{version}", href: "#{prefix}CHANGELOG.md"
+        expect(page).not_to have_link "v#{version}", href: "#{prefix}CHANGELOG.md"
       end
     end
   end

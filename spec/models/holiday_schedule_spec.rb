@@ -3,18 +3,18 @@ require 'rails_helper'
 describe HolidaySchedule do
   subject { build(:holiday_schedule) }
 
-  it { is_expected.to_not be_valid }
+  it { is_expected.not_to be_valid }
 
   it { is_expected.to belong_to(:location).optional.touch(true).inverse_of(:holiday_schedules) }
   it { is_expected.to belong_to(:service).optional.touch(true).inverse_of(:holiday_schedules) }
 
   it do
-    is_expected.to validate_presence_of(:start_date).
+    expect(subject).to validate_presence_of(:start_date).
       with_message("can't be blank for Holiday Schedule")
   end
 
   it do
-    is_expected.to validate_presence_of(:end_date).
+    expect(subject).to validate_presence_of(:end_date).
       with_message("can't be blank for Holiday Schedule")
   end
 
@@ -31,7 +31,7 @@ describe HolidaySchedule do
   context 'when the entity is open' do
     it 'requires opens_at and closes_at' do
       hs = build(:holiday_schedule, closed: false)
-      expect(hs).to_not be_valid
+      expect(hs).not_to be_valid
     end
   end
 

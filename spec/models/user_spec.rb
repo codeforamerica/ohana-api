@@ -9,11 +9,11 @@ describe User do
   it { is_expected.to have_many :api_applications }
 
   it do
-    is_expected.to have_db_column(:name).of_type(:string).with_options(default: '')
+    expect(subject).to have_db_column(:name).of_type(:string).with_options(default: '')
   end
 
   it do
-    is_expected.to have_db_column(:encrypted_password).of_type(:string).
+    expect(subject).to have_db_column(:encrypted_password).of_type(:string).
       with_options(default: '')
   end
 
@@ -24,7 +24,7 @@ describe User do
   it { is_expected.to validate_length_of(:password).is_at_least(8) }
 
   it do
-    is_expected.to allow_value(
+    expect(subject).to allow_value(
       'user@foo.com',
       'THE_USER@foo.bar.org',
       'first.last@foo.jp'
@@ -32,7 +32,7 @@ describe User do
   end
 
   it do
-    is_expected.not_to allow_value(
+    expect(subject).not_to allow_value(
       'user@foo,com',
       'user_at_foo.org',
       'example.user@foo.'
@@ -52,7 +52,7 @@ describe User do
   end
 
   describe 'password encryption' do
-    it 'should set the encrypted password attribute' do
+    it 'sets the encrypted password attribute' do
       user = build_stubbed(:user)
       expect(user.encrypted_password).not_to be_blank
     end

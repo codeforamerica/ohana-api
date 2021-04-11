@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Organizations page' do
+describe 'Organizations page' do
   context 'when not signed in' do
-    before :each do
+    before do
       visit '/admin/organizations'
     end
 
     it 'redirects to the admin sign in page' do
-      expect(current_path).to eq(new_admin_session_path)
+      expect(page).to have_current_path(new_admin_session_path, ignore_query: true)
     end
 
     it 'prompts the user to sign in or sign up' do
@@ -24,7 +24,7 @@ feature 'Organizations page' do
   end
 
   context 'when signed in' do
-    before :each do
+    before do
       login_admin
       visit '/admin/organizations'
     end
@@ -45,7 +45,7 @@ feature 'Organizations page' do
   end
 
   context 'when signed in as super admin' do
-    before :each do
+    before do
       create(:location_for_org_admin)
       @loc = create(:location)
       login_super_admin
@@ -63,8 +63,8 @@ feature 'Organizations page' do
 
     it 'takes you to the right organization when clicked' do
       click_link 'Parent Agency'
-      expect(current_path).
-        to eq edit_admin_organization_path(@loc.organization)
+      expect(page).
+        to have_current_path edit_admin_organization_path(@loc.organization), ignore_query: true
     end
 
     it 'sorts organizations alphabetically by name' do

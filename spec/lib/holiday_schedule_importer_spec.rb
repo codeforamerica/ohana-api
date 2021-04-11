@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe HolidayScheduleImporter do
+  subject(:importer) { HolidayScheduleImporter.new(content) }
+
   let(:invalid_content) do
     Rails.root.join('spec/support/fixtures/invalid_holiday_schedule.csv')
   end
@@ -29,8 +31,6 @@ describe HolidayScheduleImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { HolidayScheduleImporter.new(content) }
 
   describe '#valid?' do
     context 'when the holiday_schedule content is invalid' do
@@ -84,9 +84,9 @@ describe HolidayScheduleImporter do
       end
 
       describe 'the holiday_schedule' do
-        before { importer.import }
-
         subject { HolidaySchedule.first }
+
+        before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
         its(:closed) { is_expected.to eq false }
@@ -102,9 +102,9 @@ describe HolidayScheduleImporter do
       let(:content) { spelled_out_date }
 
       describe 'the org' do
-        before { importer.import }
-
         subject { HolidaySchedule.first }
+
+        before { importer.import }
 
         its(:start_date) { is_expected.to eq Date.parse('December 24, 2014') }
       end
@@ -114,9 +114,9 @@ describe HolidayScheduleImporter do
       let(:content) { org_with_2_digit_year }
 
       describe 'the org' do
-        before { importer.import }
-
         subject { HolidaySchedule.first }
+
+        before { importer.import }
 
         its(:start_date) { is_expected.to eq Date.parse('January 2, 2014') }
       end
@@ -131,9 +131,9 @@ describe HolidayScheduleImporter do
       let(:content) { valid_service_holiday_schedule }
 
       describe 'the holiday_schedule' do
-        before { importer.import }
-
         subject { HolidaySchedule.first }
+
+        before { importer.import }
 
         its(:service_id) { is_expected.to eq 1 }
       end
@@ -155,7 +155,7 @@ describe HolidayScheduleImporter do
       let(:content) { valid_content }
 
       it 'does not create a new holiday_schedule' do
-        expect { importer.import }.to_not change(HolidaySchedule, :count)
+        expect { importer.import }.not_to change(HolidaySchedule, :count)
       end
 
       it 'does not generate errors' do

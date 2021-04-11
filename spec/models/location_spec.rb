@@ -24,14 +24,15 @@ describe Location do
   it { is_expected.to validate_presence_of(:name).with_message("can't be blank for Location") }
 
   it do
-    is_expected.to validate_presence_of(:description).with_message("can't be blank for Location")
+    expect(subject).to validate_presence_of(:description).
+      with_message("can't be blank for Location")
   end
 
   # Validations
   it { is_expected.to allow_value('http://monfresh.com').for(:website) }
 
   it do
-    is_expected.not_to allow_value('http://').
+    expect(subject).not_to allow_value('http://').
       for(:website).
       with_message('http:// is not a valid URL')
   end
@@ -43,7 +44,7 @@ describe Location do
   it { is_expected.to allow_value('moncef@blah.com').for(:email) }
 
   it do
-    is_expected.not_to allow_value('moncef@blahcom').
+    expect(subject).not_to allow_value('moncef@blahcom').
       for(:email).
       with_message('moncef@blahcom is not a valid email')
   end
@@ -54,7 +55,7 @@ describe Location do
   it { is_expected.to allow_value(%w[moncef@blah.com]).for(:admin_emails) }
 
   it do
-    is_expected.not_to allow_value(%w[moncef@blahcom]).
+    expect(subject).not_to allow_value(%w[moncef@blahcom]).
       for(:admin_emails).
       with_message('moncef@blahcom is not a valid email')
   end
@@ -63,7 +64,7 @@ describe Location do
   it { is_expected.not_to allow_value([' foo @bar.com']).for(:admin_emails) }
 
   it do
-    is_expected.to enumerize(:accessibility).
+    expect(subject).to enumerize(:accessibility).
       in(
         :cd, :deaf_interpreter, :disabled_parking, :elevator, :ramp, :restroom,
         :tape_braille, :tty, :wheelchair, :wheelchair_van
@@ -73,6 +74,7 @@ describe Location do
   describe 'invalidations' do
     context 'non-virtual and without an address' do
       subject { build(:location, address: nil) }
+
       it { is_expected.not_to be_valid }
     end
   end
@@ -94,6 +96,7 @@ describe Location do
 
   # Instance methods
   it { is_expected.to respond_to(:address_street) }
+
   describe '#address_street' do
     it 'returns address.address_1' do
       expect(subject.address_street).to eq(subject.address.address_1)
@@ -101,6 +104,7 @@ describe Location do
   end
 
   it { is_expected.to respond_to(:mail_address_city) }
+
   describe '#mail_address_city' do
     it 'returns mail_address.city' do
       loc = build(:mail_address).location
@@ -109,6 +113,7 @@ describe Location do
   end
 
   it { is_expected.to respond_to(:full_physical_address) }
+
   describe '#full_physical_address' do
     it 'joins all address elements into one string' do
       combined = "#{subject.address.address_1}, " \
@@ -120,7 +125,7 @@ describe Location do
   end
 
   describe 'slug candidates' do
-    before(:each) { @loc = create(:location) }
+    before { @loc = create(:location) }
 
     context 'when address is present and name is already taken' do
       it 'creates a new slug based on address street' do
@@ -154,7 +159,7 @@ describe Location do
   end
 
   describe 'geolocation methods' do
-    before(:each) { @loc = create(:location) }
+    before { @loc = create(:location) }
 
     it "doesn't geocode when address hasn't changed" do
       @loc.name = 'new name'
@@ -200,13 +205,13 @@ describe Location do
       coords = [@loc.longitude, @loc.latitude]
 
       @loc.update!(address_attributes: address)
-      expect(@loc.reload.latitude).to_not eq(coords.second)
+      expect(@loc.reload.latitude).not_to eq(coords.second)
     end
 
     it 'does not geocode when address is added to location with coords' do
       loc = create(:no_address, latitude: 37.5808591, longitude: -122.343072)
 
-      expect(loc).to_not receive(:geocode)
+      expect(loc).not_to receive(:geocode)
 
       loc.update!(address_attributes: attributes_for(:address))
     end
@@ -246,7 +251,7 @@ describe Location do
         organization_id: org.id
       )
 
-      expect(loc).to_not be_valid
+      expect(loc).not_to be_valid
     end
 
     it 'is valid when the value is an array' do

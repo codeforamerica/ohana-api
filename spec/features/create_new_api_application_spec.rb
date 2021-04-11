@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Creating a new API Application' do
+describe 'Creating a new API Application' do
   # The 'create_api_app' method is defined in
   # spec/support/features/session_helpers.rb
 
@@ -13,40 +13,41 @@ feature 'Creating a new API Application' do
 
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
-  background do
+  before do
     user = FactoryBot.create(:user)
     login_as(user, scope: :user)
     visit '/api_applications'
   end
 
-  scenario 'visit apps with no apps created' do
-    expect(page).to_not have_content 'http'
+  it 'visit apps with no apps created' do
+    expect(page).not_to have_content 'http'
   end
 
-  scenario 'with valid fields' do
+  it 'with valid fields' do
     create_api_app('my awesome app', 'http://codeforamerica.org', '')
     expect(page).to have_content 'Application was successfully created.'
-    expect(page).to_not have_content 'API token is already taken'
+    expect(page).not_to have_content 'API token is already taken'
     expect(page.text).to match(/API Token: \w+/)
-    expect(current_path).to eq edit_api_application_path(ApiApplication.last.id)
+    expect(page).to have_current_path edit_api_application_path(ApiApplication.last.id),
+                                      ignore_query: true
   end
 
-  scenario 'with blank fields' do
+  it 'with blank fields' do
     create_api_app('', '', '')
     expect(page).to have_content "Name can't be blank"
     expect(page).to have_content "Main URL can't be blank"
-    expect(page).to_not have_content 'API Token:'
+    expect(page).not_to have_content 'API Token:'
   end
 
-  scenario 'with invalid main url' do
+  it 'with invalid main url' do
     create_api_app('test app', 'ohana', 'http://callback')
     expect(page).to have_content 'ohana is not a valid URL'
-    expect(page).to_not have_content 'API Token:'
+    expect(page).not_to have_content 'API Token:'
   end
 
-  scenario 'with invalid callback url' do
+  it 'with invalid callback url' do
     create_api_app('test app', 'http://localhost', 'callback')
     expect(page).to have_content 'callback is not a valid URL'
-    expect(page).to_not have_content 'API Token:'
+    expect(page).not_to have_content 'API Token:'
   end
 end

@@ -6,7 +6,7 @@ describe 'POST /locations/:location_id/address' do
       @loc = create(:no_address)
     end
 
-    before(:each) do
+    before do
       @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA',
                  postal_code: '90210', country: 'US' }
     end
@@ -19,7 +19,7 @@ describe 'POST /locations/:location_id/address' do
       post api_location_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
            @attrs
 
-      expect(response).to have_http_status(201)
+      expect(response).to have_http_status(:created)
       expect(json['address_1']).to eq(@attrs[:address_1])
     end
 
@@ -35,7 +35,7 @@ describe 'POST /locations/:location_id/address' do
       post api_location_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
            address_1: nil
 
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(json['errors'].first['address_1']).
         to eq(["can't be blank for Address"])
     end
@@ -46,7 +46,7 @@ describe 'POST /locations/:location_id/address' do
         @attrs,
         'HTTP_X_API_TOKEN' => 'invalid_token'
       )
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 
@@ -55,7 +55,7 @@ describe 'POST /locations/:location_id/address' do
       @loc = create(:location)
     end
 
-    before(:each) do
+    before do
       @attrs = { address_1: 'foo', city: 'bar', state_province: 'CA',
                  postal_code: '90210', country: 'US' }
       post api_location_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']), @attrs

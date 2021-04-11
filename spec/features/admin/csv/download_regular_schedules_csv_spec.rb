@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Regular Schedules CSV' do
+describe 'Downloading Regular Schedules CSV' do
   before do
     login_super_admin
     create_service

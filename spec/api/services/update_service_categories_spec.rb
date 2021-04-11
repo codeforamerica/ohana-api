@@ -17,7 +17,7 @@ describe 'PUT /services/:service_id/categories' do
       taxonomy_ids: %w[101 102]
     )
 
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expect(json['categories'][0]['name']).to eq 'Food'
     expect(json['categories'][1]['name']).to eq 'Health'
   end

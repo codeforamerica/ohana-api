@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-feature 'Update alternate name' do
-  background do
+describe 'Update alternate name' do
+  before do
     loc = create(:location)
     program = loc.organization.programs.create!(attributes_for(:program))
     login_super_admin
     visit admin_program_path(program)
   end
 
-  scenario 'with valid alternate_name' do
+  it 'with valid alternate_name' do
     fill_in 'program_alternate_name', with: 'Youth Counseling'
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Program was successfully updated.'

@@ -5,7 +5,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
     create_service
   end
 
-  before(:each) do
+  before do
     @attrs = attributes_for(:service_with_extra_whitespace)
   end
 
@@ -45,7 +45,7 @@ describe 'PATCH /locations/:location_id/services/:id' do
       api_location_service_url(@location, @service, subdomain: ENV['API_SUBDOMAIN']),
       @attrs
     )
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expected_attributes.each do |key, value|
       expect(json[key.to_s]).to eq value
     end

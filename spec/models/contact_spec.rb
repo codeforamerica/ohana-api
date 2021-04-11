@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Contact do
   subject { build(:contact) }
 
-  it { is_expected.to_not be_valid }
+  it { is_expected.not_to be_valid }
 
   it { is_expected.to belong_to(:location).optional.touch(true) }
   it { is_expected.to belong_to(:service).optional.touch(true) }
@@ -13,14 +13,14 @@ describe Contact do
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
   it do
-    is_expected.to validate_presence_of(:name).
+    expect(subject).to validate_presence_of(:name).
       with_message("can't be blank for Contact")
   end
 
   it { is_expected.to allow_value('moncef@blah.com').for(:email) }
 
   it do
-    is_expected.not_to allow_value('moncef@blahcom').for(:email).
+    expect(subject).not_to allow_value('moncef@blahcom').for(:email).
       with_message('moncef@blahcom is not a valid email')
   end
 

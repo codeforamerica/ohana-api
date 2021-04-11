@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature "Update service's program" do
-  background do
+describe "Update service's program" do
+  before do
     create_service
     @prog = @location.organization.programs.create!(attributes_for(:program))
     login_super_admin
@@ -9,7 +9,7 @@ feature "Update service's program" do
     click_link 'Literacy Program'
   end
 
-  scenario 'with valid program' do
+  it 'with valid program' do
     select 'Collection of Services', from: 'service_program_id'
     click_button I18n.t('admin.buttons.save_changes')
     expect(page).to have_content 'Service was successfully updated.'
@@ -18,7 +18,7 @@ feature "Update service's program" do
     expect(@service.reload.program_id).to eq @prog.id
   end
 
-  scenario 'with blank program' do
+  it 'with blank program' do
     @service.program_id = @prog.id
     @service.save
     select 'This service is not part of any program', from: 'service_program_id'

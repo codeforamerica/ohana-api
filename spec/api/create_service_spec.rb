@@ -5,7 +5,7 @@ describe 'POST /locations/:location_id/services' do
     @loc = create(:location)
   end
 
-  before(:each) do
+  before do
     @service_attributes = {
       name: 'test service',
       description: 'test description',

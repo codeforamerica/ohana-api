@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Update fees' do
-  background do
+describe 'Update fees' do
+  before do
     create_service
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
 
-  scenario 'with valid fees' do
+  it 'with valid fees' do
     click_link 'Literacy Program'
     fill_in 'service_fees', with: 'Youth Counseling'
     click_button I18n.t('admin.buttons.save_changes')

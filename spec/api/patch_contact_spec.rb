@@ -6,7 +6,7 @@ describe 'PATCH contact' do
     @contact = @loc.contacts.create!(attributes_for(:contact))
   end
 
-  before(:each) do
+  before do
     @attrs = { name: 'Moncef', title: 'Consultant', email: 'bar@foo.com' }
   end
 
@@ -20,7 +20,7 @@ describe 'PATCH contact' do
         api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'returns the updated contact when validations pass' do

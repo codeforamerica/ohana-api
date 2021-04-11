@@ -1,9 +1,14 @@
+inherit_from: .rubocop_todo.yml
+
 # This configuration only includes the cops that differ from the Rubocop
 # defaults, which can be found here:
 # https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 # https://github.com/bbatsov/rubocop/blob/master/config/disabled.yml
-require: rubocop-rails
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   Exclude:
@@ -11,7 +16,7 @@ AllCops:
     - 'bin/**/*'
     - 'config/initializers/devise.rb'
     - 'db/migrate/*'
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7
   UseCache: true
   NewCops: enable
 

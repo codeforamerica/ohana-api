@@ -11,7 +11,7 @@ FactoryBot.define do
     association :location, factory: :no_address
   end
 
-  factory :mail_address_with_extra_whitespace, class: MailAddress do
+  factory :mail_address_with_extra_whitespace, class: 'MailAddress' do
     attention { '   Moncef ' }
     address_1 { '8875     La Honda Road' }
     city { 'La Honda  ' }

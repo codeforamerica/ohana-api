@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe LocationPresenter do
+  subject(:presenter) { LocationPresenter.new(properties, addresses) }
+
   before(:all) do
     DatabaseCleaner.clean_with(:truncation)
     create(:organization)
@@ -31,8 +33,6 @@ describe LocationPresenter do
     path = Rails.root.join('spec/support/fixtures/missing_address.csv')
     AddressExtractor.extract_addresses(path)
   end
-
-  subject(:presenter) { LocationPresenter.new(properties, addresses) }
 
   describe '#to_location' do
     context 'when the location is valid' do
@@ -166,7 +166,7 @@ describe LocationPresenter do
     context 'when there is a matching address' do
       it 'sets address attributes' do
         location = presenter.to_location
-        expect(location.address).to_not be_nil
+        expect(location.address).not_to be_nil
       end
     end
 
@@ -182,7 +182,7 @@ describe LocationPresenter do
 
     context 'when there is not an existing matching address' do
       it 'creates a new address' do
-        expect(presenter).to_not receive(:update_address_for)
+        expect(presenter).not_to receive(:update_address_for)
         presenter.to_location
       end
     end

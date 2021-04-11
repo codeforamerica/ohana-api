@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ContactImporter do
+  subject(:importer) { ContactImporter.new(content) }
+
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_contact.csv') }
   let(:valid_content) do
     Rails.root.join('spec/support/fixtures/valid_location_contact.csv')
@@ -21,8 +23,6 @@ describe ContactImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { ContactImporter.new(content) }
 
   describe '#valid?' do
     context 'when the contact content is invalid' do
@@ -66,9 +66,9 @@ describe ContactImporter do
       end
 
       describe 'the contact' do
-        before { importer.import }
-
         subject { Contact.first }
+
+        before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
         its(:department) { is_expected.to eq 'Food Pantry' }
@@ -88,9 +88,9 @@ describe ContactImporter do
       let(:content) { valid_service_contact }
 
       describe 'the contact' do
-        before { importer.import }
-
         subject { Contact.first }
+
+        before { importer.import }
 
         its(:service_id) { is_expected.to eq 1 }
       end
@@ -100,9 +100,9 @@ describe ContactImporter do
       let(:content) { valid_org_contact }
 
       describe 'the contact' do
-        before { importer.import }
-
         subject { Contact.first }
+
+        before { importer.import }
 
         its(:organization_id) { is_expected.to eq 1 }
       end
@@ -124,7 +124,7 @@ describe ContactImporter do
       let(:content) { valid_content }
 
       it 'does not create a new contact' do
-        expect { importer.import }.to_not change(Contact, :count)
+        expect { importer.import }.not_to change(Contact, :count)
       end
 
       it 'does not generate errors' do

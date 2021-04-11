@@ -8,7 +8,7 @@ describe 'GET /categories/:category_id/children' do
                     create!(name: 'Emergency Food', taxonomy_id: '101-01')
     end
 
-    before :each do
+    before do
       get api_category_children_url(@food.taxonomy_id, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -17,7 +17,7 @@ describe 'GET /categories/:category_id/children' do
     end
 
     it 'returns a 200 status' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'includes the id attribute in the serialization' do
@@ -46,7 +46,7 @@ describe 'GET /categories/:category_id/children' do
       @food = Category.create!(name: 'Food', taxonomy_id: '101')
     end
 
-    before :each do
+    before do
       get api_category_children_url(@food.taxonomy_id, subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -59,7 +59,7 @@ describe 'GET /categories/:category_id/children' do
     end
 
     it 'returns a 200 status' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ProgramImporter do
+  subject(:importer) { ProgramImporter.new(content) }
+
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_program.csv') }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_program.csv') }
   let(:no_parent) { Rails.root.join('spec/support/fixtures/program_with_no_parent.csv') }
@@ -13,8 +15,6 @@ describe ProgramImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { ProgramImporter.new(content) }
 
   describe '#valid?' do
     context 'when the program content is invalid' do
@@ -57,9 +57,9 @@ describe ProgramImporter do
       end
 
       describe 'the program' do
-        before { importer.import }
-
         subject { Program.first }
+
+        before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
         its(:name) { is_expected.to eq 'Defeat Hunger' }
@@ -84,7 +84,7 @@ describe ProgramImporter do
       let(:content) { valid_content }
 
       it 'does not create a new program' do
-        expect { importer.import }.to_not change(Program, :count)
+        expect { importer.import }.not_to change(Program, :count)
       end
 
       it 'does not generate errors' do

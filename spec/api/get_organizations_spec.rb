@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'GET /organizations' do
   it 'returns an empty array when no organizations exist' do
     get api_organizations_url(subdomain: ENV['API_SUBDOMAIN'])
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expect(response.content_type).to eq('application/json')
     expect(json).to eq([])
   end
@@ -20,7 +20,7 @@ describe 'GET /organizations' do
 
     it 'returns the correct number of existing organizations' do
       get api_organizations_url(subdomain: ENV['API_SUBDOMAIN'])
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
       expect(json.length).to eq(2)
     end
 
@@ -41,7 +41,7 @@ describe 'GET /organizations' do
       @org = location.organization
     end
 
-    before(:each) do
+    before do
       @org.reload
       get api_organizations_url(subdomain: ENV['API_SUBDOMAIN'])
     end
@@ -79,7 +79,7 @@ describe 'GET /organizations' do
     end
 
     context 'with nil fields' do
-      before(:each) do
+      before do
         @loc = create(:loc_with_nil_fields)
       end
 

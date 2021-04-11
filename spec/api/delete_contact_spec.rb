@@ -24,7 +24,7 @@ describe 'DELETE /locations/:location_id/contacts/:id' do
       api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
       {}
     )
-    expect(response).to have_http_status(204)
+    expect(response).to have_http_status(:no_content)
   end
 
   it "doesn't allow deleting a contact without a valid token" do
@@ -33,6 +33,6 @@ describe 'DELETE /locations/:location_id/contacts/:id' do
       {},
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
-    expect(response).to have_http_status(401)
+    expect(response).to have_http_status(:unauthorized)
   end
 end

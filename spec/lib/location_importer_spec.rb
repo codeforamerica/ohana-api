@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe LocationImporter do
+  subject(:importer) { LocationImporter.new(content, address) }
+
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_location.csv') }
   let(:invalid_org) { Rails.root.join('spec/support/fixtures/invalid_location_org.csv') }
   let(:valid_content) { Rails.root.join('spec/support/fixtures/valid_location.csv') }
@@ -26,8 +28,6 @@ describe LocationImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { LocationImporter.new(content, address) }
 
   describe '#valid?' do
     context 'when the location content is invalid' do
@@ -104,9 +104,9 @@ describe LocationImporter do
       end
 
       describe 'the location' do
-        before { importer.import }
-
         subject { Location.first }
+
+        before { importer.import }
 
         its(:name) { is_expected.to eq 'Harvest Food Bank' }
         its(:latitude) { is_expected.to eq(37.7726402) }
@@ -118,9 +118,9 @@ describe LocationImporter do
       end
 
       describe 'the address' do
-        before { importer.import }
-
         subject { Address.first }
+
+        before { importer.import }
 
         its(:address_1) { is_expected.to eq '123 Main Street' }
         its(:address_2) { is_expected.to eq 'Suite 101' }
@@ -151,7 +151,7 @@ describe LocationImporter do
       let(:address) { valid_address }
 
       it 'does not create a new contact' do
-        expect { importer.import }.to_not change(Address, :count)
+        expect { importer.import }.not_to change(Address, :count)
       end
 
       it 'does not generate errors' do

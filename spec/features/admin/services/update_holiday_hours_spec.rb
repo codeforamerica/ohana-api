@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-feature 'Update holiday schedule' do
-  background do
+describe 'Update holiday schedule' do
+  before do
     create_service
     login_super_admin
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'
   end
 
-  scenario 'when closed', :js do
+  it 'when closed', :js do
     add_holiday_schedule(
       start_month: 'January',
       start_day: '1',
@@ -35,7 +35,7 @@ feature 'Update holiday schedule' do
     expect(find_field("#{prefix}_closes_at_5i").value).to eq ''
   end
 
-  scenario 'when open', :js do
+  it 'when open', :js do
     add_holiday_schedule(
       start_month: 'January',
       start_day: '1',
@@ -64,7 +64,7 @@ feature 'Update holiday schedule' do
     expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
   end
 
-  scenario 'removing a holiday schedule', :js do
+  it 'removing a holiday schedule', :js do
     @service.holiday_schedules.create!(attributes_for(:holiday_schedule))
     visit '/admin/locations/vrs-services'
     click_link 'Literacy Program'

@@ -6,12 +6,12 @@ FactoryBot.define do
     taxonomy_id { '101' }
   end
 
-  factory :health, class: Category do
+  factory :health, class: 'Category' do
     name { 'Health' }
     taxonomy_id { '102' }
   end
 
-  factory :jobs, class: Category do
+  factory :jobs, class: 'Category' do
     name { 'Jobs' }
     taxonomy_id { '105' }
   end

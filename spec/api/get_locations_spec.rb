@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'GET /locations' do
   it 'returns an empty array when no locations exist' do
     get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expect(response.content_type).to eq('application/json')
     expect(json).to eq([])
   end
@@ -20,7 +20,7 @@ describe 'GET /locations' do
 
     it 'returns the correct number of existing locations' do
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
       expect(json.length).to eq(2)
     end
 
@@ -41,7 +41,7 @@ describe 'GET /locations' do
       @location = create(:location)
     end
 
-    before(:each) do
+    before do
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
     end
 
@@ -54,7 +54,7 @@ describe 'GET /locations' do
     end
 
     it 'does not include the accessibility attribute' do
-      expect(json.first.keys).to_not include('accessibility')
+      expect(json.first.keys).not_to include('accessibility')
     end
 
     it 'includes the alternate_name attribute' do
@@ -98,19 +98,19 @@ describe 'GET /locations' do
     end
 
     it 'does not include the email attribute' do
-      expect(json.first.keys).to_not include('email')
+      expect(json.first.keys).not_to include('email')
     end
 
     it 'does not include the hours attribute' do
-      expect(json.first.keys).to_not include('hours')
+      expect(json.first.keys).not_to include('hours')
     end
 
     it 'does not include the languages attribute' do
-      expect(json.first.keys).to_not include('languages')
+      expect(json.first.keys).not_to include('languages')
     end
 
     it 'does not include the transportation attribute' do
-      expect(json.first.keys).to_not include('transportation')
+      expect(json.first.keys).not_to include('transportation')
     end
 
     it 'includes the website attribute' do
@@ -131,15 +131,15 @@ describe 'GET /locations' do
     end
 
     it 'does not include the mail_address association' do
-      expect(json.first.keys).to_not include('mail_address')
+      expect(json.first.keys).not_to include('mail_address')
     end
 
     it 'does not include the contacts association' do
-      expect(json.first.keys).to_not include('contacts')
+      expect(json.first.keys).not_to include('contacts')
     end
 
     it 'does not include the services association' do
-      expect(json.first.keys).to_not include('services')
+      expect(json.first.keys).not_to include('services')
     end
 
     it 'includes the phones association' do
@@ -169,7 +169,7 @@ describe 'GET /locations' do
     it 'does not include contacts within Organization' do
       get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
       org_keys = json.first['organization'].keys
-      expect(org_keys).to_not include('contacts')
+      expect(org_keys).not_to include('contacts')
     end
 
     it 'includes the correct url attribute' do

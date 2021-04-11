@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Phones CSV' do
+describe 'Downloading Phones CSV' do
   before do
     login_super_admin
     @service = create(:service)

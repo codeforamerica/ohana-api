@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Mail Addresses CSV' do
+describe 'Downloading Mail Addresses CSV' do
   before do
     login_super_admin
     @mail_address = create(:mail_address)

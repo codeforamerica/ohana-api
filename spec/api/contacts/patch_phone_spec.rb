@@ -7,7 +7,7 @@ describe 'PATCH Contact phone' do
     @phone = @contact.phones.create!(attributes_for(:phone))
   end
 
-  before(:each) do
+  before do
     @attrs = { number: '123-456-7890', number_type: 'fax' }
   end
 
@@ -23,7 +23,7 @@ describe 'PATCH Contact phone' do
         ),
         @attrs
       )
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'returns the updated phone when validations pass' do

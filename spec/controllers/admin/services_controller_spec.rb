@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Admin::ServicesController do
   describe 'GET edit' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
       @service = @loc.services.create!(attributes_for(:service))
     end
@@ -41,7 +41,7 @@ describe Admin::ServicesController do
   end
 
   describe 'GET new' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
     end
 
@@ -79,7 +79,7 @@ describe Admin::ServicesController do
   end
 
   describe 'PATCH update' do
-    before(:each) do
+    before do
       @loc = create(:location_for_org_admin)
       @service = @loc.services.create!(attributes_for(:service))
       @new_loc = create(:far_loc, organization_id: @loc.organization.id)
@@ -119,7 +119,7 @@ describe Admin::ServicesController do
   end
 
   describe 'create' do
-    before(:each) do
+    before do
       @location = create(:location_with_admin)
     end
 
@@ -145,7 +145,7 @@ describe Admin::ServicesController do
           post :create, params: { location_id: @location.id, service: {
             name: 'New Service', description: 'new service', status: 'active', keywords: ['']
           } }
-        end.to_not change(Service, :count)
+        end.not_to change(Service, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -169,7 +169,7 @@ describe Admin::ServicesController do
   end
 
   describe 'update' do
-    before(:each) do
+    before do
       @location = create(:location_with_admin)
       @service = @location.services.create!(attributes_for(:service))
       @attrs = {
@@ -199,7 +199,7 @@ describe Admin::ServicesController do
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
-        expect(@service.reload.name).to_not eq 'Updated Service'
+        expect(@service.reload.name).not_to eq 'Updated Service'
       end
     end
 
@@ -216,7 +216,7 @@ describe Admin::ServicesController do
   end
 
   describe 'destroy' do
-    before(:each) do
+    before do
       @location = create(:location_with_admin)
       @service = @location.services.create!(attributes_for(:service))
     end
@@ -237,7 +237,7 @@ describe Admin::ServicesController do
         log_in_as_admin(:admin)
 
         expect { delete :destroy, params: { location_id: @location.id, id: @service.id } }.
-          to_not change(Service, :count)
+          not_to change(Service, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))

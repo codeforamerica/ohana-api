@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Downloading Programs CSV' do
+describe 'Downloading Programs CSV' do
   before do
     login_super_admin
     @program = create(:program)

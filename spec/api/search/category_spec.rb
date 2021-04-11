@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "GET 'search'" do
   context 'with category parameter' do
-    before(:each) do
+    before do
       nearby = create(:nearby_loc)
       create(:farmers_market_loc)
 
@@ -37,7 +37,7 @@ describe "GET 'search'" do
   end
 
   context 'with category and keyword parameters' do
-    before(:each) do
+    before do
       loc1 = create(:nearby_loc)
       loc2 = create(:farmers_market_loc)
       loc3 = create(:location)

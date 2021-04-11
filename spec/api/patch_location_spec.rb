@@ -20,14 +20,14 @@ describe 'PATCH /locations/:id)' do
     }
   end
 
-  before(:each) do
+  before do
     @loc = create(:location)
   end
 
   it 'returns the updated location when validations pass' do
     patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), attributes
 
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expect(json['accessibility']).to eq ['Disabled Parking', 'Ramp']
     expect(json['active']).to eq attributes[:active]
     expect(json['admin_emails']).to eq %w[foo@test.com bar@test.com]

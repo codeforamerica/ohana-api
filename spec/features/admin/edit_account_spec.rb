@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'Editing Admin account' do
-  before :each do
+describe 'Editing Admin account' do
+  before do
     login_admin
     visit '/admin/edit'
   end
@@ -18,6 +18,6 @@ feature 'Editing Admin account' do
     fill_in 'admin_name', with: 'New Admin name'
     fill_in 'admin_current_password', with: @admin.password
     click_button I18n.t('buttons.update')
-    expect(current_path).to eq edit_admin_registration_path
+    expect(page).to have_current_path edit_admin_registration_path, ignore_query: true
   end
 end

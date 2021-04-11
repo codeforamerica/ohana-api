@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-feature 'Create a new contact' do
-  background do
+describe 'Create a new contact' do
+  before do
     create(:location)
     login_super_admin
     visit('/admin/locations/vrs-services')
     click_link I18n.t('admin.buttons.add_contact')
   end
 
-  scenario 'with all fields' do
+  it 'with all fields' do
     fill_in 'contact_name', with: 'New VRS Services contact'
     fill_in 'contact_email', with: 'foo@bar.com'
     fill_in 'contact_department', with: 'new department'
@@ -28,7 +28,7 @@ feature 'Create a new contact' do
     expect(find_field('contact_title').value).to eq 'CTO'
   end
 
-  scenario 'without any required fields' do
+  it 'without any required fields' do
     click_button I18n.t('admin.buttons.create_contact')
     expect(page).to have_content "Name can't be blank for Contact"
   end

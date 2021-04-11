@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "GET 'search'" do
   context 'with status parameter' do
-    before(:each) do
+    before do
       create(:nearby_loc)
       @location = create(:location)
       @attrs =  attributes_for(:service)

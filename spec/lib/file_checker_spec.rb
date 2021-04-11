@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe FileChecker do
+  subject(:checker) { FileChecker.new(path, required_headers) }
+
   let(:required_and_full) { Rails.root.join('spec/support/fixtures/locations.csv') }
   let(:required_but_empty) { Rails.root.join('spec/support/fixtures/services.csv') }
   let(:required_but_missing) { Rails.root.join('spec/support/data/services.csv') }
@@ -12,8 +14,6 @@ describe FileChecker do
   end
   let(:required_headers) { %w[id organization_id name alternate_name] }
 
-  subject(:checker) { FileChecker.new(path, required_headers) }
-
   describe '#filename' do
     let(:path) { required_and_full }
 
@@ -24,7 +24,7 @@ describe FileChecker do
     context 'when the file exists' do
       let(:path) { required_and_full }
 
-      it { is_expected.to_not be_missing }
+      it { is_expected.not_to be_missing }
     end
 
     context 'when the file does not exist' do
@@ -38,7 +38,7 @@ describe FileChecker do
     context 'when the file is required and present' do
       let(:path) { required_and_full }
 
-      it { is_expected.to_not be_required_but_missing }
+      it { is_expected.not_to be_required_but_missing }
     end
 
     context 'when the file is required and missing' do
@@ -50,13 +50,13 @@ describe FileChecker do
     context 'when the file is missing but not required' do
       let(:path) { missing_not_required }
 
-      it { is_expected.to_not be_required_but_missing }
+      it { is_expected.not_to be_required_but_missing }
     end
 
     context 'when the file is present but not required' do
       let(:path) { empty_not_required }
 
-      it { is_expected.to_not be_required_but_missing }
+      it { is_expected.not_to be_required_but_missing }
     end
   end
 
@@ -64,7 +64,7 @@ describe FileChecker do
     context 'when the file is required and has content' do
       let(:path) { required_and_full }
 
-      it { is_expected.to_not be_required_but_empty }
+      it { is_expected.not_to be_required_but_empty }
     end
 
     context 'when the file is required and empty' do
@@ -76,13 +76,13 @@ describe FileChecker do
     context 'when the file is not required but empty' do
       let(:path) { empty_not_required }
 
-      it { is_expected.to_not be_required_but_empty }
+      it { is_expected.not_to be_required_but_empty }
     end
 
     context 'when the file is not required and has content' do
       let(:path) { full_not_required }
 
-      it { is_expected.to_not be_required_but_empty }
+      it { is_expected.not_to be_required_but_empty }
     end
   end
 
@@ -96,13 +96,13 @@ describe FileChecker do
     context 'when the file is not required but missing' do
       let(:path) { missing_not_required }
 
-      it { is_expected.to_not be_missing_or_empty }
+      it { is_expected.not_to be_missing_or_empty }
     end
 
     context 'when the file is not required but empty' do
       let(:path) { empty_not_required }
 
-      it { is_expected.to_not be_missing_or_empty }
+      it { is_expected.not_to be_missing_or_empty }
     end
 
     context 'when the file is required but empty' do
@@ -122,7 +122,7 @@ describe FileChecker do
     context 'when the headers are valid' do
       let(:path) { full_not_required }
 
-      it { is_expected.to_not be_invalid_headers }
+      it { is_expected.not_to be_invalid_headers }
     end
   end
 

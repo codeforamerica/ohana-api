@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ServiceImporter do
+  subject(:importer) { ServiceImporter.new(content) }
+
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_service.csv') }
   let(:invalid_location) do
     Rails.root.join('spec/support/fixtures/invalid_service_location.csv')
@@ -15,8 +17,6 @@ describe ServiceImporter do
   after(:all) do
     Organization.find_each(&:destroy)
   end
-
-  subject(:importer) { ServiceImporter.new(content) }
 
   describe '#valid?' do
     context 'when the service content is invalid' do
@@ -59,9 +59,9 @@ describe ServiceImporter do
       end
 
       describe 'the service' do
-        before { importer.import }
-
         subject { Service.first }
+
+        before { importer.import }
 
         its(:accepted_payments) { is_expected.to eq ['Cash', 'Check', 'Credit Card'] }
         its(:alternate_name) { is_expected.to be_nil }
@@ -90,9 +90,9 @@ describe ServiceImporter do
       let(:content) { valid_content }
 
       describe 'the service' do
-        before { importer.import }
-
         subject { Service.first }
+
+        before { importer.import }
 
         its(:program_id) { is_expected.to eq 1 }
       end
@@ -107,9 +107,9 @@ describe ServiceImporter do
       let(:content) { valid_content }
 
       describe 'the service' do
-        before { importer.import }
-
         subject { Service.first }
+
+        before { importer.import }
 
         its('categories.count') { is_expected.to eq 2 }
       end
@@ -132,7 +132,7 @@ describe ServiceImporter do
       let(:content) { valid_content }
 
       it 'does not create a new service' do
-        expect { importer.import }.to_not change(Service, :count)
+        expect { importer.import }.not_to change(Service, :count)
       end
 
       it 'does not generate errors' do

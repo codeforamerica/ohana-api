@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'PATCH address' do
-  before(:each) do
+  before do
     @loc = create(:location)
     @address = @loc.address
     @attrs = { address_1: '1236 Broadway', address_2: 'Apt 101',
@@ -15,7 +15,7 @@ describe 'PATCH address' do
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
       expect(json['address_1']).to eq @attrs[:address_1]
       expect(json['address_2']).to eq @attrs[:address_2]
       expect(json['city']).to eq @attrs[:city]
@@ -38,7 +38,7 @@ describe 'PATCH address' do
         api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
         @attrs
       )
-      expect(@loc.reload.longitude).to_not eq old_coords.first
+      expect(@loc.reload.longitude).not_to eq old_coords.first
     end
 
     it "doesn't update location's coordinates when address hasn't changed" do

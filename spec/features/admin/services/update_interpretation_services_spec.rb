@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'Update interpretation_services' do
-  background do
+describe 'Update interpretation_services' do
+  before do
     create_service
     login_super_admin
     visit '/admin/locations/vrs-services'
   end
 
-  scenario 'with valid interpretation_services' do
+  it 'with valid interpretation_services' do
     click_link 'Literacy Program'
     fill_in 'service_interpretation_services', with: 'CTS LanguageLink'
     click_button I18n.t('admin.buttons.save_changes')

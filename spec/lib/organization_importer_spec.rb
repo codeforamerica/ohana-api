@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe OrganizationImporter do
+  subject(:importer) { OrganizationImporter.new(content) }
+
   let(:invalid_content) { Rails.root.join('spec/support/fixtures/invalid_org.csv') }
   let(:invalid_date) do
     Rails.root.join('spec/support/fixtures/org_with_invalid_date.csv')
@@ -12,8 +14,6 @@ describe OrganizationImporter do
   let(:org_with_2_digit_year) do
     Rails.root.join('spec/support/fixtures/org_with_2_digit_year.csv')
   end
-
-  subject(:importer) { OrganizationImporter.new(content) }
 
   describe '#valid?' do
     context 'when the org content is invalid' do
@@ -56,9 +56,9 @@ describe OrganizationImporter do
       end
 
       describe 'the org' do
-        before { importer.import }
-
         subject { Organization.find(2) }
+
+        before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
         its(:accreditations) { is_expected.to eq ['BBB', 'State Board of Education'] }
@@ -80,9 +80,9 @@ describe OrganizationImporter do
       let(:content) { spelled_out_date }
 
       describe 'the org' do
-        before { importer.import }
-
         subject { Organization.first }
+
+        before { importer.import }
 
         its(:date_incorporated) { is_expected.to eq Date.parse('January 20, 1970') }
       end
@@ -92,9 +92,9 @@ describe OrganizationImporter do
       let(:content) { org_with_2_digit_year }
 
       describe 'the org' do
-        before { importer.import }
-
         subject { Organization.first }
+
+        before { importer.import }
 
         its(:date_incorporated) { is_expected.to eq Date.parse('January 24, 1970') }
       end
@@ -117,7 +117,7 @@ describe OrganizationImporter do
       let(:content) { valid_content }
 
       it 'does not create a new org' do
-        expect { importer.import }.to_not change(Organization, :count)
+        expect { importer.import }.not_to change(Organization, :count)
       end
 
       it 'does not generate errors' do

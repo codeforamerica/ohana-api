@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Admin::LocationsController do
   describe 'create' do
-    before(:each) do
+    before do
       location = create(:location_with_admin)
       @org = location.organization
     end
@@ -35,7 +35,7 @@ describe Admin::LocationsController do
 
         expect do
           post :create, params: { location: location_params }
-        end.to_not change(Location, :count)
+        end.not_to change(Location, :count)
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
       end
@@ -62,7 +62,7 @@ describe Admin::LocationsController do
   end
 
   describe 'update' do
-    before(:each) do
+    before do
       @loc = create(:location_with_admin)
     end
 
@@ -85,7 +85,7 @@ describe Admin::LocationsController do
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
-        expect(@loc.reload.name).to_not eq 'Updated location'
+        expect(@loc.reload.name).not_to eq 'Updated location'
       end
     end
 
@@ -102,7 +102,7 @@ describe Admin::LocationsController do
   end
 
   describe 'destroy' do
-    before(:each) do
+    before do
       @location = create(:location_with_admin)
     end
 
@@ -121,7 +121,7 @@ describe Admin::LocationsController do
         create(:location_for_org_admin)
         log_in_as_admin(:admin)
 
-        expect { delete :destroy, params: { id: @location.id } }.to_not change(Location, :count)
+        expect { delete :destroy, params: { id: @location.id } }.not_to change(Location, :count)
 
         expect(response).to redirect_to admin_dashboard_url
         expect(flash[:error]).to eq(I18n.t('admin.not_authorized'))
@@ -141,7 +141,7 @@ describe Admin::LocationsController do
   end
 
   describe 'edit' do
-    before(:each) do
+    before do
       @location = create(:location_with_admin)
     end
 
@@ -179,7 +179,7 @@ describe Admin::LocationsController do
   end
 
   describe 'new' do
-    before(:each) do
+    before do
       location = create(:location_with_admin)
       @org = location.organization
     end

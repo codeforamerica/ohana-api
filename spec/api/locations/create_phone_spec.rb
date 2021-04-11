@@ -5,7 +5,7 @@ describe 'POST /locations/:location_id/phones' do
     @loc = create(:location)
   end
 
-  before(:each) do
+  before do
     @phone_attributes = { number: '123-456-7890', number_type: 'voice' }
   end
 

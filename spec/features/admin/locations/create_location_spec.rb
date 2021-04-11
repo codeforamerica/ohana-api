@@ -1,17 +1,17 @@
 require 'rails_helper'
 
-feature 'Create a new location' do
-  background do
+describe 'Create a new location' do
+  before do
     create(:organization)
     login_super_admin
     visit('/admin/locations/new')
   end
 
-  scenario 'with all required fields', :js do
+  it 'with all required fields', :js do
     fill_in_all_required_fields
     click_button I18n.t('admin.buttons.create_location')
 
-    expect(current_path).to eq '/admin/locations/new-parent-agency-location'
+    expect(page).to have_current_path '/admin/locations/new-parent-agency-location'
     expect(find_field('location_name').value).to eq 'New Parent Agency location'
     expect(find_field('location_description').value).to eq 'new description'
     expect(find_field('location_address_attributes_address_1').value).
@@ -22,7 +22,7 @@ feature 'Create a new location' do
     expect(find_field('location_address_attributes_postal_code').value).to eq '12345'
   end
 
-  scenario 'without any required fields' do
+  it 'without any required fields' do
     click_button I18n.t('admin.buttons.create_location')
     expect(page).to have_content 'Street Address must be provided unless a Location is virtual'
     expect(page).to have_content "Description can't be blank for Location"
@@ -30,7 +30,7 @@ feature 'Create a new location' do
     expect(page).to have_content 'Organization must exist'
   end
 
-  scenario 'with valid mailing address', :js do
+  it 'with valid mailing address', :js do
     fill_in_all_required_fields
     click_link I18n.t('admin.buttons.add_mailing_address')
     update_mailing_address(
@@ -55,7 +55,7 @@ feature 'Create a new location' do
       to eq '12345'
   end
 
-  scenario 'with valid phone number', :js do
+  it 'with valid phone number', :js do
     fill_in_all_required_fields
     add_phone(
       number: '123-456-7890',
@@ -82,7 +82,7 @@ feature 'Create a new location' do
       to eq '123-ABC-DEFG'
   end
 
-  scenario 'with valid location email', :js do
+  it 'with valid location email', :js do
     fill_in_all_required_fields
     fill_in 'location_email', with: 'moncefbelyamani@samaritanhousesanmateo.org'
 
@@ -92,7 +92,7 @@ feature 'Create a new location' do
       to eq 'moncefbelyamani@samaritanhousesanmateo.org'
   end
 
-  scenario 'with valid location hours', :js do
+  it 'with valid location hours', :js do
     fill_in_all_required_fields
     add_hour(
       weekday: 'Tuesday',
@@ -112,7 +112,7 @@ feature 'Create a new location' do
     expect(find_field("#{prefix}_closes_at_5i").value).to eq '45'
   end
 
-  scenario 'with valid holiday schedule', :js do
+  it 'with valid holiday schedule', :js do
     fill_in_all_required_fields
     add_holiday_schedule(
       start_month: 'January',
@@ -140,7 +140,7 @@ feature 'Create a new location' do
     expect(find_field("#{prefix}_closes_at_5i").value).to eq ''
   end
 
-  scenario 'when adding an accessibility option', :js do
+  it 'when adding an accessibility option', :js do
     fill_in_all_required_fields
     check 'location_accessibility_elevator'
     click_button I18n.t('admin.buttons.create_location')
@@ -148,7 +148,7 @@ feature 'Create a new location' do
     expect(find('#location_accessibility_elevator')).to be_checked
   end
 
-  scenario 'when adding transportation option', :js do
+  it 'when adding transportation option', :js do
     fill_in_all_required_fields
     fill_in 'location_transportation', with: 'SAMTRANS stops within 1/2 mile.'
     click_button I18n.t('admin.buttons.create_location')
@@ -157,7 +157,7 @@ feature 'Create a new location' do
       to eq 'SAMTRANS stops within 1/2 mile.'
   end
 
-  scenario 'when adding a website', :js do
+  it 'when adding a website', :js do
     fill_in_all_required_fields
     fill_in 'location_website', with: 'http://ruby.com'
     click_button I18n.t('admin.buttons.create_location')
@@ -165,7 +165,7 @@ feature 'Create a new location' do
     expect(find_field('location_website').value).to eq 'http://ruby.com'
   end
 
-  scenario 'when adding an alternate name', :js do
+  it 'when adding an alternate name', :js do
     fill_in_all_required_fields
     fill_in 'location_alternate_name', with: 'HSA'
     click_button I18n.t('admin.buttons.create_location')
@@ -174,7 +174,7 @@ feature 'Create a new location' do
       to eq 'HSA'
   end
 
-  scenario 'when setting the virtual attribute', :js do
+  it 'when setting the virtual attribute', :js do
     select2('Parent Agency', 'org-name')
     fill_in 'location_name', with: 'New Parent Agency location'
     fill_in 'location_description', with: 'new description'
@@ -185,7 +185,7 @@ feature 'Create a new location' do
       to eq 'true'
   end
 
-  scenario 'when setting languages', :js do
+  it 'when setting languages', :js do
     fill_in_all_required_fields
     select2('French', 'location_languages', multiple: true)
     select2('Spanish', 'location_languages', multiple: true)

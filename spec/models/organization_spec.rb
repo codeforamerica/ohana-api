@@ -13,7 +13,7 @@ describe Organization do
   it { is_expected.to accept_nested_attributes_for(:phones).allow_destroy(true) }
 
   it do
-    is_expected.to validate_presence_of(:name).
+    expect(subject).to validate_presence_of(:name).
       with_message("can't be blank for Organization")
   end
 
@@ -27,8 +27,9 @@ describe Organization do
   it { is_expected.not_to allow_value('http:///codeforamerica.org').for(:website) }
   it { is_expected.not_to allow_value('http://codeforamericaorg').for(:website) }
   it { is_expected.not_to allow_value('www.codeforamerica.org').for(:website) }
+
   it do
-    is_expected.not_to allow_value('http://').
+    expect(subject).not_to allow_value('http://').
       for(:website).
       with_message('http:// is not a valid URL')
   end
@@ -86,7 +87,7 @@ describe Organization do
   end
 
   describe 'slug' do
-    before(:each) { @org = create(:organization) }
+    before { @org = create(:organization) }
 
     context 'when name is not updated' do
       it "doesn't update slug" do
@@ -108,7 +109,7 @@ describe Organization do
       it 'does not touch locations' do
         org = build(:organization)
 
-        expect(org).to_not receive(:touch_locations)
+        expect(org).not_to receive(:touch_locations)
 
         org.save
       end
@@ -118,7 +119,7 @@ describe Organization do
       it 'does not touch locations' do
         org = create(:location).organization
 
-        expect(org).to_not receive(:touch_locations)
+        expect(org).not_to receive(:touch_locations)
 
         org.update(description: 'foo')
       end
