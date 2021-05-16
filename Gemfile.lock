@@ -221,7 +221,7 @@ GEM
     pg (1.2.3)
     psych (3.3.1)
     public_suffix (4.0.6)
-    puma (5.1.1)
+    puma (5.3.1)
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
@@ -425,7 +425,7 @@ DEPENDENCIES
   letter_opener
   memcachier
   pg
-  puma
+  puma (>= 5.3.1)
   pundit
   rack-cache
   rack-cors
@@ -457,4 +457,4 @@ RUBY VERSION
    ruby 2.7.2p137
 
 BUNDLED WITH
-   2.2.17
+   2.1.4
