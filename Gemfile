@@ -5,17 +5,17 @@ gem 'active_model_serializers', '~> 0.8.0'
 gem 'ancestry'
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'bootstrap-sass', '~> 3.4.0'
-gem 'coffee-rails', '~> 4.1'
+gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 gem 'csv_shaper'
 gem 'dalli'
-gem 'devise', '~> 4.1'
+gem 'devise', '~> 4.7', '>= 4.7.3'
 gem 'enumerize'
 gem 'figaro', '~> 1.0'
 gem 'friendly_id', '~> 5.0'
 gem 'geocoder'
-gem 'haml-rails'
-gem 'jquery-rails', '~> 4.0'
-gem 'kaminari', '~> 1.1'
+gem 'haml-rails', '>= 2.0.1'
+gem 'jquery-rails', '~> 4.4', '>= 4.4.0'
+gem 'kaminari', '~> 1.2', '>= 1.2.1'
 gem 'kgio'
 gem 'memcachier'
 gem 'pg'
@@ -23,16 +23,16 @@ gem 'puma'
 gem 'pundit'
 gem 'rack-cache'
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 5.2'
-gem 'sassc-rails', '~> 2.1'
+gem 'rails', '~> 5.2', '>= 5.2.6'
+gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'select2-rails', '~> 3.5'
 gem 'uglifier', '>= 1.3.0'
 
 group :test, :development do
   gem 'bullet'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 6.1.0'
   gem 'rspec-its'
-  gem 'rspec-rails', '~> 3.1'
+  gem 'rspec-rails', '~> 3.9', '>= 3.9.1'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -41,15 +41,15 @@ group :test, :development do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '>= 3.34.0'
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'haml_lint'
-  gem 'rails-controller-testing'
+  gem 'rails-controller-testing', '>= 1.0.5'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git'
   # Pin simplecov to 0.17.1 until this bug with Code Climate is fixed:
   # https://github.com/codeclimate/test-reporter/issues/413
   gem 'simplecov', '= 0.17.1', require: false
-  gem 'webdrivers'
+  gem 'webdrivers', '>= 4.4.1'
   gem 'webmock'
 end
 
@@ -68,5 +68,5 @@ group :development do
   gem 'stackprof'
   # Access an interactive console on exception pages or by calling 'console'
   # anywhere in the code.
-  gem 'web-console'
+  gem 'web-console', '>= 3.7.0'
 end
