@@ -41,7 +41,7 @@ group :test, :development do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '>= 3.34.0'
   gem 'database_cleaner', '>= 1.0.0.RC1'
   gem 'haml_lint'
   gem 'rails-controller-testing'
@@ -50,7 +50,7 @@ group :test do
   # https://github.com/codeclimate/test-reporter/issues/413
   gem 'simplecov', '= 0.17.1', require: false
   gem 'webdrivers'
-  gem 'webmock'
+  gem 'webmock', '>= 3.11.0'
 end
 
 group :development do
@@ -59,7 +59,7 @@ group :development do
   gem 'bummr'
   gem 'derailed'
   gem 'flamegraph'
-  gem 'letter_opener'
+  gem 'letter_opener', '>= 1.7.0'
   gem 'rack-mini-profiler'
   gem 'reek'
   gem 'spring'
