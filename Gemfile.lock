@@ -234,7 +234,7 @@ GEM
       activesupport (>= 3.0.0)
     racc (1.6.0)
     rack (2.2.3)
-    rack-cache (1.12.1)
+    rack-cache (1.13.0)
       rack (>= 0.4)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
