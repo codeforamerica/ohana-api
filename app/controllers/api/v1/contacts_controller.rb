@@ -25,7 +25,7 @@ module Api
       def destroy
         contact = Contact.find(params[:id])
         contact.destroy
-        head 204
+        head :no_content
       end
 
       private

@@ -50,7 +50,7 @@ describe PhoneImporter do
       let(:content) { no_parent }
 
       errors = ['Line 2: Phone is missing a parent: Location or Contact or ' \
-        'Service or Organization']
+                'Service or Organization']
 
       its(:errors) { is_expected.to eq(errors) }
     end

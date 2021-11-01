@@ -52,7 +52,7 @@ describe RegularScheduleImporter do
       let(:content) { no_parent }
 
       errors = ['Line 2: Regular Schedule is missing a parent: Location or ' \
-        'Service']
+                'Service']
 
       its(:errors) { is_expected.to eq(errors) }
     end

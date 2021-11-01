@@ -31,7 +31,7 @@ module Api
       def destroy
         org = Organization.find(params[:id])
         org.destroy
-        head 204
+        head :no_content
       end
 
       def locations

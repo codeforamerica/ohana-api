@@ -117,8 +117,8 @@ describe Location do
   describe '#full_physical_address' do
     it 'joins all address elements into one string' do
       combined = "#{subject.address.address_1}, " \
-        "#{subject.address.city}, #{subject.address.state_province} " \
-        "#{subject.address.postal_code}"
+                 "#{subject.address.city}, #{subject.address.state_province} " \
+                 "#{subject.address.postal_code}"
 
       expect(subject.full_physical_address).to eq(combined)
     end

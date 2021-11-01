@@ -23,7 +23,7 @@ module Api
         mail_address_id = location.mail_address.id
         location.mail_address_attributes = { id: mail_address_id, _destroy: '1' }
         location.save!
-        head 204
+        head :no_content
       end
 
       private
