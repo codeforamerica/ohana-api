@@ -31,7 +31,7 @@ module Api
       def destroy
         service = Service.find(params[:id])
         service.destroy
-        head 204
+        head :no_content
       end
 
       def update_categories

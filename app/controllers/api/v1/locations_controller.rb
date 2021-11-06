@@ -46,7 +46,7 @@ module Api
       def destroy
         location = Location.find(params[:id])
         location.destroy
-        head 204
+        head :no_content
       end
 
       private

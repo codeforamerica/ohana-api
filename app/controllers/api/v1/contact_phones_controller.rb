@@ -19,7 +19,7 @@ module Api
       def destroy
         phone = Phone.find(params[:id])
         phone.destroy
-        head 204
+        head :no_content
       end
 
       private

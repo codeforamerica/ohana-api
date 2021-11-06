@@ -21,7 +21,7 @@ module Api
         address_id = location.address.id
         location.address_attributes = { id: address_id, _destroy: '1' }
         location.save!
-        head 204
+        head :no_content
       end
 
       private
