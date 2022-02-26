@@ -1,8 +1,8 @@
 ImporterErrors = Struct.new(:record, :line_number) do
   def self.messages_for(records = [])
-    records.each_with_index.map do |record, index|
+    records.each_with_index.filter_map do |record, index|
       new(record, index + 2).message
-    end.reject(&:nil?)
+    end
   end
 
   def message

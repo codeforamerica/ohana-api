@@ -12,7 +12,7 @@ describe 'ApiApplications' do
 
     context 'when signed in' do
       it 'returns a 200' do
-        user = FactoryBot.create(:user)
+        user = create(:user)
         post(
           user_session_path,
           params: { user: { email: user.email, password: user.password } }
