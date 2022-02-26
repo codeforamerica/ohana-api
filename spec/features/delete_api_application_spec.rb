@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Delete an API Application' do
   before do
-    user = FactoryBot.create(:user_with_app)
+    user = create(:user_with_app)
     login_as(user, scope: :user)
     name = user.api_applications.first.name
     main_url = user.api_applications.first.main_url

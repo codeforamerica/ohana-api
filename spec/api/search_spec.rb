@@ -5,8 +5,8 @@ describe "GET 'search'" do
     before :all do
       @loc = create(:location)
       @nearby = create(:nearby_loc)
-      @loc.update(updated_at: Time.zone.now - 1.day)
-      @nearby.update(updated_at: Time.zone.now - 1.hour)
+      @loc.update(updated_at: 1.day.ago)
+      @nearby.update(updated_at: 1.hour.ago)
     end
 
     before do

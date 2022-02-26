@@ -14,7 +14,7 @@ describe 'Creating a new API Application' do
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
   before do
-    user = FactoryBot.create(:user)
+    user = create(:user)
     login_as(user, scope: :user)
     visit '/api_applications'
   end

@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-ruby '2.7.4'
+ruby '2.7.5'
 gem 'active_model_serializers', '~> 0.8.0'
 gem 'ancestry'
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'bootstrap-sass', '~> 3.4.0'
 gem 'coffee-rails', '~> 4.1'
 gem 'csv_shaper'
-gem 'dalli'
+gem 'dalli', '~> 2.7'
 gem 'devise', '~> 4.1'
 gem 'enumerize'
 gem 'figaro', '~> 1.0'
@@ -55,7 +55,6 @@ end
 
 group :development do
   gem 'better_errors', '>= 0.7.2'
-  gem 'binding_of_caller', platforms: %i[mri_19 rbx]
   gem 'bummr'
   gem 'derailed'
   gem 'flamegraph'

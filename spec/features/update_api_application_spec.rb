@@ -14,7 +14,7 @@ describe 'Update an existing API Application' do
   # All other methods are part of the Capybara DSL
   # https://github.com/jnicklas/capybara
   before do
-    user = FactoryBot.create(:user_with_app)
+    user = create(:user_with_app)
     login_as(user, scope: :user)
     name = user.api_applications.first.name
     main_url = user.api_applications.first.main_url

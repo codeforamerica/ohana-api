@@ -1,7 +1,7 @@
 require Rails.root.join('lib/default_host.rb')
 
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
   # Prevent CSRF attacks by raising an exception (with: :exception),
   protect_from_forgery with: :exception
 
