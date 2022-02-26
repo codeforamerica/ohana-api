@@ -68,8 +68,6 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
     bindex (0.8.1)
-    binding_of_caller (0.8.0)
-      debug_inspector (>= 0.0.1)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
@@ -111,7 +109,6 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    debug_inspector (0.0.3)
     derailed (0.1.0)
       derailed_benchmarks
     derailed_benchmarks (1.6.0)
@@ -405,14 +402,13 @@ DEPENDENCIES
   ancestry
   auto_strip_attributes (~> 2.0)
   better_errors (>= 0.7.2)
-  binding_of_caller
   bootstrap-sass (~> 3.4.0)
   bullet
   bummr
   capybara
   coffee-rails (~> 4.1)
   csv_shaper
-  dalli
+  dalli (~> 2.7)
   database_cleaner (>= 1.0.0.RC1)
   derailed
   devise (~> 4.1)
