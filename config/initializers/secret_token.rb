@@ -16,4 +16,4 @@ end
 
 # Make sure the secrets in this file are kept private
 # if you're sharing your code publicly.
-Rails.application.config.secret_key_base = ENV['SECRET_TOKEN'] || '44cd5d3990ada5d792a06bd92c796edf8474dc92c1e88eecb458d524776ee26703260a07338cfede45db5246d4afcff74965a034fed46dbd1d424dc857f7748b'
+Rails.application.config.secret_key_base = ENV.fetch('SECRET_TOKEN', '44cd5d3990ada5d792a06bd92c796edf8474dc92c1e88eecb458d524776ee26703260a07338cfede45db5246d4afcff74965a034fed46dbd1d424dc857f7748b')

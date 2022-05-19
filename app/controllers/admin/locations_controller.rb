@@ -23,7 +23,7 @@ class Admin
 
       if @location.update(location_params)
         redirect_to [:admin, @location],
-                    notice: 'Location was successfully updated.'
+                    notice: t('admin.notices.location_updated')
       else
         render :edit
       end
@@ -41,7 +41,7 @@ class Admin
       authorize org if org.present?
 
       if @location.save
-        redirect_to [:admin, @location], notice: 'Location was successfully created.'
+        redirect_to [:admin, @location], notice: t('admin.notices.location_created')
       else
         render :new
       end

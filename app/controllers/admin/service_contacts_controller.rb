@@ -4,7 +4,7 @@ class Admin
     layout 'admin'
 
     def edit
-      @service = Service.find(params[:service_id])
+      @service = service_from_params
       @contact = Contact.find(params[:id])
 
       authorize @service.location
@@ -12,13 +12,13 @@ class Admin
 
     def update
       @contact = Contact.find(params[:id])
-      @service = Service.find(params[:service_id])
+      @service = service_from_params
       location = @service.location
 
       authorize location
 
       if @contact.update(contact_params)
-        flash[:notice] = 'Contact was successfully updated.'
+        flash[:notice] = t('admin.notices.contact_updated')
         redirect_to [:admin, location, @service, @contact]
       else
         render :edit
@@ -26,7 +26,7 @@ class Admin
     end
 
     def new
-      @service = Service.find(params[:service_id])
+      @service = service_from_params
 
       authorize @service.location
 
@@ -34,7 +34,7 @@ class Admin
     end
 
     def create
-      @service = Service.find(params[:service_id])
+      @service = service_from_params
       @contact = @service.contacts.new(contact_params)
       location = @service.location
 
@@ -70,6 +70,10 @@ class Admin
           vanity_number id _destroy
         ]
       )
+    end
+
+    def service_from_params
+      Service.find(params[:service_id])
     end
   end
 end

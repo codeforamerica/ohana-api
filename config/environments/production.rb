@@ -57,9 +57,9 @@ Rails.application.configure do
   config.action_controller.asset_host = AssetHosts.new
 
   config.cache_store = :dalli_store
-  client = Dalli::Client.new((ENV['MEMCACHIER_SERVERS'] || '').split(','),
-                             username: ENV['MEMCACHIER_USERNAME'],
-                             password: ENV['MEMCACHIER_PASSWORD'],
+  client = Dalli::Client.new((ENV.fetch('MEMCACHIER_SERVERS', '')).split(','),
+                             username: ENV.fetch('MEMCACHIER_USERNAME', nil),
+                             password: ENV.fetch('MEMCACHIER_PASSWORD', nil),
                              failover: true,
                              socket_timeout: 1.5,
                              socket_failure_delay: 0.2,
@@ -80,7 +80,7 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: ENV['MAILER_URL'] }
+  config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_URL', nil) }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.perform_caching = false
@@ -90,8 +90,8 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     port: '587',
     address: 'smtp.sendgrid.net',
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
+    user_name: ENV.fetch('SENDGRID_USERNAME', nil),
+    password: ENV.fetch('SENDGRID_PASSWORD', nil),
     domain: 'heroku.com',
     authentication: :plain,
     enable_starttls_auto: true

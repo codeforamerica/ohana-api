@@ -31,7 +31,7 @@ class Admin
 
       if @organization.update(org_params)
         redirect_to [:admin, @organization],
-                    notice: 'Organization was successfully updated.'
+                    notice: t('admin.notices.organization_updated')
       else
         render :edit
       end
@@ -49,7 +49,7 @@ class Admin
 
       if @organization.save
         redirect_to admin_organizations_url,
-                    notice: 'Organization was successfully created.'
+                    notice: t('admin.notices.organization_created')
       else
         render :new
       end

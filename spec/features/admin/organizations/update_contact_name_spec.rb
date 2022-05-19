@@ -22,7 +22,7 @@ describe 'Update name' do
     contact_id = Contact.find_by(name: 'Monfresh').id
 
     expect(page).to have_current_path "/admin/organizations/parent-agency/contacts/#{contact_id}"
-    expect(page).to have_content 'Contact was successfully updated.'
+    expect(page).to have_content I18n.t('admin.notices.contact_updated')
     expect(find_field('contact_name').value).to eq 'Monfresh'
   end
 end

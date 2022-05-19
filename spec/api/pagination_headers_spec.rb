@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Pagination Headers' do
   before do
-    @prefix = api_search_index_url(subdomain: ENV['API_SUBDOMAIN'])
+    @prefix = api_search_index_url(subdomain: ENV.fetch('API_SUBDOMAIN', nil))
   end
 
   context 'when on page 1 of 2' do
@@ -13,7 +13,7 @@ describe 'Pagination Headers' do
 
     before do
       get api_search_index_url(
-        keyword: 'jobs', per_page: 1, subdomain: ENV['API_SUBDOMAIN']
+        keyword: 'jobs', per_page: 1, subdomain: ENV.fetch('API_SUBDOMAIN', nil)
       )
     end
 
@@ -49,7 +49,7 @@ describe 'Pagination Headers' do
 
     before do
       get api_search_index_url(
-        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN']
+        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV.fetch('API_SUBDOMAIN', nil)
       )
     end
 
@@ -76,7 +76,7 @@ describe 'Pagination Headers' do
 
     before do
       get api_search_index_url(
-        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV['API_SUBDOMAIN']
+        keyword: 'jobs', page: 2, per_page: 1, subdomain: ENV.fetch('API_SUBDOMAIN', nil)
       )
     end
 
@@ -107,7 +107,7 @@ describe 'Pagination Headers' do
 
     before do
       get api_search_index_url(
-        keyword: 'vrs', page: 3, subdomain: ENV['API_SUBDOMAIN']
+        keyword: 'vrs', page: 3, subdomain: ENV.fetch('API_SUBDOMAIN', nil)
       )
     end
 
@@ -128,7 +128,7 @@ describe 'Pagination Headers' do
     it 'does not return a Link header' do
       create(:location)
       get api_search_index_url(
-        keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN']
+        keyword: 'jobs', subdomain: ENV.fetch('API_SUBDOMAIN', nil)
       )
       expect(headers.keys).not_to include 'Link'
     end
@@ -137,7 +137,7 @@ describe 'Pagination Headers' do
   context 'when there are no search results' do
     it 'returns one rel=last link with page=0' do
       create(:location)
-      get api_search_index_url(keyword: 'foo', subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(keyword: 'foo', subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(headers['Link']).
         to eq("<#{@prefix}?keyword=foo&page=0>; rel=\"last\"")
       expect(headers['X-Total-Count']).to eq('0')
@@ -147,7 +147,7 @@ describe 'Pagination Headers' do
   context 'when visiting a location' do
     it 'does not return a Link header' do
       loc = create(:location)
-      get api_location_url(loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(headers.keys).not_to include 'Link'
     end
   end
@@ -155,7 +155,7 @@ describe 'Pagination Headers' do
   context 'when there is only one location' do
     it 'does not return a Link header' do
       create(:location)
-      get api_locations_url(subdomain: ENV['API_SUBDOMAIN'])
+      get api_locations_url(subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(headers.keys).not_to include 'Link'
     end
   end

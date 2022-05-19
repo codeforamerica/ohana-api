@@ -20,13 +20,13 @@ describe "GET 'search'" do
     end
 
     it 'only returns locations whose category name matches the query' do
-      get api_search_index_url(category: 'Jobs', subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(category: 'Jobs', subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json.length).to eq 1
       expect(json.first['name']).to eq('VRS Services')
     end
 
     it 'only finds exact spelling matches for the category' do
-      get api_search_index_url(category: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(category: 'jobs', subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json.length).to eq 0
     end
 
@@ -52,7 +52,8 @@ describe "GET 'search'" do
     end
 
     it 'returns unique locations when keyword matches the query' do
-      get api_search_index_url(category: 'Jobs', keyword: 'jobs', subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(category: 'Jobs', keyword: 'jobs',
+                               subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json.length).to eq 3
     end
   end

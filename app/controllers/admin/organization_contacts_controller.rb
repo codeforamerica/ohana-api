@@ -17,7 +17,7 @@ class Admin
       authorize @contact
 
       if @contact.update(contact_params)
-        flash[:notice] = 'Contact was successfully updated.'
+        flash[:notice] = t('admin.notices.contact_updated')
         redirect_to [:admin, @organization, @contact]
       else
         render :edit

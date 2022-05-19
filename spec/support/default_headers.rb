@@ -5,7 +5,7 @@ module DefaultHeaders
       params: params.to_json,
       headers: {
         'HTTP_USER_AGENT' => 'Rspec',
-        'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN'],
+        'HTTP_X_API_TOKEN' => ENV.fetch('ADMIN_APP_TOKEN', nil),
         'Content-Type' => 'application/json'
       }.merge!(session)
     )
@@ -17,7 +17,7 @@ module DefaultHeaders
       params: params.to_json,
       headers: {
         'HTTP_USER_AGENT' => 'Rspec',
-        'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN'],
+        'HTTP_X_API_TOKEN' => ENV.fetch('ADMIN_APP_TOKEN', nil),
         'Content-Type' => 'application/json'
       }.merge(session)
     )
@@ -29,7 +29,7 @@ module DefaultHeaders
       params: params.to_json,
       headers: {
         'HTTP_USER_AGENT' => 'Rspec',
-        'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN'],
+        'HTTP_X_API_TOKEN' => ENV.fetch('ADMIN_APP_TOKEN', nil),
         'Content-Type' => 'application/json'
       }.merge(session)
     )
@@ -45,7 +45,7 @@ module DefaultHeaders
       params: params.to_json,
       headers: {
         'HTTP_USER_AGENT' => 'Rspec',
-        'HTTP_X_API_TOKEN' => ENV['ADMIN_APP_TOKEN']
+        'HTTP_X_API_TOKEN' => ENV.fetch('ADMIN_APP_TOKEN', nil)
       }.merge(session)
     )
   end

@@ -24,7 +24,7 @@ class Admin
 
       if @service.update(service_params.except(:locations))
         redirect_to [:admin, @location, @service],
-                    notice: 'Service was successfully updated.'
+                    notice: t('admin.notices.service_updated')
       else
         render :edit
       end

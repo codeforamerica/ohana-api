@@ -24,7 +24,7 @@ describe HolidaySchedule do
         create(attributes_for(:holiday_schedule))
       second_hs = create(:nearby_loc).holiday_schedules.
                   create(attributes_for(:holiday_schedule))
-      expect(second_hs.closed).to eq(true)
+      expect(second_hs.closed).to be(true)
     end
   end
 

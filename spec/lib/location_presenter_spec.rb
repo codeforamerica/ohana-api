@@ -124,7 +124,7 @@ describe LocationPresenter do
 
       it 'sets virtual to false' do
         location = presenter.to_location
-        expect(location.attributes['virtual']).to eq false
+        expect(location.attributes['virtual']).to be false
       end
     end
 

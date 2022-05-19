@@ -17,7 +17,7 @@ describe 'POST /locations/:location_id/mail_address' do
 
     it 'creates an mail_address with valid attributes' do
       post(
-        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_mail_address_index_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(response).to have_http_status(:created)
@@ -26,16 +26,16 @@ describe 'POST /locations/:location_id/mail_address' do
 
     it 'creates the mail_address for the right location' do
       post(
-        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_mail_address_index_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
-      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json['mail_address']['address_1']).to eq(@attrs[:address_1])
     end
 
     it "doesn't create an mail_address with invalid attributes" do
       post(
-        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_mail_address_index_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         address_1: nil
       )
       expect(response).to have_http_status(:unprocessable_entity)
@@ -45,7 +45,7 @@ describe 'POST /locations/:location_id/mail_address' do
 
     it "doesn't allow creating a mail_address without a valid token" do
       post(
-        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_mail_address_index_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs,
         'HTTP_X_API_TOKEN' => 'invalid_token'
       )
@@ -60,7 +60,7 @@ describe 'POST /locations/:location_id/mail_address' do
                  postal_code: '90210', country: 'US' }
 
       post(
-        api_location_mail_address_index_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_mail_address_index_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
     end
@@ -70,7 +70,7 @@ describe 'POST /locations/:location_id/mail_address' do
     end
 
     it "doesn't change the location's current mail_address" do
-      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json['mail_address']['address_1']).to eq '1 davis dr'
     end
   end

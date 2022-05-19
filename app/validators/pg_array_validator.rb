@@ -1,5 +1,4 @@
 class PgArrayValidator < ActiveModel::EachValidator
-  # rubocop:disable Metrics/AbcSize
   def validate_each(record, attribute, value)
     return if value.nil?
 
@@ -8,13 +7,12 @@ class PgArrayValidator < ActiveModel::EachValidator
 
     default_message = "#{attr} #{I18n.t('errors.messages.not_an_array')}"
     unless attr.is_a?(Array)
-      record.errors[attribute] << (options[:message] || default_message)
+      record.errors.add(attribute, (options[:message] || default_message))
       return
     end
 
     record[attribute] = attr.map(&:squish).reject(&:blank?).uniq
   end
-  # rubocop:enable Metrics/AbcSize
 
   def does_not_need_validation?(attr)
     # The class comparison is necessary because Rails 5 is doing something

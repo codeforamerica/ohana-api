@@ -8,7 +8,7 @@ describe 'GET /locations/:id' do
 
     before do
       @location.reload
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     after(:all) do
@@ -88,7 +88,7 @@ describe 'GET /locations/:id' do
       service_formatted_time = @service.reload.updated_at.
                                strftime('%Y-%m-%dT%H:%M:%S.%3N%:z')
 
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
 
       serialized_services =
         [{
@@ -153,7 +153,7 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized mail_address association' do
       @location.create_mail_address!(attributes_for(:mail_address))
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
 
       serialized_mail_address =
         {
@@ -170,7 +170,7 @@ describe 'GET /locations/:id' do
 
     it 'displays contacts when present' do
       @location.contacts.create!(attributes_for(:contact))
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json['contacts']).
         to eq(
           [{
@@ -186,7 +186,7 @@ describe 'GET /locations/:id' do
 
     it 'displays phones when present' do
       @location.phones.create!(attributes_for(:phone))
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json['phones']).
         to eq(
           [{
@@ -202,7 +202,7 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized regular_schedules association' do
       @location.regular_schedules.create!(attributes_for(:regular_schedule))
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
 
       serialized_regular_schedule =
         {
@@ -215,7 +215,7 @@ describe 'GET /locations/:id' do
 
     it 'includes the serialized holiday_schedules association' do
       @location.holiday_schedules.create!(attributes_for(:holiday_schedule))
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
 
       serialized_holiday_schedule =
         {
@@ -239,7 +239,7 @@ describe 'GET /locations/:id' do
 
   context 'with invalid id' do
     before do
-      get api_location_url(1, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(1, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     it 'returns a status key equal to 404' do
@@ -266,7 +266,7 @@ describe 'GET /locations/:id' do
     end
 
     it 'returns nil fields when visiting one location' do
-      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       %w[admin_emails email accessibility].each do |key|
         expect(json.keys).to include(key)
       end
@@ -288,7 +288,7 @@ describe 'GET /locations/:id' do
     end
 
     it 'orders the categories by taxonomy_id' do
-      get api_location_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
 
       categories = [
         {

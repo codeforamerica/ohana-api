@@ -89,7 +89,7 @@ describe HolidayScheduleImporter do
         before { importer.import }
 
         its(:id) { is_expected.to eq 2 }
-        its(:closed) { is_expected.to eq false }
+        its(:closed) { is_expected.to be false }
         its(:start_date) { is_expected.to eq Date.parse('January 11, 2014') }
         its(:end_date) { is_expected.to eq Date.parse('November 27, 2014') }
         its(:opens_at) { is_expected.to eq Time.utc(2000, 1, 1, 10, 00, 0) }

@@ -25,7 +25,7 @@ describe 'PATCH /locations/:id)' do
   end
 
   it 'returns the updated location when validations pass' do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), attributes
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)), attributes
 
     expect(response).to have_http_status(:ok)
     expect(json['accessibility']).to eq ['Disabled Parking', 'Ramp']
@@ -41,19 +41,19 @@ describe 'PATCH /locations/:id)' do
     expect(json['short_desc']).to eq attributes[:short_desc]
     expect(json['transportation']).to eq attributes[:transportation]
     expect(json['website']).to eq attributes[:website]
-    expect(@loc.reload.virtual).to eq false
+    expect(@loc.reload.virtual).to be false
   end
 
   it 'does not modify admin_emails if set to empty string' do
     @loc.update!(admin_emails: %w[test@test.com foo@test.com])
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), admin_emails: ''
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)), admin_emails: ''
     expect(@loc.reload.admin_emails).to eq %w[test@test.com foo@test.com]
     expect(response.status).to eq(200)
     expect(json['admin_emails']).to eq %w[test@test.com foo@test.com]
   end
 
   it 'does not modify admin_emails if set to a String' do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
           admin_emails: 'moncef@cfa.com'
 
     expect(@loc.reload.admin_emails).to eq []
@@ -63,7 +63,7 @@ describe 'PATCH /locations/:id)' do
 
   it 'does not modify languages if set to empty string' do
     @loc.update!(languages: ['English'])
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), languages: ''
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)), languages: ''
     expect(@loc.reload.languages).to eq ['English']
     expect(response.status).to eq(200)
     expect(json['languages']).to eq ['English']
@@ -71,12 +71,12 @@ describe 'PATCH /locations/:id)' do
 
   it 'sets languages to empty array if value is empty array' do
     @loc.update!(languages: %w[French Arabic])
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']), languages: []
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)), languages: []
     expect(json['languages']).to eq([])
   end
 
   it 'returns 422 when attribute is invalid' do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
           admin_emails: ['moncef-at-ohanapi.org']
 
     expect(response.status).to eq(422)
@@ -86,7 +86,7 @@ describe 'PATCH /locations/:id)' do
   end
 
   it 'returns 422 when required attribute is missing' do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
           description: ''
 
     expect(response.status).to eq(422)
@@ -95,7 +95,7 @@ describe 'PATCH /locations/:id)' do
   end
 
   it 'returns 404 when id is missing' do
-    patch api_locations_url(subdomain: ENV['API_SUBDOMAIN']),
+    patch api_locations_url(subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
           description: ''
 
     expect(response.status).to eq(404)
@@ -103,23 +103,23 @@ describe 'PATCH /locations/:id)' do
   end
 
   it 'updates the search index when location changes' do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
           name: 'changeme'
 
-    get api_search_index_url(keyword: 'changeme', subdomain: ENV['API_SUBDOMAIN'])
+    get api_search_index_url(keyword: 'changeme', subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     expect(json.first['name']).to eq('changeme')
   end
 
   it 'is accessible by its old slug' do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
           name: 'new name'
 
-    get api_location_url('vrs-services', subdomain: ENV['API_SUBDOMAIN'])
+    get api_location_url('vrs-services', subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     expect(json['name']).to eq('new name')
   end
 
   it "doesn't allow updating a location without a valid token" do
-    patch api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+    patch api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
           { name: 'new name' },
           'HTTP_X_API_TOKEN' => 'invalid_token'
 

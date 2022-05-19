@@ -8,7 +8,7 @@ describe 'GET /locations/:location_id/phones' do
     end
 
     before do
-      get api_location_phones_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_phones_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     after(:all) do
@@ -50,7 +50,7 @@ describe 'GET /locations/:location_id/phones' do
     end
 
     before do
-      get api_location_phones_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_phones_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     after(:all) do

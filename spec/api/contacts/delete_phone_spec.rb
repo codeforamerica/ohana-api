@@ -13,7 +13,8 @@ describe 'DELETE /locations/:location_id/contacts/:contact_id/phones/:id' do
 
   it 'deletes the phone' do
     delete(
-      api_location_contact_phone_url(@loc, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phone_url(@loc, @contact, @phone,
+                                     subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       {}
     )
     expect(@contact.reload.phones.count).to eq(0)
@@ -21,7 +22,8 @@ describe 'DELETE /locations/:location_id/contacts/:contact_id/phones/:id' do
 
   it 'returns a 204 status' do
     delete(
-      api_location_contact_phone_url(@loc, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phone_url(@loc, @contact, @phone,
+                                     subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       {}
     )
     expect(response).to have_http_status(:no_content)
@@ -29,7 +31,8 @@ describe 'DELETE /locations/:location_id/contacts/:contact_id/phones/:id' do
 
   it "doesn't allow deleting a phone without a valid token" do
     delete(
-      api_location_contact_phone_url(@loc, @contact, @phone, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phone_url(@loc, @contact, @phone,
+                                     subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       {},
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
