@@ -11,7 +11,7 @@ describe 'Create a new program' do
     select2('Parent Agency', 'org-name')
     fill_in 'program_name', with: 'New Program'
     click_button I18n.t('admin.buttons.create_program')
-    expect(page).to have_content 'Program was successfully created.'
+    expect(page).to have_content t('admin.notices.program_created')
 
     click_link 'New Program'
     expect(find_field('program_name').value).to eq 'New Program'

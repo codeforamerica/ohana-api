@@ -16,7 +16,7 @@ describe 'POST /locations/:location_id/contacts/:contact_id/phones' do
 
   it 'creates a phone with valid attributes' do
     post(
-      api_location_contact_phones_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phones_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       @phone_attributes
     )
     expect(response.status).to eq(201)
@@ -25,7 +25,7 @@ describe 'POST /locations/:location_id/contacts/:contact_id/phones' do
 
   it 'only creates a phone for the contact, not the location' do
     post(
-      api_location_contact_phones_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phones_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       @phone_attributes
     )
     expect(@loc.reload.phones.count).to eq 0
@@ -33,7 +33,7 @@ describe 'POST /locations/:location_id/contacts/:contact_id/phones' do
 
   it "doesn't create a phone with invalid attributes" do
     post(
-      api_location_contact_phones_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phones_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       number: '703', number_type: 'fax'
     )
     expect(response.status).to eq(422)
@@ -43,7 +43,7 @@ describe 'POST /locations/:location_id/contacts/:contact_id/phones' do
 
   it "doesn't allow creating a phone without a valid token" do
     post(
-      api_location_contact_phones_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phones_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       @phone_attributes,
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
@@ -55,10 +55,10 @@ describe 'POST /locations/:location_id/contacts/:contact_id/phones' do
   it 'creates a second phone for the specified contact' do
     @contact.phones.create!(@phone_attributes)
     post(
-      api_location_contact_phones_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contact_phones_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       number: '789-456-1234', department: 'cfo', number_type: 'voice'
     )
-    get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+    get api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     expect(json['contacts'][0]['phones'].length).to eq 2
     expect(json['contacts'][0]['phones'][1]['department']).to eq 'cfo'
   end

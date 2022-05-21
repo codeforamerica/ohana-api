@@ -28,7 +28,7 @@ describe 'Create an organization (POST /organizations/)' do
 
   it 'creates an organization with valid attributes' do
     post(
-      api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
+      api_organizations_url(subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       organization: @org_attributes
     )
     expect(response.status).to eq(201)
@@ -45,16 +45,16 @@ describe 'Create an organization (POST /organizations/)' do
 
   it 'returns a Location header with the URL to the new organization' do
     post(
-      api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
+      api_organizations_url(subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       organization: @org_attributes
     )
     expect(headers['Location']).
-      to eq(api_organization_url('new-org', subdomain: ENV['API_SUBDOMAIN']))
+      to eq(api_organization_url('new-org', subdomain: ENV.fetch('API_SUBDOMAIN', nil)))
   end
 
   it "doesn't create an organization with invalid attributes" do
     post(
-      api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
+      api_organizations_url(subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       organization: { name: nil }
     )
     expect(response.status).to eq(422)
@@ -63,7 +63,7 @@ describe 'Create an organization (POST /organizations/)' do
 
   it "doesn't allow creating an organization without a valid token" do
     post(
-      api_organizations_url(subdomain: ENV['API_SUBDOMAIN']),
+      api_organizations_url(subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       { organization: @org_attributes },
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )

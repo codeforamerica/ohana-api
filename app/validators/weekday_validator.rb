@@ -8,7 +8,7 @@ class WeekdayValidator < ActiveModel::EachValidator
     default_message = "#{value} #{I18n.t('errors.messages.invalid_weekday')}"
 
     unless valid_weekday_num?(value) || valid_weekday_name?(value)
-      record.errors[attribute] << (options[:message] || default_message)
+      record.errors.add(attribute, (options[:message] || default_message))
       return
     end
 

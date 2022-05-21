@@ -6,6 +6,6 @@ class ServiceAreaValidator < ActiveModel::EachValidator
 
     return if SETTINGS[:valid_service_areas].include?(value)
 
-    record.errors[attribute] << (options[:message] || default_message)
+    record.errors.add(attribute, (options[:message] || default_message))
   end
 end

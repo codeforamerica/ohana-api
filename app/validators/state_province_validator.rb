@@ -8,6 +8,6 @@ class StateProvinceValidator < ActiveModel::EachValidator
 
     return if value.present? && value.size == 2
 
-    record.errors[attribute] << (options[:message] || default_message)
+    record.errors.add(attribute, (options[:message] || default_message))
   end
 end

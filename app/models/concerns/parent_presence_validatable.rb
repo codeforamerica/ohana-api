@@ -10,7 +10,7 @@ module ParentPresenceValidatable
   def parent_presence
     return if parents.any?(&:present?)
 
-    errors[:base] << "#{self.class.name.titleize} is missing a parent: #{list_of_parents}"
+    errors.add(:base, "#{self.class.name.titleize} is missing a parent: #{list_of_parents}")
   end
 
   def parents

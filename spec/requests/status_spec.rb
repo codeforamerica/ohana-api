@@ -20,7 +20,7 @@ describe 'GET /api/.well-known/status' do
     end
 
     it "returns 'updated' attribute set to current time as integer" do
-      expect(json['updated'].is_a?(Integer)).to eq true
+      expect(json['updated'].is_a?(Integer)).to be true
       expect(json['updated'].to_s.length).to eq 10
     end
   end
@@ -43,7 +43,7 @@ describe 'GET /api/.well-known/status' do
     end
 
     it "returns 'updated' attribute set to current time as integer" do
-      expect(json['updated'].is_a?(Integer)).to eq true
+      expect(json['updated'].is_a?(Integer)).to be true
       expect(json['updated'].to_s.length).to eq 10
     end
   end

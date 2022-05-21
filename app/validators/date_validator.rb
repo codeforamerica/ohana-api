@@ -6,7 +6,7 @@ class DateValidator < ActiveModel::EachValidator
     default_message = "#{value} #{I18n.t('errors.messages.invalid_date')}"
 
     unless date_valid?(value)
-      record.errors[attribute] << (options[:message] || default_message)
+      record.errors.add(attribute, (options[:message] || default_message))
       return
     end
 

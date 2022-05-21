@@ -9,7 +9,7 @@ describe 'GET /categories/:category_id/children' do
     end
 
     before do
-      get api_category_children_url(@food.taxonomy_id, subdomain: ENV['API_SUBDOMAIN'])
+      get api_category_children_url(@food.taxonomy_id, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     after(:all) do
@@ -47,7 +47,7 @@ describe 'GET /categories/:category_id/children' do
     end
 
     before do
-      get api_category_children_url(@food.taxonomy_id, subdomain: ENV['API_SUBDOMAIN'])
+      get api_category_children_url(@food.taxonomy_id, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     after(:all) do

@@ -22,7 +22,7 @@ class ApiApplicationsController < ApplicationController
 
     if @api_application.save
       redirect_to edit_api_application_url(@api_application),
-                  notice: 'Application was successfully created.'
+                  notice: t('developer.notices.application_created')
     else
       render :new
     end
@@ -34,7 +34,7 @@ class ApiApplicationsController < ApplicationController
 
     if @api_application.update(api_application_params)
       redirect_to edit_api_application_url(@api_application),
-                  notice: 'Application was successfully updated.'
+                  notice: t('developer.notices.application_updated')
     else
       render :edit
     end
@@ -45,7 +45,7 @@ class ApiApplicationsController < ApplicationController
     api_application = current_user.api_applications.find(params[:id])
     api_application.destroy
     redirect_to api_applications_url,
-                notice: 'Application was successfully deleted.'
+                notice: t('developer.notices.application_deleted')
   end
 
   private

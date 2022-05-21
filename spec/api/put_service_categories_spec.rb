@@ -14,7 +14,7 @@ describe 'PUT /services/:service_id/categories' do
   context 'when the passed in taxonomy_id exists' do
     it "updates a service's categories" do
       put(
-        api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
+        api_service_categories_url(@service, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         taxonomy_ids: ['101']
       )
       expect(response).to be_successful
@@ -25,7 +25,7 @@ describe 'PUT /services/:service_id/categories' do
   context "when the passed in taxonomy_id doesn't exist" do
     it 'ignores it' do
       put(
-        api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
+        api_service_categories_url(@service, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         taxonomy_ids: ['102']
       )
       expect(response.status).to eq(200)
@@ -36,7 +36,7 @@ describe 'PUT /services/:service_id/categories' do
   context 'without a valid token' do
     it 'returns a 401 error' do
       put(
-        api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
+        api_service_categories_url(@service, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         { taxonomy_ids: ['101'] },
         'HTTP_X_API_TOKEN' => 'foo'
       )

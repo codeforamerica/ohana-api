@@ -19,7 +19,7 @@ describe 'POST /locations/:location_id/services' do
 
   it 'creates a service with valid attributes' do
     post(
-      api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_services_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       @service_attributes
     )
     expect(response.status).to eq(201)
@@ -28,7 +28,7 @@ describe 'POST /locations/:location_id/services' do
 
   it "doesn't create a service with invalid attributes" do
     post(
-      api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_services_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       website: 'belmont'
     )
     expect(response.status).to eq(422)
@@ -37,7 +37,7 @@ describe 'POST /locations/:location_id/services' do
 
   it "doesn't allow creating a service without a valid token" do
     post(
-      api_location_services_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_services_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       @service_attributes,
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )

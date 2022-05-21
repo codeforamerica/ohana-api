@@ -21,7 +21,7 @@ class Admin
 
       if @program.update(program_params)
         redirect_to [:admin, @program],
-                    notice: 'Program was successfully updated.'
+                    notice: t('admin.notices.program_updated')
       else
         render :edit
       end
@@ -40,7 +40,7 @@ class Admin
 
       if @program.save
         redirect_to admin_programs_url,
-                    notice: 'Program was successfully created.'
+                    notice: t('admin.notices.program_created')
       else
         render :new
       end

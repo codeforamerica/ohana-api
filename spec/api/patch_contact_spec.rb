@@ -17,7 +17,7 @@ describe 'PATCH contact' do
   describe 'PATCH /locations/:location_id/contacts/:id' do
     it 'returns 200 when validations pass' do
       patch(
-        api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(response).to have_http_status(:ok)
@@ -25,7 +25,7 @@ describe 'PATCH contact' do
 
     it 'returns the updated contact when validations pass' do
       patch(
-        api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(json['title']).to eq 'Consultant'
@@ -33,16 +33,16 @@ describe 'PATCH contact' do
 
     it "updates the location's contact" do
       patch(
-        api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
-      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json['contacts'].first['email']).to eq 'bar@foo.com'
     end
 
     it "doesn't add a new contact" do
       patch(
-        api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(Contact.count).to eq(1)
@@ -50,7 +50,7 @@ describe 'PATCH contact' do
 
     it 'requires a valid contact id' do
       patch(
-        api_location_contact_url(@loc, 123, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_url(@loc, 123, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(response.status).to eq(404)
@@ -60,7 +60,7 @@ describe 'PATCH contact' do
 
     it 'returns 422 when attribute is invalid' do
       patch(
-        api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs.merge!(name: '')
       )
       expect(response.status).to eq(422)
@@ -71,7 +71,7 @@ describe 'PATCH contact' do
 
     it "doesn't allow updating a contact without a valid token" do
       patch(
-        api_location_contact_url(@loc, @contact, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_contact_url(@loc, @contact, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs,
         'HTTP_X_API_TOKEN' => 'invalid_token'
       )

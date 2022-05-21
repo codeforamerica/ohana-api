@@ -119,7 +119,7 @@ describe ServiceImporter do
       let(:content) { invalid_content }
 
       it 'does not create a service' do
-        expect { importer.import }.to change(Service, :count).by(0)
+        expect { importer.import }.not_to change(Service, :count)
       end
     end
 

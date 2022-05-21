@@ -4,7 +4,7 @@ describe 'GET /locations/:location_id/services' do
   context 'when location has services' do
     before do
       create_service
-      get api_location_services_url(@location, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_services_url(@location, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     it 'returns a 200 status' do
@@ -25,7 +25,7 @@ describe 'GET /locations/:location_id/services' do
   context "when location doesn't have services" do
     before do
       loc = create(:location)
-      get api_location_services_url(loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_services_url(loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     end
 
     it 'returns an empty array' do

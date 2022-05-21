@@ -12,7 +12,7 @@ describe 'PATCH address' do
   describe 'PATCH /locations/:location_id/address/:id' do
     it 'returns 200 when validations pass' do
       patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, @address, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(response).to have_http_status(:ok)
@@ -25,17 +25,17 @@ describe 'PATCH address' do
 
     it "updates the location's address" do
       patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, @address, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
-      get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+      get api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
       expect(json['address']['address_1']).to eq '1236 Broadway'
     end
 
     it "updates the location's coordinates when the address has changed" do
       old_coords = [@loc.longitude, @loc.latitude]
       patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, @address, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(@loc.reload.longitude).not_to eq old_coords.first
@@ -44,7 +44,7 @@ describe 'PATCH address' do
     it "doesn't update location's coordinates when address hasn't changed" do
       old_coords = [@loc.longitude, @loc.latitude]
       patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, @address, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs.merge!(address_1: '1800 Easton Drive', address_2: '')
       )
       expect(@loc.reload.longitude).to eq old_coords.first
@@ -52,7 +52,7 @@ describe 'PATCH address' do
 
     it "doesn't add a new address" do
       patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, @address, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(Address.count).to eq(1)
@@ -60,7 +60,7 @@ describe 'PATCH address' do
 
     it 'requires a valid address id' do
       patch(
-        api_location_address_url(@loc, 1234, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, 1234, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs
       )
       expect(response.status).to eq(404)
@@ -70,7 +70,7 @@ describe 'PATCH address' do
 
     it 'returns 422 when attribute is invalid' do
       patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, @address, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs.merge!(address_1: '')
       )
       expect(response.status).to eq(422)
@@ -81,7 +81,7 @@ describe 'PATCH address' do
 
     it "doesn't allow updating a address without a valid token" do
       patch(
-        api_location_address_url(@loc, @address, subdomain: ENV['API_SUBDOMAIN']),
+        api_location_address_url(@loc, @address, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
         @attrs,
         'HTTP_X_API_TOKEN' => 'invalid_token'
       )

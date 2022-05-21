@@ -9,11 +9,12 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'user/registrations' }
   devise_for(
-    :admins, path: ENV['ADMIN_PATH'] || '/', controllers: { registrations: 'admin/registrations' }
+    :admins, path: ENV.fetch('ADMIN_PATH',
+                             '/'), controllers: { registrations: 'admin/registrations' }
   )
 
-  constraints(SubdomainConstraints.new(subdomain: ENV['ADMIN_SUBDOMAIN'])) do
-    namespace :admin, path: ENV['ADMIN_PATH'] do
+  constraints(SubdomainConstraints.new(subdomain: ENV.fetch('ADMIN_SUBDOMAIN', nil))) do
+    namespace :admin, path: ENV.fetch('ADMIN_PATH', nil) do
       root to: 'dashboard#index', as: :dashboard
 
       resources :locations, except: :show do
@@ -55,8 +56,8 @@ Rails.application.routes.draw do
   resources :api_applications, except: :show
   get 'api_applications/:id' => 'api_applications#edit'
 
-  constraints(SubdomainConstraints.new(subdomain: ENV['API_SUBDOMAIN'])) do
-    namespace :api, path: ENV['API_PATH'], defaults: { format: 'json' } do
+  constraints(SubdomainConstraints.new(subdomain: ENV.fetch('API_SUBDOMAIN', nil))) do
+    namespace :api, path: ENV.fetch('API_PATH', nil), defaults: { format: 'json' } do
       scope module: :v1, constraints: ApiConstraints.new(version: 1) do
         get '/' => 'root#index'
         get '.well-known/status' => 'status#check_status'

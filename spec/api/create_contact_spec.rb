@@ -15,7 +15,7 @@ describe 'POST /locations/:location_id/contacts' do
 
   it 'creates a contact with valid attributes' do
     post(
-      api_location_contacts_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contacts_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       @contact_attributes
     )
     expect(response.status).to eq(201)
@@ -24,7 +24,7 @@ describe 'POST /locations/:location_id/contacts' do
 
   it "doesn't create a contact with invalid attributes" do
     post(
-      api_location_contacts_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contacts_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       email: 'belmont'
     )
     expect(response.status).to eq(422)
@@ -33,7 +33,7 @@ describe 'POST /locations/:location_id/contacts' do
 
   it "doesn't allow creating a contact without a valid token" do
     post(
-      api_location_contacts_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contacts_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       @contact_attributes,
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
@@ -45,10 +45,10 @@ describe 'POST /locations/:location_id/contacts' do
   it 'creates a second contact for the specified location' do
     @loc.contacts.create!(@contact_attributes)
     post(
-      api_location_contacts_url(@loc, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_contacts_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       name: 'foo', title: 'cfo'
     )
-    get api_location_url(@loc, subdomain: ENV['API_SUBDOMAIN'])
+    get api_location_url(@loc, subdomain: ENV.fetch('API_SUBDOMAIN', nil))
     expect(json['contacts'].length).to eq 2
     expect(json['contacts'][1]['name']).to eq 'foo'
   end

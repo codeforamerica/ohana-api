@@ -13,7 +13,7 @@ describe 'PUT /services/:service_id/categories' do
     create(:category)
     create(:health)
     put(
-      api_service_categories_url(@service, subdomain: ENV['API_SUBDOMAIN']),
+      api_service_categories_url(@service, subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       taxonomy_ids: %w[101 102]
     )
 

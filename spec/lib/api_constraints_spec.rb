@@ -11,7 +11,7 @@ describe ApiConstraints do
       headers = { 'Accept' => header_for_version(1) }
       allow(request).to receive(:headers) { headers }
 
-      expect(constraint.matches?(request)).to eq(true)
+      expect(constraint.matches?(request)).to be(true)
     end
 
     it 'matches requests for other specified versions' do
@@ -19,7 +19,7 @@ describe ApiConstraints do
       headers = { 'Accept' => header_for_version(2) }
       allow(request).to receive(:headers) { headers }
 
-      expect(constraint.matches?(request)).to eq(true)
+      expect(constraint.matches?(request)).to be(true)
     end
 
     it 'matches requests in the wrong format' do
@@ -27,7 +27,7 @@ describe ApiConstraints do
       headers = { 'Accept' => 'wrong format' }
       allow(request).to receive(:headers) { headers }
 
-      expect(constraint.matches?(request)).to eq(true)
+      expect(constraint.matches?(request)).to be(true)
     end
   end
 end

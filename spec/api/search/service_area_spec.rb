@@ -11,13 +11,13 @@ describe "GET 'search'" do
     end
 
     it 'only returns locations with matching service areas' do
-      get api_search_index_url(service_area: 'Atherton', subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(service_area: 'Atherton', subdomain: ENV.fetch('API_SUBDOMAIN', nil))
 
       expect(json.length).to eq 1
     end
 
     it 'does not return locations when no matching service areas exist' do
-      get api_search_index_url(service_area: 'Belmont', subdomain: ENV['API_SUBDOMAIN'])
+      get api_search_index_url(service_area: 'Belmont', subdomain: ENV.fetch('API_SUBDOMAIN', nil))
 
       expect(json.length).to eq 0
     end
@@ -28,7 +28,7 @@ describe "GET 'search'" do
         org_name: 'Parent Agency',
         keyword: 'jobs',
         location: 'Burlingame',
-        subdomain: ENV['API_SUBDOMAIN']
+        subdomain: ENV.fetch('API_SUBDOMAIN', nil)
       )
 
       expect(json.length).to eq 1
@@ -47,7 +47,7 @@ describe "GET 'search'" do
         service_area: 'Belmont',
         keyword: 'jobs',
         location: 'Burlingame',
-        subdomain: ENV['API_SUBDOMAIN']
+        subdomain: ENV.fetch('API_SUBDOMAIN', nil)
       )
 
       expect(headers['X-Total-Count']).to eq '1'

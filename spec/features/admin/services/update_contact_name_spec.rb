@@ -24,7 +24,7 @@ describe 'Update contact name' do
     service_path = "/admin/locations/vrs-services/services/#{@service.id}"
 
     expect(page).to have_current_path "#{service_path}/contacts/#{contact_id}"
-    expect(page).to have_content 'Contact was successfully updated.'
+    expect(page).to have_content I18n.t('admin.notices.contact_updated')
     expect(find_field('contact_name').value).to eq 'Monfresh'
   end
 end

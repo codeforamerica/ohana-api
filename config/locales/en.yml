@@ -210,6 +210,14 @@ en:
     not_authorized: 'You are not authorized to perform this action.'
 
     notices:
+      contact_updated: Contact was successfully updated.
+      location_created: Location was successfully created.
+      location_updated: Location was successfully updated.
+      organization_updated: Organization was successfully updated.
+      organization_created: Organization was successfully created.
+      program_created: Program was successfully created.
+      program_updated: Program was successfully updated.
+      service_updated: Service was successfully updated.
       zip_file_generation: >
         Your zip file is being generated. Please refresh the page in a few
         seconds. Once it's ready, the button at the bottom will change from
@@ -308,6 +316,11 @@ en:
           description: 'How is this %{type} funded?'
           placeholder: 'Select one or more funding sources'
 
+  developer:
+    notices:
+      application_created: 'Application was successfully created.'
+      application_deleted: 'Application was successfully deleted.'
+      application_updated: 'Application was successfully updated.'
   enumerize:
     location:
       accessibility:

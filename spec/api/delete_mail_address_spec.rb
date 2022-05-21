@@ -8,7 +8,8 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
 
   it 'deletes the mail_address' do
     delete(
-      api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_mail_address_url(@loc, @mail_address,
+                                    subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       {}
     )
     expect(@loc.reload.mail_address).to be_nil
@@ -17,7 +18,8 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
 
   it 'returns a 204 status' do
     delete(
-      api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_mail_address_url(@loc, @mail_address,
+                                    subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       {}
     )
     expect(response).to have_http_status(:no_content)
@@ -25,7 +27,8 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
 
   it "doesn't allow deleting an mail_address without a valid token" do
     delete(
-      api_location_mail_address_url(@loc, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_mail_address_url(@loc, @mail_address,
+                                    subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       {},
       'HTTP_X_API_TOKEN' => 'invalid_token'
     )
@@ -34,7 +37,8 @@ describe 'DELETE /locations/:location_id/mail_address/:id' do
 
   it "doesn't delete the mail_address if the location & mail_address IDs don't match" do
     delete(
-      api_location_mail_address_url(1234, @mail_address, subdomain: ENV['API_SUBDOMAIN']),
+      api_location_mail_address_url(1234, @mail_address,
+                                    subdomain: ENV.fetch('API_SUBDOMAIN', nil)),
       {}
     )
     expect(response).to have_http_status(:not_found)
