@@ -1,7 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: utf8
-  host: localhost
+  host: <%= ENV['DOCKER_DB_HOST'] || 'localhost' %>
   port: 5432
   pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 5 %>
   url: <%= ENV['DATABASE_URL'] %>
@@ -10,6 +10,7 @@ default: &default
 development:
   <<: *default
   database: ohana_api_development
+  password: password
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -17,6 +18,7 @@ development:
 test:
   <<: *default
   database: ohana_api_test
+  password: password
 
 production:
   pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 5 %>
